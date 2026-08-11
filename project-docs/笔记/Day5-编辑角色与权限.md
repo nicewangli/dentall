@@ -28,9 +28,9 @@
 |---|---|---|---|---:|
 | C1 | 盘点角色、插件和需求边界 | 内置Editor与Shop manager均越权，SEO插件未选型 | `PROJECT_STATE.md`、`PLUGIN_INVENTORY.md` | 待记录 |
 | C2 | 设计能力白名单 | 冻结本人文章/商品草稿与媒体边界 | `dentall-core.php` | 待记录 |
-| C3 | 实现项目业务插件 | 新增并激活DentAll Core 0.1.1 | `app/public/wp-content/plugins/dentall-core/` | 待记录 |
+| C3 | 实现项目业务插件 | 新增并激活DentAll Core 0.1.2 | `app/public/wp-content/plugins/dentall-core/` | 待记录 |
 | C4 | 建本地测试账号 | 创建`dentall_d6_editor`，随机密码未落盘 | Local数据库 | 待记录 |
-| C5 | 自动化权限审计 | 45项能力、对象所有权、媒体及商品标签检查通过 | `project-docs/tests/day5-role-audit.php` | 待记录 |
+| C5 | 自动化权限审计 | 48项能力、对象所有权、媒体、商品标签及后台入口检查通过 | `project-docs/tests/day5-role-audit.php` | 待记录 |
 | C6 | 独立Review与修复 | P0/P1为0；已修复角色同步失败重试和P3能力项 | Code Review、安全与测试Agent | 待记录 |
 | C7 | Staging走查与回归 | 待安全解锁WinSCP会话后执行 | 受保护Staging | 待记录 |
 
@@ -41,6 +41,7 @@
 - 通过项：插件语法；角色创建；8项能力白名单；本人/他人文章与商品对象级权限；媒体MIME和5MB过滤；临时对象清理。
 - 已修复项：移除内容试录员的商品标签输入框并在服务端拒绝其创建商品标签；媒体界面显示上限与服务端5MB规则保持一致。
 - 已验证限制：直接访问用户和插件管理页会被拒绝；WooCommerce任务中心的商品入口因需要`manage_woocommerce`而拒绝，但经典商品列表与编辑入口可用。
+- Staging首轮菜单走查：核心权限符合预期；发现WordPress默认显示评论和工具入口，已在0.1.2中增加菜单移除与直接URL 403拦截，等待再次Pull后回归。
 - 未验证项：其余直接URL/REST越权、真实JPEG/PNG/WebP上传、SVG/伪装MIME拒绝、草稿预览及Staging部署。
 
 ## Codex Agent 调度与审查

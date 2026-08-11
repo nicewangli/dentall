@@ -46,7 +46,7 @@
 - 已安装WinSCP 6.5.6，生成带口令的Ed25519密钥并完成Cloudways SSH/SFTP密钥登录验证。
 - 已新增并在Local激活`dentall-core` 0.1.0，注册`DentAll Content Editor`最小权限角色。
 - 已创建仅限Local的`dentall_d6_editor`测试账号；密码为随机高强度值且未写入项目文件。
-- 已通过45项角色、对象级所有权、媒体边界与商品标签审计；临时测试对象已清理。
+- 已通过48项角色、对象级所有权、媒体边界、商品标签与后台入口审计；临时测试对象已清理。
 - 已冻结Staging部署架构：Cloudways Via Git＋`deploy/staging`代码专用分支，SFTP仅作应急；D25前后再评估GitHub Actions＋SSH/rsync。
 
 ## 进行中
@@ -66,6 +66,7 @@
 - `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git已使用只读Deploy Key连接GitHub，分支和`public_html/`路径已选定，尚未执行Start Deployment。
 - SEO插件仍待选型，D5只能冻结职责边界，不能验证插件专属SEO权限。
 - D5 Local浏览器走查发现的两个P2已完成代码修正并通过Local回归：商品标签输入已移除且服务端拒绝创建；上传界面与服务端均显示并执行5MB上限。仍需Staging验证。
+- D5 Staging首轮菜单走查发现评论和工具入口仍由WordPress默认显示；DentAll Core 0.1.2已增加菜单隐藏与直接URL 403拦截，等待Pull后回归。
 
 ## 下一步三个验收结果
 
