@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DentAll Core
  * Description: DentAll 商城跨主题的最小业务能力。
- * Version: 0.1.1
+ * Version: 0.1.2
  * Requires at least: 7.0
  * Requires PHP: 8.2
  * Text Domain: dentall-core
@@ -164,3 +164,49 @@ function dentall_core_prevent_content_editor_product_tag_creation( $term, $taxon
 	return $term;
 }
 add_filter( 'pre_insert_term', 'dentall_core_prevent_content_editor_product_tag_creation', 10, 2 );
+
+/**
+ * 移除不属于内容试录流程的后台菜单。
+ *
+ * 菜单隐藏只改善界面；直接URL仍由下方的请求拦截负责。
+ *
+ * @return void
+ */
+function dentall_core_remove_content_editor_admin_menus() {
+	if ( ! current_user_can( 'dentall_content_editor' ) ) {
+		return;
+	}
+
+	remove_menu_page( 'edit-comments.php' );
+	remove_menu_page( 'tools.php' );
+}
+add_action( 'admin_menu', 'dentall_core_remove_content_editor_admin_menus', PHP_INT_MAX );
+
+/**
+ * 判断内容试录员是否应被拒绝访问指定后台页面。
+ *
+ * @param string $page WordPress后台入口文件名。
+ * @return bool
+ */
+function dentall_core_is_restricted_content_editor_admin_page( $page ) {
+	return current_user_can( 'dentall_content_editor' )
+		&& in_array( $page, array( 'edit-comments.php', 'tools.php' ), true );
+}
+
+/**
+ * 阻止内容试录员通过直接URL绕过精简菜单。
+ *
+ * @return void
+ */
+function dentall_core_block_content_editor_admin_pages() {
+	global $pagenow;
+
+	if ( dentall_core_is_restricted_content_editor_admin_page( (string) $pagenow ) ) {
+		wp_die(
+			esc_html__( 'You are not allowed to access this page.', 'dentall-core' ),
+			esc_html__( 'Access denied', 'dentall-core' ),
+			array( 'response' => 403 )
+		);
+	}
+}
+add_action( 'admin_init', 'dentall_core_block_content_editor_admin_pages', 1 );
