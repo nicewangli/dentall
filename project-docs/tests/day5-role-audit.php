@@ -122,6 +122,11 @@ $large_upload = apply_filters(
 
 $checks['media_small_allowed'] = empty( $small_upload['error'] );
 $checks['media_large_denied']  = ! empty( $large_upload['error'] );
+$checks['media_limit_display'] = 5 * MB_IN_BYTES === wp_max_upload_size();
+
+$product_tag_result = apply_filters( 'pre_insert_term', 'DentAll D5 forbidden tag', 'product_tag' );
+$checks['deny_create_product_tag'] = is_wp_error( $product_tag_result )
+	&& 'dentall_product_tag_creation_denied' === $product_tag_result->get_error_code();
 
 wp_set_current_user( $administrator[0]->ID );
 wp_delete_post( $own_post_id, true );

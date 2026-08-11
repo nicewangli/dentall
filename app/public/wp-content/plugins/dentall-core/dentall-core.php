@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DentAll Core
  * Description: DentAll 商城跨主题的最小业务能力。
- * Version: 0.1.0
+ * Version: 0.1.1
  * Requires at least: 7.0
  * Requires PHP: 8.2
  * Text Domain: dentall-core
@@ -98,6 +98,21 @@ function dentall_core_limit_content_editor_mime_types( $mime_types ) {
 add_filter( 'upload_mimes', 'dentall_core_limit_content_editor_mime_types', PHP_INT_MAX );
 
 /**
+ * 让媒体界面显示与服务端校验一致的5MB上限。
+ *
+ * @param int $size 当前上传大小上限，单位为字节。
+ * @return int
+ */
+function dentall_core_limit_content_editor_upload_size_display( $size ) {
+	if ( ! current_user_can( 'dentall_content_editor' ) ) {
+		return $size;
+	}
+
+	return min( (int) $size, 5 * MB_IN_BYTES );
+}
+add_filter( 'upload_size_limit', 'dentall_core_limit_content_editor_upload_size_display', PHP_INT_MAX );
+
+/**
  * 限制试录图片大小，先阻止未经压缩的大文件进入内容生产线。
  *
  * @param array<string, mixed> $file 上传文件信息。
@@ -118,3 +133,34 @@ function dentall_core_limit_content_editor_upload_size( $file ) {
 	return $file;
 }
 add_filter( 'wp_handle_upload_prefilter', 'dentall_core_limit_content_editor_upload_size', PHP_INT_MAX );
+
+/**
+ * 内容试录员暂不维护商品标签，移除会误导其创建标签的自由输入框。
+ *
+ * @return void
+ */
+function dentall_core_remove_content_editor_product_tag_meta_box() {
+	if ( current_user_can( 'dentall_content_editor' ) ) {
+		remove_meta_box( 'tagsdiv-product_tag', 'product', 'side' );
+	}
+}
+add_action( 'add_meta_boxes_product', 'dentall_core_remove_content_editor_product_tag_meta_box', PHP_INT_MAX );
+
+/**
+ * 服务端拒绝内容试录员创建商品标签，避免绕过后台界面。
+ *
+ * @param string|WP_Error $term     准备创建的术语名称或上游错误。
+ * @param string          $taxonomy 目标分类法。
+ * @return string|WP_Error
+ */
+function dentall_core_prevent_content_editor_product_tag_creation( $term, $taxonomy ) {
+	if ( 'product_tag' === $taxonomy && current_user_can( 'dentall_content_editor' ) ) {
+		return new WP_Error(
+			'dentall_product_tag_creation_denied',
+			__( 'You are not allowed to create product tags.', 'dentall-core' )
+		);
+	}
+
+	return $term;
+}
+add_filter( 'pre_insert_term', 'dentall_core_prevent_content_editor_product_tag_creation', 10, 2 );
