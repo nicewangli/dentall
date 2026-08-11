@@ -5,11 +5,11 @@
 ## 状态快照
 
 - 更新日期：2026-08-11。
-- 当前阶段：W1 / D5 角色与编辑权限配置进行中。
+- 当前阶段：W1 / D5已完成，准备进入D6商品与文章安全试录。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1编辑可试录，目标D6/W1；随后D18商品模型候选冻结，D24内容样本完成，D25开放批量录入。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：D4已完成；D5最小权限角色已在Local落地并通过能力审计，Staging部署与非管理员浏览器走查待完成。
+- 当前版本：D5已完成；DentAll Core 0.1.2已通过Via Git部署到Staging，最小权限角色、草稿、预览、媒体边界和清理流程均已验收。
 
 ## 已完成
 
@@ -44,16 +44,18 @@
 - 已轮换并复测WordPress管理员、Password Protection、数据库和Redis凭据；新凭据未写入项目文档。
 - 已新增D4 Cloudways及WordPress/WooCommerce两篇配置与常用操作手册。
 - 已安装WinSCP 6.5.6，生成带口令的Ed25519密钥并完成Cloudways SSH/SFTP密钥登录验证。
-- 已新增并在Local激活`dentall-core` 0.1.0，注册`DentAll Content Editor`最小权限角色。
+- 已新增并在Local与Staging激活`dentall-core` 0.1.2，注册`DentAll Content Editor`最小权限角色。
 - 已创建仅限Local的`dentall_d6_editor`测试账号；密码为随机高强度值且未写入项目文件。
 - 已通过48项角色、对象级所有权、媒体边界、商品标签与后台入口审计；临时测试对象已清理。
 - 已冻结Staging部署架构：Cloudways Via Git＋`deploy/staging`代码专用分支，SFTP仅作应急；D25前后再评估GitHub Actions＋SSH/rsync。
+- Cloudways Via Git首次部署及后续Pull成功；Staging测试账号完成菜单、直接URL、文章/商品草稿、预览、媒体上传/拒绝和测试数据清理。
+- 为验证商品预览，Staging的WooCommerce Site Visibility设为Live；Cloudways Password Protection、WordPress noindex和支付关闭保持不变，不代表正式上线。
 
 ## 进行中
 
 - W1：Cloudways Full Access已完成，继续复核账单状态和服务器持续可用性。
 - W1：从老板持有的闲置域名中选择具体域名，D4由老板提供DNS访问并完成映射。
-- D5：将`dentall-core`部署到受保护Staging，创建对应测试账号并完成非管理员浏览器走查。
+- D6：准备1个简单商品和1篇文章，让编辑人员独立试录、预览并保存草稿，收集P0/P1阻塞。
 
 ## 当前阻塞/待确认
 
@@ -63,16 +65,18 @@
 - LocalWP命令行PHP的Imagick扩展声明不可用；D11前复核Web运行时图片处理能力。
 - Git远程为开发者个人私有GitHub仓库；D3只复核跟踪边界和密钥排除。
 - 正式Staging域名与DNS访问尚未确定；当前Cloudways临时域名可用于D6试录。
-- `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git已使用只读Deploy Key连接GitHub，分支和`public_html/`路径已选定，尚未执行Start Deployment。
+- `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git使用只读Deploy Key连接GitHub，分支和`public_html/`路径已验证并完成首次部署。
 - SEO插件仍待选型，D5只能冻结职责边界，不能验证插件专属SEO权限。
-- D5 Local浏览器走查发现的两个P2已完成代码修正并通过Local回归：商品标签输入已移除且服务端拒绝创建；上传界面与服务端均显示并执行5MB上限。仍需Staging验证。
-- D5 Staging首轮菜单走查发现评论和工具入口仍由WordPress默认显示；DentAll Core 0.1.2已增加菜单隐藏与直接URL 403拦截，等待Pull后回归。
+- D5 Local浏览器走查发现的两个P2已完成代码修正，并通过Local与Staging回归：商品标签输入已移除且服务端拒绝创建；上传界面与服务端均显示并执行5MB上限。
+- D5 Staging首轮菜单走查发现评论和工具入口仍由WordPress默认显示；DentAll Core 0.1.2增加菜单隐藏与直接URL 403拦截，Pull后回归通过。
+- D5 Staging已Pull DentAll Core 0.1.2；评论和工具菜单已消失，用户、插件、工具、评论、设置与WooCommerce订单直接URL均被拒绝。
+- 内容试录员采用可演进的能力白名单；后续可按明确业务动作逐项扩权，高风险商城和系统权限不得打包开放。
 
 ## 下一步三个验收结果
 
-1. 将已验证的`dentall-core`部署并激活到受保护Staging。
-2. 在Staging创建非管理员测试账号，不在项目文件中保存凭据。
-3. 用测试账号完成后台菜单、直接URL、文章/商品草稿、预览和媒体上传走查。
+1. 编辑人员独立创建并保存1个代表性简单商品草稿。
+2. 编辑人员独立创建并保存1篇短文章草稿。
+3. 记录试录用时、困惑点和P0/P1阻塞；先修复阻塞，再确认M1“编辑可试录”。
 
 ## 本周风险
 
@@ -90,6 +94,7 @@
 | W1 / D2 | 6小时50分钟 | 待用户记录 | 已完成 | 版本、WooCommerce基础配置、页面、数据库、日志和Mailpit冒烟验证完成 |
 | W1 / D3 | 6小时50分钟 | 待用户记录 | 已完成 | Git与密钥边界、数据库/uploads/代码备份及隔离恢复验证完成 |
 | W1 / D4 | 6小时50分钟 | 待用户记录 | 已完成 | Staging访问保护、HTTPS、noindex、支付边界、恢复入口及凭据轮换复测通过 |
+| W1 / D5 | 6小时50分钟 | 待用户记录 | 已完成 | 最小角色、Via Git部署、Staging权限与内容生产线端到端验收通过 |
 
 ## 更新规则
 
