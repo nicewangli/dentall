@@ -60,6 +60,17 @@
 - 影响：D6安全试录、D18商品模型候选冻结、D24内容样本完成、D25开放批量录入；W19形成上线候选，W20部署和交接。
 - 约束：增加的24个工作日不是无限修改额度；范围变化仍需重新估时，第7天仍完整休息。
 
+## ADR-009：Staging采用Cloudways Via Git与代码专用部署分支
+
+- 状态：已接受。
+- 背景：主仓库同时保存项目代码、测试、中文项目笔记和Codex规则，仓库目录层级也不等同于Cloudways的`public_html`；直接部署`main`会把非运行文件放进错误目录。
+- 决策：保留`main`作为完整项目事实分支；建立`deploy/staging`作为代码专用部署分支，其根目录从`wp-content/`开始。Cloudways Flexible通过只读Deploy Key连接该分支，并部署到`public_html/`。
+- 发布范围：只包含`wp-content/themes/dentall/`、`wp-content/plugins/dentall-core/`和已确认的DentAll mu-plugin；不包含项目文档、Codex规则、WordPress核心、第三方插件、数据库、uploads、日志、备份、缓存或密钥。
+- 安全边界：Deploy Key保持只读；首次部署前确认恢复点；标准部署不在服务器、WordPress编辑器或SFTP中直接修改正式代码；SFTP只作为排查和应急手段。
+- 回滚：记录部署Commit；代码故障回退到上一个已验证部署Commit并重新Pull。只有数据库确实受影响时才使用数据库恢复点。
+- 后续：D25前后根据部署频率与维护成本评估升级到GitHub Actions＋SSH/rsync；Production部署分支和人工批准规则在首次生产部署前另行冻结。
+- 代价：需要维护代码专用部署分支并执行部署内容检查；Cloudways Deploy Key仍可读取所属GitHub仓库，因此主仓库不得保存真实密钥或客户敏感信息。
+
 ## 待决策
 
 | ID | 决策 | 最晚时间 | 影响 |
@@ -68,4 +79,4 @@
 | ADR-T02 | 品牌能力实现 | W9前 | 属性、URL、筛选 |
 | ADR-T03 | 支付和物流插件 | W11前 | 结账联调 |
 | ADR-T04 | Solutions用Page或CPT | D22前 | 内容模型和模板 |
-| ADR-T05 | Git远程企业组织和分支规则 | 初始化前 | 所有权和发布流程 |
+| ADR-T05 | Git远程企业组织归属 | D25前 | 仓库所有权和长期交接 |

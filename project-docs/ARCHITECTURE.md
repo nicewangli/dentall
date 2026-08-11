@@ -50,11 +50,12 @@ WordPress
 
 | 项目 | 当前值 | 建议/约束 |
 |---|---|---|
-| PHP | 待确认 | 选择WooCommerce和插件共同支持的稳定版本 |
-| 数据库 | 待确认 | MySQL/MariaDB稳定版本，明确字符集和备份方案 |
-| WordPress | 待安装 | 锁定安装时版本，升级先走Staging |
-| WooCommerce | 待安装 | 锁定版本并记录模板兼容性 |
-| Web服务器 | 待确认 | 明确Nginx/Apache、缓存和日志位置 |
+| PHP | 8.2.29 | LocalWP本地版本；插件引入前检查兼容性 |
+| 数据库 | MySQL 8.4.0 | LocalWP本地版本；明确字符集和备份方案 |
+| Web服务器 | Nginx 1.26.1 | LocalWP本地版本；Cloudways实际版本D4补充 |
+| WordPress | 7.0.3 | 已安装；升级先走Staging |
+| WooCommerce | 11.0.0 | 已安装并激活；记录模板兼容性 |
+| 托管平台 | Cloudways，配置已选定，待正式购买 | D2/D4记录实际PHP、数据库、Web服务器、缓存和日志位置 |
 | Node构建工具 | 待确认 | 只有主题构建需要时引入并锁定版本 |
 | Composer | 待确认 | 只有采用依赖管理时引入并提交lock文件 |
 
@@ -69,6 +70,10 @@ WordPress
 ## 发布架构原则
 
 - 代码发布、数据库变化和媒体同步分开记录。
+- Staging代码通过Cloudways Via Git从`deploy/staging`部署；该分支根目录为`wp-content/`且只包含DentAll运行代码。
+- `main`保留完整代码、测试和项目文档，不直接部署到Cloudways Web根目录。
+- Cloudways Deploy Key保持只读；标准Deployment Path为`public_html/`。
+- SFTP仅作为排查和应急手段；D25前后再评估GitHub Actions＋SSH/rsync自动化。
 - 每次发布绑定Git标签、数据库备份、uploads快照和插件版本清单。
 - 缓存清理必须在部署清单中显式执行。
 - 数据库搜索替换必须先备份，并使用可处理序列化数据的安全工具。

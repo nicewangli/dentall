@@ -34,7 +34,10 @@ app/public/wp-content/plugins/*
 !app/public/wp-content/plugins/dentall-core/
 !app/public/wp-content/plugins/dentall-core/**
 !app/public/wp-content/mu-plugins/
-!app/public/wp-content/mu-plugins/**
+app/public/wp-content/mu-plugins/*
+!app/public/wp-content/mu-plugins/dentall-loader.php
+!app/public/wp-content/mu-plugins/dentall/
+!app/public/wp-content/mu-plugins/dentall/**
 
 # Runtime data
 app/public/wp-content/uploads/
@@ -73,6 +76,15 @@ backups/*
 # Design assets: track the policy and register, not large binaries
 design-assets/*
 !design-assets/README.md
+
+# Re-assert secret exclusions after custom-code allow rules.
+# Git ignore rules are order-sensitive; these must remain below the allow rules.
+**/.env
+**/.env.*
+!/.env.example
+**/*.key
+**/*.pem
+**/auth.json
 
 # IDE and OS
 .idea/

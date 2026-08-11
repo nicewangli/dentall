@@ -1,17 +1,27 @@
 # 部署、运维与恢复手册
 
-> 当前服务器和部署工具尚未确定，本手册先定义不可跳过的流程。确认主机后补充具体命令、路径和负责人。
+> 当前Staging已确定使用Cloudways Flexible；标准代码部署采用Cloudways Via Git与代码专用部署分支。Production部署规则在正式上线准备阶段冻结。
 
 ## 环境信息
 
 | 项目 | Local | Staging | Production |
 |---|---|---|---|
-| URL | 待建立 | 待确认 | 待确认 |
-| 主机 | 本机 | 待确认 | 待确认 |
-| PHP/数据库 | 待确认 | 待确认 | 待确认 |
-| 部署方式 | 本地开发 | 待确认 | 待确认 |
-| 日志位置 | 待确认 | 待确认 | 待确认 |
-| 备份位置 | 本机测试 | 待确认 | 待确认 |
+| URL | LocalWP本地域名（以应用内显示为准） | 待确认 | 待确认 |
+| 主机 | 本机 | Cloudways Flexible / DigitalOcean Premium 4GB | 待确认 |
+| PHP/数据库 | PHP 8.2.29 / MySQL 8.4.0 | PHP 8.2.33 / MySQL 8.4 | 待确认 |
+| 部署方式 | 本地开发 | Cloudways Via Git：`deploy/staging` → `public_html/` | 待确认 |
+| 日志位置 | `app/public/wp-content/debug.log`及LocalWP站点日志 | 待确认 | 待确认 |
+| 备份位置 | `backups/`（仅本地基线，不作为唯一副本） | 待确认 | 待确认 |
+
+## Staging代码部署边界
+
+- 完整项目历史保存在`main`；Cloudways只部署代码专用分支`deploy/staging`。
+- 部署分支根目录必须从`wp-content/`开始，只包含DentAll自定义主题、`dentall-core`和已确认的mu-plugin。
+- Cloudways仓库地址使用SSH；Deploy Key只读，不允许Cloudways向GitHub推送。
+- Deployment Path固定为`public_html/`；首次部署前必须检查恢复点并核对部署分支文件清单。
+- 数据库、uploads、WordPress核心、WooCommerce和第三方插件不通过Git同步。
+- SFTP只用于只读排查、紧急回滚或已批准的应急发布；应急修改必须回补Local和Git，避免服务器漂移。
+- 后续GitHub Actions＋rsync方案只有在密钥、目录白名单、删除策略、人工批准和回滚测试全部完成后才可替代当前流程。
 
 ## 标准发布流程
 
@@ -94,4 +104,3 @@
 - 验证结果：
 - 回滚是否需要：
 - 相关日志、提交和截图：
-

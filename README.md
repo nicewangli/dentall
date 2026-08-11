@@ -8,7 +8,7 @@
 2. 阅读`project-docs/PROJECT_STATE.md`。
 3. 按`DentAll商城项目总计划-单休版.md`选择当天任务。
 4. 只在`app/public/wp-content`下开发主题、项目插件和mu-plugin。
-5. 收工使用`Obsidian每日复盘模板.md`并更新项目状态。
+5. 收工使用`Obsidian每日复盘模板.md`，将每日笔记保存到`project-docs/笔记/`并更新项目状态。
 
 ## 目录
 
