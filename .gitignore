@@ -73,6 +73,9 @@ backups/*
 !backups/README.md
 !backups/RELEASE-MANIFEST-TEMPLATE.md
 
+# Private working notes: never upload personal or sensitive notes
+/private-notes/
+
 # Design assets: track the policy and register, not large binaries
 design-assets/*
 !design-assets/README.md
