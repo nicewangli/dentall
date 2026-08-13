@@ -51,6 +51,7 @@ app/public/wp-content/wflogs/
 app/public/wp-content/debug.log
 
 # Dependencies and test artifacts
+/.codex-tmp/
 **/node_modules/
 **/vendor/
 **/dist/
@@ -79,6 +80,9 @@ backups/*
 # Design assets: track the policy and register, not large binaries
 design-assets/*
 !design-assets/README.md
+
+# 客户提供的商品资料：可能包含大文件、图片及非公开业务数据
+/dentall资料/
 
 # Re-assert secret exclusions after custom-code allow rules.
 # Git ignore rules are order-sensitive; these must remain below the allow rules.

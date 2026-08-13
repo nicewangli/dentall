@@ -11,6 +11,28 @@
 
 具体英文Slug在关键词、分类结构和内容清单确认后冻结。项目为从零开发的新站，不包含旧站URL迁移。
 
+### D8商品分类Slug候选
+
+以下为设计与代表样本验证后的v1候选，尚未写入WooCommerce；正式冻结前需确认第一版销售范围。
+
+| 入口/分类 | 类型 | Slug或URL候选 | 索引原则 |
+|---|---|---|---|
+| Dental Materials | Product Category | `dental-materials` | 有正式商品和独立描述后索引 |
+| Dental Packaging | Product Category | `dental-packaging` | 标准/定制包装商品归档 |
+| Instruments & Rotary | Product Category | `instruments-rotary` | 正式英文名确认后索引 |
+| Orthodontics & Thermoforming | Product Category | `orthodontics-thermoforming` | EVA/护齿销售对象确认后索引 |
+| Equipment | Product Category | `dental-equipment` | 正式销售范围确认后索引 |
+| Infection Control & Disposables | Product Category | `infection-control-disposables` | 正式销售范围确认后索引 |
+| Dental Lab Supplies | Product Category | `dental-lab-supplies` | 与Dental Materials分界确认后索引 |
+| Implant Dentistry | Product Category | `implant-dentistry` | 有正式商品后创建并索引，避免空归档 |
+| Custom Dental | Solutions/销售路径候选 | URL随D22 Solutions方案冻结 | 避免与Custom Restorations或商品分类争夺相同意图 |
+| On Sale / Deals | 动态集合，不是Product Category | `/deals/`候选 | D16/D43确认Canonical、分页和空状态 |
+
+- 商品分类归档继续使用`/product-category/{slug}/`基线。
+- 商品固定链接使用`/product/{slug}/`，不把分类路径嵌入商品URL，避免改主分类导致商品URL变化。
+- 分类最多两级；D25后修改分类Slug或层级必须登记旧URL、301重定向、Canonical、站点地图和内链影响。
+- 设计稿中的分类数量为占位值，不进入SEO文案或结构化数据。
+
 | 页面类型 | URL草案 | 索引 | Canonical | 备注 |
 |---|---|---:|---|---|
 | 首页 | `/` | 是 | 自身 | 组织/网站Schema |

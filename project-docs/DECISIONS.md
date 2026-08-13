@@ -71,6 +71,41 @@
 - 后续：D25前后根据部署频率与维护成本评估升级到GitHub Actions＋SSH/rsync；Production部署分支和人工批准规则在首次生产部署前另行冻结。
 - 代价：需要维护代码专用部署分支并执行部署内容检查；Cloudways Deploy Key仍可读取所属GitHub仓库，因此主仓库不得保存真实密钥或客户敏感信息。
 
+## ADR-010：采用ACF Pro、Yoast SEO与Site Kit并分离职责
+
+- 状态：已接受。
+- 决策：结构化扩展字段采用ACF Pro；SEO元数据和技术SEO辅助采用Yoast SEO Free；Search Console、GA4和PageSpeed Insights接入采用Site Kit by Google。
+- 多语言：未来采用WPML Multilingual CMS，并配套ACF Multilingual、WPML SEO及WooCommerce Multilingual & Multicurrency；第一版仍为英语和美元，暂不安装多语言组件。
+- 职责边界：Yoast负责SEO标题、Meta描述、Canonical、Sitemap和Schema；Site Kit只负责Google服务连接、标签和数据展示，不重复控制SEO输出。
+- 环境边界：当前受保护且`noindex`的Staging不连接正式Search Console和GA4；Production上线准备阶段再使用公司Google账户连接，并检查Google标签只有一个部署来源。
+- 原因：ACF Pro与WPML有成熟兼容路径；Yoast编辑流程清晰；Site Kit是Google官方免费插件，可降低Search Console和GA4接入维护成本。
+- 影响：需要维护插件兼容矩阵、角色权限和升级回归；未来启用WPML属于范围变化，必须重新评估URL、翻译数据、性能和SEO。
+
+## ADR-011：第一版采用Site Kit＋GA4＋GTM测量架构
+
+- 状态：已接受。
+- 决策：第一版必须配置公司持有的GA4、GTM和Search Console。Site Kit连接并部署唯一GA4 Google tag，同时放置GTM容器；GTM不再次部署GA4基础标签。
+- 事件来源：WooCommerce标准电商事件优先使用Site Kit插件转化跟踪；询价开始/提交、联系表单和资料下载等项目事件使用版本化`dataLayer`事件，并由GTM补充映射。
+- 必测事件：商品列表查看与选择、商品查看、加购、购物车、开始结账、配送信息、支付信息、购买、站内搜索、询价开始与提交、联系表单提交和资料下载。
+- 交易准确性：`purchase`以WooCommerce成功订单为事实来源，金额、币种、商品和交易ID必须与订单一致；失败、取消、BACS未到账及感谢页刷新不得误报或重复计数。
+- 环境与归属：Google资产使用公司账户且至少有两名公司控制的管理员；Staging不写入Production数据流，正式配置使用测试数据流、DebugView或受控发布验证。
+- 隐私：根据销售国家和访客地区确认适用规则；面向EEA、瑞士或英国时启用Consent Mode，并配置WP Consent API和兼容CMP。CMP选型另行记录。
+- 排期：埋点数据契约随商品、询价、购物车、结账和支付功能同步实现，D95集中连接与端到端验收，D96纳入SEO与测量联合审计；不得把全部埋点开发压缩到D95一天。
+- 影响：分析基础由Should提升为Must；需要增加事件契约、隐私配置、测试流量隔离和回归证据，但不改变Yoast负责SEO元数据与索引输出的职责。
+
+## ADR-012：采用统一Website Manager承接内容业务所有权
+
+- 状态：已接受。
+- 背景：项目没有专职产品经理，业务方可提供的商品资料有限，开发者也不掌握全部产品与业务语义。如果分类、属性或文章栏目每次都必须由开发者代建，单人全栈会成为内容生产瓶颈。
+- 决策：第一版只建立一种面向业务负责人的`DentAll Website Manager`角色，同时保留D5已有的低权限`DentAll Content Editor`录入角色和开发者专用`Administrator`。不按商品、分类、文章和SEO功能拆成多个需要切换账号的角色；每位工作人员仍使用自己的独立账号，再分配相应角色，禁止共享登录凭据。
+- Website Manager所有权：同一账号可管理全部商品、商品分类、全局属性及属性项、品牌、SKU、价格、库存、变体、商品媒体、文章、页面、文章分类、标签、作者归属、内容级SEO字段和发布状态，并可编辑他人创建的业务内容。业务方负责产品事实、分类归属、正式价格库存和内容真实性。
+- 低权限录入：Content Editor按既有结构录入商品和文章草稿、上传允许的媒体；是否允许发布及创建分类按D13～D25测试结果逐项开放，不作为业务负责人账号的替代。
+- 系统边界：Website Manager不得处理订单、支付、退款、税费、物流系统设置、插件、主题、用户角色、固定链接、全站Canonical/Sitemap、数据库或部署，也不直接获得Administrator或WooCommerce原生Shop Manager。
+- 结构变更边界：日常新增商品、商品分类、属性项、文章分类和标签由Website Manager独立完成，不需要开发者代建或逐项审批。批量导入/删除/合并、修改大量已发布Slug或层级、改变固定链接和全局SEO规则等高影响动作交由开发者评估数据、URL和回滚影响。
+- 骨架原则：前端和业务代码不得硬编码分类ID、分类名称或固定数量；首页使用可配置的精选分类，不自动展示完整分类树。新增、改名、隐藏、缺图、长名称、空分类均需有可接受状态。
+- 开放节奏：D8冻结职责和动态骨架原则；D12～D18实现并验证Website Manager的商品能力，D19～D24补齐文章、页面和内容级SEO能力，D25综合验收后开放持续批量录入。
+- 工时影响：统一角色预计涉及约2.5～3.5个有效工作日，分散在W2～W4和后续前端模板验收中；相对原多角色方案减少约0.5天，净新增预计约1～2天，可先从D8分类业务分析节省的工时及原权限验收预算吸收。复杂审批流、字段级权限或自动批量导入不在本决策范围。
+
 ## 待决策
 
 | ID | 决策 | 最晚时间 | 影响 |

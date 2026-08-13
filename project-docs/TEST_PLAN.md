@@ -63,6 +63,19 @@
 - [ ] 页面无明显PHP警告、控制台错误和敏感日志。
 - [ ] 表单具备nonce、权限、清洗、验证和转义。
 
+### GA4、GTM与转化测量
+
+- [ ] Production只存在一个GA4基础标签来源；Site Kit、GTM、主题和其他插件没有重复部署。
+- [ ] Site Kit连接正确的公司Search Console、GA4属性/数据流和GTM容器，开发者个人账号不是唯一所有者。
+- [ ] `view_item_list`、`select_item`、`view_item`、`add_to_cart`、`view_cart`和站内搜索事件触发一次且商品参数正确。
+- [ ] `begin_checkout`、`add_shipping_info`、`add_payment_info`和`purchase`的币种、金额、商品、数量及交易ID与WooCommerce订单一致。
+- [ ] Stripe、PayPal和BACS测试路径不会在失败、取消或未到账时误报`purchase`。
+- [ ] 刷新感谢页、返回历史页面和重复Webhook不会造成同一交易ID重复计数。
+- [ ] 定制商品询价开始、询价提交、联系表单提交和公开资料下载事件可在GA4 DebugView中识别。
+- [ ] 登录用户、开发者和测试流量按规则排除；Staging事件不进入Production数据流。
+- [ ] 使用Tag Assistant和GA4 DebugView留存事件证据，并检查浏览器控制台无标签错误。
+- [ ] 适用时，拒绝统计/营销同意后不写入非必要Cookie；同意后标签状态和事件恢复符合Consent Mode设计。
+
 ## 缺陷等级
 
 - P0：支付错误、数据丢失、安全漏洞、生产不可用。
@@ -78,10 +91,10 @@
 - 缓存开启状态下再次完成交易回归。
 - 数据库和uploads备份可用；回滚步骤明确。
 - SEO、邮件、支付、物流和关键页面有验证证据。
+- GA4/GTM关键事件、金额与交易ID有验证证据，且无重复购买事件。
 
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
 |---|---|---|---|---|---|---|---|
 | TC-001 | Staging/Chrome | 测试商品有库存 | 加购并完成沙盒支付 | 订单成功、库存减少、邮件送达 | 待测 | 未开始 | |
-
