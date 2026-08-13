@@ -25,3 +25,12 @@
 | Day4 | [[Day4-WordPress与WooCommerce配置及常用操作手册]] | WordPress/WooCommerce 配置、菜单地图和排错路径 |
 | Day5 | [[Day5-编辑角色与权限]] | 最小权限角色、Via Git部署、权限审计和Staging端到端验收 |
 | Day6 | [[Day6-商品与文章安全试录]] | 开发者代理试录、M1技术预验收和D13真实编辑验收安排 |
+
+## D7～D12
+
+| 工作日 | 笔记 | 内容 |
+|---|---|---|
+| Day7 | [[Day7-商品资料盘点]] | 商品资料来源、可信度、代表场景和业务缺口 |
+| Day8 | [[Day8-商品分类结构]] | 动态分类骨架、分类治理和Website Manager业务所有权 |
+| Day9 | [[Day9-SKU品牌与属性规则]] | SKU、品牌、Global Attributes和Variation映射规则v1候选 |
+| Day9 | [[Day9-商品业务确认清单]] | 逐商品事实延后到实际录入时按需确认的范围边界 |
