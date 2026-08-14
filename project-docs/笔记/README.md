@@ -34,3 +34,4 @@
 | Day8 | [[Day8-商品分类结构]] | 动态分类骨架、分类治理和Website Manager业务所有权 |
 | Day9 | [[Day9-SKU品牌与属性规则]] | SKU、品牌、Global Attributes和Variation映射规则v1候选 |
 | Day9 | [[Day9-商品业务确认清单]] | 逐商品事实延后到实际录入时按需确认的范围边界 |
+| Day10 | [[Day10-商品类型与价格库存规则]] | Simple、Variable、Display Only、价格库存、物流尺寸、合法组合和D12原型输入 |

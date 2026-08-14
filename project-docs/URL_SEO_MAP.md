@@ -50,7 +50,7 @@
 | 文章 | `/blog/{slug}/`或待定 | 是 | 自身 | 发布前冻结结构 |
 | Solutions | 待确认 | 是 | 自身 | Page/CPT方案决定URL |
 | About | `/about-us/` | 是 | 自身 | Slug待确认 |
-| Contact | `/contact-us/` | 是 | 自身 | 联系方式和组织信息一致 |
+| Contact | `/contact-us/` | 是 | 自身 | 联系方式和组织信息一致；`?product_id={ID}`只预填定制商品上下文，Canonical仍为无参数URL，不生成重复索引页 |
 | FAQ | `/faq/` | 是 | 自身 | FAQ Schema需符合页面内容 |
 | 政策页 | 按页面定义 | 是/视页面 | 自身 | 隐私、退款、配送等 |
 | 404 | 无固定URL | 否 | 无 | 返回真实404状态码 |

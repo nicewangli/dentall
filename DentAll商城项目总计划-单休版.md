@@ -231,7 +231,7 @@
 | D86 | 博客列表 | 分类、分页和空状态 | SEO与四端检查 | 博客列表完成 |
 | D87 | 文章详情 | 作者、内链、相关内容和分享基础 | 长文与媒体检查 | 文章详情完成 |
 | D88 | Solutions前台 | 最小列表/详情或Page模板 | 后台与URL验证 | Solutions完成 |
-| D89 | Contact、FAQ和404 | 表单、反垃圾、邮件和内部链接 | 发送失败与可访问性测试 | 辅助页面完成 |
+| D89 | Contact、FAQ和404 | 表单、反垃圾、邮件、定制商品上下文和内部链接 | 发送失败、参数篡改与可访问性测试 | 辅助页面完成 |
 | D90 | 编辑内容抽样联调 | 修正内容、模板、图片和后台说明 | 周验收 | M7：功能完整 |
 
 ### W16：SEO、索引与分析基础（D91-D96，41小时）
@@ -242,16 +242,16 @@
 | D92 | URL与Canonical审计 | 分页、筛选和索引策略 | 重复页面检查 | 索引策略完成 |
 | D93 | XML地图和robots | Staging与生产抓取规则 | 抓取模拟 | 抓取配置完成 |
 | D94 | 商品与组织Schema | 面包屑、图片alt和OG | 验证器检查 | 结构化数据完成 |
-| D95 | 连接公司GA4、GTM与Search Console | 启用WooCommerce转化跟踪、询价事件和Consent Mode | Tag Assistant、DebugView与测试订单验证 | 分析与转化测量基础完成 |
+| D95 | 连接公司GA4、GTM与Search Console | 启用WooCommerce转化跟踪、已实现项目事件和Consent Mode | Tag Assistant、DebugView与测试订单验证 | 分析与转化测量基础完成 |
 | D96 | 全站SEO与测量审计 | 修正URL、内链、编辑数据和重复/缺失事件 | SEO与事件回归报告 | SEO与测量v1完成 |
 
 ### 分析与转化跟踪并行规则
 
 - 第一版必须建立GTM＋GA4测量基础，但它属于SEO、内容和电商转化的测量基础设施，不替代Yoast负责的抓取、索引、Canonical、Sitemap和Schema。
 - Site Kit负责连接公司Search Console与GA4、部署唯一GA4 Google tag，并放置GTM容器；GTM不得再次部署GA4基础标签，避免页面浏览和购买重复计数。
-- WooCommerce标准电商事件优先使用Site Kit原生插件转化跟踪；定制商品询价、联系表单和其他项目事件通过可版本化的`dataLayer`事件与GTM补充。
-- 事件不能等到D95才开始开发。商品列表、详情、购物车、结账、支付和询价功能实现时同步保留事件数据契约与测试入口；D95负责连接企业Google资产、集中配置和端到端验收。
-- 正式事件基线至少覆盖：`view_item_list`、`select_item`、`view_item`、`add_to_cart`、`view_cart`、`begin_checkout`、`add_shipping_info`、`add_payment_info`、`purchase`、站内搜索、询价开始、询价提交、联系表单提交和资料下载。
+- WooCommerce标准电商事件优先使用Site Kit原生插件转化跟踪；联系表单、资料下载和其他已实现项目事件通过可版本化的`dataLayer`事件与GTM补充。询价事件仅在CR-004实际启用时加入。
+- 事件不能等到D95才开始开发。商品列表、详情、购物车、结账、支付和已确认表单功能实现时同步保留事件数据契约与测试入口；D95负责连接企业Google资产、集中配置和端到端验收。
+- 正式事件基线至少覆盖：`view_item_list`、`select_item`、`view_item`、`add_to_cart`、`view_cart`、`begin_checkout`、`add_shipping_info`、`add_payment_info`、`purchase`、站内搜索、联系表单提交和资料下载；条件功能只在实际进入第一版时增加对应事件。
 - `purchase`必须基于WooCommerce成功订单及真实订单金额、币种、商品和交易ID验证，不能用“点击付款按钮”代替；刷新感谢页不得造成重复购买事件。
 - 当前受保护且`noindex`的Staging不连接Production数据流。正式上线前使用独立测试数据流或DebugView验证，排除登录用户、开发者和测试流量，避免污染生产数据。
 - 面向EEA、瑞士或英国用户时，启用Consent Mode并配置兼容WP Consent API的CMP；CMP具体选型在销售地区和隐私要求确认后冻结。

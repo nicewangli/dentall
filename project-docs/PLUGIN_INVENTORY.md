@@ -34,7 +34,7 @@
 - `Yoast SEO Free`负责SEO标题、Meta描述、Canonical、XML Sitemap和Schema；`Site Kit by Google`不得重复生成或改写这些SEO输出。
 - `Site Kit by Google`负责连接Search Console、GA4和PageSpeed Insights。GA4标签只能由一个来源部署，启用前必须排查主题、Google Tag Manager和其他插件中的重复标签。
 - 已冻结的标签架构为：Site Kit部署唯一GA4 Google tag并放置GTM容器；GTM不重复部署GA4基础标签，只管理后续广告标签和Site Kit未覆盖的项目自定义事件。
-- WooCommerce标准电商事件优先采用Site Kit原生插件转化跟踪；定制商品询价、联系表单和资料下载通过项目`dataLayer`事件与GTM补充，避免再安装职责重叠的GA4电商跟踪插件。
+- WooCommerce标准电商事件优先采用Site Kit原生插件转化跟踪；联系表单、资料下载和实际启用的条件功能通过项目`dataLayer`事件与GTM补充，避免再安装职责重叠的GA4电商跟踪插件。询价事件仅在CR-004进入实施时增加。
 - 受Cloudways Password Protection保护且设置`noindex`的Staging不连接正式Search Console和GA4，不产生正式业务统计；Production上线准备阶段再由公司Google账户完成连接。
 - 面向EEA、瑞士或英国用户时启用Site Kit Consent Mode，并配套WP Consent API与经确认的CMP；销售地区和隐私要求未确认前不提前安装CMP。
 - SEO人员可使用Yoast处理内容层优化；开发者负责插件配置、权限、索引、Canonical、Sitemap、Schema和前端技术验证。

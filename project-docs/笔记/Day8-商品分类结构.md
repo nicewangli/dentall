@@ -68,7 +68,7 @@ D8不冻结正式商品分类树，而是冻结“动态分类骨架＋统一业
 | 7 | Dental Lab Supplies | `dental-lab-supplies` | 设计稿Lab Supplies入口 | 候选；与Materials分界待确认 |
 | 8 | Implant Dentistry | `implant-dentistry` | 设计稿Implants入口 | 候选；首版销售范围待确认 |
 
-纯定制询价内容可以继续使用WooCommerce Product承载，但不代表必须建立`Custom Dental`顶级商品分类。是否显示购买区由商品销售模式控制，不能仅靠分类决定。
+定制展示内容可以继续使用WooCommerce Product承载，但不代表必须建立`Custom Dental`顶级商品分类。是否显示购买区由显式销售模式控制，不能仅靠分类决定；询价仅在CR-004未来实际启用时增加。
 
 ## Dental Materials二级分类候选
 
