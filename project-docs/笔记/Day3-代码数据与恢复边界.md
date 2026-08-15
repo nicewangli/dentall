@@ -2,6 +2,7 @@
 
 ## 相关笔记
 
+- 周总结：[[W1-环境与安全试录周总结]]
 - 前置本地环境：[[Day2-本地环境与WooCommerce基线]]
 - 后续 Cloudways Staging：[[Day4-Cloudways配置与常用操作手册]]
 - 后续 WordPress 与商城配置：[[Day4-WordPress与WooCommerce配置及常用操作手册]]
