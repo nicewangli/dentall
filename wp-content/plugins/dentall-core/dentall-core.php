@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DentAll Core
  * Description: DentAll 商城跨主题的最小业务能力。
- * Version: 0.2.0
+ * Version: 0.2.1
  * Requires at least: 7.0
  * Requires PHP: 8.2
  * Text Domain: dentall-core
@@ -378,31 +378,37 @@ function dentall_core_block_website_manager_attribute_deletion() {
 add_action( 'admin_init', 'dentall_core_block_website_manager_attribute_deletion', 1 );
 
 /**
- * 移除不属于内容试录流程的后台菜单。
+ * 移除不属于项目业务角色日常流程的后台菜单。
  *
  * 菜单隐藏只改善界面；直接URL仍由下方的请求拦截负责。
  *
  * @return void
  */
-function dentall_core_remove_content_editor_admin_menus() {
-	if ( ! current_user_can( 'dentall_content_editor' ) ) {
-		return;
+function dentall_core_remove_restricted_admin_menus() {
+	if ( current_user_can( 'dentall_content_editor' ) ) {
+		remove_menu_page( 'edit-comments.php' );
 	}
 
-	remove_menu_page( 'edit-comments.php' );
-	remove_menu_page( 'tools.php' );
+	if ( current_user_can( 'dentall_content_editor' ) || current_user_can( DENTALL_WEBSITE_MANAGER_MARKER ) ) {
+		remove_menu_page( 'tools.php' );
+	}
 }
-add_action( 'admin_menu', 'dentall_core_remove_content_editor_admin_menus', PHP_INT_MAX );
+add_action( 'admin_menu', 'dentall_core_remove_restricted_admin_menus', PHP_INT_MAX );
 
 /**
- * 判断内容试录员是否应被拒绝访问指定后台页面。
+ * 判断项目业务角色是否应被拒绝访问指定后台页面。
  *
  * @param string $page WordPress后台入口文件名。
  * @return bool
  */
-function dentall_core_is_restricted_content_editor_admin_page( $page ) {
-	return current_user_can( 'dentall_content_editor' )
-		&& in_array( $page, array( 'edit-comments.php', 'tools.php' ), true );
+function dentall_core_is_restricted_admin_page( $page ) {
+	if ( 'tools.php' === $page ) {
+		return current_user_can( 'dentall_content_editor' )
+			|| current_user_can( DENTALL_WEBSITE_MANAGER_MARKER );
+	}
+
+	return 'edit-comments.php' === $page
+		&& current_user_can( 'dentall_content_editor' );
 }
 
 /**
@@ -410,10 +416,10 @@ function dentall_core_is_restricted_content_editor_admin_page( $page ) {
  *
  * @return void
  */
-function dentall_core_block_content_editor_admin_pages() {
+function dentall_core_block_restricted_admin_pages() {
 	global $pagenow;
 
-	if ( dentall_core_is_restricted_content_editor_admin_page( (string) $pagenow ) ) {
+	if ( dentall_core_is_restricted_admin_page( (string) $pagenow ) ) {
 		wp_die(
 			esc_html__( 'You are not allowed to access this page.', 'dentall-core' ),
 			esc_html__( 'Access denied', 'dentall-core' ),
@@ -421,4 +427,4 @@ function dentall_core_block_content_editor_admin_pages() {
 		);
 	}
 }
-add_action( 'admin_init', 'dentall_core_block_content_editor_admin_pages', 1 );
+add_action( 'admin_init', 'dentall_core_block_restricted_admin_pages', 1 );
