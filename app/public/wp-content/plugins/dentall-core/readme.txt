@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,9 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体和系统权限边界。
 
 == Changelog ==
+
+= 0.2.1 =
+* 隐藏并拒绝Website Manager访问无业务功能的WordPress工具入口。
 
 = 0.2.0 =
 * 新增Website Manager商城运营权限白名单与版本化角色同步。
