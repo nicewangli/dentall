@@ -144,6 +144,18 @@
 - 原型顺序：D12优先验证一个Simple和一个Variable TEST原型；Display Only仅在定制展示确需结构化购买区时做最小原型，Inquiry原型当前不创建。
 - 工时影响：移除当前2～4天询价实施预算，把时间保留给标准价格、变体、库存、购物车、结账、支付、物流和回归。未来重新启用询价仍按CR-004单独估时。
 
+## ADR-016：两名网站人员统一使用Website Manager并分离Site Kit/GTM权限
+
+- 状态：已接受。
+- 背景：当前只有两名网站操作人员，两人都需要承担内容、商品与商城运营，不需要在现阶段使用低权限录入账号；后续还会参与SEO优化、Site Kit数据查看和GTM运营。
+- 决策：两人分别使用独立`DentAll Website Manager`账号，不共享凭据；`DentAll Content Editor`角色保留但不纳入D12当前人员验收，也不删除其代码定义。
+- 插件边界：网站人员不访问WordPress“插件”页面，不获得安装、启用、停用、更新或删除插件的权限。SEO插件可通过其业务功能菜单和内容编辑面板开放，不等于开放插件管理。
+- Site Kit边界：由Administrator安装、首次连接和维护Site Kit；后续使用Site Kit Dashboard Sharing向Website Manager共享只读的Analytics、Search Console、PageSpeed Insights等数据，不为查看指标授予WordPress Administrator。
+- GTM边界：网站人员如负责营销标签，在Google Tag Manager平台使用各自公司Google账号获得相应权限；WordPress端GTM容器首次接入、容器更换、重复标签检查和全局追踪配置由开发者处理。
+- SEO边界：Website Manager负责页面、文章、商品、分类、图片Alt、内链和内容级SEO字段；固定链接、robots、Sitemap、Canonical、全局Schema、批量重定向及索引策略继续走开发与变更流程。
+- 风险：当前`manage_woocommerce`允许进入WooCommerce部分日常设置。支付、退款、税费、物流、邮件、Webhook、状态工具和Production操作即使界面可见，也不得绕过测试、备份和变更记录。
+- 数据与审计：D12 TEST对象保留为受控回归夹具；每人独立账号用于操作追踪、单独停用、MFA和离职轮换。Production开放前必须复核MFA、审计和恢复路径。
+
 ## 待决策
 
 | ID | 决策 | 最晚时间 | 影响 |

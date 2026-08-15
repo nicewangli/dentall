@@ -114,6 +114,25 @@
 - [ ] 使用Tag Assistant和GA4 DebugView留存事件证据，并检查浏览器控制台无标签错误。
 - [ ] 适用时，拒绝统计/营销同意后不写入非必要Cookie；同意后标签状态和事件恢复符合Consent Mode设计。
 
+## D12双环境权限与商品原型验收记录
+
+| 范围 | 环境 | 结果 | 证据摘要 |
+|---|---|---|---|
+| Website Manager能力白名单 | Local | 通过 | 角色版本5；独立Code Review、安全与测试复核；WordPress用户、插件、主题和系统设置未开放 |
+| TEST Simple商品 | Local | 通过 | 商品44完成23项持久化审计、前台检查及回收站恢复 |
+| TEST Variable商品 | Local | 通过 | 商品46与Variations 51～53最终17项审计通过；非法组合不可选，价格、库存和缺货状态正确 |
+| 代码部署与菜单边界 | Staging | 通过 | DentAll Core 0.2.1部署；`users.php`、`plugins.php`、`themes.php`、`options-general.php`拒绝访问；空Tools入口已隐藏 |
+| 文章与评论 | Staging | 通过 | TEST文章完成发布、更新、回收站恢复；评论批准状态、回收站和恢复可操作 |
+| 页面与媒体 | Staging | 通过 | TEST页面发布和恢复；WebP上传、页面区块Alt及媒体库Alt保存后仍存在 |
+| 简单商品 | Staging | 通过 | TEST商品完成价格19.99、库存2、SKU、重量尺寸、分类、品牌、图片、发布、更新和恢复；前台可购买状态正常 |
+| 商品属性 | Staging | 通过 | TEST全局属性与Small/Large项可新增、编辑和删除；测试结束时属性已删除 |
+| 优惠券 | Staging | 通过 | `TEST-D12-STAGING-10`发布，百分比10、总使用次数1，编辑后最终基线正确 |
+| 订单、客户与报表 | Staging | 通过 | 空订单页及“添加订单”入口正常；客户空状态和WooCommerce报表正常；未创建真实订单或客户 |
+
+- 两名当前网站操作人员统一使用`DentAll Website Manager`并分别持有独立账号；低权限Content Editor测试经用户决定不纳入D12人员验收。
+- D12 TEST对象不清理，作为D13及下周回归夹具；它们不是正式业务内容，受Staging访问保护与`noindex`约束，D25前再次评估归档或删除。
+- 本轮未测试真实支付、退款、邮件、税费、物流或Production操作；不得从本记录推导这些流程已通过。
+
 ## 缺陷等级
 
 - P0：支付错误、数据丢失、安全漏洞、生产不可用。

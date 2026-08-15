@@ -35,7 +35,9 @@
 - “业务所有权”表示业务负责人不需要开发者代建每一个商品、分类、文章栏目或标签；开发者只处理技术能力、系统边界、URL影响、安全和异常修复。
 - 商品与文章分类均由同一个Website Manager角色日常维护，工作人员无需切换角色，也不需要开发者逐项代建。多人参与时每人使用独立账号并分配该角色，不共享登录凭据。
 - Website Manager仍不是Administrator或原生Shop Manager的直接复制：采用项目白名单开放WooCommerce运营能力，不开放`manage_options`、WordPress用户管理、插件、主题、核心更新、数据库和部署。
-- 商品与商城运营capability已在D12完成Local首轮验证；文章、页面、媒体元数据和评论能力已在D12补入统一角色，仍需完成Local页面验收；Staging、Yoast兼容性、真实支付/退款副作用和完整对象级权限仍需按后续阶段分别验收。
+- 商品、文章、页面、媒体元数据、评论、属性、优惠券、订单入口、客户和报表已在D12完成Local与Staging验证。两名现有网站操作人员都使用该角色并各自持有独立账号；`DentAll Content Editor`保留为未来可选角色，暂不作为当前人员验收要求。
+- Website Manager不需要访问WordPress“插件”页面。后续Site Kit由Administrator安装和首次连接，再通过Dashboard Sharing向Website Manager共享只读数据；GTM标签日常管理在Google Tag Manager平台单独授权，WordPress端容器接入和全局追踪配置仍由开发者处理。
+- 当前`manage_woocommerce`会开放WooCommerce日常设置能力；这不等于可以无流程修改支付、税费、物流、邮件、Webhook或Production配置。相关操作继续要求变更记录、测试、备份和开发协同。
 
 ## 3. 第一阶段开放门槛
 
@@ -55,7 +57,7 @@ D6开始试录；D18形成商品模型候选冻结；D24完成文章与页面样
 2. 创建一个2个Size×2个Shade的TEST Variable Product；只建立3个合法Variations，保留1个非法组合，覆盖Variation SKU、同价/异价、独立库存、缺货、父级物流继承和一个Variation物流覆盖。
 3. 只有D12确认需要立即验证`display_only`销售模式和参考价格字段时，才创建第3个TEST Display Only Product；否则留到CR-005实施阶段。
 4. 原型名称、SKU、属性值、价格、库存和物流数值都必须明确标记TEST；不借用HP0103G、FG0312D、运动护齿/EVA或锆块的未知正式业务事实。
-5. D12只创建原型实际使用的最小属性项；原型验证完成后保留为受控测试对象或在D25前清理，不直接转成正式商品。
+5. D12只创建原型实际使用的最小属性项；用户已决定保留Local与Staging的TEST对象作为D13及下周回归夹具。它们不得直接转成正式商品，D25开放批量录入前再次决定归档或清理。
 
 ## 4. 商品代表样本
 

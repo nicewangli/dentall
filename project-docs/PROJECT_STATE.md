@@ -5,11 +5,11 @@
 ## 状态快照
 
 - 更新日期：2026-08-15。
-- 当前阶段：W2 / D12 Local商品原型已完成：Website Manager角色版本5已落地，TEST Simple商品44与TEST Variable商品46已发布并通过持久化审计；Variable包含3个合法Variations（51～53），前台已验证价格、库存、缺货及非法组合不可选。当前只完成Local，下一步进入C6 Staging代码部署、账号建立与双环境冒烟。
+- 当前阶段：W2 / D12双环境验收已完成。Local已完成Website Manager角色版本5、TEST Simple商品44、TEST Variable商品46及3个合法Variations（51～53）的持久化与前台验证；Staging已部署DentAll Core 0.2.1，并使用独立Website Manager账号完成文章、页面、媒体、商品、属性、优惠券、订单入口、客户、报表和评论操作验收。下一步进入D13真实业务人员独立试录与简单商品字段候选冻结。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过；真实编辑D13入场后补30分钟独立试录，再确认M1人员验收。随后D18商品模型候选冻结，D24内容样本完成，D25开放批量录入。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：D6技术预验收已完成；DentAll Core 0.1.2已通过Via Git部署到Staging，最小权限角色、草稿、预览、媒体边界和清理流程均已验收。
+- 当前版本：DentAll Core 0.2.1已通过Via Git部署到Staging；0.2.0落实角色版本5与统一Website Manager能力，0.2.1隐藏并拦截业务角色的空Tools入口。Local与Staging插件版本和核心权限边界已对齐。
 
 ## 已完成
 
@@ -78,12 +78,19 @@
 - D11已完成文件治理与授权边界：文件名、Title/alt/Caption/Description职责、公开PDF验收、媒体公开直链、购买后受控下载和内部证据隔离规则已形成；`CONTENT_ASSET_REGISTER.md`新增授权状态与发布闸门。
 - D11 Local内容角色完整上传链、MIME拒绝、5MB边界、公开直链、GD WebP输出及清理共11项通过；未发现P0/P1。Staging管理员页只读显示10MB，未用管理员结果替代内容角色5MB证据。
 - 已生成并登记`AST-011` D12媒体测试包：5张1254×1254 WebP合规占位图和1张640×480 TEST INVALID负向样本，存放于被Git忽略的`dentall资料/TEST-D12商品原型/`；仅用于开发，上线前替换。
+- D12 Local商品原型已落地：TEST Simple商品44通过23项持久化审计与回收站恢复；TEST Variable商品46包含3个合法Variations（51～53），最终17项审计通过，前台价格、库存、缺货和非法组合不可选均已验证。
+- D12 Website Manager角色版本5已完成独立Code Review、安全与测试复核；业务内容、媒体元数据、评论/商品评价、商品及术语、订单、优惠券、客户创建、报表和WooCommerce日常运营能力开放，WordPress用户、插件、主题、代码和系统设置保持关闭。
+- D12 Staging已部署DentAll Core 0.2.1并激活Storefront；独立Website Manager账号已验证文章发布/更新/回收站恢复、页面发布/媒体上传/Alt持久化/恢复、简单商品价格库存和物流字段/发布/恢复、全局属性与属性项增删改、优惠券、空订单页、客户、报表及评论管理。
+- Staging Website Manager直接访问`users.php`、`plugins.php`、`themes.php`和`options-general.php`均被拒绝；0.2.1部署后空Tools菜单已消失。未授予WordPress用户、插件、主题、核心更新、数据库或部署权限。
+- 两名网站操作人员当前都使用`DentAll Website Manager`，每人必须使用独立账号；低权限`DentAll Content Editor`保留为未来可选角色，但不再作为D12当前人员验收项。
+- Site Kit后续由Administrator安装和首次连接；Website Manager仅通过Site Kit Dashboard Sharing查看已共享的Analytics、Search Console、PageSpeed Insights等数据，不开放WordPress插件管理。GTM日常标签权限在Google Tag Manager平台独立分配，WordPress端容器接入仍由开发者管理。
+- D12 TEST对象经用户确认暂不清理，作为D13及下周回归夹具。Local保留两个商品原型；Staging保留TEST文章、页面、媒体、简单商品、分类和优惠券。它们不是正式业务内容，D25开放批量录入前再次决定归档或删除。
 
 ## 进行中
 
 - W1：Cloudways Full Access已完成，继续复核账单状态和服务器持续可用性。
 - W1：从老板持有的闲置域名中选择具体域名，D4由老板提供DNS访问并完成映射。
-- D12：已完成Website Manager Local账号、角色版本5与商品/媒体第一轮能力验证；C4 TEST Simple商品44已完成发布、23项持久化审计及WordPress原生API回收站恢复测试；C5 TEST Variable商品46及3个合法Variations（51～53）已完成，16项CRUD审计通过，前台价格、库存、缺货与非法组合过滤均已验证。下一步为C6 Staging部署、不同权限操作账号建立与双环境冒烟。
+- D13：安排两名实际网站人员分别使用独立Website Manager账号完成30分钟无指导试录；先收敛P0/P1编辑阻塞，再冻结简单商品必填字段候选。D12保留的TEST对象继续作为回归夹具。
 - D10：定制商品默认展示、询价条件启用的最新方案已记录；当前无询价实施工时，真实询价商品出现后再确认角色、收件邮箱、隐私文案和SMTP。
 - D10：定制展示商品的参考价格范围和商品上下文Contact入口已确认；正式价格范围、按钮文案和联系收件人在实现前由业务方提供，不阻塞标准商品价格与库存骨架。
 
@@ -91,7 +98,7 @@
 
 - W2～W3不存在资料层面的整体阻塞；以下事项按最晚节点确认，未确认前使用明确标记的TEST数据验证骨架。
 - 正式商品分类名称、层级和商品归属由Website Manager根据业务内容维护，不再阻塞W2～W3骨架；设计稿入口与Solutions边界在相应前端/内容阶段按实际数据处理。
-- Website Manager技术能力矩阵已在Local实施：业务内容、媒体、评论/商品评价、商品、订单和优惠券能力已入白名单，用户、插件、主题、代码和系统管理能力保持关闭；Local对象级流程、Staging同步及内容级SEO兼容性仍需继续验收，D25前不得直接使用Administrator或原生Shop Manager替代。
+- Website Manager技术能力矩阵已在Local与Staging验收：业务内容、媒体、评论/商品评价、商品、订单、优惠券、客户和报表可操作，用户、插件、主题、代码和WordPress系统管理保持关闭。内容级SEO插件兼容性与Site Kit共享面板留到插件按计划安装后验证；D25前不得直接使用Administrator或原生Shop Manager替代。
 - SKU来源、格式、唯一性和日常责任规则已在D9形成候选；具体制造商货号公开许可及ADS/DentAll自有编号细节需在D12原型前确认，未确认时使用TEST编号。
 - 合法变体组合、套装与单支关系、正式USD价格、库存和缺货策略不阻塞通用骨架；在对应商品实际录入或D17～D18正式样本验收时由业务方填充。真实样本不足会影响业务验收，不推翻骨架。
 - 图片/PDF公开授权、英文内容、技术参数和医疗/合规事实需由业务方确认；未确认内容不得正式发布。
@@ -113,9 +120,9 @@
 
 ## 下一步三个验收结果
 
-1. C6将DentAll Core角色版本5部署到受保护的Staging，并确认部署版本与Local一致。
-2. C6在Staging建立独立的Website Manager与低权限测试账号，完成商品、文章、页面、媒体及商城日常操作的权限冒烟。
-3. C7完成Local与Staging双环境回归、测试数据清理判断、数据字典/后台帮助更新及W2周验收。
+1. D13让两名实际网站人员分别使用独立Website Manager账号完成30分钟无指导试录，并记录权限、字段或后台体验问题。
+2. 使用D12保留的TEST商品回归简单商品名称、SKU、价格、库存、描述、分类、品牌、图片及发布流程，形成简单商品必填字段候选。
+3. 优先关闭真实试录发现的P0/P1；没有阻塞后再进入D14可变商品边界和Variation流程冻结。
 
 ## 本周风险
 
@@ -140,6 +147,7 @@
 | W2 / D9 | 6小时50分钟 | 待用户记录 | 已完成（文档规则） | SKU、ADS/原厂品牌、Global Attributes及五个场景映射候选完成；业务问题异步确认，未写入WooCommerce |
 | W2 / D10 | 6小时50分钟 | 待用户记录 | 已完成（文档规则） | 商品类型、价格、库存、物流尺寸、合法组合和D12原型输入候选完成；只读核对Local单位，未写入WooCommerce |
 | W2 / D11 | 6小时50分钟 | 待用户记录 | 已完成（规范、测试与交接） | 媒体显示、格式/压缩、元数据、PDF/授权规则完成；Local上传链11项通过，D12 TEST媒体包已准备，未上传正式媒体或写数据库 |
+| W2 / D12 | 6小时50分钟 | 待用户记录 | 已完成（双环境原型与权限验收） | Local简单/可变商品原型及自动审计完成；DentAll Core 0.2.1部署到Staging，Website Manager完成内容、媒体、商品与商城运营冒烟；TEST对象按用户决定保留用于下周回归 |
 
 ## 更新规则
 
