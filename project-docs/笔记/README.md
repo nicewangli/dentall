@@ -44,3 +44,4 @@
 | Day10 | [[Day10-商品类型与价格库存规则]] | Simple、Variable、Display Only、价格库存、物流尺寸、合法组合和D12原型输入 |
 | Day11 | [[Day11-商品图片与资料文件规范]] | 商品图片比例、格式压缩、元数据、授权和上传边界 |
 | Day12 | [[Day12-双环境角色与商品原型验收]] | Website Manager角色版本5、Local商品原型、Staging运营权限与双环境验收 |
+| Day13 | [[Day13-真实编辑试录与简单商品流程]] | Website Manager培训者预演、独立复跑与简单商品发布字段候选 |
