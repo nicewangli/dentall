@@ -73,7 +73,11 @@
 | 字段 | 数据源 | 必填 | 用途/规则 |
 |---|---|---:|---|
 | 商品名称 | WooCommerce | 是 | 清晰且唯一，避免堆砌关键词 |
-| Slug | WordPress | 是 | 小写英文、短横线；确认后避免随意修改 |
+| Slug | WordPress | 是 | 小写英文、短横线；首次正式发布前确认。公开后修改必须登记旧新URL、301、Canonical、内链、Sitemap、缓存和回滚影响 |
+| SEO Title | Yoast SEO | 建议 | 每个可索引商品唯一；与商品名称/H1分工明确，留空时使用Yoast模板 |
+| Meta Description | Yoast SEO | 建议 | 基于页面真实可见内容撰写；不等同于WooCommerce简短描述，也不保证搜索引擎一定采用 |
+| Canonical覆盖 | Yoast SEO Advanced | 否 | 正常商品留空并使用自身Canonical；仅在经复核的重复/合并场景覆盖，不能代替301 |
+| robots/索引覆盖 | Yoast SEO Advanced | 否 | 默认沿用页面类型和环境规则；单页覆盖属于高影响操作，必须记录和复核 |
 | SKU | WooCommerce | 标准可购买商品发布时是 | WooCommerce技术上允许草稿留空；标准Simple、Variable父商品及每个可售Variation正式发布前必须具备全站唯一SKU |
 | 商品类型 | WooCommerce | 是 | 第一版主要为简单商品和可变商品 |
 | 常规价格 | WooCommerce | 标准Simple/Variation是 | 使用商城基准货币；Variable父商品价格由可售Variation派生，Display Only不使用成交价 |
@@ -142,8 +146,9 @@
 ### 展示、缺货与停售
 
 - `display_only`不参与交易库存：不显示`In stock`、`Out of stock`、数量、Backorder或低库存，不进入库存扣减，也不输出会暗示可购买库存的Offer信息。
-- 临时缺货的已发布标准商品默认保留商品页和稳定URL，显示明确不可购买状态；是否全站隐藏缺货商品属于独立商城策略，第一版候选为保持可见，待业务确认后再配置。
-- 已发布商品永久停售时不直接删除，也不自动更改Slug；先保留历史URL，再在D16结合替代商品、重定向和索引策略决定处理。未正式发布的无效商品可保持Draft或Private。
+- 临时缺货的已发布标准商品保持`publish`、目录可见、稳定Slug/URL、可索引和自身Canonical，使用`outofstock`与禁止Backorders阻止购买；没有永久停售结论时不得自动删除、301或`noindex`。
+- 永久停售由业务方确认，不由库存数量或`outofstock`自动推导。严格一对一后继商品可进入301候选；无严格替代但有流量、外链、订单支持或独立内容价值时保留200停售页；无替代且无持续价值时返回真实404，必要时才评估410。
+- 永久停售不删除订单历史、不复用SKU，也不把Canonical指向不相关商品。WooCommerce 11.0.0没有原生`discontinued`生命周期状态；真实200停售页出现前不提前增加字段或Schema代码。
 - 正式库存数量、盘点频率、缺货处理和延期交货承诺由Website Manager或业务库存负责人维护；开发者负责字段职责、权限、校验、显示和交易一致性，不替业务方推测库存。
 - 第一版不包含多仓库、供应商实时库存、ERP/WMS同步或组件级联动扣减。订单在哪个状态扣减、取消/退款何时回补，要在支付与订单状态方案确定后于D73～D78联调验证。
 - 未确认库存只可用于名称与SKU均带`TEST`标识的Local或受保护Staging原型；不得将TEST数量作为正式可售承诺。

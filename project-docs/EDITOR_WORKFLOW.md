@@ -13,7 +13,7 @@
 - 录入环境：受密码保护并设置`noindex`的Staging。
 - 禁止在LocalWP和Staging使用真实支付。
 - 编辑账号不得安装插件、修改主题、调整固定链接或管理其他管理员。
-- SEO人员可编辑元数据，但不得自行更改已发布Slug、分类层级和Canonical规则。
+- Website Manager与SEO人员保留内容级和Yoast高级元数据操作权限；系统不额外阻止已发布Slug、Canonical或robots变更，但这些高影响操作必须先记录原因、目标URL和影响范围，再按变更流程复核。
 - 商城管理员权限只授予确需处理订单、优惠券或库存的人。
 
 ### D5试录权限基线
@@ -21,7 +21,7 @@
 - `DentAll Content Editor`只用于D6安全试录：可新建和编辑自己的文章、商品草稿，可上传JPEG、PNG和WebP图片。
 - 试录账号不得发布文章或商品，不得编辑他人内容，不得创建页面、管理全局商品分类/属性，也不得访问订单、优惠券、WooCommerce设置、用户、插件、主题或站点设置。
 - D11验证后，试录图片单文件上限继续保持5MB，且仅允许JPEG、PNG和WebP；SVG、PDF和其他文件类型继续关闭。后续只有确认公开PDF需求并完成Website Manager最小权限与安全测试后才单独开放；媒体公开URL不得保存敏感资料。
-- SEO插件尚未选型，D5不创建虚假的插件专属SEO权限；SEO审核职责暂按流程执行，选型后再做技术权限验证。
+- SEO插件已确定为Yoast SEO Free。Website Manager保留`wpseo_edit_advanced_metadata`，可见内容级SEO与Advanced字段；按用户决定不增加代码限制，Canonical、robots和单页索引调整依靠流程、培训与回归控制。
 - WooCommerce原生`Shop manager`权限覆盖订单和商城设置，未确认实际商城管理员前不分配给试录人员。
 
 ### 统一业务所有权角色（商品与商城运营权限已完成Local首轮验证）
@@ -38,6 +38,23 @@
 - 商品、文章、页面、媒体元数据、评论、属性、优惠券、订单入口、客户和报表已在D12完成Local与Staging验证。两名现有网站操作人员都使用该角色并各自持有独立账号；`DentAll Content Editor`保留为未来可选角色，暂不作为当前人员验收要求。
 - Website Manager不需要访问WordPress“插件”页面。后续Site Kit由Administrator安装和首次连接，再通过Dashboard Sharing向Website Manager共享只读数据；GTM标签日常管理在Google Tag Manager平台单独授权，WordPress端容器接入和全局追踪配置仍由开发者处理。
 - 当前`manage_woocommerce`会开放WooCommerce日常设置能力；这不等于可以无流程修改支付、税费、物流、邮件、Webhook或Production配置。相关操作继续要求变更记录、测试、备份和开发协同。
+- Website Manager拥有Yoast高级元数据权限不等于可以无记录修改索引。SEO Title和Meta Description属于日常内容操作；已发布Slug、Canonical、是否索引、nofollow及高级robots属于高影响操作，保存前应记录旧值、新值、原因、受影响URL和复核人。
+
+### 已发布Slug与Canonical操作
+
+1. 草稿或从未公开的TEST对象可在首次正式发布前修正Slug，不为无公开价值的测试URL创建Production重定向。
+2. 已发布URL需要修改时，Website Manager先记录旧URL、新URL、原因、页面状态、负责人和回滚方案；记录完成前不保存新Slug。
+3. 永久迁移使用一跳301，目标必须是内容和搜索意图一致的200页面；不得把多个不相关商品统一跳首页、商店或分类页。
+4. Canonical只用于仍需同时访问的重复或高度相似页面，不用于替代301，也不用于把停售商品权重强行指向不等价商品。
+5. 修改后由Website Manager/SEO检查内容与链接，开发者核对状态码、循环/链条、Canonical、robots、Sitemap和缓存；证据写入`URL_SEO_MAP.md`。
+
+### 临时缺货与永久停售操作
+
+1. 临时缺货：Website Manager更新可信库存为0或`outofstock`，保持发布、原Slug/URL、目录可见和禁止Backorders；核对前台显示不可购买。没有确认日期时登记下次复核时间，不把不确定状态当成永久停售。
+2. 永久停售：必须先取得业务方确认，记录最后可售日期、售后/资料保留需求、候选替代商品和负责人；不得直接删除、改Slug、复用SKU或只把库存设为0后结束流程。
+3. SEO人员评估候选替代是否满足同一产品意图和用户需求，并检查流量、外链、订单支持及内容价值；同分类商品不能自动视为严格替代。
+4. 严格替代走301；有持续价值走原URL 200停售页；无替代且无价值走真实404，410仅在有明确永久删除需求时单独评估。
+5. Website Manager可以执行已批准的商品内容和库存操作；301、状态码、结构化数据与Production缓存/部署由开发者按变更流程实施和验证。
 
 ## 3. 第一阶段开放门槛
 
@@ -153,6 +170,14 @@ D6开始试录；D18形成商品模型候选冻结；D24完成文章与页面样
 - [ ] 特色图、正文图片、内链和SEO字段可执行。
 - [ ] 编辑与SEO人员知道哪些变化必须先找开发确认。
 - [ ] 操作手册和当前问题清单已更新。
+
+## 9.1 D17代表商品SEO样本前置
+
+- [x] Local与Staging商品固定链接均已由用户设置为`/product/{slug}/`，`/shop/`保留为归档；Staging两个商品和归档回归通过。保存“默认”后刷新回显第四项`product/`是WooCommerce规范化后的预期行为，不需要反复修改。Production未修改；Website Manager后续不自行调整固定链接设置。
+- [x] Staging已由Administrator按授权安装Yoast 28.2，并由用户手动激活成功；Website Manager不安装或升级插件。五页只读矩阵已验证Title唯一性和Staging全站`noindex, nofollow`，真实字段编辑流程留给D17代表样本。
+- [ ] 5～10个代表样本至少覆盖Simple与Variable，并按真实业务可用性补充促销、临时缺货、多图和可下载等适用场景；永久停售只有真实业务样本时才验收，不为凑测试编造替代关系。
+- [ ] 每个样本具备业务确认的名称、SKU来源、Slug、可见事实和必要素材；SEO Title与Meta Description可在此基础上验收。资料不足时只保存草稿或标记“骨架通过、真实内容未验收”。
+- [ ] Staging继续保持访问保护、站点`noindex`和真实支付关闭；不得把Staging绝对URL写入正式Canonical或对外内容。
 
 ## 10. D25批量录入开放验收
 

@@ -11,11 +11,11 @@
 
 | 插件 | 类别 | 用途 | 状态 | 版本 | 许可证/归属 | 数据影响 | 替代/移除方案 |
 |---|---|---|---|---|---|---|---|
-| DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容及后续商城业务规则 | Local与Staging已安装并激活；0.2.3仅在Local完成重构与重复Title修复验证 | Local 0.2.3；Staging 0.2.1 | GPL/项目自有 | 中 | 停用后保留角色数据；主入口与`includes/`必须同版本部署，回滚代码并重新分配账号角色 |
+| DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容及后续商城业务规则 | Local与Staging已安装并激活；0.2.3已部署Staging，Local完成重复Title修复验证 | Local/Staging 0.2.3 | GPL/项目自有 | 中 | 停用后保留角色数据；主入口与`includes/`必须同版本部署，回滚代码并重新分配账号角色 |
 | WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 已安装并激活，已完成D2基础配置 | 11.0.0；11.0.1可用但本日不升级 | GPL/项目 | 高 | 不可轻易替换 |
 | Query Monitor | 本地开发 | 查询、Hook、请求和错误诊断 | Local已安装；D16冲突隔离后保持停用，仅限Local | 4.0.7 | GPL/开发者 | 低 | 停用并删除，不进入生产必需清单 |
 | ACF Pro | 字段 | 仅在原生字段不足时补充定制商品展示、技术参数和资料下载等结构化字段 | Local已安装；D16冲突隔离后保持停用，许可证归属仍待核对 | 6.8.7 | 商业许可证/公司账户待核对 | 中 | 字段定义通过Local JSON或PHP版本化；停用前评估模板依赖和数据迁移 |
-| Yoast SEO Free | SEO | SEO标题、Meta描述、Canonical、XML Sitemap、基础Schema和编辑辅助 | Local已安装并激活；D16 C2完成Title唯一性及停用回退验证 | 28.2 | GPL/免费 | 中 | 导出设置后替换；禁止与其他SEO插件重复输出元数据和Schema |
+| Yoast SEO Free | SEO | SEO标题、Meta描述、Canonical、XML Sitemap、基础Schema和编辑辅助 | Local与Staging均已安装并激活；Local完成启停回退，Staging由用户手动激活后完成五页Title与`noindex`矩阵 | Local/Staging 28.2 | GPL/免费 | 中 | 导出设置后替换；禁止与其他SEO插件重复输出元数据和Schema；Staging无Canonical受全站`noindex`影响，Production另验 |
 | Site Kit by Google | 分析/站长工具 | 接入Search Console、GA4和PageSpeed Insights，并在后台展示数据 | 已选型；当前受保护Staging不连接正式Google服务，Production上线准备阶段再配置 | 待安装时记录 | GPL/免费；Google资产归公司账户 | 中 | 可停用并改为手工部署Google Tag；停用前确认GA4标签不会重复或丢失 |
 | WPML Multilingual CMS | 多语言 | 未来翻译商品、页面、字符串和WooCommerce前台内容 | 未来方案已选型；第一版仍为英语/美元，暂不安装 | 启用时记录 | 商业许可证/公司账户 | 高 | 启用前完成URL、字段翻译模式、库存同步和SEO回归；移除需评估翻译数据与URL影响 |
 | ACF Multilingual | 多语言字段 | 配置ACF字段的翻译、复制和同步模式 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前逐字段定义Translate/Copy/Copy once；移除前保留翻译字段数据 |

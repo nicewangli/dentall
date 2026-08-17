@@ -47,3 +47,4 @@
 | Day13 | [[Day13-真实编辑试录与简单商品流程]] | Website Manager培训者预演、独立复跑与简单商品发布字段候选 |
 | Day14 | [[Day14-可变商品与Variation流程]] | Variable父子职责、默认值、合法组合、库存与购物车Local验收 |
 | Day15 | [[Day15-库存与物流字段]] | 三层物流数据、Simple/Variable继承覆盖、库存模式、临时缺货与停售候选 |
+| Day16 | [[Day16-商品SEO规则]] | Title唯一性、SEO字段职责、Slug/Canonical/301、缺货停售URL生命周期与双环境边界 |

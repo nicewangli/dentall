@@ -5,11 +5,11 @@
 ## 状态快照
 
 - 更新日期：2026-08-17。
-- 当前阶段：W3 / D16商品SEO流程进行中；C1已定位Local重复Title，C2已通过DentAll Core独立SEO兼容模块完成Local修复和Yoast启停回退验证。下一步继续商品SEO字段职责与缺货/停售URL生命周期。
+- 当前阶段：W3 / D16商品SEO流程已完成；Title唯一性兼容、字段职责、Slug/301/Canonical流程、缺货/停售URL生命周期、Local与Staging的`/product/{slug}/`基线及Staging Yoast边界均已收口。下一步进入D17代表商品SEO样本验证。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
-- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；两名实际网站工作人员仍需在到岗后分别补30分钟无指导试录，完成M1人员验收。该人员项不阻塞当前D16商品SEO骨架推进；D18商品模型候选冻结，D24内容样本完成，D25开放批量录入。
+- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；两名实际网站工作人员仍需在到岗后分别补30分钟无指导试录，完成M1人员验收。该人员项不阻塞D17代表商品SEO样本骨架推进；D18商品模型候选冻结，D24内容样本完成，D25开放批量录入。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：DentAll Core Local为0.2.3，已按角色、媒体、商品治理、后台访问和SEO兼容拆分内部模块；Staging仍为0.2.1，尚未部署本次重构及C2修复。Local后台当前显示WordPress 7.0.4，项目旧记录7.0.3已产生版本事实偏差；WooCommerce仍按11.0.0基线管理。
+- 当前版本：DentAll Core Local与Staging均为0.2.3，已按角色、媒体、商品治理、后台访问和SEO兼容拆分内部模块；Cloudways `deploy/staging`于2026-08-17成功Pull。Local后台当前显示WordPress 7.0.4，项目旧记录7.0.3已产生版本事实偏差；WooCommerce仍按11.0.0基线管理。Staging已安装并由用户手动激活Yoast 28.2，五页只读SEO矩阵已通过Title唯一性与全站`noindex, nofollow`边界检查。
 
 ## 已完成
 
@@ -96,16 +96,26 @@
 - D15由Website Manager在Local复核#44 Simple自身物流、#46父物流、#51/#52空原始字段继承和#53明确覆盖；当前`lbs/in`、所有重量尺寸均只作为TEST机制证据，承运商、物流插件和真实包装样本未确定。
 - D15在#44验证数量库存与状态库存切换、数量0临时缺货和恢复：缺货时原URL、SKU、Slug、发布及目录可见性保持，前台不可购买；最终恢复数量8、有货、禁止Backorders并清空购物车。
 - D15 C6主审计45/45通过，独立测试Agent重跑Simple 23/23和Variable 17/17通过；已执行范围P0=0、开放P1=0。永久停售不执行删除或改Slug，替代商品、301、Canonical和索引策略衔接D16。
-- D16 C2实施前完成DentAll Core 0.2.2纯结构重构：主入口由430行收敛为23行，17个函数与12个Hook保持不变；角色、媒体、商品治理和后台访问分别进入独立模块。Local Content Editor审计47/47、Website Manager只读回归9/9及四个页面HTTP基线通过，独立Code Review与安全审查均为P0～P3=0。测试Agent提出的P3为D5历史笔记记录48项、当前脚本输出47项的证据口径差异；历史记录保留，D16本次结果按47项单独记录。C2重复Title修复尚未实施。
+- D16 C2实施前完成DentAll Core 0.2.2纯结构重构：主入口由430行收敛为23行，17个函数与12个Hook保持不变；角色、媒体、商品治理和后台访问分别进入独立模块。Local Content Editor审计47/47、Website Manager只读回归9/9及四个页面HTTP基线通过，独立Code Review与安全审查均为P0～P3=0。测试Agent提出的P3为D5历史笔记记录48项、当前脚本输出47项的证据口径差异；历史记录保留，D16本次结果按47项单独记录。
 - D16 C2在DentAll Core 0.2.3新增独立SEO兼容模块，只在Yoast启用时于`wp_head`优先级0移除WordPress核心重复的`_block_template_render_title_tag`。首页、商店、Simple #44、Variable #46和真实404在Yoast启用、停用及恢复后均保持单一Title；Yoast恢复后正常页面各1个Canonical、404无Canonical。未修改Title内容、URL、Slug、索引、robots、sitemap、重定向或缓存配置。
+- D16 C2代码已通过`deploy/staging`提交`0467e1a`部署；Cloudways日志显示2026-08-17 07:37:37 UTC成功，Staging后台确认DentAll Core 0.2.3已激活。首页与商店返回200、真实404返回404，均为单一Title且无致命错误；因Staging未安装Yoast且商店无代表商品，Yoast启用分支与完整五页矩阵尚不能验收。
+- D16 C3明确商品名称/H1、SEO Title、Meta Description、Slug、Canonical和robots的字段职责。按用户决定，Website Manager继续保留Yoast高级元数据权限，不增加代码限制；日常Title/Description可独立维护，已发布Slug、Canonical、索引和高级robots变更通过记录、复核和回归控制。
+- D16 C4区分了首次发布前Slug修正、已发布URL永久迁移、重复页Canonical和无等价替代撤销场景。永久迁移使用一跳301且新页自身Canonical；Canonical不代替301，不把不相关URL批量跳首页/商店/分类。WordPress核心旧Slug 301只作为回退机制，真实变更仍须登记和验证；当前未安装重定向插件、未新增实现、未改任何环境URL。
+- D16 C5冻结商品生命周期分流：临时缺货保持200、原URL、可索引、自身Canonical和`OutOfStock`，不删除/301/noindex；永久停售由业务确认，严格一对一替代才301，有持续价值则保留200停售页，无替代且无价值则真实404、必要时评估410。WooCommerce 11.0.0无原生`discontinued`状态，当前无真实停售样本，不提前新增字段或Schema代码；骨架可继续，正式停售文案、替代关系和`Discontinued`输出尚不能验收。
+- D16 C6只读核对Staging：WordPress 7.0.4、WooCommerce 11.0.0、DentAll Core 0.2.3、Breeze与Object Cache Pro处于启用状态；WooCommerce 11.0.1与Breeze 2.5.13仅显示可更新，未升级。Yoast未安装，因此Website Manager虽已由DentAll Core授予`wpseo_edit_advanced_metadata`，Staging仍不能验收Yoast字段界面、保存和前台输出。
+- D16 C6确认Staging有2个Website Manager账号和1个Content Editor账号，角色结构满足流程复演前置；两名实际工作人员各30分钟无指导验收仍未完成。Staging现有4个商品均为TEST数据，其中2个发布、2个草稿且全部为Simple；尚无Variable、当前缺货、可下载和真实永久停售代表样本，不能替代D17真实业务内容验收。
+- D16 C6发现两个已发布Staging商品实际URL均为`/shop/{slug}/`，与项目候选基线`/product/{slug}/`不一致。C6未修改固定链接、Slug或重定向；该差异必须在D17真实URL验收前决定和复核，现有受保护且`noindex`的TEST URL不进入Production 301登记。
+- D16 C6后续确认并由用户在Staging将商品固定链接从自定义`/shop/`切换为WooCommerce默认`/product/`；`/shop/`继续作为商品归档。该变更未修改PHP代码、Slug或商品数据。两个新TEST商品URL正常显示，旧`/shop/{slug}/`均自动跳至对应新URL；浏览器已确认发生跳转，但本轮未取得原始响应状态码，不能把它写成已验证301。
+- 用户随后在Local执行相同设置。WooCommerce 11.0.0保存“默认”时会把空选项规范化为实际`product`基础；刷新后界面因此回显为第四项“自定义基础链接`product/`”。Local与Staging该回显均属核心代码预期行为，最终商品URL一致为`/product/{slug}/`，无需重复修改。
+- 用户已授权在Staging安装Yoast 28.2；插件文件成功安装后，自动激活导航多次超时，最终由用户在后台手动激活成功。后续五页矩阵确认首页、商店、两个已发布Simple商品和真实404均只有1个Title并输出`noindex, nofollow`；受全站禁止索引影响，五页均无Canonical，Production自身Canonical仍须在对应环境规则下另行验收。
 - W1与W2周总结已分别整理到`project-docs/笔记/`，覆盖计划/实际对照、技术与人员验收差异、编辑反馈、缺陷、工时缺口、遗留风险及下一周交接；各日实际工时尚未完整记录，未用计划工时替代实际值。
 
 ## 进行中
 
 - W1：Cloudways Full Access已完成，继续复核账单状态和服务器持续可用性。
 - W1：从老板持有的闲置域名中选择具体域名，D4由老板提供DNS访问并完成映射。
-- D13人员验收补项：两名实际网站工作人员到岗后，分别使用独立Website Manager账号完成30分钟无指导试录；培训者预演不能替代该结论，但不阻塞当前D16商品SEO骨架。
-- D16：DentAll Core 0.2.3重复Title修复已在Local通过；下一步继续定义商品SEO标题、描述、Slug、Canonical及缺货/停售URL处理候选。Production重定向和索引配置保持不变。
+- D13人员验收补项：两名实际网站工作人员到岗后，分别使用独立Website Manager账号完成30分钟无指导试录；培训者预演不能替代该结论，但不阻塞D17代表商品SEO样本骨架。
+- D16：C1～C7已完成。Local与Staging商品URL统一为`/product/{slug}/`，Yoast 28.2已在两环境启用；Staging五页矩阵通过Title唯一性与全站`noindex, nofollow`边界。Production重定向、索引、Canonical、缓存和部署配置保持不变。
 - D10：定制商品默认展示、询价条件启用的最新方案已记录；当前无询价实施工时，真实询价商品出现后再确认角色、收件邮箱、隐私文案和SMTP。
 - D10：定制展示商品的参考价格范围和商品上下文Contact入口已确认；正式价格范围、按钮文案和联系收件人在实现前由业务方提供，不阻塞标准商品价格与库存骨架。
 
@@ -113,7 +123,7 @@
 
 - W2～W3不存在资料层面的整体阻塞；以下事项按最晚节点确认，未确认前使用明确标记的TEST数据验证骨架。
 - 正式商品分类名称、层级和商品归属由Website Manager根据业务内容维护，不再阻塞W2～W3骨架；设计稿入口与Solutions边界在相应前端/内容阶段按实际数据处理。
-- Website Manager技术能力矩阵已在Local与Staging验收：业务内容、媒体、评论/商品评价、商品、订单、优惠券、客户和报表可操作，用户、插件、主题、代码和WordPress系统管理保持关闭。内容级SEO插件兼容性与Site Kit共享面板留到插件按计划安装后验证；D25前不得直接使用Administrator或原生Shop Manager替代。
+- Website Manager技术能力矩阵已在Local与Staging验收：业务内容、媒体、评论/商品评价、商品、订单、优惠券、客户和报表可操作，用户、插件、主题、代码和WordPress系统管理保持关闭。Yoast高级元数据能力已由DentAll Core提供，Staging插件兼容和前台技术输出已通过；实际Website Manager SEO字段录入与持久化转D17代表样本验证。Site Kit共享面板仍待后续；D25前不得直接使用Administrator或原生Shop Manager替代。
 - SKU来源、格式、唯一性和日常责任规则已在D9形成候选；具体制造商货号公开许可及ADS/DentAll自有编号细节需在D17～D18正式样本验收前确认，未确认时仅在Local或受保护Staging使用TEST编号。
 - 合法变体组合、套装与单支关系、正式USD价格、库存和缺货策略不阻塞通用骨架；在对应商品实际录入或D17～D18正式样本验收时由业务方填充。真实样本不足会影响业务验收，不推翻骨架。
 - 图片/PDF公开授权、英文内容、技术参数和医疗/合规事实需由业务方确认；未确认内容不得正式发布。
@@ -124,7 +134,7 @@
 - Git远程为开发者个人私有GitHub仓库；D3只复核跟踪边界和密钥排除。
 - 正式Staging域名与DNS访问尚未确定；当前Cloudways临时域名可用于D6试录。
 - `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git使用只读Deploy Key连接GitHub，分支和`public_html/`路径已验证并完成首次部署。
-- 插件方向已冻结：ACF Pro负责必要结构化展示字段，Local已安装6.8.7但在D16冲突隔离后保持停用；Yoast SEO Free负责SEO元数据与技术SEO辅助，Local已安装并激活28.2且完成C2 Title唯一性验证；Site Kit by Google负责未来Production的Search Console、GA4和PageSpeed数据接入，仍待后续按计划安装与验证。
+- 插件方向已冻结：ACF Pro负责必要结构化展示字段，Local已安装6.8.7但在D16冲突隔离后保持停用；Yoast SEO Free负责SEO元数据与技术SEO辅助，Local与Staging均已安装并激活28.2，完成Title唯一性和Staging禁止索引边界验证；Site Kit by Google负责未来Production的Search Console、GA4和PageSpeed数据接入，仍待后续按计划安装与验证。
 - 多语言未来方案已冻结为WPML Multilingual CMS＋ACF Multilingual＋WPML SEO＋WooCommerce Multilingual & Multicurrency；第一版仍为英语、美元，暂不安装或实施多语言、多币种。
 - 支付方向暂定WooCommerce Stripe Gateway＋WooCommerce PayPal Payments＋WooCommerce原生BACS；公司主体、销售国家、账户审核、正式费率和收款负责人仍待确认，当前不连接真实支付。
 - 第一版测量架构已冻结为Site Kit＋GA4＋GTM＋Search Console：Site Kit部署唯一GA4标签并放置GTM容器，GTM不重复部署GA4；WooCommerce标准事件优先使用Site Kit转化跟踪，联系表单、资料下载及实际启用的条件功能通过`dataLayer`＋GTM补充。分析与关键转化事件已从Should提升为Must。
@@ -135,9 +145,9 @@
 
 ## 下一步三个验收结果
 
-1. D16明确商品SEO标题、Meta Description、Slug与Canonical的字段职责和Website Manager操作边界。
-2. 区分临时缺货与永久停售的URL、索引、替代商品和301候选流程，不直接删除或批量改Slug。
-3. 核对SEO账号权限、现有TEST商品URL和风险边界，继续保持Production重定向、索引、缓存及部署配置不变。
+1. D17由Website Manager录入5～10个代表商品，验证商品名称/H1、SEO Title、Meta Description和Slug的录入、保存与前台输出。
+2. 至少覆盖Simple与Variable，并按现有资料能力补当前缺货、可下载或永久停售场景；缺少真实业务输入时明确标记为“骨架可继续、真实内容尚不能验收”。
+3. 形成D18商品模型候选冻结输入；继续保持Production URL、Canonical、索引、301和缓存配置不变。
 
 ## 本周风险
 
@@ -166,6 +176,7 @@
 | W3 / D13 | 6小时50分钟 | 待用户记录 | 已完成（培训者预演与简单商品流程） | Website Manager引导预演和不到5分钟无提示复跑通过；促销、库存、Backorders、缺图及恢复通过，P0/P1为0；两名实际工作人员人员验收待补 |
 | W3 / D14 | 6小时50分钟 | 待用户记录 | 已完成（Local可变商品流程） | Website Manager完成Variable默认值、价格、库存、非法组合、物流继承/覆盖和购物车验证；父子重复库存P1修复并完成持久化读回，已执行范围P0/P1为0 |
 | W3 / D15 | 6小时50分钟 | 待用户记录 | 已完成（Local库存与物流字段） | 三层物流数据、Simple/Variable继承覆盖、数量/状态库存、临时缺货与恢复通过；45/45及独立23/23、17/17审计通过，正式物流输入仍待业务与承运商方向 |
+| W3 / D16 | 6小时50分钟 | 待用户记录 | 已完成（商品SEO规则与双环境边界） | 重复Title修复与Staging部署、字段职责、Slug/301/Canonical、缺货/停售生命周期、Yoast五页矩阵及`/product/`基线完成；Production未变更 |
 
 ## 更新规则
 

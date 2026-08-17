@@ -34,6 +34,9 @@
 - [ ] Backorders默认关闭；缺货商品不可加入购物车。经批准启用时，允许/通知状态、预计交期文案、购物车、结账、订单和邮件保持一致。
 - [ ] 固定整套按整套库存扣减；共享部件组装场景不会被误标为已有原生组件库存联动。
 - [ ] 临时缺货商品保留稳定URL并显示明确不可购买状态；停售商品不因库存变化被直接删除或擅自改变Slug。
+- [ ] 临时缺货页面保持200、可索引和自身Canonical，结构化数据为`OutOfStock`，恢复库存后购买控件和可用性一致恢复。
+- [ ] 永久停售严格替代301、保留200停售页、无替代404/410三条路径按业务事实选择；不把同分类或热门商品当作自动替代。
+- [ ] 保留200的停售页无购买入口、文案与Schema状态一致；若实现`Discontinued`映射，前台、WooCommerce、Yoast、Feed和结构化数据验证器结果一致。
 - [ ] Display Only不显示交易库存、数量、Backorder或低库存，也不能通过直接请求触发库存扣减。
 - [ ] 低库存阈值和通知只发送给已确认责任人；TEST库存不会进入正式商品或Production。
 - [ ] 产品规格尺寸与Shipping重量/长宽高分别维护；锆块直径、厚度等属性不会被误当成快递包装尺寸。
@@ -97,6 +100,9 @@
 
 - [ ] Sitemap、robots、Canonical、Schema和301。
 - [ ] 404返回真实404状态，不伪装200。
+- [ ] 已发布Slug迁移时，旧URL一跳301到最相关新URL，新URL返回200且只有一个自身Canonical。
+- [ ] 301不存在循环或重定向链；旧URL从Sitemap和主要内链移除，新URL未被意外`noindex`。
+- [ ] Canonical目标返回200、允许索引且内容重复/高度相似；Canonical不代替永久迁移301，也不指向不相关页面。
 - [ ] 缓存不影响购物车、结账、账户和登录状态。
 - [ ] 页面无明显PHP警告、控制台错误和敏感日志。
 - [ ] 表单具备nonce、权限、清洗、验证和转义。
@@ -186,13 +192,28 @@
 | 临时缺货 | Local #44 | 通过并恢复 | 数量0后保持发布、目录可见和原URL，前台显示Out of stock且无购买控件；恢复8后显示8 in stock并恢复加购 |
 | 永久停售候选 | 文档审查 | 通过 | 不删除、不改Slug、不改发布/目录可见性；替代商品、301、Canonical、索引与文案交由D16决定 |
 | 最终一致性 | Local | 通过 | 主审计45/45；独立Simple 23/23、Variable 17/17；最终父子库存、价格、组合、继承/覆盖和购物车基线一致 |
-| D16 C2 Title唯一性 | Local首页、商店、#44、#46、404 | 通过 | Yoast启用、停用和恢复后均为1个Title；恢复后正常页面1个Canonical、404无Canonical，状态码保持200/404 |
 
 - D15最终基线：#44数量8、`instock`、禁止Backorders；#46不管理父级数量；#51/#52/#53数量5/0/3且禁止Backorders；默认Variation为空；购物车0。
 - #52的`is_purchasable=true`只代表价格、发布状态等基础购买资格；它同时为`is_in_stock=false`、`outofstock`且禁止Backorders，结合D14前台证据确认实际不可购买。
 - 当前Local单位仍为`lbs/in`，但承运商、物流插件和真实单个销售包装样本均未确定；未验证单位换算、Shipping Class、体积重、计费重、地区、装箱和正式运费。
 - 本轮未创建订单，未验证库存扣减/预留/回补、结账、支付、税费、邮件、缓存或Production；未操作Staging、DNS、插件、代码或部署。
 - 独立Review结论为P0=0、开放P1=0、C6新增P2=0；保留既有安全P2：Website Manager高影响WooCommerce设置仍依赖流程控制，D25前纳入培训和综合验收。
+
+## D16商品SEO流程验收记录
+
+| 周期 | 环境/依据 | 结果 | 证据摘要 |
+|---|---|---|---|
+| C2 Title唯一性 | Local首页、商店、#44、#46、404 | 通过 | Yoast启用、停用和恢复后均为1个Title；恢复后正常页面1个Canonical、404无Canonical，状态码保持200/404 |
+| C4 URL流程 | 文档与WordPress 7.0.4核心核对 | 通过 | 已区分首次发布前修正、已发布永久迁移、重复页Canonical和无替代撤销；当前无真实301映射，未改任何环境URL或配置 |
+| C5 缺货/停售生命周期 | 文档、D15交接证据与WooCommerce 11.0.0核心核对 | 通过（骨架） | D15临时缺货测试仅作为前置证据；D16 C5已规定临时缺货保持200/原URL/自身Canonical，永久停售按严格替代301、保留200或真实404/必要410分流。无真实停售样本，`Discontinued`文案与Schema尚未验收 |
+| C6 Staging前置审计 | Staging后台与已发布TEST商品 | 部分通过 | WordPress 7.0.4、WooCommerce 11.0.0、DentAll Core 0.2.3和角色账号结构已核对；未安装Yoast，无法验收SEO字段界面/保存/输出。现有4个商品均为Simple TEST数据；已发布商品实际使用`/shop/{slug}/`，与候选`/product/{slug}/`不一致，需在D17真实URL验收前决定 |
+| C6 Yoast授权安装与矩阵补测 | Staging首页、商店、两个已发布Simple商品、真实404 | 通过（Staging边界） | Yoast 28.2由Administrator安装、用户手动激活；5页均只有1个Title且输出`noindex, nofollow`，无重复Title。全站禁止索引时5页均无Canonical，不能替代Production自身Canonical验收 |
+| C6 商品固定链接切换 | Staging商店、两个新商品URL、两个旧TEST URL | 通过（状态码待补） | 用户选择WooCommerce默认`/product/`；`/shop/`归档正常，两个`/product/{slug}/`商品页H1与单一Title正常并保持`noindex, nofollow`。旧`/shop/{slug}/`自动到达对应新URL；已确认发生跳转，未取得原始301/302状态码 |
+| C6 Local固定链接同步 | Local后台与WooCommerce 11.0.0核心实现 | 通过（配置） | 用户选择“默认”并保存；刷新后回显第四项`product/`是核心将空默认值规范化为实际产品基础后的预期表现，最终URL仍为`/product/{slug}/`。未操作Production |
+
+- C6初始阶段为只读审计；获得用户明确授权后，Administrator在Staging安装并由用户手动激活Yoast 28.2，用户将Staging与Local商品固定链接统一为`/product/{slug}/`。未操作Production，未升级WooCommerce、Breeze或其他插件，未改商品Slug、Canonical、robots、Sitemap、缓存或部署配置。
+- C6未发现已执行范围内的P0/P1缺陷；Local与Staging固定链接差异已关闭。旧Staging TEST商品路径已确认发生跳转，但原始响应状态码未取得，仍不得写成已验证301。
+- Staging Yoast五页矩阵已完成。D17仍需补Variable、当前缺货、可下载和真实永久停售代表样本，以及Website Manager真实SEO字段录入/持久化；两名实际工作人员无指导试录和Production Canonical验收仍待后续。TEST夹具不能替代真实业务内容。
 
 ## 缺陷等级
 
