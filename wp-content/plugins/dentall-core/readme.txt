@@ -2,16 +2,22 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.2.1
+Stable tag: 0.2.3
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
 
 == Description ==
 
-当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体和系统权限边界。
+当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.2.3 =
+* 修复Yoast启用时WordPress核心仍重复输出文档Title的问题；Yoast停用时保留核心Title。
+
+= 0.2.2 =
+* 按角色、媒体、商品治理和后台访问职责拆分内部模块，不改变现有功能与权限边界。
 
 = 0.2.1 =
 * 隐藏并拒绝Website Manager访问无业务功能的WordPress工具入口。
