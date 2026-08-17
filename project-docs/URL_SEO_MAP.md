@@ -6,6 +6,7 @@
 - Staging始终禁止索引，Production上线时再显式检查索引设置。
 - 筛选、排序、搜索和分页URL必须定义Canonical和索引策略。
 - SEO人员可编辑标题和描述，但不能随意修改Slug、分类层级和固定链接结构。
+- 每个HTML文档只能输出一个`<title>`。Local由Yoast负责SEO Title；DentAll Core仅在Yoast启用时移除WordPress核心重复的Block Template Title回调，Yoast停用后由WordPress核心回退输出，不把Title内容硬编码进主题或兼容模块。
 
 ## 第一版页面映射
 

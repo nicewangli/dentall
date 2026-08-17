@@ -186,6 +186,7 @@
 | 临时缺货 | Local #44 | 通过并恢复 | 数量0后保持发布、目录可见和原URL，前台显示Out of stock且无购买控件；恢复8后显示8 in stock并恢复加购 |
 | 永久停售候选 | 文档审查 | 通过 | 不删除、不改Slug、不改发布/目录可见性；替代商品、301、Canonical、索引与文案交由D16决定 |
 | 最终一致性 | Local | 通过 | 主审计45/45；独立Simple 23/23、Variable 17/17；最终父子库存、价格、组合、继承/覆盖和购物车基线一致 |
+| D16 C2 Title唯一性 | Local首页、商店、#44、#46、404 | 通过 | Yoast启用、停用和恢复后均为1个Title；恢复后正常页面1个Canonical、404无Canonical，状态码保持200/404 |
 
 - D15最终基线：#44数量8、`instock`、禁止Backorders；#46不管理父级数量；#51/#52/#53数量5/0/3且禁止Backorders；默认Variation为空；购物车0。
 - #52的`is_purchasable=true`只代表价格、发布状态等基础购买资格；它同时为`is_in_stock=false`、`outofstock`且禁止Backorders，结合D14前台证据确认实际不可购买。
