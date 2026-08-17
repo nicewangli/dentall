@@ -46,3 +46,4 @@
 | Day12 | [[Day12-双环境角色与商品原型验收]] | Website Manager角色版本5、Local商品原型、Staging运营权限与双环境验收 |
 | Day13 | [[Day13-真实编辑试录与简单商品流程]] | Website Manager培训者预演、独立复跑与简单商品发布字段候选 |
 | Day14 | [[Day14-可变商品与Variation流程]] | Variable父子职责、默认值、合法组合、库存与购物车Local验收 |
+| Day15 | [[Day15-库存与物流字段]] | 三层物流数据、Simple/Variable继承覆盖、库存模式、临时缺货与停售候选 |
