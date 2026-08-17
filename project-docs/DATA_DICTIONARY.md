@@ -212,6 +212,16 @@
 - D12未创建Display Only原型，不表示CR-005已完成；该模式仍待专用字段、前台购买区和Contact上下文实现后单独验收。
 - D12 TEST数值只证明字段与流程可承载，不冻结任何正式商品的名称、SKU、价格、库存、物流或合法Variation组合。
 
+### D14可变商品流程验收结论
+
+- Local父商品46继续使用父SKU `TEST-D12-VARIABLE-001`标识产品系列，但不管理数量库存；Variations 51～53各自维护唯一SKU、价格、库存数量和Backorders，避免父子出现两个库存真相源。
+- D14启动检查发现父商品被误启用数量库存1，而三个Variations仍分别管理库存；该P1数据一致性问题已通过Website Manager取消父级数量库存并保存关闭。
+- Size与Shade均为全局属性、在产品页可见且用于Variation；2×2理论组合只创建Small/Light、Small/Medium和Large/Light三个合法组合，Large/Medium不出现在可选集合中。
+- 默认Variation临时设置为有货的Small/Light后，前台自动显示39.99、库存5及正确图片并允许加购；测试结束后恢复无默认，要求客户主动完成选择。
+- Small/Medium库存0且禁止Backorders，前台显示Out of stock并禁用加购；Large/Light以49.99、库存3成功加入购物车，行项目属性和金额正确，测试后购物车已清空。
+- #51与#52使用父级有效物流2 lb、8×8×3 in，#53覆盖为2.5 lb、9×9×4 in。D14仅验证继承/覆盖机制，不将TEST数值或当前`lbs/in`配置冻结为Production物流标准。
+- D14结论仍是D18前候选；真实合法组合、父/变体SKU、USD价格、库存和物流数据由业务方在实际商品录入或D17～D18样本验收时确认。
+
 ## SKU规则v1候选
 
 ### 标识职责
