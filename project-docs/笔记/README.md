@@ -48,3 +48,4 @@
 | Day14 | [[Day14-可变商品与Variation流程]] | Variable父子职责、默认值、合法组合、库存与购物车Local验收 |
 | Day15 | [[Day15-库存与物流字段]] | 三层物流数据、Simple/Variable继承覆盖、库存模式、临时缺货与停售候选 |
 | Day16 | [[Day16-商品SEO规则]] | Title唯一性、SEO字段职责、Slug/Canonical/301、缺货停售URL生命周期与双环境边界 |
+| Day17 | [[Day17-代表商品录入与SEO验收]] | 5个累计代表样本、Simple/Variable、缺货Variation、多图、Yoast输出与D18冻结输入 |

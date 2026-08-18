@@ -236,6 +236,16 @@
 - C6主审计45/45通过；独立测试Agent重跑Simple 23/23和Variable 17/17通过。最终#44数量8；#46不管理父级数量；#51/#52/#53分别为5/0/3且禁止Backorders；默认Variation为空，购物车为0。
 - D15结论仍是D18前候选。正式重量尺寸、库存、盘点和停售事实由业务方负责；开发者负责字段职责、继承、状态、URL与交易一致性。
 
+### D17代表商品样本验收结论
+
+- D17累计形成5个Staging代表样本：既有已发布Simple #32、#35补全Yoast字段；新建Simple草稿#45、Variable草稿#47和多图Simple草稿#52。计数口径是“5个完整代表样本”，不是“D17新建5个商品”。
+- #47验证了Variable父子职责：父商品使用系列级TEST SKU且不管理数量库存；3个Variations各自维护唯一TEST SKU、Regular price、数量、Backorders和物流继承/覆盖。2×2理论组合只创建3个合法组合，未建立的B/B不进入可选集合。
+- 缺货只由#47的A/B TEST Variation验证：数量0、禁止Backorders、前台显示`Out of stock`且加购按钮不可用；父商品URL和其他合法Variation保持不变。它证明临时缺货机制，不证明真实商品永久停售。
+- #52验证1张主图加3张图库及Alt的保存与前台输出；#45验证Simple单图。正式图片授权、文件名和描述仍由业务方确认，TEST媒体不得直接转正式内容。
+- 5个样本均验证名称/H1、Slug、SKU、价格/库存、分类、SEO Title和Meta Description的保存与前台输出。Staging全站`noindex, nofollow`且无Canonical属于环境边界，不能替代Production索引和Canonical验收。
+- D18候选冻结输入：继续使用WooCommerce原生Simple与Variable；购买选择通过Global Attributes与Variations表达；父子SKU、合法组合、库存真相源和物流继承/覆盖按现有规则冻结候选。`TEST Size A/B`、`TEST Shade A/B`、TEST价格、库存、物流和文案只保留为夹具，不冻结为正式业务值。
+- 真实促销、可下载资料、永久停售、正式SKU来源、合法组合、价格库存、物流数值和素材授权缺少可信业务输入；通用骨架可继续，真实内容尚不能验收。不因样本缺口新增ACF、Schema、自动重定向或新插件。
+
 ## SKU规则v1候选
 
 ### 标识职责
@@ -264,7 +274,7 @@
 - `DentAll Website Manager`负责日常创建、重复检查和维护商品及变体SKU，开发者不参与逐个编号。批量导入、批量改号、历史数据迁移或系统校验异常才升级给开发者。
 - Local或受保护Staging上的流程测试商品使用明确的`TEST-`前缀SKU；不得为了通过发布检查给正式商品编造临时SKU。
 - `display_only`展示商品是否必须具有SKU，留到CR-005销售模式实现与验收时单独决定，不用该例外放宽标准可购买商品规则。
-- 正式样本进入D17～D18前仍需由业务方确认制造商货号是否允许公开，并形成DentAll自有SKU的最小编号规则；D12 TEST原型不依赖该确认。
+- 正式样本进入D18候选冻结或正式发布前仍需由业务方确认制造商货号是否允许公开，并形成DentAll自有SKU的最小编号规则；D12与D17 TEST原型不依赖该确认。
 
 ## 品牌数据治理v1候选
 

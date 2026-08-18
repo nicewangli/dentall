@@ -213,7 +213,24 @@
 
 - C6初始阶段为只读审计；获得用户明确授权后，Administrator在Staging安装并由用户手动激活Yoast 28.2，用户将Staging与Local商品固定链接统一为`/product/{slug}/`。未操作Production，未升级WooCommerce、Breeze或其他插件，未改商品Slug、Canonical、robots、Sitemap、缓存或部署配置。
 - C6未发现已执行范围内的P0/P1缺陷；Local与Staging固定链接差异已关闭。旧Staging TEST商品路径已确认发生跳转，但原始响应状态码未取得，仍不得写成已验证301。
-- Staging Yoast五页矩阵已完成。D17仍需补Variable、当前缺货、可下载和真实永久停售代表样本，以及Website Manager真实SEO字段录入/持久化；两名实际工作人员无指导试录和Production Canonical验收仍待后续。TEST夹具不能替代真实业务内容。
+- D16收口时的D17前置缺口为Variable、当前缺货、可下载、真实永久停售及Website Manager SEO字段持久化。D17已补Variable、TEST缺货Variation和SEO字段持久化；可下载、真实永久停售、两名实际工作人员无指导试录及Production Canonical仍待后续。TEST夹具不能替代真实业务内容。
+
+## D17代表商品与SEO骨架验收记录
+
+| 范围 | 环境 | 结果 | 证据摘要 |
+|---|---|---|---|
+| 5个代表样本 | Staging | 通过（骨架） | #32、#35为既有已发布Simple并补全Yoast字段；D17新建Simple草稿#45、Variable草稿#47和多图Simple草稿#52。累计5个完整样本，不是D17新建5个 |
+| Simple字段与SEO | Staging #32/#35/#45/#52 | 通过（TEST） | 名称/H1、Slug、唯一TEST SKU、价格库存、分类、长短描述、主图及Yoast Title/Description保存与输出符合预期；#52另验证1张主图和3张图库 |
+| Variable父子模型 | Staging #47/#48～#50 | 通过（TEST） | 父商品不管理数量库存；3个Variations各自维护唯一SKU、价格、数量和Backorders；A/A 39.99库存5，A/B 39.99库存0，B/A 49.99库存3 |
+| 缺货与非法组合 | Staging #47 | 通过（TEST） | A/B显示Out of stock且加购不可用；B/B未建立并从Size B的Shade选项中省略；父商品与其他合法组合保持可用 |
+| 物流继承与覆盖 | Staging #47 | 通过（TEST） | A/A、A/B继承父级2 lb、8×8×3 in；B/A覆盖2.5 lb、9×9×4 in；仅证明机制，不冻结Production单位或数值 |
+| SEO与环境边界 | Staging 5样本 | 通过（Staging边界） | 单一Title/H1、Meta Description及`noindex, nofollow`符合预期；全站禁止索引时无Canonical，不能替代Production验收 |
+| 发布与草稿隐私 | Staging | 通过 | 已发布#32/#35匿名请求200；草稿#45/#47/#52登录态预览正常、匿名请求404 |
+| 独立回归 | Staging与既有证据 | 通过 | 主回归与独立测试Agent结论P0=0、P1=0、P2=0、P3=0；用户手动核对3个合法组合和1个非法组合，未执行加购 |
+
+- 未覆盖：可下载商品、真实永久停售、真实业务促销、Production Canonical/索引/301、缓存、四端响应式视觉和两名实际工作人员无指导试录。它们分别等待可信资料或后续里程碑，不影响当前商品骨架继续，但真实内容尚不能验收。
+- #31空壳草稿和#39历史不完整草稿未进入代表矩阵，D17未删除或修复；D18登记归档/清理候选，D25前决定TEST对象去留。
+- 本轮未创建订单、未点击加购、未进入结账，未修改Production、插件、代码、数据库结构、固定链接、Canonical、robots、Sitemap、301、缓存、支付、税费、物流或部署。
 
 ## 缺陷等级
 

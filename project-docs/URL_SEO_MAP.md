@@ -151,6 +151,15 @@
 - D16 C5冻结临时缺货与永久停售URL生命周期；未改变现有TEST商品库存、发布、目录、索引或URL状态。
 - D16 C6最初只读审计未改URL；用户随后明确执行Staging产品基础切换。现有Staging TEST商品受密码保护且站点`noindex`，旧`/shop/{slug}/`不登记为Production 301资产。旧TEST URL会自动到达新`/product/{slug}/`，但本轮只验证跳转结果、未取得原始301/302状态码；Production真实迁移仍必须单独验证状态码。Staging全站`noindex`时Yoast不输出Canonical，Production自身Canonical另验。
 
+### D17代表商品SEO输出验收
+
+- 5个Staging代表样本均使用`/product/{slug}/`；D17没有修改既有已发布商品Slug、固定链接结构、Canonical、robots、Sitemap或重定向。
+- Website Manager完成5个样本的SEO Title与Meta Description保存；前台/预览抽查确认单一Title、单一H1和Meta Description输出。已发布#32、#35的公开TEST URL保持不变并返回200。
+- 草稿#45、#47、#52在登录态可预览，匿名请求返回404；草稿预览证据不能表述为已发布URL或Production SEO资产。
+- Staging继续全站输出`noindex, nofollow`，Yoast在该边界下不输出Canonical。D17只验证字段持久化和受保护环境输出，不能证明Production可索引、自身Canonical、Sitemap或缓存已正确。
+- 当前Production重定向登记仍为空。旧Staging `/shop/{slug}/`只确认可到达新URL，仍未取得原始301/302状态码，不登记为Production 301资产。
+- #47的缺货Variation不产生独立URL、Canonical或重定向；父商品URL保持不变。真实永久停售仍需按D16的301/200/404/必要410流程取得业务事实后另行验收。
+
 ## 上线前SEO检查
 
 - 已确认项目不存在旧站，无历史URL导出和迁移任务。
