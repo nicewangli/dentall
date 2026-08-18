@@ -232,6 +232,41 @@
 - #31空壳草稿和#39历史不完整草稿未进入代表矩阵，D17未删除或修复；D18登记归档/清理候选，D25前决定TEST对象去留。
 - 本轮未创建订单、未点击加购、未进入结账，未修改Production、插件、代码、数据库结构、固定链接、Canonical、robots、Sitemap、301、缓存、支付、税费、物流或部署。
 
+## D18 C5 Local商品CSV导出验收记录
+
+| 范围 | 环境 | 结果 | 证据摘要 |
+|---|---|---|---|
+| Website Manager商品导出权限 | Local | 修复后通过 | DentAll Core 0.2.5仅在商品列表、商品导出页、对应AJAX和下载请求临时满足`export`；角色数据库不持久化该能力 |
+| 负向权限 | Local | 通过 | WordPress原生`/wp-admin/export.php`真实页面仍拒绝；用户与插件管理继续拒绝；能力边界审计7/7通过 |
+| 原生CSV生成 | Local | 通过 | Website Manager从商品列表进入WooCommerce原生导出页，保持全部核心列、全部类型和全部分类，未勾选自定义元数据，成功下载2590字节CSV |
+| 对象与唯一性 | Local | 通过 | 49列、5行；ID为44、46、51、52、53，ID与SKU均唯一；Simple、Variable及3个Variations齐全 |
+| 父子与业务字段 | Local | 通过 | 支持重复表头的按列位置解析完成98项断言，父SKU关系、价格、库存、缺货、Backorders、属性、物流继承空值/覆盖和图片均与CRUD审计一致 |
+| 独立回归 | Local | 通过 | C5 7/7、C4 15/15、Simple 23/23、Variable 17/17、D18 C2 8/8均PASS；角色版本6、插件0.2.5、临时SKU无残留 |
+| 中文CSV表头 | Local | P2，延期到D25 | Upsells与Cross-sells都翻译为“交叉销售”，标准PowerShell `Import-Csv`因重复成员拒绝解析；按列位置解析数据正常，但开放批量回导前必须完成英文导出、表头规范化或隔离回导验证 |
+
+- CSV SHA-256：`9679D3E4E063C4CF3B568E1F8D18E1254039CD8F09AC1C788D6DFCBAF0DBFC86`。文件只保存在本机下载目录，不进入Git。
+- 默认核心CSV没有Yoast、`wpseo`或其他自定义Meta列；图片均为`http://dentall.local`绝对URL。因此本文件不是完整SEO备份、uploads备份或可直接跨环境导入包。
+- C5没有执行CSV回导、Staging/Production导出、媒体迁移、商品删除或TEST对象状态变化；这些边界分别留给C6和D25。
+
+## D18 C6 Staging同步与综合复核记录
+
+| 范围 | 环境 | 结果 | 证据摘要 |
+|---|---|---|---|
+| 部署边界 | Git / Cloudways Staging | 通过 | `main`提交`b1faac2`只包含DentAll Core两个源码文件；`deploy/staging`提交`e9e21c4`相对0.2.3只修改相同两个文件，Cloudways Fetch/Pull成功。未同步数据库、uploads、第三方插件、测试CSV或项目文档 |
+| 部署前回归 | Local | 通过 | PHP语法3项通过；C5权限7/7、C4角色与保存15/15、Simple 23/23、Variable 17/17、D18父子SKU 8/8均PASS。已知LocalWP CLI `php_imagick.dll`启动警告不影响GD、MySQL或本次审计 |
+| Website Manager身份与系统边界 | Staging / XuDan | 通过 | 后台确认账号为Xu, Dan；用户、插件、主题、Tools和WordPress系统设置入口均未开放 |
+| Yoast高级字段 | Staging #47 | 通过 | 商品编辑页显示Yoast Advanced、搜索引擎显示、链接跟随、高级Meta Robots、面包屑标题及Canonical字段；全站`noindex`警告符合受保护Staging预期 |
+| 原始自定义字段面板 | Staging #47 | 通过 | “显示选项”没有Custom Fields，商品页面也没有原始自定义字段面板；本轮未修改或保存商品字段 |
+| 商品导出权限 | Staging | 通过 | 商品列表显示“导出”，原生商品导出页可访问并完成CSV下载；直接访问`/wp-admin/export.php`仍被拒绝，证明未开放WordPress全站内容导出 |
+| CSV结构与对象 | Staging | 通过 | 文件6312字节、49列、10行；ID为31、32、35、39、45、47、48、49、50、52，ID唯一且非空SKU唯一；6个Simple、1个Variable及3个Variations齐全 |
+| 父子与业务字段 | Staging | 通过 | 39/39项按列断言通过：父SKU关系、价格39.99/39.99/49.99、库存5/0/3、有货状态1/0/1、Backorders关闭、Size/Shade三个合法组合、B/B非法组合缺失、两项物流继承空值、一项2.5 lb及9×9×4 in覆盖和Staging图片URL均符合D17基线 |
+| 中文CSV表头 | Staging | P2，延期到D25 | 与Local一致，Upsells与Cross-sells均翻译为“交叉销售”；只读导出和按列验证正常，但Website Manager不得直接批量回导，开发者在D25前完成英文导出、表头规范化或隔离回导验证 |
+| 独立Review | Local差异与C6证据 | 通过 | Code Review最终P0～P3均为0；安全复核发现角色权限普通代码回滚不能撤权的P2，补充RUNBOOK的版本化撤权规则后关闭，最终P0～P3均为0；测试Agent仅保留既有中文CSV表头P2 |
+
+- Staging CSV SHA-256：`537CCCB2B9E2C4ADCB2FD06EF83806A390552AD5BB9FD6E9AB01C3C59A0F8D90`。文件只保存在本机下载目录，不进入Git。
+- 本轮没有勾选“导出自定义元数据”，CSV没有Yoast或其他`Meta:`列；因此仍不能代替Yoast元数据、数据库或uploads备份与恢复演练。
+- C6同步了插件代码并由角色版本6触发Website Manager白名单同步；没有修改商品内容、URL、Slug、Canonical、robots、Sitemap、301、缓存、支付、税费、物流配置或Production。高级SEO能力属于数据库角色数据，撤权路径见`RUNBOOK.md`。
+
 ## 缺陷等级
 
 - P0：支付错误、数据丢失、安全漏洞、生产不可用。

@@ -54,6 +54,13 @@
 6. 清理全部缓存并重新验证关键流程。
 7. 记录根因、影响订单、处理人和后续修复计划。
 
+### 角色权限变更的回滚规则
+
+- DentAll Core的角色能力会写入WordPress数据库。仅回滚PHP文件或降低`DENTALL_CORE_ROLE_VERSION`，不能可靠撤销已经授予的能力；旧代码白名单仍包含该能力时还会再次授予。
+- 若发布后需要撤销Website Manager的某项能力，必须从角色白名单移除该能力，并把`DENTALL_CORE_ROLE_VERSION`提升到新的、单调递增的版本，再按正常部署与角色审计流程发布。禁止通过把角色版本号从`6`降回`5`完成撤权。
+- 紧急止血必须临时从角色对象移除能力，而不是使用只会处理用户直授权的`wp cap remove`。经过审核的WP-CLI可执行`wp eval "get_role( 'dentall_website_manager' )->remove_cap( 'wpseo_edit_advanced_metadata' );"`，随后立即以目标Website Manager账号确认`current_user_can( 'wpseo_edit_advanced_metadata' )`为`false`，并复测其他白名单能力未丢失。同一发布窗口内仍必须补上版本化白名单修复；插件重新激活或角色再次同步前，不得把这项临时撤权视为永久完成。
+- D18 C6若需撤销`wpseo_edit_advanced_metadata`，回滚包应基于当前稳定代码创建新版本：从Website Manager白名单移除该能力、提升插件及角色版本、运行角色与越权审计后再部署；普通`0.2.3`代码回滚只用于撤销界面隐藏和商品导出逻辑，不承担高级SEO撤权。
+
 ## 常见故障检查顺序
 
 ### 白屏/500
