@@ -37,7 +37,7 @@
 
 | 页面类型 | URL草案 | 索引 | Canonical | 备注 |
 |---|---|---:|---|---|
-| 首页 | `/` | 是 | 自身 | 组织/网站Schema |
+| 首页 | `/` | 是 | 自身 | ADR-022：静态Page `Home`；当前为空白结构页，正式内容与组织/网站Schema后续完成 |
 | 商店 | `/shop/` | 是 | 自身 | 商品归档 |
 | 商品分类 | `/product-category/{slug}/` | 是 | 自身 | 分类描述避免重复 |
 | 商品详情 | `/product/{slug}/` | 是 | 自身 | Product Schema |
@@ -48,8 +48,12 @@
 | 购物车 | `/cart/` | 否 | 自身 | noindex |
 | 结账 | `/checkout/` | 否 | 自身 | noindex |
 | 我的账户 | `/my-account/` | 否 | 自身 | noindex |
-| 博客 | `/blog/` | 是 | 自身 | 列表分页策略待确认 |
-| 文章 | `/blog/{slug}/`或待定 | 是 | 自身 | 发布前冻结结构 |
+| 博客 | `/blog/` | 是 | 自身 | ADR-022：Page `Blog`被指定为文章页；WordPress自动输出文章归档，正式列表UI与分页策略后续完成 |
+| 文章 | `/blog/{slug}/` | 是 | 自身 | ADR-021已冻结；不嵌入分类，D25后变更必须登记301、Canonical、Sitemap和内链影响 |
+| 文章分类归档 | `/blog/category/{slug}/` | 满足内容门槛后是 | 自身 | 主归档维度；正式名称/Slug、多篇文章和独立说明后索引，TEST/空/薄弱分类不得进入Production |
+| 文章标签归档 | `/blog/tag/{slug}/` | 否 | 无/按Yoast输出复核 | 保留标签能力但统一`noindex`并从Yoast Sitemap排除；不得批量制造近义标签 |
+| 作者归档 | `/blog/author/{slug}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；后台保留两名Website Manager真实审计身份，前台统一署名`DentAll Editorial Team` |
+| 日期归档 | `/blog/{year}/{month}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；文章仍保留真实发布日期和修改日期 |
 | Solutions | 待确认 | 是 | 自身 | Page/CPT方案决定URL |
 | About | `/about-us/` | 是 | 自身 | Slug待确认 |
 | Contact | `/contact-us/` | 是 | 自身 | 联系方式和组织信息一致；`?product_id={ID}`只预填定制商品上下文，Canonical仍为无参数URL，不生成重复索引页 |

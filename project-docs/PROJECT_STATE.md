@@ -4,8 +4,8 @@
 
 ## 状态快照
 
-- 更新日期：2026-08-18。
-- 当前阶段：W3 / D18已完成；C1～C7完成结构矩阵、Variable父子复核、Website Manager字段/权限/真实保存、WooCommerce原生CSV导出、TEST对象去留候选、Staging综合复核及跨文档收口。M2商品模型候选冻结通过，下一工作日为D19。
+- 更新日期：2026-08-19。
+- 当前阶段：W4 / D19已完成，下一检查点为D20；项目采用结果驱动口径，完成速度快于计划时可继续推进，不要求凑满计划工时。D1～D18历史有效工时未记录，但不影响已有检查点的技术验收。D19已冻结并验证博客固定链接、Home/Blog路由、分类/标签/作者/日期归档治理、Yoast基础模板和Website Manager文章边界；统一公开署名与作者Schema转D87文章详情实现，不属于D19临时主题配置。M2仍限定为“商品模型TEST机制与技术职责候选通过”，不能扩写成正式内容、实际人员、正式前端或整体商城验收通过。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；两名实际网站工作人员仍需在到岗后分别补30分钟无指导试录，完成M1人员验收。D17商品样本骨架通过，D18 M2商品模型候选冻结通过，真实业务内容尚未验收；D24完成内容样本，D25综合验收后才开放批量录入。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
@@ -121,6 +121,24 @@
 - 2026-08-19开发者本人在受保护Staging完成D18引导式个人复演：重新解释并验证Website Manager权限、Variable #47父子职责、三个合法组合、缺货/异价/非法组合、购物车、Yoast字段与Canonical默认留空；另以Website Manager创建Simple草稿#58，完整走通主图#59、图库#60、分类、品牌、SKU、价格、库存、物流、全局Size属性、描述、SEO和前台预览。Local与Staging均确认完整WooCommerce运营权限属于ADR-015的有意设计，WordPress插件、主题、用户、代码和系统管理仍关闭。商品CSV导出页可访问，CSV与图片、订单客户、全站设置、代码和恢复测试的边界已补讲并由用户确认理解。#58/#59/#60为未发布TEST对象，D25前决定保留或清理；本次不代表两名实际工作人员无指导验收。
 - 用户随后在Local执行相同设置。WooCommerce 11.0.0保存“默认”时会把空选项规范化为实际`product`基础；刷新后界面因此回显为第四项“自定义基础链接`product/`”。Local与Staging该回显均属核心代码预期行为，最终商品URL一致为`/product/{slug}/`，无需重复修改。
 - 用户已授权在Staging安装Yoast 28.2；插件文件成功安装后，自动激活导航多次超时，最终由用户在后台手动激活成功。后续五页矩阵确认首页、商店、两个已发布Simple商品和真实404均只有1个Title并输出`noindex, nofollow`；受全站禁止索引影响，五页均无Canonical，Production自身Canonical仍须在对应环境规则下另行验收。
+- D19 C1只读盘点确认Staging现有4篇文章（2篇发布、2篇草稿）、2个文章分类、1个TEST标签及多个默认/TEST作者身份；文章固定链接当前为`/%postname%/`，首页显示最新文章，尚无独立博客页。Yoast当前让文章、分类、标签和作者归档可索引，日期归档启用但`noindex`；本次盘点没有修改数据库、Slug、固定链接或SEO配置。
+- D19 C2已接受并修订ADR-017：文章范围限于DentAll工厂、公司、产品与服务相关信息，正式文章前台统一署名`DentAll Editorial Team`；两名Website Manager继续使用各自独立账号直接编写和发布，后台`post_author`与修订记录保留实际操作者。团队为1名开发者＋2名网站人员，第一版明确不新增品牌作者账号或新角色，也不把两名后台显示名改成同名。作者归档开关持久化、301回首页和作者Sitemap缺席均已验证；当前Yoast `Article` Schema仍输出实际后台账号为`Person`作者，公开署名与Schema统一转D87文章详情实现和验收。
+- D19已接受ADR-018并完成Staging复核：日期归档关闭，`/blog/2026/08/`已验证301到首页；文章仍保留真实发布日期和修改日期，不改变文章详情URL。Production robots、Canonical、状态码与缓存另验。
+- D19已接受ADR-019并完成Staging复核：WordPress标签能力与现有`test-d12-manager` TEST标签继续保留，标签归档为`noindex, follow`且已从Yoast XML Sitemap排除；D25再决定TEST标签去留，Production结果另验。
+- D19已接受ADR-020并完成Staging信息架构复核：分类URL、SEO标题模板与`category-sitemap.xml`均符合规则。只有正式名称/Slug、多篇相关文章和独立说明的分类才满足Production索引门槛；现有`TEST D12 Content`与`Uncategorized`仍是D24/D25内容治理对象，Production索引和Canonical另验。
+- D19已接受ADR-021并完成Staging复核：文章详情标准URL冻结为`/blog/{slug}/`，已发布文章、草稿预览、文章Sitemap及分类/标签实际路径均已抽查。页面和`/product/{slug}/`商品不变；现有TEST旧地址没有Production历史资产，不补无意义301，Production SEO与缓存另验。
+- D19文章URL路由人工验证通过：用户确认已发布TEST文章的新`/blog/{slug}/`可正常访问，移除`/blog/`后的旧根路径显示404，草稿#36使用WordPress查询参数预览URL`/?p=36&preview=true`正常预览；预览地址没有`/blog/`属于预期。现有TEST旧地址没有Production历史资产，不补无意义301；原始HTTP状态码、Canonical、Sitemap和Production输出仍待复核。
+- D19 Yoast Sitemap Index截图复核通过类型矩阵：共6项，包含`post`、`page`、`product`、`category`、`product_brand`和`product_cat`；没有`author-sitemap.xml`与`post_tag-sitemap.xml`，证明作者与标签Sitemap已排除，`category-sitemap.xml`保留符合分类主归档规则。日期归档没有独立Yoast Sitemap，其缺席不能单独验证开关；`post-sitemap.xml`内文章URL、页面级robots/Canonical、作者/日期归档URL和Production输出仍待复核。
+- D19 `post-sitemap.xml`截图复核通过：共3个URL，包含首页`/`和两篇已发布TEST文章；两篇文章均为`/blog/{slug}/`，两篇草稿未进入Sitemap。首页仍因阅读设置“您的最新文章”而兼任文章归档，因此出现在文章Sitemap；独立`/blog/`归档与静态商城首页尚未建立，页面级Canonical、原始状态码和Production输出仍待复核。
+- D19用户已发布空白原生结构页`Home`与`Blog`，页面列表截图确认两页均为已发布；未新增角色/账号、正式内容、区块、特色图或SEO高级值。Slug与“静态首页/文章页”映射尚未保存验证，因此当前首页仍按原阅读设置处理。
+- D19已接受并实施ADR-022：用户在受保护Staging把阅读设置改为“一个静态页面”，主页指定`Home`、文章页指定`Blog`，并保持全站禁止索引。用户人工确认`/`显示静态Home占位、`/blog/`显示已发布文章、`/blog/{slug}/`详情继续正常，三层路由通过；两页仍是空白结构页，不代表首页内容、博客UI、分页或Production SEO完成。
+- D19无痕窗口复核`post-sitemap.xml`确认3个URL均正确：`/blog/`文章归档和两篇`/blog/{slug}/`已发布文章；旧首页`/`已不在Post Sitemap。Yoast 28.2会把`page_for_posts`作为Post归档加入Post Sitemap，并从Page Sitemap排除该Page，因此`/blog/`保留在Post Sitemap是预期行为，不是缓存。Codex此前预期Post Sitemap只剩2篇文章且`/blog/`进入Page Sitemap的判断已纠正；下一步Page Sitemap应包含静态首页`/`但不重复列`/blog/`。
+- D19 `page-sitemap.xml`截图确认首页`/`存在且`/blog/`未重复，Home/Blog Sitemap归类通过；同时发现P1 SEO配置缺口：`/cart/`、`/checkout/`、`/my-account/`仍进入Page Sitemap，应保留WooCommerce页面但逐页设置`noindex`并验证从Sitemap移除。`/shop/`应继续索引；`/sample-page/`和D12 TEST页面转D25清理/去留，不在本轮直接删除。
+- D19用户已将Cart、Checkout和My Account逐页设为Yoast `noindex`；刷新后的Page Sitemap从7项降为4项，只保留首页、Sample Page、Shop和D12 TEST页面，P1 SEO配置缺口关闭。三张WooCommerce必需页面未删除；Sample Page与D12 TEST页面仍转D25清理/去留。
+- D19只读HTTP验证：首页、`/blog/`、Cart和My Account为200；空购物车下Checkout 302到Cart后200。响应均有HTTP `X-Robots-Tag: noindex, nofollow`与Meta robots `noindex, nofollow`，且无Canonical，符合Staging全站禁止索引边界；Production自身Canonical仍未验。
+- D19确认`/blog/%postname%/`的WordPress前段会作用于文章相关归档：正确URL为`/blog/category/{slug}/`、`/blog/tag/{slug}/`、`/blog/author/{slug}/`及`/blog/{year}/{month}/`，不是此前假设的根路径`/category/`、`/tag/`。TEST分类/标签正确URL均200；标签为Yoast `noindex, follow`且无Sitemap；两个已有发布作者归档均301到首页；日期归档`/blog/2026/08/`亦301到首页。分类标题已移除“归档”变量；分类索引与Canonical受Staging全站`noindex`影响，Production另验。
+- D19两篇已发布TEST文章REST抽查确认后台作者分别保留实际账号，Yoast输出`Article` Schema；当前Schema作者仍是实际账号对应的`Person`，与ADR-017统一公开署名目标尚有实现差距。该差距不改变后台审计账号，已转D87文章详情模板与SEO输出验收，不在D19增加品牌账号、角色或修改Storefront/Yoast核心文件。
+- D19“博客信息架构v1”验收通过，P0=0、P1=0：冻结并验证原生Post/Category/Tag内容模型、静态首页与独立博客归档、文章/分类/标签URL、分类主归档、标签`noindex`、作者/日期归档关闭、Website Manager文章职责和Yoast Sitemap归类。D24真实内容、D25 TEST对象清理、D87公开署名/作者Schema及Production SEO均为已登记后续项，不阻塞D19完成。
 - W1与W2周总结已分别整理到`project-docs/笔记/`，覆盖计划/实际对照、技术与人员验收差异、编辑反馈、缺陷、工时缺口、遗留风险及下一周交接；各日实际工时尚未完整记录，未用计划工时替代实际值。
 
 ## 进行中
@@ -128,7 +146,6 @@
 - W1：Cloudways Full Access已完成，继续复核账单状态和服务器持续可用性。
 - W1：从老板持有的闲置域名中选择具体域名，D4由老板提供DNS访问并完成映射。
 - D13人员验收补项：两名实际网站工作人员到岗后，分别使用独立Website Manager账号完成30分钟无指导试录；培训者预演不能替代该结论，但不阻塞D17代表商品SEO样本骨架。
-- D19待启动：先只读盘点现有文章、分类、标签、作者与URL，再拆解博客信息架构和治理规则；按每日规则等待用户确认D19方案后才实施。
 - D10：定制商品默认展示、询价条件启用的最新方案已记录；当前无询价实施工时，真实询价商品出现后再确认角色、收件邮箱、隐私文案和SMTP。
 - D10：定制展示商品的参考价格范围和商品上下文Contact入口已确认；正式价格范围、按钮文案和联系收件人在实现前由业务方提供，不阻塞标准商品价格与库存骨架。
 
@@ -158,9 +175,9 @@
 
 ## 下一步三个验收结果
 
-1. D19只读盘点WordPress现有文章、分类、标签、作者、Slug与URL状态，区分通用博客骨架和逐篇业务内容。
-2. 形成博客分类、标签、作者归属、重复项处理、权限与SEO索引候选规则；未经确认不写数据库或改URL。
-3. 明确D20文章模板输入和D25前CSV重复表头处置节点；继续保持商品模型、Production、支付、物流与缓存不变。
+1. 用户明确开始D20时，先只读讲清文章录入模板目标、最多3个验收结果、7个专注周期、边界与风险，并等待用户确认后再实施。
+2. D20冻结标题、摘要、正文、特色图、内链和内容级SEO录入规范，再用长文、草稿、预览和修订场景验证；不在确认前录入正式业务内容。
+3. 两名实际网站工作人员到岗后分别补30分钟无指导试录；D25前关闭商品CSV回导/恢复P2，并决定Staging TEST对象（含#58/#59/#60）以及文章/页面TEST对象去留。
 
 ## 本周风险
 
