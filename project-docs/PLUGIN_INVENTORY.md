@@ -37,7 +37,7 @@
 - WooCommerce标准电商事件优先采用Site Kit原生插件转化跟踪；联系表单、资料下载和实际启用的条件功能通过项目`dataLayer`事件与GTM补充，避免再安装职责重叠的GA4电商跟踪插件。询价事件仅在CR-004进入实施时增加。
 - 受Cloudways Password Protection保护且设置`noindex`的Staging不连接正式Search Console和GA4，不产生正式业务统计；Production上线准备阶段再由公司Google账户完成连接。
 - 面向EEA、瑞士或英国用户时启用Site Kit Consent Mode，并配套WP Consent API与经确认的CMP；销售地区和隐私要求未确认前不提前安装CMP。
-- SEO人员可使用Yoast处理内容层优化；开发者负责插件配置、权限、索引、Canonical、Sitemap、Schema和前端技术验证。
+- 当前没有独立SEO岗位。Website Manager使用Yoast处理内容级Title、Meta Description和页面内容优化；开发者负责插件配置、权限、高影响索引/Canonical变更、Sitemap、Schema和前端技术验证。
 - Search Console、GA4、Google Tag Manager及Site Kit连接使用公司持有的Google账户；不得长期绑定开发者个人账户。
 - ACF Pro只补充WooCommerce原生字段不能表达的结构化展示字段；价格、SKU、库存、分类、属性、变体、重量和尺寸继续使用WooCommerce原生能力。
 

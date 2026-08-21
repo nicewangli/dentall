@@ -5,7 +5,7 @@
 - URL发布后保持稳定；修改必须记录旧URL、301目标和上线日期。
 - Staging始终禁止索引，Production上线时再显式检查索引设置。
 - 筛选、排序、搜索和分页URL必须定义Canonical和索引策略。
-- SEO人员可编辑标题和描述，但不能随意修改Slug、分类层级和固定链接结构。
+- Website Manager可编辑内容级标题和描述，但不能无记录修改已发布Slug、分类层级、Canonical或固定链接结构；高影响URL和技术SEO由开发者复核。
 - 每个HTML文档只能输出一个`<title>`。Local由Yoast负责SEO Title；DentAll Core仅在Yoast启用时移除WordPress核心重复的Block Template Title回调，Yoast停用后由WordPress核心回退输出，不把Title内容硬编码进主题或兼容模块。
 
 ## 第一版页面映射
@@ -52,9 +52,9 @@
 | 文章 | `/blog/{slug}/` | 是 | 自身 | ADR-021已冻结；不嵌入分类，D25后变更必须登记301、Canonical、Sitemap和内链影响 |
 | 文章分类归档 | `/blog/category/{slug}/` | 满足内容门槛后是 | 自身 | 主归档维度；正式名称/Slug、多篇文章和独立说明后索引，TEST/空/薄弱分类不得进入Production |
 | 文章标签归档 | `/blog/tag/{slug}/` | 否 | 无/按Yoast输出复核 | 保留标签能力但统一`noindex`并从Yoast Sitemap排除；不得批量制造近义标签 |
-| 作者归档 | `/blog/author/{slug}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；后台保留两名Website Manager真实审计身份，前台统一署名`DentAll Editorial Team` |
+| 作者归档 | `/blog/author/{slug}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；后台`post_author`保留内容作者，受支持字段修订保留对应修改账号，前台统一署名`DentAll Editorial Team`；发布状态操作留痕按D23另行治理 |
 | 日期归档 | `/blog/{year}/{month}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；文章仍保留真实发布日期和修改日期 |
-| Solutions | 待确认 | 是 | 自身 | Page/CPT方案决定URL |
+| Solutions | `/solutions/`候选；真实独立条目才使用`/solutions/{slug}/`候选 | 满足正式内容门槛后是 | 自身 | ADR-023仍在提议中：当前推荐第一版Page优先，待用户确认；正式Slug、菜单与条目范围待业务确认。若未来迁移CPT，优先保持URL，否则登记301、Canonical、Sitemap与内链变更 |
 | About | `/about-us/` | 是 | 自身 | Slug待确认 |
 | Contact | `/contact-us/` | 是 | 自身 | 联系方式和组织信息一致；`?product_id={ID}`只预填定制商品上下文，Canonical仍为无参数URL，不生成重复索引页 |
 | FAQ | `/faq/` | 是 | 自身 | FAQ Schema需符合页面内容 |
@@ -118,7 +118,7 @@
 
 1. 业务方书面确认：永久停售事实、最后可售日期、是否继续提供说明/售后，以及候选替代商品。
 2. Website Manager停止购买并保留SKU、订单和历史引用；不得删除商品、复用SKU或擅自改Slug。
-3. SEO人员检查旧URL的搜索意图、流量、外链、排名和内容价值，并判断候选替代是否严格等价；“同分类”“更热门”或“利润更高”都不足以构成301理由。
+3. 业务负责人确认候选替代在产品用途、售后和客户承诺上是否成立；Website Manager记录搜索意图、内链和内容价值依据，开发者结合流量、外链、排名、状态码和索引影响复核技术处置。“同分类”“更热门”或“利润更高”都不足以构成301理由。
 4. 在“严格替代301、保留200停售页、真实404/必要时410”三条路径中选择，并记录目标、理由、负责人、复核日期与回滚方案。
 5. 开发者验证状态码、购买控件、Title/Canonical/robots、Product结构化数据、Sitemap、内链、缓存和重定向链；Production实施仍需单独批准。
 
@@ -139,14 +139,14 @@
 
 ### D16商品SEO字段责任矩阵
 
-| 字段/输出 | 事实来源与默认责任 | Website Manager操作边界 | SEO与开发边界 |
+| 字段/输出 | 事实来源与默认责任 | Website Manager操作边界 | 内容与技术复核边界 |
 |---|---|---|---|
-| 商品名称 / H1 | WooCommerce商品名称；业务方确认正式名称与产品事实 | 可在草稿和日常内容维护中编辑；发布后若改变产品识别或搜索意图，先复核再保存 | SEO人员检查搜索意图与可读性；开发者只保证模板输出，不代写商品事实 |
-| SEO Title | Yoast内容级SEO字段；留空时由Yoast模板生成 | 可独立填写和优化，不要求与H1逐字相同；必须保持唯一、准确且不堆砌关键词 | SEO人员制定模板与抽样复核；开发者负责单一Title和模板兼容，不硬编码逐商品标题 |
-| Meta Description | Yoast内容级SEO字段；不是WooCommerce简短描述 | 可独立填写；必须基于页面真实可见内容，不写未经确认的价格、认证、疗效或配送承诺 | SEO人员负责点击意图和长度建议；开发者只验证输出与缺省回退，不保证搜索引擎一定采用 |
+| 商品名称 / H1 | WooCommerce商品名称；业务方确认正式名称与产品事实 | 可在草稿和日常内容维护中编辑；发布后若改变产品识别或搜索意图，先复核再保存 | Website Manager检查搜索意图与可读性；开发者只保证模板输出，不代写商品事实 |
+| SEO Title | Yoast内容级SEO字段；留空时由Yoast模板生成 | 可独立填写和优化，不要求与H1逐字相同；必须保持唯一、准确且不堆砌关键词 | Website Manager维护逐内容SEO Title、抽样自检并可提出模板候选；Yoast全局模板由开发者配置和回归，不硬编码逐商品标题 |
+| Meta Description | Yoast内容级SEO字段；不是WooCommerce简短描述 | 可独立填写；必须基于页面真实可见内容，不写未经确认的价格、认证、疗效或配送承诺 | Website Manager负责点击意图和长度自检；开发者只验证输出与缺省回退，不保证搜索引擎一定采用 |
 | Slug | WordPress商品固定链接字段，最终形成`/product/{slug}/` | 首次发布前可按已确认英文名称设置；发布后仍保留技术权限，但不得无记录批量修改 | 已发布Slug变化必须登记旧URL、301、内链、Sitemap、Canonical和缓存影响；开发者负责技术验证 |
-| Canonical | 默认留空，由Yoast为正常商品输出自身URL | 按用户决定保留Yoast高级字段权限；只有已确认重复/合并场景才手工覆盖，普通商品不得随意填写其他URL | SEO人员提出目标与理由；开发者验证目标状态、索引一致性及源码唯一性。Canonical不能代替301 |
-| robots / 是否索引 | 由站点环境、页面类型和Yoast默认规则共同决定 | 保留高级字段权限；单页`noindex`、nofollow或高级robots变更必须记录原因并复核 | Staging始终禁止索引；Production页面级变更由SEO与开发共同回归Sitemap、Canonical和前台源码 |
+| Canonical | 默认留空，由Yoast为正常商品输出自身URL | 按用户决定保留Yoast高级字段权限；只有已确认重复/合并场景才手工覆盖，普通商品不得随意填写其他URL | Website Manager记录业务目标与理由；开发者验证目标状态、索引一致性及源码唯一性。Canonical不能代替301 |
+| robots / 是否索引 | 由站点环境、页面类型和Yoast默认规则共同决定 | 保留高级字段权限；单页`noindex`、nofollow或高级robots变更必须记录原因并复核 | Staging始终禁止索引；Production页面级变更由Website Manager与开发者共同回归Sitemap、Canonical和前台源码 |
 
 - Website Manager拥有内容级与Yoast高级元数据的实际操作权限；DentAll不增加额外代码限制，依靠培训、变更记录和上线复核控制高影响操作。
 - 商品名称、SEO Title、Meta Description、Slug、SKU和Canonical职责不同，不得用一个字段代替另一个字段。

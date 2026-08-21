@@ -17,6 +17,7 @@
 - Simple流程：[[Day13-真实编辑试录与简单商品流程]]
 - Variable流程：[[Day14-可变商品与Variation流程]]
 - 后续笔记：[[Day17-代表商品录入与SEO验收]]
+- 文章SEO后续：[[Day20-文章录入模板]]
 - 周总结：[[W3-商品样本与模型候选冻结周总结]]
 
 ## 今日三个验收结果
@@ -58,7 +59,7 @@
 
 - 开发者负责Title兼容、字段职责、URL机制、测试矩阵、部署与回滚边界；不替业务方编造正式商品名称、文案、替代关系或停售事实。
 - Website Manager负责日常商品与Yoast字段录入，可访问高级元数据；已发布Slug、Canonical、索引和高级robots属于高影响操作，必须按记录、复核和回归流程处理。
-- SEO人员负责关键词意图、Title/Description建议、Canonical与索引策略复核；没有直接插件、主题、代码、数据库或部署权限。
+- 当前没有独立SEO岗位。Website Manager负责关键词意图、Title/Description和内容级自检；Canonical、索引策略及已发布URL等高影响技术SEO由Website Manager记录业务理由、开发者复核技术影响。
 - 业务方负责正式名称、产品事实、是否临时缺货/永久停售、严格替代关系与内容合规。真实输入不足时，骨架可继续，但真实内容尚不能验收。
 - Local与Staging已统一`/product/{slug}/`，`/shop/`保留为归档。Staging旧TEST路径已确认发生跳转，但未取得原始301/302状态码，不能写成已验证301。
 
