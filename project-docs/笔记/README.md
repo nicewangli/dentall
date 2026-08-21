@@ -52,4 +52,8 @@
 | Day17 | [[Day17-代表商品录入与SEO验收]] | 5个累计代表样本、Simple/Variable、缺货Variation、多图、Yoast输出与D18冻结输入 |
 | Day18 | [[Day18-商品模型候选冻结]] | 商品模型职责、Website Manager权限、Local/Staging CSV、M2候选冻结与D19交接 |
 | Day18复盘 | [[Day18-真实性复盘]] | 纠正计划检查点、实际工时、技术验证、业务验收与可见成品的进度口径 |
-| Day19 | [[Day19-博客分类与作者规则]] | 博客信息架构v1验收；原生Post/Category/Tag、`/blog/`路由、归档索引治理、作者审计与后续边界 |
+| Day19 | [[Day19-博客分类与作者规则]] | 博客信息架构v1验收；原生Post/Category/Tag、`/blog/`路由、归档索引治理、内容作者与修订边界 |
+| Day20 | [[Day20-文章录入模板]] | 文章字段职责、正文区块骨架、长文TEST草稿与草稿/预览/修订验证 |
+| Day21 | [[Day21-固定页面清单与URL责任边界]] | About、Contact、政策页与FAQ候选清单、责任矩阵、菜单依赖和页面状态验收边界 |
+| Day22 | [[Day22-Solutions内容模型]] | Solutions以原生Page优先的候选决策、最小内容模型、URL与CPT升级门槛 |
+| Day23 | [[Day23-内容审核发布与媒体治理]] | Website Manager自主管理的原生流程候选、内容修订与素材授权登记边界；C6-C7待实测 |
