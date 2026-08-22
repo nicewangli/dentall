@@ -54,7 +54,7 @@
 | 文章标签归档 | `/blog/tag/{slug}/` | 否 | 无/按Yoast输出复核 | 保留标签能力但统一`noindex`并从Yoast Sitemap排除；不得批量制造近义标签 |
 | 作者归档 | `/blog/author/{slug}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；后台`post_author`保留内容作者，受支持字段修订保留对应修改账号，前台统一署名`DentAll Editorial Team`；发布状态操作留痕按D23另行治理 |
 | 日期归档 | `/blog/{year}/{month}/`形态但关闭 | 否 | 不适用 | 已验证301到首页；文章仍保留真实发布日期和修改日期 |
-| Solutions | `/solutions/`候选；真实独立条目才使用`/solutions/{slug}/`候选 | 满足正式内容门槛后是 | 自身 | ADR-023仍在提议中：当前推荐第一版Page优先，待用户确认；正式Slug、菜单与条目范围待业务确认。若未来迁移CPT，优先保持URL，否则登记301、Canonical、Sitemap与内链变更 |
+| Solutions | `/solutions/`候选；真实独立条目才使用`/solutions/{slug}/`候选 | 满足正式内容门槛后是 | 自身 | ADR-023已接受：第一版使用原生Page优先，不建Solutions CPT。2026-08-21 Staging Page列表截图未发现Solutions对象；候选URL不表示Page已经创建或发布，正式Slug、菜单与条目范围仍待业务内容确认。若未来迁移CPT，优先保持URL，否则登记301、Canonical、Sitemap与内链变更 |
 | About | `/about-us/` | 是 | 自身 | Slug待确认 |
 | Contact | `/contact-us/` | 是 | 自身 | 联系方式和组织信息一致；`?product_id={ID}`只预填定制商品上下文，Canonical仍为无参数URL，不生成重复索引页 |
 | FAQ | `/faq/` | 是 | 自身 | FAQ Schema需符合页面内容 |
