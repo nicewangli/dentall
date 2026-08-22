@@ -52,6 +52,7 @@ app/public/wp-content/debug.log
 
 # Dependencies and test artifacts
 /.codex-tmp/
+/outputs/
 **/node_modules/
 **/vendor/
 **/dist/
