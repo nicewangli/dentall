@@ -37,6 +37,7 @@ function dentall_core_get_content_editor_capabilities() {
 function dentall_core_get_website_manager_capabilities() {
 	return array(
 		'read'                               => true,
+		'import'                             => true,
 		'upload_files'                       => true,
 		'edit_posts'                          => true,
 		'edit_others_posts'                   => true,

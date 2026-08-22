@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.2.3
+Stable tag: 0.2.6
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,10 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.2.6 =
+* 为Website Manager授予WooCommerce原生商品导入所需的WordPress全局import能力。
+* 商品导出继续限制在WooCommerce原生商品导出请求；不加载自定义商品导入模块。
 
 = 0.2.3 =
 * 修复Yoast启用时WordPress核心仍重复输出文档Title的问题；Yoast停用时保留核心Title。
