@@ -11,7 +11,7 @@
 | PHP/数据库 | PHP 8.2.29 / MySQL 8.4.0 | PHP 8.2.33 / MySQL 8.4 | 待确认 |
 | 部署方式 | 本地开发 | Cloudways Via Git：`deploy/staging` → `public_html/` | 待确认 |
 | 日志位置 | `app/public/wp-content/debug.log`及LocalWP站点日志 | 待确认 | 待确认 |
-| 备份位置 | `backups/`（仅本地基线，不作为唯一副本） | 待确认 | 待确认 |
+| 备份位置 | `backups/`（仅本地基线，不作为唯一副本） | Cloudways应用异地备份：每日一次、保留一周；重要批量写入前On-Demand Backup | 待确认 |
 
 ## Staging代码部署边界
 
@@ -100,12 +100,26 @@
 
 ## 备份策略
 
-- 数据库：至少每日自动备份；发布前手动备份。
-- uploads：增量备份，重大素材迁移前创建快照。
+- Staging应用文件＋数据库：Cloudways每日自动备份、保留一周；发布、商品批量导入或其他高风险写入前执行On-Demand Backup并记录时间。
+- Production数据库：至少每日自动备份；发布前手动备份，具体保留期在Production环境确认。
+- uploads：由应用文件备份覆盖，并在重大素材迁移前创建额外快照；商品CSV不能替代uploads备份。
 - 代码：Git远程仓库和版本标签。
 - 配置：插件清单、环境版本、DNS/CDN/服务器配置说明。
 - 保留周期：业务方和合规要求确认后填写。
 - 每月至少一次恢复抽查；正式上线前必须完整恢复演练。
+
+### 商品批量录入的备份与恢复责任
+
+| 事项 | 责任人 | 第一版要求 |
+|---|---|---|
+| 定期应用文件＋数据库备份 | 开发者/管理员 | 核对Cloudways计划、保留期和最近成功时间；商品、Post、Page及其元数据都以数据库备份为完整恢复基础 |
+| 每批商品导入前CSV导出 | Website Manager | 使用WooCommerce原生商品导出，保存带日期时间的文件并登记文件名/指纹；它是商品数据快照，不是完整站点备份 |
+| 当前批准的商品CSV导入 | Website Manager | 只在受保护Staging使用Simple模板v1、新SKU和`Published=-1`，保持`Update existing products`未勾选，完成页`Updated`必须为0；Variable/Variation CSV与Production未开放 |
+| 小量新建Draft误操作 | Website Manager | 按批次SKU清单核对后移入回收站，操作和结果写入批次登记；不自行永久删除 |
+| 已有价格/库存/Variation/Slug受影响或大批异常 | 开发者/管理员 | 立即停止写入，保存故障现场；按商品导出差异决定定点修复，无法安全修复时才评估数据库/应用恢复 |
+| 数据库或应用恢复 | 开发者/管理员 | Website Manager不获得Cloudways、数据库或服务器恢复权限；恢复前评估恢复点之后的新内容、订单和媒体是否会丢失 |
+
+第一版不提供WooCommerce导入批次一键回滚。存在备份不等于恢复已通过；M3只要求批量录入前保护、明确升级路径和代表性恢复抽查，完整灾难恢复演练仍按M9执行。
 
 ## 生产操作记录模板
 

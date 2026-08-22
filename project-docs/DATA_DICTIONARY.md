@@ -172,7 +172,8 @@
 
 ### 单位、来源与物流边界
 
-- 全站只能有一组WooCommerce基础重量单位和尺寸单位。2026-08-17 D15只读查询再次确认当前Local配置为重量`lbs`、尺寸`in`，与第一版美国市场方向一致；主要承运商、物流插件和真实单个销售包装样本仍未确定，因此该配置继续只作为开发环境事实，不冻结为Production物流标准。
+- 全站只能有一组WooCommerce基础重量单位和尺寸单位。2026-08-17 D15只读查询确认Local当时为`lbs/in`；2026-08-22 D25 C1的新旧Staging CSV对比发现表头已从`lbs/in`变为`kg/cm`且旧对象数值未变化。用户随后确认第一版使用当前`kg/cm`作为商品录入和WooCommerce Shipping基础单位。该决定冻结单位语义，不冻结任何TEST数值、承运商、运费规则或正式包装数据。
+- Local已在D25 C2写入前对齐并回读为`kg/cm`，Staging与D25 Simple源CSV同样使用`kg/cm`。历史TEST物流数值不换算、不作为正式事实；若未来在批量录入后改变全站单位，必须执行受控数据迁移并复核CSV/API、商品与Variation、运费、页面显示、缓存和回滚，禁止只改单位下拉框。
 - 导入、导出、API或物流插件需要不同单位时，使用WooCommerce的单位设置及`wc_get_weight()`、`wc_get_dimension()`等换算能力，不在模板和业务字段中另存互相冲突的单位版本。
 - 正式重量和尺寸由业务方使用统一测量方法提供，必须说明测量对象是商品本体、单个销售包装还是最终外箱；开发者负责字段映射、单位配置、继承规则和运费联调，不根据图片或目录比例推测。
 - 尺寸顺序固定按WooCommerce的Length×Width×Height维护，并在编辑帮助中显示当前全站单位；不得把直径、厚度或不规则形状强行塞入长宽高而不说明包装测量方法。
@@ -255,7 +256,7 @@
 - 商品名称/H1、SEO Title、Meta Description、Slug、Canonical和robots职责保持分离。商品路径候选为`/product/{slug}/`，`/shop/`为归档；Staging的`noindex`及无Canonical只证明环境保护，不代表Production SEO通过。
 - Website Manager可维护商品、分类、属性、媒体和内容级SEO；Yoast Advanced可见，WordPress原始Custom Fields对商品隐藏。商品CSV导出只在WooCommerce商品导出请求临时获得`export`，WordPress全站内容导出仍拒绝。
 - D18冻结的是上述结构、职责与互斥约束，不冻结TEST名称、SKU、Size/Shade值、价格、库存、重量尺寸、文案、图片授权、品牌载体、正式合法组合、可下载资料、真实促销或永久停售事实。业务内容不足时骨架继续，正式内容保持草稿或待确认。
-- Local与Staging核心商品CSV均可导出并保持父子关系、价格、库存、属性与物流语义；但中文Upsells/Cross-sells重复“交叉销售”表头，且默认CSV不包含Yoast Meta或uploads二进制。D25无损回导/恢复抽查通过前，不开放Website Manager直接批量回导。
+- Local与Staging核心商品CSV均可导出并保持父子关系、价格、库存、属性与物流语义；但中文Upsells/Cross-sells重复“交叉销售”表头，且默认CSV不包含Yoast Meta或uploads二进制，因此全量导出只作快照、不直接回导。D25已验收独立Simple模板v1的新增Draft、重复SKU跳过与普通恢复；Variable/Variation CSV、Images和自定义Meta仍未开放。
 - M2是商品模型“候选冻结”，不是D25的批量录入许可。新增结构性字段、URL、库存真相源、支付、税费、物流或外部集成仍需登记范围、迁移与回归影响。
 
 ## SKU规则v1候选
@@ -388,7 +389,7 @@
 ## 编辑录入验收
 
 - 第一批只录入5～10个代表商品，覆盖简单商品、变体、促销、缺货、多图和资料下载。
-- D18商品模型候选已冻结；D25综合验收前仍不得批量导入或批量生产正式商品。
+- D18商品模型候选已冻结；D25当前技术验收后只开放受保护Staging中的Simple模板v1、小批次、仅新增Draft，不等于正式商品已审核或Production已开放。
 - D24前先录入3篇不同长度文章和1个固定页面，验证摘要、特色图、内链、SEO和发布流程。
-- D25综合验收后才开放批量录入；此后未经确认不得改变核心商品字段、文章分类结构、Slug规则和固定链接。
+- D25当前批准范围内可开始Simple Draft小批量录入；此后未经确认不得扩大到Variable/Variation CSV、更新已有商品，也不得改变核心商品字段、文章分类结构、Slug规则和固定链接。
 - 每次字段改变记录迁移影响、旧数据处理和新增工时。

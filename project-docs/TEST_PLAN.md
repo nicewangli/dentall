@@ -411,6 +411,68 @@ A/C6结论：**通过（SOP辅助、项目负责人接受）**。结论依据A/C
 
 A/C7结论：**通过，开放P0/P1为0。** 当前内容生产线的TEST状态、字段、预览、公开隔离、修订恢复、登记和停止边界完成抽样；D24整体仍因正式3篇文章＋1个Page及授权16:9素材未验收而保持进行中。公司控制Git远程、备份和交接继续作为D25/M3门槛；Production、WM-B条件性补验和正式SEO输出不在本结论内。
 
+## D25 C1 导入前恢复点与只读基线
+
+C1只建立可恢复点、Local/Staging当前事实和TEST对象保护边界；没有导入、保存、发布、删除、清缓存、部署或修改全站设置。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D25-C1-01 | Cloudways应用备份 | 商品导入前存在包含文件与数据库的恢复点；不点击Restore | 用户提供Cloudways完成截图；Last Backup Date为`2026-08-22 03:29:57 UTC`（本地`11:29:57`），本轮未执行恢复 | 通过（备份存在）；恢复演练未测 |
+| D25-C1-02 | Git、DentAll Core与角色代码基线 | 记录可复现代码版本；Website Manager当前不得拥有持久全局导入能力 | `main` HEAD `f883ab92abc415c07accd5acfedceb2d11500845`；DentAll Core 0.2.5/角色版本6；角色无`import/export`，商品导出只在指定请求临时授予`export` | 通过（只读） |
+| D25-C1-03 | Local SQL与商品基线 | 锁定导入前父子、SKU、Slug和全局属性；不启动或修改数据库 | `app/sql/local.sql`为2,903,320 bytes、SHA-256 `A07944D2990D0E19388CEE9C90B60946B7B4908679BE3D055AB561047F3D471C`；#44/#46/#51～#53完整，无重复SKU/Slug或孤儿Variation；#43为空auto-draft | 通过（静态只读） |
+| D25-C1-04 | Staging当前商品导出 | 固定文件指纹、表头、行数和对象列表 | `wc-product-export-22-8-2026-1787369790244.csv`为6,884 bytes、UTF-8 BOM、49列、11行，SHA-256 `20F56DF58F68A425EF9624A5DEC69209319CEB7FE799822148BF9B24B9D5CBC7` | 通过（只读证据） |
+| D25-C1-05 | 新旧Staging CSV逐列差异 | 已有对象不得出现未解释变化；只允许已登记新增对象 | D18旧10个对象的数据行逐列完全不变，仅新增Draft #58；无重复非空SKU、无孤儿Variation，空SKU仅#31 | 通过 |
+| D25-C1-06 | 中文表头安全边界 | 不把含重复表头的本地化导出当作受控回导模板 | 第35/36列仍同为“交叉销售”；`RSK-016`继续开放到C2，当前CSV禁止直接回导 | P2，已守门 |
+| D25-C1-07 | 重量/尺寸单位差异 | 识别数值语义变化并在批量录入前固定第一版单位 | 新旧表头从`lbs/in`变为`kg/cm`且旧数值不变；用户确认第一版采用`kg/cm`。历史TEST值不换算；Local对齐列为C2写入前门槛 | 通过（ADR-027）；C2需对齐Local |
+| D25-C1-08 | TEST对象保护清单 | 现有代表商品、内容、媒体和菜单不得被C1清理或覆盖 | 已锁定商品#32/#35/#45/#47～#50/#52/#58、Post #24/#68/#90、Page #76、媒体#59/#60和菜单#29等保护对象；删除候选同样未动 | 通过 |
+| D25-C1-09 | 环境版本事实 | 不继续沿用失真的“双环境版本一致”口径 | Local为WordPress 7.0.4；Staging后台显示7.1。未升级/降级；C2在Staging做实际兼容回归 | P2，已登记`RSK-028` |
+
+C1结论：**通过，开放P0/P1为0。** 恢复点、Local/代码静态基线、Staging CSV指纹、TEST保护边界和第一版`kg/cm`单位已确定。中文重复表头、Local单位对齐和WordPress版本差异作为C2明确守门项；CSV导入、错误行隔离、回滚、备份恢复、正式商品内容与D25批量开放均尚未通过。
+
+## D25 C2 原生导入权限与可追溯边界
+
+用户已通过ADR-029/CR-010确认第一版使用WooCommerce原生商品CSV导入/导出，并接受全局`import`为粗粒度权限；第一轮“只新增Draft”属于SOP与验收约束，不是自定义服务端硬锁。C2当前只完成Local权限同步和只读审计，没有上传CSV、创建/更新商品或部署Staging。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D25-C2-01 | DentAll Core最小权限改动 | Website Manager持久获得`import`；角色版本单调提升；自定义导入模块仍不加载 | 插件0.2.6、角色版本7；`roles.php`只新增`import`，主入口仍只加载既有五个模块 | Local通过；Staging待部署 |
+| D25-C2-02 | Website Manager正向能力 | 商品列表Import/Export、商品导入页和Woo AJAX所需能力可用 | `day25-c2-import-capability-audit.php`对应检查全部PASS | Local通过 |
+| D25-C2-03 | 权限负向与粗粒度边界 | Content Editor无`import`；Website Manager无全局`export`；全局`import`在非商品上下文仍为真并被明确记录 | Content Editor拒绝、全站内容导出拒绝；Website Manager在`import.php`及其他上下文仍有`import`，符合已接受风险 | Local通过 |
+| D25-C2-04 | 原生可追溯源码边界 | 新建商品记录创建账号；不声称商品有原生修订或完整批次日志 | WooCommerce 11源码确认新建商品`post_author=get_current_user_id()`；Product不支持revisions，原生错误结果也不是持久完整批次审计 | 通过（源码证据） |
+| D25-C2-05 | 静态检查 | 修改PHP无语法错误 | `dentall-core.php`、`roles.php`及权限审计脚本均通过PHP 8.2.29 `-l` | 通过；Local CLI仍提示既有Imagick DLL启动警告 |
+| D25-C2-05A | Local单位与币种回读 | C3写入前为`kg/cm`与`USD`，不转换既有TEST数值 | 2026-08-22通过WordPress运行时回读`woocommerce_weight_unit=kg`、`woocommerce_dimension_unit=cm`、`woocommerce_currency=USD` | 通过 |
+| D25-C2-06 | Staging第一版币种 | WooCommerce全局币种为`USD`，位置在左，千位`,`、小数`.`、两位小数 | 用户在Staging `WooCommerce → 设置 → 常规 → 币种选项`保存并提供截图，显示“美元（$）— USD”及目标格式 | 通过（用户截图） |
+| D25-C2-07 | Staging密码重置邮件 | 不把页面受理请求误写成实际送达；SMTP未配置时有受控人工恢复路径 | 用户确认问题仅发生在Staging；既有D4/插件清单已记录SMTP未配置。当前由管理员受控重置Website Manager密码；自助邮件送达留到企业事务邮件服务选型与正式身份流程验收 | 已知依赖；不阻塞C3商品导入 |
+
+独立Review结论：本轮Local最小权限改动没有开放P0/P1。旧自定义导入器的预检、锁和AJAX能力脚本已可逆重命名为`.disabled`，不得再作为绿色验收证据；当前有效自动证据仅包括原生能力审计及既有商品导出回归。剩余P2是Staging真实账号入口、AJAX/导入器边界和首批新建Draft CSV尚未实测。
+
+C3原生CSV写入按以下标准执行；当前批准范围收紧为Simple模板v1，Variable/Variation CSV不在本轮绿色证据内：
+
+- 从受控TEST示例导出或WooCommerce官方sample/schema形成独立空白模板；全量商品快照保持原样，不把其中的现有数据行直接回导。
+- 使用唯一TEST新SKU、无现有商品ID、Simple商品`Published=-1`，价格只填数值且目标环境币种为`USD`，并保持`Update existing products`未勾选。
+- 导入前后对比既有商品ID、SKU、状态、价格、库存和父子关系；完成页`Updated=0`，任何现有对象变化立即停止。
+- 新商品保持Draft，`post_author`等于执行导入的Website Manager；匿名精确URL不可公开、商品Sitemap不包含该商品。
+- 保存Imported/Variation/Updated/Skipped/Failed结果、CSV指纹、导入前商品导出和应用备份时间到商品CSV批次登记。
+- 小量新建Draft恢复路径和涉及已有数据时的开发者升级路径均可查；不把回收站、商品CSV或Cloudways备份入口误写成整批一键回滚。
+
+## D25 C3～C6 Staging原生CSV、恢复与追溯记录
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D25-C3-01 | 部署Website Manager CSV MIME白名单 | 只在既有媒体白名单增加`text/csv`，不加载或部署自定义导入器 | `main`提交`66a1c63`、部署提交`501e5e5`均只修改`media-policy.php`；WM-A可进入原生导入映射页，自定义导入草稿不在部署树 | 通过 |
+| D25-C3-02 | 导入2行Simple TEST源CSV | 新增2个Draft；Imported 2、Updated 0、Skipped 0、Failed 0 | #109/#110创建成功，完成页为Imported 2、Imported variations 0、Updated 0、Skipped 0、Failed 0 | 通过 |
+| D25-C3-03 | 导入前后全量CSV对比 | 只新增目标对象，既有ID/SKU/状态/价格/库存不变 | 11→13条记录，仅新增#109/#110；既有11条在49个导出列中0处变化，无删除或重复非空SKU | 通过 |
+| D25-C3-04 | 新对象字段与状态抽查 | 两个Simple保持Draft，价格/库存/SKU符合源文件 | #109为$29.99、库存5/有货；#110为$49.99、库存0/无货；均为Draft | 通过；本批未另存独立匿名URL截图，公开隔离沿用D17商品Draft基线 |
+| D25-C4-01 | Post录入回归 | 短文可保存和预览，长文/审阅路径无需重复造数据 | #111保存并预览正常；#68/#90既有长文、Yoast、内链、修订与Draft隔离证据继续有效 | 通过（证据复用） |
+| D25-C5-01 | Page录入回归 | 创建、状态、发布、修订、恢复、菜单和缓存路径可执行 | 复用D24 Page #76完整证据，最终保持Draft | 通过（证据复用） |
+| D25-C6-01 | #110普通Trash → Restore | 恢复后ID/SKU、Draft状态、价格和库存不变 | 用户确认#110恢复后仍为Draft，$49.99、库存0/无货，ID/SKU正常 | 通过 |
+| D25-C6-02 | 同一源CSV重复上传，更新框未勾选 | 已存在SKU在写入前跳过；Imported/Updated/Failed均0，Skipped 2 | 完成页与URL参数均为Imported 0、Imported variations 0、Updated 0、Skipped 2、Failed 0 | 通过 |
+| D25-C6-03 | WP-CLI只读创建者与数量核验 | #109/#110作者相同且为WM-A；不产生重复顶级商品 | `siteurl`正确；顶级`product`为10；#109/#110均为Draft、`post_author=4`，用户4角色为`dentall_website_manager`。全量CSV另含3个Variation，合计13条记录 | 通过 |
+| D25-C6-04 | 独立代码/权限审查 | P0/P1为0；冻结导入器未加载/部署 | P0=0、P1=0；保留全局`import`粗粒度与未跟踪草稿误纳入两项P2，未经授权不处理草稿 | 通过（P2已登记） |
+| D25-C6-05 | CSV开放范围 | 只按真实实写证据开放，不把Simple样本扩写为Variable/Variation通过 | 当前仅开放Simple模板v1、仅新增Draft；Variable/Variation CSV、Images、自定义Meta与更新已有商品均未开放 | 通过（边界已收紧） |
+
+C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。** 普通回收站恢复、重复SKU停止路径和创建账号追溯已抽查；没有执行永久删除、更新已有商品、Cloudways整站恢复或Variable/Variation CSV。商品作者只能证明创建账号，批次动作仍以`CONTENT_ASSET_REGISTER.md`登记为准。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

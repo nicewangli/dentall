@@ -60,3 +60,5 @@
 | Day24 | [[Day24-内容样本与操作培训]] | A/C5培训、A/C6 SOP辅助验收及A/C7状态/字段/预览/隔离/修订/登记抽样通过，开放P0/P1为0；3篇正式文章＋1个正式Page和授权16:9素材仍待，D24整体进行中 |
 | Day24手册 | [[Day24-内容发布操作手册与WM-A培训]] | 基于Staging实测界面的发布、更新、恢复、审阅草稿、素材闸门与Markdown登记操作手册；明确无需背诵、必须理解与停止条件，A/C6-C7已通过 |
 | Day24-B | [[Day24-B-真实样本与周验收]] | 真实来源第一轮盘点完成；正式文章与Page输入包0/4，技术骨架可继续、业务验收待输入，不能用TEST或未授权资料代替 |
+| Day25 | [[Day25-综合验收与批量录入开放]] | C1～C7技术/人员验收完成：Staging Simple模板v1新增2个Draft、既有数据0变化、重复SKU跳过、#110普通恢复、创建者追溯与Markdown批次登记通过；M3正式内容/素材与公司Git治理门槛仍待 |
+| Day25手册 | [[Day25-Website Manager商品导入导出与恢复手册]] | Website Manager原生Simple CSV导入/导出、批次前快照、映射检查、结果登记、停止和分层恢复SOP；Staging实测通过，Variable/Variation CSV与Production未开放 |
