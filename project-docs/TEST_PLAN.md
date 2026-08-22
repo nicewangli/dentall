@@ -135,7 +135,7 @@
 | 优惠券 | Staging | 通过 | `TEST-D12-STAGING-10`发布，百分比10、总使用次数1，编辑后最终基线正确 |
 | 订单、客户与报表 | Staging | 通过 | 空订单页及“添加订单”入口正常；客户空状态和WooCommerce报表正常；未创建真实订单或客户 |
 
-- 两名当前网站操作人员统一使用`DentAll Website Manager`并分别持有独立账号；低权限Content Editor测试经用户决定不纳入D12人员验收。
+- D12确定目标协作结构下的网站操作人员统一使用`DentAll Website Manager`并各自持有独立账号；D24确认当前仅WM-A完成实测，WM-B按CR-007条件性补验。低权限Content Editor测试经用户决定不纳入D12人员验收。
 - D12 TEST对象不清理，作为D13及下周回归夹具；它们不是正式业务内容，受Staging访问保护与`noindex`约束，D25前再次评估归档或删除。
 - 本轮未测试真实支付、退款、邮件、税费、物流或Production操作；不得从本记录推导这些流程已通过。
 
@@ -156,7 +156,7 @@
 
 - C4-C6结束后，培训商品恢复为常规价29.99、库存3、禁止Backorders、原TEST主图、无促销日期的已发布TEST基线。
 - 本轮未创建订单、未加入购物车、未进入结账、未启用或配置真实支付，也未修改Production、DNS、税费、物流、邮件、插件、代码或数据库。
-- 当前P0/P1为0；两名实际网站工作人员的独立30分钟人员验收仍待到岗后补做，不能用培训者结果替代。
+- 当前P0/P1为0；本记录只覆盖培训者/角色路径，不能扩写成第二身份人员验收通过。WM-A的D24 A/C6人员门槛已于2026-08-22按可查SOP口径通过；第二人30分钟无指导验收按CR-007触发时补验。
 - C7收口截图确认培训商品最终库存数量为3且Backorders为“不允许”，补齐C5基线恢复证据。
 - D13复用D12已完成Alt持久化验证的同一TEST媒体；D13只确认恢复图片时Alt非空，没有另行截取Alt字段值，不把该项记为新的独立Alt测试证据。
 - 计划促销只验证了无日期即时生效和未来开始日前不提前生效，未等待验证日期区间内及结束后的自动切换；缺货测试只验证前台购买控件状态，未尝试直接加购、购物车或结账。这些不阻塞D13，留到后续交易回归覆盖。
@@ -213,7 +213,7 @@
 
 - C6初始阶段为只读审计；获得用户明确授权后，Administrator在Staging安装并由用户手动激活Yoast 28.2，用户将Staging与Local商品固定链接统一为`/product/{slug}/`。未操作Production，未升级WooCommerce、Breeze或其他插件，未改商品Slug、Canonical、robots、Sitemap、缓存或部署配置。
 - C6未发现已执行范围内的P0/P1缺陷；Local与Staging固定链接差异已关闭。旧Staging TEST商品路径已确认发生跳转，但原始响应状态码未取得，仍不得写成已验证301。
-- D16收口时的D17前置缺口为Variable、当前缺货、可下载、真实永久停售及Website Manager SEO字段持久化。D17已补Variable、TEST缺货Variation和SEO字段持久化；可下载、真实永久停售、两名实际工作人员无指导试录及Production Canonical仍待后续。TEST夹具不能替代真实业务内容。
+- D16收口时的D17前置缺口为Variable、当前缺货、可下载、真实永久停售及Website Manager SEO字段持久化。D17已补Variable、TEST缺货Variation和SEO字段持久化；可下载、真实永久停售及Production Canonical仍待后续。第二人无指导试录未覆盖，但CR-007后不属于D24-D25当前待补；WM-A的内容流程人员门槛已在D24 A/C6按SOP辅助口径通过。TEST夹具不能替代真实业务内容。
 
 ## D17代表商品与SEO骨架验收记录
 
@@ -228,7 +228,7 @@
 | 发布与草稿隐私 | Staging | 通过 | 已发布#32/#35匿名请求200；草稿#45/#47/#52登录态预览正常、匿名请求404 |
 | 独立回归 | Staging与既有证据 | 通过 | 主回归与独立测试Agent结论P0=0、P1=0、P2=0、P3=0；用户手动核对3个合法组合和1个非法组合，未执行加购 |
 
-- 未覆盖：可下载商品、真实永久停售、真实业务促销、Production Canonical/索引/301、缓存、四端响应式视觉和两名实际工作人员无指导试录。它们分别等待可信资料或后续里程碑，不影响当前商品骨架继续，但真实内容尚不能验收。
+- 未覆盖：可下载商品、真实永久停售、真实业务促销、Production Canonical/索引/301、缓存、四端响应式视觉和第二身份人员无指导试录。前述业务/技术项分别等待可信资料或后续里程碑；第二身份按CR-007只在触发条件出现时补验，不属于D24-D25当前待补。它们不影响当前商品骨架继续，但真实内容尚不能验收。
 - #31空壳草稿和#39历史不完整草稿未进入代表矩阵，D17未删除或修复；D18登记归档/清理候选，D25前决定TEST对象去留。
 - 本轮未创建订单、未点击加购、未进入结账，未修改Production、插件、代码、数据库结构、固定链接、Canonical、robots、Sitemap、301、缓存、支付、税费、物流或部署。
 
@@ -273,7 +273,7 @@
 |---|---|---|---|
 | 草稿字段与媒体 | Staging #68 / Website Manager | 通过（TEST机制） | 标题、摘要、Slug、作者和草稿状态读回；分类为`TEST D12 Content`，`Uncategorized`未选；特色图与正文图均使用附件#59，正文图读回上下文alt |
 | 正文与登录态预览 | Staging登录态预览 | 通过 | 文章输出1个H1、4个业务H2、2个业务H3、无序/有序列表、特色图、正文图和1条相关内链；正文不含中文`正文`、连写错误或恢复测试标记 |
-| 内容级SEO | Yoast搜索外观 / 预览 | 通过 | SEO Title为`TEST D20 Long-form Article | DentAll`，Meta Description按TEST说明保存并读回；Focus keyphrase留空，Slug未变，Canonical/robots未手工覆盖 |
+| 内容级SEO | Yoast搜索外观 / 预览 | 通过 | SEO Title为`TEST D20 Long-form Article \| DentAll`，Meta Description按TEST说明保存并读回；Focus keyphrase留空，Slug未变，Canonical/robots未手工覆盖 |
 | 修订恢复 | Staging修订界面 | 通过 | 在正文保存临时标记后恢复修订#73，修订数5→7；服务器重新载入后标记消失，草稿状态、分类和特色图保留 |
 | 匿名与链接边界 | Staging匿名HTTP / Sitemap | 通过 | `/?p=68`最终404；`post-sitemap.xml`不包含#68或Slug；正文内部链接目标最终200；文章未发布 |
 | 正式内容门槛 | D20范围 | 待D24 | #59源图1280×1372，仅验证媒体机制，不满足正式特色图16:9与授权验收；真实事实、正式素材和Production SEO未验 |
@@ -297,17 +297,119 @@
 
 ## D23内容治理验证清单
 
-- [ ] 两名Website Manager使用各自独立账号创建、编辑、待审核、发布和撤回内容；不使用Administrator或共享账号。
-- [ ] 验证`Pending Review`在当前单一Website Manager角色下只是流程信号，不会强制阻止作者自行发布；若业务要求强制职责分离，测试应明确判定当前方案不满足并触发新范围评估。
-- [ ] 对从未发布的新Post/Page验证`Draft → Pending Review → Publish`；确认`Pending Review`只适用于未发布内容，且同角色Website Manager仍可自行发布。
-- [ ] 对已发布Post/Page做受控低风险正文修改，确认点击“更新”会立即改变公开内容，不存在原生“旧版本继续公开、新版本待审”。再用受保护Staging或明确标记的独立审阅草稿演练高风险更新审核与批准后同步，确保审阅副本不进入导航、Sitemap、正式内链或可索引公开URL。
-- [ ] 验证`post_author`表示当前内容作者；用正文标记验证标题/正文/摘要等受支持字段的修订恢复，并确认对应修订记录修改账号和时间。不得把分类、特色图或Yoast元数据默认算入恢复范围，也不得从`post_author`或内容修订推断发布、撤回、移入回收站或恢复的执行账号。
-- [ ] 发布、更新、撤回与回收站状态动作由执行人使用本人账号，并在业务可访问的发布/变更登记中记录对象ID、动作、账号、时间和依据位置；若D24决定接受第一版审计缺口，必须显式记录接受人、范围与后续补强条件。
-- [ ] 对代表Post/Page执行移入回收站与恢复，确认恢复后状态为`Draft`而不是自动重新公开；重新发布前再次执行审核清单，并通过匿名访问分别验证下线与重新上线状态。
-- [ ] 发布检查单覆盖业务事实、分类、媒体alt、授权登记、Slug、SEO字段和相关内链；高风险事实未确认时保持草稿或待审核。
+- [x] 依据CR-007，D24-D25由WM-A使用本人独立账号完成Website Manager角色级创建、编辑、待审核、发布和撤回矩阵；WM-B不在当前范围。未来第二位人员正式上岗或出现权限/交接/审计差异时，仍必须使用独立账号补验，禁止Administrator代替或共享WM-A。
+- [x] 已由WM-A验证`Pending Review`在当前单一Website Manager角色下只是流程信号，不会强制阻止作者自行发布；若业务要求强制职责分离，测试应明确判定当前方案不满足并触发新范围评估。
+- [x] 已对从未发布的Page #76验证`Draft → Pending Review → Publish`；确认`Pending Review`只适用于未发布内容，且同一Website Manager仍可自行发布。
+- [x] 已对Published Page #76做受控低风险正文修改，实证点击“更新”立即改变公开内容，不存在原生“旧版本继续公开、新版本待审”。
+- [x] 高风险更新已在A/C5使用明确标记的独立审阅Draft #90演练，源Post #24保持不变；审阅副本匿名404、未进入Post Sitemap，也未作为正式内链或公开内容使用。
+- [x] 已验证`post_author`表示当前内容作者；通过V1/V2正文标记和revision #85验证受支持正文的修订恢复、修改账号与时间。没有把分类、特色图或Yoast元数据算入恢复范围，也没有从`post_author`或内容修订推断状态动作人。
+- [x] 发布、更新、撤回与回收站状态动作由执行人使用本人账号，并已在发布/变更登记中记录对象ID、动作、账号、时间、依据与恢复方案；公司控制的唯一存放位置、备份责任和首条真实记录仍待验。
+- [x] 已对Page #76分别验证普通“从回收站恢复”和提示条“立即撤销”：普通恢复得到Draft且不公开；立即撤销恢复移入前的Published并重新公开。最终已撤回Draft并完成匿名下线回归。
+- [x] TEST机制与发布检查单已覆盖业务事实、分类、媒体alt、授权登记、Slug、SEO字段和相关内链；#90完成字段抽样，高风险事实未确认时保持草稿或待审核。正式样本执行仍待业务输入。
 - [ ] 每个拟公开素材在业务可访问的登记入口具有资产ID、授权依据位置、批准人及日期和发布状态，并按项目责任同步到`CONTENT_ASSET_REGISTER.md`；`待核验`、`仅内部`与`仅开发占位`素材不进入正式发布。
-- [ ] 误发布或授权撤回时，Website Manager能将对象紧急撤回为草稿/私密并记录对象ID、原URL、原因、账号、替换计划和缓存处理；验证匿名访问后，再对已公开URL另验恢复发布、相关301或明确410、Canonical、Sitemap和内链，禁止无关重定向。
-- [ ] 明确原生修订与素材登记不覆盖所有WooCommerce、媒体与SEO元数据操作；未安装审计日志插件，第二版按需评估。
+- [x] 已在明确TEST Page #76演练误发布紧急撤回为Draft、登记账号/原URL/缓存处理，并验证匿名精确URL、REST、Sitemap与导航均不再公开；永久URL的301/410、Canonical与正式替换方案仍只在真实迁移场景另验。
+- [x] 已明确并通过机制/边界验证：原生修订与素材登记不覆盖所有WooCommerce、媒体与SEO元数据操作；未安装审计日志插件，第二版按需评估。
+
+## D24 A/C2 Page草稿与权限走查记录
+
+环境为受保护且禁止索引的Staging。所有结果均来自用户以实际WM-A账号操作并提供的2026-08-21截图；未使用Administrator代替Website Manager执行Page流程。依据CR-007，C2结论收口为“WM-A代表Website Manager角色级技术路径通过，WM-B当前不适用/条件性补验”。这不证明第二身份、跨账号归属、多人协作或两名人员培训，也不等于D24整体完成。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C2-01 | WM-A登录并核对左侧菜单 | 可见内容与商城日常入口；不可见用户、插件、主题、工具和WordPress全局设置 | WM-A菜单符合预期；未使用Administrator作为测试账号 | 通过 |
+| D24-C2-02 | WM-A创建并保存Page #76 `TEST D24 Page Field Walkthrough` | 标题、首次发布前Slug、正文原生区块、作者和Draft状态可保存并回读 | Slug为`test-d24-page-field-walkthrough`；作者为WM-A；状态Draft；默认模板、无父页面、评论关闭；正文为Paragraph、H2和List | 通过 |
+| D24-C2-03 | WM-A登录态预览Page #76 | 预览可见且标题由模板输出H1，正文H2与List层级正确 | `?page_id=76&preview=true`登录态预览正常；未点击发布 | 通过 |
+| D24-C2-04 | 无痕窗口访问`?page_id=76` | 未登录WordPress时草稿不可公开访问 | 返回Error 404，TEST正文未泄露 | 通过 |
+| D24-C2-05 | 无痕访问`page-sitemap.xml`并搜索Page #76 Slug | Draft不得进入Sitemap | 浏览器查找结果为`0/0` | 通过 |
+| D24-C2-06 | WM-A直接访问`users.php`、`plugins.php`、`themes.php`、`options-general.php`和`tools.php` | 五类系统管理入口均拒绝 | 用户报告5项均拒绝；`users.php`与`tools.php`有截图证据 | 通过 |
+| D24-C2-07 | WM-B打开并修改WM-A创建的Draft Page，再由WM-A回读修订 | 仅用于验证第二身份、跨账号归属和人员协作，不重复证明相同角色能力 | CR-007已将该项从D24-D25当前范围移除；没有创建WM-B，也没有用Administrator、历史测试账号、共享账号或改显示名伪造结果。出现第二人上岗、权限差异、强制互审、交接、并发登记或账号级插件差异时再启用 | 不在当前范围（CR-007） |
+
+截至C2结束时没有发布Page #76，也没有修改菜单、Reading设置、Canonical、robots、全局SEO、缓存、支付、物流、DNS或Production；当时Page #76仍为明确TEST草稿。后续A/C3按下节继续状态与导航实测。CR-007之后，C2按WM-A角色级路径关闭，不再等待WM-B；在C2收口时，ADR-024仍需A/C4的已发布更新、修订、回收站与两类恢复，以及登记簿单一存放位置和备份责任。前一组A/C4缺口已在下节关闭，文件位置与备份仍待后续验收。
+
+## D24 A/C3 Page状态、缓存与受控导航验证记录
+
+环境继续为受保护且禁止索引的Staging。Page #76标题为`TEST D24 Page Field Walkthrough`，Slug为`test-d24-page-field-walkthrough`。Page状态动作由WM-A使用本人Website Manager账号完成；建立站点级受控菜单由Administrator执行。结论为“A/C3的WM-A角色级技术路径通过”；CR-007排除的第二身份与多人协作没有执行，也不能写成通过。A/C3收口时3篇代表文章、培训和D24整体均未完成；后续A/C5培训、A/C6 SOP辅助验收及A/C7抽样见本文件后续章节，正式内容仍待。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C3-01 | WM-A将Page #76从`Draft`改为`Pending Review`并保存 | 待审状态保存；未发布内容继续不可匿名访问，也不进入Page Sitemap | 编辑器状态回读为待审；匿名`?page_id=76`仍返回404；`page-sitemap.xml`搜索Slug仍为`0/0` | 通过 |
+| D24-C3-02 | 同一WM-A在`Pending Review`状态检查发布能力 | 第一版非强制互审模型下，同角色Website Manager仍具备发布能力 | 同一WM-A仍看到并可使用“发布”按钮，证明`Pending Review`只是协作信号，不是系统强制审批闸门 | 通过（边界已证实） |
+| D24-C3-03 | WM-A首次发布Page #76 | 精确固定链接200、正文可见、Page Sitemap包含Slug | 匿名精确URL正常显示TEST页面；Sitemap由4条变为5条，浏览器搜索Slug为`1/1` | 通过 |
+| D24-C3-04 | 首次发布后检查桌面和手持导航 | 发布Page不应未经选择自动进入正式导航 | 发现站点没有任何已分配菜单；Storefront对未分配的`Primary`和`Handheld`位置使用Page列表fallback，Page #76随发布自动进入两份导航 | P1，已关闭 |
+| D24-C3-05 | WM-A将已发布Page #76撤回为`Draft` | Sitemap移除Slug，匿名精确URL不可访问 | Sitemap已移除Slug，但精确固定链接仍返回HTTP 200，响应为旧发布HTML、`X-Cache: HIT`且当时`Age`约102秒；随机查询参数请求为404/MISS，证明是Breeze/Varnish旧缓存 | P0，已关闭 |
+| D24-C3-06 | 清理Breeze缓存，并在可用时同步清理Varnish，再复测精确原URL | 不带随机参数的精确原URL返回404，且Sitemap与导航均不包含Page #76 | 用户执行清缓存后，精确原URL返回HTTP 404、`X-Cache: MISS`、`Age: 0`；Sitemap和首页均无Page #76 | 通过，关闭P0 |
+| D24-C3-07 | Administrator建立菜单ID 29 `TEST Staging Controlled Navigation` | 显式控制Storefront导航，不再依赖fallback | 菜单顺序为Home、Blog、Cart、Checkout、My account、Shop；显式分配`Primary Menu`与`Handheld Menu`，关闭“自动添加新的顶级页面”，`Secondary Menu`未分配 | 通过，关闭P1 |
+| D24-C3-08 | 受控菜单回归 | Primary与Handheld都包含6个批准入口，不包含Sample、D12 TEST或Page #76 | 服务端HTML同时找到Primary与Handheld两份菜单；6个批准入口均存在，Sample Page、D12 TEST Page和D24 Page #76均不存在 | 通过 |
+| D24-C3-09 | WM-A重新发布Page #76并完成最终回归 | 精确URL200、Sitemap包含Slug，但Primary/Handheld不自动增加该Page | 最终精确URL200，TEST正文可见；Sitemap包含Slug；Primary和Handheld都未出现Page #76、D12 TEST或Sample Page。首次即时回归为`X-Cache: MISS`、`Age: 0`，后续已发布页面变为`X-Cache: HIT`、`Age`约614秒属于正常缓存，页面仍为200 | 通过 |
+| D24-C3-10 | 状态与配置留痕 | 状态动作不能只依赖`post_author`或修订记录 | 当时写入`.xlsx`的6条A/C3记录已完整迁移到`CONTENT_ASSET_REGISTER.md`；2026-08-21起Markdown为唯一活动登记簿，生成的Excel已于2026-08-22删除且不入库 | 通过（登记结构）；公司控制的Git远程归属与备份责任待验 |
+
+A/C3最终状态：Page #76保留为已发布TEST夹具，精确URL200并进入Page Sitemap，但不会因发布状态自动加入Primary或Handheld菜单。撤回为Draft时必须同时验证Sitemap和**不带随机参数的精确原URL**；若原URL仍命中旧缓存并返回200，清理Breeze/Varnish后复测到404才算真正下线。当前只操作受保护Staging；没有修改Reading设置、固定链接、Canonical、robots、全局SEO、支付、物流、DNS或Production。
+
+## D24 A/C4 已发布更新、修订与两类恢复验证记录
+
+A/C4继续复用受保护Staging的Page #76，执行账号为WM-A。普通“从回收站恢复”和移入回收站后的提示条“立即撤销”按两个独立用例完成；最终状态为Draft，并在清理Breeze/Varnish后用无参数精确URL验收。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C4-01 | 建立Published公开面基线 | 精确URL 200；Page Sitemap含Slug；Primary/Handheld不含#76；正文无C4标记 | 2026-08-21只读HTTP复核：精确URL 200、`X-Cache: HIT`、`Age: 2262`；Sitemap含Slug；两份菜单均为既定6项且不含#76；正文无`TEST C4`标记 | 通过 |
+| D24-C4-02 | 在Published #76末尾新增`TEST C4 low-risk update marker — 2026-08-21.`并更新 | 状态保持Published；无参数精确URL显示标记；Sitemap仍含；导航仍不含；标题/Slug/作者/模板/Yoast不变 | 用户截图确认状态仍为Published、修订数为3且标题、Slug、作者、模板未变；无参数精确URL显示完整标记并返回200、`X-Cache: MISS`、`Age: 0`，Page Sitemap仍含Slug，Primary与Handheld各6项且均不含#76 | 通过 |
+| D24-C4-03 | 把标记改为`TEST C4 temporary revision V2 — 2026-08-21.`并更新 | 公开页显示V2，修订数增加；仍为Published | 用户截图确认状态仍为Published、修订数3→4且标题、Slug、作者、模板未变；无参数精确URL显示完整V2、V1消失，返回200、`X-Cache: MISS`、`Age: 0`；Sitemap仍含，Primary与Handheld各6项且均不含#76 | 通过 |
+| D24-C4-04 | 从原生修订恢复包含第一条标记的上一版本 | 仍为Published；第一条标记恢复、V2消失；修订账号/时间可核对；标题/Slug/作者不变 | 修订界面确认目标为revision #85（WM-A，2026-08-21 07:17），其右侧新增内容为V1；恢复后编辑器显示V1、状态Published、修订数4→5，标题/Slug/作者不变。无参数精确URL显示V1、V2消失，返回200、`X-Cache: MISS`、`Age: 0`；Sitemap仍含，Primary/Handheld均不含#76 | 通过 |
+| D24-C4-05 | 从Published移入回收站，不点击“立即撤销”，清Breeze/Varnish | 对象在Trash；无参数精确URL 404/MISS；Sitemap与导航不含#76 | 用户截图确认#76位于“页面 → 回收站”且回收站计数为1，未使用即时撤销；清缓存后无参数精确URL返回404、`X-Cache: MISS`、`Age: 0`且无TEST正文，Page Sitemap移除Slug，Primary/Handheld各6项且均不含#76 | 通过 |
+| D24-C4-06 | 在“页面 → 回收站”点击普通“恢复” | 恢复为Draft，不自动公开；精确URL继续404，Sitemap与导航继续无#76 | 用户从回收站对#76执行普通恢复后，“草稿”筛选计数变为3且列表包含#76；无参数精确URL继续404、`X-Cache: MISS`、`Age: 0`且无TEST正文，Page Sitemap无Slug，Primary/Handheld各6项且均不含#76。重新打开编辑器后状态Draft、V1保留、V2不存在、修订数仍为5，标题/Slug/作者/模板未变 | 通过 |
+| D24-C4-07 | 重走发布检查并重新发布 | 精确URL 200；Sitemap含Slug；导航仍不含#76 | 用户截图确认V1保持并出现“页面已发布”提示；无参数精确URL返回200、`X-Cache: MISS`、`Age: 0`并显示V1、无V2，Page Sitemap重新包含Slug，Primary/Handheld各6项且均不含#76 | 通过 |
+| D24-C4-08 | 再次移入回收站并点击页面提示条“立即撤销” | 验证恢复移入前的Published状态并重新公开；不得误写成普通恢复到Draft | 用户在Published #76移入回收站后立即点击系统提示中的撤销，未在两步之间清缓存或使用普通恢复；截图确认#76回到Published列表，公开REST返回`status: publish`、revision count 5。无参数精确URL返回200、`X-Cache: MISS`、`Age: 0`并显示V1、无V2，Sitemap重新包含，Primary/Handheld各6项且均不含#76 | 通过；确认存在误重新公开风险 |
+| D24-C4-09 | 最终改回Draft并清Breeze/Varnish | 无参数精确URL返回404且无正文泄漏；Sitemap与两份导航无#76；对象不留Trash或Published | 用户截图确认后台状态Draft、V1保留、V2不存在、修订数5，标题/Slug/作者/模板未变。清Breeze与适用的Varnish后，无参数精确URL返回404且无V1/V2/标题正文泄漏；匿名REST返回401，Page Sitemap与Primary/Handheld均无#76。并发首轮回归后该404响应可被安全缓存为`X-Cache: HIT`、`Age: 0`，未出现旧200 | 通过；最终保持Draft |
+| D24-C4-10 | 登记上述状态动作 | 每项具有对象ID/URL、前后状态、执行人、证据、时间、恢复方案与验证结果 | 当时写入`.xlsx`的D24-C4-0001～0010共10条记录已完整迁移到`CONTENT_ASSET_REGISTER.md`，连同C3共16条历史记录；本轮未用媒体，未新增虚构素材记录。Excel生成文件已删除且不入库 | 通过（登记结构）；公司控制的Git远程归属与备份责任仍待验 |
+
+A/C4停止条件：Draft、Trash或普通恢复后清缓存仍返回200，普通恢复意外成为Published，或内容丢失为P0；修订恢复错误版本/状态、清缓存后内容仍旧、导航出现#76或Sitemap与状态持续不一致为P1。出现P0/P1时停止后续状态动作，优先恢复Draft、清缓存并保留证据。
+
+A/C4结论：10个用例全部通过，P0/P1开放项为0。普通恢复与即时撤销的状态差异、已发布更新会直接公开、修订恢复会直接改变Published对象以及撤回后的缓存门槛均已实测并写入中文手册。Page #76最终保持Draft。A/C4收口时高风险更新审阅与培训尚未执行；后续A/C5已完成有指导演练，A/C6已按SOP辅助口径通过，A/C7也已按后文抽样通过。上述技术与人员结论仍不等于真实内容/素材、公司控制Git远程与备份或D24整体通过。
+
+## D24 A/C5 真实样本边界与引导培训记录
+
+A/C5由WM-A在指导下完成，用于验证代表对象、独立审阅草稿和内容级字段路径。它不是无提示人员验收，也不能把TEST对象、示例政策或未授权素材升级为正式业务内容。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C5-01 | 只读检查Page #11 `Refund and Returns Policy` | 识别示例文案和未经批准的政策，不修改、不发布 | 发现示例文本及未经业务批准的“30天”政策；对象保持Draft，未作为正式固定Page样本 | 通过（正确排除） |
+| D24-C5-02 | 记录Post #24 `TEST D12 Manager Published Post`公开源基线 | Published源不被高风险演练直接修改 | 已记录Published状态、分类`TEST D12 Content`、标签`test-d12-manager`、评论开放和2个修订；没有直接修改源对象 | 通过（基线保持） |
+| D24-C5-03 | 建立Post #90 `TEST D24 Review Copy — Manager Published Post`独立审阅草稿 | 高风险改写在独立Draft内准备，源#24继续公开且不变 | WM-A按指导完成正文结构、摘要、分类/标签、评论、内链与Yoast；#90保持Draft，源#24未改 | 通过（机制） |
+| D24-C5-04 | 验证#90预览与公开隔离 | 登录态可预览；匿名精确URL与`?p=90`不可见；Post Sitemap不含#90 | 登录态预览可用；匿名访问为404，Sitemap排除，未进入正式导航/内链；源#24仍可公开访问 | 通过 |
+| D24-C5-05 | 验证#90特色图与授权边界 | 不合比例或无授权证据的素材不得作为正式特色图 | 竖版TEST特色图被判定不符合16:9基线并移除；没有真实授权素材记录，正式16:9素材仍待业务提供 | 通过（治理分支）；正式素材未验收 |
+| D24-C5-06 | 引导更新Post #68 `TEST D20 Long-form Article` | 保持Draft/TEST，完成长文结构、内链、标签、评论和内容级Yoast检查 | WM-A按指导补充TEST警示、标签、内链和Yoast，关闭评论，移除不合格特色图并保留正文TEST图；用户确认完成 | A/C5有指导完成；A/C6后续按SOP辅助口径通过 |
+| D24-C5-07 | 预览#68并交接复核边界 | 登录态预览可用；匿名不可公开；不在本步把用户操作等同独立验收 | 用户提供`?p=68`登录态预览并确认完成；A/C5当时未继续逐页代审，2026-08-22只读回归确认匿名ID路径404且Post Sitemap排除 | A/C5有指导完成；A/C6后续通过 |
+| D24-C5-08 | 引导检查Page #76并保存内容级Yoast | 保持Draft、默认模板、无父级、评论关闭；Yoast内容级字段可保存 | 用户按指导完成并确认；Page继续Draft，既有C4正文标记保留。2026-08-22只读回归确认匿名ID路径404、Page Sitemap与首页排除 | A/C5有指导完成；A/C6后续通过 |
+
+A/C5结论：WM-A有指导的Post/Page字段操作、高风险独立审阅草稿和素材拒绝分支已覆盖，开放P0/P1为0；相关8条事实已补录到`CONTENT_ASSET_REGISTER.md`。该结论描述A/C5收口时状态；后续A/C6-C7结果见下文。截至A/C5当时，正式3篇文章＋1个业务Page、获授权16:9素材和C7仍未完成，因此D24整体仍在进行中；公司控制Git远程归属/备份属于D25/M3门槛。
+
+## D24 A/C6 SOP辅助人员验收记录
+
+2026-08-22，项目负责人明确接受“可查阅批准的中文Markdown SOP/检查清单”的人员验收方式，并要求将C6标记通过。对象ID、Slug、字段示例值、修订编号、按钮位置与完整点击顺序无需背诵；操作者必须理解公开状态、风险分支、素材/事实闸门、缓存、修订边界、停止条件和登记责任。允许查SOP不等于允许旁人逐点击发口令，也不等于免除验证与留证。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C6-01 | 调整人员验收方法 | 可查批准SOP；不把“独立”误写成背诵或闭卷；不确定时停止并升级 | CR-009与ADR-026记录新口径，操作手册写明“无需背诵/必须理解/停止条件”；项目负责人明确接受 | 通过 |
+| D24-C6-02 | 复核既有实操与缺陷状态 | A/C3～A/C5已有WM-A实际操作、截图、修订/恢复与登记证据；开放P0/P1为0 | 既有D24记录满足；本轮不补造新的闭卷后台操作或精确操作时间 | 通过（证据复用） |
+| D24-C6-03 | 只读公开面安全回归 | Published源#24可访问；Draft #90/#68/#76匿名隔离且不进入相应Sitemap/首页 | 2026-08-22：`?p=24`为200；`?p=90`、`?p=68`、`?page_id=76`均为404；#90/#68对应Slug不在Post Sitemap，#76对应Slug不在Page Sitemap且首页无#76 | 通过 |
+| D24-C6-04 | 验收边界 | C6通过不得扩写为C7、真实内容/素材、WM-B、Git治理或Production通过 | A/C6收口时文档继续保留C7与正式内容/素材为未完成、Git交接为D25门槛；WM-B为CR-007条件性补验。C7后来依据独立实操抽样关闭 | 通过 |
+
+A/C6结论：**通过（SOP辅助、项目负责人接受）**。结论依据A/C3～A/C5既有实操与回归证据、开放P0/P1为0、2026-08-22只读公开面回归及项目负责人明确接受；不声称完成过闭卷或完全无提示复跑，也不代表当天新增或修改了WordPress内容。截至A/C6收口时C7与D24整体尚未通过；后续C7结果见下节。
+
+## D24 A/C7 可查SOP抽样与收口记录
+
+2026-08-22，WM-A依据批准的中文SOP完成当前对象状态、Post/Page字段、登录态预览、匿名隔离、修订恢复和登记抽样。网站操作由用户在实际WM-A会话中完成；Codex执行匿名HTTP、REST、Sitemap、首页和Git文档差异复核。本节不把TEST对象扩写为正式内容或授权素材。
+
+| 用例ID | 操作与对象 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D24-C7-01 | 只读核对#24/#90/#68/#76状态、用途与风险边界 | #24为Published源基线且不直接做高风险修改；#90/#68/#76为明确TEST Draft | WM-A逐项打开并确认四项一致；本步未保存或发布任何对象 | 通过 |
+| D24-C7-02 | 抽查Post #90字段与登录态预览 | Draft；摘要、TEST分类/标签、评论、内链和Yoast可读回；无未授权特色图；登录预览可用 | WM-A确认Draft、摘要已填、分类/标签已选、评论关闭、特色图为空、`published source article`链接指向#24公开源、Yoast Title/Meta已填，登录预览正常 | 通过 |
+| D24-C7-03 | Page #76保存临时正文标记 | 只改变明确TEST正文；状态保持Draft；匿名URL/REST/Sitemap/首页继续隔离 | 新增`TEST C7 temporary revision marker — 2026-08-22.`并保存草稿，修订数5→6；公开URL 404、REST 401、Page Sitemap和首页均无#76 | 通过 |
+| D24-C7-04 | 恢复#76无C7标记的上一版本并复核非修订字段 | C7标记消失，既有C4标记保留；仍为Draft；Slug、作者、模板、父级、评论与Yoast填写状态不变 | 恢复后修订数为7，C7消失、C4保留；用户确认状态及非修订字段均未变化，登录态预览正常；公开URL继续404、REST 401、Sitemap/首页排除 | 通过 |
+| D24-C7-05 | 公开面全链路回归 | #24公开正常；三个Draft匿名不可见且不进入对应公开发现面 | `?p=24`为200且标题/公开路由存在；`?p=90`、`?p=68`、`?page_id=76`为404；四条最终响应均为`X-Cache: MISS`、`Age: 0`；匿名REST对#90/#68/#76为401；#68/#90不在Post Sitemap，#76不在Page Sitemap或首页 | 通过 |
+| D24-C7-06 | Markdown登记、Git差异与移交边界 | 只登记真实动作；P0/P1为0；未完成业务输入与治理门槛准确移交 | `CONTENT_ASSET_REGISTER.md`新增D24-C7记录，保存后已重开；定向Git差异与`git diff --check`通过，没有虚构素材授权。3篇正式文章＋1个正式Page和授权16:9素材仍是D24未完成项；公司控制Git远程/备份/交接为D25/M3门槛 | 通过 |
+
+A/C7结论：**通过，开放P0/P1为0。** 当前内容生产线的TEST状态、字段、预览、公开隔离、修订恢复、登记和停止边界完成抽样；D24整体仍因正式3篇文章＋1个Page及授权16:9素材未验收而保持进行中。公司控制Git远程、备份和交接继续作为D25/M3门槛；Production、WM-B条件性补验和正式SEO输出不在本结论内。
 
 ## 测试记录模板
 
