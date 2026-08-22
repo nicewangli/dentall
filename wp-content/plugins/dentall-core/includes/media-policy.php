@@ -19,7 +19,10 @@ function dentall_core_is_restricted_media_user() {
 }
 
 /**
- * 内容试录员只允许上传第一阶段需要的安全位图格式。
+ * 业务内容角色只允许上传白名单内的媒体格式。
+ *
+ * Website Manager额外允许CSV，以便使用WooCommerce原生商品导入功能；
+ * Content Editor仍只允许安全位图格式。
  *
  * @param array<string, string> $mime_types 当前允许的 MIME 类型。
  * @return array<string, string>
@@ -29,9 +32,14 @@ function dentall_core_limit_content_editor_mime_types( $mime_types ) {
 		return $mime_types;
 	}
 
-	$allowed_keys = array( 'jpg|jpeg|jpe', 'png', 'webp' );
+	$allowed_keys       = array( 'jpg|jpeg|jpe', 'png', 'webp' );
+	$allowed_mime_types = array_intersect_key( $mime_types, array_flip( $allowed_keys ) );
 
-	return array_intersect_key( $mime_types, array_flip( $allowed_keys ) );
+	if ( current_user_can( DENTALL_WEBSITE_MANAGER_MARKER ) ) {
+		$allowed_mime_types['csv'] = 'text/csv';
+	}
+
+	return $allowed_mime_types;
 }
 add_filter( 'upload_mimes', 'dentall_core_limit_content_editor_mime_types', PHP_INT_MAX );
 
