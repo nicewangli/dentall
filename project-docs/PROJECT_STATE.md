@@ -4,10 +4,10 @@
 
 ## 状态快照
 
-- 更新日期：2026-08-21。
-- 当前阶段：W4 / D20已完成TEST机制验收。Staging长文草稿#68已完成正文清洁、TEST分类、特色图、正文图、相关内链、Yoast Title/Meta、登录态预览、修订恢复、匿名404与Sitemap排除回归；仍保持草稿，且现有#59图片不满足正式特色图16:9基线，不能扩写为正式内容或素材验收。D21已形成固定页面候选清单；D22 Page优先与D23原生状态/素材登记仍是待确认、待实测的候选，不能写成已接受或已完成。2026-08-21质量复核已纠正虚构工时、错误Wiki链接、独立SEO岗位、固定数量触发CPT及“同角色互审等于强制审批”等问题。统一公开署名与作者Schema仍转D87文章详情实现。M2继续限定为“商品模型TEST机制与技术职责候选通过”，不能扩写成正式内容、实际人员、正式前端或整体商城验收通过。
+- 更新日期：2026-08-22。
+- 当前阶段：W4 / D24进行中。D21固定页面候选、D22原生Page优先且不建Solutions CPT、D23非强制互审边界已确认；`project-docs/CONTENT_ASSET_REGISTER.md`现为唯一活动登记载体，原`.xlsx`中的D24 A/C3-A/C4共16条记录已迁移，生成文件已删除且不入库。D24 A/C3-A/C5已完成Page状态/发布/撤回缓存/受控菜单、Published更新、修订与两类恢复、高风险独立审阅Draft和WM-A有指导培训；A/C6按CR-009/ADR-026的可查SOP口径通过。2026-08-22 A/C7进一步确认#24为Published源基线、#90/#68/#76为Draft；#90字段与登录预览通过，#76临时标记保存修订5→6并恢复至7，C7标记消失、C4标记保留且非修订字段不变；恢复前后匿名URL 404、REST 401、Sitemap/首页排除，开放P0/P1为0。依据CR-007，WM-B移出当前范围，特殊情况再补验。3篇正式文章＋1个正式Page及授权16:9素材仍未完成，因此D24整体不能标记完成；公司控制Git远程所有权/备份/交接为D25/M3门槛，上述证据也不等于D24-B真实样本、Production SEO或多人验收。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
-- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；两名实际网站工作人员仍需在到岗后分别补30分钟无指导试录，完成M1人员验收。D17商品样本骨架通过，D18 M2商品模型候选冻结通过，真实业务内容尚未验收；D24完成内容样本，D25综合验收后才开放批量录入。
+- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；CR-007已将WM-B重复角色验收从D24-D25当前范围移除，WM-A负责完成角色级技术矩阵和当前培训。该调整不等于两名工作人员、跨账号归属或多人协作通过。D17商品样本骨架通过，D18 M2商品模型候选冻结通过，真实业务内容尚未验收；D24完成内容样本与手册培训，D25综合验收后才开放WM-A批量录入。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
 - 当前版本：DentAll Core Local与Staging均为0.2.5；角色版本6已同步Website Manager高级SEO能力，商品页隐藏原始自定义字段面板，并只在WooCommerce商品导出请求临时授权`export`。2026-08-18已通过`main`提交`b1faac2`、部署提交`e9e21c4`及Cloudways Pull完成Staging同步。Local与Staging均使用WordPress 7.0.4、WooCommerce 11.0.0和Yoast 28.2。
 
@@ -82,7 +82,7 @@
 - D12 Website Manager角色版本5已完成独立Code Review、安全与测试复核；业务内容、媒体元数据、评论/商品评价、商品及术语、订单、优惠券、客户创建、报表和WooCommerce日常运营能力开放，WordPress用户、插件、主题、代码和系统设置保持关闭。
 - D12 Staging已部署DentAll Core 0.2.1并激活Storefront；独立Website Manager账号已验证文章发布/更新/回收站恢复、页面发布/媒体上传/Alt持久化/恢复、简单商品价格库存和物流字段/发布/恢复、全局属性与属性项增删改、优惠券、空订单页、客户、报表及评论管理。
 - Staging Website Manager直接访问`users.php`、`plugins.php`、`themes.php`和`options-general.php`均被拒绝；0.2.1部署后空Tools菜单已消失。未授予WordPress用户、插件、主题、核心更新、数据库或部署权限。
-- 两名网站操作人员当前都使用`DentAll Website Manager`，每人必须使用独立账号；低权限`DentAll Content Editor`保留为未来可选角色，但不再作为D12当前人员验收项。
+- 目标协作结构下，两名网站操作人员均使用`DentAll Website Manager`并各自持有独立账号；当前仅WM-A完成实测，第二人按CR-007条件性补验。低权限`DentAll Content Editor`保留为未来可选角色，但不再作为D12当前人员验收项。
 - Site Kit后续由Administrator安装和首次连接；Website Manager仅通过Site Kit Dashboard Sharing查看已共享的Analytics、Search Console、PageSpeed Insights等数据，不开放WordPress插件管理。GTM日常标签权限在Google Tag Manager平台独立分配，WordPress端容器接入仍由开发者管理。
 - D12 TEST对象经用户确认暂不清理，作为D13及下周回归夹具。Local保留两个商品原型；Staging保留TEST文章、页面、媒体、简单商品、分类和优惠券。它们不是正式业务内容，D25开放批量录入前再次决定归档或删除。
 - D13使用独立Website Manager账号在Staging完成培训者预演：引导创建并发布`TEST D13 Manager Simple Product`，创建TEST文章草稿；随后在不到5分钟内无提示创建另一个TEST简单商品和TEST文章草稿，无停顿或误操作。
@@ -103,7 +103,7 @@
 - D16 C4区分了首次发布前Slug修正、已发布URL永久迁移、重复页Canonical和无等价替代撤销场景。永久迁移使用一跳301且新页自身Canonical；Canonical不代替301，不把不相关URL批量跳首页/商店/分类。WordPress核心旧Slug 301只作为回退机制，真实变更仍须登记和验证；当前未安装重定向插件、未新增实现、未改任何环境URL。
 - D16 C5冻结商品生命周期分流：临时缺货保持200、原URL、可索引、自身Canonical和`OutOfStock`，不删除/301/noindex；永久停售由业务确认，严格一对一替代才301，有持续价值则保留200停售页，无替代且无价值则真实404、必要时评估410。WooCommerce 11.0.0无原生`discontinued`状态，当前无真实停售样本，不提前新增字段或Schema代码；骨架可继续，正式停售文案、替代关系和`Discontinued`输出尚不能验收。
 - D16 C6只读核对Staging：WordPress 7.0.4、WooCommerce 11.0.0、DentAll Core 0.2.3、Breeze与Object Cache Pro处于启用状态；WooCommerce 11.0.1与Breeze 2.5.13仅显示可更新，未升级。Yoast未安装，因此Website Manager虽已由DentAll Core授予`wpseo_edit_advanced_metadata`，Staging仍不能验收Yoast字段界面、保存和前台输出。
-- D16 C6确认Staging有2个Website Manager账号和1个Content Editor账号，角色结构满足流程复演前置；两名实际工作人员各30分钟无指导验收仍未完成。Staging现有4个商品均为TEST数据，其中2个发布、2个草稿且全部为Simple；尚无Variable、当前缺货、可下载和真实永久停售代表样本，不能替代D17真实业务内容验收。
+- D16 C6只读盘点当时在Staging看到2个Website Manager角色账号和1个Content Editor账号；该数量只证明存在账号记录，不能证明第二名真实工作人员账号已完成归属和登录。D24 C2用户进一步更正确认当前WM-B尚未创建，因此历史测试/角色账号不再视为跨账号流程前置；第二身份与两人各30分钟无指导验收未执行，并已按CR-007移出D24-D25当前门槛，触发特殊情况时再补验。Staging现有4个商品均为TEST数据，其中2个发布、2个草稿且全部为Simple；尚无Variable、当前缺货、可下载和真实永久停售代表样本，不能替代D17真实业务内容验收。
 - D16 C6发现两个已发布Staging商品实际URL均为`/shop/{slug}/`，与项目候选基线`/product/{slug}/`不一致。C6未修改固定链接、Slug或重定向；该差异必须在D17真实URL验收前决定和复核，现有受保护且`noindex`的TEST URL不进入Production 301登记。
 - D16 C6后续确认并由用户在Staging将商品固定链接从自定义`/shop/`切换为WooCommerce默认`/product/`；`/shop/`继续作为商品归档。该变更未修改PHP代码、Slug或商品数据。两个新TEST商品URL正常显示，旧`/shop/{slug}/`均自动跳至对应新URL；浏览器已确认发生跳转，但本轮未取得原始响应状态码，不能把它写成已验证301。
 - D17由Website Manager在受保护Staging完成5个代表商品样本矩阵：D17新建Simple草稿#45、Variable草稿#47和多图Simple草稿#52，并补全既有已发布Simple #32、#35的Yoast Title与Meta Description；没有把5个样本误记为5个D17新建商品。
@@ -122,7 +122,7 @@
 - 用户随后在Local执行相同设置。WooCommerce 11.0.0保存“默认”时会把空选项规范化为实际`product`基础；刷新后界面因此回显为第四项“自定义基础链接`product/`”。Local与Staging该回显均属核心代码预期行为，最终商品URL一致为`/product/{slug}/`，无需重复修改。
 - 用户已授权在Staging安装Yoast 28.2；插件文件成功安装后，自动激活导航多次超时，最终由用户在后台手动激活成功。后续五页矩阵确认首页、商店、两个已发布Simple商品和真实404均只有1个Title并输出`noindex, nofollow`；受全站禁止索引影响，五页均无Canonical，Production自身Canonical仍须在对应环境规则下另行验收。
 - D19 C1只读盘点确认Staging现有4篇文章（2篇发布、2篇草稿）、2个文章分类、1个TEST标签及多个默认/TEST作者身份；文章固定链接当前为`/%postname%/`，首页显示最新文章，尚无独立博客页。Yoast当前让文章、分类、标签和作者归档可索引，日期归档启用但`noindex`；本次盘点没有修改数据库、Slug、固定链接或SEO配置。
-- D19 C2已接受并修订ADR-017：文章范围限于DentAll工厂、公司、产品与服务相关信息，正式文章前台统一署名`DentAll Editorial Team`；两名Website Manager继续使用各自独立账号直接编写和发布，后台`post_author`保留内容作者，受支持字段的修订版本记录对应修改账号和时间，但二者不能证明发布、撤回或回收站动作人。团队为1名开发者＋2名网站人员，第一版明确不新增品牌作者账号或新角色，也不把两名后台显示名改成同名。作者归档开关持久化、301回首页和作者Sitemap缺席均已验证；当前Yoast `Article` Schema仍输出实际后台账号为`Person`作者，公开署名与Schema统一转D87文章详情实现和验收。
+- D19 C2已接受并修订ADR-017：文章范围限于DentAll工厂、公司、产品与服务相关信息，正式文章前台统一署名`DentAll Editorial Team`；若由两名Website Manager实际参与，仍应使用各自独立账号直接编写和发布，后台`post_author`保留内容作者，受支持字段的修订版本记录对应修改账号和时间，但二者不能证明发布、撤回或回收站动作人。当前由WM-A实测；依据CR-007，WM-B创建与跨账号验收不属于D24-D25当前门槛，只有第二人上岗或出现权限、交接、并发、强制互审及审计差异时才补验。团队规划仍可保留1名开发者＋2名网站人员的目标，第一版明确不新增品牌作者账号或新角色，也不把两名后台显示名改成同名。作者归档开关持久化、301回首页和作者Sitemap缺席均已验证；当前Yoast `Article` Schema仍输出实际后台账号为`Person`作者，公开署名与Schema统一转D87文章详情实现和验收。
 - D19已接受ADR-018并完成Staging复核：日期归档关闭，`/blog/2026/08/`已验证301到首页；文章仍保留真实发布日期和修改日期，不改变文章详情URL。Production robots、Canonical、状态码与缓存另验。
 - D19已接受ADR-019并完成Staging复核：WordPress标签能力与现有`test-d12-manager` TEST标签继续保留，标签归档为`noindex, follow`且已从Yoast XML Sitemap排除；D25再决定TEST标签去留，Production结果另验。
 - D19已接受ADR-020并完成Staging信息架构复核：分类URL、SEO标题模板与`category-sitemap.xml`均符合规则。只有正式名称/Slug、多篇相关文章和独立说明的分类才满足Production索引门槛；现有`TEST D12 Content`与`Uncategorized`仍是D24/D25内容治理对象，Production索引和Canonical另验。
@@ -148,7 +148,7 @@
 
 - W1：Cloudways Full Access已完成，继续复核账单状态和服务器持续可用性。
 - W1：从老板持有的闲置域名中选择具体域名，D4由老板提供DNS访问并完成映射。
-- D13人员验收补项：两名实际网站工作人员到岗后，分别使用独立Website Manager账号完成30分钟无指导试录；培训者预演不能替代该结论，但不阻塞D17代表商品SEO样本骨架。
+- D13历史人员验收缺口：此前按口头信息记录两个独立Website Manager账号均能登录；D24 C2用户更正确认目前只有WM-A完成实际准备。CR-007已把第二身份、两人各30分钟无指导试录和跨账号流程转为条件性补验，不再列为D24-D25当前进行中；历史角色/测试账号不能替代未来真实WM-B。
 - D10：定制商品默认展示、询价条件启用的最新方案已记录；当前无询价实施工时，真实询价商品出现后再确认角色、收件邮箱、隐私文案和SMTP。
 - D10：定制展示商品的参考价格范围和商品上下文Contact入口已确认；正式价格范围、按钮文案和联系收件人在实现前由业务方提供，不阻塞标准商品价格与库存骨架。
 
@@ -156,15 +156,15 @@
 
 - W2～W3不存在资料层面的整体阻塞；以下事项按最晚节点确认，未确认前使用明确标记的TEST数据验证骨架。
 - 正式商品分类名称、层级和商品归属由Website Manager根据业务内容维护，不再阻塞W2～W3骨架；设计稿入口与Solutions边界在相应前端/内容阶段按实际数据处理。
-- Website Manager技术能力矩阵已在Local与Staging验收：业务内容、媒体、评论/商品评价、商品、订单、优惠券、客户和报表可操作，用户、插件、主题、代码和WordPress系统管理保持关闭。D17已验证Yoast字段实际录入、保存和前台输出；Site Kit共享面板仍待后续，两名实际工作人员无指导试录仍待到岗。D25前不得直接使用Administrator或原生Shop Manager替代。
+- Website Manager技术能力矩阵已在Local与Staging验收：业务内容、媒体、评论/商品评价、商品、订单、优惠券、客户和报表可操作，用户、插件、主题、代码和WordPress系统管理保持关闭。D17已验证Yoast字段实际录入、保存和前台输出；Site Kit共享面板仍待后续。D24 A/C6已按“可查批准SOP、独立判断与留证”的口径通过，A/C7完成当前对象、字段、预览、公开隔离、修订恢复和登记抽样；第二人无指导试录按CR-007触发时补验，不得直接使用Administrator或原生Shop Manager替代。
 - SKU来源、格式、唯一性和日常责任规则已在D9形成候选，D17仅以TEST编号验证父子唯一性；具体制造商货号公开许可及ADS/DentAll自有编号细节需由业务方确认，未确认时不得发布正式商品。
 - 合法变体组合、套装与单支关系、正式USD价格、库存和缺货策略不阻塞通用骨架；D17 TEST矩阵只证明显式合法组合、逐Variation库存和前台状态机制可用，不证明锆块的正式Size/Shade值或组合。
 - 图片/PDF公开授权、英文内容、技术参数和医疗/合规事实需由业务方确认；未确认内容不得正式发布。
 - Cloudways正式购买状态，以及数据库和Web服务器的最终版本记录。
 - 支付服务商、物流国家/地区、运费和税费规则。
-- 品牌实现方案和Solutions内容结构。
+- 品牌实现方案；Solutions的Page优先方向已确认，待确认的是正式内容范围、英文标题/Slug、媒体授权、相关商品和导航位置。
 - LocalWP命令行PHP的Imagick扩展声明仍不可用；D11已确认Web/CLI实际使用GD完成PNG读取和WebP输出，不阻塞D12。若最终主题或性能阶段出现GD/Imagick输出差异，以Staging结果为部署依据。
-- Git远程为开发者个人私有GitHub仓库；D3只复核跟踪边界和密钥排除。
+- Git远程当前仍为开发者个人私有GitHub仓库；D3只复核跟踪边界和密钥排除，公司控制的所有权、备份、访问与交接路径仍待D25前确认。
 - 正式Staging域名与DNS访问尚未确定；当前Cloudways临时域名可用于D6试录。
 - `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git使用只读Deploy Key连接GitHub，分支和`public_html/`路径已验证并完成首次部署。
 - 插件方向已冻结：ACF Pro负责必要结构化展示字段，Local已安装6.8.7但在D16冲突隔离后保持停用；Yoast SEO Free负责SEO元数据与技术SEO辅助，Local与Staging均已安装并激活28.2，完成Title唯一性和Staging禁止索引边界验证；Site Kit by Google负责未来Production的Search Console、GA4和PageSpeed数据接入，仍待后续按计划安装与验证。
@@ -183,36 +183,65 @@
 - [x] 完成页面责任边界候选：Website Manager负责录入并按来源核对，老板或指定业务/合规负责人确认正式事实和政策；当前没有独立SEO岗位，Website Manager维护内容级SEO，开发者负责高影响URL、菜单、表单安全和技术输出。
 - [x] 形成主导航、页脚、WooCommerce功能页和Contact `product_id`上下文依赖候选；未修改或实测Staging菜单。
 - [x] 定义空页、草稿、缺负责人、待业务确认、缺媒体授权和未完成SEO等状态的验收边界。
+- [x] 2026-08-21 D24 C1截图复核：Staging Page列表共10项（8项已发布、2项草稿）；Reading设置仍以`Home`为首页、`Blog`为文章页，且环境继续勾选建议搜索引擎不索引。本轮未创建页面、未修改绑定或索引设置。
 - [ ] 正式页面标题、Slug、联系方式、政策文案、FAQ范围和菜单配置仍未冻结；D25前完成。
 
-## D22 Solutions内容模型候选结论
+## D22 Solutions结构决定与待验证项
 
-- [x] 提出ADR-023候选：第一版Solutions推荐以原生WordPress `Page`优先承载，不预建CPT。
+- [x] ADR-023已于2026-08-21获用户确认：第一版Solutions以原生WordPress `Page`优先承载，不注册Solutions CPT。
 - [x] 形成候选URL`/solutions/`；存在真实且独立条目时才评估`/solutions/{slug}/`，正式标题、Slug、菜单和条目范围仍待业务确认。
 - [x] 形成原生最小内容模型候选：标题、摘要或首屏简介、正文、适用对象/场景、相关商品或Contact入口、授权媒体/alt、SEO字段与发布状态；不增加ACF、关系字段、自动聚合或筛选。
 - [x] 更正CPT升级门槛：数量只是信号，必须结合可重复字段、独立归档/筛选、频繁增删及可验证维护成本综合判断，不设机械的“约6个”硬阈值。
-- [x] 完成文档与自定义代码范围的只读盘点：未发现Solutions CPT注册、已登记的正式Solutions条目、归档或筛选实现；尚未查询Local/Staging数据库中的Page、CPT对象或公开URL，不能据此声称环境内不存在条目。
-- [ ] 用户尚未对Page优先候选作可追溯确认；ADR-023保持提议中。
-- [ ] Website Manager原生Page编辑走查尚未执行；用户确认候选后可复用明确TEST对象或D24固定页面样本验证字段、预览和权限，不要求发布或预建正式Solutions。
+- [x] 完成文档与自定义代码范围的只读盘点：未发现Solutions CPT注册、已登记的正式Solutions条目、归档或筛选实现；用户提供的Staging Page列表截图及`Solutions`标题搜索未发现对应Page。本证据不覆盖Local、Production、回收站、其他`post_type`、Slug冲突或公开URL，不能扩写为全环境数据库审计。
+- [x] 用户接受Page优先、不建CPT；该结构决定不等于已创建Solutions Page或冻结正式URL。
+- [x] WM-A已在明确TEST的Page #76完成原生Page标题、Slug、正文区块、作者、草稿状态、默认模板、无父页面和评论关闭的保存回读；登录态预览正常。该项描述的是C2初始草稿证据；Page #76随后完成A/C3发布路径与A/C4更新/恢复路径，现已安全收口为Draft，不是正式Solutions。
+- [x] CR-007已将WM-B从D24-D25当前验收范围移除；C2按WM-A角色级路径完成。未来触发第二人上岗、权限差异、强制互审、交接、多人并发或审计需求时，再用公司控制的唯一邮箱创建独立账号并专项验证跨账号修订。
 - [ ] 正式Solutions范围、英文标题/Slug、媒体授权、相关商品与导航位置仍待业务确认；不阻塞D23治理骨架。
 
-## D23内容审核、发布与媒体治理候选结论
+## D23内容审核、发布与媒体治理已确认方向与待验证项
 
-- [x] 提出ADR-024候选：第一版拟以原生状态、受支持内容字段修订、素材登记和待确认的发布/变更登记完成基础治理；不预先新增审计日志插件。
-- [x] 明确两名Website Manager以独立账号承担日常运营、按需互审和发布；当前同一角色均可发布，`Pending Review`只是流程信号，不是系统强制审批。
+- [x] ADR-024治理方向已获用户确认：第一版以原生状态、受支持内容字段修订、素材登记和发布/变更登记完成基础治理；不预先新增审计日志插件。
+- [x] 明确目标协作结构下两名Website Manager应以独立账号承担日常运营、按需互审和发布；当前仅WM-A实测，同一角色具备发布能力，`Pending Review`只是流程信号，不是系统强制审批。
 - [x] 形成业务/合规升级、误发布撤回、授权撤回与已公开URL迁移边界候选。
 - [x] 明确`Pending Review`只适用于未发布内容；已发布对象点击“更新”会直接改变公开版本，高风险更新必须先在受保护Staging或独立审阅草稿审核后同步。
 - [x] 明确`post_author`是内容作者、原生修订只追踪受支持内容字段的对应修改账号；发布、撤回和回收站等状态动作不具备天然操作者审计，必须另行登记或显式接受第一版缺口。
 - [x] 明确原生修订与素材登记不能逐次审计全部WooCommerce、媒体和SEO元数据操作；第二版按需评估审计日志能力。
-- [ ] 仓库内Markdown素材表尚未证明两名业务人员可直接维护；D24前确定业务可访问入口或同步责任人。
-- [ ] D24前确定业务人员可维护的内容发布/变更登记入口与最小字段，或由业务明确接受第一版状态操作审计缺口。
-- [ ] D23 C6-C7未完成：新内容状态流转、已发布内容更新、权限、修订、预览、撤回、状态动作留痕和素材登记仍需实际演练；P1边界关闭前ADR-024不得冻结，不以文档候选代替技术、人员或业务验收。
+- [x] 用户最终决定以`project-docs/CONTENT_ASSET_REGISTER.md`作为唯一活动业务登记载体，统一记录内容发布/变更与素材授权；WM-A维护业务记录，开发者维护结构、Git版本与交付证据。原`.xlsx`的16条A/C3-A/C4记录已迁移，生成文件已删除且不再作为事实来源。
+- [ ] 公司控制Git远程的所有权、备份、访问与交接路径，以及首条真实内容/素材记录仍待验证；选择Markdown不等于公司治理、审计或人员验收闭环，多人读写只在CR-007触发后补验。
+- [ ] D23治理仍未整体完成：A/C3的新Page状态路径、A/C4的已发布更新/修订/两类恢复、A/C5高风险独立审阅Draft、A/C6 SOP辅助人员验收及A/C7抽样均已通过，当前技术/人员边界已关闭；首条真实素材/正式内容登记尚未形成，公司控制Git交接仍为D25门槛，因此ADR-024尚未冻结。第二身份与跨账号编辑为当前不适用的条件性补验，不能写成已通过。
+
+## D24 A/C1结构确认、A/C2 Page走查、A/C3-A/C4发布恢复、A/C5培训与A/C6-C7验收
+
+- [x] 用户接受第一版非强制互审流程，并最终选择Git中的`CONTENT_ASSET_REGISTER.md`作为唯一活动登记载体；D24 C2进一步更正确认WM-A可用、WM-B尚未创建，不能再声称两个真实账号均已就绪。
+- [x] 依据用户提供截图完成Staging Page列表、`Solutions`标题搜索、Home/Blog绑定及noindex的只读复核；未创建、编辑、发布、删除Page，也未修改菜单、URL、SEO或环境配置。
+- [x] 历史阶段曾生成并验证包含两个工作表的普通`.xlsx`；用户随后决定停止Excel，16条A/C3-A/C4记录迁移后该文件已删除。后续记录只写入`CONTENT_ASSET_REGISTER.md`，不再转换为Google表格或双写Excel。
+- [x] WM-A在Staging创建并保存Page #76 `TEST D24 Page Field Walkthrough`；Slug为`test-d24-page-field-walkthrough`，C2初始状态为Draft，作者为WM-A，默认模板、无父页面、评论关闭，正文为Paragraph、H2和List原生区块。
+- [x] Page #76登录态预览正常；无痕访问`?page_id=76`返回Error 404；`page-sitemap.xml`搜索该Slug为`0/0`，未进入Sitemap。
+- [x] WM-A后台菜单不显示用户、插件、主题、工具和设置；直接访问`users.php`、`plugins.php`、`themes.php`、`options-general.php`和`tools.php`均被拒绝。
+- [x] A/C3由WM-A将Page #76从Draft改为Pending Review；匿名精确URL继续404，Page Sitemap仍不含该Slug。同一WM-A仍看到并能执行发布，证明`Pending Review`只提供协作信号，不构成强制互审。
+- [x] WM-A首次发布后，精确URL返回200且Page Sitemap包含该Slug；同时发现Storefront在Primary与Handheld均未分配显式菜单时使用页面fallback，导致所有已发布Page（包括#76）自动进入导航。该结果不是“自动添加新的顶级页面”复选框造成。
+- [x] 为控制公开面，先将#76撤回Draft；Sitemap随即移除Slug，但精确URL仍命中旧的公开缓存并返回`X-Cache: HIT`、HTTP 200。清除Breeze/Varnish缓存后，精确URL返回404、`X-Cache: MISS`，Sitemap和首页均不再出现#76，撤回P0关闭。
+- [x] Administrator创建原生菜单#29 `TEST Staging Controlled Navigation`，顺序为Home、Blog、Cart、Checkout、My account、Shop；分配给Primary与Handheld，关闭自动添加顶级页面，Secondary不分配。菜单中不包含Page #76、D12 TEST Page或Sample Page。
+- [x] 菜单控制后由WM-A最终重新发布#76；发布瞬时精确URL为200、`X-Cache: MISS`、`Age: 0`，Page Sitemap包含Slug，Primary与Handheld均保持六项且不含#76。后续只读回归中该Published页面正常转为`X-Cache: HIT`（Age约614）；长期HIT是已发布页面的预期缓存，不应误写成必须持续MISS。
+- [x] 历史`.xlsx`曾含A/C3的6条与A/C4的10条动作，共16条；这些记录已迁移到`CONTENT_ASSET_REGISTER.md`，生成文件已删除。本轮未形成正式素材授权记录。
+- [x] CR-007已将WM-B创建、跨账号编辑、双人读写和第二人复跑从D24-D25当前范围移除；C2按WM-A角色级技术路径通过收口。该项状态为“当前不适用/条件性补验”，不是WM-B已通过；未来第二人上岗、权限差异、强制互审、交接、并发登记或账号级插件差异出现时再执行专项矩阵。
+- [ ] `solutions` Slug占用、对象ID、回收站、匿名URL与Sitemap未完成全量审计；由于C1不创建对象，该项不构成当前数据或URL变更风险，最晚在创建首个正式Solutions Page前完成。
+- [x] A/C3单账号技术路径通过；Page #76曾保留Published作为C4 TEST夹具。
+- [x] A/C4的低风险Published更新、V1/V2修订、普通恢复与立即撤销均通过；证实普通恢复为Draft，而从Published移入回收站后的立即撤销会恢复Published并直接重新公开。
+- [x] A/C4最终收口通过：Page #76为Draft，V1与5个修订保留，V2不存在；匿名精确URL为404且无正文泄漏、REST为401、Sitemap和两份导航均无#76。安全缓存的404可以为HIT，旧Published正文返回200才是失败。
+- [x] C2已按WM-A代表Website Manager角色级技术路径收口；中文手册保留未来WM-B条件性补验说明，不再等待第二账号。
+- [x] A/C5有指导手册与WM-A培训完成：Page #11只读检查后因样例政策及未经批准的30天条款被排除，仍为Draft；Post #24保持Published源基线且未修改。
+- [x] A/C5高风险路径使用Post #90独立审阅Draft隔离；已检查正文结构、摘要、分类/标签、内链、评论与Yoast，并验证登录预览、匿名404、Sitemap排除及源Post #24不变。
+- [x] Post #68与Page #76完成有指导字段操作并保持Draft；#68已移除不合规特色图但正文TEST图仍保留，#76仍为TEST Page。#68/#90的授权16:9特色图尚未完成。
+- [x] A/C6按CR-009/ADR-026的SOP辅助口径通过：允许查阅对象ID、URL、字段与步骤清单，不要求闭卷背诵；操作者仍须自行判断、验证、留证并在不确定时停止升级。2026-08-22只读回归确认#24匿名ID路径为200，#90/#68/#76匿名ID路径为404，Draft Slug不在相应Sitemap且首页无#76。
+- [x] A/C7可查SOP抽样通过：四对象状态/用途一致；#90字段、内链、无特色图、Yoast与登录预览正常；#76保存临时标记后修订5→6，恢复后为7且C7消失、C4保留、状态/非修订字段不变；恢复前后匿名404、REST 401、Sitemap/首页排除，Markdown已登记，开放P0/P1为0。
+- [ ] 3篇正式文章＋1个正式固定Page及授权16:9素材仍待完成；D24整体不得标记完成。公司控制Git远程所有权、备份和交接属于D25/M3门槛，不再误列为A/C7通过条件。
 
 ## 下一步三个验收结果
 
-1. 用户确认或调整ADR-023的Solutions Page优先候选；确认前不创建正式Solutions Page或CPT。
-2. 完成D23 C6-C7真实状态/权限、已发布内容更新、状态动作留痕与素材登记演练，关闭三项P1后再冻结ADR-024。
-3. 在D23边界实测后进入D24真实内容样本；正式素材必须补齐16:9特色图、授权和业务事实，不复用D20 TEST夹具结论代替验收。
+1. 业务提供真实事实与授权后完成3篇正式文章＋1个正式固定Page，并补齐授权16:9特色图；在此之前对象保持Draft或明确TEST，高风险更新继续使用独立审阅草稿，不直接改Published源对象。
+2. 进入D25综合验收前置：只维护`CONTENT_ASSET_REGISTER.md`，确认公司控制Git远程的所有权、备份、访问和交接；不得重新生成历史`.xlsx`。
+3. D25继续抽查权限、导出/恢复及TEST对象清理边界；当前不创建WM-B，只有CR-007触发时才补验第二账号。
 
 ## 本周风险
 
@@ -246,7 +275,7 @@
 | W2 / D10 | 6小时50分钟 | 待用户记录 | 已完成（文档规则） | 商品类型、价格、库存、物流尺寸、合法组合和D12原型输入候选完成；只读核对Local单位，未写入WooCommerce |
 | W2 / D11 | 6小时50分钟 | 待用户记录 | 已完成（规范、测试与交接） | 媒体显示、格式/压缩、元数据、PDF/授权规则完成；Local上传链11项通过，D12 TEST媒体包已准备，未上传正式媒体或写数据库 |
 | W2 / D12 | 6小时50分钟 | 待用户记录 | 已完成（双环境原型与权限验收） | Local简单/可变商品原型及自动审计完成；DentAll Core 0.2.1部署到Staging，Website Manager完成内容、媒体、商品与商城运营冒烟；TEST对象按用户决定保留用于下周回归 |
-| W3 / D13 | 6小时50分钟 | 待用户记录 | 已完成（培训者预演与简单商品流程） | Website Manager引导预演和不到5分钟无提示复跑通过；促销、库存、Backorders、缺图及恢复通过，P0/P1为0；两名实际工作人员人员验收待补 |
+| W3 / D13 | 6小时50分钟 | 待用户记录 | 已完成（培训者预演与简单商品流程） | Website Manager引导预演和不到5分钟无提示复跑通过；促销、库存、Backorders、缺图及恢复通过，P0/P1为0；第二身份人员验收未执行，CR-007后为条件性补验而非当前待补 |
 | W3 / D14 | 6小时50分钟 | 待用户记录 | 已完成（Local可变商品流程） | Website Manager完成Variable默认值、价格、库存、非法组合、物流继承/覆盖和购物车验证；父子重复库存P1修复并完成持久化读回，已执行范围P0/P1为0 |
 | W3 / D15 | 6小时50分钟 | 待用户记录 | 已完成（Local库存与物流字段） | 三层物流数据、Simple/Variable继承覆盖、数量/状态库存、临时缺货与恢复通过；45/45及独立23/23、17/17审计通过，正式物流输入仍待业务与承运商方向 |
 | W3 / D16 | 6小时50分钟 | 待用户记录 | 已完成（商品SEO规则与双环境边界） | 重复Title修复与Staging部署、字段职责、Slug/301/Canonical、缺货/停售生命周期、Yoast五页矩阵及`/product/`基线完成；Production未变更 |
@@ -255,8 +284,9 @@
 | W4 / D19 | 6小时50分钟 | 待用户记录 | 已完成（博客信息架构v1） | 原生Post/Category/Tag、`/blog/`路由、归档治理、内容作者与受支持字段修订、Yoast输出通过Staging验收；公开统一署名与作者Schema转D87 |
 | W4 / D20 | 6小时50分钟 | 待用户记录 | 已完成（TEST机制） | 字段职责、正文骨架与Staging长文草稿#68通过；媒体、内链、Yoast、预览、修订恢复、匿名404及Sitemap排除已验，正式16:9素材、授权与真实内容转D24 |
 | W4 / D21 | 6小时50分钟 | 待用户记录 | 已完成（候选清单） | About、Contact、政策页与FAQ候选清单及职责边界已形成；未创建页面、菜单或正式Slug，2026-08-21已纠正工时和职责口径 |
-| W4 / D22 | 6小时50分钟 | 待用户记录 | 候选待确认 | Page优先为当前推荐，URL、最小字段和CPT升级因素已形成候选；ADR-023缺少可追溯用户确认，不创建Page/CPT |
-| W4 / D23 | 6小时50分钟 | 待用户记录 | 进行中（流程候选） | 新内容状态、已发布更新、修订范围、状态操作留痕、素材登记和撤回边界已形成候选；P1未关闭，C6-C7实际演练未完成 |
+| W4 / D22 | 6小时50分钟 | 待用户记录 | 结构决定已接受，WM-A走查已完成 | ADR-023已确认Page优先、不建CPT；D24已完成WM-A Page字段、预览、匿名隔离与权限边界，CR-007把WM-B跨账号改为条件性补验，正式内容/Slug/菜单仍待后续 |
+| W4 / D23 | 6小时50分钟 | 待用户记录 | 治理方向已确认，实际验收进行中 | 非强制互审与Markdown单一活动登记载体已确认；A/C3-A/C7技术与人员抽样已关闭当前边界。首条正式内容/素材登记仍待，Git企业交接留D25 |
+| W4 / D24 | 6小时50分钟 | 待用户记录 | A/C2-A/C7当前技术与人员抽样通过 | #76完成字段/权限、发布、缓存、菜单、修订及两类恢复后保持Draft；A/C5完成#11排除、#24基线不改、#90审阅Draft隔离、#68/#76引导操作；A/C6按可查SOP口径通过，A/C7完成状态/字段/预览/隔离/修订/登记抽样且P0/P1为0。CR-007排除WM-B当前验收；正式3篇文章＋1个Page及授权16:9素材仍待，D24整体进行中；Git企业交接留D25/M3 |
 
 ## 更新规则
 
