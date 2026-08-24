@@ -4,12 +4,12 @@
 
 ## 状态快照
 
-- 更新日期：2026-08-22。
-- 当前阶段：W5 / D25的C1～C7技术/人员验收已完成；M3整体等待正式业务内容/素材与公司Git治理门槛。Staging已部署Website Manager最小CSV白名单并完成Simple模板v1的首批2个Draft、同源重复SKU跳过、#110普通恢复和#109/#110创建者追溯；已执行范围P0/P1为0。ADR-027已冻结`kg/cm`，ADR-029/CR-010确认全量快照与受控录入模板分离、只新增Draft、商品批次另行登记，自动活动日志和一键回滚不纳入第一版。WM-A可按SOP在受保护Staging优先录入Simple Draft；Variable/Variation CSV未开放。
+- 更新日期：2026-08-24。
+- 当前阶段：W5 / D26子主题骨架已在Local落地并通过独立代码复核，P0/P1/P2/P3均为0；D25的商品、文章与Page TEST对象全部保留。ADR-T01已确认Storefront父主题＋DentAll项目子主题，旧Starter阻断模板已退出继承链，D26没有进入视觉实现。M3整体仍等待正式业务内容/素材与公司Git治理门槛；WM-A可继续按SOP在受保护Staging优先录入Simple Draft，Variable/Variation CSV未开放。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；CR-007已将WM-B重复角色验收从D24-D25当前范围移除，WM-A负责角色级技术矩阵和当前培训。D18 M2商品模型候选冻结通过。D25商品、文章和Page的当前技术/人员路径已通过，WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。这不等于正式内容已审核、Production已开放或M3整体治理门槛全部关闭。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2和Storefront 4.6.2；2026-08-22 Staging后台显示WordPress 7.1与Storefront，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
+- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.2.0；Local活动主题为DentAll，父主题为Storefront。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## 已完成
@@ -247,11 +247,20 @@
 - [x] C4文章回归使用Post #111并复用#68/#90长文与审阅Draft证据；C5复用Page #76的创建、发布、修订、恢复、菜单、缓存和撤回证据。技术/人员路径通过，不替代正式业务内容与素材授权。
 - [x] 独立代码/权限审查P0=0、P1=0。P2保留全局`import`粗粒度边界及未跟踪导入草稿的误纳入风险；未经新授权不处理草稿，每次提交/部署前检查暂存清单。
 
+## D26 Storefront子主题骨架
+
+- [x] 用户明确确认D26实施范围：复用现有`dentall`目录转换为Storefront子主题，处理阻断继承的旧Starter模板，保留D25 TEST对象，只建立骨架与资源加载边界。
+- [x] `style.css`已声明`Template: storefront`和DentAll 0.2.0；`functions.php`只加载主题初始化与Storefront Hook模块。旧`header.php`、`footer.php`、`front-page.php`和`index.php`已删除，当前主题回到Storefront模板继承链。
+- [x] 未重复加载子主题样式：Storefront自动在父主题与WooCommerce样式之后加载DentAll `style.css`，三者顺序与单次加载已通过HTTP验证；D26没有额外CSS/JS文件和请求。
+- [x] 为关闭D24已发现的公开导航风险，只在Primary与Handheld未分配菜单时禁用Page fallback；Local实际页面回退项由12降为0，Secondary回退参数保持原值。
+- [x] Local已激活DentAll子主题；首页、Shop、Cart、My Account均返回200并使用Storefront页头、内容和页脚，旧Starter标记为0。PHP语法、主题头、禁止项、样式顺序和实现验证窗口错误日志增量均通过。
+- [x] 独立Code Review结果为P0=0、P1=0、P2=0、P3=0，可以标记“D26 Local通过”。Storefront 4.6.2未声明测试到WordPress 7.0.4，Staging版本复核、部署与运行矩阵留在单独授权后的部署步骤，不能用Local结论代替。
+
 ## 下一步三个验收结果
 
-1. 完成公司控制Git远程的所有权、备份、访问与交接，关闭M3既定P1治理门槛。
-2. 由业务方补齐3篇正式文章、1个正式固定Page及授权16:9素材并按已通过SOP验收；在此之前明确标为业务待验，不影响WM-A在Staging优先录入Simple Draft商品。
-3. 在确认TEST对象继续保留作夹具或另行清理后进入D26子主题骨架；企业事务邮件服务/SMTP按后续邮件节点选型和验收，不用临时代码绕过。
+1. D27先只读提取颜色、字体、容器与断点候选，形成最多3项验收结果和实施确认单；在确认前不写视觉CSS。
+2. 若进入提交或Staging部署，必须把两个新`inc`文件与`functions.php`作为同一原子变更纳入，并重新执行版本、四页、菜单、日志与缓存矩阵；未获部署确认前不操作Staging。
+3. 并行完成公司控制Git远程治理及3篇正式文章、1个正式固定Page和授权16:9素材的业务验收；这两项仍是M3整体门槛，不阻塞Local主题骨架继续。
 
 ## 本周风险
 

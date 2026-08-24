@@ -288,11 +288,23 @@
 - D25技术结果：Website Manager已在受保护Staging进入WooCommerce原生商品导入器；Simple模板v1的2行TEST CSV只创建#109/#110两个Draft，既有11条记录0处变化；同源重复SKU复跑为Imported 0、Updated 0、Skipped 2、Failed 0；#110普通恢复及#109/#110创建账号追溯通过，两个CSV批次与恢复动作已登记。该结果不覆盖Variable/Variation CSV、完整活动日志、整批一键回滚、Cloudways完整恢复演练或Production。
 - M3验收：上述技术/人员路径通过后，可开放WM-A在受保护Staging使用Simple模板v1小批量录入Draft；M3整体仍须单独关闭正式内容/素材业务验收和公司控制Git治理门槛。
 
+## ADR-T01：采用Storefront父主题与DentAll项目子主题
+
+- 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。
+- 要解决的问题：现有`dentall`是独立Starter主题，自己的`header.php`、`footer.php`、`front-page.php`和`index.php`会截断Storefront的模板、Hook与WooCommerce展示基线，也会使后续截图还原在两套外壳上叠加维护。
+- 决策：以Storefront 4.6.2作为可独立更新的父主题，以现有`app/public/wp-content/themes/dentall`目录作为项目子主题；`style.css`声明`Template: storefront`，DentAll展示层后续只通过子主题模块、Storefront Hook及必要的最小模板覆盖扩展，不修改Storefront、WooCommerce或WordPress核心文件。
+- 模板边界：删除旧Starter的四个阻断继承模板，D26不新增等价模板；首页、商店、购物车、账户及通用页面先回到Storefront继承链。只有后续页面结构无法通过Hook和组件完成时，才按单页证据增加最小模板覆盖。
+- 资源边界：Storefront会在父主题与WooCommerce样式后自动加载子主题`style.css`，因此D26不重复调用`wp_enqueue_style()`，也不为空结构创建额外CSS/JS请求。实际出现子主题专属资源时再建立职责明确的资源模块并按页面条件加载。
+- 导航保护：Storefront在Primary和Handheld位置未分配菜单时会回退输出全部已发布Page。子主题只对这两个受控位置把`fallback_cb`设为`false`，防止未批准页面因空菜单进入公共导航；已分配菜单和Secondary等其他位置不受影响。
+- 数据与范围：保留全部D25 TEST商品、文章、Page、媒体及数据库状态；D26不制作Design Token、页面视觉、组件、交互、动态资源、后台字段或新业务流程，也不安装插件或部署Staging/Production。
+- 技术证据：Local使用WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2及PHP 8.2.29；激活DentAll 0.2.0后确认`stylesheet=dentall`、`template=storefront`。首页、`/shop/`、`/cart/`和`/my-account/`均返回200，父主题、WooCommerce与子主题样式顺序正确且各加载一次，旧Starter标记为0，页面菜单回退项由12降为0；实现验证窗口PHP错误日志增量为0。
+- 兼容风险：Storefront 4.6.2发布信息未声明测试到WordPress 7.0.4，因此当前结论是“本项目Local代表路径实测可用”，不是上游版本全面兼容承诺；Staging部署前仍需复核版本并执行同一矩阵。
+- 系统影响与回滚：本轮仅在Local把活动主题切换为DentAll子主题并修改主题文件；未改变内容数据、URL、Canonical、robots、Sitemap、支付、物流或缓存配置。运行时探测曾临时关闭WooCommerce Coming Soon，测试后已恢复`yes`。回滚时可重新启用Storefront父主题；若回退代码，还需同步回退活动主题选择，避免旧独立主题文件与子主题数据库状态错配。
+
 ## 待决策
 
 | ID | 决策 | 最晚时间 | 影响 |
 |---|---|---|---|
-| ADR-T01 | 主题基础方案 | D26前 | 主题骨架和维护成本 |
 | ADR-T02 | 品牌能力实现 | W9前 | 属性、URL、筛选 |
 | ADR-T03 | 支付和物流插件 | W11前 | 结账联调 |
 | ADR-T05 | Git远程企业组织归属 | D25前 | 仓库所有权和长期交接 |
