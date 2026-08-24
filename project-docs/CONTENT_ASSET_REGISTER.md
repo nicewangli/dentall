@@ -325,17 +325,20 @@
 
 | ID | 素材 | 类型 | 来源/作者 | 授权 | 使用页面 | 比例/尺寸 | 最终/占位 | 文件路径 | 状态 |
 |---|---|---|---|---|---|---|---|---|---|
-| AST-001 | PC首页效果图 | 设计参考 | AI辅助/项目提供 | 项目内部 | 首页 | 1430×1100 | 最终参考 | `D:\new-project\PC端最终效果图.png` | 已有 |
-| AST-002 | 平板竖屏效果图 | 设计参考 | AI辅助/项目提供 | 项目内部 | 首页 | 见文件 | 最终参考 | `D:\new-project\平板竖屏最终效果图.png` | 已有 |
-| AST-003 | 平板横屏效果图 | 设计参考 | AI辅助/项目提供 | 项目内部 | 首页 | 见文件 | 最终参考 | `D:\new-project\平板横屏最终效果图.png` | 已有 |
-| AST-004 | 手机效果图 | 设计参考 | AI辅助/项目提供 | 项目内部 | 首页 | 见文件 | 最终参考 | `D:\new-project\手机最终版本.png` | 已有 |
-| AST-005 | 商品占位图 | 商品图片 | AI/占位 | 只用于开发 | 商品卡/详情 | 1:1 | 占位 | `D:\new-project\dentall-responsive-package\assets\placeholders\` | 上线前替换 |
-| AST-006 | PC商城与账户页面效果图 | 设计参考 | 项目提供/AI清晰化 | 项目内部 | 列表、详情、购物车、结账、账户、订单、登录、注册、搜索无结果 | 9张，1800/1920px宽 | 布局参考 | `D:\new-project\DentAll页面效果图-分类高清版\02-PC端\` | 已整理，细小文字需核对原图 |
-| AST-007 | 平板竖屏商城页面效果图 | 设计参考 | 项目提供/AI清晰化 | 项目内部 | 列表、详情、购物车、结账、账户、订单 | 6张，1200px宽 | 布局参考 | `D:\new-project\DentAll页面效果图-分类高清版\03-平板端\01-竖屏\` | 已整理，细小文字需核对原图 |
-| AST-008 | 平板横屏账户与状态页面效果图 | 设计参考 | 项目提供/AI清晰化 | 项目内部 | 登录、注册、搜索无结果 | 3张，1200px宽 | 布局参考 | `D:\new-project\DentAll页面效果图-分类高清版\03-平板端\02-横屏\` | 已整理，细小文字需核对原图 |
-| AST-009 | 手机商城与账户页面效果图 | 设计参考 | 项目提供/AI清晰化 | 项目内部 | 列表、详情、购物车、结账、账户、订单、登录、注册、搜索无结果 | 9张，750px宽 | 布局参考 | `D:\new-project\DentAll页面效果图-分类高清版\04-手机端\` | 已整理，细小文字需核对原图 |
-| AST-010 | 页面效果图分类高清包 | 交付包 | 项目整理 | 项目内部 | 全站页面参考 | ZIP约45MB | 归档 | `D:\new-project\DentAll页面效果图-分类高清版.zip` | 已生成 |
+| AST-001 | PC首页最终效果图 | 设计参考 | AI辅助/项目提供；源自`D:\new-project` | 项目内部 | 首页、全站视觉意图 | 1430×1100 | 主参考 | `D:\LocalWP\dentall\design-assets\references\home\source-home-desktop-final.png` | 本地已整理；Git忽略；压缩画布不用于直接测量页面高度 |
+| AST-002 | 平板竖屏首页最终效果图 | 设计参考 | AI辅助/项目提供；源自`D:\new-project` | 项目内部 | 首页、竖屏响应式意图 | 1536×3456 | 主参考 | `D:\LocalWP\dentall\design-assets\references\home\source-home-tablet-portrait-final.png` | 本地已整理；Git忽略；重复分类等AI错误不采信 |
+| AST-003 | 平板横屏首页参考 | 设计参考 | AI补生成/项目提供；源自`D:\new-project` | 项目内部 | 首页、1024px响应式 | 2048×1536，对应CSS 1024×768 | 辅助参考 | `D:\LocalWP\dentall\design-assets\references\home\home-tablet-landscape-1024.png` | 本地已整理；Git忽略；可信度低于其余三端 |
+| AST-004 | 手机首页最终效果图 | 设计参考 | AI辅助/项目提供；源自`D:\new-project` | 项目内部 | 首页、手机响应式意图 | 724×2172 | 主参考 | `D:\LocalWP\dentall\design-assets\references\home\source-home-mobile-final.png` | 本地已整理；Git忽略；商品错配和乱码不采信 |
+| AST-005 | 首页与商品开发占位素材包 | 图片/SVG | AI/占位；源自响应式包 | 只用于开发 | Hero、分类、Solutions、商品卡/详情、临时Logo与图标 | 多比例；商品图以1:1为主 | 占位 | `D:\LocalWP\dentall\design-assets\placeholders\` | 本地已整理；Git忽略；上线前全部核权或替换 |
+| AST-006 | PC商城与账户页面效果图 | 设计参考 | 项目提供/AI清晰化；源自逐页终版 | 项目内部 | 列表、详情、购物车、结账、账户、订单、登录、注册、搜索无结果 | 9张 | 内容区参考 | `D:\LocalWP\dentall\design-assets\references\commerce\desktop\` | 本地已整理；Git忽略；细小文字和功能范围不采信 |
+| AST-007 | 平板竖屏商城页面效果图 | 设计参考 | 项目提供/AI清晰化；源自逐页终版 | 项目内部 | 列表、详情、购物车、结账、账户、订单 | 6张 | 内容区参考 | `D:\LocalWP\dentall\design-assets\references\commerce\tablet-portrait\` | 本地已整理；Git忽略；缺后三类页面竖屏稿 |
+| AST-008 | 平板横屏账户与状态页面效果图 | 设计参考 | 项目提供/AI清晰化；源自逐页终版 | 项目内部 | 登录、注册、搜索无结果 | 3张 | 内容区参考 | `D:\LocalWP\dentall\design-assets\references\commerce\tablet-landscape\` | 本地已整理；Git忽略；缺前六类页面横屏稿 |
+| AST-009 | 手机商城与账户页面效果图 | 设计参考 | 项目提供/AI清晰化；源自逐页终版 | 项目内部 | 列表、详情、购物车、结账、账户、订单、登录、注册、搜索无结果 | 9张 | 内容区参考 | `D:\LocalWP\dentall\design-assets\references\commerce\mobile\` | 本地已整理；Git忽略；交互展开态仍缺 |
+| AST-010 | 页面效果图分类高清包 | 交付包 | 项目整理 | 项目内部 | 历史页面参考 | ZIP约45MB | 旧归档 | `D:\new-project\DentAll页面效果图-分类高清版.zip` | 保留外部归档；已由逐页终版取代，不作为首选 |
 | AST-011 | D12 Simple/Variable媒体测试包 | 商品图片 | AST-005派生/项目导出 | 只用于开发 | D12商品原型、单图/Variation/缺图/不合规状态 | 5张1254×1254 WebP＋1张640×480 INVALID WebP | 占位 | `D:\LocalWP\dentall\dentall资料\TEST-D12商品原型\` | 已生成；上线前替换，Git忽略 |
+| AST-012 | 首页四端高清实现参考 | 设计参考 | AI分离/增强/补生成；源自响应式包 | 项目内部 | 首页1440、1024横屏、768竖屏、390手机 | 4张高清分图 | 辅助参考 | `D:\LocalWP\dentall\design-assets\references\home\home-*.png` | 本地已整理；Git忽略；用于放大和视口映射，不覆盖AST-001/002/004视觉意图 |
+
+说明：`design-assets/references/overviews/`中的“contact sheet/联系表”是页面总览拼图，不是Contact页面设计稿。AI截图只作为视觉参考；正式业务数据、URL、交易行为和功能范围仍以项目需求、URL映射、测试计划和WooCommerce实际输出为准。
 
 ## 图片规范初稿
 
