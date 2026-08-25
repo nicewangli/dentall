@@ -5,11 +5,11 @@
 ## 状态快照
 
 - 更新日期：2026-08-25。
-- 当前阶段：W5 / D27已完成。C1证据与冲突口径已冻结，C2候选完成，C3～C5的Design Token、最小`body`基线、1320px外框及20/32px响应式gutter已在Local落地；DentAll子主题保持0.3.2。C6真实Shop四端和C7 Home、Shop、Cart、My Account四页×四端登录态真实DOM、截图、当前状态及日志回归均完成，双重独立复核P0/P1为0；下一步等待用户开始D28，再先做只读梳理与实施确认。D25的商品、文章与Page TEST对象全部保留。M3整体仍等待正式业务内容/素材与公司Git治理门槛；WM-A可继续按SOP在受保护Staging优先录入Simple Draft，Variable/Variation CSV未开放。
+- 当前阶段：W5 / D28已完成，下一检查点为D29只读梳理。Day28仅在Local完成Shop两处原生可见`Sort by`、正文标题/文本链接、内容区按钮、常用表单、错误与分区Focus基线；代表页面四端、真实键盘夹具、对比度、静态检查及独立Review已收口，最终P0/P1/P2/P3为0，子主题版本为0.5.0。D25的商品、文章与Page TEST对象全部保留。M3整体仍等待正式业务内容/素材与公司Git治理门槛；WM-A可继续按SOP在受保护Staging优先录入Simple Draft，Variable/Variation CSV未开放。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；CR-007已将WM-B重复角色验收从D24-D25当前范围移除，WM-A负责角色级技术矩阵和当前培训。D18 M2商品模型候选冻结通过。D25商品、文章和Page的当前技术/人员路径已通过，WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。这不等于正式内容已审核、Production已开放或M3整体治理门槛全部关闭。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.3.2；Local活动主题为DentAll，父主题为Storefront。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
+- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.5.0；Local活动主题为DentAll，父主题为Storefront。0.5.0在既有Token/容器上增加标题、文本链接、内容区按钮、常用表单、字段错误和按视觉表面分区的Focus规则；没有模板、JavaScript或新资源请求。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## 已完成
@@ -273,13 +273,34 @@
 - [x] C5静态/HTTP/日志和公开四路由×四宽度回归通过，0.3.2单次加载、无横向溢出或控制台/页面错误；独立Review P0/P1为0。
 - [x] C6真实Shop四端验证完成：CSS视口390/768/1024/1440对应Windows经典滚动条下375/753/1009/1425px布局宽；前三端主容器分别为20/32/32px gutter，1440主外框x=53、宽1320、左右32px、内容1256px。四端`scrollWidth === clientWidth`，商品单列/多列自然换行，嵌套`.col-full`为0；商品图alt有值、破图0、标题/Landmark/重复ID及排序控件可访问名称无P0/P1，控制台warn/error为0；独立Review允许关闭C6。
 - [x] C7完成Home、Shop、Cart、My Account在390/768/1024/1440共16组登录态真实DOM与视口截图：每组子主题0.3.2正常加载，正文只有一层`.col-full`、嵌套为0，1320px外框及20/32px gutter正确，`scrollWidth === clientWidth`，重复ID、破图和页面控制台warn/error均为0。Cart只覆盖当前空态，Account只覆盖当前登录态，不外推全流程；匿名Coming Soon仍在且未被用作真实DOM证据。双重独立复核P0/P1为0，D27已关闭。
-- [ ] D27延期P2已登记但不阻塞收口：Home/Shop/Account的390固定手持底栏转D31～D33；四页768/1024桌面式Header转D31；Shop排序控件可见标签与Focus转D28；`lang="en-US"`下Home、Shop、Cart、Account中文/中英文混排在D28建检查清单并于D37/D43/D68/D81对应页面实现前关闭；Cart专用空态CTA及最终视觉转D68。任何配置或内容修改仍需另行授权。
+- [ ] D27延期P2已登记但不阻塞收口：Home/Shop/Account的390固定手持底栏最终组件转D31～D33；四页768/1024桌面式Header转D31；Shop排序控件可见标签与基础Focus已于D28关闭；`lang="en-US"`下Home、Shop、Cart、Account中文/中英文混排已在D28建检查清单，并于D37/D43/D68/D81对应页面实现前关闭；Cart专用空态CTA及最终视觉转D68。任何配置或内容修改仍需另行授权。
+
+## D28基础控件与可访问状态
+
+- [x] 用户于2026-08-25明确确认按已提交功能确认单实施Day28，范围仅限Local、不部署Staging；随后明确开始C1。授权不覆盖Header/Footer/卡片/页面组件提前实现、表单业务逻辑、插件/依赖、模板覆盖、数据库/配置或Staging/Production变更。
+- [x] C1冻结元素与状态：正文区H1～H6、正文文本链接、内容区操作按钮、常用文本控件、checkbox/radio、Focus和已有字段错误状态；商品卡最终标题、系统通知、导航、真实登录/注册/结账逻辑均留对应计划日。
+- [x] C1冻结选择器边界：视觉规则以`.site-main`为主，Focus以`.site`为范围并仅保留当前深色Header的白色Focus例外；使用低权重`:where()`，不使用ID、深层DOM、`!important`、行内代码或无实际变化的断点。Shop排序保持自适应宽度，数量与Variation控件列为受影响回归面。
+- [x] C1冻结Shop路线：WooCommerce 11.0.0原生支持`woocommerce_catalog_ordering( array( 'useLabel' => true ) )`；C2在父主题Hook注册后替换Storefront上下两处排序回调，输出原生可翻译`Sort by`、唯一`for/id`并保留查询字段，不覆盖`loop/orderby.php`、不使用JavaScript。
+- [x] C1变更前Local真实Shop确认：0.3.2单次加载；H1约41.89px/300字重，商品H2为16px/400；两个商品按钮为浅灰背景、无圆角、无最小高度声明；上下两个排序`select`均为14px、无圆角/内边距/最小高度，只有`aria-label="Shop order"`而无可见标签或`id`，重复ID为0。Home与Shop在`lang="en-US"`下仍有中文，已建立按D37/D43/D68/D81关闭的英语前台清单。
+- [x] C1没有修改运行代码。变更前`style.css`仍为0.3.2、4413字节、SHA-256 `3FBFBBFA50704F8B060AAF381F9560BC0615F5A366E11C31B5BE51D3AFE82EF7`；`storefront-hooks.php` SHA-256 `2344863E561B9014EA0BB898576A7C8B6B2E9E58DAC9FC26CB29D3C22EABF78A`。C1时Chrome商品页补采连接超时且未产生站点写入，当时将其记录为C2编码前前置项；随后已在C2编码前补齐，见下方证据。
+- [x] C1期间工作区外部新增`a0e2520`、`407cbb0`、`23b11b5`三个提交；结束复查时上述两个运行文件均与当前HEAD一致，内容和哈希未变。当前主Agent没有创建、暂存、回退或重写这些提交，后续在当前HEAD上继续并保留其余用户差异。
+- [x] 用户随后明确回复“开始c2吧”。C2编码前已补录Simple商品数量标签/可购买按钮，以及Variable商品Size、Shade标签、3个Variation与未选规格按钮状态；没有改动价格、库存、合法组合或加购逻辑。
+- [x] C2只修改现有`inc/storefront-hooks.php`：在`after_setup_theme`优先级30等待父主题回调注册完成，再将Shop上下两处排序回调替换为调用`woocommerce_catalog_ordering( array( 'useLabel' => true ) )`的包装函数；WooCommerce函数不存在时安全返回。没有模板覆盖、JavaScript、CSS、插件、依赖或持久化行为。
+- [x] C2定向Local验收通过：默认Shop上下2个GET表单均显示可见`Sort by`，`for/id`分别唯一关联且重复ID为0；`orderby`、`paged=1`及6个排序值保持。`/shop/?orderby=price-desc`两处值与商品高价到低价顺序正确；1920px页面日志0条warn/error。PHP 8.2.9语法与`git diff --check`通过；独立只读Code Review对加载时序、两处Hook、`useLabel`、函数缺失保护和唯一ID审查为P0/P1/P2/P3均0。完整四端/键盘、实际停用WooCommerce、归档变体、PHP日志和缓存命中页验收仍留C6。
+- [x] 用户随后明确回复“开始C3吧”。C3仅修改子主题`style.css`并提升至0.4.0：在`.site-main`内以低权重`:where()`建立H1～H6标题颜色、行高、字重、字号和长文本换行；正文普通文本链接限定于内容/描述区域的无类名、无ID链接，保留下划线与正常、Hover、Active颜色。没有进入按钮、表单、Focus、Header/Footer、商品卡最终视觉、模板或JavaScript。
+- [x] C3真实Home、Shop与Simple商品页1440px定向回归通过：Shop H1为48px/700字重，Classic商品卡仍为16px/400字重；商品页区段H2保留WooCommerce组件字号，Related商品卡不变；`.product_meta`普通链接应用操作蓝和下划线，Header、排序与购买按钮未被改写。无横向溢出，最终页面warn/error为0。
+- [x] C3独立测试初次发现正文标题直接子链接仍受Storefront `h1 a`～`h6 a`的300字重/紫色影响，记为P2；已增加仅匹配标题直接子链接的继承规则。复测中Home实际1440px标题容器/链接同为32px/700/`#031a3a`，Shop实际1920px的商品卡、按钮及Header/Footer排除项保持；独立Code Review确认P2关闭，最终P0/P1/P2/P3均为0。CSS花括号16/16、`!important`和行内`style=`均为0，`git diff --check`通过；Shop修复后1440px再确认、390/768/1024真实视口、Variable、长标题、H3～H6样本、Hover/Active、Woo Blocks和C5 Focus集成继续留C6。
+- [x] 用户授权C4～C7连续完成。C4在现有`style.css`中建立内容区Classic/Blocks按钮Normal、Hover、Active、Loading、Disabled与`aria-disabled`基线，最小高度44px、10px圆角及1px实线边框；Cart空态Block推荐按钮的Storefront高权重灰底/无边框规则已由真实作用域兼容规则稳定覆盖。
+- [x] C5建立常用文本控件、`select`、`textarea`、checkbox/radio、Disabled、Readonly、Placeholder和已有Error展示；只在`.form-row`内全宽，Shop排序保持约147×44px。新增`#b42318`错误Token；Focus在内容/普通Footer使用深蓝，在Header和深色手机固定底栏使用白色，均为3px outline/3px offset。
+- [x] C6代表页面回归：Home、Shop、Simple、Variable、My Account均完成390/768/1024/1440；Cart空态完成390/1024/1440，768单页因浏览器自动化连接超时保留为孤立证据缺口。其余已完成23组均无横向溢出、重复ID或站点warn/error；不通过写数据制造非空Cart、Account表单、Readonly、Error或Loading业务状态。
+- [x] 390px真实键盘夹具加载Storefront与DentAll 0.5.0：Header链接/搜索和手机固定底栏为白色3px outline，正文链接/输入与普通Footer为深蓝3px outline，全部offset 3px。按钮与错误色对比度通过；PHP语法、CSS花括号39/39、`!important`/行内样式为0、`git diff --check`和公开0.5.0资源加载通过。
+- [x] C7独立Review/Test发现并关闭Disabled-Hover P2、Error-Hover P2、Cart Block覆盖P2、Block边框P3及手机固定底栏Focus P1；最终P0/P1/P2/P3均为0。`style.css`最终14604字节、547行，SHA-256 `1839259F241C9FD46F97846EE9C87CA8B225E97223AB9D9F02C985B874853721`。没有数据库、配置、URL/SEO、缓存策略、支付、物流或Staging/Production变更。
 
 ## 下一步三个验收结果
 
-1. 用户开始D28时先做只读日计划：冻结标题、链接、按钮、表单、Focus的最小范围、适用状态和最多3个验收结果；等待用户明确实施授权后才修改0.3.2代码。
-2. D28落实可访问的基础元素状态并复核Shop排序控件可见标签，同时建立第一版英语前台语言检查清单；不得提前进入Header或完整页面组件。
-3. D31～D33处理Header断点和父主题固定手机底栏；完整Home、Shop、Cart、Account继续按D37～D81对应工作日推进。Staging主题部署仍需单独授权。
+1. 开始D29时先只读梳理商品卡契约、真实WooCommerce输出、适用状态与最多三个验收结果；等待用户明确确认后再编码。
+2. D29只处理商品卡视觉与响应式边界，不提前实现D30通知、D31 Header/Footer、筛选、购物车或交易逻辑。
+3. 继续保留D28真实状态边界：非空Cart、Account表单、Checkout、真实Error/Loading和Cart 768完整页在对应页面工作日复测；未经新确认不部署或激活Staging主题。
 
 ## 本周风险
 
@@ -331,6 +352,7 @@
 | W5 / D25 | 6小时50分钟 | 待用户记录 | C1～C7技术/人员验收完成；M3整体待治理/业务门槛 | Staging部署、WM-A Simple模板v1的2行Draft导入、既有数据对比、重复SKU跳过、#110普通恢复、创建者追溯及文章/Page复用回归通过，P0/P1为0；手册、两次CSV批次与恢复记录已收口。正式业务内容/素材与公司Git交接仍待，不误报M3整体完成 |
 | W5 / D26 | 6小时50分钟 | 待用户记录 | 已完成（Local技术验证） | Storefront父主题＋DentAll子主题骨架、继承链、样式顺序、导航fallback保护及Home/Shop/Cart/My Account回归通过；未进入视觉实现或Staging部署 |
 | W5 / D27 | 6小时50分钟 | 待用户记录 | 已完成 | 子主题0.3.2已落地63个Design Token、最小`body`映射、1320px外框及20/32px响应式gutter；C6真实Shop与C7四页×四端登录态真实DOM、截图、当前状态、日志和双重独立复核通过，P0/P1为0。Cart仅空态、Account仅登录态；代码、配置、数据库、索引保护与Staging均未因C7改变 |
+| W5 / D28 | 6小时50分钟 | 待用户记录 | 已完成（Local技术验收） | C1～C7完成原生`Sort by`、标题/文本链接、按钮、表单、Error与分区Focus基线；子主题0.5.0。代表页面23组四端检查、真实键盘夹具、对比度、静态检查与独立Review通过，最终P0/P1/P2/P3为0；Cart 768独立页超时和未自然出现的业务状态已如实登记，Staging/Production未变 |
 
 ## 更新规则
 

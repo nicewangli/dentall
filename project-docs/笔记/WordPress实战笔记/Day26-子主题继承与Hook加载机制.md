@@ -22,7 +22,7 @@ tags:
 - 对应项目笔记：[[Day26-Storefront子主题骨架]]
 - 使用模板：[[WordPress实战学习笔记模板]]
 - 前置学习笔记：无，本篇是WordPress实战学习线的第一篇
-- 后续学习笔记：D27产生真实Design Token与资源代码后再创建并双向回填
+- 后续学习笔记：[[Day27-Design-Token与Mobile-First容器]]
 
 > [!check] 双向链接状态
 > [[WordPress实战笔记索引]]已经登记本篇；[[Day26-Storefront子主题骨架]]也已反向链接本篇。这里使用显式Wiki链接，不只依赖Obsidian的Backlinks面板。

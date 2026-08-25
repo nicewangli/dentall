@@ -15,7 +15,8 @@
 ## 相关笔记
 
 - 前置笔记：[[Day26-Storefront子主题骨架]]
-- 后续笔记：D28完成后回填
+- 后续笔记：[[Day28-基础控件与可访问状态]]
+- 当日学习笔记：[[WordPress实战笔记/Day27-Design-Token与Mobile-First容器|Day27-Design-Token与Mobile-First容器]]
 - 当前事实入口：`project-docs/PROJECT_STATE.md`
 - 设计参考入口：`design-assets/README.md`
 
