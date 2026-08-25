@@ -24,3 +24,40 @@ function dentall_disable_page_menu_fallback( $args ) {
 	return $args;
 }
 add_filter( 'wp_nav_menu_args', 'dentall_disable_page_menu_fallback', 20 );
+
+/**
+ * 使用WooCommerce原生可见标签输出商品目录排序控件。
+ *
+ * @return void
+ */
+function dentall_catalog_ordering_with_label() {
+	if ( ! function_exists( 'woocommerce_catalog_ordering' ) ) {
+		return;
+	}
+
+	woocommerce_catalog_ordering(
+		array(
+			'useLabel' => true,
+		)
+	);
+}
+
+/**
+ * 将Storefront上下两处商品目录排序替换为带可见标签的原生输出。
+ *
+ * 子主题functions.php早于父主题加载，因此等待after_setup_theme后再替换父主题Hook。
+ *
+ * @return void
+ */
+function dentall_enable_catalog_ordering_labels() {
+	if ( ! function_exists( 'woocommerce_catalog_ordering' ) ) {
+		return;
+	}
+
+	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 10 );
+	remove_action( 'woocommerce_after_shop_loop', 'woocommerce_catalog_ordering', 10 );
+
+	add_action( 'woocommerce_before_shop_loop', 'dentall_catalog_ordering_with_label', 10 );
+	add_action( 'woocommerce_after_shop_loop', 'dentall_catalog_ordering_with_label', 10 );
+}
+add_action( 'after_setup_theme', 'dentall_enable_catalog_ordering_labels', 30 );

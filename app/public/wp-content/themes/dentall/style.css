@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.3.2
+Version: 0.5.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -37,6 +37,7 @@ Text Domain: dentall
 	--dentall-gray-100: #e6ebf2;
 	--dentall-gold-500: #f6a700;
 	--dentall-amber-800: #92400e;
+	--dentall-red-700: #b42318;
 
 	/* 语义颜色 */
 	--dentall-color-brand: var(--dentall-navy-950);
@@ -56,6 +57,7 @@ Text Domain: dentall
 	--dentall-color-border-strong: var(--dentall-gray-500);
 	--dentall-color-rating-decoration: var(--dentall-gold-500);
 	--dentall-color-rating-text: var(--dentall-amber-800);
+	--dentall-color-error: var(--dentall-red-700);
 
 	/* 字体与字号 */
 	--dentall-font-family-sans: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -109,7 +111,423 @@ body {
 }
 
 /*
- * C4统一Storefront公共内容容器，并以20px作为Mobile First基础gutter。
+ * D28 C3只建立正文区标题层级。商品卡等具体组件可用自身规则覆盖，不改Header与Footer。
+ */
+.site-main :where(h1, h2, h3, h4, h5, h6) {
+	color: var(--dentall-color-heading);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+/* WordPress会把部分正文标题文本输出为直接子链接，需继承标题的可见层级。 */
+.site-main :where(h1, h2, h3, h4, h5, h6) > :where(a:any-link) {
+	color: inherit;
+	font-weight: inherit;
+}
+
+.site-main :where(h1) {
+	font-size: clamp(var(--dentall-font-size-2xl), calc(1.5rem + 2vw), var(--dentall-font-size-display));
+	font-weight: var(--dentall-font-weight-bold);
+}
+
+.site-main :where(h2) {
+	font-size: clamp(var(--dentall-font-size-xl), calc(1.25rem + 1vw), var(--dentall-font-size-2xl));
+	font-weight: var(--dentall-font-weight-bold);
+}
+
+.site-main :where(h3) {
+	font-size: var(--dentall-font-size-xl);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.site-main :where(h4) {
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.site-main :where(h5) {
+	font-size: var(--dentall-font-size-base);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.site-main :where(h6) {
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+/*
+ * 普通文本链接始终保留下划线；组件链接、按钮和带独立交互标识的链接继续由各自组件维护。
+ */
+.site-main :where(
+	.entry-content,
+	.term-description,
+	.page-description,
+	.woocommerce-product-details__short-description,
+	.product_meta
+) a:any-link:where(:not([class]):not([id])) {
+	color: var(--dentall-color-action);
+	text-decoration-line: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.16em;
+}
+
+.site-main :where(
+	.entry-content,
+	.term-description,
+	.page-description,
+	.woocommerce-product-details__short-description,
+	.product_meta
+) a:any-link:where(:not([class]):not([id])):hover {
+	color: var(--dentall-color-action-hover);
+	text-decoration-thickness: 0.12em;
+}
+
+.site-main :where(
+	.entry-content,
+	.term-description,
+	.page-description,
+	.woocommerce-product-details__short-description,
+	.product_meta
+) a:any-link:where(:not([class]):not([id])):active {
+	color: var(--dentall-color-brand-secondary);
+}
+
+/*
+ * D28 C4统一正文区操作按钮的基础状态；导航、图标链接和后续业务交互仍由各自组件维护。
+ */
+.site-main :where(
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	.wc-block-components-button:not(.is-link)
+) {
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8) var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-action);
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-white);
+	cursor: pointer;
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: var(--dentall-line-height-body);
+	overflow-wrap: anywhere;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	white-space: normal;
+}
+
+.site-main :where(
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	.wc-block-components-button:not(.is-link)
+):where(:hover:not(:disabled):not([aria-disabled="true"]):not(.disabled)) {
+	border-color: var(--dentall-color-action-hover);
+	background-color: var(--dentall-color-action-hover);
+	color: var(--dentall-white);
+}
+
+.site-main :where(
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	.wc-block-components-button:not(.is-link)
+):active:not(:disabled):not([aria-disabled="true"]):not(.disabled) {
+	border-color: var(--dentall-color-brand-secondary);
+	background-color: var(--dentall-color-brand-secondary);
+}
+
+.site-main :where(
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	.wc-block-components-button:not(.is-link)
+).loading {
+	cursor: progress;
+	opacity: 0.72;
+}
+
+.site-main :where(
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	.wc-block-components-button:not(.is-link)
+):where(:disabled, [aria-disabled="true"], .disabled) {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-white);
+	cursor: not-allowed;
+	opacity: 0.55;
+}
+
+/*
+ * Storefront对正文内Block按钮使用四个类的组件规则；此处只对同一已出现结构提高一级权重，
+ * 避免使用强制重要性声明，同时不把高权重扩散到其他按钮。
+ */
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link {
+	border: 1px solid var(--dentall-color-action);
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-white);
+}
+
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
+	:hover:not(:disabled):not([aria-disabled="true"]):not(.disabled)
+) {
+	border-color: var(--dentall-color-action-hover);
+	background-color: var(--dentall-color-action-hover);
+	color: var(--dentall-white);
+}
+
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
+	:active:not(:disabled):not([aria-disabled="true"]):not(.disabled)
+) {
+	border-color: var(--dentall-color-brand-secondary);
+	background-color: var(--dentall-color-brand-secondary);
+}
+
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link.loading {
+	cursor: progress;
+	opacity: 0.72;
+}
+
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
+	:disabled,
+	[aria-disabled="true"],
+	.disabled
+) {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-white);
+	cursor: not-allowed;
+	opacity: 0.55;
+}
+
+/*
+ * D28 C5只建立现有表单控件的盒模型和状态，不新增字段、校验逻辑或错误文案。
+ */
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+) {
+	box-sizing: border-box;
+	min-height: 2.75rem;
+	max-width: 100%;
+	padding: var(--dentall-space-8) var(--dentall-space-12);
+	border: 1px solid var(--dentall-color-border-strong);
+	border-radius: var(--dentall-radius-sm);
+	background-color: var(--dentall-color-surface);
+	box-shadow: none;
+	color: var(--dentall-color-text);
+	font: inherit;
+	line-height: var(--dentall-line-height-body);
+}
+
+.site-main :where(.form-row) :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+) {
+	width: 100%;
+}
+
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+):where(:hover:not(:disabled):not([readonly]):not([aria-invalid="true"])) {
+	border-color: var(--dentall-color-action);
+}
+
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+):disabled {
+	background-color: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-text-muted);
+	cursor: not-allowed;
+	opacity: 1;
+}
+
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	textarea
+)[readonly] {
+	background-color: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-text-muted);
+}
+
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	textarea
+)::placeholder {
+	color: var(--dentall-color-text-muted);
+	opacity: 1;
+}
+
+.site-main textarea {
+	min-height: 7.5rem;
+	resize: vertical;
+}
+
+.site-main :where(input[type="checkbox"], input[type="radio"]) {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+	accent-color: var(--dentall-color-action);
+	vertical-align: middle;
+}
+
+.site-main :where(input[type="checkbox"], input[type="radio"]):disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.site-main :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+)[aria-invalid="true"],
+.site-main :where(.woocommerce-invalid) :where(
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="url"],
+	input[type="password"],
+	input[type="search"],
+	input[type="number"],
+	.input-text,
+	select,
+	textarea
+) {
+	border-color: var(--dentall-color-error);
+	box-shadow: inset 0 0 0 1px var(--dentall-color-error);
+}
+
+.site-main :where(.woocommerce-invalid) :where(label, .required) {
+	color: var(--dentall-color-error);
+}
+
+/*
+ * :focus-visible只增强键盘焦点；不移除浏览器与Storefront为不支持场景提供的:focus回退。
+ */
+.site .site-content :where(
+	a:any-link,
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible,
+.site .site-footer :where(
+	a:any-link,
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible {
+	outline: 3px solid var(--dentall-color-focus-on-light);
+	outline-offset: 3px;
+}
+
+.site .site-header :where(
+	a:any-link,
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible,
+.site .site-footer .storefront-handheld-footer-bar :where(
+	a:any-link,
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible {
+	outline: 3px solid var(--dentall-color-focus-on-dark);
+	outline-offset: 3px;
+}
+
+/*
+ * D27 C4统一Storefront公共内容容器，并以20px作为Mobile First基础gutter。
  */
 .col-full {
 	box-sizing: border-box;
@@ -120,7 +538,7 @@ body {
 }
 
 /*
- * C5从平板竖屏起切换到32px宽屏gutter；1024px和1200px没有新的容器变化，不建立空断点。
+ * D27 C5从平板竖屏起切换到32px宽屏gutter；1024px和1200px没有新的容器变化，不建立空断点。
  */
 @media (min-width: 48rem) {
 	.col-full {
