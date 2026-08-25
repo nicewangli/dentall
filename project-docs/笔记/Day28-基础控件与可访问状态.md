@@ -6,7 +6,7 @@
 周次: W5
 计划工时: 6小时50分钟有效工作
 实际有效工时: 未记录；不使用计划工时代填
-验收层级: C1～C7已在Local完成；公共基础控件、四端回归、键盘Focus与独立Review均已收口
+验收层级: C1～C7已在Local完成；0.5.0四端/键盘历史证据已收口，0.5.2完成HTTP、定向计算样式、静态级联与独立Review
 状态: 已完成
 ---
 
@@ -26,7 +26,7 @@
 
 - [x] 标题、正文文本链接、内容区操作按钮和常用表单控件使用现有Design Token形成一致且低权重的基础样式，覆盖适用的正常、Hover、Active、Focus、Disabled、Loading及字段错误状态。
 - [x] Shop上下两处排序控件显示可见且与`select`程序化关联的英文`Sort by`标签，保留WooCommerce原生排序选项、GET参数、搜索与分页隐藏字段，不使用模板覆盖或JavaScript补标签。
-- [x] 390、768、1024、1440px代表页面和控件状态通过风险相称的回归，最终P0/P1/P2/P3为0；已建立第一版英语前台检查清单，且没有修改站点语言、内容或页面配置。
+- [x] 0.5.0在390、768、1024、1440px完成代表页面和控件状态回归；0.5.2维护性收口完成六页HTTP、Simple/Cart定向计算样式、静态级联与独立Review，最新Shop四端和键盘Tab未新增完整动态证据。最终P0/P1/P2/P3为0，且没有修改站点语言、内容或页面配置。
 
 ## 授权与范围
 
@@ -35,6 +35,7 @@
 - 用户随后明确回复“开始c2吧”，授权在已冻结路线内补取商品控件基线，并实施Shop上下两处原生可见排序标签；没有扩大C2范围。
 - 用户随后明确回复“开始C3吧”，授权按已冻结作用域实现正文区标题层级和普通文本链接基线；没有授权按钮、表单、Focus或页面组件提前实现。
 - 用户随后明确要求“C4-C7一起帮我解决”，并要求整理笔记、提交Git和推送远程仓库；这授权在已冻结Day28范围内连续完成C4～C7、验证、文档和版本控制，不扩大为新页面、交易逻辑或部署。
+- 用户在首次收口后明确回复“确认精简Day28 CSS”，授权在不改变既有功能、数据与技术路线的前提下压缩重复选择器、移除低收益装饰规则、同步笔记并重新验证；仍只保留一个运行时CSS，不新增构建链或依赖。
 - 本次授权不覆盖Staging/Production部署、真实内容或配置修改、Header/Footer/卡片/页面组件提前实现、客户端表单校验、业务提交、插件/字体/依赖或WooCommerce模板覆盖。
 - 如果后续发现必须改变上述技术路线、增加JavaScript、创建模板覆盖或修改数据库/配置，必须暂停并重新提交确认。
 
@@ -42,8 +43,8 @@
 
 - 自然日期：2026-08-25。
 - 实际有效工时证据：未记录；只按用户授权、文件差异和可复核证据判断进度。
-- 当前最高完成层级：C7已完成。C4～C5公共控件规则已落地，C6完成四端、键盘、对比度和静态回归，C7完成独立Review、缺陷修复与复测。
-- 当前运行版本：DentAll子主题0.5.0、WooCommerce 11.0.0、Storefront 4.6.2；Local活动主题仍为DentAll。
+- 当前最高完成层级：C7已完成。C4～C5公共控件规则已落地；0.5.0的C6完成四端、键盘、对比度和静态回归，0.5.2完成六页HTTP、定向计算样式、静态级联与独立Review。最新Shop四端与键盘Tab连接超时，作为版本限定的证据缺口保留。
+- 当前运行版本：DentAll子主题0.5.2、WooCommerce 11.0.0、Storefront 4.6.2；Local活动主题仍为DentAll。
 - C1～C7只修改现有`style.css`和`inc/storefront-hooks.php`及项目文档；没有修改模板、JavaScript、数据库、配置、商品、购物车、订单、账户、URL规则、SEO配置、缓存、支付、物流或部署状态。
 
 ## 专注周期记录
@@ -185,18 +186,18 @@ Day28解决的是“后续组件可复用的基础元素规则”，不是提前
 ### 内容区按钮与WooCommerce Blocks兼容
 
 - `style.css`将内容区原生按钮、按钮型`input`、Classic WooCommerce`.button`/`.added_to_cart`、Block按钮及`wp-block-button__link`纳入同一低权重基线：最小高度44px、现有中圆角、操作蓝背景、白字及1px实线边框。
-- Normal、Hover、Active、`.loading`、原生`disabled`、`aria-disabled="true"`和`.disabled`只改变必要的颜色、透明度与光标；CSS不创建加载行为、不拦截点击，也不改变WooCommerce可购买判断。
+- Normal、Hover、Active、原生`disabled`、`aria-disabled="true"`和`.disabled`只改变必要的颜色、透明度与光标；`.loading`直接沿用WooCommerce/Storefront已有透明度反馈，不再维护第二套装饰规则。CSS不创建加载行为、不拦截点击，也不改变WooCommerce可购买判断。
 - Cart空态的推荐商品按钮同时命中Storefront更具体的`.hentry .entry-content .wp-block-button .wp-block-button__link`。为覆盖父主题灰底、零圆角和`border: 0`，只增加一条等作用域兼容规则；最终实际计算值为操作蓝、白字、44px、10px圆角和1px solid边框，没有使用`!important`。
 
 ### 表单、错误与Focus
 
-- text、email、tel、url、password、search、number、`.input-text`、`select`和`textarea`统一最小44px、白底、强边界与6px圆角；只在`.form-row`字段容器内全宽，Shop排序`select`继续保持约147×44px自适应内容。
-- `textarea`保留纵向调整；placeholder使用次文本色；disabled与readonly可识别；checkbox/radio保留原生语义并使用20px目标与操作蓝`accent-color`。
+- text、email、tel、url、password、search、number、`.input-text`、`select`和`textarea`统一最小44px、白底、强边界与6px圆角；字段清单使用受控`:is()`达到覆盖Storefront输入框所需的权重，只在`.form-row`字段容器内全宽，Shop排序`select`继续保持约147×44px自适应内容。
+- `textarea`保留纵向调整；placeholder使用次文本色；disabled与readonly可识别；字段Hover沿用浏览器/Storefront原生反馈，不再为轻微边框变化单独维护一整组选择器；checkbox/radio保留原生语义并使用20px目标与操作蓝`accent-color`。
 - 错误色新增原始Token`--dentall-red-700: #b42318`及语义别名`--dentall-color-error`。只响应已有`aria-invalid="true"`和WooCommerce`.woocommerce-invalid`，同时改变边框与关联标签/required文字，不新增校验或错误文案。
 - Focus按真实视觉表面分区：`.site-content`和普通`.site-footer`使用深操作蓝，深色`.site-header`使用白色；Storefront手机固定底栏虽位于Footer DOM内但沿用Header深色背景，因此增加白色Focus例外。各区均使用3px实线outline与3px offset，并保留Storefront普通`:focus`作为不支持`:focus-visible`时的回退。
-- 最终`style.css`为0.5.0、14604字节、547行，SHA-256为`1839259F241C9FD46F97846EE9C87CA8B225E97223AB9D9F02C985B874853721`；花括号39/39，`!important`与行内`style=`均为0。
+- C7首次收口时`style.css`为0.5.0、14604字节、547行，SHA-256为`1839259F241C9FD46F97846EE9C87CA8B225E97223AB9D9F02C985B874853721`；花括号39/39，`!important`与行内`style=`均为0。用户确认后的维护性精简见下方0.5.2章节。
 
-## C6四端、键盘与状态验证
+## C6四端、键盘与状态验证（0.5.0首次收口证据）
 
 ### 代表页面矩阵
 
@@ -228,6 +229,17 @@ Day28解决的是“后续组件可复用的基础元素规则”，不是提前
 - 最终独立Code Review与测试复核结论为P0=0、P1=0、P2=0、P3=0。Storefront自身Disabled规则可能将目标透明度0.55计算为0.5，但状态仍清晰且项目没有为小数差异引入`!important`。
 - 回滚只需恢复`style.css`、`inc/storefront-hooks.php`及主题版本；没有数据库迁移、配置切换或数据恢复步骤。
 
+## 用户确认后的Day28 CSS维护性收口（0.5.2）
+
+- 用户担心Day28为微小效果引入过多重复代码，并明确确认精简。最终继续只维护Storefront自动加载的同一个`style.css`；没有拆分运行文件、增加CSS请求、引入PostCSS或新增依赖。
+- 按钮的Normal、Hover、Active和Disabled仍各只有一份声明；Storefront高权重Block按钮作为同组的独立逗号分支，既复用声明，也不把通用按钮整体抬到Block权重。自定义Loading装饰改为复用父主题原生反馈。
+- Focus目标清单从四处合并为一处：`.site`默认提供浅色表面深蓝变量，Header与手机固定底栏只覆盖继承变量为白色。字段Hover改用平台原生表现，Readonly保留浅底/次文本色的最小可见区别。
+- 没有采用提案中的`@custom-selector`：当前项目没有CSS预处理构建链，直接提交尚未稳定的扩展语法会把可读性成本转成浏览器兼容风险。标准`:is()`只用于可控的字段/按钮清单；高权重Block分支继续单列，避免`:is()`按最高参数计算特异性时连带抬高普通按钮。
+- `style.css`从547行/14604字节/39个花括号块精简为443行/13168字节/33个花括号块（33/33配对），净少104行和1436字节；没有`@custom-selector`、强制重要性声明或规则内重复属性。最终SHA-256为`C32B7EEA5D6B20FC5A2BA02547470DCCF8CB594EB7B57D313BC4C9B569F30A7D`。
+- 本地模拟gzip从3753字节变为3943字节，差异约190字节；重复文本本来就很容易压缩，因此本次目标是降低阅读和修改成本，不宣称网络性能提升。维持单个CSS请求也避免了为13KB级文件增加额外阻塞请求。
+- 最终HTTP复测确认Home、Shop、Cart、My Account、Simple与Variable均为200，并各只加载一次`style.css?ver=0.5.2`；运行时CSS与磁盘文件字节数和SHA-256完全一致。真实Simple数量框为白底、1px边框、6px圆角和44px高，`.button.alt`仍为蓝底白字、44px高；Cart空态Block按钮在390px仍为蓝底白字、1px边框、10px圆角和44px高。
+- 最终独立Review与测试对按钮、字段、Readonly、Error、Focus继承和Storefront级联复核后均为P0/P1/P2/P3=0。0.5.2页面没有自然出现Readonly、Error和Loading业务状态，最新Shop四端与键盘Tab自动复测又遇到浏览器连接超时；这些状态没有被伪报为最新版本的完整动态回归或真实业务流程通过，仍按下方节点复测。
+
 ## 第一版英语前台检查清单（D28建立，按页面日关闭）
 
 | 页面/来源 | 当前证据 | 责任与计划 |
@@ -257,7 +269,7 @@ Day28解决的是“后续组件可复用的基础元素规则”，不是提前
 - C2实际性能/缓存影响：每个Shop列表页仍输出原有两处排序控件，只增加两个轻量PHP包装回调；没有新增查询、HTTP请求、远程调用、Cron、自动加载选项、前端资源或缓存清理。未做前后性能量测，因此不宣称性能“零影响”。
 - C3实际URL/SEO影响：只改变现有可见标题和普通文本链接的CSS表现，没有改变HTML内容、链接目标、Slug、固定链接、Title、Meta、Canonical、Schema、robots、Sitemap、状态码或索引保护。
 - C3实际性能/缓存影响：继续复用原有单个子主题样式请求，仅随主题版本0.4.0更新缓存键；没有新增请求、查询、远程调用、Cron、自动加载选项或缓存清理。未做前后性能量测，不宣称性能“零影响”。
-- C4～C7实际性能/缓存影响：继续只有一个子主题CSS请求；`style.css`增至14604字节，主题版本提升为0.5.0以更新缓存键。没有新增脚本、图片、字体、查询、远程调用、Cron、自动加载选项或缓存清理；未做前后性能量测，不宣称性能“零影响”。
+- C4～C7及维护性收口的实际性能/缓存影响：继续只有一个子主题CSS请求；最终`style.css`为13168字节，主题版本提升为0.5.2以更新缓存键。没有新增脚本、图片、字体、查询、远程调用、Cron、自动加载选项或缓存清理；gzip模拟量只用于解释拆分取舍，不等于真实Core Web Vitals量测，因此不宣称性能“零影响”或提升。
 - C4～C7实际URL/SEO影响：只改变可见控件与Focus的CSS表现；没有隐藏可索引内容，也没有改变链接目标、Slug、固定链接、Title、Meta、Canonical、Schema、robots、Sitemap或状态码。
 - C1～C7实际支付/物流影响：无。没有改变价格、库存、购物车、结账、支付、税费、运费或单位，也没有执行加购或下单。
 - C1～C7实际部署影响：无。只改Local工作区；Staging/Production、DNS和正式支付均保持不变。远程Git推送只交付源码与文档，不等于部署。
@@ -267,6 +279,7 @@ Day28解决的是“后续组件可复用的基础元素规则”，不是提前
 - `#f6a700`继续只作评分装饰，`#e6ebf2`继续只作装饰边界；D28不得让它们单独承担控件或状态识别。
 - 当前代表页面回归已覆盖商品数量、Variation、Cart空态、Account登录态和WooCommerce Blocks；Checkout、Account登录/注册、非空Cart、真实错误、Readonly与Loading业务状态尚未自然出现，继续在对应页面日以真实流程验证，不能由D28外推为交易全流程通过。
 - Cart 768的单页独立浏览器快照因自动化连接超时未取得；同一Block按钮已在390/1024/1440通过，768公共断点由其余五类代表页面覆盖。若D68改变Cart结构，必须重新执行四端完整回归。
+- 0.5.2最新Shop四端与键盘Tab复测没有取得完整动态证据；若D29获得实施授权，Shop四端纳入D29 C6～C7商品卡回归，Focus Tab纳入D31全局Header/Footer回归。若这两个计划日尚未实施，则下一次前端回归优先补测，不把工具超时视为网站失败。
 - D28已关闭，下一步进入D29前先按每日规则只读梳理商品卡契约；未经确认不提前实现商品卡、网格、Header/Footer或D30通知系统，也不部署Staging主题。
 
 ## 可复用核心思想

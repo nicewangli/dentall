@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.5.0
+Version: 0.5.2
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -194,17 +194,19 @@ body {
 
 /*
  * D28 C4统一正文区操作按钮的基础状态；导航、图标链接和后续业务交互仍由各自组件维护。
+ * 每组的第二个选择器只负责越过Storefront的Block按钮权重，声明仍与通用按钮共用一份。
+ * 通用:is()最高只保留一层组件权重；Block分支独立列出，避免把所有按钮一起抬到高权重。
+ * Loading沿用WooCommerce/Storefront原生反馈，避免为同一状态维护第二套纯装饰样式。
  */
-.site-main :where(
+.site-main :is(
 	button,
-	input[type="button"],
-	input[type="reset"],
-	input[type="submit"],
+	:where(input[type="button"], input[type="reset"], input[type="submit"]),
 	.button,
 	.added_to_cart,
 	.wp-block-button__link,
-	.wc-block-components-button:not(.is-link)
-) {
+	:where(.wc-block-components-button:not(.is-link))
+),
+.site-main .hentry .entry-content .wp-block-button .wp-block-button__link {
 	min-height: 2.75rem;
 	padding: var(--dentall-space-8) var(--dentall-space-24);
 	border: 1px solid var(--dentall-color-action);
@@ -221,77 +223,14 @@ body {
 	white-space: normal;
 }
 
-.site-main :where(
+.site-main :is(
 	button,
-	input[type="button"],
-	input[type="reset"],
-	input[type="submit"],
+	:where(input[type="button"], input[type="reset"], input[type="submit"]),
 	.button,
 	.added_to_cart,
 	.wp-block-button__link,
-	.wc-block-components-button:not(.is-link)
-):where(:hover:not(:disabled):not([aria-disabled="true"]):not(.disabled)) {
-	border-color: var(--dentall-color-action-hover);
-	background-color: var(--dentall-color-action-hover);
-	color: var(--dentall-white);
-}
-
-.site-main :where(
-	button,
-	input[type="button"],
-	input[type="reset"],
-	input[type="submit"],
-	.button,
-	.added_to_cart,
-	.wp-block-button__link,
-	.wc-block-components-button:not(.is-link)
-):active:not(:disabled):not([aria-disabled="true"]):not(.disabled) {
-	border-color: var(--dentall-color-brand-secondary);
-	background-color: var(--dentall-color-brand-secondary);
-}
-
-.site-main :where(
-	button,
-	input[type="button"],
-	input[type="reset"],
-	input[type="submit"],
-	.button,
-	.added_to_cart,
-	.wp-block-button__link,
-	.wc-block-components-button:not(.is-link)
-).loading {
-	cursor: progress;
-	opacity: 0.72;
-}
-
-.site-main :where(
-	button,
-	input[type="button"],
-	input[type="reset"],
-	input[type="submit"],
-	.button,
-	.added_to_cart,
-	.wp-block-button__link,
-	.wc-block-components-button:not(.is-link)
-):where(:disabled, [aria-disabled="true"], .disabled) {
-	border-color: var(--dentall-color-action);
-	background-color: var(--dentall-color-action);
-	color: var(--dentall-white);
-	cursor: not-allowed;
-	opacity: 0.55;
-}
-
-/*
- * Storefront对正文内Block按钮使用四个类的组件规则；此处只对同一已出现结构提高一级权重，
- * 避免使用强制重要性声明，同时不把高权重扩散到其他按钮。
- */
-.site-main .hentry .entry-content .wp-block-button .wp-block-button__link {
-	border: 1px solid var(--dentall-color-action);
-	border-radius: var(--dentall-radius-md);
-	background-color: var(--dentall-color-action);
-	color: var(--dentall-white);
-}
-
+	:where(.wc-block-components-button:not(.is-link))
+):hover:where(:not(:disabled):not([aria-disabled="true"]):not(.disabled)),
 .site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
 	:hover:not(:disabled):not([aria-disabled="true"]):not(.disabled)
 ) {
@@ -300,6 +239,14 @@ body {
 	color: var(--dentall-white);
 }
 
+.site-main :is(
+	button,
+	:where(input[type="button"], input[type="reset"], input[type="submit"]),
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	:where(.wc-block-components-button:not(.is-link))
+):active:where(:not(:disabled):not([aria-disabled="true"]):not(.disabled)),
 .site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
 	:active:not(:disabled):not([aria-disabled="true"]):not(.disabled)
 ) {
@@ -307,11 +254,14 @@ body {
 	background-color: var(--dentall-color-brand-secondary);
 }
 
-.site-main .hentry .entry-content .wp-block-button .wp-block-button__link.loading {
-	cursor: progress;
-	opacity: 0.72;
-}
-
+.site-main :is(
+	button,
+	:where(input[type="button"], input[type="reset"], input[type="submit"]),
+	.button,
+	.added_to_cart,
+	.wp-block-button__link,
+	:where(.wc-block-components-button:not(.is-link))
+):where(:disabled, [aria-disabled="true"], .disabled),
 .site-main .hentry .entry-content .wp-block-button .wp-block-button__link:where(
 	:disabled,
 	[aria-disabled="true"],
@@ -321,13 +271,15 @@ body {
 	background-color: var(--dentall-color-action);
 	color: var(--dentall-white);
 	cursor: not-allowed;
-	opacity: 0.55;
+	opacity: 0.5;
 }
 
 /*
- * D28 C5只建立现有表单控件的盒模型和状态，不新增字段、校验逻辑或错误文案。
+ * D28 C5只建立现有表单控件的盒模型和必要状态，不新增字段、校验逻辑或错误文案。
+ * Hover沿用浏览器/Storefront原生表现；Readonly只保留最小可见区别，真实流程留对应页面日复测。
+ * 字段:is()只提高到覆盖Storefront原生输入框所需的权重，不使用强制重要性声明。
  */
-.site-main :where(
+.site-main :is(
 	input[type="text"],
 	input[type="email"],
 	input[type="tel"],
@@ -352,7 +304,7 @@ body {
 	line-height: var(--dentall-line-height-body);
 }
 
-.site-main :where(.form-row) :where(
+.site-main :where(.form-row) :is(
 	input[type="text"],
 	input[type="email"],
 	input[type="tel"],
@@ -367,22 +319,7 @@ body {
 	width: 100%;
 }
 
-.site-main :where(
-	input[type="text"],
-	input[type="email"],
-	input[type="tel"],
-	input[type="url"],
-	input[type="password"],
-	input[type="search"],
-	input[type="number"],
-	.input-text,
-	select,
-	textarea
-):where(:hover:not(:disabled):not([readonly]):not([aria-invalid="true"])) {
-	border-color: var(--dentall-color-action);
-}
-
-.site-main :where(
+.site-main :is(
 	input[type="text"],
 	input[type="email"],
 	input[type="tel"],
@@ -400,32 +337,12 @@ body {
 	opacity: 1;
 }
 
-.site-main :where(
-	input[type="text"],
-	input[type="email"],
-	input[type="tel"],
-	input[type="url"],
-	input[type="password"],
-	input[type="search"],
-	input[type="number"],
-	.input-text,
-	textarea
-)[readonly] {
+.site-main :is(input, textarea)[readonly] {
 	background-color: var(--dentall-color-surface-sky);
 	color: var(--dentall-color-text-muted);
 }
 
-.site-main :where(
-	input[type="text"],
-	input[type="email"],
-	input[type="tel"],
-	input[type="url"],
-	input[type="password"],
-	input[type="search"],
-	input[type="number"],
-	.input-text,
-	textarea
-)::placeholder {
+.site-main :is(input, textarea)::placeholder {
 	color: var(--dentall-color-text-muted);
 	opacity: 1;
 }
@@ -447,7 +364,7 @@ body {
 	opacity: 0.6;
 }
 
-.site-main :where(
+.site-main :is(
 	input[type="text"],
 	input[type="email"],
 	input[type="tel"],
@@ -459,7 +376,7 @@ body {
 	select,
 	textarea
 )[aria-invalid="true"],
-.site-main :where(.woocommerce-invalid) :where(
+.site-main :where(.woocommerce-invalid) :is(
 	input[type="text"],
 	input[type="email"],
 	input[type="tel"],
@@ -481,39 +398,18 @@ body {
 
 /*
  * :focus-visible只增强键盘焦点；不移除浏览器与Storefront为不支持场景提供的:focus回退。
+ * Focus声明只维护一份，深色Header与手机底栏通过继承变量切换颜色。
  */
-.site .site-content :where(
-	a:any-link,
-	button,
-	input,
-	select,
-	textarea,
-	summary,
-	[tabindex]:not([tabindex="-1"])
-):focus-visible,
-.site .site-footer :where(
-	a:any-link,
-	button,
-	input,
-	select,
-	textarea,
-	summary,
-	[tabindex]:not([tabindex="-1"])
-):focus-visible {
-	outline: 3px solid var(--dentall-color-focus-on-light);
-	outline-offset: 3px;
+.site {
+	--dentall-focus-ring-color: var(--dentall-color-focus-on-light);
 }
 
-.site .site-header :where(
-	a:any-link,
-	button,
-	input,
-	select,
-	textarea,
-	summary,
-	[tabindex]:not([tabindex="-1"])
-):focus-visible,
-.site .site-footer .storefront-handheld-footer-bar :where(
+.site .site-header,
+.site .site-footer .storefront-handheld-footer-bar {
+	--dentall-focus-ring-color: var(--dentall-color-focus-on-dark);
+}
+
+.site :where(
 	a:any-link,
 	button,
 	input,
@@ -522,7 +418,7 @@ body {
 	summary,
 	[tabindex]:not([tabindex="-1"])
 ):focus-visible {
-	outline: 3px solid var(--dentall-color-focus-on-dark);
+	outline: 3px solid var(--dentall-focus-ring-color);
 	outline-offset: 3px;
 }
 
