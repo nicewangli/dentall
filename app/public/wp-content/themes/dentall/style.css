@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.2.0
+Version: 0.3.2
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -13,6 +13,117 @@ Text Domain: dentall
 */
 
 /*
- * Storefront父主题会在自身与WooCommerce样式之后自动加载本文件。
- * D26只建立子主题边界；视觉样式从D27的Design Token工作开始添加。
+ * Storefront父主题会在自身主样式与WooCommerce核心样式之后自动加载本文件；扩展插件仍可能更晚加载。
+ * D27从Design Token开始逐层建立视觉系统，避免在页面组件中散落重复数值。
  */
+
+/*
+ * Design Token分为两层：上半部分保存原始值，下半部分用语义名称说明用途。
+ * 后续更换品牌色时优先修改原始值；调整某种用途时优先修改语义别名。
+ */
+:root {
+	/* 原始色板 */
+	--dentall-navy-950: #031a3a;
+	--dentall-navy-900: #05264e;
+	--dentall-blue-700: #0756c9;
+	--dentall-blue-600: #0b63d8;
+	--dentall-blue-100: #eaf3ff;
+	--dentall-sky-50: #f4f9ff;
+	--dentall-mint-50: #eefaf7;
+	--dentall-white: #ffffff;
+	--dentall-ink-900: #071b3e;
+	--dentall-gray-700: #5f6b7a;
+	--dentall-gray-500: #7f8a9a;
+	--dentall-gray-100: #e6ebf2;
+	--dentall-gold-500: #f6a700;
+	--dentall-amber-800: #92400e;
+
+	/* 语义颜色 */
+	--dentall-color-brand: var(--dentall-navy-950);
+	--dentall-color-brand-secondary: var(--dentall-navy-900);
+	--dentall-color-action: var(--dentall-blue-600);
+	--dentall-color-action-hover: var(--dentall-blue-700);
+	--dentall-color-focus-on-light: var(--dentall-blue-700);
+	--dentall-color-focus-on-dark: var(--dentall-white);
+	--dentall-color-text: var(--dentall-ink-900);
+	--dentall-color-text-muted: var(--dentall-gray-700);
+	--dentall-color-heading: var(--dentall-navy-950);
+	--dentall-color-surface: var(--dentall-white);
+	--dentall-color-surface-blue: var(--dentall-blue-100);
+	--dentall-color-surface-sky: var(--dentall-sky-50);
+	--dentall-color-surface-mint: var(--dentall-mint-50);
+	--dentall-color-border-subtle: var(--dentall-gray-100);
+	--dentall-color-border-strong: var(--dentall-gray-500);
+	--dentall-color-rating-decoration: var(--dentall-gold-500);
+	--dentall-color-rating-text: var(--dentall-amber-800);
+
+	/* 字体与字号 */
+	--dentall-font-family-sans: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+	--dentall-font-size-xs: 0.75rem;
+	--dentall-font-size-sm: 0.875rem;
+	--dentall-font-size-base: 1rem;
+	--dentall-font-size-lg: 1.125rem;
+	--dentall-font-size-xl: 1.5rem;
+	--dentall-font-size-2xl: 2rem;
+	--dentall-font-size-display: 3rem;
+	--dentall-font-weight-regular: 400;
+	--dentall-font-weight-semibold: 600;
+	--dentall-font-weight-bold: 700;
+	--dentall-line-height-body: 1.5;
+	--dentall-line-height-heading: 1.2;
+
+	/* 4px基准间距；变量名表示默认16px根字号下的像素值。 */
+	--dentall-space-4: 0.25rem;
+	--dentall-space-8: 0.5rem;
+	--dentall-space-12: 0.75rem;
+	--dentall-space-16: 1rem;
+	--dentall-space-24: 1.5rem;
+	--dentall-space-32: 2rem;
+	--dentall-space-40: 2.5rem;
+	--dentall-space-48: 3rem;
+	--dentall-space-64: 4rem;
+
+	/* 形状、层级与容器输入 */
+	--dentall-radius-sm: 0.375rem;
+	--dentall-radius-md: 0.625rem;
+	--dentall-radius-lg: 0.875rem;
+	--dentall-shadow-card: 0 0.5rem 1.5rem rgb(4 31 71 / 8%);
+	--dentall-container-max: 82.5rem;
+	--dentall-gutter-mobile: 1.25rem;
+	--dentall-gutter-wide: 2rem;
+	--dentall-section-space-mobile: 2rem;
+	--dentall-section-space-tablet: 2.5rem;
+	--dentall-section-space-desktop: 4rem;
+}
+
+/*
+ * C3只接入全站正文基线。容器、gutter和响应式布局留给C4-C5；标题、链接、按钮、表单和Focus留给D28，
+ * 避免一次覆盖Storefront和WooCommerce过多公共行为。
+ */
+body {
+	color: var(--dentall-color-text);
+	font-family: var(--dentall-font-family-sans);
+	font-size: var(--dentall-font-size-base);
+	font-weight: var(--dentall-font-weight-regular);
+	line-height: var(--dentall-line-height-body);
+}
+
+/*
+ * C4统一Storefront公共内容容器，并以20px作为Mobile First基础gutter。
+ */
+.col-full {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: var(--dentall-container-max);
+	margin-inline: auto;
+	padding-inline: var(--dentall-gutter-mobile);
+}
+
+/*
+ * C5从平板竖屏起切换到32px宽屏gutter；1024px和1200px没有新的容器变化，不建立空断点。
+ */
+@media (min-width: 48rem) {
+	.col-full {
+		padding-inline: var(--dentall-gutter-wide);
+	}
+}
