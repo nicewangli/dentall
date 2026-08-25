@@ -69,3 +69,4 @@
 | Day25 | [[Day25-综合验收与批量录入开放]] | C1～C7技术/人员验收完成：Staging Simple模板v1新增2个Draft、既有数据0变化、重复SKU跳过、#110普通恢复、创建者追溯与Markdown批次登记通过；M3正式内容/素材与公司Git治理门槛仍待 |
 | Day25手册 | [[Day25-Website Manager商品导入导出与恢复手册]] | Website Manager原生Simple CSV导入/导出、批次前快照、映射检查、结果登记、停止和分层恢复SOP；Staging实测通过，Variable/Variation CSV与Production未开放 |
 | Day26 | [[Day26-Storefront子主题骨架]] | 现有DentAll Starter转为Storefront子主题；旧阻断模板退出继承链，资源顺序、关键页面和导航回退保护完成Local验证，视觉实现留D27 |
+| Day27 | [[Day27-设计证据与Design-Token]] | 已完成：冻结设计证据与冲突口径，子主题0.3.2落地63个Design Token、最小`body`基线、1320px外框及20/32px响应式gutter；C6真实Shop与C7四页×四端登录态DOM、截图、状态、日志及双重独立复核通过，P0/P1为0 |

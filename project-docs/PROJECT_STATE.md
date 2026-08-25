@@ -4,12 +4,12 @@
 
 ## 状态快照
 
-- 更新日期：2026-08-24。
-- 当前阶段：W5 / D26子主题骨架已在Local落地并通过独立代码复核，P0/P1/P2/P3均为0；D25的商品、文章与Page TEST对象全部保留。ADR-T01已确认Storefront父主题＋DentAll项目子主题，旧Starter阻断模板已退出继承链，D26没有进入视觉实现。M3整体仍等待正式业务内容/素材与公司Git治理门槛；WM-A可继续按SOP在受保护Staging优先录入Simple Draft，Variable/Variation CSV未开放。
+- 更新日期：2026-08-25。
+- 当前阶段：W5 / D27已完成。C1证据与冲突口径已冻结，C2候选完成，C3～C5的Design Token、最小`body`基线、1320px外框及20/32px响应式gutter已在Local落地；DentAll子主题保持0.3.2。C6真实Shop四端和C7 Home、Shop、Cart、My Account四页×四端登录态真实DOM、截图、当前状态及日志回归均完成，双重独立复核P0/P1为0；下一步等待用户开始D28，再先做只读梳理与实施确认。D25的商品、文章与Page TEST对象全部保留。M3整体仍等待正式业务内容/素材与公司Git治理门槛；WM-A可继续按SOP在受保护Staging优先录入Simple Draft，Variable/Variation CSV未开放。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；CR-007已将WM-B重复角色验收从D24-D25当前范围移除，WM-A负责角色级技术矩阵和当前培训。D18 M2商品模型候选冻结通过。D25商品、文章和Page的当前技术/人员路径已通过，WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。这不等于正式内容已审核、Production已开放或M3整体治理门槛全部关闭。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.2.0；Local活动主题为DentAll，父主题为Storefront。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
+- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.3.2；Local活动主题为DentAll，父主题为Storefront。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## 已完成
@@ -256,17 +256,39 @@
 - [x] Local已激活DentAll子主题；首页、Shop、Cart、My Account均返回200并使用Storefront页头、内容和页脚，旧Starter标记为0。PHP语法、主题头、禁止项、样式顺序和实现验证窗口错误日志增量均通过。
 - [x] 独立Code Review结果为P0=0、P1=0、P2=0、P3=0，可以标记“D26 Local通过”。Storefront 4.6.2未声明测试到WordPress 7.0.4，Staging版本复核、部署与运行矩阵留在单独授权后的部署步骤，不能用Local结论代替。
 
+## D27设计证据与Design Token
+
+- [x] 用户于2026-08-25明确确认冻结C1证据优先级和冲突处理口径，并授权写入Day27笔记与项目状态后进入C2；该授权不等于C3编码授权。
+- [x] 用户随后确认四端覆盖、Mobile First及简洁易学代码边界，并于2026-08-25明确回复“可以的，开始C3吧”，授权C3最小实现；该授权不自动扩大到C4～C7。
+- [x] C1证据层级冻结：A为首页三端原始终稿及合图，B为1440/768/390高清增强稿，B-为1024推导稿，商城B只约束内容区，C为总览，P为开发占位。原始PC、竖屏、手机和横屏图与本地参考库对应文件SHA-256一致；两个响应式ZIP各41个文件，36个相同、5份说明文档不同，采用v2及当前`design-assets/guides/`。
+- [x] 首页宏观顺序冻结为Announcement Bar、Header、Hero、Selected Categories、Solutions、Best Sellers、Trust Metrics、Newsletter、Footer；9/4/5只作布局覆盖目标，不硬编码分类、卡片或指标业务数据。
+- [x] 冲突口径冻结：A层及已确认需求/WooCommerce真实状态优先；1024采用紧凑导航方向、完整导航从`>=1200px`开始；手机Footer内容不得因截图省略而删除；截图独有的多语言/多币种、Wishlist、Buy Now、Wallet、Notifications、社交登录、固定手机底栏和视频不进入第一版。
+- [x] C2形成候选：带`--dentall-*`前缀的语义Token；Source Sans Pro现有400/600/700字重；1320px容器外框；20/32px gutter；4px间距阶梯；6/10/14px圆角；768/1024/1200断点锚点；390/768/1024/1440为主验收宽度。当前0.3.2已应用C3 Token、C4基础容器及C5从768px起的32px宽屏gutter；1024/1200没有容器变化，因此未生成空媒体查询。
+- [x] C2独立只读复核P0=0，并识别4个条件性P1后写入候选约束：原`#667085`在`#eaf3ff`上仅4.44:1，通用次文本改候选`#5f6b7a`；`#f6a700`不作唯一信息信号；无构建链时禁用`@custom-media`；Storefront从768px启用桌面导航的行为留D31显式调整到1200px门槛。C2当时的P2为1320px浏览器量测、现有Google字体依赖/品牌许可证和浅边框用途边界；其中1320px外框语义已在C5经用户确认与浏览器量测关闭，其余项留对应实现日处理。
+- [x] C3只修改子主题`style.css`：0.2.0提升为0.3.0，落地63个`--dentall-*`Token及最小`body`颜色/字体/字号/字重/行高映射；没有标题、链接、控件、容器、媒体查询、Header/Home组件、新请求或依赖。
+- [x] C3静态审计、HTTP加载、颜色复算和独立Code Review通过，最终执行范围P0/P1为0；Home、Shop、Cart、My Account在390/768/1024/1440共16组均为200、无横向溢出、无控制台/页面错误，子主题CSS只加载一次且版本为0.3.0。
+- [x] 用户在既有C4范围说明后明确回复“继续C4吧”；C4只在同一`style.css`新增一个低权重`.col-full`规则并提升至0.3.1，以1320px border-box外框上限、20px内侧gutter和自动居中完整覆盖Storefront原有混合盒模型，没有媒体查询、组件、依赖或新请求。
+- [x] C4静态/HTTP/日志检查和独立Review通过，P0/P1为0。真实父子CSS夹具在390/768/1024下内容左右20px，1440下外框x=60/宽1320、内容x=80/宽1280；320/375/430辅助小屏也无溢出。公开四路由×四宽度共16组失败0且0.3.1单次加载。
+- [x] 用户明确回复“开始C5吧，确定1320px是‘容器外框宽’”；C5提升至0.3.2，仅新增`@media (min-width:48rem)`中的一条32px gutter覆盖。767/768边界及12个宽度夹具失败0；390/768/1024内容宽为350/704/960px，1440外框x=60/宽1320、内容x=92/宽1256。1024/1200只验证连续性，不建立空断点。
+- [x] C5静态/HTTP/日志和公开四路由×四宽度回归通过，0.3.2单次加载、无横向溢出或控制台/页面错误；独立Review P0/P1为0。
+- [x] C6真实Shop四端验证完成：CSS视口390/768/1024/1440对应Windows经典滚动条下375/753/1009/1425px布局宽；前三端主容器分别为20/32/32px gutter，1440主外框x=53、宽1320、左右32px、内容1256px。四端`scrollWidth === clientWidth`，商品单列/多列自然换行，嵌套`.col-full`为0；商品图alt有值、破图0、标题/Landmark/重复ID及排序控件可访问名称无P0/P1，控制台warn/error为0；独立Review允许关闭C6。
+- [x] C7完成Home、Shop、Cart、My Account在390/768/1024/1440共16组登录态真实DOM与视口截图：每组子主题0.3.2正常加载，正文只有一层`.col-full`、嵌套为0，1320px外框及20/32px gutter正确，`scrollWidth === clientWidth`，重复ID、破图和页面控制台warn/error均为0。Cart只覆盖当前空态，Account只覆盖当前登录态，不外推全流程；匿名Coming Soon仍在且未被用作真实DOM证据。双重独立复核P0/P1为0，D27已关闭。
+- [ ] D27延期P2已登记但不阻塞收口：Home/Shop/Account的390固定手持底栏转D31～D33；四页768/1024桌面式Header转D31；Shop排序控件可见标签与Focus转D28；`lang="en-US"`下Home、Shop、Cart、Account中文/中英文混排在D28建检查清单并于D37/D43/D68/D81对应页面实现前关闭；Cart专用空态CTA及最终视觉转D68。任何配置或内容修改仍需另行授权。
+
 ## 下一步三个验收结果
 
-1. D27先只读提取颜色、字体、容器与断点候选，形成最多3项验收结果和实施确认单；在确认前不写视觉CSS。
-2. 若进入提交或Staging部署，必须把两个新`inc`文件与`functions.php`作为同一原子变更纳入，并重新执行版本、四页、菜单、日志与缓存矩阵；未获部署确认前不操作Staging。
-3. 并行完成公司控制Git远程治理及3篇正式文章、1个正式固定Page和授权16:9素材的业务验收；这两项仍是M3整体门槛，不阻塞Local主题骨架继续。
+1. 用户开始D28时先做只读日计划：冻结标题、链接、按钮、表单、Focus的最小范围、适用状态和最多3个验收结果；等待用户明确实施授权后才修改0.3.2代码。
+2. D28落实可访问的基础元素状态并复核Shop排序控件可见标签，同时建立第一版英语前台语言检查清单；不得提前进入Header或完整页面组件。
+3. D31～D33处理Header断点和父主题固定手机底栏；完整Home、Shop、Cart、Account继续按D37～D81对应工作日推进。Staging主题部署仍需单独授权。
 
 ## 本周风险
 
 - 如果支付、物流、税费和SMTP长期不确认，会影响W13以后关键路径。
 - 商品、文章和Page技术路径已完成D25抽查，WM-A可在受保护Staging按批准SOP用Simple模板v1小批次录入Draft；Variable/Variation CSV、正式内容审核、Production同步和发布仍是独立闸门。
 - 不要将当前大型PNG和ZIP直接提交到源码Git仓库。
+- 正式Logo、品牌字体及许可证、Hero/分类/Solutions/商品图、支付和社交官方素材仍缺；这不阻塞Local通用骨架，但阻塞正式品牌视觉与业务内容验收。
+- 1024首页图属于推导证据，AI稿中的业务数字和功能不得固化；用户已冻结1320px为容器外框宽，现有Google字体依赖及浅边框用途仍须在后续浏览器和可访问性证据中复核。
+- WooCommerce Coming Soon仍遮蔽匿名真实商城内容；C7已通过登录态Chrome补齐Home、Shop、Cart空态和Account登录态的四端公共基线，但非空Cart、错误/Notice、售罄及账户登录注册等状态仍须在对应工作日安全验证，不得为制造证据擅自关闭保护、索引或修改数据库。
 - 单休节奏下第7天必须完整休息，不能靠连续取消休息日吸收偏差。
 
 ## 进度真实性口径
@@ -307,6 +329,8 @@
 | W4 / D23 | 6小时50分钟 | 待用户记录 | 治理方向已确认，实际验收进行中 | 非强制互审与Markdown单一活动登记载体已确认；A/C3-A/C7技术与人员抽样已关闭当前边界。首条正式内容/素材登记仍待，Git企业交接留D25 |
 | W4 / D24 | 6小时50分钟 | 待用户记录 | A/C2-A/C7当前技术与人员抽样通过 | #76完成字段/权限、发布、缓存、菜单、修订及两类恢复后保持Draft；A/C5完成#11排除、#24基线不改、#90审阅Draft隔离、#68/#76引导操作；A/C6按可查SOP口径通过，A/C7完成状态/字段/预览/隔离/修订/登记抽样且P0/P1为0。CR-007排除WM-B当前验收；正式3篇文章＋1个Page及授权16:9素材仍待，D24整体进行中；Git企业交接留D25/M3 |
 | W5 / D25 | 6小时50分钟 | 待用户记录 | C1～C7技术/人员验收完成；M3整体待治理/业务门槛 | Staging部署、WM-A Simple模板v1的2行Draft导入、既有数据对比、重复SKU跳过、#110普通恢复、创建者追溯及文章/Page复用回归通过，P0/P1为0；手册、两次CSV批次与恢复记录已收口。正式业务内容/素材与公司Git交接仍待，不误报M3整体完成 |
+| W5 / D26 | 6小时50分钟 | 待用户记录 | 已完成（Local技术验证） | Storefront父主题＋DentAll子主题骨架、继承链、样式顺序、导航fallback保护及Home/Shop/Cart/My Account回归通过；未进入视觉实现或Staging部署 |
+| W5 / D27 | 6小时50分钟 | 待用户记录 | 已完成 | 子主题0.3.2已落地63个Design Token、最小`body`映射、1320px外框及20/32px响应式gutter；C6真实Shop与C7四页×四端登录态真实DOM、截图、当前状态、日志和双重独立复核通过，P0/P1为0。Cart仅空态、Account仅登录态；代码、配置、数据库、索引保护与Staging均未因C7改变 |
 
 ## 更新规则
 

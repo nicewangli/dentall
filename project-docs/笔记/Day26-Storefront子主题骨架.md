@@ -15,7 +15,7 @@
 ## 相关笔记
 
 - 前置笔记：[[Day25-综合验收与批量录入开放]]
-- 后续笔记：D27完成后回填
+- 后续笔记：[[Day27-设计证据与Design-Token]]
 - 同主题决策：`project-docs/DECISIONS.md`中的ADR-T01
 - 专题学习入口：[[WordPress实战笔记/WordPress实战笔记索引|WordPress实战笔记索引]]
 - 本日学习笔记：[[WordPress实战笔记/Day26-子主题继承与Hook加载机制|Day26-子主题继承与Hook加载机制]]
