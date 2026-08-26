@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex, nofollow">
+	<title>TEST Day30 Design System v1</title>
+	<link rel="stylesheet" href="http://dentall.local/wp-content/themes/storefront/style.css">
+	<link rel="stylesheet" href="http://dentall.local/wp-content/themes/storefront/assets/css/base/icons.css">
+	<link rel="stylesheet" href="http://dentall.local/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css">
+	<link rel="stylesheet" href="http://dentall.local/wp-content/plugins/woocommerce/assets/client/blocks/store-notices.css">
+	<link rel="stylesheet" href="../../../../app/public/wp-content/themes/dentall/style.css">
+</head>
+<body class="page-template-default page storefront-full-width-content woocommerce woocommerce-page">
+	<div class="site">
+		<div class="site-content">
+			<div class="col-full">
+				<main class="site-main">
+					<header class="dentall-section">
+						<p>Local-only · non-persistent TEST fixture</p>
+						<h1>Day30 Design System v1</h1>
+						<p>This fixture validates responsive layout and presentation states only. It does not call business or API endpoints and does not write data; its stylesheets are requested as test assets.</p>
+					</header>
+
+					<section class="dentall-section" aria-labelledby="responsive-grid-title">
+						<h2 id="responsive-grid-title">Responsive grid and system states</h2>
+						<ul class="dentall-grid" role="list" data-testid="responsive-grid">
+							<li class="dentall-system-state" role="status" aria-live="polite" aria-busy="true" data-testid="loading-state">
+								<span class="dentall-system-state__spinner" aria-hidden="true"></span>
+								<h3>Loading products</h3>
+								<p class="dentall-system-state__message">Please wait while the latest catalog results are retrieved.</p>
+							</li>
+
+							<li class="dentall-system-state" data-testid="empty-state">
+								<h3>No products found</h3>
+								<p class="dentall-system-state__message">Try changing the filters or browse all available products.</p>
+								<div class="dentall-system-state__actions">
+									<a class="button" href="#notification-states">Browse all products</a>
+								</div>
+							</li>
+
+							<li class="dentall-system-state" data-testid="long-content-state">
+								<h3>Long content remains readable at every supported width</h3>
+								<p class="dentall-system-state__message">TEST-ULTRA-LONG-REFERENCE-WITHOUT-NATURAL-BREAKS-1234567890-ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+							</li>
+
+							<li class="dentall-system-state" data-testid="empty-without-action-state">
+								<h3>Nothing saved yet</h3>
+								<p class="dentall-system-state__message">An empty state stays complete without a decorative image or action.</p>
+							</li>
+						</ul>
+
+						<div class="woocommerce-no-products-found" data-testid="native-empty-state">
+							<div class="woocommerce-info" role="status">
+								No products were found matching the TEST selection.
+							</div>
+						</div>
+					</section>
+
+					<section id="notification-states" class="dentall-section" aria-labelledby="notification-states-title">
+						<h2 id="notification-states-title">Notification states</h2>
+
+						<div class="woocommerce-info" role="status" data-testid="classic-info-notice">
+							<a href="#responsive-grid-title">Review shipping guidance</a> before entering an address.
+						</div>
+
+						<div class="woocommerce-message" role="alert" data-testid="classic-success-notice">
+							<a class="button" href="#responsive-grid-title">View selection</a>
+							The TEST item was added successfully.
+						</div>
+
+						<div class="dentall-notice dentall-notice--warning" role="status" data-testid="warning-notice">
+							<strong>Review required:</strong> confirm the product document before publishing.
+						</div>
+
+						<ul class="woocommerce-error" role="alert" data-testid="classic-error-notice">
+							<li>A required option is missing.</li>
+							<li>The long error reference TEST-ERROR-ABCDEFGHIJKLMNOPQRSTUVWXYZ-1234567890 remains visible.</li>
+						</ul>
+
+						<div class="wc-block-components-notice-banner is-success" data-testid="blocks-success-notice">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+								<path d="M16.7 7.1l-6.3 8.5-3.3-2.5-.9 1.2 4.5 3.4L17.9 8z"></path>
+							</svg>
+							<div class="wc-block-components-notice-banner__content">The Blocks-compatible success notice uses the same Design Token mapping.</div>
+						</div>
+
+						<div class="wc-block-components-notice-banner is-info is-dismissible" data-testid="blocks-info-notice">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+								<path d="M11.2 10.2h1.6v7h-1.6zm0-3.4h1.6v1.8h-1.6z"></path>
+							</svg>
+							<div class="wc-block-components-notice-banner__content">The dismissible info state preserves the WooCommerce Blocks button contract.</div>
+							<button class="wc-block-components-button wp-element-button wc-block-components-notice-banner__dismiss contained" type="button" aria-label="Dismiss TEST information notice">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+									<path d="M6.7 5.3L12 10.6l5.3-5.3 1.4 1.4-5.3 5.3 5.3 5.3-1.4 1.4-5.3-5.3-5.3 5.3-1.4-1.4 5.3-5.3-5.3-5.3z"></path>
+								</svg>
+							</button>
+						</div>
+
+						<div class="wc-block-components-notice-banner is-warning" data-testid="blocks-warning-notice">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+								<path d="M11.2 6.8h1.6v7h-1.6zm0 8.6h1.6v1.8h-1.6z"></path>
+							</svg>
+							<div class="wc-block-components-notice-banner__content">The Blocks warning state remains readable without relying on colour alone.</div>
+						</div>
+
+						<div class="wc-block-components-notice-banner is-error" data-testid="blocks-error-notice">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+								<path d="M11.2 6.8h1.6v7h-1.6zm0 8.6h1.6v1.8h-1.6z"></path>
+							</svg>
+							<div class="wc-block-components-notice-banner__content">The Blocks error state includes a direct explanation for assistive technology.</div>
+						</div>
+					</section>
+				</main>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

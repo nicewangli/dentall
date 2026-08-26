@@ -1,0 +1,69 @@
+/* 该文件只负责非持久化TEST夹具的页面外壳，不进入WordPress前台资源。 */
+body {
+	margin: 0;
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.dentall-card-fixture {
+	box-sizing: border-box;
+	width: min(100%, var(--dentall-container-max));
+	margin-inline: auto;
+	padding: var(--dentall-space-32) var(--dentall-gutter-mobile);
+}
+
+.dentall-card-fixture__header {
+	max-width: 48rem;
+	margin-bottom: var(--dentall-space-32);
+}
+
+.dentall-card-fixture__eyebrow {
+	margin-bottom: var(--dentall-space-8);
+	color: var(--dentall-color-action-hover);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-bold);
+}
+
+.dentall-card-fixture__section {
+	margin-top: var(--dentall-space-32);
+}
+
+.site-main ul.products.dentall-card-fixture__categories {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--dentall-space-16);
+	margin: 0;
+}
+
+.site-main ul.products.dentall-card-fixture__categories > li.product-category {
+	float: none;
+	width: auto;
+	margin: 0;
+}
+
+/* 仅在TEST夹具中提供观察宽度；生产区块网格分别留D39、D40和D44。 */
+.dentall-card-fixture__solutions {
+	display: grid;
+	gap: var(--dentall-space-12);
+	margin: 0;
+	padding: 0;
+}
+
+@media (min-width: 48rem) {
+	.dentall-card-fixture {
+		padding-inline: var(--dentall-gutter-wide);
+	}
+
+	.site-main ul.products.dentall-card-fixture__categories {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.dentall-card-fixture__solutions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 64rem) {
+	.dentall-card-fixture__solutions {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex, nofollow">
+	<title>TEST Day29 Card Components</title>
+	<link rel="stylesheet" href="../../../../app/public/wp-content/themes/storefront/style.css">
+	<link rel="stylesheet" href="../../../../app/public/wp-content/themes/storefront/assets/css/base/icons.css">
+	<link rel="stylesheet" href="../../../../app/public/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css">
+	<link rel="stylesheet" href="../../../../app/public/wp-content/themes/dentall/style.css">
+	<link rel="stylesheet" href="fixture.css">
+</head>
+<body class="wp-theme-storefront wp-child-theme-dentall woocommerce woocommerce-page">
+	<div class="site">
+		<main class="site-main dentall-card-fixture">
+			<header class="dentall-card-fixture__header">
+				<p class="dentall-card-fixture__eyebrow">Local-only · non-persistent TEST fixture</p>
+				<h1>Day29 Card Components v1</h1>
+				<p>This file validates presentation states only. Product prices, availability and actions remain authoritative only when WooCommerce renders them.</p>
+			</header>
+
+			<section aria-labelledby="product-card-fixtures">
+				<h2 id="product-card-fixtures">ProductCard states</h2>
+				<ul class="products columns-3">
+					<li id="fixture-simple-sale" class="product type-product status-publish first instock has-post-thumbnail sale purchasable product-type-simple">
+						<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="#fixture-simple-sale">
+							<img class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" src="../../../../app/public/wp-content/uploads/2026/08/test-simple-product-front-324x324.webp" alt="TEST simple fixed pack front view" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-product__title">TEST Simple Fixed Pack</h2>
+							<span class="onsale">Sale!</span>
+							<span class="price">
+								<del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>29.99</bdi></span></del>
+								<span class="screen-reader-text">Original price was: $29.99.</span>
+								<ins aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>24.99</bdi></span></ins>
+								<span class="screen-reader-text">Current price is: $24.99.</span>
+							</span>
+						</a>
+						<a class="button product_type_simple add_to_cart_button ajax_add_to_cart" href="#fixture-simple-sale" aria-label="Add to cart: TEST Simple Fixed Pack" aria-describedby="fixture-simple-sale-description">Add to cart</a>
+						<span id="fixture-simple-sale-description" class="screen-reader-text">Adds this TEST product to a simulated cart only; no action is implemented.</span>
+					</li>
+
+					<li id="fixture-variable" class="product type-product status-publish instock has-post-thumbnail purchasable product-type-variable">
+						<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="#fixture-variable">
+							<img class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" src="../../../../app/public/wp-content/uploads/2026/08/test-variable-product-front-324x324.webp" alt="TEST variable dental product bottle, front view" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-product__title">TEST Variable Size and Shade Product With a Deliberately Long English Title</h2>
+							<span class="price">
+								<span class="woocommerce-Price-amount amount" aria-hidden="true"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>39.99</bdi></span>
+								<span aria-hidden="true">–</span>
+								<span class="woocommerce-Price-amount amount" aria-hidden="true"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>49.99</bdi></span>
+								<span class="screen-reader-text">Price range: $39.99 through $49.99</span>
+							</span>
+						</a>
+						<a class="button product_type_variable add_to_cart_button" href="#fixture-variable" aria-label="Select options for TEST Variable Size and Shade Product" aria-describedby="fixture-variable-description">Select options</a>
+						<span id="fixture-variable-description" class="screen-reader-text">This TEST product has multiple variants. Options would normally be chosen on the product page.</span>
+					</li>
+
+					<li id="fixture-missing-image" class="product type-product status-publish outofstock product-type-simple">
+						<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="#fixture-missing-image">
+							<img class="woocommerce-placeholder wp-post-image" src="../../../../app/public/wp-content/plugins/woocommerce/assets/images/placeholder.webp" alt="Awaiting TEST product image" width="600" height="600" decoding="async">
+							<h2 class="woocommerce-loop-product__title">TEST Product Without an Assigned Image</h2>
+							<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>18.00</bdi></span></span>
+						</a>
+						<a class="button product_type_simple" href="#fixture-missing-image" aria-label="Read more about TEST Product Without an Assigned Image">Read more</a>
+					</li>
+
+					<li id="fixture-loading" class="product type-product status-publish instock has-post-thumbnail purchasable product-type-simple">
+						<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="#fixture-loading">
+							<img class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" src="../../../../app/public/wp-content/uploads/2026/08/test-simple-product-front-324x324.webp" alt="TEST loading-state product front view" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-product__title">TEST Loading Action State</h2>
+							<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>32.00</bdi></span></span>
+						</a>
+						<a class="button product_type_simple add_to_cart_button ajax_add_to_cart loading" href="#fixture-loading" aria-label="Adding TEST Loading Action State to cart" aria-describedby="fixture-loading-description" aria-busy="true">Add to cart</a>
+						<span id="fixture-loading-description" class="screen-reader-text">Simulated loading presentation only; no request is sent.</span>
+					</li>
+
+					<li id="fixture-added-to-cart" class="product type-product status-publish instock has-post-thumbnail purchasable product-type-simple">
+						<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link" href="#fixture-added-to-cart">
+							<img class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" src="../../../../app/public/wp-content/uploads/2026/08/test-simple-product-front-324x324.webp" alt="TEST added-to-cart product front view" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-product__title">TEST Added to Cart Success State</h2>
+							<span class="price"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol" translate="no">$</span>36.00</bdi></span></span>
+						</a>
+						<a class="button product_type_simple add_to_cart_button ajax_add_to_cart added" href="#fixture-added-to-cart" aria-label="Add another TEST Added to Cart Success State to cart">Add to cart</a>
+						<a class="added_to_cart wc-forward" href="#fixture-added-to-cart" title="View simulated cart">View cart</a>
+					</li>
+				</ul>
+			</section>
+
+			<section class="dentall-card-fixture__section" aria-labelledby="category-card-fixtures">
+				<h2 id="category-card-fixtures">CategoryCard states</h2>
+				<ul class="products columns-4 dentall-card-fixture__categories">
+					<li id="fixture-category-standard" class="product product-category first">
+						<a href="#fixture-category-standard">
+							<img src="../../../../app/public/wp-content/uploads/2026/08/test-simple-product-front-324x324.webp" alt="TEST dental materials category" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-category__title">Dental Materials</h2>
+						</a>
+					</li>
+
+					<li id="fixture-category-long-title" class="product product-category">
+						<a href="#fixture-category-long-title">
+							<img src="../../../../app/public/wp-content/uploads/2026/08/test-variable-product-front-324x324.webp" alt="TEST custom restorative materials category" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-category__title">Custom Restorative Materials and Laboratory Supplies</h2>
+						</a>
+					</li>
+
+					<li id="fixture-category-count" class="product product-category">
+						<a href="#fixture-category-count">
+							<img src="../../../../app/public/wp-content/uploads/2026/08/test-variable-product-large-light-front-324x324.webp" alt="TEST dental equipment category" width="324" height="324" decoding="async">
+							<h2 class="woocommerce-loop-category__title">Equipment <mark class="count">(27)</mark></h2>
+						</a>
+					</li>
+
+					<li id="fixture-category-missing-image" class="product product-category last">
+						<a href="#fixture-category-missing-image">
+							<img class="woocommerce-placeholder" src="../../../../app/public/wp-content/plugins/woocommerce/assets/images/placeholder.webp" alt="TEST category awaiting an assigned image" width="600" height="600" decoding="async">
+							<h2 class="woocommerce-loop-category__title">Awaiting Category Image</h2>
+						</a>
+					</li>
+				</ul>
+			</section>
+
+			<section class="dentall-card-fixture__section" aria-labelledby="solution-card-fixtures">
+				<h2 id="solution-card-fixtures">SolutionCard states</h2>
+				<ul class="dentall-card-fixture__solutions">
+					<li id="fixture-solution-featured" class="dentall-solution-card dentall-solution-card--featured">
+						<a class="dentall-solution-card__link" href="#fixture-solution-featured">
+							<div class="dentall-solution-card__body">
+								<h3 class="dentall-solution-card__title">Dental Clinics</h3>
+								<span class="dentall-solution-card__summary">Daily TEST essentials for clinical efficiency.</span>
+								<span class="dentall-solution-card__cta">Shop now →</span>
+							</div>
+							<span class="dentall-solution-card__media">
+								<img src="../../../../app/public/wp-content/uploads/2026/08/test-variable-product-large-light-front-324x324.webp" alt="" width="324" height="324" decoding="async">
+							</span>
+						</a>
+					</li>
+
+					<li id="fixture-solution-long-copy" class="dentall-solution-card">
+						<a class="dentall-solution-card__link" href="#fixture-solution-long-copy">
+							<div class="dentall-solution-card__body">
+								<h3 class="dentall-solution-card__title">Dental Laboratories and Precision Restorative Workflows</h3>
+								<span class="dentall-solution-card__summary">A deliberately long TEST summary verifies that unknown editorial copy wraps without covering the media or action.</span>
+								<span class="dentall-solution-card__cta">Explore laboratory solutions →</span>
+							</div>
+							<span class="dentall-solution-card__media">
+								<img src="../../../../app/public/wp-content/uploads/2026/08/test-variable-product-front-324x324.webp" alt="" width="324" height="324" decoding="async">
+							</span>
+						</a>
+					</li>
+
+					<li id="fixture-solution-no-summary" class="dentall-solution-card">
+						<a class="dentall-solution-card__link" href="#fixture-solution-no-summary">
+							<div class="dentall-solution-card__body">
+								<h3 class="dentall-solution-card__title">Custom Restorations</h3>
+								<span class="dentall-solution-card__cta">Get started →</span>
+							</div>
+							<span class="dentall-solution-card__media">
+								<img src="../../../../app/public/wp-content/uploads/2026/08/test-simple-product-front-324x324.webp" alt="" width="324" height="324" decoding="async">
+							</span>
+						</a>
+					</li>
+
+					<li id="fixture-solution-no-image" class="dentall-solution-card dentall-solution-card--text-only">
+						<a class="dentall-solution-card__link" href="#fixture-solution-no-image">
+							<div class="dentall-solution-card__body">
+								<h3 class="dentall-solution-card__title">Packaging Solutions Without an Assigned Image</h3>
+								<span class="dentall-solution-card__summary">The link remains complete when the optional media element is absent.</span>
+								<span class="dentall-solution-card__cta">Explore now →</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</section>
+		</main>
+	</div>
+</body>
+</html>
