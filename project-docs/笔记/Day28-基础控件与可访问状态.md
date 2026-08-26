@@ -15,7 +15,7 @@
 ## 相关笔记
 
 - 前置笔记：[[Day27-设计证据与Design-Token]]
-- 后续笔记：D29完成后回填
+- 后续笔记：[[Day29-三类卡片组件契约]]
 - 当日WordPress实战学习笔记：[[WordPress实战笔记/Day28-基础控件状态与CSS级联]]
 - 同主题笔记：[[WordPress实战笔记/Day27-Design-Token与Mobile-First容器|Day27-Design-Token与Mobile-First容器]]
 - 当前事实入口：`project-docs/PROJECT_STATE.md`

@@ -28,6 +28,7 @@
 | W1 | [[W1-环境与安全试录周总结]] | Local、受保护Staging、Git/恢复边界、最小权限与M1技术预验收完成；真实人员验收转D13 |
 | W2 | [[W2-商品模型与双环境原型周总结]] | 商品规则v1候选、Local原型、Website Manager角色和Staging双环境验收完成；D18再候选冻结 |
 | W3 | [[W3-商品样本与模型候选冻结周总结]] | 商品编辑与SEO样本、Simple/Variable职责、双环境权限和CSV验证完成；M2商品模型候选冻结通过 |
+| W5 | [[Day30-设计系统v1与系统状态|W5前端设计系统周验收]] | D26～D30前端设计系统轨道通过，Design System v1完成；测试范围P0/P1/P2/P3为0，M3业务内容/素材/Git治理仍独立待办 |
 
 ## D1～D6
 
@@ -72,3 +73,5 @@
 | Day26 | [[Day26-Storefront子主题骨架]] | 现有DentAll Starter转为Storefront子主题；旧阻断模板退出继承链，资源顺序、关键页面和导航回退保护完成Local验证，视觉实现留D27 |
 | Day27 | [[Day27-设计证据与Design-Token]] | 已完成：冻结设计证据与冲突口径，子主题0.3.2落地63个Design Token、最小`body`基线、1320px外框及20/32px响应式gutter；C6真实Shop与C7四页×四端登录态DOM、截图、状态、日志及双重独立复核通过，P0/P1为0 |
 | Day28 | [[Day28-基础控件与可访问状态]] | 已完成：子主题0.5.0完成原生`Sort by`、标题/文本链接、按钮、表单、Error与分区Focus基线；代表页面四端、真实键盘夹具、对比度、静态检查和独立Review收口，最终P0/P1/P2/P3为0；未部署Staging |
+| Day29 | [[Day29-三类卡片组件契约]] | Product、Category、Solution三类卡片内部展示契约、13种状态、19-ID非持久化夹具、真实Shop四端和独立Review完成；真实分类/Page接入留D39/D40 |
+| Day30 | [[Day30-设计系统v1与系统状态]] | D29/D30受控合并为0.8.6；Grid、Section、Loading、Empty、Classic/Blocks通知及真实页面DevTools排错完成，第5周前端设计系统周验收通过 |
