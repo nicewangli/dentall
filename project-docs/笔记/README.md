@@ -75,3 +75,5 @@
 | Day28 | [[Day28-基础控件与可访问状态]] | 已完成：子主题0.5.0完成原生`Sort by`、标题/文本链接、按钮、表单、Error与分区Focus基线；代表页面四端、真实键盘夹具、对比度、静态检查和独立Review收口，最终P0/P1/P2/P3为0；未部署Staging |
 | Day29 | [[Day29-三类卡片组件契约]] | Product、Category、Solution三类卡片内部展示契约、13种状态、19-ID非持久化夹具、真实Shop四端和独立Review完成；真实分类/Page接入留D39/D40 |
 | Day30 | [[Day30-设计系统v1与系统状态]] | D29/D30受控合并为0.8.6；Grid、Section、Loading、Empty、Classic/Blocks通知及真实页面DevTools排错完成，第5周前端设计系统周验收通过 |
+| Day31 | [[Day31-PC公告栏与主页头结构]] | 子主题0.9.0已在Local完成三条TEST公告/三个右侧非交互槽位（币种/语言未来插件位置＋Help页面位置）、透明占位Logo、搜索/Account/原生Cart主行、动作蓝纠偏与`site-shell.css`；五页×四宽和1440完整Focus通过，390底栏三动作/展开后input已取证，折叠态直接Tab与1×1 submit转D33 P2；搜索提交、fragment/非空Cart、非Local正式Logo与WPML/WCML仍未验 |
+| Day32 | [[Day32-PC主导航与一级下拉]] | 用户在Local创建并绑定`TEST D32 PC Navigation`；子主题0.10.0完成`>=1200px`的无分隔线PC导航、分类按钮上下8px留白、两个一级下拉、键盘/边界与五页回归，未新增PHP/JS/模板/插件；手机/平板、真实触屏和正式URL按D33/D34及内容节点接续 |

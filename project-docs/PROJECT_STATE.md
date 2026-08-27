@@ -4,12 +4,12 @@
 
 ## 状态快照
 
-- 更新日期：2026-08-26。
-- 当前阶段：W5前端设计系统周验收已通过，Design System v1完成。D26子主题骨架、D27 Design Token/容器、D28基础控件、D29三类卡片和D30 Grid/Section/Loading/Empty/Classic/Blocks通知已受控合并；本轮Shop、Cart、输入Focus、Checkout复合Select和商品Tabs/默认链接问题均由开发者确认关闭，测试范围P0/P1/P2/P3为0。当前结论不包含未逐项触发的星级、价格筛选、支付radio、Checkout特殊状态或完整交易流程。D25 TEST对象全部保留；M3仍等待正式业务内容/素材与公司Git治理门槛。
+- 更新日期：2026-08-27。
+- 当前阶段：W6/D32最小PC导航范围已在Local完成。D26～D30 Design System v1及D31 Header基线继续有效；用户已用WordPress原生后台创建并把`TEST D32 PC Navigation`绑定Primary，13个菜单项形成9个顶级项、分类下拉3项和About下拉1项。DentAll子主题0.10.0在`>=1200px`完成无分隔线PC导航、`Shop by Categories`按钮上下各8px留白、一级下拉、键盘Focus和左右边界，五个登录态页面回归无新P0/P1。390/768/1024/1199继续隐藏PC导航；D31的390折叠Search直接Tab越界、1×1 submit可见Focus和Cart Blocks移动入口仍登记D33，手机/平板导航、真实触屏、正式菜单URL/当前态、正式公告/Logo、真实搜索、fragment/非空Mini Cart、非Local与WPML/WCML仍未验；D25 TEST对象全部保留，M3仍等待正式业务内容/素材与公司Git治理门槛。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；CR-007已将WM-B重复角色验收从D24-D25当前范围移除，WM-A负责角色级技术矩阵和当前培训。D18 M2商品模型候选冻结通过。D25商品、文章和Page的当前技术/人员路径已通过，WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。这不等于正式内容已审核、Production已开放或M3整体治理门槛全部关闭。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.8.6；Local活动主题为DentAll，父主题为Storefront。0.8.6仍为单一子主题CSS，没有模板、JavaScript、构建链或新运行资源请求；Home、Shop、Simple、Variable、Cart、Checkout均返回200并引用唯一`style.css?ver=0.8.6`。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
+- 当前版本：DentAll Core Local/Staging均已包含角色版本7及Website Manager全局`import`，并保留WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`，运行代码只在既有`media-policy.php`中额外允许Website Manager上传`text/csv`。Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2和DentAll子主题0.10.0；Local活动主题为DentAll，父主题为Storefront。0.10.0保留`style.css`基础层和`site-shell.css`壳层，当前无子主题模板覆盖、自定义JavaScript或构建链；D32未新增资源请求、PHP/JS函数、插件或依赖。Primary绑定菜单term ID 25，Secondary与Handheld未绑定。登录态Home、Shop、Simple、Cart、Account的D32 1440导航回归通过，390/768/1024/1199/1200/1440边界已取证；匿名HTTP仍受Coming Soon保护，只用于资源smoke。当前实际样式顺序为子主题基础样式→`site-shell.css`→Brands扩展样式，不能把壳层CSS称为绝对最后。2026-08-22 Staging后台显示WordPress 7.1与Storefront，DentAll子主题尚未部署或激活，Staging其余插件版本未重新逐项核验。两个自定义商品导入草稿模块继续不由主入口加载，也未进入部署树。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## 已完成
@@ -332,20 +332,52 @@
 - [x] 真实页面DevTools排错关闭Shop排序/结果数、Cart数量/删除重叠、Header/Checkout紫色Focus、Checkout Country/State错位及商品Tabs/默认链接色；前四类有开发者四端复验反馈，商品Tabs/默认链接有最终真实页面关闭反馈。最终W5前端设计系统周验收通过，Design System v1完成，测试范围P0/P1/P2/P3为0。
 - [x] 验收边界保持：D39/D40真实数据接入、D44最终Shop网格、星级/筛选/支付及Checkout特殊/交易状态继续由对应工作日负责；本次没有部署Staging/Production，也不宣称性能提升或零影响。
 
+## D31 PC公告栏与主页头结构
+
+- [x] 实施授权可追溯：用户确认“按D31最小范围实施，公告栏仅Local使用`[TEST]`占位，正式Logo/公告后补”；确认`style.css`保留基础层、`site-shell.css`承载D31～D36；随后明确要求牙齿外围深蓝、Logo文字更大、全站蓝色纠偏、PC左三公告/右币种语言Help，并只占据WPML/WCML未来位置而不安装或实现插件。
+- [x] `inc/setup.php`新增`dentall_enqueue_site_shell_styles()`，以`dentall-site-shell`依赖`storefront-child-style`；`style.css`仍负责Token/基础层，`site-shell.css`只负责Header/Navigation/Footer同生命周期壳层。拆分依据是职责、依赖、复用和变更频率，不按行数、设备或Day机械拆分。
+- [x] `inc/storefront-hooks.php`新增Local公告、Local占位品牌、WooCommerce Account入口和Header编排共4个函数；连同enqueue共新增5函数。公告挂`storefront_before_header`；品牌替换原20回调；Account使用`wc_get_page_permalink( 'myaccount', '' )`；完整Storefront Header Cart由60重排到40并保留WooCommerce原生fragment Filter。
+- [x] Local公告左侧三条均带`[TEST]`；右侧三个`li`只占位：币种读取WooCommerce当前`USD $`，`English`与`Help Center`为静态文本。三者均无链接、按钮或切换逻辑；WPML/WCML未安装、未启用，Help目标未建立。后续插件只复用信息架构与CSS位置，仍须单独实现和验收URL、SEO、缓存、金额与键盘状态。
+- [x] Logo使用内置图像生成模式按“牙齿外围深蓝、文字更大”的要求生成候选，经纯色背景移除、透明处理和裁切后得到1024×240、144221字节、32位ARGB PNG，四角Alpha均为0。只在Local且没有Custom Logo时输出；非Local或已有Custom Logo立即回到`storefront_site_branding()`。该图不是正式商标或授权资产。
+- [x] 全局动作蓝按真实Header与设计稿对照从历史`#0b63d8/#0756c9`纠偏为`#003a9f/#002f82`，主题版本升至0.9.0。新Normal/Hover对白字为9.97:1/12.15:1，在三种项目浅色表面的最低值为8.91:1/10.85:1；20格代表页面的动作按钮计算色均为`#003a9f`。D27/D28/D30旧值和哈希保留为历史快照。
+- [x] 公告四端实际行为：390/768只显示第一条；1024显示三条＋币种；1440显示三条＋币种/语言/Help，Home四端均无横向溢出。Header使用一套DOM：`<768`只显示品牌；`>=768`品牌/Account/Cart首行、搜索次行；`>=1200`品牌/搜索/Account/Cart单行。
+- [x] 登录态Home`/`、Shop`/shop/`、Simple`/product/test-d12-simple-fixed-pack/`、Cart`/cart/`、Account`/my-account/`×390/768/1024/1440共20格无意外横向溢出或重复ID；390下Header三动作隐藏，Storefront Handheld Footer仅在父主题实际输出的适用页面保留唯一入口，`>=768`动作可见且Handheld隐藏。
+- [x] 0.9.0真实键盘与Console已补证：1440 Tab为Search input→Search button→Account→Cart，关键动作均为`#002f82 solid 3px`、offset 3px且未裁切；390按`Built with WooCommerce`→`My Account`→Search入口，Enter展开后再Tab入input→submit→Cart，其中My Account/Search触发器/Cart有3px可见焦点，展开后input未裁切。不先Enter直接Tab会进入未展开input且下缘越界；submit虽在DOM中可达、有可访问名称，却只有1×1px、可见Focus不足。两项转D33 P2。站点Console error/warning为空；工具侧Statsig超时不属于页面错误。
+- [x] Cart Blocks 390例外已确认根因：Storefront `storefront_handheld_footer_bar()`检测到`woocommerce_blocks_enqueue_cart_block_scripts_after`或Checkout Block相关Action已发生时直接`return`，不是D31 CSS隐藏；该页当前无移动动作入口，转D33优先关闭，不能写成所有页面均有Handheld Footer。
+- [x] 静态/HTTP资源证据：PHP语法通过；`site-shell.css`经`.NET ReadAllLines()`与LF分隔符统计均为303个物理行（PowerShell `Get-Content`不返回末尾空记录，显示301条）、7334字节、43/43对花括号、0个`!important`、gzip模拟2069字节、SHA-256=`656330EEC3979A8D07A2BB6D9BAB0CF8AEEA25DF8518D415754B6BAE8768E2FF`；PNG/SVG为144221/253/320字节；两个CSS与三张图片经Local HTTP均为200且长度与磁盘一致；`git diff --check`退出0。
+- [x] 性能/数据边界：PC最多新增1个CSS＋3个图片请求；没有新JS、字体、模板覆盖、插件、自定义SQL、远程请求、Cron、数据库写入或新增autoload Option。代码会读取主题版本、Custom Logo、币种和WooCommerce页面绑定等既有API/Option，未做Query Monitor/前后性能基线，因此不把查询影响写成0，也不宣称性能“零影响”或提速。
+- [ ] P2按计划移交：390折叠态直接Tab进入未展开Search input并下缘越界、展开后submit仅1×1px且可见Focus不足、Cart Blocks 390无移动动作入口转D33；CSS `48rem`与Storefront固定768px行为在非默认初始字号下的入口断档/重复风险转D34；搜索实际提交/结果、Add-to-Cart fragment替换、非空Mini Cart/长金额、非Local分支与正式Custom Logo尚未运行验证。当前占位Logo横向略宽且144221字节偏重，正式替换时重新校准并接D98/上线前资源优化。技术责任人为开发者，分别接D33、D34、D47、D69及后续Staging部署；正式Logo/公告/Help内容由Website Manager或业务方提供。匿名Coming Soon只作保护/资源smoke，不算Header证据。
+
+## D32 PC主导航与一级下拉
+
+- [x] 用户明确授权“按上述最小范围实施，指导我在Local创建和绑定`TEST D32 PC Navigation`”；用户通过`外观 → 菜单`完成保存，Primary绑定term ID 25，Secondary与Handheld未绑定。13项形成9个顶级项、`Shop by Categories`下3个原生产品分类及`About Us`下1个TEST Page。
+- [x] D32只修改既有`site-shell.css`与`style.css`版本：PC导航在`>=75rem`（当前1200px）显示，390/768/1024/1199隐藏；没有新增PHP、JavaScript、模板覆盖、插件、依赖、构建链或运行文件。
+- [x] 用户按设计稿纠正“分类按钮上下有空隙、导航没有分隔线”；最终Header和导航上下边线计算值均为0，导航行64px、分类按钮48px，上下各8px白色留白。分类按钮为`#003a9f`、白字、10px圆角，并保留三横图标和真实子项箭头。
+- [x] Storefront原生`wp_nav_menu()`、导航DOM与`navigation.js`的`.focus`机制继续作为真相源；D32 CSS同时响应`:hover`、`.focus`、`:focus-within`。分类下拉向右展开，其余下拉向左展开；没有以`nth-last-child`绑定后台可编辑顺序。
+- [x] 1440真实键盘链通过：分类父项→3个分类子项→Products离开关闭，Shift+Tab可重开；About父项→TEST子项→Contact离开关闭，子项有3px可见Focus。分类/About下拉均240px并位于容器内。
+- [x] 390/768/1024/1199/1200/1440边界无横向溢出；Home、Shop、Simple、Cart、My Account五个登录态1440页面保留9顶级项/3＋1子项、D31 Header及无重复ID，站点Console error/warning为空。
+- [x] 独立Code Review初审发现小屏Skip Link、空菜单空带、长文本和脆弱下拉方向共3个P2/1个P3，均修复；复审无新P0/P1/P2。独立设计复核确认无分隔线、8px留白、容器对齐与下拉边界，P0～P3为0。独立测试在数据库、静态、HTTP及首页390/768/1024/1200/1440范围内未发现P0/P1/P2；其1199、真实键盘链和其余四页登录态批量检查因工具超时没有独立证据，不作为单独签字，缺口由主执行链对应浏览器证据覆盖。
+- [x] 静态/HTTP证据：`site-shell.css`为464行、12261字节、65/65对花括号、0个`!important`，SHA-256=`9B23EEF3DA081058511E4BA7545947D1F1C16D54CB006EF1A0BADC6B9B124576`；HTTP `?ver=0.10.0`返回200且与磁盘一致；`git diff --check`通过。
+- [x] 减法边界：相对D31运行文件净增0，CSS净增161行/4927字节/22个规则块，版本号1处替换；已删除分隔线、位置序号判断和重复TEST URL造成的伪当前态，不预写手机抽屉、Mega Menu、正式路由或Escape专用JS。
+- [ ] 移交边界：D33启用手机导航时恢复小屏Skip Link并验证真实触屏；D34收敛平板。当前多个TEST自定义链接重复指向`/shop/`或`/`，只验证骨架，不冻结正式URL、当前项或SEO内部链接；若未来允许分类项离开首位，需重新验证其左右边界。Staging/Production未部署。
+
 ## 下一步三个验收结果
 
-1. D31只读盘点Storefront Header DOM、Hooks及Logo、搜索、账户、购物车现有输出，冻结PC公告栏和主页头结构边界。
-2. 明确D31的PC对照图、长文本、Focus、溢出和0.8.6默认链接回归标准，提交功能确认单；未经用户明确确认不修改实现文件。
-3. Footer按总计划留D35～D36；继续保持Staging/Production、支付、物流、URL/SEO和持久化行为不变。
+1. D33先只读核对手机设计稿、Storefront Handheld Navigation/Search/Footer Bar真实DOM及D31遗留的三项P2，提交最小功能确认单；未经明确授权不修改实现。
+2. 经授权后优先关闭Cart Blocks 390无移动动作入口、折叠Search直接Tab越界与1×1 submit可见Focus不足，再为同一菜单数据实现手机抽屉并恢复小屏Skip Link；不复制PC菜单DOM。
+3. D34复验`48rem`与固定768px边界并完成平板最终密度、中间宽度、真实触控及导航联动收敛。Footer仍按D35～D36，正式菜单URL随内容节点，Mini Cart fragment/非空状态仍按D69。
 
 ## 本周风险
 
 - 如果支付、物流、税费和SMTP长期不确认，会影响W13以后关键路径。
 - 商品、文章和Page技术路径已完成D25抽查，WM-A可在受保护Staging按批准SOP用Simple模板v1小批次录入Draft；Variable/Variation CSV、正式内容审核、Production同步和发布仍是独立闸门。
 - 不要将当前大型PNG和ZIP直接提交到源码Git仓库。
-- 正式Logo、品牌字体及许可证、Hero/分类/Solutions/商品图、支付和社交官方素材仍缺；这不阻塞Local通用骨架，但阻塞正式品牌视觉与业务内容验收。
+- 正式Logo、品牌字体及许可证、Hero/分类/Solutions/商品图、支付和社交官方素材仍缺；D31 AI透明PNG只在Local占位，不阻塞通用骨架，但阻塞正式品牌视觉与业务内容验收。
 - 1024首页图属于推导证据，AI稿中的业务数字和功能不得固化；用户已冻结1320px为容器外框宽，现有Google字体依赖及浅边框用途仍须在后续浏览器和可访问性证据中复核。
 - WooCommerce Coming Soon仍遮蔽匿名真实商城内容；C7已通过登录态Chrome补齐Home、Shop、Cart空态和Account登录态的四端公共基线，但非空Cart、错误/Notice、售罄及账户登录注册等状态仍须在对应工作日安全验证，不得为制造证据擅自关闭保护、索引或修改数据库。
+- D31当前语言/币种/Help只是无交互槽位；WPML/WCML虽已在早期评估中冻结候选方向，但未安装或验证。未来接入会新增URL、SEO、缓存、购物车金额与插件生命周期风险，必须重新走功能确认和代表状态验收。
+- D31搜索实际提交、Cart Blocks 390入口、390折叠Search直接Tab越界、1×1 submit可见Focus不足、`48rem`/固定768px条件边界、Add-to-Cart fragment、非空Mini Cart、非Local/正式Custom Logo仍是已登记验证债；1440完整Focus、390三个底栏动作与展开后input、Console已补证。不得把这些局部事实扩大为390搜索键盘完整通过，也不得用静态DOM、原生Filter存在或Coming Soon资源smoke替代其余运行证据。
+- D32当前多个自定义导航项重复指向`/shop/`或`/`，只允许作为Local TEST骨架；正式页面/分类与Slug到位后必须复核当前项、404/301、Canonical和内部链接。真实触屏、手机/平板菜单、D33启用时的小屏Skip Link恢复及分类项若移动后的左右边界仍是明确验证债。
 - 单休节奏下第7天必须完整休息，不能靠连续取消休息日吸收偏差。
 
 ## 进度真实性口径
@@ -391,6 +423,8 @@
 | W5 / D28 | 6小时50分钟 | 待用户记录 | 已完成（Local技术验收） | C1～C7完成原生`Sort by`、标题/文本链接、按钮、表单、Error与分区Focus基线；用户确认后将子主题精简至0.5.2，仍为单CSS且净少104行/1436字节。既有23组四端、键盘与对比度证据，最终六页HTTP、Simple/Cart计算样式、静态检查和独立Review通过，P0/P1/P2/P3为0；动态证据缺口及未自然出现状态已如实登记，Staging/Production未变 |
 | W5 / D29 | 6小时50分钟 | 待用户记录 | 已完成（技术收口） | Product/Category/Solution三类卡片内部契约、13种状态、19-ID夹具、真实Shop四端、静态审计、独立Review和学习笔记完成；真实分类/Page接入留D39/D40，最终Shop网格留D44 |
 | W5 / D30 | 6小时50分钟 | 待用户记录 | 已完成（W5前端周验收） | D29/D30受控合并为0.8.6；Grid/Section、Loading/Empty、Classic/Blocks通知完成四端/Focus/ARIA/Reduced Motion回归，四类真实页面修复完成四端复验，商品Tabs/默认链接由开发者最终确认关闭；测试范围P0/P1/P2/P3为0，Design System v1完成；M3业务/素材/Git治理仍独立待办 |
+| W6 / D31 | 6小时50分钟 | 待用户记录 | 已完成（Local最小Header技术验收） | 子主题0.9.0完成Local三公告/三个右侧非交互槽位（币种/语言未来插件位置＋Help页面位置）、透明占位Logo、搜索/Account/原生Cart主行、动作蓝纠偏与领域CSS拆分；五页×四宽结构、公告四端、1440完整Focus、390三个底栏动作/展开后input、Console、静态/HTTP/对比度完成取证，P0/P1=0。390折叠态直接Tab、1×1 submit可见Focus、Cart Blocks移动入口、真实搜索提交、fragment/非空Mini Cart、非Local/正式Logo和WPML/WCML尚未关闭；未部署Staging/Production |
+| W6 / D32 | 6小时50分钟 | 待用户记录 | 已完成（Local最小PC导航技术验收） | 用户创建并绑定`TEST D32 PC Navigation`；子主题0.10.0完成`>=1200px`无分隔线PC导航、分类按钮上下8px留白、两个一级下拉、键盘/边界与五页1440回归。独立Code Review与设计复核无遗留P0/P1/P2；手机/平板、真实触屏、正式URL/当前态及Staging/Production按后续节点接续 |
 
 ## 更新规则
 
