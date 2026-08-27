@@ -1,0 +1,464 @@
+/*
+ * D31-D36全站壳层：公告、Header、导航和Footer。
+ * Design Token与全局控件基线来自style.css；本文件只保存壳层组件及其响应式变化。
+ */
+
+.dentall-announcement {
+	background: var(--dentall-color-brand);
+	color: var(--dentall-white);
+}
+
+.dentall-announcement__inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.25rem;
+	padding-block: var(--dentall-space-8);
+}
+
+.dentall-announcement :where(ul, li) {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-announcement__messages,
+.dentall-announcement__utilities {
+	display: flex;
+	align-items: center;
+	gap: var(--dentall-space-12);
+	font-size: var(--dentall-font-size-xs);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.dentall-announcement__messages {
+	justify-content: center;
+	text-align: center;
+}
+
+.dentall-announcement__messages li:not(:first-child),
+.dentall-announcement__utilities {
+	display: none;
+}
+
+.dentall-announcement__messages li + li,
+.dentall-announcement__utilities li + li {
+	padding-inline-start: var(--dentall-space-12);
+	border-inline-start: 1px solid currentColor;
+}
+
+/* Header主行使用一套DOM；D33前手机保留Storefront Handheld Footer作为唯一动作入口。 */
+.site-header {
+	padding-block: 0;
+	border-bottom-color: var(--dentall-color-border-subtle);
+}
+
+.site-header > .col-full {
+	display: grid;
+	grid-template-areas: "brand";
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--dentall-space-12);
+	align-items: center;
+	padding-block: var(--dentall-space-16);
+}
+
+.site-header .site-branding {
+	grid-area: brand;
+	float: none;
+	min-width: 0;
+	width: auto;
+	margin: 0;
+}
+
+.site-header .site-branding .site-title {
+	margin: 0;
+	font-size: var(--dentall-font-size-xl);
+	line-height: 1.1;
+	letter-spacing: 0;
+}
+
+.site-header .site-branding .site-title a {
+	color: var(--dentall-color-heading);
+	font-weight: var(--dentall-font-weight-bold);
+	overflow-wrap: anywhere;
+}
+
+.site-header .site-branding .custom-logo-link img {
+	width: auto;
+	max-width: 13.75rem;
+	max-height: 3.75rem;
+	border-radius: 0;
+	object-fit: contain;
+}
+
+.woocommerce-active .site-header > .col-full > .site-search {
+	grid-area: search;
+	display: none;
+	float: none;
+	clear: none;
+	width: auto;
+	margin: 0;
+	font-size: inherit;
+}
+
+.site-header .site-search :where(.widget, form) {
+	margin: 0;
+}
+
+.site-header .woocommerce-product-search {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--dentall-space-8);
+	align-items: stretch;
+}
+
+/* WooCommerce Blocks强制标签绝对定位；这里沿用该定位并把原生标签做成输入框内的浮动标签。 */
+.site-header .woocommerce-product-search > .screen-reader-text {
+	position: absolute;
+	inset-block-start: 0.25rem;
+	inset-inline-start: var(--dentall-space-16);
+	z-index: 1;
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	padding: 0;
+	font-size: var(--dentall-font-size-xs);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1.25;
+	color: var(--dentall-color-text-muted);
+	pointer-events: none;
+}
+
+.site-header .site-search .widget_product_search form::before {
+	content: none;
+}
+
+.site-header .woocommerce-product-search input[type="search"] {
+	min-width: 0;
+	width: 100%;
+	min-height: 3rem;
+	padding: 1.25rem var(--dentall-space-16) 0.25rem;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-color-surface);
+	box-shadow: none;
+	line-height: 1.2;
+}
+
+/* 选择器比Storefront的隐藏按钮规则更具体，避免额外提升声明优先级。 */
+.site-header .site-search .woocommerce-product-search button[type="submit"] {
+	position: static;
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	min-height: 3rem;
+	margin: 0;
+	overflow: visible;
+	padding-inline: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-action);
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-color-action);
+	color: var(--dentall-white);
+}
+
+.dentall-header-account {
+	grid-area: account;
+	display: none;
+}
+
+.dentall-header-account a,
+.site-header .site-header-cart .cart-contents {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--dentall-space-8);
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8);
+	color: var(--dentall-color-text);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+.dentall-header-account a::before,
+.site-header .site-header-cart .cart-contents::after {
+	content: "";
+	display: block;
+	flex: 0 0 auto;
+	width: 1.25rem;
+	height: 1.25rem;
+	background-color: currentColor;
+}
+
+.dentall-header-account a::before {
+	-webkit-mask: url("../images/icon-user.svg") center / contain no-repeat;
+	mask: url("../images/icon-user.svg") center / contain no-repeat;
+}
+
+.site-header .site-header-cart .cart-contents::after {
+	-webkit-mask: url("../images/icon-cart.svg") center / contain no-repeat;
+	mask: url("../images/icon-cart.svg") center / contain no-repeat;
+	order: -1;
+	float: none;
+}
+
+.dentall-header-account a:hover,
+.site-header .site-header-cart .cart-contents:hover {
+	color: var(--dentall-color-action-hover);
+}
+
+.woocommerce-active .site-header > .col-full > .site-header-cart {
+	grid-area: cart;
+	display: none;
+	float: none;
+	position: relative;
+	width: auto;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-header .site-header-cart > li {
+	margin: 0;
+}
+
+.site-header .site-header-cart .cart-contents {
+	flex-wrap: wrap;
+	max-width: 9rem;
+}
+
+.site-header .site-header-cart .cart-contents .count {
+	font-size: var(--dentall-font-size-xs);
+	font-weight: var(--dentall-font-weight-regular);
+	opacity: 1;
+}
+
+/*
+ * D32只启用PC主导航；D33再为同一菜单补充手机抽屉，避免平板提前出现未验收的桌面导航。
+ */
+.storefront-primary-navigation {
+	display: none;
+}
+
+a.skip-link[href="#site-navigation"] {
+	display: none;
+}
+
+@media (min-width: 48rem) {
+	.site-header > .col-full {
+		grid-template-areas:
+			"brand account cart"
+			"search search search";
+		grid-template-columns: minmax(0, 1fr) auto auto;
+	}
+
+	.woocommerce-active .site-header > .col-full > .site-search,
+	.dentall-header-account,
+	.woocommerce-active .site-header > .col-full > .site-header-cart {
+		display: block;
+	}
+}
+
+@media (min-width: 64rem) {
+	.dentall-announcement__inner {
+		justify-content: space-between;
+		gap: var(--dentall-space-16);
+	}
+
+	.dentall-announcement__messages {
+		justify-content: flex-start;
+		text-align: start;
+	}
+
+	.dentall-announcement__messages li:not(:first-child),
+	.dentall-announcement__utilities {
+		display: flex;
+	}
+
+	.dentall-announcement__utilities > :not(.dentall-announcement__utility--currency) {
+		display: none;
+	}
+}
+
+@media (min-width: 75rem) {
+	.dentall-announcement__utilities > :not(.dentall-announcement__utility--currency) {
+		display: list-item;
+	}
+
+	.site-header {
+		border-bottom: 0;
+	}
+
+	.site-header > .col-full {
+		grid-template-areas: "brand search account cart";
+		grid-template-columns: minmax(13.75rem, 0.8fr) minmax(24rem, 2.8fr) max-content max-content;
+		column-gap: var(--dentall-space-24);
+		padding-block: var(--dentall-space-24);
+	}
+
+	.site-header .site-header-cart .widget_shopping_cart {
+		width: min(20rem, calc(100vw - (2 * var(--dentall-gutter-wide))));
+	}
+
+	.site-header .site-header-cart:hover .widget_shopping_cart,
+	.site-header .site-header-cart.focus .widget_shopping_cart {
+		right: 0;
+		left: auto;
+	}
+
+	.storefront-primary-navigation {
+		display: block;
+		background: var(--dentall-color-surface);
+	}
+
+	a.skip-link[href="#site-navigation"] {
+		display: block;
+	}
+
+	.storefront-primary-navigation .primary-navigation {
+		padding-block: var(--dentall-space-8);
+	}
+
+	.site-header .storefront-primary-navigation .main-navigation {
+		float: none;
+		width: 100%;
+		margin: 0;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu {
+		display: flex;
+		align-items: stretch;
+		justify-content: space-between;
+		gap: var(--dentall-space-4);
+		width: 100%;
+		margin: 0;
+		overflow: visible;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li {
+		display: flex;
+		align-items: stretch;
+		min-width: 0;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 0;
+		min-height: 3rem;
+		padding: var(--dentall-space-12) clamp(0.625rem, 0.8vw, var(--dentall-space-16));
+		color: var(--dentall-color-text);
+		font-size: var(--dentall-font-size-sm);
+		font-weight: var(--dentall-font-weight-semibold);
+		line-height: 1.2;
+		text-align: center;
+		overflow-wrap: anywhere;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li:not(.dentall-menu-categories) > a:hover,
+	.storefront-primary-navigation .main-navigation ul.menu > li:not(.dentall-menu-categories).focus > a,
+	.storefront-primary-navigation .main-navigation ul.menu > li:not(.dentall-menu-categories):focus-within > a {
+		color: var(--dentall-color-action-hover);
+		box-shadow: inset 0 -3px var(--dentall-color-action);
+	}
+
+	.storefront-primary-navigation .main-navigation .dentall-menu-categories {
+		margin-inline-end: var(--dentall-space-16);
+		border-radius: var(--dentall-radius-md);
+		background: var(--dentall-color-action);
+	}
+
+	.storefront-primary-navigation .main-navigation .dentall-menu-categories:is(:hover, .focus, :focus-within) {
+		background: var(--dentall-color-action-hover);
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li.dentall-menu-categories > a,
+	.storefront-primary-navigation .main-navigation ul.menu > li.dentall-menu-categories > a:hover {
+		padding-inline: var(--dentall-space-16);
+		color: var(--dentall-white);
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li.dentall-menu-categories > a::before {
+		display: block;
+		flex: 0 0 auto;
+		width: 1rem;
+		height: 0.75rem;
+		margin-inline-end: var(--dentall-space-8);
+		background:
+			linear-gradient(currentColor 0 0) top / 100% 2px,
+			linear-gradient(currentColor 0 0) center / 100% 2px,
+			linear-gradient(currentColor 0 0) bottom / 100% 2px;
+		background-repeat: no-repeat;
+		content: "";
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li.menu-item-has-children > a::after {
+		margin-inline: var(--dentall-space-8) 0;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu {
+		display: block;
+		top: 100%;
+		right: 0;
+		left: auto;
+		width: max-content;
+		min-width: 15rem;
+		max-width: min(18rem, calc(100vw - (2 * var(--dentall-gutter-wide))));
+		margin: 0;
+		padding: var(--dentall-space-8);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-md);
+		background: var(--dentall-color-surface);
+		box-shadow: var(--dentall-shadow-card);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li.dentall-menu-categories > .sub-menu {
+		right: auto;
+		left: 0;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li:hover > .sub-menu,
+	.storefront-primary-navigation .main-navigation ul.menu > li.focus > .sub-menu,
+	.storefront-primary-navigation .main-navigation ul.menu > li:focus-within > .sub-menu {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li {
+		display: block;
+		width: 100%;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li > a {
+		width: auto;
+		min-height: 2.75rem;
+		padding: var(--dentall-space-12);
+		border-radius: var(--dentall-radius-sm);
+		color: var(--dentall-color-text);
+		font-size: var(--dentall-font-size-sm);
+		line-height: 1.35;
+		overflow-wrap: anywhere;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li > a:hover,
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li.focus > a,
+	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li.current-menu-item > a {
+		background: var(--dentall-color-surface-blue);
+		color: var(--dentall-color-action-hover);
+	}
+}

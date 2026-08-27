@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.8.6
+Version: 0.10.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -25,8 +25,8 @@ Text Domain: dentall
 	/* 原始色板 */
 	--dentall-navy-950: #031a3a;
 	--dentall-navy-900: #05264e;
-	--dentall-blue-700: #0756c9;
-	--dentall-blue-600: #0b63d8;
+	--dentall-blue-700: #002f82;
+	--dentall-blue-600: #003a9f;
 	--dentall-blue-100: #eaf3ff;
 	--dentall-sky-50: #f4f9ff;
 	--dentall-mint-50: #eefaf7;
