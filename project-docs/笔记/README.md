@@ -29,6 +29,7 @@
 | W2 | [[W2-商品模型与双环境原型周总结]] | 商品规则v1候选、Local原型、Website Manager角色和Staging双环境验收完成；D18再候选冻结 |
 | W3 | [[W3-商品样本与模型候选冻结周总结]] | 商品编辑与SEO样本、Simple/Variable职责、双环境权限和CSV验证完成；M2商品模型候选冻结通过 |
 | W5 | [[Day30-设计系统v1与系统状态|W5前端设计系统周验收]] | D26～D30前端设计系统轨道通过，Design System v1完成；测试范围P0/P1/P2/P3为0，M3业务内容/素材/Git治理仍独立待办 |
+| W7 | [[Day42-首页全链路校准与M4技术验收|W7首页与全局框架周验收]] | D31～D42登录态Local四端整链路、资源、可访问性与只读数据合同通过；M4按Local技术v1完成，正式内容、营销事实、非Local部署与生产性能仍为独立门槛 |
 
 ## D1～D6
 
@@ -77,3 +78,13 @@
 | Day30 | [[Day30-设计系统v1与系统状态]] | D29/D30受控合并为0.8.6；Grid、Section、Loading、Empty、Classic/Blocks通知及真实页面DevTools排错完成，第5周前端设计系统周验收通过 |
 | Day31 | [[Day31-PC公告栏与主页头结构]] | 子主题0.9.0已在Local完成三条TEST公告/三个右侧非交互槽位（币种/语言未来插件位置＋Help页面位置）、透明占位Logo、搜索/Account/原生Cart主行、动作蓝纠偏与`site-shell.css`；五页×四宽和1440完整Focus通过，390底栏三动作/展开后input已取证，折叠态直接Tab与1×1 submit转D33 P2；搜索提交、fragment/非空Cart、非Local正式Logo与WPML/WCML仍未验 |
 | Day32 | [[Day32-PC主导航与一级下拉]] | 用户在Local创建并绑定`TEST D32 PC Navigation`；子主题0.10.0完成`>=1200px`的无分隔线PC导航、分类按钮上下8px留白、两个一级下拉、键盘/边界与五页回归，未新增PHP/JS/模板/插件；手机/平板、真实触屏和正式URL按D33/D34及内容节点接续 |
+| Day33 | [[Day33-手机与平板竖屏Header]] | 子主题0.11.10在Local完成单一Primary DOM、手机/768实际Logo居中、左Menu/右Account与动态Cart数量、非模态面板、一级子项常显、完整手机放大镜及仅`Search products…`的视觉呈现；无新JS，Cart Blocks同页即时同步转D69，键盘完整链与四类页面批量回归由D34补证 |
+| Day34 | [[Day34-平板横屏Header与断点收敛]] | 子主题0.12.0在Local把紧凑Header连续覆盖至1199，并在1200切换完整PC导航；关闭态子菜单、强制Reduced Motion夹具、390～1440边界、390/768/1024 Enter链、Skip Link实际激活及五类页面20/20通过，无新JS/插件/模板；用户于2026-08-28确认实体设备验收通过 |
+| Day35 | [[Day35-PC页脚与Newsletter测试壳层]] | 子主题0.13.2新增独立Footer模块：一个深度2且无Page回退的菜单位置、Local不可提交Newsletter、动态品牌/版权与诚实空状态；Day35 Footer未输出社交/支付，七个宽度0溢出、390五类页面5/5及静态/HTTP/独立复核通过；匿名Coming Soon独立模板的默认社交链接登记为环境P2，正式菜单绑定和手机/平板收口转D36 |
+| Day36 | [[Day36-手机与平板页脚和后台菜单绑定]] | Administrator在Local创建并绑定9项TEST Footer菜单；子主题0.14.1以同一DOM完成390单列、768四列、1024五列及1200起菜单＋品牌静态重排，未新增JS/Walker/模板/插件；正式栏目、真实Newsletter、社交/支付及非Local部署仍待独立确认 |
+| Day37 | [[Day37-PC首页Hero与原生首页路由]] | 已完成（Local推荐最小技术范围）：子主题0.15.3用原生Home/Blog Reading路由、Storefront Homepage Hook、核心区块＋特色图完成Hero；根URL、`/blog/`和四端安全回归通过，当前3:2实色图仍仅限Local占位 |
+| Day38 | [[Day38-手机与平板首页Hero精调]] | 已完成（Local确认范围）：同一Hero DOM以Mobile First Grid叠层完成四端精调；390/768隐藏辅助卖点、1024/1440显示三列，四端高度约320/320/333/352px且无横向溢出；正式透明素材、正式内容与非Local部署仍待 |
+| Day39 | [[Day39-首页精选分类入口与自适应换行]] | 已完成（Local确认范围）：原生菜单选择/排序真实顶级非空`product_cat`，复用Woo CategoryCard；总数不限，390/768/1024/1440按3/5/9/9容量自动换行并居中末行，0/1/9/10项、缺图、长标题、Focus和循环恢复通过；正式分类内容与非Local部署仍待 |
+| Day40 | [[Day40-首页方案Page映射与四端区域]] | 已完成（Local技术范围）：专用菜单选择/排序真实已发布Page，过滤后最多4张D29 SolutionCard；4个TEST Page逐页noindex且不进Sitemap，缺摘要/缺图/长标题/0～4+项通过，无`View all`或`/solutions/`；真实首页四端与相邻节奏已由D42补证，正式内容与非Local部署仍待 |
+| Day41 | [[Day41-首页累计热卖与信任指标条]] | 已完成（Local技术范围）：按Woo累计`total_sales`读取最多5个真实可见商品，0销量整区隐藏；复用ProductCard和纯CSS横滑完成四端1/3/4/5卡容量。五项Trust数据/图标仅Local预览，三路独立复核最终P0/P1/P2=0；整页Newsletter邻接已由D42补证，真实订单正销量、正式指标与非Local部署仍待 |
+| Day42 | [[Day42-首页全链路校准与M4技术验收]] | 已完成（M4 Local技术v1）：登录态390/768/1024/1440整链路、0页面溢出、Console、主题资源、PHP与15/15只读审计通过；无P0/P1或阻塞M4的P2，运行代码0改动、主题保持0.19.0且未创建TEST订单；正式内容、非Local部署和生产性能另行验收 |

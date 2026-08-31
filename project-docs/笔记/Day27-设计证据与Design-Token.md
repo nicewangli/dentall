@@ -280,7 +280,7 @@
 1. 390px下Storefront固定手持底栏仍出现在Home、Shop和Account，Cart当前空态未检测到该底栏。负责人为主Agent/前端，D31～D33统一处理全局壳层、固定元素、z-index、底部留白、触控和键盘可达性。登录态WordPress管理条和浏览器右侧头像浮层只属于取证环境噪声，不纳入站点发布视觉结论。
 2. 768/1024仍提前显示Storefront桌面式搜索/购物车Header，与冻结的1024紧凑方向不一致。负责人为主Agent/前端，D31使用真实长英文菜单关闭。
 3. Shop排序`select`有`aria-label`但没有可见标签；Focus、键盘顺序及标题/链接/按钮/表单状态尚未验收。负责人为主Agent/前端，D28处理。
-4. `html lang="en-US"`下，Home默认文章以及Shop、Cart、My Account的H1/Breadcrumb/空态仍混入中文，与第一版英语前台不一致。D28先建立全局语言检查清单，主Agent/内容在D37、D43、D68、D81对应页面实现前关闭；任何站点语言或页面内容配置修改均需另行授权。
+4. `html lang="en-US"`下，Home默认文章以及Shop、Cart、My Account的H1/Breadcrumb/空态仍混入中文，与第一版英语前台不一致。D28先建立全局语言检查清单，主Agent/内容在D37、D43、D68、D81对应页面实现前关闭；任何站点语言或页面内容配置修改均需另行授权。Home技术页已于D37改为明确TEST英文Hero并关闭默认中文文章输出，正式英语业务文案仍待内容验收；其余页面按原节点继续。
 5. Cart只覆盖空态，Account只覆盖当前登录态；非空Cart与数量/删除/金额转D67，Cart最终响应式/空态CTA转D68，登录注册、密码、账户Dashboard功能分别转D79～D81。这是覆盖边界，不得写成相应全流程已通过。
 
 ## C3～C5最小实施确认单（C3～C5已执行）

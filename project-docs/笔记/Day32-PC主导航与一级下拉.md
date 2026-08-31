@@ -23,7 +23,8 @@ tags:
 - 前置项目笔记：[[Day31-PC公告栏与主页头结构]]
 - 当日学习笔记：[[WordPress实战笔记/Day32-原生菜单与Storefront下拉机制]]
 - 前置学习笔记：[[WordPress实战笔记/Day31-四端设计稿还原与组件拆解]]
-- 后续计划：D33手机Header与抽屉菜单、D34平板导航收敛、正式内容到位后的菜单URL复核
+- 后续项目笔记：[[Day33-手机与平板竖屏Header]]
+- 后续计划：D34平板导航收敛、正式内容到位后的菜单URL复核
 
 > [!success] 当前结论
 > D32已在Local完成`TEST D32 PC Navigation`的原生菜单创建、Primary位置绑定和PC一级下拉样式。导航仅在`>=1200px`显示；设计稿要求的白色连续导航区没有上下分隔线，`Shop by Categories`蓝色按钮上下各保留8px留白。9个顶级项、分类下拉3项和About下拉1项已在真实登录态页面通过边界、键盘及五页回归；未新增PHP、JavaScript、模板覆盖、插件或依赖。

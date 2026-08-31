@@ -19,7 +19,7 @@ tags:
 - 学习模板：[[WordPress实战学习笔记模板]]
 - 当前项目起点：[[Day26-Storefront子主题骨架]]
 - 第一篇学习笔记：[[Day26-子主题继承与Hook加载机制]]
-- 当前最新学习笔记：[[Day32-原生菜单与Storefront下拉机制]]
+- 当前最新学习笔记：[[Day42-首页整链路验收与证据分层]]
 
 > [!important] 双向链接规则
 > 新建一篇Day学习笔记后，必须同时完成三件事：在本索引登记它；在学习笔记中链接对应的项目Day笔记；在项目Day笔记中反向链接该学习笔记。不能只依赖Obsidian自动生成的Backlinks面板。
@@ -78,8 +78,18 @@ tags:
 | Day30 | [[Day30-响应式栅格与系统状态]] | [[Day30-设计系统v1与系统状态]] | 初识，待费曼自测 | — | 第5周前端周验收已收尾 |
 | Day31 | [[Day31-四端设计稿还原与组件拆解]] | [[../Day31-PC公告栏与主页头结构\|Day31-PC公告栏与主页头结构]] | 初识，待费曼自测 | — | 0.9.0 Local实战与1440 Focus已收口；390底栏三动作/展开后input已取证，折叠态直接Tab与1×1 submit转D33 P2；搜索提交、fragment/非空Cart、非Local正式Logo与WPML/WCML仍未验 |
 | Day32 | [[Day32-原生菜单与Storefront下拉机制]] | [[../Day32-PC主导航与一级下拉\|Day32-PC主导航与一级下拉]] | 初识，待费曼自测 | — | 0.10.0 Local PC导航、原生菜单绑定、一级下拉、五页回归与键盘边界已收口；手机/平板、真实触屏及正式URL转D33/D34与内容节点 |
+| Day33 | [[Day33-单一导航DOM与购物车Fragment]] | [[../Day33-手机与平板竖屏Header\|Day33-手机与平板竖屏Header]] | 初识，待费曼自测 | — | 0.11.10 Local完成单一Primary DOM、手机/768居中Header、非模态面板、搜索与真实Cart数量；Cart Blocks同页同步转D69，完整键盘链和四类页面批量回归由D34补证 |
+| Day34 | [[Day34-CSS断点级联与可访问状态]] | [[../Day34-平板横屏Header与断点收敛\|Day34-平板横屏Header与断点收敛]] | 初识，待费曼自测 | — | 0.12.0 Local完成1024～1199紧凑菜单、1200完整PC导航、关闭态子菜单与Reduced Motion级联收口；Enter链、Skip Link、强制Reduced Motion夹具及五类页面20/20通过，用户于2026-08-28确认实体设备验收通过 |
+| Day35 | [[Day35-Storefront页脚Hook与菜单数据契约]] | [[../Day35-PC页脚与Newsletter测试壳层\|Day35-PC页脚与Newsletter测试壳层]] | 初识，待费曼自测 | — | 0.13.2 Local通过Storefront Action建立单一两级Footer菜单合同、不可提交Newsletter与条件空状态；七宽度、390五类页面、静态/HTTP及独立复核通过；匿名Coming Soon默认社交链接登记为独立环境P2，正式菜单绑定和四端收口转D36 |
+| Day36 | [[Day36-菜单数据绑定与静态响应式重排]] | [[../Day36-手机与平板页脚和后台菜单绑定\|Day36-手机与平板页脚和后台菜单绑定]] | 初识，待费曼自测 | — | 0.14.1 Local完成term 26原生Footer绑定、同一DOM四端静态重排、长文本与当前项状态；无Accordion或新JS，正式内容/Newsletter与非Local部署仍待确认 |
+| Day37 | [[Day37-Homepage-Hook与响应式Hero]] | [[../Day37-PC首页Hero与原生首页路由\|Day37-PC首页Hero与原生首页路由]] | 初识，待费曼自测 | — | 0.15.3 Local完成原生Home/Blog Reading路由、Storefront Homepage Hook、核心区块＋特色图Hero与四端安全回归；当前3:2实色图仅为Local占位，正式透明素材和移动视觉精调分别留业务供图与D38 |
+| Day38 | [[Day38-Grid叠层与响应式图片sizes]] | [[../Day38-手机与平板首页Hero精调\|Day38-手机与平板首页Hero精调]] | 初识，待费曼自测 | — | 0.16.0 Local以同一语义DOM和Mobile First Grid叠层完成390/768/1024/1440 Hero精调，按用户决定在小屏隐藏三项辅助卖点、1024起恢复；同步收敛响应式图片`sizes`并关闭桌面媒体溢出 |
+| Day39 | [[Day39-菜单驱动的分类查询与Flex换行]] | [[../Day39-首页精选分类入口与自适应换行\|Day39-首页精选分类入口与自适应换行]] | 初识，待费曼自测 | — | 0.17.0 Local以专用原生菜单选择/排序真实顶级非空`product_cat`，复用Woo原生CategoryCard并精确恢复循环；3/5/9行容量、0/1/9/10项、前台可见count、缺图、长标题与Focus通过 |
+| Day40 | [[Day40-菜单驱动的Page映射与原生摘要]] | [[../Day40-首页方案Page映射与四端区域\|Day40-首页方案Page映射与四端区域]] | 初识，待费曼自测 | — | 0.18.0 Local以专用菜单选择/排序真实Page，批量过滤后输出最多4张SolutionCard；4个TEST Page noindex、0/1/4/4+、空摘要、缺图、菜单别名和Sitemap边界通过，真实首页四端视觉与相邻节奏已由D42补证 |
+| Day41 | [[Day41-累计销量查询与首页展示边界]] | [[../Day41-首页累计热卖与信任指标条\|Day41-首页累计热卖与信任指标条]] | 初识，待费曼自测 | — | 0.19.0 Local固定读取Woo累计销量与可见性，最多5项、0项空输出；原生ProductCard、Filter/循环恢复、纯CSS四端横滑和Local-only Trust五项完成，整页D42证据已补齐，真实订单、正式指标与非Local仍待 |
+| Day42 | [[Day42-首页整链路验收与证据分层]] | [[../Day42-首页全链路校准与M4技术验收\|Day42-首页全链路校准与M4技术验收]] | 初识，待费曼自测 | — | M4按Local技术v1完成：登录态四端整链路、0页面溢出、Console/HTTP/PHP与只读审计交叉验证通过；0运行代码改动且不创建TEST订单，正式内容、非Local与生产性能另行验收 |
 
-下一篇为D33学习笔记，依据D33真实工作生成，不提前制造空白笔记。D31/D32项目实现已经分别补入既有Day笔记；后续关闭搜索提交、Mini Cart、正式Logo、正式菜单URL或插件验证债时继续回写对应工作日与既有边界，不另建重复实现笔记。
+下一篇为D43学习笔记，依据D43商品归档真实梳理或实施工作生成，不提前制造空白笔记。D31～D42项目实现与验收已经分别补入既有Day笔记；后续关闭搜索提交、Cart Blocks/Mini Cart、正式Logo、正式菜单URL或插件验证债时继续回写对应工作日与既有边界，不另建重复实现笔记。
 
 ## Obsidian使用约定
 
