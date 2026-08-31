@@ -132,14 +132,115 @@ function dentall_header_account_link() {
 }
 
 /**
- * 将账户和Storefront原生购物车移入Header主行。
- *
- * 搜索已由父主题在优先级40注册；本回调等父主题加载完成后，以相同优先级依次追加账户和
- * 完整购物车，使DOM与键盘顺序保持“搜索→账户→购物车”，并保留WooCommerce原生fragments。
+ * 输出保留WooCommerce动态数量的购物车链接。
  *
  * @return void
  */
-function dentall_configure_storefront_header() {
+function dentall_cart_link() {
+	if ( ! function_exists( 'storefront_woo_cart_available' ) || ! storefront_woo_cart_available() ) {
+		return;
+	}
+
+	$item_count = WC()->cart->get_cart_contents_count();
+	$count_text = sprintf(
+		/* translators: %d: number of items in cart. */
+		_n( '%d item in cart', '%d items in cart', $item_count, 'dentall' ),
+		$item_count
+	);
+	$link_label = sprintf(
+		/* translators: %s: localized cart item count. */
+		__( 'View your shopping cart, %s', 'dentall' ),
+		$count_text
+	);
+	?>
+	<a
+		class="cart-contents"
+		href="<?php echo esc_url( wc_get_cart_url() ); ?>"
+		aria-label="<?php echo esc_attr( $link_label ); ?>"
+	>
+		<span class="dentall-cart-label"><?php esc_html_e( 'Cart', 'dentall' ); ?></span>
+		<span class="dentall-cart-count" aria-hidden="true"><?php echo esc_html( $item_count ); ?></span>
+	</a>
+	<?php
+}
+
+/**
+ * 复用Storefront购物车容器和Mini Cart，只替换顶部链接的展示结构。
+ *
+ * @return void
+ */
+function dentall_header_cart() {
+	if ( ! function_exists( 'storefront_is_woocommerce_activated' ) || ! storefront_is_woocommerce_activated() ) {
+		return;
+	}
+	?>
+	<ul id="site-header-cart" class="site-header-cart menu">
+		<li class="<?php echo esc_attr( is_cart() ? 'current-menu-item' : '' ); ?>">
+			<?php dentall_cart_link(); ?>
+		</li>
+		<li>
+			<?php the_widget( 'WC_Widget_Cart', 'title=' ); ?>
+		</li>
+	</ul>
+	<?php
+}
+
+/**
+ * 让WooCommerce AJAX fragments继续以同一个a.cart-contents替换顶部购物车链接。
+ *
+ * @param array $fragments 待刷新的HTML片段。
+ * @return array
+ */
+function dentall_cart_link_fragment( $fragments ) {
+	ob_start();
+	dentall_cart_link();
+	$fragments['a.cart-contents'] = ob_get_clean();
+
+	return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'dentall_cart_link_fragment', 20 );
+
+/**
+ * 为D33 Header Cart结构使用独立的浏览器fragment缓存键。
+ *
+ * WooCommerce会从sessionStorage恢复经典fragment。若继续沿用D31的缓存键，旧的
+ * a.cart-contents可能在页面加载后覆盖新徽标，直至下一次fragment刷新。
+ *
+ * @param string $fragment_name WooCommerce默认fragment存储键。
+ * @return string
+ */
+function dentall_cart_fragment_name( $fragment_name ) {
+	return $fragment_name . '_dentall_header_v1';
+}
+add_filter( 'woocommerce_cart_fragment_name', 'dentall_cart_fragment_name', 20 );
+
+/**
+ * 配置Storefront全站Header与移动端动作入口。
+ *
+ * Primary导航提前进入父主题Header容器，让手机和PC复用同一菜单DOM；搜索、账户和购物车
+ * 继续沿用原生输出与WooCommerce fragments。Header已提供这些入口后，移除重复且存在键盘
+ * 可访问性问题的Storefront Handheld Footer。
+ *
+ * @return void
+ */
+function dentall_configure_storefront_shell() {
+	/* D33只保留Primary菜单DOM，防止后台误绑Handheld后静默输出第二棵导航树。 */
+	unregister_nav_menu( 'handheld' );
+
+	if (
+		function_exists( 'storefront_primary_navigation_wrapper' )
+		&& function_exists( 'storefront_primary_navigation' )
+		&& function_exists( 'storefront_primary_navigation_wrapper_close' )
+	) {
+		remove_action( 'storefront_header', 'storefront_primary_navigation_wrapper', 42 );
+		remove_action( 'storefront_header', 'storefront_primary_navigation', 50 );
+		remove_action( 'storefront_header', 'storefront_primary_navigation_wrapper_close', 68 );
+
+		add_action( 'storefront_header', 'storefront_primary_navigation_wrapper', 10 );
+		add_action( 'storefront_header', 'storefront_primary_navigation', 11 );
+		add_action( 'storefront_header', 'storefront_primary_navigation_wrapper_close', 12 );
+	}
+
 	if ( function_exists( 'storefront_site_branding' ) ) {
 		remove_action( 'storefront_header', 'storefront_site_branding', 20 );
 		add_action( 'storefront_header', 'dentall_site_branding', 20 );
@@ -147,14 +248,15 @@ function dentall_configure_storefront_header() {
 
 	add_action( 'storefront_header', 'dentall_header_account_link', 40 );
 
-	if ( ! function_exists( 'storefront_header_cart' ) ) {
-		return;
-	}
-
 	remove_action( 'storefront_header', 'storefront_header_cart', 60 );
-	add_action( 'storefront_header', 'storefront_header_cart', 40 );
+	add_action( 'storefront_header', 'dentall_header_cart', 40 );
+	remove_filter( 'woocommerce_add_to_cart_fragments', 'storefront_cart_link_fragment' );
+
+	if ( function_exists( 'storefront_handheld_footer_bar' ) ) {
+		remove_action( 'storefront_footer', 'storefront_handheld_footer_bar', 999 );
+	}
 }
-add_action( 'after_setup_theme', 'dentall_configure_storefront_header', 40 );
+add_action( 'after_setup_theme', 'dentall_configure_storefront_shell', 40 );
 
 /**
  * 使用WooCommerce原生可见标签输出商品目录排序控件。

@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.10.0
+Version: 0.19.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -422,7 +422,7 @@ a:where(:active) {
 
 /*
  * :focus-visible只增强键盘焦点；不移除浏览器与Storefront为不支持场景提供的:focus回退。
- * 当前Header与手机底栏均为浅色表面；背景实际变深后再在对应组件切换on-dark Token。
+ * 默认使用浅色表面的Focus Token；深色组件在自身边界切换on-dark Token。
  */
 .site {
 	--dentall-focus-ring-color: var(--dentall-color-focus-on-light);
