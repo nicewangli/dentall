@@ -24,3 +24,45 @@ function dentall_core_prevent_duplicate_document_title() {
 	remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
 }
 add_action( 'wp_head', 'dentall_core_prevent_duplicate_document_title', 0 );
+
+/**
+ * 将商品筛选参数页标记为noindex, follow，同时保留Yoast基础归档Canonical。
+ *
+ * 使用晚于Yoast的wp_robots过滤器，而不修改Yoast内部robots presentation；后者会让
+ * Yoast停止输出Canonical。键是否存在即触发，确保空值或非法值也不会形成可索引重复页。
+ *
+ * @param array<string, bool|string> $robots WordPress robots指令。
+ * @return array<string, bool|string>
+ */
+function dentall_core_noindex_catalog_filter_pages( $robots ) {
+	if (
+		! function_exists( 'is_shop' )
+		|| ! function_exists( 'is_product_category' )
+		|| is_search()
+		|| ( ! is_shop() && ! is_product_category() )
+	) {
+		return $robots;
+	}
+
+	foreach ( array_keys( $_GET ) as $key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if (
+			! is_string( $key )
+			|| (
+				'min_price' !== $key
+				&& 'max_price' !== $key
+				&& 0 !== strpos( $key, 'filter_' )
+				&& 0 !== strpos( $key, 'query_type_' )
+			)
+		) {
+			continue;
+		}
+
+		unset( $robots['index'], $robots['nofollow'] );
+		$robots['noindex'] = true;
+		$robots['follow']  = true;
+		break;
+	}
+
+	return $robots;
+}
+add_filter( 'wp_robots', 'dentall_core_noindex_catalog_filter_pages', PHP_INT_MAX );

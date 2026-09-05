@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.2.6
+Stable tag: 0.2.7
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,9 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.2.7 =
+* 将商品筛选参数页标记为noindex, follow，同时保留Yoast基础归档Canonical。
 
 = 0.2.6 =
 * 为Website Manager授予WooCommerce原生商品导入所需的WordPress全局import能力。
