@@ -25,7 +25,7 @@ tags:
 - 首页起点：[[Day37-PC首页Hero与原生首页路由]]
 - 当日学习笔记：[[WordPress实战笔记/Day42-首页整链路验收与证据分层]]
 - 前置学习笔记：[[WordPress实战笔记/Day41-累计销量查询与首页展示边界]]
-- 后续计划：D43商品归档信息架构只读梳理
+- 后续项目笔记：[[Day43-商品归档信息架构与PC骨架]]
 
 > [!success] 当前结论
 > M4按用户指定的“Local技术v1”口径通过。登录态真实Homepage已完成390、768、1024、1440四端校准：Header断点、Hero、Categories、Solutions、真实0销量下诚实隐藏的Best Sellers、Local-only Trust、禁用Newsletter与Footer按既有合同衔接；四端均无页面级横向溢出，Console为0个warning/error，7项主题资源均HTTP 200，D41只读审计15/15通过。没有发现P0/P1或阻塞M4的P2，因此Day42不修改运行代码、不提升主题版本，也不创建TEST订单。
