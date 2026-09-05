@@ -1,0 +1,116 @@
+/*
+ * D55商品详情骨架：保留WooCommerce原生DOM与Storefront浮动清除机制，
+ * 只在PC宽度重分配图库和摘要的顶层列宽。
+ */
+
+/*
+ * D56商品图库：同一套WooCommerce原生DOM承载单图、多图和缺图；方形画布先占位，
+ * 原图、srcset、FlexSlider、Zoom与PhotoSwipe继续由平台负责。
+ */
+.single-product div.product .woocommerce-product-gallery > .woocommerce-product-gallery__wrapper {
+	aspect-ratio: 1;
+	overflow: hidden;
+}
+
+.single-product div.product .woocommerce-product-gallery__image > a {
+	box-sizing: border-box;
+	display: grid;
+	place-items: center;
+	aspect-ratio: 1;
+	overflow: hidden;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface);
+}
+
+.single-product div.product .woocommerce-product-gallery__image > a > img:not(.zoomImg),
+.single-product div.product .woocommerce-product-gallery--without-images .woocommerce-product-gallery__image--placeholder > img {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: contain;
+}
+
+.single-product div.product .woocommerce-product-gallery--without-images .woocommerce-product-gallery__image--placeholder {
+	box-sizing: border-box;
+	display: grid;
+	place-items: center;
+	block-size: 100%;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface);
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport {
+	margin-bottom: var(--dentall-space-16);
+}
+
+.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: var(--dentall-space-8);
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs::before,
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs::after {
+	content: none;
+}
+
+/* 保持足够权重，覆盖Storefront按图库列数生成的nth-child浮动规则。 */
+.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs > li:nth-child(n) {
+	float: none;
+	clear: none;
+	width: auto;
+	margin: 0;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs img {
+	box-sizing: border-box;
+	display: block;
+	inline-size: 100%;
+	aspect-ratio: 1;
+	padding: var(--dentall-space-4);
+	border: 2px solid transparent;
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-surface);
+	object-fit: contain;
+	opacity: 0.72;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs img:is(.flex-active, :hover) {
+	border-color: var(--dentall-color-action);
+	opacity: 1;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger {
+	top: var(--dentall-space-12);
+	right: var(--dentall-space-12);
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: 50%;
+	background-color: var(--dentall-color-surface);
+	color: var(--dentall-color-action);
+	text-decoration: none;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger:hover {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-surface-blue);
+	color: var(--dentall-color-action-hover);
+}
+
+@media (min-width: 75rem) {
+	.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
+		grid-template-columns: repeat(5, minmax(0, 6.25rem));
+	}
+
+	.storefront-full-width-content.single-product div.product > .woocommerce-product-gallery {
+		width: 56.5217391304%;
+	}
+
+	.storefront-full-width-content.single-product div.product > .summary {
+		width: 39.1304347826%;
+	}
+}

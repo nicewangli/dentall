@@ -430,3 +430,26 @@ function dentall_product_search_empty_actions() {
 	<?php
 }
 add_action( 'woocommerce_no_products_found', 'dentall_product_search_empty_actions', 20 );
+
+/**
+ * 让商品图库按实际响应式列宽选择图片候选，避免PC主图继续加载416px资源。
+ *
+ * 仅改WooCommerce图库图片的sizes提示；srcset、首图加载优先级、缩略图与灯箱数据
+ * 仍由WordPress和WooCommerce原生流程生成。
+ *
+ * @param array        $image_attributes 图库图片HTML属性。
+ * @param int          $attachment_id    附件ID。
+ * @param string|array $image_size        WooCommerce请求的图片尺寸。
+ * @param bool         $main_image        是否为商品主图。
+ * @return array
+ */
+function dentall_product_gallery_image_attributes( $image_attributes, $attachment_id, $image_size, $main_image ) {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return $image_attributes;
+	}
+
+	$image_attributes['sizes'] = '(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(39.130435vw - 1.565217rem), calc(100vw - 2.5rem)';
+
+	return $image_attributes;
+}
+add_filter( 'woocommerce_gallery_image_html_attachment_image_params', 'dentall_product_gallery_image_attributes', 10, 4 );
