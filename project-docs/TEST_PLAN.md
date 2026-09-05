@@ -473,6 +473,224 @@ C3原生CSV写入按以下标准执行；当前批准范围收紧为Simple模板
 
 C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。** 普通回收站恢复、重复SKU停止路径和创建账号追溯已抽查；没有执行永久删除、更新已有商品、Cloudways整站恢复或Variable/Variation CSV。商品作者只能证明创建账号，批次动作仍以`CONTENT_ASSET_REGISTER.md`登记为准。
 
+## D46 Local商品归档分页验收记录
+
+本记录只覆盖D46已授权的Local经典商品归档分页；不把结果扩写为D47搜索样式、D49筛选、正式商品内容、匿名预发布、非Local缓存或Production抓取通过。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D46-01 | Local发布商品13项、Woo每页12项 | Shop第一页12项、第二页1项，只有一组底部分页 | `/shop/`为12项，`/shop/page/2/`为1项；循环前重复分页已移除 | 通过 |
+| D46-02 | `test-d12-products`分类13项 | taxonomy复用同一12/1分页合同 | 根页12项、第二页1项，均只有一组底部分页 | 通过 |
+| D46-03 | Shop/taxonomy第二页 | Previous与Page 1直接回归档根URL，不制造内部301 | Shop直达`/shop/`；taxonomy直达分类根URL | 通过；初始P2修复后复验 |
+| D46-04 | `/shop/page/2/?orderby=price` | 参数随分页保留；Canonical不把参数作为主版本 | Previous/Page 1保留`orderby=price`；Canonical为无参数Page 2 | 通过 |
+| D46-05 | 第二页改变排序 | 原生表单重置到第一页，避免落在不存在的后页 | `price-desc`提交到`/shop/?orderby=price-desc`，12项且Next保留参数 | 通过 |
+| D46-06 | Page 1/2/3 HTTP矩阵 | Page 1旧路径301、Page 2为200、越界Page 3为404/noindex | 服务器级检查分别为301/200/404；Page 3无Canonical和分页 | 通过 |
+| D46-07 | 空taxonomy | 有效200空态，不输出商品Grid、排序或分页 | `No products were found...`，0个Grid/结果/分页，Canonical自身 | 通过 |
+| D46-08 | 商品搜索 | 不被D46 Hook、Filter或CSS误收敛 | 保持两组原生排序/结果/分页、`noindex`，不加载`catalog.css` | 通过；D47仍未实施 |
+| D46-09 | 320/390/768/1024/1440 | 44px、Focus、2/2/3/4列、唯一底部分页、0横溢出 | 320三项均44×44且3px Focus；五宽无横溢出，缺图/长标题稳定 | 通过 |
+| D46-10 | 合成总页数11 | 页码窗口受控且CSS可换行 | 第1/6/11页分别输出首段、中段、尾段窗口；`flex-wrap`存在 | 通过（算法/几何证据；非真实11页DOM） |
+| D46-11 | TEST商品清理 | 只处理ID、SKU、meta、类型和状态全部匹配的11项；不永久删除 | #120～#130验证11/11后移入回收站；发布商品与分类恢复2项 | 通过，可恢复 |
+| D46-12 | 独立复核 | 无开放P0/P1/P2 | Code发现的Page 1跳转P2已修复；Design与Test/SEO终审均通过 | 通过，P0/P1/P2=0 |
+
+证据限制：真实数据只有2页，多行分页没有真实11页DOM截图；hover只审查源码状态，键盘Focus已实测。匿名商城仍受Coming Soon保护，Staging/Production缓存、CDN、Core Web Vitals、真实抓取和未来主题/插件版本未验。
+
+## D47 Local商品搜索验收记录
+
+本记录只覆盖用户授权的Local经典商品搜索请求、原生模板复用、边界输入、URL/SEO和可逆夹具。登录态真实有结果页四端已通过；原空结果CTA、Focus、Console和截图P2已在Day48实施前用真实页面补齐，不能把CLI DOM、静态CSS、D43～D46的Shop/taxonomy截图或匿名Coming Soon页面写成该项证据。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D47-01 | Header原生商品搜索表单 | 唯一GET表单提交到站点首页，保留`s`及隐藏`post_type=product` | 真实Woo模板DOM为1个`woocommerce-product-search`；method=`get`，action为首页，字段值和类型正确 | 通过 |
+| D47-02 | 商品搜索与普通`?s=TEST`对照 | 只有明确Product Archive且`post_type`严格为`product`时加载目录CSS/Hook | 商品搜索加载`catalog.css`与Woo循环；普通搜索保持`post_type=any`，0目录CSS、0 Woo循环/工具栏/CTA | 通过 |
+| D47-03 | 空值、ASCII空格、`s[]=x`、ASCII 1600/1601字节 | 空/空白/非标量/>1600边界302到动态Shop；1600字节不由DentAll跳转 | 前三项和1601字节均302 `/shop/`、`X-Redirect-By: DentAll`；1600字节200零结果 | 通过 |
+| D47-04 | Unicode空白、撇号加斜杠与非空特殊词 | 与WordPress真实查询解析一致，不把非空特殊词误判为空 | NBSP/U+3000均302；800撇号经加斜杠为1600字节、200且0结果；801撇号为1602字节、DentAll 302；字面`%aa`和仅`<b></b>`均200 | 通过；终审P2修复后复验 |
+| D47-05 | #120～#130临时恢复，`TEST`共13结果 | Page 1为12项、Page 2为1项；顶部一组结果/排序、底部一组分页 | `found_posts=13`、`max_num_pages=2`；两页H1/Breadcrumb唯一，1排序/结果、1分页，0重复ID | 通过 |
+| D47-06 | `Fixed`/`Variable`单命中 | 保留WooCommerce原生单结果跳商品详情 | 两个请求分别302到对应商品，`X-Redirect-By: WordPress`，未被DentAll接管 | 通过 |
+| D47-07 | `NO-DAY47-MATCH`零结果 | 200、原生语义状态、无工具栏/Grid/分页，追加2个恢复链接 | 1个`role=status`、1个恢复`nav`、Shop/Home两个href；0排序/结果/Grid/分页 | 通过 |
+| D47-08 | 长词、引号、`&`、尖括号/脚本片段 | H1/Breadcrumb安全转义并可换行，无脚本节点或重复ID | DOM文本保留查询语义；H1/Breadcrumb内嵌`script`节点0、重复ID 0；CSS使用`overflow-wrap:anywhere` | 通过（DOM/源码；真实四端视觉见D47-14） |
+| D47-09 | 排序与真实Page 1/2链接 | 保留`s`、`post_type`、`orderby`；Page 1不生成`/page/1/`中转 | `orderby=price`与查询上下文随分页保持；Page 2返回根搜索URL，切换排序回Page 1 | 通过 |
+| D47-10 | Yoast Head与Sitemap | 搜索始终`noindex, follow`，无Canonical/rel且不进Sitemap | 多/零结果、排序、1600字节与有效后页均符合；Sitemap index/Product Sitemap搜索引用0 | 通过 |
+| D47-11 | 最终夹具清理 | 只回收ID、类型、状态、SKU和fixture meta全部匹配的11项，不永久删除 | #120～#130全部Trash；发布商品2项、Trash 11项、term 18 count=2 | 通过，可恢复 |
+| D47-12 | Shop与term 18分类回归 | D43～D46行为不被搜索分支污染 | 各2项、1结果数/排序、0实际分页、加载`catalog.css`、自身Canonical且无fixture文本 | 通过 |
+| D47-13 | 静态与独立Code/Test/SEO复核 | PHP/CSS/补丁通过；P0/P1为0，功能P2关闭 | PHP lint、CSS花括号/`!important`、`git diff --check`通过；slash/Unicode/特殊词P2均修复，Code与Test/SEO/Data无P0/P1/P2；D47-15补证后Design P2关闭 | 通过，最终P0/P1/P2=0 |
+| D47-14 | 登录态真实有结果页，390/768/1024/1440 | 2/2/3/4列、0横溢出、44px、长词和唯一工具栏通过 | 四宽Grid分别159.5px×2/332.5px×2/299px×3/296px×4，gap 16/24/24/24px；均0横溢出，select 44px，H1 anywhere，1排序/结果、0实际分页 | 通过 |
+| D47-15 | 登录态真实空结果，390/768/1024/1440 | 0横溢出、长词、CTA堆叠/并排、44px、Focus、Console和截图通过 | 四端client/scroll分别375/375、753/753、1009/1009、1425/1425；390按钮335×44px堆叠，其他三档266×44px并排；双链接3px Focus，Console `[]`，截图已保存 | 通过；Day48实施前关闭原P2 |
+
+证据限制：匿名非重定向HTTP仍由WooCommerce Coming Soon模板接管，因此服务端结构与Head仍用WP-CLI加载当前主题、插件和Woo归档模板解析；登录态结果与空结果页面另有真实四端视觉证据。最终数据已恢复2项，独立复核没有再次恢复夹具重放12/1，而是交叉核对本轮恢复阶段证据。Staging/Production、CDN/页面缓存、Web服务器超长URL 414、真实抓取和未来版本均未验。
+
+## D48 Local商品分类内容与W8回归记录
+
+本记录只覆盖用户授权的Local分类#18临时内容/SEO覆盖、两个Yoast全局商品分类Title模板、空分类和W8回归。#18测试值已恢复，#120～#130没有恢复，没有创建正式分类。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D48-01 | #18与Yoast写前基线 | 保存term、meta、菜单、Sitemap、Head和两层SEO值 | #18名称/slug/parent/count/空描述、两项Woo meta、无Yoast term条目、原模板与Head均已记录 | 通过 |
+| D48-02 | 商品分类全局Title/Social Title | 只移除`Archives`，不旁改其他Yoast设置 | 两键分别为`%%term_title%% %%page%% %%sep%% %%sitename%%`与`%%term_title%%`；排除两键后的配置hash前后一致 | 通过 |
+| D48-03 | #18临时长标题、多段描述、链接与长token | Woo原生输出唯一H1、分段和安全链接 | 1个H1/描述容器、2段、1个Shop链接、0 script；菜单对象动态跟随term且URL不变 | 通过；数据已恢复 |
+| D48-04 | #18临时Yoast内容级Title/Meta | 内容级值覆盖全局模板，Canonical/robots/URL不变 | Title/OG Title为TEST覆盖，Meta Description正确；Canonical自身、index/follow、Sitemap URL不变 | 通过；覆盖已删除 |
+| D48-05 | 390长标题与连续长词 | 内容不撑大Grid或被裁切，页面无横溢出 | 初测复现内部轨道约704px裁切；增加3条局部CSS声明后H1/描述宽285px、描述scrollWidth 285px | 通过；P2修复后复验 |
+| D48-06 | #18四端390/768/1024/1440 | 2/2/3/4列、16/24/24/24px gap、唯一工具栏和0横溢出 | 四端列宽159.5×2、332.5×2、299×3、296×4；文档client=scroll，链接3px Focus，加载0.25.0 CSS | 通过 |
+| D48-07 | 空分类#24四端 | 有效200原生空态，0 Grid/排序/结果数/分页/搜索CTA | 四端均为1 H1、1描述、1原生状态和0列表工具，页面无横溢出 | 通过 |
+| D48-08 | #18精确恢复 | 名称、slug、parent、count、描述、meta与Yoast term条目回到基线 | 原值逐项一致；`wpseo_taxonomy_meta=[]`；菜单标题恢复，URL不变 | 通过 |
+| D48-09 | #120～#130与商品总量 | 11项不恢复，发布基线保持2项 | #120～#130为11/11 Trash；发布2项、Trash 11项，term 18 count=2 | 通过 |
+| D48-10 | Shop、搜索、排序与分页边界 | W8既有列表合同不回退 | Shop/两种排序/分类/多零结果搜索200；搜索审计2结果/0分页；`/shop/page/1/` 301到根，当前`page/2/` 404 | 通过 |
+| D48-11 | SEO最终Head与Sitemap | #18无`Archives`、无临时Meta；Canonical/robots/Sitemap不变 | Title/OG为`TEST D12 Products - Dentall`，无Meta Description覆盖，Canonical自身、index/follow；Product Category Sitemap仍只含非空#18 | 通过 |
+| D48-12 | 静态与独立复核 | 运行增量最小，无P0/P1；证据缺口明确分级 | PHP lint、CSS 34/34、0 `!important`、`git diff --check`通过；配置审计与Code Review无P0/P1/P2，Test/SEO为P0=0、P1=0、P2=1、P3=0 | 功能通过；最终态全矩阵浏览器证据P2转D49实施前 |
+| D48-13 | D49配置实施前，0.25.0恢复态Shop/有结果搜索/短内容#18四端 | 2/2/3/4列轨道、两卡同排左对齐、唯一工具栏、正确Title、无可见横向裁切；不恢复#120～#130 | 390/768/1024/1440共12张登录态截图通过；Title分别为`Products - Dentall`、`You searched for TEST - Dentall`、`TEST D12 Products - Dentall`，分类页Console `[]`；发布2项且#120～#130仍11/11 Trash | 通过；原证据P2关闭 |
+
+证据限制：Day48没有恢复11个分页商品，因此当前只验证单页下不输出分页、Page 1归一化和越界404；真实12/1分页、后页Canonical和参数保持沿用D46/D47同一运行代码的已保存证据。0.25.0恢复态Shop、有结果搜索和短内容#18的完整四宽已在D49配置实施前补齐并关闭原P2，且未恢复#120～#130。正式分类内容、非Local Yoast配置重放、匿名商城、缓存/CDN、抓取和未来版本仍未验。
+
+## D49 Local商品筛选合同与属性查询表记录
+
+本记录只覆盖用户确认的Local分类、价格、Size、Shade商品级筛选合同和WooCommerce原生属性查询表。没有筛选UI、品牌、评分、插件、商品/Variation写入、缺货设置变化或非Local变更。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D49-01 | Day48唯一开放P2 | D49配置前补齐最终0.25.0四端，不恢复分页夹具 | 见D48-13；12张截图通过，#120～#130继续Trash | 通过 |
+| D49-02 | 属性查询表重建与设置 | 完整重建后启用；Direct=yes、Optimized=no | `wp wc palt regenerate --force --from-scratch --disable-db-optimization --batch-size=10`成功；最终enable/direct/optimized为yes/yes/no | 通过 |
+| D49-03 | 查询表派生行 | 行与当前商品/Variation属性及库存一致 | 7行对应#44和父#46；#51、#53有货行，#52 Size/Shade两行为`in_stock=0`，最高父商品ID 46 | 通过 |
+| D49-04 | 商品、属性与回收站防误改 | 不改#44/#46、#51～#53、属性归档、缺货设置和#120～#130 | Woo CRUD逐项读回价格、库存、属性、分类和子项均与基线一致；3个属性归档false，hide out of stock=no，#120～#130为11/11 Trash | 通过 |
+| D49-05 | Shop基础主查询 | 无筛选返回#44/#46，不使用属性/价格lookup联接 | `found=2`、IDs 44/46；主SQL没有属性或价格lookup | 通过 |
+| D49-06 | `filter_size=small-98-mm&query_type_size=or` | 仅返回拥有Size term的父商品#46并走属性表 | `found=1`、ID 46；SQL引用`wc_product_attributes_lookup` | 通过 |
+| D49-07 | `filter_shade=medium&query_type_shade=or`且hide out of stock=no | 缺货Variation的term仍能命中父商品#46 | `found=1`、ID 46；#52对应lookup行为`in_stock=0`但查询未要求`in_stock=1` | 通过 |
+| D49-08 | Size Small、Large同属性多值OR | 同属性按OR，父商品只返回一次 | `found=1`、ID 46 | 通过 |
+| D49-09 | Size Large＋Shade Medium跨属性 | 不同属性AND；按冻结的父商品级语义仍命中#46 | `found=1`、ID 46；确认没有Large＋Medium Variation，结果不是严格同Variation匹配 | 通过；合同边界 |
+| D49-10 | 价格25～40及属性＋价格组合 | 价格走原生价格lookup，并与属性条件AND | 价格25～40仅#46；Small＋Light＋35～45仅#46；SQL分别引用`wc_product_meta_lookup`及两张lookup表 | 通过 |
+| D49-11 | 无效Size term、反向价格50～10 | 安全返回0结果，不回退全量 | 两个请求均`found=0`；反向价格仍走价格lookup | 通过 |
+| D49-12 | 分类#18基础及分类＋Small | 分类用干净归档路径；属性只缩小当前分类集合 | 基础返回#44/#46；分类＋Small仅#46且属性SQL走查询表 | 通过 |
+| D49-13 | 代表参数页Head | Canonical回基础归档；目标robots为noindex, follow | `filter_size=small-98-mm`实测Canonical为`/shop/`，但当前robots仍为`index, follow` | 合同已冻结；SEO实现转D50前置P3 |
+| D49-14 | 登录态属性单结果与无效term空态 | 动态结果/空态正常，Console无站点错误 | 1440单结果显示#46；无效term显示Woo原生`No products were found matching your selection.`；空态Console `[]`，截图保存于`outputs/day49/` | 通过 |
+| D49-15 | 独立Woo查询/SEO复核 | P0/P1/P2为0，非阻断差距明确 | 独立重跑基础、属性、价格、组合、无效、分类及SQL数据源；P0=0、P1=0、P2=0、P3=1，P3为D50首次建筛选链接前补robots | 通过（D49范围） |
+| D49-16 | 独立配置/数据边界复核 | 只允许lookup/options写入，不触及商品、库存、属性定义、运行代码或回收站状态 | SQL快照＋连续binlog确认#44/#46/#51～#53目标表0行事件，#120～#130最终11/11 Trash；7行lookup、三项属性归档关闭及最终options一致；P0～P3=0 | 通过 |
+
+证据限制：Direct Updates已通过Option回读和当前WooCommerce源码行为确认，但为遵守“不修改商品”，没有执行保存商品后的即时同步时延测试。独立配置/数据复核时Local服务已停止，最终状态使用SQL快照＋连续binlog重建，没有为回读而启动Cron/Action Scheduler；此前在线WP-CLI、浏览器与Woo CRUD证据已经保存。当前只有2个TEST父商品与3个Variations，未覆盖12+商品筛选分页、真实目录规模、Production缓存/CDN参数键、`hide_out_of_stock=yes`、CSV批量导入后的同步耗时或非Local环境；这些限制不应被解释为性能提升或生产就绪证明。
+
+## D50 Local PC商品筛选与参数页索引收口记录
+
+本记录只覆盖用户确认的Local、Shop/商品分类、`>=1200px`常驻侧栏、无JavaScript链接式筛选及参数页索引治理。390/768/1024只做无回归；没有品牌、评分、计数、Chips、专门Reset、移动抽屉、插件、商品数据或非Local变更。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D50-01 | 基础Shop与正常分类#18 | Categories、Price、Size、Shade各一组；商品仍来自主查询 | 1 H1、1 aside、4组筛选；#44/#46与DOM一致，0重复ID | 通过 |
+| D50-02 | Size Small、Shade Medium、同属性OR、跨属性AND | 复用D49父商品级合同，无第二查询和重复商品 | 单条件/组合均返回预期#46；Small或Large只出现一次；Large＋Medium仍按父商品命中 | 通过 |
+| D50-03 | 价格25～40、Small＋Light＋35～45 | 价格与属性共同约束主查询 | 均返回#46；SQL分别引用`wc_product_meta_lookup`和`wc_product_attributes_lookup` | 通过 |
+| D50-04 | 无效term与合法反向50～10 | 0结果、侧栏和Woo原生空态保留；反向区间给明确错误 | 两场景均0结果；反向区间有`role=alert`，两输入`aria-invalid=true` | 通过 |
+| D50-05 | 空、数组、科学计数、负数、逗号、非数字、超长或超过Woo有效小数精度的价格 | 不让Woo的`floatval`产生另一套公开结果；归一到白名单第一页 | 均302并移除无效价格/unknown/paged，保留合法筛选/排序；`49.994`/`49.001`被移除，`49.9900`/`.500`数值等价且后续规范化；`X-Redirect-By: DentAll`、no-store | 通过 |
+| D50-06 | 分类、属性、价格与排序链接 | 只传播D49字段和六种Woo排序，不复制未知/数组/非法项或旧分页 | 单选取消回`/shop/`；多选取消保留剩余term/query type/合法排序；`foo`、非法orderby、数组与paged均移除 | 通过 |
+| D50-07 | 临时`loop_shop_per_page=1`形成真实分页 | 第2页保留有效筛选/排序，移除`foo`及非法项，并保持D46 Page 1路径 | 最终`paginate_links`逐条清洗通过；第2页路径正确，第一页仍为归档根URL | 通过；临时Filter已恢复 |
+| D50-08 | Woo排序模板与Layered Nav读取原始GET | 只在渲染窗口暴露白名单，完成或异常后恢复全局状态 | 模板/Widget输出无unknown或数组；`$_GET`、临时全局与四个Filter均恢复 | 通过 |
+| D50-09 | Size/Shade数组、Package数组及数组query type | 不Fatal、不生成数组参数链接 | 最终请求安全回退/空结果，0新Fatal，链接不含数组参数 | 通过 |
+| D50-10 | 基础/筛选/非法/未来属性/分类/搜索Head | 筛选键统一noindex/follow并保留基础Canonical；非筛选与搜索合同不回退 | 任意价格、`filter_*`、`query_type_*`均noindex/follow；Shop/分类Canonical正确；仅foo/排序仍index；搜索noindex且无Canonical | 通过 |
+| D50-11 | 390/768/1024/1440与1199/1200 | 侧栏仅1200起出现，既有2/2/3/4列和0横溢出保持 | 390/768/1024侧栏隐藏且无可聚焦控件；1199隐藏、1200/1440显示240px侧栏；全部0横溢出 | 通过 |
+| D50-12 | 键盘、状态与DOM | 44px、可见Focus、label/ARIA完整，选中不只靠颜色 | 44px项、3px蓝色Focus、0缺失label/描述目标；选中有勾选、背景、字重、`aria-current`和移除说明 | 通过 |
+| D50-13 | 空分类#24与商品搜索 | 空集合不制造误导属性入口；搜索维持D47 | 空分类保留Categories/Price和原生空态，Size/Shade因无可用term不输出；搜索0个D50筛选面板 | 通过；已接受边界 |
+| D50-14 | 数据与设置不变量 | 不改商品、Variation、Trash、属性、lookup和缺货设置 | 发布[44,46]、#51～#53值、#120～#130 11/11 Trash、3属性归档false、PALT/direct/optimized=yes/yes/no、7行lookup、hide OOS=no | 通过 |
+| D50-15 | 静态与三路独立复核 | PHP/CSS基本质量通过且无开放P0～P3 | 4个PHP lint、`git diff --check`、0行内CSS/JS、0`!important`；Code/Test/UX-SEO终审均P0=P1=P2=P3=0 | 通过 |
+
+证据限制：真实浏览器使用登录态Local，因为匿名请求仍由WooCommerce Coming Soon接管；工具自身Statsig网络超时不属于页面Console。当前只有2个发布TEST商品，没有恢复#120～#130，因此真实12+筛选分页通过临时只读每页1项复演，而不是修改商品数量。没有创建超长term，当前以运行时`overflow-wrap:anywhere`和现有长标题几何为证据；正式term仍待内容阶段抽样。人工越界`/page/9/?min_price=`先成为D46的404，不执行价格302，正常UI不传播旧分页。Production缓存/CDN、正式目录规模、非Local抓取及移动抽屉均未验证。
+
+## D51 Local手机与平板筛选抽屉记录
+
+本记录只覆盖用户确认的Local窄屏Filter入口、原生dialog、同一D50筛选DOM、焦点/关闭/滚动/生命周期及D50合同回归。没有品牌、计数、Chips、Reset、AJAX、插件、商品数据、缓存配置或非Local变更。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D51-01 | 390×844 Shop关闭/打开 | 唯一入口打开唯一筛选aside；面板可内部滚动且页面不横溢出 | 1 Filter、1 dialog、1 aside；打开面板342×844，右侧48px遮罩，标题获焦，0横溢出 | 通过 |
+| D51-02 | 390 Close/Escape/遮罩 | 三种关闭路径均清理expanded/滚动锁并把焦点送回入口 | 三条路径均`aria-expanded=false`，`html/body`无锁类，焦点回Filter | 通过 |
+| D51-03 | 390 Tab/Shift+Tab | 模态打开时焦点不进入背景页面 | 键盘循环期间活动焦点始终位于dialog树内 | 通过 |
+| D51-04 | 768×1024与1024×768 | Filter可见；同一aside位于dialog；2/3列和0横溢出不回退 | 面板均最大384px；768为2列、1024为3列，内部滚动按内容出现 | 通过 |
+| D51-05 | 1199/1200边界 | 1199使用抽屉，1200隐藏入口并显示240px常驻栏 | 两侧计算样式、DOM父节点及列宽符合预期，断点无间隙 | 通过 |
+| D51-06 | 抽屉打开后768→1440 | 自动关闭、解锁、隐藏入口并把同一aside移回布局 | expanded=false、锁清除、aside恢复240px列、商品4列、0横溢出 | 通过 |
+| D51-07 | 844×390方向变化 | 保持可操作、内部可滚动、无横溢出或非必要动画 | dialog保持打开，面板384×390，锁定正常；`transition:0s`、`animation:none` | 通过 |
+| D51-08 | 反向价格`min_price=50&max_price=10` | 窄屏自动暴露错误并聚焦首个无效字段；D50空结果与ARIA不变 | dialog自动打开，Min获焦，两字段invalid，1 alert，0商品，原生空态保留 | 通过 |
+| D51-09 | 抽屉内点击Size Large | 继续使用D50白名单URL与选中状态，不在JS构造查询 | 进入预期组合URL；返回后自动打开，选中链接含`aria-current`和移除说明 | 通过 |
+| D51-10 | 空分类 | 仍能打开有意义筛选，不制造必然为0的属性组 | Filter、Categories与Price各1；Size/Shade 0；商品0且Woo原生通知1 | 通过 |
+| D51-11 | 商品搜索空结果 | D47搜索隔离不变，不下载无用D51脚本 | Filter/dialog/aside/脚本均0；catalog CSS 1；页面0横溢出 | 通过 |
+| D51-12 | BFCache：打开→离页→返回 | 不恢复陈旧open、expanded或滚动锁 | 返回后dialog关闭、expanded=false、锁0、aside仍唯一且在窄屏dialog中 | 通过 |
+| D51-13 | URL与Head | D51不新增参数；D50参数页noindex/follow与基础Canonical保持 | 代表参数页robots为noindex/follow、Canonical为`/shop/`；脚本不改History/URL | 通过 |
+| D51-14 | 静态、语法与资源 | PHP/JS/CSS基本质量和条件资源通过 | PHP lint 2/2、Node check、CSS 71/71、0`!important`、diff check通过；JS/CSS 0.27.0均HTTP 200 | 通过 |
+| D51-15 | 独立Code与Test/UX复核 | 无开放P0/P1；问题关闭与未验边界明确 | Code终审关闭按钮级联、异步close竞态和桌面同宽偷焦点三个P2，最终P0～P3=0；Test/UX当日因登录态失效登记的跨断点/BFCache/全矩阵证据P2，已在D52实现前补跑1199→1200→1199、History返回、四端、反向价格和搜索隔离后关闭。工具未暴露`pageshow.persisted`，只记录实际History行为 | 通过；原证据P2已关闭 |
+
+证据限制：浏览器证据来自登录态Local桌面浏览器的视口、键盘和指针自动化，不替代真实iOS/Android设备与辅助技术验收；没有验证不支持原生dialog的旧浏览器视觉、正式12+筛选分页、Production缓存/CDN、Core Web Vitals或非Local抓取。当前页面Console错误为0；浏览器控制工具自身的遥测网络提示不属于DentAll页面错误。
+
+## D52 Local品牌数据与筛选基线记录
+
+本记录只覆盖用户确认的Local原生`product_brand`数据/权限/CSV、Shop与商品分类品牌筛选、第一版品牌归档`noindex`、异常输入护栏及恢复态。无品牌商品留空；没有正式品牌数据、保存强制、品牌Logo、商品卡品牌、计数/Chips/Reset、AJAX、新插件、Staging/Production或交易变更。用户同时列出三个互斥规模档位，实际数量未冻结，超过30项转D53复评。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D52-01 | WooCommerce 11.0.0 Local | 复用原生`product_brand`，不创建重复属性/taxonomy/CPT | taxonomy为public、hierarchical、UI/REST可用；无`pa_brand`、新CPT或品牌插件 | 通过 |
+| D52-02 | Website Manager与Content Editor | Manager可维护/分配；Editor只分配既有品牌 | 四项term capability及角色差异由WP-CLI审计确认 | 通过 |
+| D52-03 | Woo原生商品CSV | `Brands`列可映射并与商品关系一致；未知名称风险明确 | 原生导入/导出Hook及非空关系通过；登记“先建审核term、导入后抽查”SOP，无自定义导入器 | 通过 |
+| D52-04 | 两个已关联TEST品牌 | Shop单选品牌应分别命中对应父商品 | 品牌29仅返回#44 Simple，品牌30仅返回#46 Variable；Woo主查询无第二查询 | 通过 |
+| D52-05 | 分类与组合筛选 | 品牌可与分类、价格、Size、Shade及排序组合，URL回第一页 | 分类品牌29仅Simple；品牌30＋属性/价格/排序仅Variable，链接无旧分页或`filtering=1` | 通过 |
+| D52-06 | 390/768/1024/1440 | 继续使用D51唯一aside/dialog，2/2/3/4列且无横溢出 | 四宽均1个筛选aside；Brand位于Categories与Price之间，选中勾选可见，0横溢出 | 通过 |
+| D52-07 | 键盘与零结果组合 | 选中状态机器可读，0结果时仍有可清除路径 | 链接有`rel=nofollow`、`aria-current=true`及移除说明；分类#18＋term32＋Large为0商品时Brand移除链接仍可见可键盘操作 | 通过 |
+| D52-08 | 数组、混合、未知、空品牌 | 不Fatal、不半过滤、不传播异常值，参数页仍noindex | Shop均200且保持两商品/0品牌tax query；空term31不选中、0异常传播；robots为noindex/follow、Canonical回基础归档 | 通过 |
+| D52-09 | 商品搜索带有效/旧品牌ID | 品牌参数不得改变搜索集合或暴露归档筛选UI | 清理前有效29及清理后旧29均返回两件搜索商品、0筛选UI、不跳详情、noindex/follow、无Canonical | 通过 |
+| D52-10 | 品牌链接、排序、分类与分页出口 | 只传播集中白名单；品牌ID去重/排序 | 未知键、数组、空ID、`filtering=1`和旧分页不复制；有效ID、价格、属性和六种排序保持 | 通过 |
+| D52-11 | 品牌归档与商品详情 | 归档/详情/Schema来自Woo原生；无品牌时不伪造 | 分配时详情品牌行、Product Schema Brand和`/brand/{slug}/`成立；清理后#44品牌行与Schema brand均0，旧`/brand/test-ads/`为404 | 通过 |
+| D52-12 | Yoast robots/Canonical/Sitemap | 品牌归档第一版noindex且不进Sitemap；筛选参数页回基础Canonical | 归档`noindex, follow`、无Canonical；Sitemap Index 200且无品牌项，`product_brand-sitemap.xml` 404 | 通过 |
+| D52-13 | 查询与缓存 | 不出现逐链接品牌term查询；计数缓存可清理，规模结论不过度外推 | 合法ID集合单请求首次读取后复用，后续链接0追加；Woo计数沿用一小时transient，最终已删除。31～100与>100未验 | 通过（规模边界已登记） |
+| D52-14 | TEST清理与数据不变量 | 不留下品牌夹具，不改变商品/Variation/lookup/Trash | term 29～32、#44/#46品牌关系和品牌transient均为0；发布商品2、#120～#130为11项Trash、lookup 7行，价格库存不变 | 通过 |
+| D52-15 | 静态、审计与独立复核 | 语法、差异和P0/P1/P2关闭；证据口径可区分 | 清理前非空集合19/19正向审计；清理后0品牌/0关系恢复态再次列19项PASS但条件分支不冒充正向覆盖。PHP lint、Node check、diff check、Console通过；双路终审P0=P1=P2=0 | 通过 |
+
+证据限制：完整前台矩阵使用登录态Local，因为匿名商城仍由WooCommerce Coming Soon接管；真实iOS/Android辅助技术、正式品牌内容、实际品牌总量、31～100或>100的控件/查询负载、Production页面缓存/CDN和非Local抓取均未验证。`WC_Widget_Brand_Nav`为Woo内部类，当前以`class_exists`诚实空输出并登记升级回归；品牌markup适配也需随Woo DOM变化复测。清理后审计中的有效品牌分支会条件跳过，因此完成结论同时依赖清理前非空集合证据和清理后恢复态证据。
+
+## D53 Local已选条件、计数与重置记录
+
+本记录只覆盖用户确认的“首版预计30个有效品牌、完整文字列表、仅Local实施”范围。测试使用30个带标记品牌和30个发布商品的可逆夹具；不创建正式品牌事实，不增加搜索/折叠、AJAX、插件、自定义缓存、第二商品结果查询、Staging/Production配置或交易行为。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D53-01 | 无筛选的30品牌Shop | 完整显示30个品牌名称，不搜索/折叠；商品保持Woo主查询 | 30个文字品牌全部输出，包含带`&`、引号和长名称的第30项；结果30件 | 通过 |
+| D53-02 | 仅价格下限/上限/区间 | 价格已选状态合并为一个Chip，移除时同时去掉上下限 | `low`、`mid`审计命中独立预期集合；价格始终为一个可移除项 | 通过 |
+| D53-03 | Size或Shade单维度 | 已选term可见；计数排除自身维度但保留其他条件 | `small`、`medium`场景的父商品结果、Chip与候选计数符合独立oracle | 通过 |
+| D53-04 | Price＋Size＋Shade＋Brand | 不同维度AND收敛；Size/Shade/Brand计数受其他条件约束 | `matrix`及`combo`结果、三组计数、已选项和移除URL均符合预期 | 通过 |
+| D53-05 | 多Size的显式`query_type_size=or` | 同属性多值按OR，Chip逐term拆分 | `multi`返回4件，两个Size已选项均可独立移除 | 通过 |
+| D53-06 | 多Size缺失query type | 不暗中采用不稳定默认；302到显式`or`规范URL | `multi_direct`首跳302，目标保留两个term并补`query_type_size=or` | 通过 |
+| D53-07 | 多Size显式`and` | 第一版合同固定OR；302到规范OR而非执行AND | `multi_and`首跳302，目标结果与`multi`一致 | 通过 |
+| D53-08 | 零结果组合 | 商品为0时仍输出一次已选区和全部恢复入口 | `zero`为0商品、3个已选项与Clear；逐项移除均可恢复，未重复输出 | 通过 |
+| D53-09 | 反向价格区间 | 不交换用户输入；保留可访问错误与恢复入口 | `reverse`为0结果，错误、一个价格Chip、两个`aria-invalid`字段成立；窄屏自动打开并聚焦错误 | 通过 |
+| D53-10 | 商品分类＋筛选 | 逐项移除与Clear保留分类路径、合法排序并回第一页 | 302规范化与全部生成链接保持原分类route；旧分页和未知键不传播 | 通过 |
+| D53-11 | 未知/畸形公开GET | 非法属性、未知筛选键、畸形品牌不会进入查询 | 非法term、`filter_color`、畸形品牌分别302到Shop/分类干净白名单URL；合法OR为200 | 通过 |
+| D53-12 | 商品搜索与隐藏筛选参数 | 搜索不显示筛选UI，也不让价格/Size/Brand暗中缩小集合 | 普通`search`及带价格、Large、Brand04的`search_filters`均显示30件结果、筛选UI为0 | 通过 |
+| D53-13 | 390/768/1024/1440与1199/1200 | 保持2/2/3/4列、0横溢出、44px目标和单一aside/dialog | 8张正常/零结果截图、抽屉滚动至Brand30、Close/Escape/焦点返回、History与Focus可见状态均通过；页面Console错误0 | 通过 |
+| D53-14 | 冷/暖计数缓存与30品牌SQL | 计数查询上限可解释，暖缓存命中；无品牌层级递归N+1 | 代表组合冷最多3、同URL暖0条计数查询，参数顺序不增加哈希；品牌子项查询0；五组TTFB冷/暖中位数140.1/127.6ms | 通过 |
+| D53-15 | 暂停属性lookup | 查询表不是正确性的单一依赖 | `woocommerce_attribute_lookup_enabled=no`时代表Size/组合/多值场景继续通过；随后恢复`yes`并清理计数transient | 通过 |
+| D53-16 | 清理护栏、恢复态与终审 | 不删除被非夹具对象引用的term；最终精确恢复且无P0/P1/P2 | 临时把Brand30关联#120时cleanup明确拒绝且不执行删除；解除后正式cleanup成功。最终品牌term、TEST SKU/post/关系、#44/#46/#120品牌和三类计数transient均为0；发布商品仅#44/#46，Trash #120～#130共11，lookup 7行、父商品#44/#46，配置与Coming Soon恢复；更新后的D52恢复审计19/19。代码/安全终审P0=P1=P2=0；3项安全P3由开发者在D54或相关代码再改时评估 | 通过 |
+
+自动化入口：`project-docs/tests/day53-brand-fixture.php`显式执行`setup|cleanup`并限制Local；`day53-catalog-filter-audit.php`覆盖16个真实归档/搜索场景及独立oracle；`day53-responsive-audit.mjs`使用现有Chrome完成四端、交互、HTTP重定向和截图；更新后的`day52-brand-audit.php`通过D53新的`pre_get_posts`公开输入边界复核清理态。PHP lint、Node语法和`git diff --check`通过。
+
+证据限制：品牌和商品为Local TEST夹具，30项结论不外推到31～100或更大目录；浏览器自动化不替代真实iOS/Android与辅助技术；TTFB不是Production缓存/CDN或Core Web Vitals结论。`debug.log`保留排错期间已修复的lookup表警告、探索性引号/错误端口连接警告，以及旧D52脚本绕过新`pre_get_posts`边界导致的一次测试Fatal；D52脚本修正后19/19通过，历史日志未清空，不能表述为全局日志干净。正式内容、非Local缓存、抓取、部署、支付、物流和订单未验证或改变。
+
+## D54 Local商品发现全链路回归记录
+
+本记录只覆盖用户确认的Local回归与W9技术收口：允许运行既有测试、创建并清理必要临时状态；不重建D53的30品牌/30商品夹具，不恢复#120～#130，不修改运行时代码。若发现缺陷须先提交最小修复确认单；D54原回归未发现需要进入该闸门的P0/P1/P2缺陷。其后Git提交前专项审计发现并经用户确认的一项兼容性最小修复，单列为D54-16，不回写成原回归阶段的运行改动。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D54-01 | 恢复态基线与运行文件指纹 | 版本、商品、Trash、品牌、lookup、Woo配置和D53运行文件不漂移 | WordPress 7.0.4、WooCommerce 11.0.0、DentAll 0.29.0、Core 0.2.7；发布商品2、Trash 11、品牌0、lookup 7行/父商品#44/#46；5个关键文件收尾SHA-256与开工一致 | 通过 |
+| D54-02 | D52恢复态审计连续复演 | 0品牌恢复分支稳定，不制造新数据 | `day52-brand-audit.php`开工两轮及收尾一轮均19/19；发布商品始终为#44/#46 | 通过 |
+| D54-03 | Shop与商品分类基础归档 | 复用Woo主查询、正确商品集合与条件资源 | `/shop/`和分类#18为200并显示2件；空分类#24为200、未知分类为真实404；归档CSS/JS各1份 | 通过 |
+| D54-04 | 排序与正常筛选 | 合法排序、价格、Size、Shade保持合同 | `price-desc`顺序为#46→#44；Price 35～45＋Small＋Light命中1件；合法Size OR为200 | 通过 |
+| D54-05 | 已选状态、零结果与恢复链接 | Chip/Clear只出现一次且可逐项恢复 | Price 100～120＋Small＋Light为0件且保留3个已选项和恢复入口；移除Size后URL与History返回均正确 | 通过 |
+| D54-06 | 反向价格区间 | 不交换输入，显示可访问错误并可修复 | `min_price=50&max_price=10`为200/0件；1个alert、2个`aria-invalid`字段、1个价格Chip；窄屏自动打开并聚焦错误 | 通过 |
+| D54-07 | 7类非规范或非法GET | 302到当前Shop白名单第一页，临时清理不被缓存 | 缺失query type、显式AND、非法term＋合法排序＋未知键、旧`filter_color`、畸形品牌、科学计数法价格、600字节Size值均按预期302；均有`X-Redirect-By: DentAll`及`no-store` | 通过 |
+| D54-08 | 商品搜索带隐藏筛选 | 筛选键不改变搜索集合，也不输出目录筛选交互 | 带价格/Size/Shade的商品搜索仍显示2件；筛选aside/dialog/toggle/Brand为0，目录JS为0、CSS为1 | 通过 |
+| D54-09 | 请求内1项/页Shop分页 | 不写持久化Option，排序链接与SEO边界正确 | Page 1=#46、Page 2=#44；排序随分页链接保留，Page 1 Canonical回`/shop/`、Page 2自Canonical；Page 3真实404/noindex且无Canonical | 通过 |
+| D54-10 | 请求内1项/页分类分页 | 分类路径、排序、prev/next与越界边界正确 | 分类#18 Page 1=#44、Page 2=#46；排序链接、Canonical和`rel`正确；Page 3真实404/noindex且无Canonical | 通过 |
+| D54-11 | 390/768/1024/1440四端 | 单一DOM、2/2/3/4列、无横向溢出 | 基础、筛选、零结果共12个视口组合均为预期列数，`scrollWidth=clientWidth`，Console/Page Error为0；另保留14张Local截图 | 通过 |
+| D54-12 | 1199/1200断点、Dialog与键盘 | aside只存在一个；焦点、滚动锁和断点恢复正确 | 1199打开→1200→1199关闭链、Close/Escape焦点返回、`aria-expanded`与页面锁清理均通过；1200常驻侧栏且隐藏Filter入口 | 通过 |
+| D54-13 | Robots、Canonical与Sitemap | 排序不形成独立索引目标，筛选/搜索按合同处理，参数不进Sitemap | Shop/排序为`index, follow`且Canonical回基础Shop；筛选为`noindex, follow`且Canonical回当前基础归档；搜索为`noindex, follow`且无Canonical；6个Yoast子Sitemap均无筛选/排序参数URL | 通过 |
+| D54-14 | 分面计数缓存复核 | 同一参数缓存内容稳定，收尾无测试transient | 冷/暖HTTP均200，Size/Shade transient内容相同；D53冷最多3/暖0条计数SQL证据在版本与文件指纹一致前提下复用；收尾Size/Shade/Brand transient均不存在 | 通过（证据分层） |
+| D54-15 | 独立复核、日志与最终恢复态 | 无未授权运行代码变更；异常来源可归因；状态精确恢复 | 独立静态与Test/UX复核P0=P1=P2=0；新增日志仅为首次CLI错误端口的3条连接警告及一次测试包装器引号错误产生的2条Fatal，后续有效HTTP/浏览器请求未追加PHP错误。Coming Soon=`yes`、`posts_per_page=10`及Woo设置恢复，运行代码净改动0 | 通过 |
+| D54-16 | Git提交前WooCommerce缺失兼容守卫与插件元数据 | WooCommerce未加载时不调用`WC_Query`；正常Woo路径不回归；Core版本说明一致 | 用户确认后在既有回调首个短路条件增加`class_exists( 'WC_Query' )`，`wp-cli --skip-plugins=woocommerce`动态冒烟通过；Woo正常加载下D52恢复审计19/19、D47正常商品搜索通过，独立复核P0=P1=P2=0。Core `Stable tag`与Changelog对齐0.2.7 | 通过 |
+
+复用证据：D53的30品牌完整文字列表、30商品组合oracle、冷最多3/暖0条计数SQL、lookup关闭回退和cleanup外部关系护栏，在WordPress/WooCommerce/主题版本、相关文件尺寸与指纹未变化的前提下继续成立；D54没有把“未重跑”写成新鲜证据。新鲜证据包括恢复态归档/搜索、7类302、请求内分页、四端/断点交互、SEO/Sitemap、缓存条目稳定、最终恢复态与独立复核。
+
+证据限制：600字节属性值安全302只证明该样本未触发414/Fatal，不等于已实现明确512字节早停；嵌套Widget全局值恢复和夹具极端部分失败恢复没有触发。真实iOS/Android、辅助技术、正式内容、31项以上品牌、非Local页面缓存/CDN、Core Web Vitals、抓取与部署均未验证。历史`debug.log`没有清空，不能称为全局干净；D54新增的CLI连接和测试包装器Fatal已明确归因但仍保留在日志。D43～D54运行文件尚无稳定Git提交基线，因此Local技术通过不能直接作为部署或灾难恢复结论。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

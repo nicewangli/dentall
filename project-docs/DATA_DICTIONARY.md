@@ -86,7 +86,7 @@
 | 库存数量 | WooCommerce | 启用数量跟踪时是 | 按可售包装/销售单位记录；不得填写虚假大数代替真实库存维护 |
 | 分类 | Product Category | 是 | 至少一个主分类，控制层级深度 |
 | 标签 | Product Tag | 否 | 只用于明确运营需求，避免无限增长 |
-| 品牌 | 待确认方案 | 标准商品发布时是（D13候选） | 发布前必须有明确品牌结论；使用`ADS`、确认的原厂品牌或正式确认的无品牌表达，不使用`Unknown`；实现和URL仍在W8前冻结 |
+| 品牌 | WooCommerce原生`product_brand` | 否 | 已知品牌时分配一个经审核的主要品牌；确认为无品牌时留空，不创建`Unknown`、`Unbranded`或其他占位term |
 | 简短描述 | WooCommerce | 是 | 详情首屏卖点，建议80～200字 |
 | 详细描述 | WooCommerce | 是 | 介绍、优势、使用范围和注意事项 |
 | 主图 | Featured Image | 是 | 1:1，背景和安全边距统一 |
@@ -255,7 +255,7 @@
 - Simple的价格、库存与Shipping由商品自身负责；Variable父级价格由Variations派生，Variation按自身维护价格和库存。Shipping空值表示继承已确认的父值，不表示未知数据已经确认；实际包装不同的Variation明确覆盖。
 - 商品名称/H1、SEO Title、Meta Description、Slug、Canonical和robots职责保持分离。商品路径候选为`/product/{slug}/`，`/shop/`为归档；Staging的`noindex`及无Canonical只证明环境保护，不代表Production SEO通过。
 - Website Manager可维护商品、分类、属性、媒体和内容级SEO；Yoast Advanced可见，WordPress原始Custom Fields对商品隐藏。商品CSV导出只在WooCommerce商品导出请求临时获得`export`，WordPress全站内容导出仍拒绝。
-- D18冻结的是上述结构、职责与互斥约束，不冻结TEST名称、SKU、Size/Shade值、价格、库存、重量尺寸、文案、图片授权、品牌载体、正式合法组合、可下载资料、真实促销或永久停售事实。业务内容不足时骨架继续，正式内容保持草稿或待确认。
+- D18冻结的是上述结构、职责与互斥约束，不冻结TEST名称、SKU、Size/Shade值、价格、库存、重量尺寸、文案、图片授权、当时尚未决的品牌载体、正式合法组合、可下载资料、真实促销或永久停售事实；品牌载体后来由D52单独冻结。业务内容不足时骨架继续，正式内容保持草稿或待确认。
 - Local与Staging核心商品CSV均可导出并保持父子关系、价格、库存、属性与物流语义；但中文Upsells/Cross-sells重复“交叉销售”表头，且默认CSV不包含Yoast Meta或uploads二进制，因此全量导出只作快照、不直接回导。D25已验收独立Simple模板v1的新增Draft、重复SKU跳过与普通恢复；Variable/Variation CSV、Images和自定义Meta仍未开放。
 - M2是商品模型“候选冻结”，不是D25的批量录入许可。新增结构性字段、URL、库存真相源、支付、税费、物流或外部集成仍需登记范围、迁移与回归影响。
 
@@ -289,15 +289,18 @@
 - `display_only`展示商品是否必须具有SKU，留到CR-005销售模式实现与验收时单独决定，不用该例外放宽标准可购买商品规则。
 - 正式样本进入D18候选冻结或正式发布前仍需由业务方确认制造商货号是否允许公开，并形成DentAll自有SKU的最小编号规则；D12与D17 TEST原型不依赖该确认。
 
-## 品牌数据治理v1候选
+## 品牌数据治理v1（D52已冻结）
 
 - 品牌回答“谁生产或以谁的品牌销售”，不能复制为Product Category、产品用途或Solutions。
 - 品牌名称使用业务确认的正式公开英文名；大小写、空格、标点和常见别名统一映射到一个规范名称，避免出现重复品牌项。
-- 每个商品原则上只记录一个主要品牌。制造商、经销商、自有品牌和OEM关系如需同时展示，应先明确业务语义，不能创建多个近义品牌凑数。
-- 无品牌商品、ADS自有品牌和第三方原厂品牌必须分别确认；不得用`Unknown`、供应商文件夹名或仓库分类充当正式品牌。
+- 品牌载体固定为WooCommerce 11.0.0原生`product_brand` taxonomy；不复制成`pa_brand`、普通Product Tag、品牌CPT或ACF字段，也不为此安装独立品牌插件。
+- 品牌term保持单层扁平；每个商品最多分配一个主要品牌。制造商、经销商、自有品牌和OEM关系如需同时展示，应先明确业务语义，不能创建多个近义品牌凑数。第一版以治理与审计约束，不新增保存拦截。
+- 无品牌商品留空；ADS自有品牌和第三方原厂品牌分别按真实归属分配。不得用`Unknown`、`Unbranded`、供应商文件夹名或仓库分类充当正式品牌。
 - 商城名称保持`DentAll`；`ADS`是商品品牌，两者不得在品牌字段、商品名称或前台标识中相互替代。
-- D9只形成名称、来源、负责人和重复项治理规则候选；品牌字段载体、归档URL、筛选与索引方案留到D52冻结。
-- 品牌正式实现确认前不自建品牌CPT、不安装品牌插件，也不使用普通商品标签长期代替品牌。
+- Website Manager可创建、编辑、删除和分配品牌；低权限Content Editor只能分配既有品牌。正式英文名称、别名归并、品牌归属和素材真实性由业务方负责。
+- 原生商品CSV使用`Brands`列导入/导出；先在品牌后台建立并审核规范term，CSV只填完全一致的批准名称。具备term管理权限的导入者可能因未知名称创建新term，因此每批导入后检查新增品牌、层级和“最多一个”约束；D52不增加自定义导入器。
+- 品牌归档使用Woo默认`/brand/{slug}/`，第一版`noindex, follow`且不进XML Sitemap；Shop/商品分类可用`filter_product_brand={term_id[,term_id]}`筛选，只有关联公开商品的term ID可进入查询。商品搜索和其他商品taxonomy隔离该参数。
+- 用户已于D53确认首版预计为30个有效品牌。Local以30个完整文字品牌项及30个发布商品夹具验证长名称、组合筛选、计数和查询缓存；第一版不增加品牌搜索、折叠或虚拟列表。该结果只覆盖30项，不外推到31～100或更大目录；实际数量超过30、名称明显更长或运营反馈显示长列表难用时，必须重新评估控件、DOM与查询负载。
 
 ## 全局属性模型v1候选
 
@@ -323,6 +326,19 @@
 - 尺寸、重量和数量必须区分测量对象：产品规格用属性，物流重量/包装尺寸用WooCommerce Shipping字段，库存数量用库存字段。
 - `Shade`与`Color`分开维护；`Package Quantity`与库存数量分开维护；品牌、认证、分类和Solutions不混入属性项。
 - 属性是否显示在前台、是否用于筛选、是否用于Variation是三个独立决定，不因创建了属性就默认全部启用。
+
+### D49商品级筛选合同v1（已冻结）
+
+- 第一版筛选对象只覆盖WooCommerce原生Shop与商品分类归档；商品搜索继续使用D47已冻结的独立请求合同，D49不为搜索页增加筛选UI或新的索引规则。
+- 分类不是属性参数：用户通过`/product-category/{slug}/`进入一个分类集合，不新增`category`、`product_cat`等平行GET参数，也不复制分类数据到Global Attribute。
+- 价格沿用WooCommerce原生`min_price`与`max_price`参数，金额由WooCommerce价格查询处理；界面不得硬编码美元符号或自行复制商品价格。反向区间属于有效但无结果的边界，不自动交换用户输入。
+- 第一版可筛选Global Attribute仅冻结`Size`（`pa_size`）与`Shade`（`pa_shade`）。参数分别为`filter_size`、`query_type_size=or`与`filter_shade`、`query_type_shade=or`；同一属性多值以逗号分隔并按OR匹配，不同属性维度及价格条件之间按AND收敛。
+- 筛选条件变化后回到归档第一页；D50/D51界面及D52品牌入口必须保留仍有效的其他筛选与排序条件，同时移除旧分页路径，不从筛选后的第N页继续请求。
+- 属性匹配采用WooCommerce原生“父商品拥有所选term”的商品级语义，不承诺多个属性与价格一定来自同一个可购买Variation。Local TEST父商品#46没有`Large 105 mm + Medium`Variation，但父级同时声明两个term，因此该组合仍命中#46；若业务要求严格同Variation匹配，必须另立范围、查询与性能方案。
+- `woocommerce_hide_out_of_stock_items`继续为`no`。因此只有缺货Variation使用的`Medium`仍可命中父商品；D49不改变缺货显示或计数政策。
+- `Package Quantity`继续作为已存在的全局属性和#44展示数据，但不进入第一版筛选字段；Material、Color、Compatibility与评分也未因候选表而进入D49。品牌已在D52独立接入原生筛选；评分仍不进入当前v1。
+- `Size`、`Shade`与`Package Quantity`的属性归档继续关闭。筛选参数页不等于独立属性归档，不为term创建可索引详情URL。
+- 正式商品名称、term、合法Variation组合、价格和库存仍由Website Manager在实际录入、审核与发布时确认；D49的TEST结果只证明骨架可用，不把现有TEST值升级为正式业务事实。
 
 ## ACF最小候选字段
 
@@ -352,7 +368,7 @@
 |---|---|---|
 | 商品 | WooCommerce Product | 不创建重复CPT |
 | 商品分类 | Product Category | 可维护层级和描述 |
-| 品牌 | 官方能力或成熟插件 | 方案确认前不自建CPT |
+| 品牌 | WooCommerce原生`product_brand` taxonomy | 扁平、每商品最多一个；无品牌留空；第一版归档`noindex` |
 | 博客 | WordPress Post | 使用分类管理主题 |
 | About/政策 | WordPress Page | 共用内容页模板 |
 | Solutions | WordPress Page优先（v1结构决定已确认） | 第一版不注册Solutions CPT，仅承载少量、稳定的“为谁/解决什么问题”内容；当前候选为`/solutions/`及真实独立条目才使用的`/solutions/{slug}/`。条目数量增长只是信号，只有同时出现可重复字段、独立归档/筛选、频繁增删或明显编辑效率收益时，才重新评估CPT |

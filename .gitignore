@@ -62,6 +62,17 @@ app/public/wp-content/debug.log
 **/playwright-report/
 **/test-results/
 
+# 冻结的D25自定义商品导入草稿：处置方式确认前只保留在Local。
+/app/public/wp-content/plugins/dentall-core/assets/js/product-import-guard.js
+/app/public/wp-content/plugins/dentall-core/assets/templates/dentall-products-v1.csv
+/app/public/wp-content/plugins/dentall-core/includes/product-import-schema.php
+/app/public/wp-content/plugins/dentall-core/includes/product-import.php
+/project-docs/tests/build-day25-product-csv.mjs.disabled
+/project-docs/tests/day25-c2-import-ajax-capability-audit.php.disabled
+/project-docs/tests/day25-c2-import-lock-audit.php.disabled
+/project-docs/tests/day25-c2-import-preflight-audit.php.disabled
+/project-docs/tests/fixtures/day25-c2-valid-products-v1.csv
+
 # Databases, logs and archives
 *.sql
 *.sql.gz

@@ -11,7 +11,7 @@
 
 | 插件 | 类别 | 用途 | 状态 | 版本 | 许可证/归属 | 数据影响 | 替代/移除方案 |
 |---|---|---|---|---|---|---|---|
-| DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容及后续商城业务规则 | Local与Staging 0.2.5均已完成Website Manager高级SEO、商品元数据界面防护及商品专用CSV导出验证；Staging于D18 C6通过部署提交`e9e21c4`同步并复测 | Local/Staging 0.2.5 | GPL/项目自有 | 中 | 停用后保留角色数据；主入口与`includes/`必须同版本部署；角色版本6会把高级SEO能力写入角色数据库，撤权必须从白名单移除并提升新角色版本；0.2.5不持久化全局`export`，只在WooCommerce商品导出请求临时授权 |
+| DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容及后续商城业务规则 | Local 0.2.7、Staging 0.2.6均包含角色版本7、Website Manager全局`import`及WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`。Local 0.2.7另含D50筛选参数页SEO规则，尚未同步非Local | Local 0.2.7；Staging 0.2.6 | GPL/项目自有 | 中 | 停用后保留角色数据；主入口与`includes/`必须同版本部署；角色版本7会把白名单能力写入角色数据库，撤权必须修改白名单并提升新角色版本；`export`仍不全局持久化，`import`可访问其他已注册导入器，第一版SOP只批准WooCommerce商品CSV |
 | WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 已安装并激活，已完成D2基础配置 | 11.0.0；11.0.1可用但本日不升级 | GPL/项目 | 高 | 不可轻易替换 |
 | Query Monitor | 本地开发 | 查询、Hook、请求和错误诊断 | Local已安装；D16冲突隔离后保持停用，仅限Local | 4.0.7 | GPL/开发者 | 低 | 停用并删除，不进入生产必需清单 |
 | ACF Pro | 字段 | 仅在原生字段不足时补充定制商品展示、技术参数和资料下载等结构化字段 | Local已安装；D16冲突隔离后保持停用，许可证归属仍待核对 | 6.8.7 | 商业许可证/公司账户待核对 | 中 | 字段定义通过Local JSON或PHP版本化；停用前评估模板依赖和数据迁移 |
@@ -27,7 +27,7 @@
 | WooCommerce Stripe Gateway | 支付 | 信用卡、借记卡及经确认的钱包支付 | 方向已选，待公司主体、销售国家和Stripe开户资格确认；当前不安装、不连接真实账户 | 安装时记录 | GPL/免费插件；企业Stripe账户按交易收费 | 高 | 先用Test Mode和Webhook回归；禁用前处理待捕获、退款和Webhook |
 | WooCommerce PayPal Payments | 支付 | PayPal付款 | 方向已选，待企业PayPal账户确认；当前不安装、不连接真实账户 | 安装时记录 | GPL/免费插件；企业PayPal账户按交易收费 | 高 | 先用Sandbox回归；禁用前处理退款、争议和Webhook |
 | WooCommerce Direct Bank Transfer（BACS） | 离线支付 | 客户银行转账，到账后人工确认订单 | WooCommerce原生能力已选；正式收款信息和负责人待确认，当前保持关闭 | WooCommerce内置 | GPL/免费 | 高 | 关闭网关即可；停用前保留历史订单付款说明和人工核账记录 |
-| 品牌能力 | 商品 | 品牌归档、筛选和展示 | 待决策 | - | 待确认 | 中 | 数据迁移后替换 |
+| WooCommerce内置Brands | 商品 | 原生`product_brand`、商品关联、CSV、详情/Schema、归档与筛选 | D52已在Local启用现有内置能力；未新增插件。品牌归档第一版由Yoast设为`noindex` | WooCommerce 11.0.0内置 | 随WooCommerce；无额外许可证 | 中 | 主题回滚不删除taxonomy或数据；移除前台适配即可停用入口。`WC_Widget_Brand_Nav`为内部类，Woo升级时必须回归，失效时先诚实空输出再评估替代 |
 
 ## 已冻结的职责边界
 

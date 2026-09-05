@@ -288,6 +288,65 @@
 - D25技术结果：Website Manager已在受保护Staging进入WooCommerce原生商品导入器；Simple模板v1的2行TEST CSV只创建#109/#110两个Draft，既有11条记录0处变化；同源重复SKU复跑为Imported 0、Updated 0、Skipped 2、Failed 0；#110普通恢复及#109/#110创建账号追溯通过，两个CSV批次与恢复动作已登记。该结果不覆盖Variable/Variation CSV、完整活动日志、整批一键回滚、Cloudways完整恢复演练或Production。
 - M3验收：上述技术/人员路径通过后，可开放WM-A在受保护Staging使用Simple模板v1小批量录入Draft；M3整体仍须单独关闭正式内容/素材业务验收和公司控制Git治理门槛。
 
+## ADR-030：第一版商品筛选采用WooCommerce原生商品级合同与属性查询表
+
+- 状态：已接受（2026-09-03）；用户明确授权仅在Local实施D49推荐范围。
+- 业务目标：先冻结稳定、可解释、可回滚的商品集合筛选骨架，让D50/D51只承担界面和交互，不在写UI时临时改变字段、URL、Variation语义或查询数据源。
+- 字段与入口：第一版只在Shop和商品分类归档使用分类、价格、`Size`与`Shade`。分类通过`/product-category/{slug}/`切换集合；价格使用WooCommerce原生`min_price`/`max_price`；属性使用`filter_size`、`filter_shade`及各自`query_type_*=or`。同一属性多值OR，不同属性与价格条件AND，条件变化回第一页。商品搜索不在D49增加筛选入口。
+- 商品级语义：接受WooCommerce原生父商品匹配。父商品拥有所选term即可命中，不保证所有term和价格来自同一个可售Variation；因此#46的`Large 105 mm + Medium`虽然没有对应Variation，仍可命中父商品。严格同Variation筛选属于新查询语义和扩项，第一版不做。
+- 字段排除：`Package Quantity`保留为已存在的全局属性但不进入第一版筛选；品牌留D52，评分不进入当前v1；Material、Color与Compatibility等候选也不在D49创建或启用。所有现有属性归档继续关闭。
+- 查询表决策：Local对`wp_wc_product_attributes_lookup`执行完整可再生重建后启用使用；`woocommerce_attribute_lookup_direct_updates=yes`，使当前小批量商品保存后优先立即同步派生索引；`woocommerce_attribute_lookup_optimized_updates=no`，避免在没有批量规模和扩展兼容证据时启用优化写入路径。D53依据真实数据量、保存耗时与兼容性再评估，不以2个TEST商品宣称性能提升。
+- 缺货边界：`woocommerce_hide_out_of_stock_items`保持`no`，没有修改商品或Variation库存。仅缺货Variation承载的term仍可参与父商品匹配；若未来改变缺货隐藏政策，必须同时回归计数、组合、缓存和无结果状态。
+- URL/SEO目标：价格与属性参数页目标为`noindex, follow`，Canonical回去参数的当前基础归档，参数URL不进Sitemap。D49只冻结并验证合同，不输出筛选UI或SEO代码；Local当前代表参数页Canonical已回`/shop/`但robots仍为`index, follow`，D50首次建立站内筛选链接前必须关闭此差距。
+- 实施证据：重建前后查询表均为7行、对应2个父商品；启用后属性主查询SQL实际使用`wc_product_attributes_lookup`，价格使用`wc_product_meta_lookup`。Shop基础、Size、Shade、同属性OR、跨属性、价格、组合、无效term、反向价格及分类筛选均通过；#44/#46、Variations #51～#53、#120～#130 Trash、属性归档和缺货设置均未改变。
+- 范围与回滚：不安装插件、不改主题/插件运行代码、不做筛选UI、品牌、评分、商品数据或非Local变更。回滚时先执行`wp wc palt disable`，再把`woocommerce_attribute_lookup_direct_updates`恢复为`no`；查询表是可重建派生数据，可保留或重新生成，`optimized_updates`继续为`no`。回滚不需要修改商品、term、URL、支付、物流或订单。
+
+## ADR-031：PC商品筛选复用Woo原生查询并集中治理参数URL
+
+- 状态：已接受并于2026-09-03在Local实施；用户明确授权D50推荐范围。
+- 业务目标：在不增加第二商品查询、JavaScript或筛选插件的前提下，让PC用户可按分类、价格、Size、Shade缩小Shop/商品分类集合，并在首次建立站内参数链接时关闭D49参数页robots差距。
+- 页面与断点：筛选DOM只在非搜索的Shop和`product_cat`输出一份；Mobile First默认隐藏，`>=1200px`显示Categories、Price、Size、Shade常驻侧栏。390/768/1024只做无回归；移动开关、抽屉、焦点进入/返回和滚动锁留D51重新确认。
+- 查询与组件：分类使用WordPress taxonomy API，Size/Shade复用`WC_Widget_Layered_Nav`，价格使用原生GET Min/Max表单；结果始终来自WooCommerce主查询和D49已启用lookup。同属性OR、跨属性/价格AND及父商品级Variation语义不变。
+- URL治理：分类、属性、价格、Woo六种排序和分页共享集中白名单；条件变化回基础归档第一页，未知、数组、非法term、非法排序和旧分页不进入新链接。价格还必须符合Woo当前小数精度，额外尾随0可接受；空值、超精度或其他非法价格302到移除无效键后的白名单第一页，合法反向区间保留0结果和明确错误。为兼容D46对分页`base/format`的处理，在最终`paginate_links`逐条清洗URL，而不重新实现分页算法。
+- SEO：站点级`dentall-core`在晚优先级`wp_robots`将Shop/商品分类中任意`min_price`、`max_price`、`filter_*`或`query_type_*`参数请求设为`noindex, follow`；不修改Yoast presentation，因此Canonical继续回当前基础归档。仅`foo`或合法排序不触发本规则，商品搜索维持D47无Canonical的noindex合同。
+- 可访问性与展示：属性保持普通链接，无JS；选中项同时提供可见勾选、背景、文字状态、`aria-current`和移除说明。价格有可见label、货币代码、帮助文本；合法Min大于Max时两字段`aria-invalid=true`并输出`role=alert`。所有可交互项沿用项目3px Focus基线。
+- 明确排除：品牌、评分、Package Quantity入口、计数、Chips、专门Reset、Slider、AJAX、严格同Variation、自定义缓存、插件、商品数据和非Local变更均不属于D50。
+- 证据与回滚：主查询/SQL、URL、302、robots/Canonical、四宽、1199/1200、键盘、Console和数据不变量通过，三路独立终审无P0～P3。回滚须同时移除子主题模块/样式和插件robots回调；若保留可点击参数链接，不得单独回滚noindex。没有商品、lookup、URL Slug、支付、物流或订单数据回滚动作。
+
+## ADR-032：窄屏使用原生Dialog承载同一筛选DOM
+
+- 状态：已接受并于2026-09-03仅在Local实施；用户明确确认Day51推荐范围。
+- 要解决的问题：D50筛选仅在1200px起常驻，手机与平板没有入口。D51需要补齐窄屏交互，同时避免复制Categories、Price、Size、Shade控件、Woo主查询、选中态、错误态或参数合同。
+- 单一DOM决策：服务端继续只输出一个`aside#dentall-catalog-filters`。小于1200px时，条件加载的原生JavaScript把该aside移入`<dialog>`；1200px起将它移回原两列布局并保持240px常驻栏。不得用两份筛选HTML或第二商品查询换取布局便利。
+- 模态与可访问性：使用原生`showModal()`提供top layer和背景模态隔离；项目代码维护`aria-expanded`、标题或错误字段初始焦点、Close/Escape/遮罩关闭、焦点返回与`html/body`滚动锁。Escape使用原生`cancel`并保留仅匹配Escape的`keydown`兼容兜底，以覆盖不派发`cancel`的嵌入/自动化环境；遮罩只有按下和抬起都位于背景时才关闭，避免拖动经过面板误操作。
+- 生命周期：`matchMedia('(min-width: 75rem)')`与`pageshow/pagehide`同步DOM位置和开关状态；同一侧断点内的方向变化由CSS动态视口高度承接，不增加重复JS监听。打开状态跨到桌面必须自动关闭、解锁并恢复侧栏；合法反向价格在窄屏自动打开并聚焦首个`aria-invalid`字段，不持久化普通开关状态。
+- 渐进增强与资源：入口由服务端以`hidden`输出，只有脚本确认必需节点和原生`showModal`可用后才显示；不支持dialog时不暴露失效按钮，核心商品页和PC侧栏仍可用。新脚本只在非搜索的Shop/商品分类加载，商品搜索继续只加载目录CSS。
+- 视觉证据边界：现有商品归档稿只有默认态，没有抽屉打开态、遮罩、关闭按钮、动画或1024横屏证据。左侧进入、最大24rem、至少3rem遮罩关闭区和55%遮罩为可回滚工程候选，不表述为设计稿冻结值；本版不使用动画。
+- 不变量与排除：D49/D50商品级查询、父商品Variation语义、URL白名单、参数页`noindex, follow`、基础Canonical及Sitemap合同不变。品牌、评分、计数、Chips、Reset、Slider、AJAX、polyfill、插件、商品数据、缓存配置和非Local变更不属于D51。
+- 证据与回滚：390/768/1024/1440、1199/1200、方向变化、Close/Escape/遮罩、焦点、滚动锁、BFCache、反向价格、空分类、搜索隔离、Head及Console通过。回滚只需移除D51脚本enqueue和文件、入口/dialog壳及相关CSS，并把主题版本恢复0.26.0；D50 PC筛选和Core 0.2.7 SEO规则继续保留，无数据回滚。
+
+## ADR-033：品牌复用WooCommerce原生product_brand并暂不索引归档
+
+- 状态：已接受并于2026-09-04仅在Local实施；用户明确同意推荐范围、无品牌商品留空及品牌归档第一版`noindex`。D52结束时具体数量尚未冻结；用户随后在D53确认首版预计30个有效品牌，因此D53按30项边界完成控件与负载验证，超过30项仍须重新评估。
+- 业务语义与数据：品牌回答“商品以谁的品牌销售”。复用WooCommerce 11.0.0原生`product_brand` taxonomy，不创建`pa_brand`、重复taxonomy、品牌CPT或ACF字段，也不安装独立品牌插件。运营上保持扁平词项、每个商品最多一个主要品牌；无品牌商品不分配term，不创建`Unknown`或`Unbranded`占位项。该“最多一个”是治理与审计规则，本日不增加保存拦截。
+- 权限与维护：Website Manager沿用`manage_product_terms`、`edit_product_terms`、`delete_product_terms`和`assign_product_terms`维护及分配品牌；低权限Content Editor只能分配既有品牌。正式英文名称、别名归并、品牌归属及素材真实性仍由业务方负责，开发者不代填。
+- CSV边界：WooCommerce原生商品CSV使用`Brands`列并可导入/导出品牌。具有`manage_product_terms`的账号导入未知名称时，Woo原生解析器可能创建新品牌或层级；第一版SOP因此要求先在品牌后台建立并审核扁平词项，CSV只填写完全一致的批准名称，每批导入后检查新增term和单品牌约束。本日不增加自定义导入器或服务端强制拦截；若人工治理不足，再作为新增能力确认。
+- 展示与查询：只在非搜索的Shop和商品分类把Woo原生文字型`WC_Widget_Brand_Nav`接入D50/D51同一筛选aside，结果继续来自Woo主查询；同一品牌多选为原生OR，并可与分类、价格、Size、Shade及排序组合。没有品牌关联时整组不输出；商品搜索不显示品牌筛选。商品详情现有品牌行和Product Schema品牌来自Woo原生能力，D57才负责详情视觉编排。
+- URL与输入安全：品牌归档保持Woo默认`/brand/{slug}/`；筛选参数为`filter_product_brand={term_id[,term_id]}`，只接受已有且当前关联公开商品的正整数ID，去重并按数字排序。Woo Brands会在主查询早于模板读取公开GET，且数组值可触发Fatal，因此子主题在`woocommerce_product_query_tax_query`优先级1统一防护该键，再由Woo优先级10读取；只有非搜索的Shop/商品分类保留有效值，商品搜索及其他商品taxonomy即使收到有效或非法品牌参数也置为空，避免绕过UI改变集合。空键仍可供Shop/分类参数页`noindex`判定，但不形成品牌tax_query或新链接。
+- SEO：第一版品牌归档由Yoast设为`noindex, follow`，因此不进入XML Sitemap；Local实测归档无Canonical。品牌筛选参数页沿用ADR-031的防御性`noindex, follow`，Canonical回去参数的Shop或商品分类基址，生成链接不传播Woo内部`filtering=1`、未知键或旧分页。品牌Slug一旦在Production公开或被外链使用，改名仍需301、Canonical、Sitemap、内链和缓存复核。
+- 性能与规模：品牌ID合法集合在单次PHP请求中只读取一次；计数继续使用Woo原生按查询哈希缓存的transient，不新增远程请求、Cron、自定义缓存或JavaScript。D52只以2个可逆TEST品牌验证基础能力；D53按用户确认的30个有效品牌完成完整文字列表、长名称、递归term查询和组合计数负载验证，第一版不增加折叠/搜索。结果不外推到31～100或更大规模。
+- 兼容与回滚：`WC_Widget_Brand_Nav`在WooCommerce源码中标记为内部类，本版用`class_exists`失败即诚实空输出，并把Woo升级后的品牌筛选回归列为必测项；若上游移除或改写该内部组件，再在新授权下评估公开API或最小自有渲染。前台回滚只移除品牌Widget调用、品牌链接清洗、品牌markup适配及其Hook，保留Size/Shade同样依赖的D50通用选中样式，并将主题版本恢复0.27.0；输入安全护栏除非Woo上游已修复，不建议随UI回滚。Yoast品牌归档设置是Local数据库配置，回滚或部署都必须单独记录和复核。Woo原生taxonomy不会因主题回滚消失；本日TEST品牌和关联在验收后删除，不留下正式数据迁移。支付、物流、库存、订单和非Local环境均不受影响。
+
+## ADR-034：30品牌保留完整文字筛选，并用服务端链接状态与原生计数缓存闭环
+
+- 状态：已接受并于2026-09-04仅在Local实施。用户确认首版预计30个有效品牌，并授权D53推荐范围；该授权不包含Staging/Production部署、正式品牌录入、AJAX、插件、自定义缓存或超过30项的控件增强。
+- 控件与状态：30个品牌继续完整展示名称，不增加搜索、折叠、Logo、虚拟列表或第二套移动DOM。当前价格上下限合并为一个已选Chip；Size、Shade、Brand按term逐项显示。每项移除与`Clear filters`均通过普通链接请求服务端新页面，保留当前商品分类路由和合法`orderby`、移除旧分页并回到第一页；Clear同时移除全部筛选条件。
+- 请求边界：只在非搜索的Shop与商品分类主查询中消费目录筛选。`pre_get_posts`优先级1在WooCommerce读取公开GET前清洗并把Size/Shade同维度固定为`OR`；缺失`query_type`、显式`AND`、非法/未知`filter_*`或`query_type_*`及畸形品牌值标记为非规范请求，再由`template_redirect`以302送到当前分类或Shop的白名单第一页URL。商品搜索及其他上下文主动移除价格和全部筛选键，并重置Woo已选属性缓存，防止隐藏筛选污染结果。
+- 动态计数：Size、Shade和Brand显示在“保留其他已选维度后，再选择该项可得到多少父商品”的数量；当前正在计数的同一维度不自我收窄。Woo原生计数SQL补齐价格区间与其他已选Size/Shade条件，属性查询表启用时按`product_or_parent_id`保持父商品语义；`woocommerce_hide_out_of_stock_items=no`时目录可见缺货父商品仍计入。属性查询表停用时回落到Woo原生tax-query路径，不把自定义lookup SQL当唯一正确性来源。Category和Price当前不显示计数。
+- 查询与缓存：商品结果仍只有Woo主查询；计数最多对应Size、Shade、Brand三个Widget的聚合查询，沿用Woo现有查询哈希transient，暖缓存为0条计数SQL。没有第二商品结果查询、自定义缓存、AJAX、远程请求、Cron或新增JavaScript。Local 30品牌夹具实测冷最多3、暖0条计数查询，品牌递归子项查询0；五组TTFB冷/暖中位数分别140.1/127.6ms。Production页面缓存/CDN、真实目录与Core Web Vitals仍须后续验证。
+- URL/SEO：生成的Chip、Clear、筛选、排序与分页链接继续使用集中白名单并带`rel=nofollow`；筛选参数页保持`noindex, follow`与基础归档Canonical。非规范筛选请求使用302而不是301，因为这是输入清理，不建立永久旧新URL资产关系；高价值组合不会因有计数而自动成为可索引落地页。
+- 数据、安全与回滚：D53 TEST夹具只在Local创建30个品牌和30个发布商品，清理器在删除前验证term没有关联任何非允许对象；外部对象关联护栏已实测拒绝清理。最终回收后品牌term、TEST SKU/post、关系和三类计数transient均为0，发布商品、Trash、属性lookup及配置恢复基线。回滚主题0.29.0时移除D53已选条件、计数约束、GET归一化/重定向与CSS，再恢复0.28.0；不删除未来正式品牌或修改Woo核心。支付、物流、订单、库存写入和非Local环境均未改变。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。
@@ -305,6 +364,5 @@
 
 | ID | 决策 | 最晚时间 | 影响 |
 |---|---|---|---|
-| ADR-T02 | 品牌能力实现 | W9前 | 属性、URL、筛选 |
 | ADR-T03 | 支付和物流插件 | W11前 | 结账联调 |
 | ADR-T05 | Git远程企业组织归属 | D25前 | 仓库所有权和长期交接 |

@@ -19,7 +19,7 @@ tags:
 - 学习模板：[[WordPress实战学习笔记模板]]
 - 当前项目起点：[[Day26-Storefront子主题骨架]]
 - 第一篇学习笔记：[[Day26-子主题继承与Hook加载机制]]
-- 当前最新学习笔记：[[Day42-首页整链路验收与证据分层]]
+- 当前最新学习笔记：[[Day54-WooCommerce商品发现链路回归与证据复用]]
 
 > [!important] 双向链接规则
 > 新建一篇Day学习笔记后，必须同时完成三件事：在本索引登记它；在学习笔记中链接对应的项目Day笔记；在项目Day笔记中反向链接该学习笔记。不能只依赖Obsidian自动生成的Backlinks面板。
@@ -88,8 +88,20 @@ tags:
 | Day40 | [[Day40-菜单驱动的Page映射与原生摘要]] | [[../Day40-首页方案Page映射与四端区域\|Day40-首页方案Page映射与四端区域]] | 初识，待费曼自测 | — | 0.18.0 Local以专用菜单选择/排序真实Page，批量过滤后输出最多4张SolutionCard；4个TEST Page noindex、0/1/4/4+、空摘要、缺图、菜单别名和Sitemap边界通过，真实首页四端视觉与相邻节奏已由D42补证 |
 | Day41 | [[Day41-累计销量查询与首页展示边界]] | [[../Day41-首页累计热卖与信任指标条\|Day41-首页累计热卖与信任指标条]] | 初识，待费曼自测 | — | 0.19.0 Local固定读取Woo累计销量与可见性，最多5项、0项空输出；原生ProductCard、Filter/循环恢复、纯CSS四端横滑和Local-only Trust五项完成，整页D42证据已补齐，真实订单、正式指标与非Local仍待 |
 | Day42 | [[Day42-首页整链路验收与证据分层]] | [[../Day42-首页全链路校准与M4技术验收\|Day42-首页全链路校准与M4技术验收]] | 初识，待费曼自测 | — | M4按Local技术v1完成：登录态四端整链路、0页面溢出、Console/HTTP/PHP与只读审计交叉验证通过；0运行代码改动且不创建TEST订单，正式内容、非Local与生产性能另行验收 |
+| Day43 | [[Day43-WooCommerce归档主查询与条件资源]] | [[../Day43-商品归档信息架构与PC骨架\|Day43-商品归档信息架构与PC骨架]] | 初识，待费曼自测 | — | 0.20.0 Local复用Woo主查询、原生Archive Header/循环并条件加载归档CSS；Shop标题为`Products`而`/shop/`不变，四端、taxonomy正常/空态、排序和搜索隔离通过，D44～D49保持独立边界 |
+| Day44 | [[Day44-CSS-Grid与WooCommerce每页数量解耦]] | [[../Day44-商品网格响应式\|Day44-商品网格响应式]] | 初识，待费曼自测 | — | 0.21.0 Local以CSS Grid完成2/2/3/4列与16/24/24/24px间距，同时保留Woo 3×4=12项查询合同；四端、taxonomy、空态、搜索隔离和三路复核通过，1/5/12项与特殊状态动态整合待代表数据复演 |
+| Day45 | [[Day45-WooCommerce排序Hook与参数URL]] | [[../Day45-商品排序与结果信息\|Day45-商品排序与结果信息]] | 初识，待费曼自测 | — | 0.22.0 Local复用Woo原生GET排序与主查询，将Shop/taxonomy收敛为一组顶部工具栏；320～1024保留辅助技术结果状态，1440结果左/排序右。五宽、升降价/非法值/参数保留、搜索隔离和Canonical通过，未改12项、Grid、分页、搜索或数据 |
+| Day46 | [[Day46-WooCommerce分页链接与Canonical边界]] | [[../Day46-商品归档分页与URL归一化\|Day46-商品归档分页与URL归一化]] | 初识，待费曼自测 | — | 0.23.0 Local复用Woo原生主查询、分页模板和WordPress链接算法，只保留一组底部分页；12/1、44px、Focus、五宽、Page 1直链、参数、Canonical/404、空态与搜索隔离通过。11个临时商品已移入回收站，未提交Git或部署非Local |
+| Day47 | [[Day47-WooCommerce商品搜索请求与模板复用]] | [[../Day47-商品搜索结果与边界状态\|Day47-商品搜索结果与边界状态]] | 初识，待费曼自测 | — | 0.24.0 Local复用商品主查询与归档模板，完成请求身份、无效输入/单结果302、工具栏/分页、空结果双CTA、noindex与可逆夹具；有结果与空结果页真实四端、Focus、Console和截图均已补齐，非Local未验 |
+| Day48 | [[Day48-WooCommerce分类描述与SEO模板边界]] | [[../Day48-商品分类内容与W8列表回归\|Day48-商品分类内容与W8列表回归]] | 初识，待费曼自测 | — | 0.25.0 Local以#18可逆验证term描述、Yoast全局/内容级SEO、Canonical/Sitemap和四端长内容；3条局部CSS修复Grid自动最小宽度裁切。#18已恢复、#120～#130未恢复；恢复态完整四端证据已在D49配置前补齐并关闭原P2，正式内容与非Local仍待 |
+| Day49 | [[Day49-WooCommerce属性查询表与商品级筛选]] | [[../Day49-商品筛选合同与属性查询表\|Day49-商品筛选合同与属性查询表]] | 初识，待费曼自测 | — | WooCommerce 11.0.0 Local冻结分类、价格、Size、Shade商品级合同，验证属性lookup与价格lookup查询路径、父商品Variation语义及缺货term边界；查询表7行/2父商品，Direct=yes、Optimized=no，运行代码0改动，参数页robots实现转D50前置 |
+| Day50 | [[Day50-WooCommerce链接式筛选与参数治理]] | [[../Day50-PC商品筛选与参数页索引收口\|Day50-PC商品筛选与参数页索引收口]] | 初识，待费曼自测 | — | DentAll 0.26.0与Core 0.2.7在Local复用Woo主查询和Layered Nav完成仅PC的Categories、Price、Size、Shade侧栏；集中白名单治理分类/属性/价格/排序/分页URL，参数页noindex/follow且Canonical回基础归档，四端与独立复核通过 |
+| Day51 | [[Day51-原生Dialog与单一筛选DOM]] | [[../Day51-手机与平板筛选抽屉\|Day51-手机与平板筛选抽屉]] | 初识，待费曼自测 | — | DentAll 0.27.0在Local用原生dialog承载D50同一筛选aside；条件enqueue与matchMedia完成小于1200px抽屉、桌面恢复、焦点/Escape/遮罩/滚动锁及方向/BFCache清理，搜索隔离且不新增查询、参数或数据 |
+| Day52 | [[Day52-WooCommerce原生品牌taxonomy与筛选URL]] | [[../Day52-品牌数据与筛选基线\|Day52-品牌数据与筛选基线]] | 初识，待费曼自测 | — | DentAll 0.28.0在WooCommerce 11.0.0 Local复用原生`product_brand`、主查询和D51单一筛选DOM；优先级1护栏覆盖数组/畸形/空品牌及非目录Hook上下文，品牌URL、ARIA与SEO合同在清理前非空集合19/19通过。TEST term/关系/transient已回收；D52收尾时规模未定，D53随后确认30项并完成控件与负载验证，内部`WC_Widget_Brand_Nav`升级兼容继续按P3复评 |
+| Day53 | [[Day53-分面计数与筛选状态恢复]] | [[../Day53-已选条件计数与重置\|Day53-已选条件计数与重置]] | 初识，待费曼自测 | — | DentAll 0.29.0在WooCommerce 11.0.0 Local建立“公开GET归一化→主查询→已选条件/重置→受其他维度约束的分面计数”闭环；30品牌完整文字列表、16场景、四端、冷最多3/暖0条计数查询和搜索隔离通过，无AJAX、自定义缓存或第二商品结果查询 |
+| Day54 | [[Day54-WooCommerce商品发现链路回归与证据复用]] | [[../Day54-商品发现链路回归与W9收口\|Day54-商品发现链路回归与W9收口]] | 初识，待费曼自测 | — | 在WordPress 7.0.4、WooCommerce 11.0.0 Local以恢复态2商品/0品牌完成D43～D53发现链路回归；把新鲜证据、可复用证据、不可外推边界与最终恢复态分层，运行代码0改动，独立复核P0=P1=P2=0 |
 
-下一篇为D43学习笔记，依据D43商品归档真实梳理或实施工作生成，不提前制造空白笔记。D31～D42项目实现与验收已经分别补入既有Day笔记；后续关闭搜索提交、Cart Blocks/Mini Cart、正式Logo、正式菜单URL或插件验证债时继续回写对应工作日与既有边界，不另建重复实现笔记。
+下一篇为D55学习笔记，依据D55商品详情字段、Woo原生输出来源与Hook边界的真实工作生成，不提前制造空白笔记。D31～D54项目工作已经分别补入既有Day笔记；Day47空结果实页P2、Day48恢复态四端证据P2、Day49参数页robots P2及Day51最终独立证据P2均已在对应后续实施前关闭并回写相关记录。
 
 ## Obsidian使用约定
 

@@ -37,6 +37,18 @@
 - DentAll 0.18.0 Homepage方案Page映射：为Page启用核心Excerpt并新增原生`Homepage solutions`菜单位置；菜单只选择/排序，代码批量读取真实已发布且无密码Page，过滤重复、非Page、空标题和失效链接后最多输出4张既有SolutionCard。Local menu ID 28绑定4个逐页noindex且不进Sitemap的TEST Page；空Excerpt不回退正文，缺图使用text-only，首个有效项自动featured，未输出`View all`或`/solutions/`。代码、SEO、0/1/4/4+边界及独立Review完成；真实首页四宽截图、Focus与间距量测因Chrome控制超时登记为D42 P3。无模板覆盖、JavaScript、插件、CPT、ACF、交易数据或非Local变更。
 - DentAll 0.19.0 Homepage累计热卖与Trust预览：在Storefront `homepage`优先级40/50按WooCommerce累计`total_sales`和前台可见性读取最多5个真实商品，并复用原生ProductCard；真实0销量时整区隐藏，排序URL与评分参数隔离，临时排序Filter及Woo循环全局精确恢复。五项设计稿Trust数字/文案与五枚SVG图标仅在Local输出，非Local为空；纯CSS横滑完成四端1/3/4/5卡容量和768键盘访问。只读审计15/15及三路独立Review最终P0/P1/P2=0；没有订单/销量写入、JavaScript、模板覆盖、插件、字段或非Local部署，真实订单、正式指标与D42整页集成仍待。
 - M4 Homepage与全局框架Local技术v1验收：不提升DentAll 0.19.0，在登录态真实Homepage完成390/768/1024/1440的Header、Hero、Categories、Solutions、0销量Best Sellers空状态、Local-only Trust、禁用Newsletter与Footer整链路校准；四端页面级横向溢出0，Console为0，7项主题资源HTTP 200，主题PHP与D41只读审计15/15通过。独立复核未发现P0/P1或阻塞M4的P2，运行代码净改动0且未创建TEST订单；正式内容、Trust事实、匿名预发布、非Local部署与生产性能不在该通过口径内。
+- DentAll 0.20.0 商品归档骨架：只在Shop与商品taxonomy条件加载`catalog.css`，复用WooCommerce原生Archive Header、主查询、商品循环与D29 ProductCard，建立标题区和列表上下节奏；产品搜索页因`is_search()`明确排除并留D47接入。Local原生Shop Page公开标题由“商店”改为`Products`，slug、URL和Canonical保持`/shop/`。390/768/1024/1440正常态、TEST分类与空分类、`price-desc`、资源/Console及独立复核通过，最终P0/P1/P2/P3为0；没有模板覆盖、自定义查询、JavaScript、插件、字段、商品/订单写入或非Local部署，D44～D49职责未提前实现。
+- DentAll 0.21.0 商品归档响应式网格：在D43既有`catalog.css`内用Mobile First CSS Grid把Shop与商品taxonomy的原生商品列表渐进为390/768/1024/1440的2/2/3/4列，间距为16/24/24/24px；最小解除Storefront浮动宽度、margin与clearfix残留，不改模板或ProductCard内部。Woo目录列/行仍为3×4，即每页12项；正常/空taxonomy、搜索资源隔离、320边界、真实2项部分行及三路独立复核通过，最终P0/P1/P2/P3为0。真实1/5/12项、D29特殊状态整合、最终Console/独立CSS HTTP、生产缓存/CWV与非Local部署未验；没有PHP函数、查询、JavaScript、插件、字段或数据库写入。
+- DentAll 0.22.0 商品排序与结果信息：复用WooCommerce原生GET排序、主查询、结果状态与自动提交，在`wp`主查询完成后仅把Shop和商品taxonomy收敛为一组顶部工具栏；320～1024视觉隐藏结果数但保留辅助技术状态，1440为结果数左、排序右，底部只保留D46分页位置。五宽、升降价/非法值/参数保留、正常/空taxonomy、商品搜索隔离、Canonical及三路独立复核通过，最终P0/P1/P2/P3为0；未改12项/页、Grid、查询、分页、搜索样式、筛选、模板、JavaScript或数据，Staging/Production未部署。
+- DentAll 0.23.0 商品归档分页与URL归一化：继续使用WooCommerce每页12项的原生主查询、分页模板和WordPress `paginate_links()`，Shop与商品taxonomy只保留一组底部导航；页码窗口为首尾1页、当前左右2页，交互目标至少44×44px并可换行。Local用11个临时Simple商品形成真实12/1两页，完成320/390/768/1024/1440、Focus、排序参数、Page 1直链、Canonical/rel、越界404、空taxonomy与搜索隔离验证；Page 1内部链接多一次301的P2已修复，三路终审P0/P1/P2=0。#120～#130已精确核对后移入回收站，发布商品与分类恢复2项；未改主查询、Grid、搜索、筛选、模板、JavaScript、插件或非Local环境，未提交Git。
+- DentAll 0.24.0 商品搜索请求与边界状态：明确的`post_type=product`搜索复用WooCommerce原生标题、面包屑、主查询、ProductCard、D44 Grid、顶部结果/排序和D46底部分页；无结果保留原生状态并追加Shop/Home恢复链接。空值、Unicode纯空白、非标量及WordPress加斜杠前后任一超过1600字节的关键词302到动态Shop，唯一命中保留Woo原生302；搜索保持`noindex, follow`、无Canonical/rel且不进Sitemap。Local恢复#120～#130形成真实12/1搜索分页后已全部重新Trash，发布商品/分类恢复2项；无模板、JS、插件、第二查询或非Local部署。HTTP、DOM、SEO、转义、数据和Shop/taxonomy回归通过，登录态有结果页390/768/1024/1440按2/2/3/4列、0横溢出、44px和唯一工具栏通过；真实空结果CTA、Focus、Console与截图已在Day48实施前补齐，原P2关闭。
+- DentAll 0.25.0 商品分类内容与W8列表回归：先用真实登录态商品搜索空结果页补齐390/768/1024/1440、双CTA、44px、Focus、Console与截图，关闭D47最终P2；再用既有Local TEST分类#18临时验证长标题、两段描述、安全链接、长token及Yoast内容级Title/Meta覆盖。390px实测发现Grid item自动最小宽度导致内部裁切，`catalog.css`仅增加两个`min-width:0`和一个`overflow-wrap:anywhere`后四端复验通过。Yoast商品分类全局Title/Social Title模板已删除`Archives`，其他标题设置不变；#18及其Yoast term数据已精确恢复，#120～#130未恢复，未创建正式分类。功能、数据、SEO、空分类与静态/独立复核无P0/P1；最终0.25.0恢复态Shop、有结果搜索和短内容#18尚未完整重跑四宽，作为证据P2转D49实施前关闭，不恢复#120～#130。运行层净增0文件、0函数、0规则块、0查询/JS/插件，正式内容与非Local配置重放仍待。
+- Day49商品筛选合同与查询表Local基线：先用12张0.25.0登录态四端截图关闭Day48最终证据P2；冻结Shop/商品分类的分类、价格、Size、Shade商品级参数与父商品Variation语义。WooCommerce属性查询表完整重建后启用，7行/2父商品，Direct Updates开启、Optimized Updates关闭；11个主查询场景与商品/Variation/Trash审计通过。参数页目标为`noindex, follow`且Canonical回基础归档；当前Local Canonical已符合、robots仍为`index, follow`，D50首次输出筛选链接前补齐。未新增运行代码、UI、品牌、评分、插件或非Local变更，DentAll保持0.25.0。
+- DentAll 0.26.0 PC商品筛选：仅在Local的Shop/商品分类输出单一Categories、Price、Size、Shade筛选DOM，并只在`>=1200px`显示240px常驻侧栏；属性复用WooCommerce Layered Nav，价格使用无JavaScript的Min/Max＋Apply，商品结果继续来自D49主查询与lookup。集中白名单覆盖分类、属性、价格、排序和最终分页链接；空值/非法价格302归一化，合法反向区间保留可访问错误。390/768/1024/1440、1199/1200、组合/空态、键盘、URL和数据不变量通过，无品牌、评分、计数、Chips、Reset、移动抽屉、插件、商品数据或非Local变更。
+- DentAll 0.27.0 手机与平板商品筛选抽屉：仅在Local为小于1200px的Shop/商品分类提供唯一`Filter`入口，以原生`dialog`承载并移动D50同一Categories、Price、Size、Shade筛选aside；1200px起恢复240px常驻侧栏。关闭按钮、遮罩、Escape、焦点进入/返回、页面滚动锁、方向/断点及BFCache恢复通过，反向价格错误自动打开并定位字段；商品搜索不输出筛选DOM且不加载脚本。新增1个4077字节条件JS请求，不新增查询、参数、模板、插件、依赖、数据写入或非Local变更。
+- DentAll 0.28.0 原生品牌数据与筛选基线：仅在Local复用WooCommerce 11.0.0原生`product_brand`，冻结扁平term、每商品最多一个主要品牌、无品牌留空、角色、原生CSV、默认`/brand/`及第一版品牌归档`noindex`合同；在Shop/商品分类的D50/D51同一aside中加入原生文字品牌筛选。优先级1输入护栏关闭Woo数组Fatal，并隔离商品搜索/其他taxonomy；链接仅传播白名单，选中项具备nofollow、可见勾选、`aria-current`和移除说明。清理前2个关联TEST品牌下19/19审计与四端/组合/SEO通过，清理后term/关系/transient为0、旧URL404、商品Schema无品牌；净增146行/4函数、0新运行文件/规则/JS/插件，真实规模与非Local缓存另验。
+- DentAll 0.29.0 已选条件、动态计数与重置：用户确认首版预计30个有效品牌，仅在Local保留完整文字列表而不增加搜索/折叠。Shop/商品分类统一显示价格、Size、Shade与Brand已选条件，价格上下限合并为一个Chip；逐项移除和`Clear filters`保留当前分类与合法排序并回第一页。Size、Shade和Brand计数补齐价格及其他筛选维度的父商品语义，缺货隐藏为`no`时继续计入目录可见缺货父商品；公开筛选GET在`pre_get_posts`优先级1归一化，非法/非规范参数302到干净归档，商品搜索隔离。30品牌/30商品夹具下16场景、四端2/2/3/4列、44px、Dialog/焦点/History/错误态、冷最多3/暖0条计数查询及品牌递归子项查询0均通过；代码/安全终审P0=P1=P2=0。运行源码净+383行/+12745字节、0个新运行文件，JavaScript不变，无AJAX、插件、自定义缓存或第二商品结果查询，非Local未部署。
+- Day54商品发现全链路与W9 Local技术收口：不提升主题/插件版本且不修改运行代码，在恢复态2商品/0品牌上重跑Shop、商品分类、商品搜索、排序、请求内1项/页分页、Price/Size/Shade、已选/清除、正常/零结果/错误、7类非规范GET、390/768/1024/1440及1199/1200交互、robots/Canonical/Sitemap与分面缓存。14张截图及独立静态/Test/UX复核P0=P1=P2=0；D53的30品牌、计数SQL、lookup回退和清理护栏按版本/指纹一致复用，未冒充D54新鲜证据。最终配置、商品、Trash、lookup和transient精确恢复；3项P3、真实设备/辅助技术、正式内容、非Local缓存/部署及稳定Git基线继续待处理。
 
 ### 修改
 
@@ -50,7 +62,9 @@
 - DentAll Core 0.2.4将角色定义升级为版本6，重新同步Website Manager既有高级SEO元数据能力，并在商品编辑页隐藏WordPress原始自定义字段面板；Local与Staging均已复测通过。
 - DentAll Core 0.2.5允许Website Manager使用WooCommerce原生商品CSV导出；`export`只在商品列表、商品导出页面、对应AJAX与下载请求中临时生效，不写入角色数据库，也不开放WordPress全站内容导出。Local 5行与Staging 10行商品CSV均已验证；Staging通过`e9e21c4`部署并完成D18 C6关键路径复测。
 - DentAll Core 0.2.6按ADR-029/CR-010为Website Manager持久增加WordPress全局`import`，角色版本提升为7，以使用WooCommerce原生商品CSV导入器；商品`export`仍保持请求级授权，自定义商品导入草稿继续不由主入口加载。Local权限审计及Staging部署已通过；Staging另在既有媒体白名单中最小增加`csv => text/csv`，Simple模板v1的首次2行Draft导入、重复SKU跳过、普通恢复和创建者追溯均已验证。
+- DentAll Core 0.2.7在既有SEO兼容模块增加Shop/商品分类筛选参数页robots规则：任意价格、`filter_*`或`query_type_*`键均为`noindex, follow`，同时保留Yoast基础归档Canonical。仅Local实施；Sitemap、普通排序、未知非筛选参数和商品搜索既有合同不变，非Local缓存/抓取未验。
 - 现有DentAll Starter主题已转换为Storefront子主题；资源加载复用Storefront原生顺序，不重复注册子主题样式。D26仅完成Local骨架与运行验证，未进入视觉还原或Staging部署。
+- Local WooCommerce商品属性查询表从“已存在但禁用”改为“完整重建后启用”；`woocommerce_attribute_lookup_direct_updates`由`no`改为`yes`，`woocommerce_attribute_lookup_optimized_updates`继续为`no`。该数据库配置未同步Staging/Production；回滚时禁用查询表并把Direct Updates恢复`no`。
 
 ### 删除
 
@@ -69,6 +83,7 @@
 
 - DentAll Core 0.2.1隐藏并拦截Website Manager和Content Editor无业务内容的Tools入口。
 - DentAll Core 0.2.4修复Local数据库角色版本未同步`wpseo_edit_advanced_metadata`的问题，并对Website Manager隐藏商品原始自定义字段面板，降低误改`total_sales`等技术元数据的风险；该界面防护不替代服务端capability和WooCommerce CRUD边界。
+- 商品筛选主查询回调在调用`WC_Query`静态方法前检查类是否存在，避免WooCommerce停用或未加载时触发Fatal；DentAll Core `readme.txt`的`Stable tag`和Changelog同步对齐既有0.2.7。跳过WooCommerce的动态冒烟、正常商品搜索、恢复态品牌审计与独立复核均通过。
 
 ## 发布模板
 

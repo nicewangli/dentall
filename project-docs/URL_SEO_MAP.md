@@ -38,13 +38,14 @@
 | 页面类型 | URL草案 | 索引 | Canonical | 备注 |
 |---|---|---:|---|---|
 | 首页 | `/` | 是 | 自身 | ADR-022：静态Page `Home`；当前为空白结构页，正式内容与组织/网站Schema后续完成 |
-| 商店 | `/shop/` | 是 | 自身 | 商品归档 |
-| 商品分类 | `/product-category/{slug}/` | 是 | 自身 | 分类描述避免重复 |
-| 商品详情 | `/product/{slug}/` | 是 | 自身 | Product Schema |
-| 品牌 | 待确认 | 视内容 | 自身 | 方案冻结后补充 |
-| 商品搜索 | `/?s={term}&post_type=product` | 通常否 | 规则待确认 | 避免低质量搜索页索引 |
-| 排序参数 | 商店URL加参数 | 否 | 基础归档 | 参数不生成独立索引页 |
-| 筛选参数 | 归档URL加参数 | 通常否 | 基础归档/策略待定 | 高价值组合需单独评估 |
+| Shop（公开标题`Products`） | `/shop/` | 是 | 自身 | 商品归档；D43仅在Local更新原生Shop Page标题，slug保持`shop` |
+| 商品分类 | `/product-category/{slug}/` | 满足内容门槛后是 | 自身 | D48 Local确认：全局Title为`%%term_title%% %%page%% %%sep%% %%sitename%%`、Social Title为`%%term_title%%`，不含`Archives`；Woo只在归档第一页输出term描述。正式名称/Slug、非空商品集合、独立说明与不重复搜索意图确认后才进入Production导航/索引验收，TEST与空分类不视为正式内容资产 |
+| 商品详情 | `/product/{slug}/` | 是 | 自身 | Product Schema；分配品牌时由WooCommerce原生输出Brand，未分配时不伪造 |
+| 品牌归档 | `/brand/{slug}/` | 否（第一版） | 无 | D52复用WooCommerce原生`product_brand`与默认base；Yoast设为`noindex, follow`，Local实测无Canonical且不进入XML Sitemap。未来开放索引属于新决策，需正式内容、规模、内链和URL迁移验收 |
+| 商品搜索 | `/?s={term}&post_type=product`；分页沿WordPress当前搜索URL；排序追加`orderby` | 否 | 无 | D47 Local冻结并实测：商品搜索为`noindex, follow`，不自造Canonical或`rel`且不进Sitemap；排序/分页保留`s`、`post_type=product`和适用的`orderby`，Page 1直达根搜索URL。空值、Unicode纯空白、非标量，或WordPress加斜杠前后任一超过1600字节的关键词302到动态Shop URL；精确1600字节仍按有效请求处理；唯一命中保留Woo原生302到商品详情。搜索与Shop不是等价内容，不把搜索Canonical到Shop；非Local缓存、URL长度上限和抓取仍待部署前复核 |
+| 排序参数 | 商店/商品分类URL加`orderby` | 不作为独立索引目标 | 基础归档 | Robots保持`index, follow`，Canonical合并到基础归档，Sitemap不收录参数URL。D45验证原生6选项与非法值回退；D54再次验证`price-desc`的结果顺序、分页链接及SEO输出。非Local缓存/抓取策略仍待上线前复核 |
+| 商品归档分页 | `/shop/page/{n}/`、`/product-category/{slug}/page/{n}/` | 有效分页可索引 | Page 1为归档根URL；Page 2+为无参数同页 | D46 Local已验证Page 2为200、自身Canonical与正确`rel=prev/next`；排序参数随分页链接保留但Canonical剥离参数；分页内部Page 1链接直达根URL，手工`/page/1/`为301；越界页真实404、`noindex`且无Canonical。非Local缓存、抓取与大数据量仍待上线前复核 |
+| 商品筛选参数 | Shop/商品分类基础URL追加`min_price`、`max_price`、`filter_size`、`filter_shade`、`filter_product_brand`及对应属性`query_type_*=or` | 否 | 去参数的当前基础归档 | D50～D53 Local已实现：任意价格、`filter_*`或`query_type_*`键均防御性`noindex, follow`，Yoast Canonical仍回当前基础归档；参数URL不进Sitemap。D53在`pre_get_posts`统一规范公开GET，缺失/非`or`查询类型、非法/未知筛选键和畸形品牌值302到当前分类或Shop的白名单第一页；商品搜索主动隔离这些键。仅未知`foo`或合法排序不触发筛选noindex。非Local缓存与抓取未验 |
 | 购物车 | `/cart/` | 否 | 自身 | noindex |
 | 结账 | `/checkout/` | 否 | 自身 | noindex |
 | 我的账户 | `/my-account/` | 否 | 自身 | noindex |
@@ -60,6 +61,17 @@
 | FAQ | `/faq/` | 是 | 自身 | FAQ Schema需符合页面内容 |
 | 政策页 | 按页面定义 | 是/视页面 | 自身 | 隐私、退款、配送等 |
 | 404 | 无固定URL | 否 | 无 | 返回真实404状态码 |
+
+### D49～D54商品筛选参数与抓取合同
+
+- 适用入口：`/shop/`与`/product-category/{slug}/`。分类选择使用干净的商品分类归档URL；D53仍不为`/?s={term}&post_type=product`商品搜索或品牌/其他商品taxonomy增加筛选入口。即使手工附带有效价格、属性或品牌参数，搜索与其他上下文也会在主查询边界移除这些键，不让隐藏筛选改变商品集合。
+- 价格参数：`min_price`、`max_price`。属性参数：`filter_size={term-slug[,term-slug]}`、`filter_shade={term-slug[,term-slug]}`，并显式带各自`query_type_size=or`、`query_type_shade=or`。品牌参数：`filter_product_brand={term-id[,term-id]}`，同品牌多值使用Woo原生OR。不同属性、品牌与价格条件按AND收敛。
+- URL状态：改变分类、价格、属性或品牌时回到基础归档第一页，不保留旧`/page/{n}/`或`paged`。分类链接、两类Layered Nav、品牌、价格表单、已选Chip、Clear、Woo排序模板和最终分页链接均使用同一白名单；只保留有效价格、Size/Shade、已有且关联公开商品的品牌ID、对应属性`query_type=or`及六个原生排序值，Woo内部`filtering=1`、未知、数组、非法/空term和非法排序不复制。品牌ID去重并按数字排序；分页本身保留新的页码路径/路由键。逐项移除保留其他合法条件，Clear只保留合法排序；二者都保留当前分类路径并回第一页。
+- 公开输入与规范URL：子主题在主查询`pre_get_posts`优先级1、即WooCommerce消费公开GET前处理目录筛选。Size/Shade只接受有效term slug并固定为同维度`OR`；品牌仍只接受关联公开商品的正整数term ID。数组、混合、超长、未知、空值、未知`filter_*`/`query_type_*`、缺失`query_type`或显式`AND`不会按隐含语义继续运行，而会标记请求并在`template_redirect`以302归一化到当前分类或Shop的白名单第一页。302表达临时输入清理，不建立永久URL迁移关系；响应使用no-store。合法`OR`请求保持200。
+- 价格归一化：只接受最长64字节、且有效小数位不超过Woo当前价格精度的普通非负十进制；额外尾随0允许并在后续链接中规范化。空值、非标量、科学计数法、负数、逗号、超长值或超精度值302到移除无效价格键后的白名单第一页，并带`X-Redirect-By: DentAll`与no-store；合法Min大于Max不交换，保留0结果和可访问错误。
+- 索引实现：Local所有价格、任意`filter_*`或`query_type_*`参数组合统一`noindex, follow`，包含空值、非法term、Package Quantity直达参数和未来未知属性；Canonical由Yoast指向当前Shop或商品分类基础归档，参数URL不进入XML Sitemap。仅`foo`或合法`orderby`不触发筛选noindex；商品搜索保持D47规则。
+- 当前证据：2026-09-03在Size、Size＋Shade、价格、非法term、反向区间、商品分类、Package Quantity及`filter_future`代表请求上验证`noindex, follow`和基础Canonical；2026-09-04进一步验证品牌单选/组合、分类、30品牌完整文字列表、已选条件、逐项移除/Clear、有效与带隐藏筛选的商品搜索隔离、缺失/`AND`查询类型、未知筛选键、畸形品牌302、品牌归档及Sitemap。2026-09-05 D54在恢复态2商品/0品牌上重新验证Shop/分类/搜索、7类302、排序与请求内两页分页、robots/Canonical/`rel`及6个Yoast子Sitemap；600字节属性样本安全302，但不等于已实现明确长度早停。高价值组合若未来要独立索引，仍须确认搜索意图、内容门槛、稳定URL和重复页面风险，不能直接放开参数索引。
+- 缓存目标：页面缓存/CDN必须把有效分类路径、价格、Size、Shade、`filter_product_brand`、排序和分页纳入缓存键或按部署策略绕过；不得让一个筛选响应覆盖基础归档或其他组合。D53 Size/Shade/Brand计数继续沿用Woo按查询哈希管理的原生transient；Local 30品牌组合实测冷最多3、暖0条计数查询，品牌递归子项查询0，但这不是Production页面缓存/CDN或真实目录性能结论。品牌、属性、商品关系、价格或库存变化后的计数失效仍须在目标环境复核。
 
 ## 重定向登记
 
@@ -163,6 +175,15 @@
 - Staging继续全站输出`noindex, nofollow`，Yoast在该边界下不输出Canonical。D17只验证字段持久化和受保护环境输出，不能证明Production可索引、自身Canonical、Sitemap或缓存已正确。
 - 当前Production重定向登记仍为空。旧Staging `/shop/{slug}/`只确认可到达新URL，仍未取得原始301/302状态码，不登记为Production 301资产。
 - #47的缺货Variation不产生独立URL、Canonical或重定向；父商品URL保持不变。真实永久停售仍需按D16的301/200/404/必要410流程取得业务事实后另行验收。
+
+### D48商品分类内容与SEO模板边界
+
+- Local的Yoast商品分类全局模板已按授权调整：`title-tax-product_cat`为`%%term_title%% %%page%% %%sep%% %%sitename%%`，`social-title-tax-product_cat`为`%%term_title%%`；只删除冗余`Archives`，其他`wpseo_titles`键的归一化hash保持不变。
+- 正常商品分类默认自身Canonical并保持`index, follow`；内容级Yoast Title/Meta Description可覆盖全局默认，但不能改变term名称、Slug、层级或Canonical路由事实。重要正式分类的Meta Description由Website Manager基于真实可见内容独立撰写，不建立全局模板，也不把term描述机械复制为Meta。
+- WooCommerce 11.0.0当前经典归档只在`paged=0`输出`product_cat`描述；分页页不重复分类导语。D48没有恢复多页商品夹具，真实后页描述仍以当前源码和D46/D47分页证据交叉判断，非Local上线前须用正式代表分类复测。
+- Local TEST分类#18的长标题、两段描述、安全链接、长token和内容级Yoast覆盖已完成可逆验证并精确恢复；当前Title/OG Title为`TEST D12 Products - Dentall`，无内容级Meta Description，URL、Canonical、robots、菜单对象与Sitemap URL均不变。
+- 现有空分类#24是有效200空集合，保留Woo原生状态，但不得因技术上可访问就进入Production导航、Sitemap验收或正式索引结论。不存在term和越界分页仍应为真实404。
+- 本配置只存在于Local数据库；Staging/Production部署不能依赖Git自动携带，必须按本节两个键重放，并复核缓存后的Title、OG、Canonical、robots、Sitemap和代表分页。
 
 ## 上线前SEO检查
 

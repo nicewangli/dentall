@@ -30,6 +30,8 @@
 | W3 | [[W3-商品样本与模型候选冻结周总结]] | 商品编辑与SEO样本、Simple/Variable职责、双环境权限和CSV验证完成；M2商品模型候选冻结通过 |
 | W5 | [[Day30-设计系统v1与系统状态|W5前端设计系统周验收]] | D26～D30前端设计系统轨道通过，Design System v1完成；测试范围P0/P1/P2/P3为0，M3业务内容/素材/Git治理仍独立待办 |
 | W7 | [[Day42-首页全链路校准与M4技术验收|W7首页与全局框架周验收]] | D31～D42登录态Local四端整链路、资源、可访问性与只读数据合同通过；M4按Local技术v1完成，正式内容、营销事实、非Local部署与生产性能仍为独立门槛 |
+| W8 | [[Day48-商品分类内容与W8列表回归|W8商品列表与搜索（功能基础就绪）]] | D43～D48完成Shop/taxonomy/search原生主查询与单一语义DOM、2/2/3/4列Grid、顶部工具栏、底部分页、搜索正常/空态、分类描述和Yoast模板；D47空结果P2已补证，0.25.0修复长分类内容Grid裁切。恢复态Shop/有结果搜索/短内容分类的最终0.25.0完整四端证据已在D49配置前补齐，原P2关闭；正式内容与非Local仍是独立门槛 |
+| W9 | [[Day54-商品发现链路回归与W9收口|W9商品筛选与发现链路Local技术收口]] | D49～D54冻结商品级筛选合同与lookup基线，完成PC侧栏、移动Dialog、原生品牌、已选条件、动态计数、公开GET治理及整链路回归。恢复态四端、分页、搜索、SEO、缓存和独立复核P0=P1=P2=0；D54运行代码0改动。30品牌以外、真实设备/辅助技术、正式内容、非Local缓存/部署和稳定Git基线仍是独立门槛 |
 
 ## D1～D6
 
@@ -88,3 +90,15 @@
 | Day40 | [[Day40-首页方案Page映射与四端区域]] | 已完成（Local技术范围）：专用菜单选择/排序真实已发布Page，过滤后最多4张D29 SolutionCard；4个TEST Page逐页noindex且不进Sitemap，缺摘要/缺图/长标题/0～4+项通过，无`View all`或`/solutions/`；真实首页四端与相邻节奏已由D42补证，正式内容与非Local部署仍待 |
 | Day41 | [[Day41-首页累计热卖与信任指标条]] | 已完成（Local技术范围）：按Woo累计`total_sales`读取最多5个真实可见商品，0销量整区隐藏；复用ProductCard和纯CSS横滑完成四端1/3/4/5卡容量。五项Trust数据/图标仅Local预览，三路独立复核最终P0/P1/P2=0；整页Newsletter邻接已由D42补证，真实订单正销量、正式指标与非Local部署仍待 |
 | Day42 | [[Day42-首页全链路校准与M4技术验收]] | 已完成（M4 Local技术v1）：登录态390/768/1024/1440整链路、0页面溢出、Console、主题资源、PHP与15/15只读审计通过；无P0/P1或阻塞M4的P2，运行代码0改动、主题保持0.19.0且未创建TEST订单；正式内容、非Local部署和生产性能另行验收 |
+| Day43 | [[Day43-商品归档信息架构与PC骨架]] | 已完成（Local确认范围）：Shop公开标题为`Products`且`/shop/`不变；Shop/taxonomy复用WooCommerce原生Archive Header、主查询、循环和ProductCard，0.20.0条件加载归档CSS；四端、正常/空态、排序、搜索隔离及独立复核通过，D44～D49未提前实施 |
+| Day44 | [[Day44-商品网格响应式]] | 已完成（Local确认范围）：子主题0.21.0用CSS Grid完成390/768/1024/1440的2/2/3/4列和16/24/24/24px gap，Woo仍按3×4保持12项/页；正常/空taxonomy、搜索隔离、320边界及三路独立复核通过。真实1/5/12项与D29特殊状态动态整合、Console/独立HTTP和非Local仍待验 |
+| Day45 | [[Day45-商品排序与结果信息]] | 已完成（Local确认范围）：子主题0.22.0复用Woo原生GET排序与主查询，将Shop/taxonomy收敛为一组顶部工具栏；320～1024视觉隐藏但保留结果状态，1440结果左/排序右。五宽、排序URL、正常/空taxonomy、搜索隔离、Canonical及三路独立复核通过，未改12项、Grid、分页、搜索或数据 |
+| Day46 | [[Day46-商品归档分页与URL归一化]] | 已完成（Local确认范围）：子主题0.23.0保留Woo每页12项和原生分页，只输出一组底部导航；44px、Focus、五宽、Shop/taxonomy 12/1、排序参数、Page 1直链、Canonical/404、空态和搜索隔离通过。11个临时商品已移入回收站，发布基线恢复2项；未提交Git或部署非Local |
+| Day47 | [[Day47-商品搜索结果与边界状态]] | 已完成（Local确认范围）：子主题0.24.0让明确商品搜索复用原生标题、面包屑、主查询、ProductCard、Grid、顶部工具栏与底部分页；无效输入302、单结果原生302、零结果双CTA、noindex/无Canonical、真实12/1和最终夹具回收通过。有结果与空结果页登录态四宽、Focus、Console和截图均已完成；未提交Git或部署非Local |
+| Day48 | [[Day48-商品分类内容与W8列表回归]] | 已完成（Local功能与最终视觉证据）：用#18可逆验证分类长标题、多段描述、链接及Yoast内容级覆盖，移除商品分类Title/Social Title中的`Archives`；0.25.0以3条局部CSS声明修复390px长token Grid裁切。#18已恢复、#120～#130未恢复、无正式分类；最终恢复态Shop、商品搜索和短分类四端证据已在D49配置前补齐，原P2关闭；正式内容和非Local配置重放仍待 |
+| Day49 | [[Day49-商品筛选合同与属性查询表]] | 已完成（Local确认范围）：关闭Day48证据P2；冻结分类、价格、Size、Shade商品级筛选合同及父商品Variation语义；完整重建并启用WooCommerce属性查询表，最终7行/2父商品、Direct=yes、Optimized=no。商品、库存、属性归档、缺货设置及#120～#130均未改变；筛选UI、参数页robots实现、品牌、评分、正式数据、缓存和非Local另行验收 |
+| Day50 | [[Day50-PC商品筛选与参数页索引收口]] | 已完成（Local确认范围）：DentAll 0.26.0仅在1200px起为Shop/商品分类显示Categories、Price、Size、Shade常驻侧栏，复用Woo主查询与Layered Nav且无JS；DentAll Core 0.2.7将筛选参数页设为noindex/follow并保留基础归档Canonical。四宽、组合、非法输入、排序/分页URL、键盘与数据不变量通过，最终P0～P3=0；移动抽屉、品牌、计数、缓存与非Local另行验收 |
+| Day51 | [[Day51-手机与平板筛选抽屉]] | 已完成（仅Local确认范围）：DentAll 0.27.0在小于1200px以原生dialog承载D50同一Categories、Price、Size、Shade筛选aside，完成Filter入口、关闭/遮罩/Escape、焦点进入返回、滚动锁、方向/断点/BFCache恢复；1200px起仍为240px常驻侧栏，商品搜索不加载脚本。未新增查询、参数、数据、插件或非Local变更；当日最终矩阵证据P2已在D52实施前补跑关闭 |
+| Day52 | [[Day52-品牌数据与筛选基线]] | 已完成（仅Local确认范围）：DentAll 0.28.0复用WooCommerce原生`product_brand`，冻结扁平/最多一个/无品牌留空、角色、CSV、默认`/brand/`与第一版noindex合同，并在Shop/商品分类同一筛选aside接入品牌。数组Fatal、搜索污染、空品牌和ARIA问题已关闭；清理前正向19/19、四端/组合/零结果及SEO通过，清理后0品牌/0关系、旧URL404、商品Schema与缓存恢复；真实规模档位、>30控件/性能和非Local另验 |
+| Day53 | [[Day53-已选条件计数与重置]] | 已完成（仅Local确认范围）：用户确认首版预计30个有效品牌；DentAll 0.29.0在Shop/商品分类统一输出价格、Size、Shade、Brand已选条件，支持逐项移除与保留分类/合法排序的Clear，并为Size/Shade/Brand补齐其他条件下的父商品动态计数。公开GET归一化、非法/非规范参数302、搜索隔离、30品牌完整文字列表、16场景、四端交互、冷最多3/暖0条计数查询和独立终审P0=P1=P2=0通过；无新运行文件/JS/AJAX/插件/自定义缓存/第二商品查询，>30和非Local另验 |
+| Day54 | [[Day54-商品发现链路回归与W9收口]] | 已完成（W9 Local技术回归）：恢复态2商品/0品牌下，Shop、分类、搜索、排序、请求内两页分页、Price/Size/Shade、Chips/Clear、零结果、7类302、robots/Canonical/Sitemap、缓存及四端/断点交互通过；14张截图、最终恢复态和独立静态/Test/UX复核P0=P1=P2=0。运行代码0改动；3项P3、正式内容、真实设备、非Local与稳定Git基线继续待办 |
