@@ -26,6 +26,7 @@ tags:
 - 前置学习笔记：[[Day37-Homepage-Hook与响应式Hero]]
 - 同主题知识：[[Day27-Design-Token与Mobile-First容器]]、[[Day31-四端设计稿还原与组件拆解]]、[[Day34-CSS断点级联与可访问状态]]
 - 后续学习笔记：[[Day39-菜单驱动的分类查询与Flex换行]]
+- 商品图库中的后续应用：[[Day56-WooCommerce原生商品图库与响应式图片]]
 
 > [!check] 双向链接状态
 > 本学习笔记已链接D38项目笔记和D37学习笔记；D38项目笔记、D37学习笔记与[[WordPress实战笔记索引]]也回链本笔记。

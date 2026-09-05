@@ -692,6 +692,52 @@ C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。*
 
 证据限制：600字节属性值安全302只证明该样本未触发414/Fatal，不等于已实现明确512字节早停；嵌套Widget全局值恢复和夹具极端部分失败恢复没有触发。真实iOS/Android、辅助技术、正式内容、31项以上品牌、非Local页面缓存/CDN、Core Web Vitals、抓取与部署均未验证。历史`debug.log`没有清空，不能称为全局干净；D54新增的CLI连接和测试包装器Fatal已明确归因但仍保留在日志。D43～D54已形成个人私有Git技术恢复基线，但这不能直接作为公司远程所有权、Staging/Production部署、数据库配置重放或灾难恢复责任交接完成的结论。
 
+## D55 Local商品详情字段与PC骨架记录
+
+本记录只覆盖用户确认的Day55最小范围：冻结详情字段、WooCommerce经典单品模板/Hook责任，并在Local建立PC顶层Gallery/Summary骨架。明确不新增字段、模板覆盖、插件、JavaScript、Buy Now或Wishlist；D56图库、D57信息视觉、D58购买区、D59手机/平板结构及D61变体联动不提前实施。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D55-01 | 子主题0.29.0基线与用户授权 | 只新增最小条件CSS链路和PC顶层布局 | 最终只改`setup.php`、`style.css`并新增14行`product-detail.css`；版本为0.30.0，0字段/模板/插件/JS/Buy Now/Wishlist | 通过 |
+| D55-02 | WooCommerce 11.0.0与Storefront 4.6.2源码 | 保留经典单品模板和原生Hook顺序 | Breadcrumb、Before summary、Summary、After summary责任已核对；子主题无`woocommerce/`覆盖目录，未移除/重排详情Hook | 通过 |
+| D55-03 | #44/#46商品页 | 每个Product请求只加载1份详情CSS，顺序在site shell之后 | 两页均为`product-detail.css?ver=0.30.0`一份；依赖`dentall-site-shell`，实际覆盖Storefront列宽 | 通过 |
+| D55-04 | 1440×1000 #44 Simple | Gallery为主列、Summary为辅列；Tabs在两列后清除 | 内容区1256px，Gallery 710px、gutter约54.6px、Summary 491px；无重叠/横溢出，Tabs宽1256px且位于其后 | 通过 |
+| D55-05 | 390/768/1024/1440 #44 | D55不破坏既有窄屏；四端无页面横溢出 | Gallery/Summary分别约335/335、270/389、370/534、710/491px；四端`scrollWidth=clientWidth` | 通过；768最终堆叠转D59 |
+| D55-06 | 1199/1200断点 | 只在1200px整点启用PC比例 | 1199为438/633px；1200为634/439px；两侧均无横溢出 | 通过 |
+| D55-07 | #44 Simple与#46 Variable | 原生字段、表单、Tabs和商品类型结构不丢失 | 两页各1个Gallery/Summary/Tabs/购物表单；#46保留2个Select、3个合法Variation及#52 Out of stock数据 | 通过（结构） |
+| D55-08 | 长标题与促销样本 | 文本换行不撑破列；Sale状态不重叠 | #44/#46标题在1440/390按可用宽换行，无页面溢出；#44 Sale flash使摘要起点约低43px但无重叠 | 通过；对齐P3转D56/D57 |
+| D55-09 | Shop非Product请求 | 不下载详情CSS，不污染目录布局 | 主Agent登录态实测Shop的详情CSS为0，目录CSS仍为1份且无横溢出；条件函数以`is_product()`短路 | 通过 |
+| D55-10 | 静态、HTTP、Console与独立复核 | 基本质量通过且无D55阻塞缺陷 | 子主题PHP 6/6 lint；CSS 14行/407字节、3/3花括号、0 `!important`、HTTP 200；diff check与Console通过。Code终审P0～P3=0；Test/UX为P0/P1/P2=0、1项D56/D57 P3；设计为P0/P1=0、1项D59 P2留项 | 通过（Day55范围） |
+
+减法证据：Code初审发现两条与Storefront重复的物理方向`margin-right`可能增加未来RTL风险；最终删除，只保留真正改变结果的两条`width`。Storefront继续负责float、gutter、margin、clearfix与Tabs clear。
+
+证据限制：当前仅两个发布商品且都有1张图，没有为缺图、完全不可购买或独立售罄页面修改数据库；#46缺货Variation只读确认，未选择或测试加购。匿名请求仍受Coming Soon保护。真实设备、辅助技术、RTL、正式内容、Staging/Production、页面缓存/CDN、Core Web Vitals、支付、物流和订单均未验证。`debug.log`本轮新增3条普通WP-CLI未指定Local数据库端口的连接警告，改用端口10011后只读命令成功；有效浏览器请求未追加PHP错误，历史日志未清空。
+
+## D56 Local商品图库与响应式图片记录
+
+本记录只覆盖用户确认的D56推荐最小范围：仅在Local复用WooCommerce/Storefront原生Gallery、FlexSlider、Zoom与PhotoSwipe；允许通过WooCommerce CRUD对#44临时加入附件47～50并临时清空主图，要求先快照后精确恢复。明确不新增模板、自定义JavaScript、插件、字段或图片生成，不实现网络失败自动替换和移动端精确圆点；Summary、购买区、顶层平板布局与Variation媒体优化不提前实施。
+
+| 用例ID | 环境/前置 | 预期 | 实际结果 | 状态 |
+|---|---|---|---|---|
+| D56-01 | D55的DentAll 0.30.0基线与明确授权 | 只在既有详情CSS/Hook模块内增加最小图库展示；不复制DOM或新增脚本 | DentAll升至0.31.0；D56新增0运行文件、1 PHP函数/Filter、13个CSS规则块，0模板/JS/插件/字段/查询/依赖 | 通过 |
+| D56-02 | 1440px全新#44请求 | 初始Gallery的`sizes`匹配约710px PC主列，浏览器不再被默认416px提示限制 | 约708px图片框输出D56`sizes`并命中768×768候选；首图仍`fetchpriority=high`且不懒加载 | 通过；字节与LCP需另行实测 |
+| D56-03 | #44主图45＋临时Gallery 47～50；390/768/1024/1199/1200/1440 | 活动主图框为方形、`contain`且无横向溢出 | 六宽活动框约335/270/370/438/634/710px，宽高差≤1px、`object-fit:contain`、页面溢出0 | 通过；768顶层双列转D59 |
+| D56-04 | #44临时5图缩略图 | 5个slide对应5个缩略图，恰好1个激活；窄屏不被固定轨道裁切 | 六宽分别约60.6/47.5/67.6/81.3/100/100px；点击末图后活动slide/缩略图均切换且激活唯一 | 通过 |
+| D56-05 | 1440px #44原生Zoom | DentAll画布不破坏Woo放大层，指针进入/移出可恢复 | `.zoomImg`保持1254×1254；指针进入opacity 0→1，移出1→0；页面无溢出 | 通过 |
+| D56-06 | #44临时5图PhotoSwipe与键盘 | trigger至少44px；Enter/Space打开，方向键切换，Escape关闭并返回焦点 | trigger 44×44px；Enter/Space均打开；从`5 / 5`按ArrowRight回`1 / 5`；Escape后焦点返回trigger | 通过 |
+| D56-07 | 恢复态#44单图；390/1440 | 1个slide、0缩略图，方形画布、Zoom和trigger保持 | 两宽分别335×335px、约710×710px；0缩略图、44px trigger、`contain`且无溢出 | 通过 |
+| D56-08 | #44临时`image_id=0`、Gallery空；390/1440 | Woo缺图占位稳定、alt非空，不输出空缩略图或无效trigger | 占位分别335×335px、约710×710px；alt=`Awaiting product image`，0普通slide/0缩略图/0 trigger，购买表单仍存在 | 通过；不等同网络404自动回退 |
+| D56-09 | #46 Variable初始状态及选择#51 Small/Light | 原生Variation表单和换图不被图库CSS破坏 | 初始390/1440均方形、2个Select；选择后Variation ID 51、图片48、可购买且335×335px。动态图片`sizes`回Woo默认416px提示 | 通过（结构）；响应式动态图转D61 |
+| D56-10 | Product与Shop条件资源 | Product只加载一份详情CSS及Woo原生图库脚本；Shop不受污染 | Product为`product-detail.css?ver=0.31.0`一份并有Zoom/FlexSlider/PhotoSwipe；Shop上述资源和Gallery DOM均为0、商品卡2个、无溢出 | 通过 |
+| D56-11 | Product/Shop SEO与页面日志 | D56不改变URL、Canonical、robots、Schema或Title；有效页面无Console错误 | Product与Shop Canonical均回基础URL，Product JSON-LD仍含对应商品；页面Console error/warning为0 | 通过；非Local抓取未验 |
+| D56-12 | #44/#46/51～53最终数据恢复 | 所有临时媒体关系精确回原值，助手不残留 | 新WP-CLI进程读回#44主图45/图库空，#46主图47/图库空，#51/#52/#53图片48/49/50；临时PHP助手已删除 | 通过 |
+| D56-13 | 静态、规模与PHP日志增量 | 语法/差异通过，日志异常可归因且恢复后不再增长 | 3个PHP文件lint通过；CSS 116物理行/3916字节、16/16花括号、0 `!important`；`git diff --check`通过。两次探索性内联CLI引号错误写入测试Fatal但未改数据；改用文件后有效CRUD/浏览器未追加PHP错误，最终日志258049字节 | 通过（历史日志保留） |
+| D56-14 | 设计、Hook与独立Code Review | P0/P1/P2关闭；最小实现与排除项记录清楚 | 设计与Hook复核确认边界；Code初审唯一P3为`nth-child(n)`意图注释，补中文注释后终审P0=P1=P2=P3=0 | 通过 |
+
+减法证据：删除图片自身重复的`aspect-ratio`和trigger图标字体覆盖；保留父画布方形比例与Woo原生图标。Storefront clearfix伪元素会成为Grid项目，因此以一个合并规则关闭其内容；缩略图在1200px以下使用五等分、1200px起才固定100px。D56相对D55运行基线净增125个物理行，0个新运行文件。
+
+证据限制：缺主图占位只证明“Product未关联图片”的原生路径，不证明网络404能自动替换；本次明确未实现该能力。CSS覆盖初始化前后方形空间，但未用真实慢网或网络节流复演加载过程，不能外推Production CLS/CWV。移动端保留原生缩略图而非精确圆点。FlexSlider缩略图是不可聚焦的`img`，键盘等价路径为trigger→PhotoSwipe→方向键→Escape。Variation动态换图后的`sizes`、真实iOS/Android和辅助技术、RTL、正式素材、页面缓存/CDN、Core Web Vitals、Staging/Production均未验证。Storefront 4.6.2未公开标注兼容WordPress 7.0.4，本次Local实测不能替代未来升级回归。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
