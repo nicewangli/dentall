@@ -5,11 +5,11 @@
 ## 状态快照
 
 - 更新日期：2026-09-05。
-- 当前阶段：W9/D54已按用户确认范围仅在Local完成商品发现全链路回归。恢复态2商品/0品牌下，Shop、商品分类、商品搜索、排序、非持久化1项/页分页、Price/Size/Shade、已选条件、零结果、7类非法参数302、URL/SEO、Sitemap、缓存及390/768/1024/1440与1199/1200交互均通过；30品牌规模、lookup回退和清理护栏复用D53证据，未重建夹具。运行代码净改动0，独立静态与Test/UX复核P0=P1=P2=0；D53三项P3未触发并继续监控。正式内容、真实设备/辅助技术、Production缓存、非Local部署和稳定Git提交基线仍未完成。
+- 当前阶段：W9/D54已按用户确认范围仅在Local完成商品发现全链路回归。恢复态2商品/0品牌下，Shop、商品分类、商品搜索、排序、非持久化1项/页分页、Price/Size/Shade、已选条件、零结果、7类非法参数302、URL/SEO、Sitemap、缓存及390/768/1024/1440与1199/1200交互均通过；30品牌规模、lookup回退和清理护栏复用D53证据，未重建夹具。D54原回归运行代码净改动0，独立静态与Test/UX复核P0=P1=P2=0；提交前另获授权补入一项WooCommerce缺失短路守卫并通过动态冒烟。D33～D54已分批推送至开发者个人私有`origin/main`，D43～D54实现与主文档基线为`c0a1ba9`且远端恢复验证通过。D53三项P3继续监控；正式内容、真实设备/辅助技术、Production缓存、非Local部署及公司控制Git治理仍未完成。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2商品模型候选冻结通过。D25商品、文章和Page当前技术/人员路径已通过，但正式内容/素材与公司Git治理未完成，因此M3继续按既有边界管理。D42 M4已按用户指定的Local技术v1口径通过：首页、页头和页脚四端骨架完成，不等于正式品牌内容、非Local部署或Production上线。WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2、DentAll 0.29.0和DentAll Core 0.2.7；活动主题为DentAll，父主题为Storefront。D50～D53的目录筛选继续集中在`inc/catalog-filters.php`与`assets/css/catalog.css`，D54未改运行代码。Woo目录仍为每页12项、2/2/3/4列；没有Woo模板覆盖、第二商品结果查询、AJAX、插件、自定义缓存或构建链。最终属性lookup为7行/父商品#44/#46，`enabled=yes`、`direct_updates=yes`、`optimized_updates=no`，缺货隐藏为`no`，Coming Soon=`yes`，`posts_per_page=10`；发布商品仅#44/#46，#120～#130共11项仍在Trash，品牌term/关系与三类计数transient均为0。Local品牌归档继续`noindex`且不进Sitemap；商品分类Yoast模板及这些数据库配置均未同步非Local。Staging仍为DentAll Core 0.2.6部署提交`501e5e5`，DentAll子主题及D43～D54目录代码/配置尚未部署；两个自定义商品导入草稿模块继续未加载、未提交、未部署。Homepage、TEST菜单/Page/分类/素材和公司Git治理边界保持既有记录。
+- 当前版本：Local为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2、DentAll 0.29.0和DentAll Core 0.2.7；活动主题为DentAll，父主题为Storefront。D50～D53的目录筛选继续集中在`inc/catalog-filters.php`与`assets/css/catalog.css`，D54原回归未改运行代码，提交前另获授权补入一项WooCommerce缺失短路守卫。Woo目录仍为每页12项、2/2/3/4列；没有Woo模板覆盖、第二商品结果查询、AJAX、插件、自定义缓存或构建链。最终属性lookup为7行/父商品#44/#46，`enabled=yes`、`direct_updates=yes`、`optimized_updates=no`，缺货隐藏为`no`，Coming Soon=`yes`，`posts_per_page=10`；发布商品仅#44/#46，#120～#130共11项仍在Trash，品牌term/关系与三类计数transient均为0。Local品牌归档继续`noindex`且不进Sitemap；商品分类Yoast模板及这些数据库配置均未同步非Local。Staging仍为DentAll Core 0.2.6部署提交`501e5e5`；DentAll子主题及D43～D54目录代码已进入个人私有Git基线，但尚未部署，两个自定义商品导入草稿模块继续未加载、未提交、未部署。Homepage、TEST菜单/Page/分类/素材和公司Git治理边界保持既有记录。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## 已完成
@@ -611,7 +611,8 @@
 - [x] 同一筛选冷/暖HTTP均200，Size/Shade缓存内容稳定；D53的冷最多3/暖0条计数SQL证据在相关版本与文件尺寸一致前提下复用。最终Coming Soon=`yes`、`posts_per_page=10`、三类facet transient为0，D52恢复态审计再次19/19通过。
 - [x] 独立静态Review与Test/UX最终P0=P1=P2=0。D53三项P3均未触发：属性参数长度、嵌套Widget全局值恢复、夹具极端失败恢复继续按触发条件监控。
 - [x] Git提交前专项审计发现WooCommerce停用时`WC_Query`类可能不存在的兼容性P2；用户确认后只在`dentall_catalog_filter_prepare_query_args()`首个短路条件增加`class_exists( 'WC_Query' )`，没有新增文件、函数、Hook、查询或版本号。`--skip-plugins=woocommerce`动态冒烟、D52恢复审计19/19、D47正常商品搜索与独立复核均通过，最终P0=P1=P2=0。DentAll Core `readme.txt`的`Stable tag`与Changelog同时对齐既有0.2.7，不改变运行逻辑。
-- [x] D43～D54已开始按插件、主题、测试和文档职责分批提交；冻结D25自定义导入草稿使用精确`.gitignore`路径排除，归属不明的0字节文件仅在本机`.git/info/exclude`隔离且未删除。远程推送与提交后恢复基线尚待本轮完成，完成前继续按部署/恢复风险守门。
+- [x] D43～D54已按职责形成7个中文提交：`dc5d7de`（Core 0.2.7）、`9a4c42c`（主题发现链路）、`e13495b`（D47测试）、`3338133`（D52～D53测试）、`114e69b`（D43～D48笔记）、`ea5ebac`（D49～D54笔记）及`c0a1ba9`（主文档收口）。连同本地既有4个D33～D42提交，11个提交已从`2c254f8`推送至个人私有`origin/main`的`c0a1ba9`。
+- [x] 从远端`main`浅克隆恢复后，HEAD精确为`c0a1ba9acb2e8e0dfe9e82768a01775d4ea78c7c`；7个关键运行/说明文件对象与本地一致，工作树干净，`git fsck --no-dangling`通过，9个冻结D25草稿与1个未知0字节文件均未进入远端。临时克隆已清理。个人私有Git技术基线完成，但不等于`deploy/staging`部署或公司控制的远程所有权、备份与交接完成。
 - [x] `debug.log`从243599字节起只新增测试过程证据：3条普通`wp.bat`连接错误端口的数据库警告，以及内联缓存审计第一次引号解析失败产生的2条WP-CLI测试工具Fatal；修正为端口10011和原生transient命令后通过，后续有效HTTP/浏览器请求没有新增PHP日志。历史日志未清空，不能表述为全局日志干净。
 
 ## 现有设计素材冻结v1
@@ -624,7 +625,7 @@
 
 1. D55先只读冻结商品详情字段职责、WooCommerce原生模板/Hook来源、PC详情骨架和正常/缺图/长文/售罄或不可购买等适用状态；提交功能确认单后才实施，不提前进入D56图库或D58购买区。
 2. 以#44 Simple和#46 Variable作为结构样本，不要求业务方先补齐逐商品正式名称、品牌、价格或素材；若详情方案改变URL、Schema、Variation选择或购买流程，再提出最小必要业务问题。
-3. 继续处理稳定Git提交基线、公司远程所有权、正式品牌/商品/分类/素材与Trust事实，以及Variable CSV、Coming Soon、Newsletter/SMTP、支付、物流、税费、缓存和非Local部署门槛；不得把W9 Local技术通过写成这些事项已完成。
+3. 个人私有Git技术基线已经完成；继续处理公司远程所有权、正式品牌/商品/分类/素材与Trust事实，以及Variable CSV、Coming Soon、Newsletter/SMTP、支付、物流、税费、缓存和非Local部署门槛。不得把个人远端恢复通过写成公司治理、Staging或Production部署完成。
 
 ## 本周风险
 
@@ -724,7 +725,7 @@
 | W9 / D51 | 6小时50分钟 | 待用户记录 | 已完成（仅Local确认范围；原证据P2已关闭） | DentAll 0.27.0在小于1200px以原生dialog承载D50同一筛选aside，完成Filter、Close/Escape/遮罩、焦点、滚动锁、方向/断点/BFCache和错误/空态；1200px起恢复240px侧栏，搜索脚本隔离。运行源码净增313行/1个JS文件，无新查询、参数、数据、插件或非Local变更；当日最终矩阵P2已在D52实施前补跑关闭，真实移动设备、旧浏览器与Production缓存未验 |
 | W9 / D52 | 6小时50分钟 | 待用户记录 | 已完成（仅Local确认范围） | DentAll 0.28.0复用Woo原生`product_brand`，冻结扁平/最多一个/无品牌留空、角色、CSV、默认`/brand/`和第一版noindex合同，并在Shop/分类同一aside加入品牌。输入Fatal、搜索隔离、空品牌和ARIA问题关闭；清理前非空19/19与四端/组合/SEO通过，清理后0品牌/0关系、旧URL404、Schema/缓存恢复。净增146行/4函数，无新运行文件/规则/JS/插件；双路终审P0=P1=P2=0，真实规模与非Local缓存未验 |
 | W9 / D53 | 6小时50分钟 | 待用户记录 | 已完成（仅Local确认范围） | 用户确认首版预计30个有效品牌；DentAll 0.29.0完成价格/Size/Shade/Brand已选项、逐项移除/Clear、三类父商品动态计数、公开GET规范化302与搜索隔离。30品牌/30商品下16场景、四端、冷最多3/暖0条计数SQL、0品牌子项查询、cleanup护栏和恢复态通过；终审P0=P1=P2=0。运行源码净+383行/+12745字节、0新运行文件，>30、真实设备、正式内容和非Local未验 |
-| W9 / D54 | 6小时50分钟 | 待用户记录 | 已完成（W9 Local技术回归） | 恢复态2商品/0品牌下完成Shop/分类/搜索、排序、请求内1项/页分页、Price/Size/Shade、Chips/Clear、零结果、7类302、robots/Canonical/Sitemap、缓存与四端回归；14张截图及独立静态/Test/UX复核P0=P1=P2=0。D54原回归未重建30品牌夹具且运行代码0改动，配置/数据/transient精确恢复；提交前另获授权补入一项WooCommerce缺失短路守卫并通过动态冒烟。真实设备、正式内容、非Local和远程Git基线仍待 |
+| W9 / D54 | 6小时50分钟 | 待用户记录 | 已完成（W9 Local技术回归） | 恢复态2商品/0品牌下完成Shop/分类/搜索、排序、请求内1项/页分页、Price/Size/Shade、Chips/Clear、零结果、7类302、robots/Canonical/Sitemap、缓存与四端回归；14张截图及独立静态/Test/UX复核P0=P1=P2=0。D54原回归未重建30品牌夹具且运行代码0改动，配置/数据/transient精确恢复；提交前另获授权补入一项WooCommerce缺失短路守卫并通过动态冒烟。D43～D54个人私有Git基线`c0a1ba9`及远端恢复验证完成；真实设备、正式内容、公司Git治理和非Local仍待 |
 
 ## 更新规则
 
