@@ -1,0 +1,592 @@
+/*
+ * D43～D53商品目录：复用WooCommerce原生Archive Header、主查询、排序、商品循环和分页。
+ * 本文件管理归档/商品搜索标题、工具栏、列表节奏、响应式网格、分页、响应式筛选和搜索空态操作；
+ * 普通内容搜索与商品搜索筛选继续隔离在各自职责边界内。
+ */
+
+body.woocommerce .woocommerce-products-header {
+	box-sizing: border-box;
+	display: grid;
+	align-content: center;
+	gap: var(--dentall-space-16);
+	min-height: 10rem;
+	margin: 0 0 var(--dentall-space-24);
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface-sky);
+	text-align: left;
+}
+
+.woocommerce-products-header__title.page-title {
+	min-width: 0;
+	max-width: 44rem;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+body.search.post-type-archive-product .woocommerce-breadcrumb {
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-products-header :where(.term-description, .page-description) {
+	min-width: 0;
+	max-width: 44rem;
+	color: var(--dentall-color-text-muted);
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-products-header :where(.term-description, .page-description) > :last-child {
+	margin-bottom: 0;
+}
+
+.woocommerce-products-header + .storefront-sorting,
+.dentall-catalog-results > .storefront-sorting:first-child {
+	margin: 0 0 var(--dentall-space-24);
+}
+
+.dentall-catalog-results > .storefront-sorting:first-child {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--dentall-space-12);
+}
+
+.dentall-catalog-results > .storefront-sorting:first-child::before,
+.dentall-catalog-results > .storefront-sorting:first-child::after {
+	content: none;
+}
+
+.woocommerce-products-header + .storefront-sorting > .woocommerce-ordering,
+.dentall-catalog-results > .storefront-sorting:first-child > .woocommerce-ordering {
+	display: flex;
+	flex: 0 1 auto;
+	align-items: center;
+	gap: var(--dentall-space-12);
+	min-width: 0;
+	max-width: 100%;
+	margin: 0;
+	margin-inline-start: auto;
+	float: none;
+}
+
+.woocommerce-products-header + .storefront-sorting > .woocommerce-ordering label,
+.dentall-catalog-results > .storefront-sorting:first-child > .woocommerce-ordering label {
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+.woocommerce-products-header + .storefront-sorting > .woocommerce-ordering select,
+.dentall-catalog-results > .storefront-sorting:first-child > .woocommerce-ordering select {
+	min-width: 0;
+	max-width: 14rem;
+}
+
+/* 小于PC宽度时保留结果状态给辅助技术，避免重复占用紧凑工具栏的视觉空间。 */
+.woocommerce-products-header + .storefront-sorting > .woocommerce-result-count,
+.dentall-catalog-results > .storefront-sorting:first-child > .woocommerce-result-count {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.site-main > ul.products + .storefront-sorting,
+.dentall-catalog-results > ul.products + .storefront-sorting {
+	margin: var(--dentall-space-32) 0 0;
+}
+
+.site-main > ul.products + .storefront-sorting:empty,
+.dentall-catalog-results > ul.products + .storefront-sorting:empty {
+	display: none;
+}
+
+.dentall-search-empty-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--dentall-space-12);
+	max-width: 34rem;
+	margin: var(--dentall-space-24) auto 0;
+}
+
+.dentall-search-empty-actions > .button {
+	flex: 1 1 14rem;
+	margin: 0;
+}
+
+.dentall-catalog-active-filters {
+	box-sizing: border-box;
+	margin: 0 0 var(--dentall-space-24);
+	padding: var(--dentall-space-16);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.dentall-catalog-active-filters__header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--dentall-space-8) var(--dentall-space-16);
+}
+
+.dentall-catalog-active-filters__title {
+	margin: 0;
+	font-size: var(--dentall-font-size-base);
+	line-height: 1.4;
+}
+
+.dentall-catalog-active-filters__clear {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.dentall-catalog-active-filters__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--dentall-space-8);
+	margin: var(--dentall-space-8) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-catalog-active-filters__list > li {
+	margin: 0;
+}
+
+.dentall-catalog-active-filters__list a {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--dentall-space-8);
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8) var(--dentall-space-12);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-sm);
+	background-color: var(--dentall-white);
+	color: var(--dentall-color-text);
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+	text-decoration: none;
+}
+
+.dentall-catalog-active-filters__list a:is(:hover, :active) {
+	border-color: var(--dentall-color-action);
+	color: var(--dentall-color-action-hover);
+}
+
+.dentall-catalog-active-filters__remove {
+	flex: 0 0 auto;
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1;
+}
+
+.site-main .dentall-search-empty-actions__home {
+	background-color: transparent;
+	color: var(--dentall-color-action);
+}
+
+.site-main > ul.products + .storefront-sorting > .woocommerce-pagination,
+.dentall-catalog-results > ul.products + .storefront-sorting > .woocommerce-pagination {
+	box-sizing: border-box;
+	float: none;
+	clear: both;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers,
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--dentall-space-4);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	list-style: none;
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li,
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li {
+	display: block;
+	float: none;
+	margin: 0;
+	border: 0;
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > :where(a, span),
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > :where(a, span) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8);
+	border: 1px solid transparent;
+	border-radius: var(--dentall-radius-sm);
+	background-color: transparent;
+	color: var(--dentall-color-text);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1;
+	text-align: center;
+	text-decoration: none;
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > a:hover,
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > a:hover {
+	border-color: var(--dentall-color-border-subtle);
+	background-color: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-action-hover);
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > .current,
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > .current {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-white);
+}
+
+.site-main > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > .dots,
+.dentall-catalog-results > ul.products + .storefront-sorting .woocommerce-pagination > ul.page-numbers > li > .dots {
+	min-width: 1.5rem;
+	padding-inline: 0;
+	color: var(--dentall-color-text-muted);
+}
+
+/*
+ * 视觉列数只由CSS控制；WooCommerce仍按原生3列×4行查询每页12项。
+ * archive作用域同时覆盖Shop、商品taxonomy和原生商品搜索；catalog.css仅在这三类请求加载。
+ */
+body.woocommerce.archive .site-main > ul.products,
+body.woocommerce.archive .dentall-catalog-results > ul.products {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--dentall-space-16);
+}
+
+body.woocommerce.archive .site-main > ul.products::before,
+body.woocommerce.archive .site-main > ul.products::after,
+body.woocommerce.archive .dentall-catalog-results > ul.products::before,
+body.woocommerce.archive .dentall-catalog-results > ul.products::after {
+	content: none;
+}
+
+body.woocommerce.archive .site-main > ul.products > li.product,
+body.woocommerce.archive .dentall-catalog-results > ul.products > li.product {
+	float: none;
+	width: auto;
+	min-width: 0;
+	margin: 0;
+}
+
+.dentall-catalog-filters {
+	display: none;
+}
+
+.dentall-catalog-results .dentall-catalog-filter-toggle,
+.dentall-catalog-filter-dialog .dentall-catalog-filter-close {
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	margin: 0;
+	padding: var(--dentall-space-8) var(--dentall-space-12);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-sm);
+	background-color: var(--dentall-white);
+	color: var(--dentall-color-text);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1.25;
+}
+
+.dentall-catalog-results .dentall-catalog-filter-toggle:not([hidden]),
+.dentall-catalog-filter-dialog .dentall-catalog-filter-close {
+	display: inline-flex;
+}
+
+.dentall-catalog-results .dentall-catalog-filter-toggle:is(:hover, :active),
+.dentall-catalog-filter-dialog .dentall-catalog-filter-close:is(:hover, :active) {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-action-hover);
+}
+
+.dentall-catalog-results > .dentall-catalog-filter-toggle:not([hidden]) {
+	margin-bottom: var(--dentall-space-24);
+}
+
+.dentall-catalog-filter-dialog {
+	box-sizing: border-box;
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100vh;
+	height: 100dvh;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	color: inherit;
+	overflow: hidden;
+}
+
+.dentall-catalog-filter-dialog::backdrop {
+	background-color: rgb(3 26 58 / 55%);
+}
+
+.dentall-catalog-filter-dialog .dentall-catalog-filters {
+	box-sizing: border-box;
+	display: block;
+	width: min(24rem, calc(100% - 3rem));
+	height: 100%;
+	margin: 0;
+	padding: 0 var(--dentall-space-24) var(--dentall-space-24);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	background-color: var(--dentall-white);
+	box-shadow: 0 0 var(--dentall-space-24) rgb(3 26 58 / 20%);
+}
+
+.dentall-catalog-filter-drawer__header:not([hidden]) {
+	position: sticky;
+	z-index: 1;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--dentall-space-16);
+	min-height: 4rem;
+	padding: var(--dentall-space-12) 0;
+	border-bottom: 1px solid var(--dentall-color-border-subtle);
+	background-color: var(--dentall-white);
+}
+
+.dentall-catalog-filter-drawer__title {
+	margin: 0;
+	font-size: 1.125rem;
+	line-height: 1.35;
+}
+
+html.dentall-catalog-filter-is-open,
+body.dentall-catalog-filter-is-open {
+	overflow: hidden;
+}
+
+.dentall-catalog-filter {
+	margin: 0;
+	padding: var(--dentall-space-24) 0;
+	border-bottom: 1px solid var(--dentall-color-border-subtle);
+}
+
+.dentall-catalog-filter--first {
+	padding-top: 0;
+}
+
+.dentall-catalog-filter-dialog .dentall-catalog-filter--first {
+	padding-top: var(--dentall-space-24);
+}
+
+.dentall-catalog-filter__title {
+	margin: 0 0 var(--dentall-space-12);
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+.dentall-catalog-filter :where(ul, p) {
+	margin: 0;
+}
+
+.dentall-catalog-filter ul {
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-catalog-filter .children {
+	padding-left: var(--dentall-space-12);
+}
+
+.dentall-catalog-filter li + li {
+	margin-top: var(--dentall-space-4);
+}
+
+.dentall-catalog-filter li > :where(a, span) {
+	display: flex;
+	align-items: center;
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8);
+	border-radius: var(--dentall-radius-sm);
+	color: var(--dentall-color-text);
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+	text-decoration: none;
+}
+
+.dentall-catalog-filter .wc-layered-nav-term {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+}
+
+.dentall-catalog-filter .wc-layered-nav-term > .count {
+	padding-left: 0;
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-sm);
+}
+
+.dentall-catalog-filter li > a:hover,
+.dentall-catalog-filter li.current-cat > a,
+.dentall-catalog-filter li.chosen > a {
+	background-color: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-action-hover);
+}
+
+.dentall-catalog-filter li.current-cat > a {
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.dentall-catalog-filter .wc-layered-nav-term > a::before {
+	content: "";
+	display: inline-flex;
+	flex: 0 0 1rem;
+	align-items: center;
+	justify-content: center;
+	width: 1rem;
+	height: 1rem;
+	margin-right: var(--dentall-space-8);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: 0.2rem;
+	color: var(--dentall-color-action);
+	font-size: 0.75rem;
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: 1;
+}
+
+.dentall-catalog-filter .wc-layered-nav-term::before {
+	content: none;
+	display: none;
+}
+
+.dentall-catalog-filter .wc-layered-nav-term.chosen > a::before {
+	content: "\2713";
+}
+
+.dentall-price-filter__fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--dentall-space-8);
+}
+
+.dentall-price-filter label {
+	display: block;
+	margin-bottom: var(--dentall-space-4);
+	font-size: 0.75rem;
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.dentall-price-filter input[type="number"] {
+	width: 100%;
+	min-width: 0;
+}
+
+.dentall-price-filter__help,
+.dentall-price-filter__error {
+	margin-top: var(--dentall-space-8);
+	color: var(--dentall-color-text-muted);
+	font-size: 0.75rem;
+	line-height: 1.45;
+}
+
+.dentall-price-filter__error {
+	color: var(--dentall-color-error);
+}
+
+.dentall-price-filter button {
+	width: 100%;
+	margin-top: var(--dentall-space-12);
+}
+
+.dentall-catalog-results {
+	min-width: 0;
+}
+
+body.woocommerce-shop #primary,
+body.tax-product_cat #primary,
+body.tax-product_brand #primary {
+	float: none;
+	width: 100%;
+	margin-right: 0;
+}
+
+@media (min-width: 48rem) {
+	body.woocommerce .woocommerce-products-header {
+		min-height: 12rem;
+		padding: var(--dentall-space-32);
+	}
+
+	body.woocommerce.archive .site-main > ul.products,
+	body.woocommerce.archive .dentall-catalog-results > ul.products {
+		gap: var(--dentall-space-24);
+	}
+}
+
+@media (min-width: 64rem) {
+	body.woocommerce.archive .site-main > ul.products,
+	body.woocommerce.archive .dentall-catalog-results > ul.products {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 75rem) {
+	body.woocommerce .woocommerce-products-header {
+		min-height: 14rem;
+		margin-bottom: var(--dentall-space-32);
+		padding: var(--dentall-space-40) var(--dentall-space-48);
+	}
+
+	.woocommerce-products-header + .storefront-sorting > .woocommerce-result-count,
+	.dentall-catalog-results > .storefront-sorting:first-child > .woocommerce-result-count {
+		position: static;
+		order: -1;
+		width: auto;
+		height: auto;
+		margin: 0;
+		margin-inline-end: auto;
+		padding: 0;
+		overflow: visible;
+		clip: auto;
+		clip-path: none;
+		white-space: normal;
+	}
+
+	.dentall-catalog-layout {
+		display: grid;
+		grid-template-columns: minmax(13rem, 15rem) minmax(0, 1fr);
+		gap: var(--dentall-space-32);
+		align-items: start;
+	}
+
+	.dentall-catalog-filters {
+		display: block;
+		min-width: 0;
+	}
+
+	body.woocommerce.archive .site-main > ul.products,
+	body.woocommerce.archive .dentall-catalog-results > ul.products {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}

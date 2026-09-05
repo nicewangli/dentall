@@ -259,6 +259,55 @@ function dentall_configure_storefront_shell() {
 add_action( 'after_setup_theme', 'dentall_configure_storefront_shell', 40 );
 
 /**
+ * 将无有效关键词的商品搜索临时重定向到Shop。
+ *
+ * WordPress会把空关键词或超过1600字节的关键词还原为空搜索条件，可能让搜索URL展示
+ * 全部商品。这里只处理明确的商品搜索；普通内容搜索、有效关键词和WooCommerce原生
+ * 单一结果跳转均保持不变。
+ *
+ * @return void
+ */
+function dentall_redirect_invalid_product_search() {
+	if (
+		! is_search()
+		|| ! is_post_type_archive( 'product' )
+		|| 'product' !== get_query_var( 'post_type' )
+		|| ! function_exists( 'wc_get_page_permalink' )
+	) {
+		return;
+	}
+
+	$raw_search_value = isset( $_GET['s'] ) ? $_GET['s'] : get_query_var( 's' );
+	$is_invalid       = ! is_string( $raw_search_value );
+
+	if ( ! $is_invalid ) {
+		$search_value = wp_unslash( $raw_search_value );
+		$is_blank      = '' === $search_value || 1 === preg_match( '/^[\p{Z}\s]*$/u', $search_value );
+		/* WP_Query按加斜杠后的查询变量检查1600字节；同时校验还原值以覆盖其他调用上下文。 */
+		$is_invalid    = $is_blank
+			|| strlen( $raw_search_value ) > 1600
+			|| strlen( $search_value ) > 1600;
+	}
+
+	if ( ! $is_invalid ) {
+		return;
+	}
+
+	$shop_url = wc_get_page_permalink( 'shop' );
+
+	if ( empty( $shop_url ) ) {
+		return;
+	}
+
+	nocache_headers();
+
+	if ( wp_safe_redirect( $shop_url, 302, 'DentAll' ) ) {
+		exit;
+	}
+}
+add_action( 'template_redirect', 'dentall_redirect_invalid_product_search', 1 );
+
+/**
  * 使用WooCommerce原生可见标签输出商品目录排序控件。
  *
  * @return void
@@ -276,9 +325,10 @@ function dentall_catalog_ordering_with_label() {
 }
 
 /**
- * 将Storefront上下两处商品目录排序替换为带可见标签的原生输出。
+ * 为WooCommerce目录排序保留可见标签，并收敛目录与商品搜索的重复工具栏。
  *
- * 子主题functions.php早于父主题加载，因此等待after_setup_theme后再替换父主题Hook。
+ * 等待wp主查询完成后再识别请求类型；Shop、商品taxonomy与明确的商品搜索均保留
+ * 顶部结果/排序、底部分页。普通WordPress搜索不进入WooCommerce目录输出。
  *
  * @return void
  */
@@ -291,6 +341,92 @@ function dentall_enable_catalog_ordering_labels() {
 	remove_action( 'woocommerce_after_shop_loop', 'woocommerce_catalog_ordering', 10 );
 
 	add_action( 'woocommerce_before_shop_loop', 'dentall_catalog_ordering_with_label', 10 );
+
+	$is_catalog_archive = ! is_search() && ( is_shop() || is_product_taxonomy() );
+	$is_product_search  = is_search()
+		&& is_post_type_archive( 'product' )
+		&& 'product' === get_query_var( 'post_type' );
+
+	if ( $is_catalog_archive || $is_product_search ) {
+		remove_action( 'woocommerce_before_shop_loop', 'storefront_woocommerce_pagination', 30 );
+		remove_action( 'woocommerce_after_shop_loop', 'woocommerce_result_count', 20 );
+		return;
+	}
+
 	add_action( 'woocommerce_after_shop_loop', 'dentall_catalog_ordering_with_label', 10 );
 }
-add_action( 'after_setup_theme', 'dentall_enable_catalog_ordering_labels', 30 );
+add_action( 'wp', 'dentall_enable_catalog_ordering_labels' );
+
+/**
+ * 收敛商品归档分页链接密度，并为前后页链接提供可翻译名称。
+ *
+ * 保留WooCommerce原生分页、URL和主查询，只调整Shop、商品taxonomy与商品搜索的
+ * 展示参数；其他循环不继承目录分页规则。
+ *
+ * @param array $args WooCommerce传给paginate_links()的参数。
+ * @return array
+ */
+function dentall_catalog_pagination_args( $args ) {
+	if (
+		! function_exists( 'is_shop' )
+		|| ! function_exists( 'is_product_taxonomy' )
+	) {
+		return $args;
+	}
+
+	$is_catalog_archive = ! is_search() && ( is_shop() || is_product_taxonomy() );
+	$is_product_search  = is_search()
+		&& is_post_type_archive( 'product' )
+		&& 'product' === get_query_var( 'post_type' );
+
+	if ( ! $is_catalog_archive && ! $is_product_search ) {
+		return $args;
+	}
+
+	$args['end_size']  = 1;
+	$args['mid_size']  = 2;
+	$args['prev_text'] = esc_html__( 'Previous', 'dentall' );
+	$args['next_text'] = esc_html__( 'Next', 'dentall' );
+
+	/* 交回WordPress生成基础链接，避免第一页先经过/page/1/重定向。 */
+	unset( $args['base'], $args['format'] );
+
+	return $args;
+}
+add_filter( 'woocommerce_pagination_args', 'dentall_catalog_pagination_args' );
+
+/**
+ * 为商品搜索空结果追加最小恢复入口。
+ *
+ * WooCommerce原生状态通知继续负责可访问的空结果反馈；操作链接作为独立导航输出，
+ * 避免改写第三方模板或把交互控件塞进role="status"区域。
+ *
+ * @return void
+ */
+function dentall_product_search_empty_actions() {
+	if (
+		! is_search()
+		|| ! is_post_type_archive( 'product' )
+		|| 'product' !== get_query_var( 'post_type' )
+		|| ! function_exists( 'wc_get_page_permalink' )
+	) {
+		return;
+	}
+
+	$shop_url = wc_get_page_permalink( 'shop' );
+
+	if ( empty( $shop_url ) ) {
+		return;
+	}
+	?>
+	<nav class="dentall-search-empty-actions" aria-label="<?php esc_attr_e( 'Search recovery options', 'dentall' ); ?>">
+		<a class="button" href="<?php echo esc_url( $shop_url ); ?>">
+			<?php esc_html_e( 'Browse All Products', 'dentall' ); ?>
+		</a>
+		<a class="button dentall-search-empty-actions__home" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+			<?php esc_html_e( 'Back to Home', 'dentall' ); ?>
+		</a>
+	</nav>
+	<?php
+}
+add_action( 'woocommerce_no_products_found', 'dentall_product_search_empty_actions', 20 );

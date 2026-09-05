@@ -37,3 +37,49 @@ function dentall_enqueue_site_shell_assets() {
 	wp_dequeue_script( 'storefront-handheld-footer-bar' );
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_site_shell_assets', 40 );
+
+/**
+ * 按页面身份加载商品目录资源。
+ *
+ * Shop、商品taxonomy与商品搜索共享目录样式；移动筛选脚本只进入实际输出筛选DOM的
+ * Shop与商品分类。普通WordPress搜索继续使用Storefront自身资源。
+ *
+ * @return void
+ */
+function dentall_enqueue_catalog_assets() {
+	if (
+		! function_exists( 'is_shop' )
+		|| ! function_exists( 'is_product_taxonomy' )
+	) {
+		return;
+	}
+
+	$is_catalog_archive = ! is_search() && ( is_shop() || is_product_taxonomy() );
+	$is_product_search  = is_search()
+		&& is_post_type_archive( 'product' )
+		&& 'product' === get_query_var( 'post_type' );
+
+	if ( ! $is_catalog_archive && ! $is_product_search ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-catalog',
+		get_stylesheet_directory_uri() . '/assets/css/catalog.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	if ( function_exists( 'dentall_is_catalog_filter_archive' ) && dentall_is_catalog_filter_archive() ) {
+		wp_enqueue_script(
+			'dentall-catalog-filters',
+			get_stylesheet_directory_uri() . '/assets/js/catalog-filters.js',
+			array(),
+			$theme->get( 'Version' ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_catalog_assets', 45 );
