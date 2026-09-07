@@ -22,6 +22,7 @@ tags:
 - 卡片内部契约：[[Day29-原生循环与卡片展示契约]]
 - 单品Action与资源入口：[[Day55-WooCommerce单品模板Hook与条件样式]]
 - 继承的信息展示基线：[[Day57-WooCommerce商品摘要Hook与状态驱动样式]]
+- Sticky遮挡与命中测试：[[Day59-响应式单品布局与主题配置边界]]
 - 后续学习：D65或D66形成实际相关笔记后补双向链接。
 
 ## 今日学习成果
@@ -189,7 +190,7 @@ Grid容器内父主题`::before/::after`的clearfix会成为布局项目，因�
 - 动态：cap得到Upsells 3/Related 2，Related排除全部4个配置Upsell；one四端1/0、empty四端0/0、related-only为3、tag-only返回#159/#160/#161，证明上限、空态、全量排除和单独标签来源。
 - 角色：`roles-audit.json`中guest仅显示#162，草稿不可编辑/不可见、隐藏商品不可见；Website Manager显示#164/#162，草稿可编辑/可见、隐藏商品仍不可见。不能把匿名Draft URL 404推导成所有角色都不显示草稿推荐。
 - 浏览器：`mixed-browser.json`11行通过，四端1/2/3/3、errors为空、图片全部解码；响应式图片ERR_ABORTED为取消请求，已单独记录。推荐链接6条200、Draft匿名404。
-- 已关闭P2：推荐区间距由0修复到独立四宽均48px，overflow 0。原生Storefront Sticky当前在1440局部遮住4个大链接图片顶部的P3，标题/价格/按钮仍可见且无完全遮挡焦点，交D58/D65集成复核；未单独回放D57，不能断言相同现象已在D57存在。
+- 已关闭P2：推荐区间距由0修复到独立四宽均48px，overflow 0。D64当时发现原生Storefront Sticky在1440px局部遮住4个大链接图片顶部，标题/价格/按钮仍可见且无完全遮挡焦点；D58/D65集成复现后，D59关闭Local原生配置并以0 DOM、0脚本和图片命中回归关闭该P3。D64未单独回放D57，不能断言相同现象已在D57存在。
 - 查询：`baseline-query-audit.json`与`d64-query-audit.json`在全新PHP 8.2.29 CLI进程测得原生推荐回调冷/暖均32/0条，不能据此声称整页、生产或大目录性能已验。
 - 恢复：`restore.json`中`restored=true`，5个原对象快照业务字段一致、6个TEST商品remaining为空；`restored-terms.json`中本次2分类/1标签均不存在。快照覆盖SKU/类型、价格、库存状态/数量、主图/图库、分类/标签、Upsells/Cross-sells；不含modified时间或缓存的逐字节还原。
 - 恢复页：`restored-browser.json`的5页1440px均200、1个H1、overflow 0，无JS错误或非取消请求错误；Simple/Variable各Related 1并各1份详情CSS，Shop/Home/Cart不加载详情CSS。

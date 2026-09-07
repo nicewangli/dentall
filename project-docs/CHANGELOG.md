@@ -4,10 +4,17 @@
 
 ## Unreleased
 
+### D59商品详情四端购买区与Sticky收口（2026-09-07）
+
+- DentAll 0.34.0保留WooCommerce经典单品的一套DOM，在768～1199px只把Gallery与Summary改为内容区满宽上下文档流，1200px起恢复D55的约57%/39%双列；Tabs、Simple购买区和Variable初始表单继续使用原生输出。
+- Gallery平板`sizes`同步为内容区全宽公式；五图缩略图在390px可收缩、从768px起每列封顶100px。3个既有运行文件共12行新增/8行删除、净增4行，0新运行文件/函数/Hook/模板/JavaScript/插件/字段/查询。
+- 共享Local通过Storefront原生Theme Mod显式关闭Sticky Add-To-Cart，未写死到非Local代码。隔离Local的正常态247/247、多图144/144、缺图80/80、长文本88/88及数据恢复通过；Sticky DOM/脚本为0，1440推荐图片命中未受遮挡，独立Code Review无P0～P3。
+- 首轮隔离`ABSPATH`重复定义warning属于夹具缺陷；修正后使用`*-final`证据重跑，旧attempt不作为终态。权威汇总后一次只读WP-CLI内联命令因Windows引号转换失败留下工具侧Fatal、无数据写入；无内联命令随后成功读回0.34.0与Sticky=false，隔离服务已关闭。未实施D61动态Variation、正式内容、实体设备/辅助技术、CWV、Staging/Production配置或部署。详见[[笔记/Day59-商品详情四端购买区与Sticky收口]]。
+
 ### D57基线与D58/D62/D64/D65主分支集成（2026-09-07）
 
 - 先将已验收D57基线提交到`main`，再按`D58 → D62 → D64 → D65`顺序选取四个专项增量；人工合成共享的详情CSS、Storefront Hook、版本和状态文档，没有重复带入D57快照。
-- 合成树为DentAll 0.33.0与DentAll Core 0.2.8。隔离Local重跑12页Schema/DOM、390/768/1024/1440推荐区与Simple数量2加购/notice/购物车清空；P0/P1/P2=0。1440px原生Sticky局部遮挡推荐图的P3已确认并交D59，公开验证与非Local部署仍待。
+- 合成树为DentAll 0.33.0与DentAll Core 0.2.8。隔离Local重跑12页Schema/DOM、390/768/1024/1440推荐区与Simple数量2加购/notice/购物车清空；P0/P1/P2=0。当时确认的1440px原生Sticky局部遮图P3已由本页D59条目关闭Local配置并回归；公开验证与非Local部署仍待。
 - `origin/main`、`deploy/staging`、Staging/Production和共享Local数据库均未修改；四个临时分支及其工作树在增量可达和证据保全后清理。
 
 ### D62文档收口（2026-09-07）
@@ -19,7 +26,7 @@
 - 用户明确批准隔离Local与可逆TEST；D64在D57快照`6ece0ce`之上形成单独增量，集成时仅选取该增量并纳入`main`。
 - 分支DentAll 0.33.0通过一个数量Filter让详情Upsells最多3项，保留Related原生最多3项、全部Upsell排除、随机排序及空态；复用D29卡片与条件详情CSS形成1/2/3/3列，不扩展Cross-sells。
 - 3个既有运行文件净增48行（PHP15、CSS33），0新运行文件/JS/模板/字段/插件/查询/缓存。独立动态首轮发现推荐区间距为0的P2，补局部margin后四宽均48px、overflow 0，P2关闭；上限/空态/标签/角色与11行浏览器矩阵通过，原生回调冷/暖查询与基线同为32/0。
-- 隔离TEST验证、5对象快照业务字段恢复、6商品/2分类/1标签清理、最终独立复核及服务关闭完成；无未关闭P0/P1/P2。modified/缓存不作逐字节恢复，5页恢复态200、无横溢出，详情CSS仅两商品页加载。主分支集成后，D65已将商品两份BreadcrumbList收敛为Woo 1份；原生Sticky局部遮图P3复现并交D59。正式内容与非Local部署仍独立验收，详见[[笔记/Day64-原生关联商品与推荐空状态]]。
+- 隔离TEST验证、5对象快照业务字段恢复、6商品/2分类/1标签清理、最终独立复核及服务关闭完成；无未关闭P0/P1/P2。modified/缓存不作逐字节恢复，5页恢复态200、无横溢出，详情CSS仅两商品页加载。主分支集成后，D65已将商品两份BreadcrumbList收敛为Woo 1份；当时复现的原生Sticky局部遮图P3已由D59关闭Local配置并回归。正式内容与非Local部署仍独立验收，详见[[笔记/Day64-原生关联商品与推荐空状态]]。
 
 ### D65并行修复（主分支Local集成范围已完成）
 

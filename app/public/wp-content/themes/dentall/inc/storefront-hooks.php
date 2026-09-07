@@ -501,7 +501,7 @@ function dentall_product_gallery_image_attributes( $image_attributes, $attachmen
 		return $image_attributes;
 	}
 
-	$image_attributes['sizes'] = '(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(39.130435vw - 1.565217rem), calc(100vw - 2.5rem)';
+	$image_attributes['sizes'] = '(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)';
 
 	return $image_attributes;
 }

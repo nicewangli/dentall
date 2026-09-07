@@ -786,6 +786,29 @@ C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。*
 
 Day58按独立Local副本确认范围通过。真实浏览器网络节流、请求已处理后丢响应的重试、真实并发、登录Customer、真实辅助技术、Variable加购、生产缓存/性能与非Local部署未验；普通POST重复成功请求会累计数量，pending按钮状态没有稳定证据，不能表述为已具备防重或幂等保障。
 
+## D59 商品详情四端购买区与Sticky收口（2026-09-07）
+
+用户明确授权推荐最小范围、隔离Local可逆测试，并关闭共享Local的Storefront原生Sticky。运行代码只调整既有详情CSS、Gallery图片属性Filter和主题版本；共享Local只新增`storefront_sticky_add_to_cart=false` Theme Mod。测试副本位于回环地址的独立文件/数据库环境，禁外发、邮件、Cron与支付；不提交加购、不选择Variation。
+
+| 用例ID | 环境/前置 | 实际验证 | 结果 |
+|---|---|---|---|
+| D59-01 | 代码静态检查与当前Woo/Storefront源码 | PHP lint、CSS花括号、diff check、条件资源、父主题float/Customizer/After Footer Sticky链、断点数学与独立Code Review | 通过；独立Review P0=P1=P2=P3=0 |
+| D59-02 | #44 Simple与#46 Variable正常态；390/768/1024/1199/1200/1440 fresh page | 247项最终断言：唯一Gallery/Summary/Tabs与原生顺序；768～1199满宽上下流，1200起双列；购买区在Summary内；无横溢出；资源版本、图片候选、推荐、Schema、页面错误与夹具警告 | 247/247通过，Console/Page/Request failure均0 |
+| D59-03 | 六宽Gallery槽位与响应式候选 | 内容槽位约348/702/958/1133/640/708px；`sizes`为D59公式，fresh page所选候选描述符不小于槽位 | 通过；结果只覆盖当前DPR/本机浏览器，不等于CWV |
+| D59-04 | #44临时主图＋Gallery附件47～50 | 144项断言：5个slide/缩略图、1个激活项、五列、390约63.6px、768起100px封顶、画布1:1、页面/缩略图溢出0 | 144/144通过；部分lazy副图保留WordPress合法`auto, `＋D59公式 |
+| D59-05 | #44临时无主图/图库 | 390/768/1024/1440共80项：原生缺图占位、Gallery/Summary/Tabs顺序、购买区、布局边界、Sticky与溢出 | 80/80通过；不代表网络404自动替换 |
+| D59-06 | #44临时长名称和短描述；390/1199/1200/1440 | 88项：长文本换行、Gallery/Summary边界、购买区、Tabs邻接、图片与页面溢出 | 88/88通过；正式英文内容和授权素材仍待业务验收 |
+| D59-07 | Sticky=false与1440推荐区 | 六宽均0 Sticky DOM/0 Sticky脚本；1440相关商品图片顶部5px取点命中图片自身，不被覆盖 | 通过；右侧原生相邻商品分页不是本次Sticky，不影响命中 |
+| D59-08 | D58/D61边界 | Simple保留可见`Quantity`、输入/按钮44px及Tab顺序；Variable初始保留1个form、2个Select，不选择组合、不加购 | 通过；Variation动态媒体/价格/库存仍归D61 |
+| D59-09 | D64/D65合成回归 | 推荐区保持1/2/3/3列、尾间距48px、图片完成且无横溢出；每页Product 1、BreadcrumbList 1、WebPage面包屑引用0、悬空引用0 | 通过；隔离Coming Soon/noindex下Canonical为0，未冒充公开环境Canonical |
+| D59-10 | 隔离配置与TEST恢复 | #44/#46/51～53完整基线、modified时间、订单0、退款0；多图/缺图/长文本后恢复并用新进程审计 | `products_equal=true`、`orders_equal=true`、`refunds_equal=true` |
+| D59-11 | 共享Local Theme Mod | 实施前键不存在且Storefront默认true；保存false后只多该键，其他Theme Mod逐项一致；有效值读回false | 通过；该数据库配置不会随Git部署，非Local未改 |
+| D59-12 | 证据卫生、日志与服务关闭 | 首轮隔离`wp-config.php`重复定义`ABSPATH`并把warning输出到页面，修正夹具后以`*-final`目录权威重跑；截至`final-summary.json`生成，权威窗口只有10条CLI Imagick启动警告，ABSPATH/Fatal/其他Warning及Web运行错误为0 | 通过；汇总后一次只读`wp eval`因Windows引号转换新增1条工具侧Fatal、无数据写入，改用`wp theme/option get`读回0.34.0与Sticky=false；15959/15960及对应进程已停止 |
+
+权威浏览器证据位于本机Git忽略目录`.codex-tmp/day59-independent/{normal-final-v2,multigallery-final,missingimage-final,long-final}/`；状态快照和恢复证据为同目录的`fixture-baseline-state.json`、`fixture-restore.json`与`fixture-audit.json`，总入口为`final-summary.json`。四份权威JSON合计559/559项、26页、47张截图，HTTP全200，Console/Page Error/Request Failure全0。证据包含本机路径和测试环境信息，不提交凭据、SQL、cookie或私有运行时。
+
+限制：没有实体iOS/Android、真实辅助技术、RTL实页、网络节流、正式图片/标题、D61 Variation选择、购买/结账、Production页面缓存/CDN或Core Web Vitals。Storefront/Woo/WordPress或经典模板升级后，必须重跑条件资源、DOM/Hook、Gallery候选、1199/1200和Sticky配置/命中矩阵。
+
 ## D64隔离Local原生关联商品验证（已完成并合入main）
 
 授权包含隔离Local及可逆TEST；源库只读导出，独立副本禁外发、支付、Cron并noindex。D64先在D57基线独立验收，随后仅选取专项增量纳入`main`；下列结果仍不能外推为Production完成。
@@ -795,7 +818,7 @@ Day58按独立Local副本确认范围通过。真实浏览器网络节流、请�
 | D64-01 | 原生Hook、最多3项及非Product返回原值 | `d64-query-audit.json`：Tabs/Upsells/Related为10/15/20，Product上限3、非Product传入7返回7；PHP lint与最终Code Review通过 | 通过 |
 | D64-02 | Related排除当前商品和全部Upsell，最终不足不补位 | cap为3/2且Related排除全部4个配置Upsell；one四宽1/0、empty四宽0/0、related-only为3 | 通过 |
 | D64-03 | 正常、缺图、长标题、售罄/不可购买、标签与角色 | tag-only为#159/#160/#161；guest只见#162，Website Manager见#164/#162，hidden #163均不见；图片全部解码 | 通过；草稿原生可见性须区分角色 |
-| D64-04 | 四端1/2/3/3、无溢出、Focus与相邻区段间距 | `mixed-browser.json`11行通过、errors为空；P2修复后独立四宽48px/overflow 0；48次Tab无焦点完全遮挡 | 通过；原生Sticky当前部分遮图P3另验，未回放D57 |
+| D64-04 | 四端1/2/3/3、无溢出、Focus与相邻区段间距 | `mixed-browser.json`11行通过、errors为空；P2修复后独立四宽48px/overflow 0；48次Tab无焦点完全遮挡 | 通过；当时发现的Sticky遮图P3已由D59关闭Local原生配置并回归，未回放D57 |
 | D64-05 | 链接、匿名Draft、角色与恢复态资源 | 6链接200、Draft #164匿名404；WM可编辑/可见Draft、guest不可；恢复5页200、overflow 0、仅2商品页各1份详情CSS | 通过；不等于交易或SEO全部验收 |
 | D64-06 | TEST清理且快照业务字段恢复 | `restore.json`为true、5对象字段一致；6商品/2分类/1标签不存在，源库未写入 | 通过；modified/缓存不作逐字节恢复 |
 | D64-07 | 最终独立复核、差异、日志与服务关闭 | `final-code-review.md`无未关闭P0/P1/P2；`final-static-check.json`为lint exit 0/PHP错误匹配0；MySQL有2条初始化警告单列于`final-log-check.json`；两隔离端口监听0 | 通过；证据/运行文件保留，不宣称所有日志无警告 |
@@ -803,7 +826,7 @@ Day58按独立Local副本确认范围通过。真实浏览器网络节流、请�
 
 最终修复规模为CSS33行、PHP15行，合计净48行；5个CSS叶规则块、2个媒体查询、1函数/Filter、0新运行文件。证据保留于本机忽略目录`outputs/day64/`，完整命令见[[笔记/Day64-原生关联商品与推荐空状态#实际执行命令与证据入口|D64执行记录]]。独立浏览器执行记录与最终代码/既有证据复核分开，不能把所有主执行场景说成第二人重跑。真实目录规模、正式关联依据、实体设备/辅助技术、Production缓存/CWV、购物车交叉销售及非Local部署未验。
 
-性能限定：`baseline-query-audit.json`与`d64-query-audit.json`在全新PHP 8.2.29 CLI进程量测原生推荐回调，冷/暖查询均32/0；不等于整页TTFB、CWV、大目录或Production缓存测试。图片请求中的ERR_ABORTED为响应式资源取消且图片已解码，单列记录，不与真实缺图混同。主分支集成复核确认原生Storefront Sticky在1440px仍局部遮挡推荐卡片图顶约91px，标题/价格/按钮可见；该P3交D59处理。
+性能限定：`baseline-query-audit.json`与`d64-query-audit.json`在全新PHP 8.2.29 CLI进程量测原生推荐回调，冷/暖查询均32/0；不等于整页TTFB、CWV、大目录或Production缓存测试。图片请求中的ERR_ABORTED为响应式资源取消且图片已解码，单列记录，不与真实缺图混同。D64主分支集成时曾确认原生Storefront Sticky在1440px局部遮挡推荐卡片图顶约91px；D59随后关闭Local原生配置，并以0 DOM、0脚本及推荐图片命中复验关闭该P3。非Local配置仍未授权。
 
 ## D65隔离Local独立SEO回归（2026-09-07）
 

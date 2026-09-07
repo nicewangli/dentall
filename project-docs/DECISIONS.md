@@ -362,6 +362,16 @@
 - 性能与缓存：有品牌时不再由Storefront在标题前请求缩略图，但当前0品牌样本不能量化节省；不得宣称已提升LCP。主题版本升至0.32.0会刷新既有子主题静态资源缓存键，没有新请求、查询、远程调用、Cron或自定义缓存。
 - 兼容与回滚：该决定依赖Storefront 4.6.2回调名/优先级及WooCommerce 11.0.0 Brands实现；升级父主题、Woo或切换区块单品模板后必须重查Hook。回滚时删除`dentall_remove_storefront_product_brand_thumbnail()`及其Action并回退主题版本；品牌数据和Woo原生Meta/Schema无需数据回滚。支付、库存、订单、物流及非Local环境不受影响。
 
+## ADR-036：商品详情平板采用顶层堆叠并按环境关闭Storefront Sticky
+
+- 状态：已接受并于2026-09-07按D59范围实施。用户明确批准推荐最小范围、隔离Local可逆测试，并要求关闭Local的Storefront原生Sticky；该决定不授权Staging/Production配置、替代固定购买栏或D61 Variation动态能力。
+- 问题与决定：Storefront 4.6.2从768px起默认把Gallery和Summary浮动成约39%/57%两列，和DentAll平板竖屏参考的“图库→商品信息/购买→描述”顺序不一致；D55又在1200px起有意改为约57%/39%。DentAll保留Woo经典单品的一套语义DOM，只在`48rem`～`74.999rem`取消两个顶层元素的float、设为内容区满宽并清除逻辑方向尾边距，1200px起继续使用D55 PC合同。
+- 图片与缩略图：顶层Gallery变宽后，既有`woocommerce_gallery_image_html_attachment_image_params` Filter的平板`sizes`同步改为`calc(100vw - 4rem)`；390px及1200px以上公式保持。五图缩略图统一允许窄屏收缩并以`6.25rem`为单列上限，避免768～1199px满宽Gallery把缩略图无意义拉伸。WordPress为部分懒加载图片添加的合法`auto, `前缀保留，不另写第二条图片属性链。
+- Sticky配置：Storefront原生Sticky在D64/D65的1440px证据中固定遮住推荐图顶部约91px。本次不以CSS隐藏，也不在子主题`remove_action()`强制所有环境关闭；共享Local通过原生Theme Mod把`storefront_sticky_add_to_cart`从“键缺失、继承默认true”保存为显式false。父主题函数因此在输出DOM和入队脚本前早退；不新增替代固定按钮。
+- 数据、SEO与交易：运行代码不写商品、价格、库存、购物车、订单或媒体关系；共享Local仅新增一个当前主题配置布尔值。URL、Title、Meta、Canonical、robots、Sitemap、Product/BreadcrumbList Schema及Simple/Variable原生表单职责不变；关闭Sticky不会删除主Summary购买表单。
+- 性能与缓存：不新增查询、远程请求、Cron、脚本或资源文件；关闭Sticky会停止其DOM/脚本输出，但当前未做CWV对比，不宣称性能提升。DentAll升至0.34.0，为现有条件详情CSS刷新版本化缓存键；页面缓存仍须按目标环境验证。
+- 部署与回滚：代码和Theme Mod是两个独立交付对象。回退代码时逆向D59提交并恢复主题版本；回退Local配置时在Customizer重新勾选Sticky，或移除该Theme Mod键以回到Storefront 4.6.2默认true。Git不会同步数据库配置；未来若Staging/Production采用相同决定，必须另行授权、逐环境保存并核对活动主题、DOM、脚本、缓存与遮挡。详见[[笔记/Day59-商品详情四端购买区与Sticky收口]]。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

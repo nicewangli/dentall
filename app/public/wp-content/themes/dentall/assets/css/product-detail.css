@@ -1,6 +1,6 @@
 /*
- * D55商品详情骨架：保留WooCommerce原生DOM与Storefront浮动清除机制，
- * 只在PC宽度重分配图库和摘要的顶层列宽。
+ * D55/D59商品详情骨架：保留WooCommerce原生DOM与Storefront清除机制，
+ * 平板采用上下文档流，PC重分配图库和摘要的顶层列宽。
  */
 
 /*
@@ -46,7 +46,7 @@
 
 .storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
 	display: grid;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
+	grid-template-columns: repeat(5, minmax(0, 6.25rem));
 	gap: var(--dentall-space-8);
 }
 
@@ -269,11 +269,15 @@
 	}
 }
 
-@media (min-width: 75rem) {
-	.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
-		grid-template-columns: repeat(5, minmax(0, 6.25rem));
+@media (min-width: 48rem) and (max-width: 74.999rem) {
+	.storefront-full-width-content.single-product div.product > :is(.woocommerce-product-gallery, .summary) {
+		float: none;
+		width: 100%;
+		margin-inline-end: 0;
 	}
+}
 
+@media (min-width: 75rem) {
 	.storefront-full-width-content.single-product div.product > .woocommerce-product-gallery {
 		width: 56.5217391304%;
 	}
