@@ -766,6 +766,26 @@ C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。*
 
 日志证据：Day57探索性只读WP-CLI曾因Windows引号、受保护方法或错误数据库端口向历史`debug.log`写入工具Fatal/连接警告；独立测试明确其中02:23:31/02:23:47 UTC两条Parse error属于测试命令，范围审查的02:29:29 UTC连接警告和视觉审查的02:27:43 UTC Undefined constant也均为只读工具噪声，未改变数据。改用正确Local配置与文件式审计后通过；02:29:29 UTC之后的页面验收未新增前台PHP错误。历史日志未清空，不能表述为全局干净。
 
+## D58 简单商品购买区独立副本验证（已完成）
+
+环境为本工作树`.codex-tmp/day58`独立文件与唯一数据库，地址`http://127.0.0.1:10558`。共享Local不参与写入；DentAll 0.33.0运行改动为4个局部CSS规则、1个展示Filter及版本/注释。完整记录见[[笔记/Day58-简单商品购买区与隔离购物车验证]]。
+
+| 编号 | 实际验证 | 结论 |
+|---|---|---|
+| D58-01 | 独立HTTP普通POST 1/2、0/空/负/小数/超限、累计库存、重复POST、缺货/空价格/独售/stock1/hidden/Draft共16项 | 16/16；按原生合同通过，非所有非法值都报错 |
+| D58-02 | 15个测试匿名cart逐会话清空，#44/#46/#51/#52/#53 get_data新进程精确比对；订单/退款不变 | 通过；首轮modified时间差已修并保留原始证据 |
+| D58-03 | 主Agent六宽几何、数量2的Tab/Enter、notice role=alert且焦点移入 | 控件44px/横溢出0；不是六档独立截图 |
+| D58-04 | stock1四宽hidden输入、label维持1×1裁剪、购买form高44px；修复前210字符商品名标签四宽正常换行，修复后显示短标签`Quantity` | 通过；hidden状态与长文本压力均未破坏布局 |
+| D58-05 | 缺图placeholder下仍有购买表单；数量9触发浏览器rangeOverflow | 390实页通过；缺图其余宽度复用D56，不冒充本轮新截图 |
+| D58-06 | 4秒服务器延迟下dblclick后cart从2→3，原生notice成功；独立三次POST为1→2→3 | 单次双击观察不能代表防重保障；pending按钮状态未稳定取证 |
+| D58-07 | 停止副本HTTP后点击，得到ERR_CONNECTION_REFUSED；错误页被工具data URL策略阻止；服务恢复后新页面与cart仍3件 | 连接前失败未加购；原错误页返回/刷新及响应丢失状态未完整验证 |
+| D58-08 | Variable四宽原始label仍裁剪、form1/select2；选择Small/Light后价格39.99、库存5、按钮去disabled；Shop详情CSS0/商品卡2 | 通过所述回归；未做Variable加购 |
+| D58-09 | 独立安全Review：源库SELECT拒绝1142，loopback，无reparse，重建salt，临时目录忽略，10路HTTP核验 | P0/P1/P2=0；阻断WP HTTP API不等于OS网络沙箱 |
+| D58-10 | Code Review：上游position重要声明造成重叠，精确static!important修复后实页8px标签间距；展示Filter使标签为`Quantity`、输入名为`Product quantity` | 重叠与Label in Name两个P2均关闭 |
+| D58-11 | 最终Simple六宽、stock1/独售四宽、Variable/Shop回归；7项Filter上下文；五商品与订单/退款终态；PHP lint、diff、文件哈希 | 全部通过；Code、安全、独立测试终审P0/P1/P2/P3=0 |
+
+Day58按独立Local副本确认范围通过。真实浏览器网络节流、请求已处理后丢响应的重试、真实并发、登录Customer、真实辅助技术、Variable加购、生产缓存/性能与非Local部署未验；普通POST重复成功请求会累计数量，pending按钮状态没有稳定证据，不能表述为已具备防重或幂等保障。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

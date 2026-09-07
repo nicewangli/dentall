@@ -274,6 +274,29 @@ function dentall_remove_storefront_product_brand_thumbnail() {
 add_action( 'after_setup_theme', 'dentall_remove_storefront_product_brand_thumbnail', 40 );
 
 /**
+ * 在Simple商品详情使用与输入框可访问名称一致的简短数量标签。
+ *
+ * 只调整当前主商品的原生label文案；数量、库存与加购规则仍由WooCommerce负责。
+ *
+ * @param array           $args    数量输入参数。
+ * @param WC_Product|null $product 当前商品。
+ * @return array
+ */
+function dentall_simple_quantity_input_args( $args, $product ) {
+	if (
+		is_product()
+		&& $product instanceof WC_Product
+		&& $product->get_id() === get_queried_object_id()
+		&& $product->is_type( 'simple' )
+	) {
+		$args['product_name'] = '';
+	}
+
+	return $args;
+}
+add_filter( 'woocommerce_quantity_input_args', 'dentall_simple_quantity_input_args', 10, 2 );
+
+/**
  * 将无有效关键词的商品搜索临时重定向到Shop。
  *
  * WordPress会把空关键词或超过1600字节的关键词还原为空搜索条件，可能让搜索URL展示

@@ -206,6 +206,36 @@
 	margin-block-start: var(--dentall-space-4);
 }
 
+/*
+ * 简单商品购买区复用原生POST表单。数量标签只在可见输入旁展开；
+ * Woo将仅剩一件或独售商品的数量改为hidden时，保留原来的隐藏语义。
+ */
+.single-product div.product.product-type-simple .summary form.cart {
+	margin: 0 0 var(--dentall-space-24);
+	padding: 0;
+}
+
+.single-product div.product.product-type-simple .summary form.cart .quantity {
+	float: none;
+	margin: 0;
+}
+
+.single-product div.product.product-type-simple .summary .quantity:has(input:not([type="hidden"])) {
+	margin-bottom: var(--dentall-space-16);
+}
+
+.single-product div.product.product-type-simple .summary .quantity:has(input:not([type="hidden"])) label {
+	display: block;
+	/* WooCommerce的screen-reader-text以!important定位，须在此精确复位。 */
+	position: static !important;
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	margin: 0 0 var(--dentall-space-8);
+	overflow: visible;
+}
+
 @media (min-width: 75rem) {
 	.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
 		grid-template-columns: repeat(5, minmax(0, 6.25rem));

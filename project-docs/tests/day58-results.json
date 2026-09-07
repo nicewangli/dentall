@@ -1,0 +1,137 @@
+{
+  "date": "2026-09-07",
+  "status": "已完成（独立Local副本确认范围）",
+  "baseline_commit": "470c7ad",
+  "environment": "http://127.0.0.1:10558",
+  "cases": [
+    {
+      "name": "normal_quantity_1",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_2",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_0",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_empty",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_-1",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_1.5",
+      "passed": true
+    },
+    {
+      "name": "normal_quantity_9",
+      "passed": true
+    },
+    {
+      "name": "cumulative_stock_limit",
+      "passed": true
+    },
+    {
+      "name": "repeated_post_and_resubmit",
+      "passed": true
+    },
+    {
+      "name": "add_does_not_deduct_stock_or_create_order",
+      "passed": true
+    },
+    {
+      "name": "outofstock",
+      "passed": true
+    },
+    {
+      "name": "emptyprice",
+      "passed": true
+    },
+    {
+      "name": "stock1",
+      "passed": true
+    },
+    {
+      "name": "individual",
+      "passed": true
+    },
+    {
+      "name": "hidden",
+      "passed": true
+    },
+    {
+      "name": "draft",
+      "passed": true
+    }
+  ],
+  "restored": true,
+  "anonymous_carts_cleared": 15,
+  "orders_unchanged": true,
+  "initial_restore_issue": "#44 date_modified was updated by WordPress; preserved by scoped temporary wp_insert_post_data filter",
+  "security_review": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "P3": 0,
+    "source_select_denied_errno": 1142,
+    "listener": "127.0.0.1:10558"
+  },
+  "browser": {
+    "widths": [
+      390,
+      768,
+      1024,
+      1199,
+      1200,
+      1440
+    ],
+    "horizontal_overflow": 0,
+    "input_and_button_height": 44,
+    "label_input_gap": 8,
+    "visible_label": "Quantity",
+    "accessible_name": "Product quantity",
+    "label_in_name_passed": true,
+    "keyboard_add_quantity": 2,
+    "keyboard_cart_total": "49.98 USD",
+    "notice_role": "alert",
+    "notice_receives_focus": true,
+    "slow_response_dblclick_cart_before": 2,
+    "slow_response_dblclick_cart_after": 3,
+    "connection_failure": "ERR_CONNECTION_REFUSED；错误页data URL受工具限制",
+    "stock_after_add": 8,
+    "final_browser_cart_cleared": true
+  },
+  "final_reviews": {
+    "code": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "security": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "independent_test": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    }
+  },
+  "limits": [
+    "pending按钮状态未稳定取证",
+    "未验响应已处理后丢失",
+    "未验登录Customer/真实辅助技术/真实并发",
+    "未执行Variable加购",
+    "Cart Blocks观察到一条来源未定位的wc-blocks-data-store依赖warning",
+    "未部署非Local"
+  ]
+}

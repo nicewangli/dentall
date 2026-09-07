@@ -19,7 +19,7 @@ tags:
 - 学习模板：[[WordPress实战学习笔记模板]]
 - 当前项目起点：[[Day26-Storefront子主题骨架]]
 - 第一篇学习笔记：[[Day26-子主题继承与Hook加载机制]]
-- 当前最新学习笔记：[[Day57-WooCommerce商品摘要Hook与状态驱动样式]]
+- 当前最新学习笔记：[[Day58-WooCommerce原生加购与测试隔离]]
 
 > [!important] 双向链接规则
 > 新建一篇Day学习笔记后，必须同时完成三件事：在本索引登记它；在学习笔记中链接对应的项目Day笔记；在项目Day笔记中反向链接该学习笔记。不能只依赖Obsidian自动生成的Backlinks面板。
@@ -103,8 +103,9 @@ tags:
 | Day55 | [[Day55-WooCommerce单品模板Hook与条件样式]] | [[../Day55-商品详情字段与PC骨架\|Day55-商品详情字段与PC骨架]] | 初识，待费曼自测 | — | DentAll 0.30.0在WooCommerce 11.0.0、Storefront 4.6.2 Local冻结单品字段与Hook责任；只在Product请求条件加载407字节CSS，并以两条1200px列宽规则形成图库主列/摘要辅列。Simple/Variable、四端、1199/1200、资源隔离及独立复核通过；768堆叠留D59，图库/信息/购买区留D56～D59 |
 | Day56 | [[Day56-WooCommerce原生商品图库与响应式图片]] | [[../Day56-商品图库与响应式图片\|Day56-商品图库与响应式图片]] | 初识，待费曼自测 | — | DentAll 0.31.0复用Woo原生Gallery、FlexSlider、Zoom与PhotoSwipe，以同一方形画布覆盖单图、多图和缺图，并修正初始Gallery的响应式图片提示。#44可逆媒体夹具、#46、六宽、键盘灯箱、Zoom、资源隔离与精确恢复通过；网络失败替换、移动精确圆点、D59顶层堆叠与D61 Variation动态图片优化未实施 |
 | Day57 | [[Day57-WooCommerce商品摘要Hook与状态驱动样式]] | [[../Day57-商品基础信息与原生品牌输出\|Day57-商品基础信息与原生品牌输出]] | 初识，待费曼自测 | — | DentAll 0.32.0复用经典单品Summary、原生字段及Variation状态，在既有详情CSS建立信息层级并把Sale移入Gallery；只移除Storefront重复品牌缩略图，保留Meta文字品牌和Schema。#44/#46、六宽、1199/1200、资源/数据/SEO不变量及专项复核通过；正向评分/品牌实页、D59顶层堆叠、D61动态媒体与非Local未验 |
+| Day58 | [[Day58-WooCommerce原生加购与测试隔离]] | [[../Day58-简单商品购买区与隔离购物车验证\|Day58-简单商品购买区与隔离购物车验证]] | 初识，待费曼自测 | — | DentAll 0.33.0复用经典Simple POST、库存、cart和notice；局部CSS与展示Filter使可见`Quantity`被`Product quantity`包含。16项交易矩阵、六宽、键盘、状态恢复、作用域测试和三路终审通过，P0～P3=0；共享Local与非Local未改 |
 
-下一篇为D58学习笔记，依据D58购买区的真实开发、验证或排错生成，不提前制造空白笔记。D31～D57项目工作已经分别补入对应Day笔记；Day47空结果实页P2、Day48恢复态四端证据P2、Day49参数页robots P2及Day51最终独立证据P2均已在对应后续实施前关闭并回写相关记录。
+下一篇为D59学习笔记，依据D59的真实开发、验证或排错生成，不提前制造空白笔记。D31～D58项目工作已经分别补入对应Day笔记；Day47空结果实页P2、Day48恢复态四端证据P2、Day49参数页robots P2、Day51最终独立证据P2及Day58标签名称P2均已在对应实施中关闭并回写相关记录。
 
 ## Obsidian使用约定
 

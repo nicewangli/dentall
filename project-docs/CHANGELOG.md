@@ -53,6 +53,8 @@
 - DentAll 0.31.0 商品图库与响应式图片：复用WooCommerce/Storefront原生Gallery、FlexSlider、Zoom与PhotoSwipe，在既有详情CSS中建立单图、多图和缺图共用的方形画布、`contain`图片、响应式五列缩略图及44px灯箱入口；四参数Filter修正初始Gallery的`sizes`，全新1440请求由过小416px候选改取768px候选。#44通过Woo CRUD完成5图、缺图及新进程精确恢复，#46、六宽、缩略图、Zoom、键盘灯箱、Shop资源隔离、SEO/日志/静态检查和独立复核通过，最终P0～P3=0。新增0运行文件、1函数、1 Filter、13个CSS规则块；未新增模板、JS、插件、字段或查询，未实现网络失败替换、移动精确圆点和Variation动态图优化，未部署非Local。
 - DentAll 0.32.0 商品基础信息与原生品牌输出：继续复用WooCommerce经典单品标题、评分、Regular/Sale/Variation价格、短描述、库存、SKU、分类与Meta，在既有详情CSS中建立信息层级并把原生Sale标签移入Gallery，关闭摘要顶线P3。子主题只移除Storefront优先级4的重复品牌缩略图，保留`product_meta`文字品牌与Product Schema。#44/#46、390/768/1024/1199/1200/1440、资源隔离、数据/URL/SEO不变量和三路专项复核通过；Woo 11促销HTML的`screen-reader-text`使相邻兄弟规则失效，已改用局部`del ~ ins`。最终4个既有运行文件净+120行、1函数、1 Action、16个CSS规则块；无字段、模板、JS、插件、查询、数据或购买逻辑变更，正向评分/品牌实页和非Local仍待。
 
+- DentAll 0.33.0 简单商品购买区与隔离购物车验证：复用WooCommerce经典Simple POST、数量、库存、购物车与notice，在既有详情CSS增加4个局部规则，并以1个展示Filter让当前Simple主商品使用可翻译的`Quantity`标签、保留`Product quantity`可访问名称。独立文件/数据库副本完成16项交易矩阵、15个匿名cart清理、五商品精确恢复、六宽、键盘、异常状态、Variable/Shop回归及三路终审，最终P0～P3=0。运行层0新文件、1函数、1 Filter、净+53行；没有模板、JavaScript、插件、查询、数据字段或订单逻辑变更，共享Local及非Local未同步。
+
 ### 修改
 
 - 项目排期从单休基线调整为20周双休基线。
