@@ -4,14 +4,14 @@
 
 ## 状态快照
 
-- D57基线和D58、D62、D64、D65四个并行增量已于2026-09-07纳入`main`。合成后的DentAll 0.33.0与DentAll Core 0.2.8已在隔离Local完成商品页Schema/DOM、推荐区四端和Simple购物车回归，当前P0/P1/P2=0；原生Sticky在1440px局部遮挡推荐图的P3已确认，交D59处理。未推送远端或部署非Local。
+- D57基线和D58、D62、D64、D65四个增量已于2026-09-07纳入`main`并以`ad6f26e`同步到`origin/main`。D63随后基于该同步点按“匿名公开补充资料、无合格文件则不输出”完成独立技术收口，当前P0/P1/P2=0；D63文档增量尚待主分支集成。原生Sticky在1440px局部遮挡推荐图的既有P3仍交D59处理；未部署非Local。
 
 - 更新日期：2026-09-07。
-- 当前阶段：顺序主线完成至W10/D58；D62零扩展复核、D64关联推荐与D65商品Schema去重已提前完成并集成，不代表D59～D61或D63完成。D59顶层响应式与Sticky遮挡、D61 Variation动态媒体/价格、正式内容、真实辅助技术、Production缓存、非Local部署及公司控制Git治理仍未完成。
+- 当前阶段：顺序主线完成至W10/D58；D62、D64、D65已提前完成并集成，D63已在独立任务中按零运行代码、零数据库变更范围完成技术收口。这不代表D59～D61、D66或M5完成；D59顶层响应式与Sticky遮挡、D61 Variation动态媒体/价格、正式内容、真实辅助技术、Production缓存、非Local部署及公司控制Git治理仍未完成。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2商品模型候选冻结通过。D25商品、文章和Page当前技术/人员路径已通过，但正式内容/素材与公司Git治理未完成，因此M3继续按既有边界管理。D42 M4已按用户指定的Local技术v1口径通过：首页、页头和页脚四端骨架完成，不等于正式品牌内容、非Local部署或Production上线。WM-A可在受保护Staging按批准SOP开始“Simple模板v1、小批次、只新增Draft”的商品录入；Variable/Variation CSV仍待独立验收。
 - 当前状态：Cloudways Flexible已从试用升级为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换均已验证。
-- 当前版本：主工作树为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2、DentAll 0.33.0和DentAll Core 0.2.8。D50～D53目录筛选继续集中在`inc/catalog-filters.php`与`assets/css/catalog.css`；D55～D58及D64共用只在`is_product()`时加载的`assets/css/product-detail.css`，D56 Gallery图片属性、D57品牌缩略图移除、D58 Simple数量展示与D64 Upsells上限位于`inc/storefront-hooks.php`；D65在Core既有SEO模块协调Woo与Yoast面包屑Schema。商品详情继续使用Woo/Storefront原生模板、Hook及Gallery/Variation脚本，没有Woo模板覆盖、第二商品查询、自定义AJAX、新插件、新字段、自定义缓存或构建链。最终商品与数据库事实保持既有基线；Staging仍为DentAll Core 0.2.6部署提交`501e5e5`，D57～D65均未部署非Local。Homepage、TEST菜单/Page/分类/素材和公司Git治理边界保持既有记录。
+- 当前版本：主工作树为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2、DentAll 0.33.0和DentAll Core 0.2.8。D50～D53目录筛选继续集中在`inc/catalog-filters.php`与`assets/css/catalog.css`；D55～D58及D64共用只在`is_product()`时加载的`assets/css/product-detail.css`，D56 Gallery图片属性、D57品牌缩略图移除、D58 Simple数量展示与D64 Upsells上限位于`inc/storefront-hooks.php`；D65在Core既有SEO模块协调Woo与Yoast面包屑Schema。D63只复核Woo原生Description、Additional Information和公开媒体边界，没有增加运行实现。商品详情继续使用Woo/Storefront原生模板、Hook及Gallery/Variation脚本，没有Woo模板覆盖、第二商品查询、自定义AJAX、新插件、新字段、自定义缓存或构建链。最终商品与数据库事实保持既有基线；Staging仍为DentAll Core 0.2.6部署提交`501e5e5`，D57～D65均未部署非Local。Homepage、TEST菜单/Page/分类/素材和公司Git治理边界保持既有记录。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## D62并行检查点：原生字段复核与零扩展收口
@@ -22,7 +22,19 @@
 - WM仍只允许JPEG/PNG/WebP及CSV，PDF未开放；资料的公开权限、批量维护和恢复另行确认。CR-005定制展示仍是已确认业务方案、待对应实施，不因D62零字段取消或标记完成。
 - 证据：规则/需求/源码核对、MySQL `START TRANSACTION READ ONLY`查询插件状态与ACF定义、PHP CLI版本、Git增量和文档链接检查；独立文档复核见[[笔记/Day62-原生字段复核与零扩展收口]]。没有后台保存、越权/XSS、启停、迁移恢复、四端浏览器或性能实测。
 - 本任务只更新Markdown；数据、URL/SEO、缓存、支付、物流、订单、插件启用和部署配置未改。运行层净增文件/函数/规则块/行数均为0，主题与Core不升版本。
-- D62按独立D57基线完成后已合入`main`；D58现已完成，D59～D61与D63仍未完成，不将顺序主线下一步改成D63。项目与学习笔记、索引和Day55同主题链接分别收尾；正式内容与非Local验收仍待。
+- D62收尾当时按独立D57基线完成、D59～D61与D63尚未完成；D62此后已合入`main`，D63也已在独立任务中按零运行代码范围技术收口。该历史节点不改变顺序主线下一步仍为D59；正式内容与非Local验收仍待。
+
+## D63并行检查点：原生扩展信息与公开资料空状态
+
+- 2026-09-07用户明确批准：“第一版只面向匿名公开的补充资料，当前无合格PDF时不输出、不开放PDF权限，并以零运行代码/零数据库变更完成原生展示与缺字段验收。”实施严格限于只读验证、文档收口、独立复核和范围提交。
+- 参数继续由可见商品级属性承载，跨商品筛选只使用已批准Global Attributes，影响价格、SKU、库存或合法组合的选项仍由Variations承担；少量经批准认证与说明文字放Description。没有新增字段、ACF定义或重复事实源。
+- WooCommerce 11.0.0源码确认：Description仅在正文非空时注册；Additional Information仅在存在可见属性或需展示的重量/尺寸时注册，`WC_Product::has_attributes()`会检查`get_visible()`。当前自有主题/Core没有改写Tabs、属性或维度过滤器。
+- 当前#44 Simple的原生附加信息为Weight、Dimensions、Package Quantity；#46 Variable为Weight、Dimensions、Size、Shade。D65主分支合成证据中的8个390/768/1024/1440视口均无页面横向溢出、坏图且H1为1；重复ID只在#44的390px及#46四宽记录为0。#46单一路径以键盘激活Additional information后焦点为3px实线且面板可见，Console为空；没有把它写成四宽逐一Tab交互。当前23个自有运行文件与D65隔离副本统一换行后逐文件比对为23/23相同，`ad6f26e`只改文档，因此该证据代表D63运行基线；D63重新解析保存HTML，没有启动或创建新的数据库副本、测试商品、媒体或持久测试状态。
+- 两个代表商品的Description/Additional Information面板内均无PDF或资料链接，Variation数据的`is_downloadable`均为false，也没有正式认证；无合格文件时页面没有资料入口或空下载容器。这是正确空状态，不代表PDF上传、公开文件正向下载、失效撤回或购买后授权下载已验收。
+- 独立权限复核确认Content Editor仅允许JPEG/PNG/WebP，Website Manager另允许CSV；两者均拒绝PDF、无`unfiltered_upload`且上限为5,242,880字节。匿名无Cookie访问现有uploads图片的`HEAD`为200，证明普通媒体URL是公开空间，页面密码、隐藏链接或`noindex`不能构成文件访问控制。
+- 理论P3：异常丢失的属性taxonomy或第三方Filter在Tab已注册后清空最终属性数组，可能留下空面板；当前代码与两件TEST商品没有该条件，不为假设边缘新增守卫。Woo/Storefront或相关插件升级、taxonomy异常或出现实页空面板时复验。
+- D63运行层净增文件、函数、规则块、字段、查询、前端资源和行数均为0；未执行商品、媒体、角色、ACF、设置、URL/SEO、缓存配置、支付、物流、订单或部署写入，数据库业务/配置显式写入为0。D65的25表哈希只证明其隔离验证边界；D63本轮没有当前数据库全表前后哈希，不能据此断言每个完整HTTP请求都不会触发session、Cron、transient或第三方插件写入。主题与Core版本不升。
+- 本日最高验收层级为“当前Local运行基线的原生承载与空状态技术收口”。正式参数、认证、PDF授权、长值实页、失效文件、实体设备/屏幕阅读器、Staging/Production和公开缓存撤回未验；顺序主线仍回到D59，D61与D66保持独立。详见[[笔记/Day63-原生扩展信息与公开资料空状态]]。
 
 ## 已完成
 
@@ -674,7 +686,7 @@
 
 ## D64并行任务：原生关联商品与推荐空状态（已合入main）
 
-- [x] 用户明确授权“按上述 D64 最小范围实施，包含隔离 Local 验证及可逆 TEST 样本。”D64提前完成后已与D58/D62/D65集成，不替代D59～D61或D63的验收。
+- [x] 用户明确授权“按上述 D64 最小范围实施，包含隔离 Local 验证及可逆 TEST 样本。”D64提前完成后已与D58/D62/D65集成，不替代其他Day的独立验收；D63已在后续任务另行完成，D59～D61仍待。
 - [x] D64专项增量已纳入`main`：一个`woocommerce_upsells_total` Filter限制详情Upsells最多3项，保留Related最多3项和原生空态/排除/随机排序；详情Grid按四端1/2/3/3列。D64原始增量修改3个既有运行文件、净增48行，0新运行文件/JS/模板/字段/插件/商品查询/缓存。
 - [x] 已建立独立本机Web与数据库副本，源库仅只读导出；副本禁邮件/支付/外请求/Cron并noindex。授权创建6个TEST商品#159～#164、分类#63/#64、标签#65，#44/#46仅在副本临时改关联/分类/标签。
 - [x] 动态上限/空态/标签/角色通过：cap为Upsells 3/Related 2并排除全部4个配置Upsell；one四宽1/0、empty四宽0/0、related-only为3、tag-only为#159/#160/#161。guest仅见#162，Website Manager可见可编辑Draft #164及#162，隐藏#163均不显示；不得把匿名草稿404写成任何角色都不可见。
@@ -802,12 +814,13 @@
 | W10 / D57 | 6小时50分钟 | 待用户记录 | 已完成（Local确认最小范围） | DentAll 0.32.0复用Woo经典单品信息，在既有详情CSS建立标题/评分/价格/摘要/库存/Meta层级并把Sale移入Gallery；只移除Storefront品牌缩略图，保留Meta文字品牌和Schema。#44/#46、六宽、1199/1200、资源/数据/SEO不变量及三路复核通过，终审P0～P3=0；4个既有运行文件净+120行、0模板/JS/插件/字段/数据/购买逻辑。正向评分/品牌实页、D59/D61和非Local未验；Day58分支依赖快照为`470c7ad` |
 | W10 / D58 | 6小时50分钟 | 待用户记录 | 已完成（独立Local副本确认范围） | DentAll 0.33.0复用Woo经典Simple POST、库存、cart与notice，以4个局部CSS规则和1个展示Filter完成数量标签与间距。16项交易矩阵、15个匿名cart清理、五商品精确恢复、六宽/键盘/异常状态、Variable/Shop及三路终审通过，P0～P3=0；4个既有运行文件净+53行。共享Local、非Local、Variable加购、防重/AJAX及真实辅助技术未验 |
 | W11 / D62（并行） | 6小时50分钟 | 未记录 | 已完成（零扩展文档与证据范围） | 用户批准当前代表商品零新增字段、零运行代码，维持ACF停用；修正免费ACF 6.8.7实物与旧Pro安装记录的偏差，记录原生承载、PDF/许可/迁移边界并完成项目与学习收尾。CR-005、D58～D61、D63和非Local均不因此完成 |
+| W11 / D63（并行） | 6小时50分钟 | 未记录 | 已完成（当前Local原生承载与空状态技术收口） | 第一版只面向匿名公开补充资料；复用Woo原生Description/Additional Information，#44/#46字段、源码空态、同运行代码四端/单一键盘路径、PDF拒绝、5MB和公开直链边界通过。无合格PDF所以入口0；运行代码/字段/部署0变更，数据库业务/配置显式写入0且未做本轮全表前后哈希，正式文件与撤回链未验 |
 
 ## D65并行范围与主分支集成（2026-09-07）
 
 - 用户已明确授权最小Day65，分享限定现有社交预览元数据。Core 0.2.8已纳入`main`；经典商品去重Yoast BreadcrumbList及引用，保留Woo事实与Coming Soon。
 - 12页前后、4页退出分支169/169断言，10项独立分支检查，#44/#46四端与键盘走查通过当前范围；源配置/选项及25个含数据表不变量通过。0新运行文件、2函数、运行源码净+40行，没有商品字段、购买逻辑或源Local/非Local部署。
-- **状态：Day65主分支Local集成范围已完成。** D58、D62、D64与D65合成后重跑12页Schema/DOM；商品与合法Variation URL均为Product 1、BreadcrumbList 1、悬空引用0，非商品页无回归。#44四端无横向溢出，D64推荐网格为1/2/3/3列；Simple数量2加购、notice、购物车金额与清空链路通过。D59～D61、D63及D66仍按各自边界验收。
+- **状态：Day65主分支Local集成范围已完成。** D58、D62、D64与D65合成后重跑12页Schema/DOM；商品与合法Variation URL均为Product 1、BreadcrumbList 1、悬空引用0，非商品页无回归。#44四端无横向溢出，D64推荐网格为1/2/3/3列；Simple数量2加购、notice、购物车金额与清空链路通过。该收尾当时D63尚待；D63现已另行完成零运行代码技术收口，D59～D61及D66仍按各自边界验收。
 - 当前合成树P0/P1/P2未发现；P3包括未来替换原生Schema生成器的兼容复验，以及D59负责的1440px Sticky局部遮图。正式内容、Google/Schema在线验证、屏幕阅读器、真实设备、生产缓存与CWV未验。
 - 交付与证据：[[笔记/Day65-商品详情结构化数据与SEO边界]]、[[笔记/WordPress实战笔记/Day65-渲染生命周期与结构化数据去重]]。D57基线与四个Day增量分别提交后合入，未把重复D57快照带入`main`。
 
