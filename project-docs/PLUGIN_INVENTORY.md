@@ -14,7 +14,8 @@
 | DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容及后续商城业务规则 | Local 0.2.7、Staging 0.2.6均包含角色版本7、Website Manager全局`import`及WooCommerce商品请求级`export`；Staging部署提交为`501e5e5`。Local 0.2.7另含D50筛选参数页SEO规则，尚未同步非Local | Local 0.2.7；Staging 0.2.6 | GPL/项目自有 | 中 | 停用后保留角色数据；主入口与`includes/`必须同版本部署；角色版本7会把白名单能力写入角色数据库，撤权必须修改白名单并提升新角色版本；`export`仍不全局持久化，`import`可访问其他已注册导入器，第一版SOP只批准WooCommerce商品CSV |
 | WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 已安装并激活，已完成D2基础配置 | 11.0.0；11.0.1可用但本日不升级 | GPL/项目 | 高 | 不可轻易替换 |
 | Query Monitor | 本地开发 | 查询、Hook、请求和错误诊断 | Local已安装；D16冲突隔离后保持停用，仅限Local | 4.0.7 | GPL/开发者 | 低 | 停用并删除，不进入生产必需清单 |
-| ACF Pro | 字段 | 仅在原生字段不足时补充定制商品展示、技术参数和资料下载等结构化字段 | Local已安装；D16冲突隔离后保持停用，许可证归属仍待核对 | 6.8.7 | 商业许可证/公司账户待核对 | 中 | 字段定义通过Local JSON或PHP版本化；停用前评估模板依赖和数据迁移 |
+| ACF（免费版） | 字段 | 必要结构化展示字段的候选工具；D62未发现当前代表商品必须新增字段 | 2026-09-07 D62核对Local插件Header与目录：免费版已安装且停用，数据库ACF定义0；不启用、不卸载 | 6.8.7 | GPL v2或以后版本；免费包不证明公司持有Pro许可 | 当前无项目字段依赖 | 本次无迁移；未来引入字段须单独验证定义版本化、内容备份、停用依赖及恢复 |
+| ACF Pro | 字段候选 | 保留ADR-010的条件技术方向，只有原生字段不足且获批时考虑 | D62未发现独立Pro包或内置Pro代码；公司许可、激活及非Local安装状态未核验 | 未安装，不能沿用免费版版本号充当Pro实物证据 | 公司账户、持有人、有效期、站点额度与续费责任待核对 | 未来按字段与数据量评估 | JSON/PHP只版本化定义；值和媒体另备份；停用、导出迁移与回滚须在采用前验收 |
 | Yoast SEO Free | SEO | SEO标题、Meta描述、Canonical、XML Sitemap、基础Schema和编辑辅助 | Local与Staging均已安装并激活；Local完成启停回退，Staging由用户手动激活后完成五页Title与`noindex`矩阵 | Local/Staging 28.2 | GPL/免费 | 中 | 导出设置后替换；禁止与其他SEO插件重复输出元数据和Schema；Staging无Canonical受全站`noindex`影响，Production另验 |
 | Site Kit by Google | 分析/站长工具 | 接入Search Console、GA4和PageSpeed Insights，并在后台展示数据 | 已选型；当前受保护Staging不连接正式Google服务，Production上线准备阶段再配置 | 待安装时记录 | GPL/免费；Google资产归公司账户 | 中 | 可停用并改为手工部署Google Tag；停用前确认GA4标签不会重复或丢失 |
 | WPML Multilingual CMS | 多语言 | 未来翻译商品、页面、字符串和WooCommerce前台内容 | 未来方案已选型；第一版仍为英语/美元，暂不安装 | 启用时记录 | 商业许可证/公司账户 | 高 | 启用前完成URL、字段翻译模式、库存同步和SEO回归；移除需评估翻译数据与URL影响 |
@@ -40,6 +41,13 @@
 - 当前没有独立SEO岗位。Website Manager使用Yoast处理内容级Title、Meta Description和页面内容优化；开发者负责插件配置、权限、高影响索引/Canonical变更、Sitemap、Schema和前端技术验证。
 - Search Console、GA4、Google Tag Manager及Site Kit连接使用公司持有的Google账户；不得长期绑定开发者个人账户。
 - ACF Pro只补充WooCommerce原生字段不能表达的结构化展示字段；价格、SKU、库存、分类、属性、变体、重量和尺寸继续使用WooCommerce原生能力。
+
+## D62证据与许可边界
+
+- 当前事实来自插件文件、活动插件选项和ACF定义计数，未激活插件或联系许可服务器；此前“ACF Pro已安装”记录由本次实物结果纠正，ADR-010的历史技术方向不撤销。
+- ACF PRO高级字段和更新受激活条件约束；采用前核对公司账户、订阅和各环境额度。本机无许可记录不能证明公司未购买。[官方激活说明](https://www.advancedcustomfields.com/resources/how-to-activate/)与[环境额度规则](https://www.advancedcustomfields.com/resources/license-activations/)。
+- D62没有增加前端资源、远程调用、Cron或自动加载数据，也没有测量性能。当前停用、未来激活、订阅过期与卸载是不同状态，不能共用一条未经实测的“安全回滚”结论。
+- 完整范围、只读命令和未验证项见[[笔记/Day62-原生字段复核与零扩展收口]]；字段值、附件和备份不随定义JSON自动迁移。
 
 ## 每次更新检查
 

@@ -14,6 +14,16 @@
 - 当前版本：共享Local仍为WordPress 7.0.4、WooCommerce 11.0.0、Yoast 28.2、Storefront 4.6.2、DentAll 0.32.0和DentAll Core 0.2.7；独立Day58副本验证DentAll 0.33.0。D50～D53目录筛选继续集中在`inc/catalog-filters.php`与`assets/css/catalog.css`；D55～D58共用只在`is_product()`时加载的`assets/css/product-detail.css`，D56初始Gallery图片属性Filter、D57品牌缩略图移除和D58 Simple数量展示Filter均位于`inc/storefront-hooks.php`。Woo目录仍为每页12项、2/2/3/4列；商品详情继续使用Woo/Storefront原生模板、Hook和Gallery/Variation脚本，没有Woo模板覆盖、第二查询、AJAX、新插件、自定义缓存或构建链。最终属性lookup为7行/父商品#44/#46，`enabled=yes`、`direct_updates=yes`、`optimized_updates=no`，缺货隐藏为`no`，Coming Soon=`yes`，`posts_per_page=10`；发布商品仅#44/#46，#44主图45/图库空/库存8，#46主图47/图库空，Variations 51～53图片48～50且库存5/0/3，#120～#130共11项仍在Trash，品牌term/关系与三类计数transient均为0。Local品牌归档继续`noindex`且不进Sitemap；商品分类Yoast模板及数据库配置均未同步非Local。Staging仍为DentAll Core 0.2.6部署提交`501e5e5`；D55～D56已在`main`/`origin/main`的`0fe9d0b`收口，D57依赖快照为`470c7ad`，D58在当前分支形成独立增量，均未部署非Local。Homepage、TEST菜单/Page/分类/素材和公司Git治理边界保持既有记录。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
+## D62并行检查点：原生字段复核与零扩展收口
+
+- 2026-09-07用户明确批准“零字段、零运行代码”范围及文档、独立复核、本任务增量提交；D62按原生字段复核与文档验收口径收口，不代表新增扩展字段已开发。
+- 当前代表商品的参数优先原生商品级属性；跨商品筛选使用已批准的全局属性，影响购买组合使用Variations；少量说明和经批准的认证文字使用描述。无代表需求证明必须新建ACF字段，候选清单不自动成为实施范围。
+- D62实物纠偏：共享Local安装的是免费版ACF 6.8.7，处于停用状态；独立Pro包与内置`pro/acf-pro.php`均不存在，数据库`acf-%`定义计数为0，自定义代码未检出ACF API/字段JSON。许可证账户、持有人、有效期和额度未核验；不能由本机无激活记录推断公司没有许可证。ADR-010历史技术方向保留。
+- WM仍只允许JPEG/PNG/WebP及CSV，PDF未开放；资料的公开权限、批量维护和恢复另行确认。CR-005定制展示仍是已确认业务方案、待对应实施，不因D62零字段取消或标记完成。
+- 证据：规则/需求/源码核对、MySQL `START TRANSACTION READ ONLY`查询插件状态与ACF定义、PHP CLI版本、Git增量和文档链接检查；独立文档复核见[[笔记/Day62-原生字段复核与零扩展收口]]。没有后台保存、越权/XSS、启停、迁移恢复、四端浏览器或性能实测。
+- 本任务只更新Markdown；数据、URL/SEO、缓存、支付、物流、订单、插件启用和部署配置未改。运行层净增文件/函数/规则块/行数均为0，主题与Core不升版本。
+- D62独立于主线D57基线；D58～D61在本任务基线中仍未完成，D63参数/认证/下载前台未实施，不将主线下一步改成D63。项目与学习笔记、索引和Day55同主题链接分别收尾；正式内容与非Local验收仍待。
+
 ## 已完成
 
 - 首页PC、平板横屏、平板竖屏和手机效果图。
@@ -171,7 +181,7 @@
 - Git远程当前仍为开发者个人私有GitHub仓库；D3只复核跟踪边界和密钥排除，公司控制的所有权、备份、访问与交接路径仍待D25前确认。
 - 正式Staging域名与DNS访问尚未确定；当前Cloudways临时域名可用于D6试录。
 - `deploy/staging`代码专用分支已创建并推送；Cloudways Via Git使用只读Deploy Key连接GitHub，分支和`public_html/`路径已验证并完成首次部署。
-- 插件方向已冻结：ACF Pro负责必要结构化展示字段，Local已安装6.8.7但在D16冲突隔离后保持停用；Yoast SEO Free负责SEO元数据与技术SEO辅助，Local与Staging均已安装并激活28.2，完成Title唯一性和Staging禁止索引边界验证；Site Kit by Google负责未来Production的Search Console、GA4和PageSpeed数据接入，仍待后续按计划安装与验证。
+- 插件方向已冻结：ACF Pro作为必要结构化展示字段的历史技术方向保留；D62实物核对当前Local为免费版ACF 6.8.7且停用，未安装Pro包、许可证归属与有效性未核验；Yoast SEO Free负责SEO元数据与技术SEO辅助，Local与Staging均已安装并激活28.2，完成Title唯一性和Staging禁止索引边界验证；Site Kit by Google负责未来Production的Search Console、GA4和PageSpeed数据接入，仍待后续按计划安装与验证。
 - 多语言未来方案已冻结为WPML Multilingual CMS＋ACF Multilingual＋WPML SEO＋WooCommerce Multilingual & Multicurrency；第一版仍为英语、美元，暂不安装或实施多语言、多币种。
 - 支付方向暂定WooCommerce Stripe Gateway＋WooCommerce PayPal Payments＋WooCommerce原生BACS；公司主体、销售国家、账户审核、正式费率和收款负责人仍待确认，当前不连接真实支付。
 - 第一版测量架构已冻结为Site Kit＋GA4＋GTM＋Search Console：Site Kit部署唯一GA4标签并放置GTM容器，GTM不重复部署GA4；WooCommerce标准事件优先使用Site Kit转化跟踪，联系表单、资料下载及实际启用的条件功能通过`dataLayer`＋GTM补充。分析与关键转化事件已从Should提升为Must。
@@ -779,6 +789,7 @@
 | W10 / D56 | 6小时50分钟 | 待用户记录 | 已完成（Local确认最小范围） | DentAll 0.31.0复用Woo原生Gallery/FlexSlider/Zoom/PhotoSwipe，完成单/多/缺图方形画布、响应式缩略图、44px灯箱入口和初始Gallery `sizes`修正。#44可逆5图/缺图及精确恢复、#46、六宽、Zoom/键盘灯箱、Shop隔离、SEO/日志/静态与独立复核通过，终审P0～P3=0；净+125物理行、0运行文件/模板/JS/插件/字段/查询。已纳入`82f32e2`；网络失败替换、移动精确圆点、D59顶层堆叠、D61 Variation动态图优化和非Local未实施 |
 | W10 / D57 | 6小时50分钟 | 待用户记录 | 已完成（Local确认最小范围） | DentAll 0.32.0复用Woo经典单品信息，在既有详情CSS建立标题/评分/价格/摘要/库存/Meta层级并把Sale移入Gallery；只移除Storefront品牌缩略图，保留Meta文字品牌和Schema。#44/#46、六宽、1199/1200、资源/数据/SEO不变量及三路复核通过，终审P0～P3=0；4个既有运行文件净+120行、0模板/JS/插件/字段/数据/购买逻辑。正向评分/品牌实页、D59/D61和非Local未验；Day58分支依赖快照为`470c7ad` |
 | W10 / D58 | 6小时50分钟 | 待用户记录 | 已完成（独立Local副本确认范围） | DentAll 0.33.0复用Woo经典Simple POST、库存、cart与notice，以4个局部CSS规则和1个展示Filter完成数量标签与间距。16项交易矩阵、15个匿名cart清理、五商品精确恢复、六宽/键盘/异常状态、Variable/Shop及三路终审通过，P0～P3=0；4个既有运行文件净+53行。共享Local、非Local、Variable加购、防重/AJAX及真实辅助技术未验 |
+| W11 / D62（并行） | 6小时50分钟 | 未记录 | 已完成（零扩展文档与证据范围） | 用户批准当前代表商品零新增字段、零运行代码，维持ACF停用；修正免费ACF 6.8.7实物与旧Pro安装记录的偏差，记录原生承载、PDF/许可/迁移边界并完成项目与学习收尾。CR-005、D58～D61、D63和非Local均不因此完成 |
 
 ## 更新规则
 
