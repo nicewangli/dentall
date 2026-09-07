@@ -375,6 +375,16 @@
 - 兼容风险：Storefront 4.6.2发布信息未声明测试到WordPress 7.0.4，因此当前结论是“本项目Local代表路径实测可用”，不是上游版本全面兼容承诺；Staging部署前仍需复核版本并执行同一矩阵。
 - 系统影响与回滚：本轮仅在Local把活动主题切换为DentAll子主题并修改主题文件；未改变内容数据、URL、Canonical、robots、Sitemap、支付、物流或缓存配置。运行时探测曾临时关闭WooCommerce Coming Soon，测试后已恢复`yes`。回滚时可重新启用Storefront父主题；若回退代码，还需同步回退活动主题选择，避免旧独立主题文件与子主题数据库状态错配。
 
+## D64并行决定：原生关联商品与推荐空状态
+
+- 状态：用户已明确回复“按上述 D64 最小范围实施，包含隔离 Local 验证及可逆 TEST 样本。”独立Local最小代码、动态验证、业务字段恢复/TEST清理、最终独立复核及服务关闭已完成，待主任务合并；本记录不占用并行任务可能冲突的下一全局ADR编号。
+- 问题与角色：访客需要基础商品关联，Website Manager继续在Woo原生分类/标签与Linked Products维护事实；不新建关联字段、后台入口、权限或算法。实际维护频率和正式商品数量不以TEST规模代填。
+- 决定：Related保留Storefront当前最多3项；Upsells经`woocommerce_upsells_total`在Product请求限为最多3项；两区保留原生可见性、排序、空结果整区不输出及全部Upsell ID从Related排除的规则。不补位、不实现个性化或第二条自定义商品查询；Cross-sells不接详情且不扩展购物车。
+- 展示边界：复用D29原生ProductCard，既有条件详情CSS形成四端1/2/3/3列，只处理推荐区Grid及相邻间距。运行改动3个既有文件、净48行、1函数/Filter，分支版本0.33.0；不新增模板、JS、插件或资源文件。
+- 数据与验证：源库只读导出，测试使用独立本机副本且禁外发/支付/Cron、noindex；5个原商品/Variation的快照业务字段恢复一致，6个TEST商品及2分类/1标签已清理。modified时间和缓存有变化，不宣称整库逐字节恢复；独立服务已关闭、文件保留。
+- URL/SEO与缓存：不创建URL、SEO Filter或Schema；既有Woo商品链接、Related transient保留，原生回调样本冷/暖查询与基线同为32/0，不宣称整页性能或顺序稳定。恢复态5页noindex/nofollow且无Canonical，商品两份BreadcrumbList交D65核对；静态资源缓存键随分支版本变化，Production另验。
+- 合并与回滚：D57继承快照`6ece0ce`与D64提交分开，主任务仅合入D64专项差异并统一版本；回退D64代码无需删除正式关联数据。主任务D57、D59/D61、D65/D66和非Local部署边界保持，详见[[笔记/Day64-原生关联商品与推荐空状态]]。
+
 ## 待决策
 
 | ID | 决策 | 最晚时间 | 影响 |

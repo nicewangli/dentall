@@ -672,6 +672,18 @@
 - [x] Variable四宽及选择Small/Light、Shop资源隔离、stock1/独售四宽、缺图、长文本和浏览器超限状态均回归。Cart Blocks观察到一条来源未定位的`wc-blocks-data-store`依赖warning；Variable加购、真实辅助技术、响应已处理后丢失、真实并发、Production缓存和非Local未验。
 - [x] PHP lint、`git diff --check`、最终CSS/HTTP哈希及7项Filter上下文通过；Code Review、安全Review和独立测试终审P0/P1/P2/P3均为0。最终修改4个既有运行文件，55行新增/2行删除、净+53行，新增0运行文件、1函数、1 Filter、4个CSS规则块；没有模板、JavaScript、插件、依赖、新请求、查询、字段或持久化行为。
 
+## D64独立并行任务：原生关联商品与推荐空状态（Local已完成，待主任务合并）
+
+- [x] 用户明确授权“按上述 D64 最小范围实施，包含隔离 Local 验证及可逆 TEST 样本。”主任务当前阶段仍为D57，D64不替代D58～D63的验收。
+- [x] 本分支以`6ece0ce`保存继承的D57快照，未改主任务main。D64只修改3个既有运行文件：一个`woocommerce_upsells_total` Filter限制详情Upsells最多3项，保留Related最多3项和原生空态/排除/随机排序；详情Grid按四端1/2/3/3列，分支版本0.33.0，当前净增48行、0新运行文件/JS/模板/字段/插件/查询/缓存。
+- [x] 已建立独立本机Web与数据库副本，源库仅只读导出；副本禁邮件/支付/外请求/Cron并noindex。授权创建6个TEST商品#159～#164、分类#63/#64、标签#65，#44/#46仅在副本临时改关联/分类/标签。
+- [x] 动态上限/空态/标签/角色通过：cap为Upsells 3/Related 2并排除全部4个配置Upsell；one四宽1/0、empty四宽0/0、related-only为3、tag-only为#159/#160/#161。guest仅见#162，Website Manager可见可编辑Draft #164及#162，隐藏#163均不显示；不得把匿名草稿404写成任何角色都不可见。
+- [x] 四端1/2/3/3，`mixed-browser.json`11行通过、errors为空、图片完成解码；相邻间距P2经一条局部margin修复后独立四宽均48px/overflow 0。原生推荐回调冷/暖查询基线与D64均32/0，不代表整页/CWV/大目录性能。原生Sticky当前1440部分遮图P3交D58/D65集成复核，未完全遮挡焦点；未单独回放D57，不推断历史归因。
+- [x] `restore.json`为true：5个原商品/Variation快照业务字段一致，6个TEST商品及2分类/1标签均清理；modified时间/缓存不作数据库逐字节恢复。恢复态Simple/Variable各Related 1，5页200、1个H1、overflow 0，详情CSS仅两商品页各1份、Shop/Home/Cart为0，无JS或非取消请求错误。
+- [x] 最终独立代码/证据复核无未关闭P0/P1/P2，PHP 8.2.29 lint、差异及本次隔离日志检查通过；独立浏览器覆盖mixed四宽与48次Tab/链接/间距，不冒称全部场景重复执行。PHP/MySQL已关闭，16464/16411监听0，证据与运行文件保留。
+- SEO现状：恢复态5页均noindex/nofollow、Canonical缺失；商品有Product Schema及两份BreadcrumbList（Yoast/Woo），交D65合成核对，不宣称SEO全面通过或前后完全一致。D64独立Local技术验收完成；专项提交由主Agent形成，待主任务合并。记录见[[笔记/Day64-原生关联商品与推荐空状态]]及对应学习笔记，证据位于本机忽略目录`outputs/day64/`。
+- 合并时只选择D64专项提交，避免重复带入D57；共享`product-detail.css`、Storefront Hook、版本及状态/索引须人工合并。D59/D61合入后重新回归，D65复核合成HTML/SEO，D66整链路验收。未部署Staging/Production，总档案旧D56口径未在本任务修正。
+
 ## 现有设计素材冻结v1
 
 - [x] 按用户最终范围只冻结已选用的现有素材：`design-assets/final-versions/v1/`含64个视觉副本，总计69,106,251字节，64个SHA-256均唯一且与来源一致；GPT新页面输出为0，全部未批准公开。

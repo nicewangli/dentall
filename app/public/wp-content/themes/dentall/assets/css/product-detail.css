@@ -236,6 +236,39 @@
 	overflow: visible;
 }
 
+/* D64只编排原生推荐区网格，卡片内容与购买动作继续复用D29和WooCommerce。 */
+.single-product div.product > :is(.related, .upsells) > ul.products {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--dentall-space-16);
+	margin-block-end: var(--dentall-space-48);
+}
+
+.single-product div.product > :is(.related, .upsells) > ul.products::before,
+.single-product div.product > :is(.related, .upsells) > ul.products::after {
+	content: none;
+}
+
+.single-product div.product > :is(.related, .upsells) > ul.products > li.product {
+	width: auto;
+	min-width: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+@media (min-width: 48rem) {
+	.single-product div.product > :is(.related, .upsells) > ul.products {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dentall-space-24);
+	}
+}
+
+@media (min-width: 64rem) {
+	.single-product div.product > :is(.related, .upsells) > ul.products {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
 @media (min-width: 75rem) {
 	.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
 		grid-template-columns: repeat(5, minmax(0, 6.25rem));

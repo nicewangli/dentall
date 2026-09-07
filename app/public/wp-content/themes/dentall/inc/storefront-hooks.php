@@ -297,6 +297,21 @@ function dentall_simple_quantity_input_args( $args, $product ) {
 add_filter( 'woocommerce_quantity_input_args', 'dentall_simple_quantity_input_args', 10, 2 );
 
 /**
+ * 限制详情页手选推荐的显示数量，保留WooCommerce原生排序、可见性和空状态。
+ *
+ * @param int $limit 原生推荐数量。
+ * @return int
+ */
+function dentall_product_upsells_limit( $limit ) {
+	if ( function_exists( 'is_product' ) && is_product() ) {
+		return 3;
+	}
+
+	return $limit;
+}
+add_filter( 'woocommerce_upsells_total', 'dentall_product_upsells_limit' );
+
+/**
  * 将无有效关键词的商品搜索临时重定向到Shop。
  *
  * WordPress会把空关键词或超过1600字节的关键词还原为空搜索条件，可能让搜索URL展示

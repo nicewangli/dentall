@@ -786,6 +786,25 @@ C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。*
 
 Day58按独立Local副本确认范围通过。真实浏览器网络节流、请求已处理后丢响应的重试、真实并发、登录Customer、真实辅助技术、Variable加购、生产缓存/性能与非Local部署未验；普通POST重复成功请求会累计数量，pending按钮状态没有稳定证据，不能表述为已具备防重或幂等保障。
 
+## D64隔离Local原生关联商品验证（已完成，待主任务合并）
+
+授权包含隔离Local及可逆TEST；源库只读导出，独立副本禁外发、支付、Cron并noindex。D64分支继承D57，不能把下列结果写成主任务或Production已经完成。
+
+| ID | 场景与预期 | 当前证据 | 结果 |
+|---|---|---|---|
+| D64-01 | 原生Hook、最多3项及非Product返回原值 | `d64-query-audit.json`：Tabs/Upsells/Related为10/15/20，Product上限3、非Product传入7返回7；PHP lint与最终Code Review通过 | 通过 |
+| D64-02 | Related排除当前商品和全部Upsell，最终不足不补位 | cap为3/2且Related排除全部4个配置Upsell；one四宽1/0、empty四宽0/0、related-only为3 | 通过 |
+| D64-03 | 正常、缺图、长标题、售罄/不可购买、标签与角色 | tag-only为#159/#160/#161；guest只见#162，Website Manager见#164/#162，hidden #163均不见；图片全部解码 | 通过；草稿原生可见性须区分角色 |
+| D64-04 | 四端1/2/3/3、无溢出、Focus与相邻区段间距 | `mixed-browser.json`11行通过、errors为空；P2修复后独立四宽48px/overflow 0；48次Tab无焦点完全遮挡 | 通过；原生Sticky当前部分遮图P3另验，未回放D57 |
+| D64-05 | 链接、匿名Draft、角色与恢复态资源 | 6链接200、Draft #164匿名404；WM可编辑/可见Draft、guest不可；恢复5页200、overflow 0、仅2商品页各1份详情CSS | 通过；不等于交易或SEO全部验收 |
+| D64-06 | TEST清理且快照业务字段恢复 | `restore.json`为true、5对象字段一致；6商品/2分类/1标签不存在，源库未写入 | 通过；modified/缓存不作逐字节恢复 |
+| D64-07 | 最终独立复核、差异、日志与服务关闭 | `final-code-review.md`无未关闭P0/P1/P2；`final-static-check.json`为lint exit 0/PHP错误匹配0；MySQL有2条初始化警告单列于`final-log-check.json`；两隔离端口监听0 | 通过；证据/运行文件保留，不宣称所有日志无警告 |
+| D64-08 | 恢复态SEO现状记录 | 5页1个H1、noindex/nofollow、Canonical缺失；商品有Product和两份BreadcrumbList（Yoast/Woo） | 已记录；面包屑交D65合成核对，不宣称前后完全一致 |
+
+最终修复规模为CSS33行、PHP15行，合计净48行；5个CSS叶规则块、2个媒体查询、1函数/Filter、0新运行文件。证据保留于本机忽略目录`outputs/day64/`，完整命令见[[笔记/Day64-原生关联商品与推荐空状态#实际执行命令与证据入口|D64执行记录]]。独立浏览器执行记录与最终代码/既有证据复核分开，不能把所有主执行场景说成第二人重跑。真实目录规模、正式关联依据、实体设备/辅助技术、Production缓存/CWV、购物车交叉销售及非Local部署未验。
+
+性能限定：`baseline-query-audit.json`与`d64-query-audit.json`在全新PHP 8.2.29 CLI进程量测原生推荐回调，冷/暖查询均32/0；不等于整页TTFB、CWV、大目录或Production缓存测试。图片请求中的ERR_ABORTED为响应式资源取消且图片已解码，单列记录，不与真实缺图混同。P3为原生Storefront Sticky当前在1440局部遮4个大卡片链接图顶，标题/价格/按钮可见、焦点未完全被遮挡；未单独回放D57，归因未定，开发者/Codex在D58/D65合并后复核。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
