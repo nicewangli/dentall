@@ -14,6 +14,7 @@
 
 ## 相关笔记
 
+- 商品Schema职责后续：[[Day65-商品详情结构化数据与SEO边界]]
 - 前置笔记：[[Day51-手机与平板筛选抽屉]]
 - 后续笔记：[[Day53-已选条件计数与重置]]
 - 当日WordPress实战学习笔记：[[WordPress实战笔记/Day52-WooCommerce原生品牌taxonomy与筛选URL]]

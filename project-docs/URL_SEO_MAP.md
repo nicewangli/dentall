@@ -187,6 +187,16 @@
 
 ## 上线前SEO检查
 
+### D65商品详情输出责任（独立范围，集成待复验）
+
+- Core 0.2.8仅在实际`get_header('shop')`、商品主查询、Yoast存在及Woo可见面包屑回调已挂载时，移除Yoast重复BreadcrumbList和WebPage引用。Woo原生可见路径与BreadcrumbList保持一致；Coming Soon普通页头/区块模板保持原图谱。
+- Product、Offer、品牌和评价继续从Woo原生事实输出；不新增第二份Product，也不将展示参考价格或推测业务内容写进Offer。D62字段与D61动态变体在合并后重新验收。
+- 分享基础限定现有OG/Twitter：父商品Canonical与`og:url`保持原生合同，不新增分享按钮、复制链接、SDK、追踪或平台集成。现有TEST缺Meta Description、组织占位图与社交账号确认属于正式内容门槛。
+- 独立副本12页前后+4页退出分支169项通过；源Local、索引/Coming Soon选项与数据保持不变。Shop/分类/搜索既有双面包屑不在当前修复范围，未来扩范围需另确认。
+- 完整证据及回滚见[[笔记/Day65-商品详情结构化数据与SEO边界]]；D62/D64最终DOM、公开环境、在线结构化数据工具和缓存复验仍待。
+
+### 发布检查清单
+
 - 已确认项目不存在旧站，无历史URL导出和迁移任务。
 - 301映射经过抽样和自动检查。
 - Sitemap只包含计划索引的正式URL。

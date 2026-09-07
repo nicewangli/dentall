@@ -19,6 +19,7 @@ tags:
 
 - 同主题后续学习：[[Day62-WooCommerce原生字段与ACF启用边界]]（原生字段、扩展工具与生命周期边界）。
 - 后续After Summary实践：[[Day64-WooCommerce关联商品与原生循环边界]]
+- 渲染生命周期与SEO后续：[[Day65-渲染生命周期与结构化数据去重]]
 - 学习索引：[[WordPress实战笔记索引]]
 - 对应项目笔记：[[../Day55-商品详情字段与PC骨架]]
 - 前置学习笔记：[[Day54-WooCommerce商品发现链路回归与证据复用]]

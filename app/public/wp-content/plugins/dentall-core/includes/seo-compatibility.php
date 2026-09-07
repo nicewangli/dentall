@@ -26,6 +26,46 @@ function dentall_core_prevent_duplicate_document_title() {
 add_action( 'wp_head', 'dentall_core_prevent_duplicate_document_title', 0 );
 
 /**
+ * 经典商品模板保留WooCommerce面包屑，避免Yoast重复输出另一条路径。
+ *
+ * get_header('shop')在wp_head之前发生，且只在模板实际渲染时触发。
+ * Coming Soon使用普通页头或区块模板，不能仅凭is_product()移除其唯一的面包屑。
+ * 原生可见面包屑未挂载时保持原输出；主题或模板机制变化后需重新验证此边界。
+ *
+ * @param string|null $name 页头模板名称。
+ * @return void
+ */
+function dentall_core_use_native_product_breadcrumb_schema( $name ) {
+	if (
+		'shop' !== $name
+		|| ! defined( 'WPSEO_VERSION' )
+		|| ! function_exists( 'is_product' )
+		|| ! is_product()
+		|| (
+			false === has_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb' )
+			&& false === has_action( 'storefront_before_content', 'woocommerce_breadcrumb' )
+		)
+	) {
+		return;
+	}
+
+	add_filter( 'wpseo_schema_needs_breadcrumb', '__return_false' );
+	add_filter( 'wpseo_schema_webpage', 'dentall_core_remove_yoast_breadcrumb_reference' );
+}
+add_action( 'get_header', 'dentall_core_use_native_product_breadcrumb_schema' );
+
+/**
+ * 删除WebPage对已移除Yoast面包屑的引用，避免留下悬空的@id。
+ *
+ * @param array<string, mixed> $data Yoast WebPage节点。
+ * @return array<string, mixed>
+ */
+function dentall_core_remove_yoast_breadcrumb_reference( $data ) {
+	unset( $data['breadcrumb'] );
+	return $data;
+}
+
+/**
  * 将商品筛选参数页标记为noindex, follow，同时保留Yoast基础归档Canonical。
  *
  * 使用晚于Yoast的wp_robots过滤器，而不修改Yoast内部robots presentation；后者会让

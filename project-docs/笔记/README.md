@@ -17,6 +17,8 @@
 
 ## 专题学习笔记
 
+并行检查点：[[Day65-商品详情结构化数据与SEO边界]]已完成隔离Local独立SEO范围；D62/D64集成、最终可访问性与公开环境待复验，不改变下方顺序主线的完成状态。
+
 | 专题 | 入口 | 用途 |
 |---|---|---|
 | WordPress实战 | [[WordPress实战笔记/WordPress实战笔记索引\|WordPress实战笔记索引]] | 从DentAll真实开发代码中学习WordPress、WooCommerce、子主题、Hook、安全与排错；学习笔记与对应Day项目笔记显式双向链接 |

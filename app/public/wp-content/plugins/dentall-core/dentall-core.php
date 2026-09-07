@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DentAll Core
  * Description: DentAll 商城跨主题的最小业务能力。
- * Version: 0.2.7
+ * Version: 0.2.8
  * Requires at least: 7.0
  * Requires PHP: 8.2
  * Text Domain: dentall-core
