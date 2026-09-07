@@ -259,6 +259,21 @@ function dentall_configure_storefront_shell() {
 add_action( 'after_setup_theme', 'dentall_configure_storefront_shell', 40 );
 
 /**
+ * 保留WooCommerce原生商品Meta品牌文字，移除Storefront额外的品牌缩略图。
+ *
+ * 两条输出链会在已分配品牌时重复表达同一事实；缩略图还会把品牌素材加载到标题前。
+ * 本函数只调整Storefront展示Hook，不影响product_brand关系、归档、筛选或Product Schema。
+ *
+ * @return void
+ */
+function dentall_remove_storefront_product_brand_thumbnail() {
+	if ( function_exists( 'storefront_woocommerce_brands_single' ) ) {
+		remove_action( 'woocommerce_single_product_summary', 'storefront_woocommerce_brands_single', 4 );
+	}
+}
+add_action( 'after_setup_theme', 'dentall_remove_storefront_product_brand_thumbnail', 40 );
+
+/**
  * 将无有效关键词的商品搜索临时重定向到Shop。
  *
  * WordPress会把空关键词或超过1600字节的关键词还原为空搜索条件，可能让搜索URL展示

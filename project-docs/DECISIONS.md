@@ -347,6 +347,14 @@
 - URL/SEO：生成的Chip、Clear、筛选、排序与分页链接继续使用集中白名单并带`rel=nofollow`；筛选参数页保持`noindex, follow`与基础归档Canonical。非规范筛选请求使用302而不是301，因为这是输入清理，不建立永久旧新URL资产关系；高价值组合不会因有计数而自动成为可索引落地页。
 - 数据、安全与回滚：D53 TEST夹具只在Local创建30个品牌和30个发布商品，清理器在删除前验证term没有关联任何非允许对象；外部对象关联护栏已实测拒绝清理。最终回收后品牌term、TEST SKU/post、关系和三类计数transient均为0，发布商品、Trash、属性lookup及配置恢复基线。回滚主题0.29.0时移除D53已选条件、计数约束、GET归一化/重定向与CSS，再恢复0.28.0；不删除未来正式品牌或修改Woo核心。支付、物流、订单、库存写入和非Local环境均未改变。
 
+## ADR-035：商品详情保留原生文字品牌并移除Storefront重复缩略图
+
+- 状态：已接受并于2026-09-07随D57仅在Local实施。用户授权只调整既有详情样式、移除Storefront重复品牌缩略图并保留`product_meta`文字品牌；不修改商品/评价数据，不新增字段、模板、JavaScript、插件或购买逻辑。
+- 问题与决定：Storefront 4.6.2在`woocommerce_single_product_summary`优先级4调用`storefront_woocommerce_brands_single`输出品牌缩略图；WooCommerce 11.0.0又在`woocommerce_product_meta_end`优先级10调用`WC_Brands::show_brand`输出文字链接。两者在有品牌时重复表达同一个`product_brand`事实。DentAll通过子主题`after_setup_theme`优先级40只移除前一回调，保留Meta文字链。
+- 数据与SEO：不删除或改写`product_brand` taxonomy、term关系、归档、筛选或CSV；Woo Brands在`woocommerce_structured_data_product`上的Schema Filter是独立链，继续保留。当前恢复态#44/#46均无品牌，因此已验证空状态与运行Hook合同，正向文字品牌视觉仍待业务真实样本或另行授权可逆夹具。
+- 性能与缓存：有品牌时不再由Storefront在标题前请求缩略图，但当前0品牌样本不能量化节省；不得宣称已提升LCP。主题版本升至0.32.0会刷新既有子主题静态资源缓存键，没有新请求、查询、远程调用、Cron或自定义缓存。
+- 兼容与回滚：该决定依赖Storefront 4.6.2回调名/优先级及WooCommerce 11.0.0 Brands实现；升级父主题、Woo或切换区块单品模板后必须重查Hook。回滚时删除`dentall_remove_storefront_product_brand_thumbnail()`及其Action并回退主题版本；品牌数据和Woo原生Meta/Schema无需数据回滚。支付、库存、订单、物流及非Local环境不受影响。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

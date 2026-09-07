@@ -88,7 +88,7 @@ add_action( 'wp_enqueue_scripts', 'dentall_enqueue_catalog_assets', 45 );
  * 只在WooCommerce商品详情页加载详情结构样式。
  *
  * D55保留WooCommerce与Storefront原生模板和Hook，只调整顶层PC骨架；
- * D56图库样式沿用同一按页资源，摘要字段与购买交互继续由后续Day分别负责。
+ * D56图库与D57信息视觉沿用同一按页资源，购买交互继续由后续Day负责。
  *
  * @return void
  */

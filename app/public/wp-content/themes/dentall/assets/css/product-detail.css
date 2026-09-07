@@ -101,6 +101,111 @@
 	color: var(--dentall-color-action-hover);
 }
 
+/*
+ * D57商品基础信息：继续使用WooCommerce原生标题、评分、价格、摘要、库存和Meta，
+ * 只建立稳定的视觉层级；字段内容和输出规则仍由上游负责。
+ */
+.single-product div.product > .onsale {
+	position: absolute;
+	z-index: 2;
+	inset: var(--dentall-space-12) auto auto var(--dentall-space-12);
+	margin: 0;
+	padding: var(--dentall-space-4) var(--dentall-space-8);
+	border: 0;
+	border-radius: var(--dentall-radius-sm);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-color-surface);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: var(--dentall-line-height-body);
+}
+
+.single-product div.product .summary .product_title {
+	margin: 0 0 var(--dentall-space-16);
+	font-size: var(--dentall-font-size-2xl);
+}
+
+.single-product div.product .summary .woocommerce-product-rating {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--dentall-space-8);
+	margin: 0 0 var(--dentall-space-16);
+	font-size: var(--dentall-font-size-sm);
+}
+
+.single-product div.product .summary .woocommerce-product-rating::before,
+.single-product div.product .summary .woocommerce-product-rating::after {
+	content: none;
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating {
+	float: none;
+	margin: 0;
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating::before {
+	color: var(--dentall-color-border-strong);
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating span::before {
+	color: var(--dentall-color-rating-decoration);
+}
+
+.single-product div.product .summary > .price {
+	margin: 0 0 var(--dentall-space-24);
+	color: var(--dentall-color-heading);
+	font-size: var(--dentall-font-size-2xl);
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary > .price del {
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-regular);
+	opacity: 1;
+}
+
+.single-product div.product .summary > .price del ~ ins {
+	margin-inline-start: var(--dentall-space-8);
+}
+
+.single-product div.product .summary > .price ins {
+	color: inherit;
+	font-weight: inherit;
+	text-decoration: none;
+}
+
+.single-product div.product .summary .woocommerce-product-details__short-description {
+	margin: 0 0 var(--dentall-space-24);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary .woocommerce-product-details__short-description > :last-child {
+	margin-bottom: 0;
+}
+
+.single-product div.product .summary .stock {
+	margin: 0 0 var(--dentall-space-24);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.single-product div.product .summary .product_meta {
+	padding-top: var(--dentall-space-16);
+	border-top-color: var(--dentall-color-border-subtle);
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-sm);
+	line-height: var(--dentall-line-height-body);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary .product_meta > :where(.sku_wrapper, .posted_in, .tagged_as)
+	+ :where(.sku_wrapper, .posted_in, .tagged_as) {
+	margin-block-start: var(--dentall-space-4);
+}
+
 @media (min-width: 75rem) {
 	.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
 		grid-template-columns: repeat(5, minmax(0, 6.25rem));

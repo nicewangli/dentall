@@ -738,6 +738,34 @@ C6结论：**当前Simple模板v1技术/人员路径通过，开放P0/P1为0。*
 
 证据限制：缺主图占位只证明“Product未关联图片”的原生路径，不证明网络404能自动替换；本次明确未实现该能力。CSS覆盖初始化前后方形空间，但未用真实慢网或网络节流复演加载过程，不能外推Production CLS/CWV。移动端保留原生缩略图而非精确圆点。FlexSlider缩略图是不可聚焦的`img`，键盘等价路径为trigger→PhotoSwipe→方向键→Escape。Variation动态换图后的`sizes`、真实iOS/Android和辅助技术、RTL、正式素材、页面缓存/CDN、Core Web Vitals、Staging/Production均未验证。Storefront 4.6.2未公开标注兼容WordPress 7.0.4，本次Local实测不能替代未来升级回归。
 
+## D57 Local商品基础信息与原生品牌输出记录
+
+本记录只覆盖用户确认的D57推荐最小范围：仅在Local复用WooCommerce原生标题、评分、Regular/Sale/Variation价格、短描述、库存、SKU、分类、品牌和Meta；只修改既有详情CSS，移除Storefront重复品牌缩略图并保留`product_meta`文字品牌，更新主题版本。明确不修改商品或评价数据，不新增字段、模板、JavaScript、插件、查询或购买逻辑；D58购买区、D59顶层平板布局及D61 Variation媒体/价格优化不提前实施。
+
+| ID | 场景 | 预期 | 实际证据 | 结果 |
+|---|---|---|---|---|
+| D57-01 | D56的DentAll 0.31.0基线与明确授权 | 只在4个既有主题文件实施，版本升至0.32.0 | `product-detail.css`、`storefront-hooks.php`、`setup.php`注释、`style.css`；0新运行文件 | 通过 |
+| D57-02 | #44 Simple Sale；390/768/1024/1199/1200/1440 | 原价/现价语义、Sale、库存、SKU、分类不丢；无横溢出 | 六宽均保留`$29.99 → $24.99`、8 in stock及Meta；`scrollWidth=clientWidth` | 通过 |
+| D57-03 | #44 Sale与Gallery/Summary顶线 | Sale进入Gallery且不遮挡灯箱入口或Summary；双列顶线一致 | 六宽Sale均在Gallery内；768～1440 Gallery/Summary同顶线，D55约43px差异关闭 | 通过 |
+| D57-04 | Woo 11促销价格HTML | `del`与`ins`之间的屏幕阅读器节点不应让8px间距规则失效 | 独立测试发现`del + ins`死规则并报P2；改为局部`del ~ ins`，Code复核确认不命中动态Variation价格 | 通过（P2已关闭） |
+| D57-05 | #46 Variable初始；六宽 | 显示原生价格区间、父SKU、2个Select和Variation form，不伪造库存 | 六宽为`$39.99–$49.99`、2个Select、1个form、3个Variation数据，页面无横溢出 | 通过 |
+| D57-06 | Variation 51/52/53库存合同 | D57只统一`.stock`展示，不改匹配、价格、按钮或购买逻辑 | CRUD只读为5 / 0 / 3，`availability_html`为`5 in stock` / `Out of stock` / `3 in stock`；D56已有#51选择链 | 通过（数据/合同） |
+| D57-07 | #44/#46零评分及正向评分合同 | 0评分不输出容器；有评分时星级/链接可换行且无clearfix幽灵间隙 | 当前DOM评分容器0；源码确认条件；专项审查补充局部`::before/::after { content:none; }` | 通过（正向实页未造数据） |
+| D57-08 | 短描述存在/为空及长文本 | 原生内容存在时可换行；为空时不造占位 | #44/#46现有摘要六宽无溢出；`short-description.php`空值提前返回 | 通过（空值为源码合同） |
+| D57-09 | SKU、分类、标签和Meta | 原生条件、链接和可访问语义保留，长内容可断行 | #44/#46唯一SKU/分类；Meta宽度无溢出，普通文字链接样式继续来自D28 | 通过 |
+| D57-10 | 品牌双输出链 | 移除Storefront缩略图@4；保留Woo Meta文字@10与Schema Filter | 运行Hook中缩略图回调为`false`，`WC_Brands::show_brand@10`仍在；Schema Filter源码独立 | 通过 |
+| D57-11 | 当前0品牌恢复态 | 无品牌时不输出虚假品牌、占位或图片请求 | #44/#46品牌关系与品牌DOM均为0 | 通过；正向品牌实页未造数据 |
+| D57-12 | Product与Home/Shop资源隔离 | Product仅1份详情CSS 0.32.0；非Product为0 | #44/#46为`product-detail.css?ver=0.32.0`一份；Home/Shop为0 | 通过 |
+| D57-13 | URL、SEO、语义与Console | D57不改变URL、Canonical、robots、H1或Schema；有效页面无Console错误 | Product URL/Canonical正常、H1唯一、Variable Schema保留SKU/Offers；页面warning/error 0 | 通过；非Local抓取未验 |
+| D57-14 | 商品与Variation数据不变量 | 价格、库存、SKU、类型、分类、品牌和评价保持基线 | #44/#46及51～53新进程只读结果与前置基线一致；无保存/更新命令，临时审计文件删除 | 通过 |
+| D57-15 | 静态、规模、日志和专项复核 | 代码质量通过，工具噪声与站点错误分开记录，P0/P1/P2关闭 | PHP lint、diff check；CSS 221行/7170字节/32对花括号/0 `!important`；代码/测试/视觉终审P0～P3=0 | 通过 |
+
+减法证据：删除标题重复继承的`font-weight`/`line-height`、短描述重复`color`和库存纯文本无收益的`display`/`align-items`/`gap`共6条声明；精确命名品牌Hook函数并修正两处职责注释。评分clearfix重置和`del ~ ins`是基于真实父主题/Woo DOM关闭的缺陷，不作为预实现删除。最终4个既有运行文件122行新增/2行删除、净+120行，新增1函数、1 Action、16个CSS规则块，0新运行文件。
+
+视觉证据限制：六宽结论来自主流程/独立测试的DOM与几何循环，不代表六档均保存独立截图。最终`del ~ ins`修正后只补拍#44 390px，确认原/现价同一行且约8px间距；1440截图早于该修正，其他视口依赖该无断点选择器的静态合同和此前几何证据。完整终态截图可在D59/D60整页回归补齐，不影响D57当前P0～P3=0结论。
+
+日志证据：Day57探索性只读WP-CLI曾因Windows引号、受保护方法或错误数据库端口向历史`debug.log`写入工具Fatal/连接警告；独立测试明确其中02:23:31/02:23:47 UTC两条Parse error属于测试命令，范围审查的02:29:29 UTC连接警告和视觉审查的02:27:43 UTC Undefined constant也均为只读工具噪声，未改变数据。改用正确Local配置与文件式审计后通过；02:29:29 UTC之后的页面验收未新增前台PHP错误。历史日志未清空，不能表述为全局干净。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

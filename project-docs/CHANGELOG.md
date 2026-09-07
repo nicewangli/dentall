@@ -51,6 +51,7 @@
 - Day54商品发现全链路与W9 Local技术收口：不提升主题/插件版本且不修改运行代码，在恢复态2商品/0品牌上重跑Shop、商品分类、商品搜索、排序、请求内1项/页分页、Price/Size/Shade、已选/清除、正常/零结果/错误、7类非规范GET、390/768/1024/1440及1199/1200交互、robots/Canonical/Sitemap与分面缓存。14张截图及独立静态/Test/UX复核P0=P1=P2=0；D53的30品牌、计数SQL、lookup回退和清理护栏按版本/指纹一致复用，未冒充D54新鲜证据。最终配置、商品、Trash、lookup和transient精确恢复；3项P3、真实设备/辅助技术、正式内容、非Local缓存/部署及稳定Git基线继续待处理。
 - DentAll 0.30.0 商品详情字段与PC骨架：冻结WooCommerce经典单品模板、原生字段与三组核心Action责任；只在`is_product()`成立时条件加载407字节`product-detail.css`，并在1200px起以两条`width`把Storefront全宽商品页调整为约56.5% Gallery、4.35% gutter、39.1% Summary。#44 Simple、#46 Variable、390/768/1024/1440、1199/1200、Shop资源隔离、静态/HTTP/Console及三路独立复核通过；减法审查删除2条重复物理方向margin。没有字段、模板覆盖、插件、JavaScript、Buy Now、Wishlist、Hook重排、数据或非Local变更；768堆叠转D59，Sale flash对齐转D56/D57。
 - DentAll 0.31.0 商品图库与响应式图片：复用WooCommerce/Storefront原生Gallery、FlexSlider、Zoom与PhotoSwipe，在既有详情CSS中建立单图、多图和缺图共用的方形画布、`contain`图片、响应式五列缩略图及44px灯箱入口；四参数Filter修正初始Gallery的`sizes`，全新1440请求由过小416px候选改取768px候选。#44通过Woo CRUD完成5图、缺图及新进程精确恢复，#46、六宽、缩略图、Zoom、键盘灯箱、Shop资源隔离、SEO/日志/静态检查和独立复核通过，最终P0～P3=0。新增0运行文件、1函数、1 Filter、13个CSS规则块；未新增模板、JS、插件、字段或查询，未实现网络失败替换、移动精确圆点和Variation动态图优化，未部署非Local。
+- DentAll 0.32.0 商品基础信息与原生品牌输出：继续复用WooCommerce经典单品标题、评分、Regular/Sale/Variation价格、短描述、库存、SKU、分类与Meta，在既有详情CSS中建立信息层级并把原生Sale标签移入Gallery，关闭摘要顶线P3。子主题只移除Storefront优先级4的重复品牌缩略图，保留`product_meta`文字品牌与Product Schema。#44/#46、390/768/1024/1199/1200/1440、资源隔离、数据/URL/SEO不变量和三路专项复核通过；Woo 11促销HTML的`screen-reader-text`使相邻兄弟规则失效，已改用局部`del ~ ins`。最终4个既有运行文件净+120行、1函数、1 Action、16个CSS规则块；无字段、模板、JS、插件、查询、数据或购买逻辑变更，正向评分/品牌实页和非Local仍待。
 
 ### 修改
 
