@@ -1,0 +1,121 @@
+{
+  "date": "2026-09-08",
+  "status": "候选技术验证通过（未标Day Done、未合并）",
+  "branch": "codex/day68-cart-responsive",
+  "parent_commit": "21f294174f6a826eb39be4eb5ebd4d3f7793d0d6",
+  "environment": {
+    "type": "全新独立Local副本",
+    "source_local_read_only": true,
+    "checkout_visited": false,
+    "non_local_touched": false
+  },
+  "versions": {
+    "wordpress": "7.0.4",
+    "woocommerce": "11.0.0",
+    "php": "8.2.29",
+    "storefront": "4.6.2",
+    "dentall_candidate": "0.37.0",
+    "dentall_core": "0.2.8"
+  },
+  "summary": {
+    "assertions": 198,
+    "passed": 198,
+    "failed": 0,
+    "failed_by_severity": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "independent_findings": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 1,
+      "P3": 0
+    }
+  },
+  "final_reviews": {
+    "tracked_code": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "security": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0,
+      "P3": 0
+    },
+    "test_harness_hardening": "198/198动态报告生成后完成；仅有静态复审与PHP/Node/PowerShell语法检查证据，未冒充动态重跑"
+  },
+  "viewports": [390, 768, 1024, 1199, 1200, 1440],
+  "runtime": {
+    "cart_css_loaded_once": true,
+    "cart_css_version": "0.37.0",
+    "quantity_selector_px": "128x44",
+    "minus_plus_remove_px": "44x44",
+    "checkout_height_px": 48,
+    "root_horizontal_overflow_px": 0,
+    "new_runtime_files": 0,
+    "new_functions": 0,
+    "new_hooks": 0,
+    "new_javascript": 0,
+    "insertions_vs_d67": 65,
+    "deletions_vs_d67": 35,
+    "net_lines_vs_d67": 30
+  },
+  "commerce": {
+    "simple_product_tested": true,
+    "variation_id": 51,
+    "variation_quantity_one_total_minor": "3999",
+    "variation_quantity_two_total_minor": "7998",
+    "currency": "USD",
+    "loading_error_soldout_unpurchasable_empty_tested": true,
+    "long_text_missing_image_tested": true,
+    "carts_cleared": true,
+    "product_and_variation_restored": true
+  },
+  "page_8": {
+    "id": 8,
+    "slug": "cart",
+    "status": "publish",
+    "candidate_title": "Cart",
+    "candidate_copy": [
+      "You may be interested in&hellip;",
+      "Your cart is currently empty!",
+      "New in store"
+    ],
+    "candidate_assertions": "39/39",
+    "block_topology_unchanged": true,
+    "baseline_content_sha256": "07206E2F621DD375A94359BA851C9286D2FA4E86EDE2C17D2B8348C9197C5E2F",
+    "candidate_content_sha256": "C620A62ABE3D4851D369FF8DFC742484C3C9419E91CCA35EAE3E3C8B36221696",
+    "restored_to_chinese": true,
+    "local_robots": "noindex,nofollow",
+    "production_canonical_tested": false
+  },
+  "deferred_findings": [
+    {
+      "id": "D68-P2-COUPON-DISCLOSURE-HEIGHT",
+      "severity": "P2",
+      "owner": "D70",
+      "reason": "优惠码入口属于D70范围；D68不越界修改",
+      "observed_height_px": 20,
+      "functional": true,
+      "plan": "D70统一完成44px触控目标并回归六宽、键盘与错误态"
+    }
+  ],
+  "cleanup": {
+    "isolated_database_restored": true,
+    "source_snapshot_unchanged": true,
+    "source_wp_config_hash_unchanged": true,
+    "listeners_remaining": 0
+  },
+  "limits": [
+    "D66的RSK-035、RSK-037、RSK-038仍开放",
+    "D67、D68与M5均未标Done或合并",
+    "未验证真实设备、屏幕阅读器、真实网络、CDN、页面缓存或Core Web Vitals",
+    "未验证非全站noindex环境中的Production Cart Canonical",
+    "未部署Staging或Production"
+  ]
+}

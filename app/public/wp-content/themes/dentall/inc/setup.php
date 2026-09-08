@@ -124,7 +124,7 @@ function dentall_enqueue_product_detail_assets() {
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );
 
 /**
- * 只在WooCommerce购物车页加载PC布局样式。
+ * 只在WooCommerce购物车页加载响应式展示样式。
  *
  * 购物车数量、删除、库存与金额继续由Cart Block和Store API负责；主题只增强展示，
  * 避免把交易页样式加载到商品详情或其他页面。

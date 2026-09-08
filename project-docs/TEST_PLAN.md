@@ -931,6 +931,22 @@ Core0.2.8在`127.0.0.1:16565`：独立增量的12页前后+4页Yoast退出分支
 
 三项P2负责人开发者，D66/M5前确认处置，最晚非Local部署前解决或明确接受有期限的延期；本轮未擅自实现新错误UX、关闭导航或增加换行CSS。正式内容/认证/PDF正向路径、Variation Gallery多图、重复Variable合法POST、实体设备/屏幕阅读器、公开索引、非Local缓存/CWV与部署仍未验。
 
+## D68响应式Cart Block候选验证（2026-09-08，未合并）
+
+运行候选为`codex/day68-cart-responsive`，父级D67重放提交`21f2941`，WordPress 7.0.4、WooCommerce 11.0.0、PHP 8.2.29、Storefront 4.6.2、Yoast 28.2、DentAll候选0.37.0/Core 0.2.8。验证仅发生在全新独立Local副本；源Local只读，未访问Checkout、订单或非Local。最终脱敏摘要见`tests/day68-results.json`，详细边界见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 运行树与资源 | 3个候选文件哈希与隔离运行树一致；`cart.css?ver=0.37.0`只加载1次，Shop等非Cart作用域不受新增规则影响 | 通过；main仍0.35.0，D67/D68未合并 |
+| 正常Simple与Variation | 六宽；#44及Variation #51；数量1→2；Store API金额Simple 2499→4998、Variation 3999→7998，币种USD；DOM/可见金额一致 | 通过；Variation `parent`响应字段为null属当前Store API实际合同，不伪造断言 |
+| 响应式与触控 | 390/768/1024/1199/1200/1440；页面根横溢出0；数量选择器128×44、增减/Remove 44×44、Checkout 48；焦点和中心命中通过 | 通过；真实设备/读屏器未验 |
+| 内容压力与异常 | 长名称、连续长属性、缺图、initial loading、update error、售罄/不可购买、96字符连续错误、空态 | 通过；通用错误只补Flex收缩与安全断行，不自建状态机 |
+| Cross-sell图片 | 首轮空白经等待/滚动探针确认是截图时序；六宽图片complete且自然尺寸>0，资源失败0 | 通过；不冻结正式推荐商品或素材 |
+| Page ID 8英文候选 | 39/39；标题`Cart`及3段批准英文；ID/slug/status/Woo绑定/Block拓扑不变；`/cart/`、noindex/nofollow | 通过后已恢复中文；Production非全站noindex下Canonical未验 |
+| 清理与源Local | 全部匿名购物车清空；商品/Variation及隔离整库恢复；源Local只读快照和`wp-config.php`哈希不变；16868/16869监听0 | 通过；源Local未持久化英文内容 |
+
+最终独立汇总为198/198断言通过，断言失败P0/P1/P2/P3均为0；独立功能发现P0=0、P1=0、P2=1、P3=0。唯一P2为原生`Add coupons` disclosure六宽均20px；Enter及顶部/中心/底部指针均可展开，不阻塞D68交易正确性。负责人D70；延期原因是优惠码入口和规则属于D70；计划D70完成44px触控目标并回归六宽、键盘与错误态。D66的RSK-035/037/038仍开放，故D68、D67与M5均不标Done。
+
 ## 测试记录模板（后续填写）
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
