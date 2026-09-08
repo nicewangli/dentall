@@ -11,6 +11,15 @@
 - 全新独立Local副本最终198/198断言通过；覆盖Simple/Variation、六宽、1199/1200、长文本/缺图、loading/error/售罄/不可购买/空态、触控/键盘、Cross-sell图片及Page ID 8批准英文候选。英文验证后已恢复中文原哈希，全部购物车、商品/Variation及整库恢复；源Local只读快照不变，端口已停止。
 - 独立功能发现保留1项D70/P2：原生`Add coupons`高度20px，功能可展开但未达到44px触控目标。D66的RSK-035/037/038未关闭，故D68/D67/M5不标Done；未合并、推送、部署，未改正式数据、URL、SEO输出、支付、物流或缓存配置。主题版本查询串会在未来部署时刷新相关资源缓存。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
 
+### D69 Header Cart与Mini Cart状态联动（2026-09-08，独立Local候选）
+
+- `codex/day69-header-cart-sync`将DentAll候选版本升至0.36.0；仅在实际Block Cart页加载1个脚本，以公开`wc/store/cart`的商品key/quantity变化触发经典Header/Mini Cart fragment。继续使用Woo Session与服务端HTML，不新增模板、插件、接口、字段、第二Store、轮询或交易逻辑。
+- fragment改为只替换`span.dentall-cart-content`，保留Storefront监听所在的`a.cart-contents`，结构缓存键从`_dentall_header_v1`升至`_dentall_header_v2`；既有Mini Cart显隐规则只增加`:focus-within`。Simple/Variable、匿名/Customer、非空/空态、鼠标/键盘/模拟触屏、四宽及按页资源作用域通过。
+- 初审发现的BFCache误退订和本页旧fragment晚到覆盖均已修复。终态用localized精确端点、公开jQuery AJAX生命周期与Cart revision等待整个fragment批次落地；Store/fragment失败、HTTP 200无目标fragment、204、abort、快速连续变化及下一次真实变化恢复均有界验证，无自动无限重试。
+- 终态JS为176行、4452字节，源码与隔离运行副本SHA-256均为`269AD1E247B6C4BD3A05F001D9757BC90442DBFB043588C86E989A42002C166B`。Code Review、安全、独立测试均为P0/P1=0；隔离数据库已恢复测试前59表基线、D69临时用户为0，10669监听为0。
+- RSK-039/040继续作为期限性P2：Web Storage完全禁用时Woo 11.0不消费刷新事件；极端双标签错序且来源标签立即关闭时，剩余标签可能暂显旧Header。两者不改服务端Cart，导航/刷新或后续变化恢复；D72/W12合成及最晚非Local浏览器矩阵复审，不依赖Woo私有存储键或擅自增加fallback。
+- 当前仅独立分支和隔离Local技术候选，未合并`main`、未推送或部署。D66的RSK-035/037/038、D67/D68/D70、W12、M5、正式内容、真实辅助技术、Production缓存/CWV仍独立待验。详见[[笔记/Day69-Header Cart与Mini Cart状态联动]]。
+
 ### D66集成、远端同步与商品闭环回归（2026-09-08，待缺陷处置）
 
 - `278d20d`保留D60/D61/D63祖先并合入、推送main；完成工作树登记已清理，160份独有忽略证据私密归档，3个Windows占用空目录保留。D67候选未纳入，未部署非Local。

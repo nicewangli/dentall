@@ -132,15 +132,11 @@ function dentall_header_account_link() {
 }
 
 /**
- * 输出保留WooCommerce动态数量的购物车链接。
+ * 输出购物车链接内可被fragments安全刷新的动态内容。
  *
  * @return void
  */
-function dentall_cart_link() {
-	if ( ! function_exists( 'storefront_woo_cart_available' ) || ! storefront_woo_cart_available() ) {
-		return;
-	}
-
+function dentall_cart_link_content() {
 	$item_count = WC()->cart->get_cart_contents_count();
 	$count_text = sprintf(
 		/* translators: %d: number of items in cart. */
@@ -153,13 +149,29 @@ function dentall_cart_link() {
 		$count_text
 	);
 	?>
+	<span class="dentall-cart-content">
+		<span class="dentall-cart-label" aria-hidden="true"><?php esc_html_e( 'Cart', 'dentall' ); ?></span>
+		<span class="dentall-cart-count" aria-hidden="true"><?php echo esc_html( $item_count ); ?></span>
+		<span class="screen-reader-text"><?php echo esc_html( $link_label ); ?></span>
+	</span>
+	<?php
+}
+
+/**
+ * 输出保留WooCommerce动态数量的购物车链接。
+ *
+ * @return void
+ */
+function dentall_cart_link() {
+	if ( ! function_exists( 'storefront_woo_cart_available' ) || ! storefront_woo_cart_available() ) {
+		return;
+	}
+	?>
 	<a
 		class="cart-contents"
 		href="<?php echo esc_url( wc_get_cart_url() ); ?>"
-		aria-label="<?php echo esc_attr( $link_label ); ?>"
 	>
-		<span class="dentall-cart-label"><?php esc_html_e( 'Cart', 'dentall' ); ?></span>
-		<span class="dentall-cart-count" aria-hidden="true"><?php echo esc_html( $item_count ); ?></span>
+		<?php dentall_cart_link_content(); ?>
 	</a>
 	<?php
 }
@@ -186,31 +198,31 @@ function dentall_header_cart() {
 }
 
 /**
- * 让WooCommerce AJAX fragments继续以同一个a.cart-contents替换顶部购物车链接。
+ * 只替换链接内部动态内容，保留Storefront绑定键盘与触控监听的a.cart-contents节点。
  *
  * @param array $fragments 待刷新的HTML片段。
  * @return array
  */
 function dentall_cart_link_fragment( $fragments ) {
 	ob_start();
-	dentall_cart_link();
-	$fragments['a.cart-contents'] = ob_get_clean();
+	dentall_cart_link_content();
+	$fragments['span.dentall-cart-content'] = ob_get_clean();
 
 	return $fragments;
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'dentall_cart_link_fragment', 20 );
 
 /**
- * 为D33 Header Cart结构使用独立的浏览器fragment缓存键。
+ * 为D69内部fragment结构使用独立的浏览器缓存键。
  *
- * WooCommerce会从sessionStorage恢复经典fragment。若继续沿用D31的缓存键，旧的
- * a.cart-contents可能在页面加载后覆盖新徽标，直至下一次fragment刷新。
+ * WooCommerce会从sessionStorage恢复经典fragment。更换选择器后必须隔离D33缓存，
+ * 避免旧的a.cart-contents再次替换链接并丢失Storefront事件监听。
  *
  * @param string $fragment_name WooCommerce默认fragment存储键。
  * @return string
  */
 function dentall_cart_fragment_name( $fragment_name ) {
-	return $fragment_name . '_dentall_header_v1';
+	return $fragment_name . '_dentall_header_v2';
 }
 add_filter( 'woocommerce_cart_fragment_name', 'dentall_cart_fragment_name', 20 );
 

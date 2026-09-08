@@ -146,3 +146,34 @@ function dentall_enqueue_cart_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
+
+/**
+ * 只在Cart Block页面同步Store API购物车与经典Header Cart fragments。
+ *
+ * Cart Block以wc/store/cart为真实状态源；本脚本不保存第二份购物车数据，
+ * 仅在服务端返回的商品键或数量发生变化后请求WooCommerce重绘现有fragments。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_header_sync_assets() {
+	if (
+		! function_exists( 'is_cart' )
+		|| ! is_cart()
+		|| ! has_block( 'woocommerce/cart' )
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_script(
+		'dentall-cart-header-sync',
+		get_stylesheet_directory_uri() . '/assets/js/cart-header-sync.js',
+		array( 'jquery', 'wp-data', 'wc-blocks-data-store', 'wc-cart-fragments' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_script_add_data( 'dentall-cart-header-sync', 'strategy', 'defer' );
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 );

@@ -703,6 +703,7 @@ a.skip-link[href="#site-navigation"] {
 	}
 
 	.site-header .site-header-cart:hover .widget_shopping_cart,
+	.site-header .site-header-cart:focus-within .widget_shopping_cart,
 	.site-header .site-header-cart.focus .widget_shopping_cart {
 		right: 0;
 		left: auto;
