@@ -43,6 +43,12 @@ body.woocommerce-cart .site-main .entry-title {
 	min-inline-size: 2.75rem;
 }
 
+/* WooCommerce仅给优惠券折叠按钮文本行高；补足整块触控高度且不改原生展开逻辑。 */
+.wp-block-woocommerce-cart .wc-block-components-panel__button {
+	min-block-size: 2.75rem;
+	align-items: center;
+}
+
 /* 长错误码位于Flex子项中，先允许文本收缩，再在连续字符串处安全断行。 */
 .wp-block-woocommerce-cart .wc-block-components-validation-error > p > span {
 	min-inline-size: 0;
