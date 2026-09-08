@@ -88,7 +88,8 @@ add_action( 'wp_enqueue_scripts', 'dentall_enqueue_catalog_assets', 45 );
  * 只在WooCommerce商品详情页加载详情结构样式。
  *
  * D55保留WooCommerce与Storefront原生模板和Hook，只调整顶层PC骨架；
- * 图库、信息与简单商品购买区沿用同一按页资源，交易交互继续由WooCommerce负责。
+ * 图库、信息与购买区沿用同一按页样式。Variable页面额外加载一个语义适配脚本，
+ * 交易交互继续由WooCommerce负责。
  *
  * @return void
  */
@@ -105,5 +106,19 @@ function dentall_enqueue_product_detail_assets() {
 		array( 'dentall-site-shell' ),
 		$theme->get( 'Version' )
 	);
+
+	$product = function_exists( 'wc_get_product' )
+		? wc_get_product( get_queried_object_id() )
+		: false;
+
+	if ( $product instanceof WC_Product && $product->is_type( 'variable' ) ) {
+		wp_enqueue_script(
+			'dentall-product-variation',
+			get_stylesheet_directory_uri() . '/assets/js/product-variation.js',
+			array( 'wc-add-to-cart-variation' ),
+			$theme->get( 'Version' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );

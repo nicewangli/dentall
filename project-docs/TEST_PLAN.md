@@ -845,6 +845,33 @@ Day58按独立Local副本确认范围通过。真实浏览器网络节流、请�
 
 限制：未验证实体设备/屏幕阅读器、DPR>1、真实弱网/CWV、网络404替换、D61 Variation选择/动态媒体/价格/库存/默认值/无效组合/不可购买/加购、正式批准内容、公开Canonical/富结果、非Local缓存、结账、支付、物流和邮件。已停机的受限runtime仍保留数据库转储、日志与含内部样本的截图，仅可本机管理员内部留存，证据保留期结束后应安全删除。
 
+## D61原生变体购买v1验证（2026-09-08）
+
+用户以D59/D60复核正常为前提，明确同意既有Day61 v1范围；`c99126d`为D60基线，DentAll 0.35.0只增加Variable展示适配。所有写操作在新隔离Local TEST副本，未进入Checkout、订单、支付或非Local。完整证据、哈希、恢复与留项见[[笔记/Day61-原生变体选择与购买验证]]。
+
+| 用例ID | 实际场景 | 证据/结果 |
+|---|---|---|
+| D61-01 | 六宽×初始/#51/#52售罄/#53/Clear；原生价格库存、数量/标签、44px、焦点/ARIA、图片sizes、布局/SEO和非Variable资源退出 | `inline-verified/browser.json` 363/363次断言；不是363个独立场景 |
+| D61-02 | 四类属性参数URL与父Canonical/og:url，键盘原生提示、Quantity后Tab、#51×2 POST、USD小计79.98与清空cart | `flows-verified/flows.json` 13/13 |
+| D61-03 | 强制真实AJAX传输，390/1440各五状态及资源退出 | `ajax-verified/browser.json` 121/121；非法组合另由URL/服务端用例覆盖，不混称六宽AJAX |
+| D61-04 | 1200ms延迟、reset后503、恢复、切换pending、快速选择 | `ajax-faults-verified/faults.json` 7/7；原生错误UX限制单列，不把可见class等同最终交易授权 |
+| D61-05 | 匿名#51×2与三种拒绝：超库存、售罄、属性和ID不一致；Customer真实登录后#53×1 | 独立匿名12/12、Customer2/2，金额79.98/49.99 USD；没有双角色全量负向矩阵 |
+| D61-06 | 原生get_variation Filter开启/关闭深比较 | `ajax-contract.json`：仅`image.sizes`改变，ID/价格/库存/属性不变，原生no-cache保留 |
+| D61-07 | 后台实际默认#51、#51动态长连续文本、变体图缺失回退父图，四宽 | `state-a-verified/states.json` 24/24；前轮夹具误写父短描述的20/24保留，修正后真实重跑 |
+| D61-08 | 原生媒体绘制补证 | 390/768滚回图库后的2张局部截图人工确认图正常；不计作额外自动断言 |
+| D61-09 | 四宽默认#51、父/变体双缺图、父级单售设置由Variation继承 | `state-b-verified/states.json` 20/20；占位正确，Quantity与标签整体隐藏 |
+| D61-10 | 四宽#51清空价格不可购买、#53库存1但非单售 | `state-c-verified/states.json` 16/16；min=max=1仍显示Quantity；独立无价POST2/2拒绝且cart空 |
+| D61-11 | AJAX参数URL含Large/Medium无效组合、键盘POST与cart清空 | `flows-ajax-verified/flows.json` 13/13 |
+| D61-12 | 已可购→503→保留旧class/显示→键盘POST | `ajax-error-post/report.json` 4/4；复现P2并确认服务端拒绝/cart空，不能当作错误UX修复通过 |
+| D61-13 | inline Filter开关、D12/D18模型不变量 | `inline-contract.json`6/6，仅3条image.sizes不同且Canonical/Schema相同；模型17/17和8/8 |
+| D61-14 | 全量首快照字段恢复、新进程复查、账号与隔离服务清理 | 最终WordPress17/17；5商品/modified、1session、0订单/退款、14pending及配置一致；Customer/其凭据/AJAX marker清除，16062/16063与对应进程0 |
+
+根代理9报告共581/581次断言及50张截图；计数含已知P2复现，不能宣称全局无缺陷。恢复首轮仅父#46 modified因子项同步/同进程缓存不符，纠正顺序后重新取新进程证据；原失败保留。PHP应用错误0，MySQL仅1条本地CA warning。已停机DB及复跑配置凭据仍保留于ACL受限本机副本，并非全部销毁；关键哈希与命令在项目笔记。
+
+初始ARIA证据限于Woo初始化稳定后的状态，源码在DOM ready设true；首屏HTML尚无主题ARIA，不能表述从第一毫秒起始终一致。Clear图像依据父图候选合同，不要求浏览器放弃Zoom预载的大图。保留seed的原始`blog_public=1`，测试prepare设0，受保护SEO分支临时回1；最终按首快照恢复1并停机，环回与HTTP noindex保护始终有效。所有主动阻断的Google Fonts/emoji及注入503单列，不计本地JS异常；本地未捕获JS异常0。
+
+未覆盖的正式边界：Woo11可选多图Variation Gallery（当前开关no，gallery IDs全空）、Quick View、实际屏幕阅读器/实体设备、DPR>1、公开富结果、Production缓存/CWV与非Local部署。原生已有可购选择后网络失败的旧展示问题登记P2，负责人开发者，D66复审；新增错误状态UI须另行确认。
+
 ## D64隔离Local原生关联商品验证（已完成并合入main）
 
 授权包含隔离Local及可逆TEST；源库只读导出，独立副本禁外发、支付、Cron并noindex。D64先在D57基线独立验收，随后仅选取专项增量纳入`main`；下列结果仍不能外推为Production完成。

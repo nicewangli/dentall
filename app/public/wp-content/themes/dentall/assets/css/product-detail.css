@@ -207,24 +207,24 @@
 }
 
 /*
- * 简单商品购买区复用原生POST表单。数量标签只在可见输入旁展开；
+ * Simple与Variable购买区复用原生POST表单。数量标签只在可见输入旁展开；
  * Woo将仅剩一件或独售商品的数量改为hidden时，保留原来的隐藏语义。
  */
-.single-product div.product.product-type-simple .summary form.cart {
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary form.cart {
 	margin: 0 0 var(--dentall-space-24);
 	padding: 0;
 }
 
-.single-product div.product.product-type-simple .summary form.cart .quantity {
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary form.cart .quantity {
 	float: none;
 	margin: 0;
 }
 
-.single-product div.product.product-type-simple .summary .quantity:has(input:not([type="hidden"])) {
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary .quantity:has(input:not([type="hidden"])) {
 	margin-bottom: var(--dentall-space-16);
 }
 
-.single-product div.product.product-type-simple .summary .quantity:has(input:not([type="hidden"])) label {
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary .quantity:has(input:not([type="hidden"])) label {
 	display: block;
 	/* WooCommerce的screen-reader-text以!important定位，须在此精确复位。 */
 	position: static !important;
@@ -234,6 +234,31 @@
 	height: auto;
 	margin: 0 0 var(--dentall-space-8);
 	overflow: visible;
+}
+
+/* D61只编排Woo原生Variation表单；选择、价格、库存与可购买判断仍由平台负责。 */
+.single-product div.product.product-type-variable .summary table.variations .label {
+	padding-bottom: var(--dentall-space-8);
+}
+
+.single-product div.product.product-type-variable .summary table.variations select {
+	width: 100%;
+	max-width: 100%;
+}
+
+.single-product div.product.product-type-variable .summary .reset_variations {
+	margin: var(--dentall-space-8) 0 0;
+}
+
+.single-product div.product.product-type-variable .summary .single_variation {
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product.product-type-variable .summary .single_variation .price {
+	color: var(--dentall-color-heading);
+	font-size: var(--dentall-font-size-xl);
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
 }
 
 /* D64只编排原生推荐区网格，卡片内容与购买动作继续复用D29和WooCommerce。 */

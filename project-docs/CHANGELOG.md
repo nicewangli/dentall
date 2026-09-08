@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+### D61原生变体选择与购买验证（2026-09-08）
+
+- `codex/day61-variable-purchase`将DentAll升至0.35.0，Core保持0.2.8；4个既有运行文件修改并新增1个22行/720字节JavaScript，120行新增/12行删除、净+108行，净增2个PHP函数、1个Filter和5个CSS规则块。继续复用Woo/Storefront原生Variable表单、选择生命周期、动态价格/库存/媒体与服务端交易校验，只补动态图片`sizes`、数量标签、局部CSS和按钮`aria-disabled`的原生class映射；没有模板覆盖、自定义AJAX、新字段、插件或交易重写。
+- 9份根报告合计581/581次断言、50张保留截图；独立测试另通过匿名12/12、Customer 2/2、无价Variation POST 2/2、行内Filter合同6/6、D12 17/17和D18 8/8。8组状态快照在新PHP进程中完全相等，最终审计17/17、原1条session、0订单/退款、14条pending，D61临时Customer及其凭据和AJAX标记为0；16062/16063监听与对应PHP/MySQL进程均为0。
+- 自定义差分Code Review P0～P3=0；全任务另保留Woo原生AJAX pending或失败后暂留旧按钮状态及可见价格/库存的P2 `RSK-035`，但空`variation_id`的键盘POST已由服务端拒绝且cart为空。负责人为开发者，D66复审、最晚非Local部署前处理；当前不扩展为自建loading/error UX。重复合法POST累加未专项验证，不宣称幂等；未来Variation Gallery多图、Quick View或第三方调用须重验。
+- 分支基线为`c99126d`，D61增量以独立提交保存（具体以Git日志为准），尚未合并`main`；`main`仍为`7220fe5`、`origin/main`仍为`ad6f26e`，未移动`main`、未推送或部署。下一步为D63只读梳理；正式内容、真实辅助技术、CWV、Variation Gallery多图和非Local仍待。详见[[笔记/Day61-原生变体选择与购买验证]]。
+
 ### D60商品详情代表内容回归与W10收口（2026-09-07）
 
 - 按用户授权，仅在一次性隔离Local使用业务来源但未批准公开的代表材料；Simple/Variable初始、长英文、五图、缺图、售罄、无价格、一次Simple数量2加购及D64/D65边界共30页、30张截图。原始401/419经WooCommerce 11.0合同复核后为419/419，18项均为测试Oracle假阴性；17条响应式WEBP `ERR_ABORTED`对应图片全部完成解码。

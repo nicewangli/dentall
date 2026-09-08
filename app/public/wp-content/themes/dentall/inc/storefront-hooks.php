@@ -274,7 +274,7 @@ function dentall_remove_storefront_product_brand_thumbnail() {
 add_action( 'after_setup_theme', 'dentall_remove_storefront_product_brand_thumbnail', 40 );
 
 /**
- * 在Simple商品详情使用与输入框可访问名称一致的简短数量标签。
+ * 在Simple与Variable商品详情使用与输入框可访问名称一致的简短数量标签。
  *
  * 只调整当前主商品的原生label文案；数量、库存与加购规则仍由WooCommerce负责。
  *
@@ -282,19 +282,19 @@ add_action( 'after_setup_theme', 'dentall_remove_storefront_product_brand_thumbn
  * @param WC_Product|null $product 当前商品。
  * @return array
  */
-function dentall_simple_quantity_input_args( $args, $product ) {
+function dentall_product_quantity_input_args( $args, $product ) {
 	if (
 		is_product()
 		&& $product instanceof WC_Product
 		&& $product->get_id() === get_queried_object_id()
-		&& $product->is_type( 'simple' )
+		&& $product->is_type( array( 'simple', 'variable' ) )
 	) {
 		$args['product_name'] = '';
 	}
 
 	return $args;
 }
-add_filter( 'woocommerce_quantity_input_args', 'dentall_simple_quantity_input_args', 10, 2 );
+add_filter( 'woocommerce_quantity_input_args', 'dentall_product_quantity_input_args', 10, 2 );
 
 /**
  * 限制详情页手选推荐的显示数量，保留WooCommerce原生排序、可见性和空状态。
@@ -485,6 +485,17 @@ function dentall_product_search_empty_actions() {
 add_action( 'woocommerce_no_products_found', 'dentall_product_search_empty_actions', 20 );
 
 /**
+ * 返回商品详情主图在各断点的实际显示宽度提示。
+ *
+ * 初始图库和Variation动态图片必须复用同一份合同，避免选择属性后退回Woo默认尺寸。
+ *
+ * @return string
+ */
+function dentall_product_gallery_sizes() {
+	return '(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)';
+}
+
+/**
  * 让商品图库按实际响应式列宽选择图片候选，避免PC主图继续加载416px资源。
  *
  * 仅改WooCommerce图库图片的sizes提示；srcset、首图加载优先级、缩略图与灯箱数据
@@ -501,8 +512,43 @@ function dentall_product_gallery_image_attributes( $image_attributes, $attachmen
 		return $image_attributes;
 	}
 
-	$image_attributes['sizes'] = '(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)';
+	$image_attributes['sizes'] = dentall_product_gallery_sizes();
 
 	return $image_attributes;
 }
 add_filter( 'woocommerce_gallery_image_html_attachment_image_params', 'dentall_product_gallery_image_attributes', 10, 4 );
+
+/**
+ * 让Variation动态图片沿用商品详情主图的响应式尺寸提示。
+ *
+ * 普通详情渲染与Woo原生get_variation端点是两条生命周期；这里只改图片元数据，
+ * 不改属性匹配、价格、库存、可购买状态或加购结果。
+ *
+ * @param array                $variation_data Variation前端数据。
+ * @param WC_Product_Variable  $product        Variable父商品。
+ * @param WC_Product_Variation $variation      当前Variation。
+ * @return array
+ */
+function dentall_available_variation_image_sizes( $variation_data, $product, $variation ) {
+	$is_product_page = function_exists( 'is_product' )
+		&& is_product()
+		&& $product instanceof WC_Product
+		&& $product->get_id() === get_queried_object_id();
+	$is_variation_ajax = defined( 'WC_DOING_AJAX' )
+		&& WC_DOING_AJAX
+		&& 'get_variation' === get_query_var( 'wc-ajax' );
+
+	if (
+		( ! $is_product_page && ! $is_variation_ajax )
+		|| ! $variation instanceof WC_Product_Variation
+		|| empty( $variation_data['image'] )
+		|| ! is_array( $variation_data['image'] )
+	) {
+		return $variation_data;
+	}
+
+	$variation_data['image']['sizes'] = dentall_product_gallery_sizes();
+
+	return $variation_data;
+}
+add_filter( 'woocommerce_available_variation', 'dentall_available_variation_image_sizes', 10, 3 );
