@@ -897,6 +897,23 @@ Core0.2.8在`127.0.0.1:16565`：独立增量的12页前后+4页Yoast退出分支
 
 主分支集成后已重跑最终12页Schema/DOM：Simple、Variable和合法Variation URL均为Product 1、BreadcrumbList 1、WebPage面包屑引用0、悬空引用0，Shop/分类/搜索/404无回归；#44在390/768/1024/1440横向溢出0，推荐Grid为1/2/3/3列，数量输入与按钮44px。数量2加购后notice、Header 2 items、购物车$49.98及清空空态通过。D61缺货按钮disabled语义仍为继承待办；Google/Schema在线验证、屏幕阅读器、实体设备、正式品牌/评价、非Local缓存与CWV未验。详细测试命令、源25表不变量、证据和P3升级边界见[[笔记/Day65-商品详情结构化数据与SEO边界]]。
 
+## D63原生扩展信息与公开资料空状态（2026-09-07）
+
+本记录只覆盖用户批准的“匿名公开补充资料、无合格PDF时不输出、零运行代码、零数据库变更”范围。D63复用`ad6f26e`当前运行代码及D65主分支合成证据；当前23个自有运行文件与D65隔离副本统一换行后逐文件比对为23/23相同，保存HTML与八张页面视口截图因此仍代表当前运行实现。D63没有启动或创建新的数据库副本、测试商品、媒体或持久测试状态，也没有执行商品、附件、角色、设置或夹具的显式业务/配置写入。“零数据库变更”按该落地口径验收；本轮没有当前数据库全表前后哈希，不能用D65的25表哈希断言D63每个完整HTTP请求绝对不触发session、Cron、transient或第三方插件写入。
+
+| ID | 场景与预期 | 实际证据 | 结果 |
+|---|---|---|---|
+| D63-01 | 可见商品级属性由Additional Information输出 | 保存HTML中#44为Weight/Dimensions/Package Quantity，#46为Weight/Dimensions/Size/Shade；表格有`aria-label="Product Details"`及行级`scope="row"` | 通过；TEST值不是真实商品事实 |
+| D63-02 | Description只在正文存在时输出，无正文不造占位 | #44/#46保存HTML均有Description；Woo 11 `woocommerce_default_product_tabs()`只在`post_content`非空时注册该Tab | 通过（现有正向＋源码空态） |
+| D63-03 | 无可见属性且无重量/尺寸时不输出空Additional Information | `WC_Product::has_attributes()`逐项检查`get_visible()`；默认Tab还检查重量/尺寸，模板对空数组提前返回 | 通过（源码合同）；未造全空商品 |
+| D63-04 | 当前无合格资料时不显示下载入口或空容器 | #44/#46的Description/Additional Information面板内PDF提及0、资料链接0，合法Variation `is_downloadable=false`；自有代码无下载区 | 通过；不代表PDF正向下载已验 |
+| D63-05 | 390/768/1024/1440下现有详情可用，Tab结构与一条键盘路径成立 | 复用D65同运行代码8个视口：两商品页面横溢出0、坏图0、H1为1；重复ID在#44 390及#46四宽记录为0。保存HTML含原生Tab结构；#46单一路径键盘激活Additional information，焦点3px、面板可见、Console为空 | 通过（桌面Chrome模拟）；未做四宽逐一Tab交互/截图，长参数实页与实体设备未验 |
+| D63-06 | PDF权限与5MB边界保持 | 独立只读审计：Content Editor允许JPEG/PNG/WebP，Website Manager另有CSV；两者PDF denied、`unfiltered_upload=no`、上限5,242,880字节，5MB+1预检拒绝 | 通过；未做PDF正向上传/扫描 |
+| D63-07 | 普通媒体不是私有下载 | 匿名无Cookie对现有uploads图片执行`HEAD`返回200；顶层uploads无访问控制规则 | 通过；页面密码、隐藏链接和noindex均不能保护已知URL |
+| D63-08 | 变更与相邻职责隔离 | `git diff`确认运行目录0变更；未增加ACF、CR-005、D59布局或D61 Variation逻辑 | 通过；D59/D61/D66仍未完成 |
+
+独立权限/源码复核P0/P1/P2=0。保留理论P3：异常丢失的属性taxonomy或第三方Filter在Tab注册后清空最终数组，可能出现空面板；当前代码/样本未触发，升级、taxonomy异常或实页复现时再处理。正式参数、认证、合法PDF、文件失效/撤回、公开搜索与缓存、屏幕阅读器、实体设备、Staging/Production均未验证。
+
 ## 测试记录模板
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

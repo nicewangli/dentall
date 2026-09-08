@@ -18,6 +18,7 @@ tags:
 ## 相关笔记
 
 - 同主题后续学习：[[Day62-WooCommerce原生字段与ACF启用边界]]（原生字段、扩展工具与生命周期边界）。
+- Tabs、参数与公开文件后续：[[Day63-WooCommerce附加信息与公开文件边界]]。
 - 后续After Summary实践：[[Day64-WooCommerce关联商品与原生循环边界]]
 - 渲染生命周期与SEO后续：[[Day65-渲染生命周期与结构化数据去重]]
 - 学习索引：[[WordPress实战笔记索引]]

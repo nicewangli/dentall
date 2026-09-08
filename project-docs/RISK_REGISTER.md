@@ -42,6 +42,7 @@
 | RSK-032 | 原生品牌CSV或环境配置产生未批准term、索引或缓存差异 | 中 | 高 | 有term管理权限的导入者填写未知品牌；Staging/Production遗漏品牌noindex，或页面缓存忽略`filter_product_brand` | 正式导入前先建并审核扁平term，CSV只用批准名称，导入后检查新增term/层级/单品牌；部署时显式重放Yoast noindex，验证Canonical/Sitemap，并把品牌参数纳入缓存键或绕过 | Website Manager/开发 | Local合同与清理已通过；非Local未实施 |
 | RSK-033 | D43～D54运行代码未形成稳定Git基线，导致误部署、丢失或无法复现Local验收版本 | 高 | 高 | `catalog-filters.php`、目录CSS/JS等曾未跟踪，入口文件与文档有大量未提交改动；宽泛暂存可能夹带冻结导入草稿或未知文件；部署时无法从单一受控提交还原 | 已按插件、主题、测试、周笔记和主文档分7批提交，连同既有4批从`2c254f8`推送到个人私有`origin/main`的D43～D54基线`c0a1ba9`。精确`.gitignore`排除9个冻结D25草稿，本机`.git/info/exclude`隔离1个未知0字节文件；远端浅克隆HEAD、7个关键文件、干净状态、`git fsck`及10个排除对象均通过，临时克隆已清理。此关闭只覆盖个人私有Git技术恢复；公司所有权、备份与交接仍由M3治理门槛管理，非Local部署另行授权 | 开发/用户 | 已关闭（个人私有Git技术基线）；公司Git治理与非Local部署仍待 |
 | RSK-034 | 把Storefront Sticky Theme Mod误当成会随Git同步的代码，造成环境配置漂移或遮挡复发 | 中 | 中 | Local已关闭Sticky，但Staging/Production当前值未核验且不会随Git同步；只回退代码未恢复配置，或切换主题/克隆数据库后未核对当前值；页面缓存继续返回旧DOM | ADR-036把代码与Theme Mod列为两个交付对象。D59记录实施前键缺失/默认true和Local显式false；每个目标环境需另行授权后读活动主题与Theme Mod、检查Sticky DOM/脚本、清理相关页面缓存并做推荐区hit-test。回滚时分别逆向代码和重新勾选/移除Theme Mod键，不以CSS隐藏代替配置验证 | 开发 | Local已关闭并回归；非Local未授权，部署时守门 |
+| RSK-036 | 将公开商品资料直链误当受控下载，或撤回后仍被缓存/索引 | 中 | 高 | 把普通uploads URL、页面密码、隐藏链接或`noindex`描述成私有；未授权、过期或含敏感信息的文件被公开，撤下页面后旧URL仍可访问 | D63第一版仅允许经业务批准、安全核验、版本明确且符合体积门槛的匿名公开资料；关键事实同时提供HTML。发布前登记精确URL与授权，撤回时核对原URL、页面链接、Sitemap/搜索发现性及适用缓存；购买后和内部文件使用独立通道并重新确认 | Website Manager/业务方/开发 | 当前无合格PDF，入口不输出、PDF权限关闭；首份真实资料出现时重新验收 |
 
 ## D61继承的原生AJAX错误态留项
 
