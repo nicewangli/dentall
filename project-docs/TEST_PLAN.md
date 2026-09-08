@@ -809,6 +809,42 @@ Day58按独立Local副本确认范围通过。真实浏览器网络节流、请�
 
 限制：没有实体iOS/Android、真实辅助技术、RTL实页、网络节流、正式图片/标题、D61 Variation选择、购买/结账、Production页面缓存/CDN或Core Web Vitals。Storefront/Woo/WordPress或经典模板升级后，必须重跑条件资源、DOM/Hook、Gallery候选、1199/1200和Sticky配置/命中矩阵。
 
+## D60 隔离Local代表内容回归与W10收口（2026-09-07）
+
+用户明确授权“同意按功能确认单实施 D60，业务来源素材仅限隔离 Local 内部验证”。本记录只覆盖业务来源但未批准公开的代表材料、既有TEST商品事实、一次Simple数量2加购和可逆异常状态；不写共享Local、不登记正式素材、不选择Variable组合、不实施D61、不部署非Local。
+
+| 用例ID | 环境/前置 | 实际验证 | 结果 |
+|---|---|---|---|
+| D60-01 | 独立文件/数据库、专用账号、回环16060/16061 | DB/URL硬绑定、`blog_public=0`、Coming Soon、源库SELECT 1142；阻断外部HTTP、邮件、Cron、Action Scheduler、支付、Checkout、XML-RPC和危险函数 | 通过；权威浏览器前完成ACL/noindex/router/复制日志等隔离P2修正 |
+| D60-02 | 业务来源Simple与Variable展示材料 | 只复制到隔离夹具并加TEST边界；价格、SKU、库存、属性和Variation继续是既有TEST事实；`CONTENT_ASSET_REGISTER.md`不变 | 通过；不等于正式或批准公开 |
+| D60-03 | 业务Simple/Variable初始，390/768/1024/1199/1200/1440 | 12页/12截图；唯一Gallery/Summary/Tabs/H1/面包屑，长英文、五图、图片`contain`、1199/1200边界、购买区、推荐、Schema和横溢出 | 原始191/197；归一197/197 |
+| D60-04 | Variable未选择组合六宽 | 两个Select均空、`variation_id=0`、按钮带原生`disabled wc-variation-selection-needed`类；不点击、不加购 | 6项原始假阴性关闭；无HTML `disabled`语义强化留D61 |
+| D60-05 | Simple数量2原生加购 | 只执行1次，得到1条成功notice与Header购物车数量2 | 通过；没有结账、订单、退款或重复提交 |
+| D60-06 | Simple缺图六宽 | 原生缺图画布、长内容、无溢出、购买区、推荐/Schema和页面错误 | 66/66；不等于网络404替换 |
+| D60-07 | Simple售罄六宽 | 五图/长内容保持，Out of stock可见，无购买表单，推荐/Schema与布局稳定 | 78/78 |
+| D60-08 | Simple无价格不可购买六宽 | 购买表单0、金额文本0、空`.price`段落；Product 0、BreadcrumbList 1且无悬空引用 | 原始66/78；对照Woo 11源码后78/78，12项Oracle假阴性关闭 |
+| D60-09 | 30页响应式图片请求 | 原始17条均为WEBP候选切换`net::ERR_ABORTED`；对应目标图片decode、尺寸、坏图断言通过 | 归类为候选取消；Console/Page Error均0 |
+| D60-10 | D64/D65与条件资源 | 当前推荐存在时≤3项并为1/2/3/3列；有价商品Product 1/BreadcrumbList 1/悬空0，无价分支见D60-08；Home/Shop详情CSS与Gallery均0 | 通过；D64完整空态/三项矩阵复用未变证据，公开Canonical未验 |
+| D60-11 | 数据与会话恢复 | #44/#46/#51～#53完整`get_data()`和modified相等；订单/退款0、pending actions 14；session 2→基线1且原键/值/到期哈希不变 | `products/orders/refunds/sessions/pending_actions_equal=true` |
+| D60-12 | 媒体、账号与凭据清理 | 附件#159～#168、10个上传原图、10个夹具副本、临时用户和私有凭据删除；初始清理漏69张派生WEBP的P2经manifest限定删除，递归前缀计数0 | 通过；主Local/源素材未触碰 |
+| D60-13 | 终态日志、端口与专项复核 | 权威PHP日志Fatal/Warning/Parse/Uncaught 0，敏感日志标记0；16060/16061及runtime进程0；独立测试、安全与Code Review终审 | 三路终审P0=P1=P2=P3=0 |
+
+原始四报告合计30页、30张截图、401/419；保留原始失败后另生成派生归一报告，权威为419/419。主Agent抽查业务Simple/Variable、缺图、售罄、无价格的390/1440px共10张整页截图，未发现运行代码缺陷。业务材料、截图、数据库转储、日志、SQL、Cookie和凭据均不提交或外发。
+
+权威证据位于本机Git忽略目录`D:\LocalWP\dentall\.codex-tmp\day60-test-agent\evidence\`：
+
+- `day60-browser-normalization.json` SHA-256 `B9E27474B100D96E6B54349ADA0A14753FDB0C892D5DCC1A48C5C48F1F77C3C6`；
+- `fixture-audit.json` SHA-256 `E3DCDE7305FC1A5D2264E0AB7FE06376FE64440BE15DA5E859E32019BDA191DA`；
+- `generated-thumbnail-cleanup.json` SHA-256 `625841F5028D1FB01621830CB6D07E1FBE6F7450AFFC9D1E3D639C845E09B296`；
+- `material-copy-cleanup.json` SHA-256 `3EB26C875D078FF198D773C10ADF5F51A59DB541CDAC349351AD468225A62B85`；
+- `isolation-audit.json` SHA-256 `4054C161F471548195BB254FC7FEB0BD10C7DB25551619FE7CCC39BDD9029AB3`。
+
+测试设施在权威浏览器启动前关闭硬编码临时管理员口令P1：改用32字节CSPRNG、轮换账号并仅写ACL受限私有文件，恢复后账号/凭据删除。收尾时安全专项阻断了附件清理假阴性，直至69张派生图计数归零才允许Done。两项均是隔离测试工具/清理问题，没有进入运行代码、共享Local或公开环境。
+
+独立Code Review另发现根总档案仍指向“下一步D60”，以及项目笔记最初把session来源写得不够精确；提交前已分别修正为D60完成/下一步D61，并明确业务加购后仍为基线1条、安全Store API探针才新增第2条。终审暂存区12个文件均为Markdown；PHP 12/12、JavaScript 1/1、差异/敏感内容/链接检查通过，开放P0～P3为0。
+
+限制：未验证实体设备/屏幕阅读器、DPR>1、真实弱网/CWV、网络404替换、D61 Variation选择/动态媒体/价格/库存/默认值/无效组合/不可购买/加购、正式批准内容、公开Canonical/富结果、非Local缓存、结账、支付、物流和邮件。已停机的受限runtime仍保留数据库转储、日志与含内部样本的截图，仅可本机管理员内部留存，证据保留期结束后应安全删除。
+
 ## D64隔离Local原生关联商品验证（已完成并合入main）
 
 授权包含隔离Local及可逆TEST；源库只读导出，独立副本禁外发、支付、Cron并noindex。D64先在D57基线独立验收，随后仅选取专项增量纳入`main`；下列结果仍不能外推为Production完成。

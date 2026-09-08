@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+### D60商品详情代表内容回归与W10收口（2026-09-07）
+
+- 按用户授权，仅在一次性隔离Local使用业务来源但未批准公开的代表材料；Simple/Variable初始、长英文、五图、缺图、售罄、无价格、一次Simple数量2加购及D64/D65边界共30页、30张截图。原始401/419经WooCommerce 11.0合同复核后为419/419，18项均为测试Oracle假阴性；17条响应式WEBP `ERR_ABORTED`对应图片全部完成解码。
+- #44/#46/#51～#53完整Woo CRUD数据和modified、订单/退款0、pending actions 14及原session哈希均回到基线；10个附件/原图、69个派生缩略图、10个夹具副本、临时用户和凭据全部清理，16060/16061停止。预检硬编码临时口令P1、隔离配置P2及派生图清理P2均在隔离范围关闭；测试、安全与Code Review终审P0～P3=0。
+- D60没有修改运行代码、版本、字段、URL/SEO逻辑、缓存、支付、物流或部署；DentAll保持0.34.0、DentAll Core保持0.2.8。业务材料、截图、数据库转储、SQL、Cookie和凭据未进入Git，`CONTENT_ASSET_REGISTER.md`未改。
+- W10按Local商品详情技术v1收口；正式内容/批准公开素材、D61 Variation动态图片/价格/库存/组合/加购、实体设备/辅助技术、公开Canonical/富结果、Production缓存/CWV和非Local部署仍待。详见[[笔记/Day60-商品详情代表内容回归与W10收口]]。
+
 ### D59商品详情四端购买区与Sticky收口（2026-09-07）
 
 - DentAll 0.34.0保留WooCommerce经典单品的一套DOM，在768～1199px只把Gallery与Summary改为内容区满宽上下文档流，1200px起恢复D55的约57%/39%双列；Tabs、Simple购买区和Variable初始表单继续使用原生输出。
