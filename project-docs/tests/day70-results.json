@@ -1,0 +1,291 @@
+{
+  "schema_version": 2,
+  "date": "2026-09-08",
+  "status": "完成",
+  "branch": "codex/day70-coupon-rules",
+  "baseline_commit": "c9ca48c8489bf351dcb7ce04bc84080528dc68f1",
+  "environment": {
+    "scope": "独立文件副本、独立MySQL datadir、回环HTTP的隔离Local",
+    "url": "http://127.0.0.1:10770",
+    "database": "dentall_day70_de5b_20260908",
+    "wordpress": "7.0.4",
+    "woocommerce": "11.0.0",
+    "php": "8.2.29",
+    "storefront": "4.6.2",
+    "dentall_theme": "0.35.0",
+    "dentall_core": "0.2.8",
+    "cart_page": "原生WooCommerce Cart Block",
+    "hpos": true,
+    "source_public_copy": {
+      "source": "D:/LocalWP/dentall/app/public",
+      "source_database_read_during_authoritative_setup": false,
+      "source_wp_config_read_or_copied": false,
+      "source_write": false,
+      "source_file_count": 13421,
+      "source_before_sha256": "A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528",
+      "source_after_sha256": "A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528",
+      "target_copy_sha256": "A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528",
+      "custom_theme_files": 17,
+      "custom_theme_sha256": "FA0E3EF08F229D61169C7A646F4450CF9681B6DFF60B44A135234548BF359767",
+      "custom_core_files": 7,
+      "custom_core_sha256": "82054221544C8FB170E5C35920E59079655478D184DA6700772C96A1799B8BDC",
+      "copied_sensitive_static_files": 0,
+      "final_sensitive_static_allowlist": [
+        "generated wp-config.php"
+      ]
+    }
+  },
+  "authorized_scope": {
+    "coupon_types": [
+      "percent",
+      "fixed_cart",
+      "fixed_product"
+    ],
+    "included": [
+      "成功、失败、过期、未知、畸形、大小写与重复应用",
+      "移除后重用与购物车数量变化后的重新计算",
+      "最低/最高金额的低一单位与精确等值边界",
+      "商品、Variation父商品、商品分类、排除商品、排除分类、促销商品排除",
+      "individual-use双向应用顺序",
+      "匿名会话隔离与登录Customer当前购物车",
+      "四端键盘、焦点、提示语义、加载、网络失败与重试",
+      "固定优惠不使商品行或购物车总额为负"
+    ],
+    "excluded": [
+      "跨订单总使用次数与每用户使用次数，留D78",
+      "免邮与运费联动，留D75",
+      "含税/不含税及税费舍入，留D71",
+      "结账、订单创建、支付、库存扣减与邮件",
+      "插件、自定义金额算法、角色扩权与非Local写入"
+    ]
+  },
+  "configuration_audit": {
+    "pre": {
+      "audited_at_utc": "2026-09-08T05:51:55Z",
+      "passed": 105,
+      "failed": 0,
+      "total": 105
+    },
+    "post": {
+      "audited_at_utc": "2026-09-08T06:07:41Z",
+      "passed": 105,
+      "failed": 0,
+      "total": 105
+    },
+    "coupon_fixtures": 15,
+    "orders": 0,
+    "all_usage_counts": 0,
+    "all_free_shipping": false,
+    "coupon_setting_enabled": true,
+    "cart_block": true,
+    "hpos": true,
+    "role_capability_tables_unchanged": true,
+    "website_manager_existing_coupon_capabilities_preserved": true,
+    "content_editor_coupon_edit_denied": true
+  },
+  "browser_audit": {
+    "script_sha256": "03FD52B92998DE1AB9FFBC0C80054BEEC49B4C00E22DFD3F9DC8A8C6D7CDCE10",
+    "started_at_utc": "2026-09-08T06:05:00.395Z",
+    "finished_at_utc": "2026-09-08T06:07:15.381Z",
+    "passed": 17,
+    "failed": 1,
+    "failed_by_severity": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 1,
+      "P3": 0
+    },
+    "console_warnings": 0,
+    "expected_console_errors": 11,
+    "unexpected_console_errors": 0,
+    "widths": [
+      390,
+      768,
+      1024,
+      1440
+    ],
+    "page_horizontal_overflow": 0,
+    "expired_error_recovery": {
+      "skeleton_count_after_wait": 0,
+      "coupon_count": 0,
+      "line_total": 2499,
+      "cart_total": 2499
+    },
+    "network_failure_recovery": {
+      "skeleton_count_after_wait": 0,
+      "server_coupon_state_empty": true,
+      "retry_discount": 555,
+      "retry_total": 1944
+    }
+  },
+  "independent_transaction_audit": {
+    "result_sha256": "21F06E5F0E31E011D5C20231CCF9786861AC5640B5AA208258FE0C96DB66A0CF",
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "failed_by_severity": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 0
+    },
+    "orders_before_and_after": 0,
+    "coupon_usage_counts_before_and_after": 0,
+    "expired_skeleton_recovered_within_ms": 5000
+  },
+  "representative_totals_minor_units": {
+    "currency": "USD",
+    "minor_unit": 2,
+    "percent_12_5_on_2499": {
+      "discount": 312,
+      "total": 2187
+    },
+    "fixed_cart_555_on_2499": {
+      "discount": 555,
+      "total": 1944
+    },
+    "fixed_product_225_on_two_3999_variations_plus_2499_simple": {
+      "items": 10497,
+      "discount": 450,
+      "total": 10047,
+      "simple_line_unchanged": 2499
+    },
+    "minimum_2500": {
+      "below_2499": "HTTP 400，Woo优惠券错误码与minimum spend语义",
+      "exact_2500_discount": 250,
+      "exact_2500_total": 2250,
+      "above_4998_discount": 500,
+      "above_4998_total": 4498,
+      "reduced_to_2499": "优惠券自动移除"
+    },
+    "maximum_2499": {
+      "exact_2499_discount": 250,
+      "exact_2499_total": 2249,
+      "increased_to_4998": "优惠券自动移除"
+    },
+    "exclude_sale_non_sale_variation_3999": {
+      "discount": 400,
+      "total": 3599
+    },
+    "fixed_10000_cap_on_2499": {
+      "discount": 2499,
+      "total": 0
+    },
+    "customer_limit_config_coupon_on_4999": {
+      "discount": 500,
+      "total": 4499,
+      "cross_order_consumption_tested": false
+    }
+  },
+  "accessibility_and_failure": {
+    "success_announced_by_polite_live_region": true,
+    "validation_errors_use_alert_invalid_and_describedby": true,
+    "keyboard_apply_remove_and_retry": true,
+    "focus_outline": "3px solid",
+    "input_height_px": 50,
+    "apply_height_px": 50,
+    "remove_target_px": "50x44",
+    "expired_loading_is_transient": true,
+    "network_failure_released_skeleton": true,
+    "network_retry_succeeded": true
+  },
+  "open_findings": [
+    {
+      "id": "RSK-039",
+      "severity": "P2",
+      "owner": "D68",
+      "retest": "D72",
+      "finding": "96字符连续无断点券码产生的Cart Block校验错误在390/768/1024/1440px容器内横向裁切；页面本身无横向滚动。",
+      "geometry": {
+        "error_scroll_width_px": 607,
+        "error_client_widths_px": [
+          350,
+          230,
+          314,
+          426
+        ],
+        "computed_overflow_wrap": "break-word",
+        "computed_word_break": "normal"
+      }
+    }
+  ],
+  "restoration": {
+    "deleted_test_coupons": 15,
+    "deleted_test_customers": 1,
+    "deleted_boundary_products": 1,
+    "deleted_new_sessions": 51,
+    "verification": {
+      "passed": 12,
+      "total": 12,
+      "coupon_ids": true,
+      "order_ids": true,
+      "user_ids": true,
+      "session_keys": true,
+      "products": true,
+      "options": true,
+      "roles": true,
+      "cart_page_id": true,
+      "cart_block": true,
+      "boundary_product_removed": true,
+      "credentials_removed": true,
+      "active_fixture_manifest_removed": true
+    },
+    "http_listener_closed": true,
+    "mysql_listener_closed": true,
+    "day70_processes": 0,
+    "private_runtime_original_path_removed": true,
+    "sensitive_runtime_material_removed": true,
+    "private_runtime_deletion_method": "永久删除精确私有目录",
+    "private_runtime_recoverable_via_recycle_bin": false,
+    "matching_recycle_items_permanently_deleted": 23,
+    "d70_recycle_item_count_after": 0,
+    "global_recycle_bin_cleared": false
+  },
+  "runtime_logs": {
+    "http_php_fatal_warning": 0,
+    "mysql_errors": 0,
+    "mysql_self_signed_ca_warnings": 1,
+    "read_only_cli_probe_parse_errors": 2,
+    "cli_probe_parse_errors_changed_data": false
+  },
+  "authoritative_evidence_hashes": {
+    "setup_script": "AC6B1A91F22B73A64B2A6E20EEBC68A7D2156700A5A482A9A03058FF55DCF00B",
+    "router": "DDFDF7876D133B3C7298927BDD657714DA523888FB5F6546DB1CFAC17BD4DE1A",
+    "isolation_guard": "63706BE79FC489808A54AE2ECAF057EDF53106337B098E71A0943C4178F057DE",
+    "fixture": "AD9A06279D075A0C08314AD982CDF4D44D775C5C832A5DD8B692F91E27084AC0",
+    "configuration_audit_script": "701033357F4D7AFDF68E7BE8D8C0F7F1782701EFD9DEE35290357023F5CB2D99",
+    "configuration_pre_result": "CCECB6682AD1CFF4942635E091736ECCBBA54E79F3F8457890A475B7A70DD45E",
+    "browser_result": "7396BC7E429FC4A8933BB95CEC8800D10281D794F5364E375D99AC0DFBDCC3B1",
+    "configuration_post_result": "EABDCEB057C8617875217CFDEE27BB0BC34990240F0BEFE841C4FA2C62D2D847",
+    "independent_result": "21F06E5F0E31E011D5C20231CCF9786861AC5640B5AA208258FE0C96DB66A0CF",
+    "cleanup_result": "BFB2D546E001BE357436AC2E540AEB9A0C4655C51FE93218C01A96D1D34277CC",
+    "restore_verification": "C57024B33E59423285E847CF95BFA547B519D4EFE61D546952F05216F3D16327"
+  },
+  "non_authoritative_attempts": [
+    "共享MySQL 10011首轮只用于发现隔离证据不足，测试对象已清理且不纳入D70结论。",
+    "独立环境预演先后关闭Windows mysqld父/服务PID误判、mysqldump option-file参数、旧种子 blanket cache 排除导致24个源码文件缺失、router规范化与失败自清理缺口。",
+    "源public复制的中断预演在HTTP和优惠券创建前停止并清理。",
+    "一次旧Oracle浏览器轮次和一次修正中的30秒中断轮次均不纳入权威结果。",
+    "两次只读WP-CLI内联版本/HPOS探针因Windows引号产生Parse error；无业务数据写入，改用插件元数据、option及正式审计取证。",
+    "此前预演遗留的23个D70回收站条目及其对应数据与元数据，按DeletedFrom和物理父目录双重限定后精确永久删除；未清空或触及其他回收站条目。"
+  ],
+  "final_reviews": {
+    "code": "脱敏摘要与原始证据链复核通过，P0/P1为0；唯一P2为RSK-039",
+    "security": "独立终审通过：原路径、D70回收站项、10770/10771监听、相关进程与Git临时项均为0；P0/P1及安全类P2均为0",
+    "independent_transaction": "8/8通过，P0/P1/P2为0"
+  },
+  "runtime_code_change": {
+    "files": 0,
+    "functions": 0,
+    "css_rule_blocks": 0,
+    "lines": 0,
+    "plugins_or_dependencies": 0
+  },
+  "impact": {
+    "data": "仅隔离Local TEST对象与会话，已通过12/12恢复；私有运行目录已永久销毁。",
+    "url_and_seo": "无新增公开URL或SEO逻辑；隔离站noindex且已停机。",
+    "cache": "未改缓存策略；Cart动态会话仅在隔离运行验证。",
+    "payment_order_inventory": "未进入Checkout，未创建订单、支付或库存扣减。",
+    "shipping_and_tax": "未验证或修改；分别留D75与D71。",
+    "deployment": "未推送、未合并、未部署Staging或Production。"
+  }
+}
