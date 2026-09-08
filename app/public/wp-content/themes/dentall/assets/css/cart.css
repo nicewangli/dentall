@@ -1,0 +1,99 @@
+/*
+ * D67购物车PC骨架：保留WooCommerce Cart Block的DOM、Flex布局、Store API和状态逻辑，
+ * 只在既有PC断点增强商品行、原生金额摘要及空/错误状态的视觉层级。
+ */
+
+@media (min-width: 75rem) {
+	body.woocommerce-cart .site-main .entry-header {
+		margin-bottom: var(--dentall-space-32);
+		padding-bottom: 0;
+	}
+
+	body.woocommerce-cart .site-main .entry-title {
+		margin: 0;
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart__main {
+		min-width: 0;
+		padding-inline-end: var(--dentall-space-32);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart__sidebar {
+		box-sizing: border-box;
+		min-width: 0;
+		padding: var(--dentall-space-24);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		background-color: var(--dentall-color-surface);
+		box-shadow: var(--dentall-shadow-card);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items {
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image img {
+		aspect-ratio: 1;
+		border-radius: var(--dentall-radius-md);
+		background-color: var(--dentall-color-surface-sky);
+		object-fit: contain;
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-name {
+		max-width: none;
+		color: var(--dentall-color-heading);
+		font-size: var(--dentall-font-size-base);
+		font-weight: var(--dentall-font-weight-semibold);
+		line-height: var(--dentall-line-height-heading);
+		overflow-wrap: anywhere;
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap {
+		gap: var(--dentall-space-8);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-components-product-metadata {
+		color: var(--dentall-color-text-muted);
+		overflow-wrap: anywhere;
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__total {
+		font-size: var(--dentall-font-size-base);
+		font-weight: var(--dentall-font-weight-semibold);
+		overflow-wrap: anywhere;
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart-item__remove-link {
+		min-inline-size: 2.75rem;
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart__totals-title {
+		padding: 0 0 var(--dentall-space-16);
+		color: var(--dentall-color-heading);
+		font-size: var(--dentall-font-size-xl);
+		font-weight: var(--dentall-font-weight-bold);
+		line-height: var(--dentall-line-height-heading);
+		text-align: left;
+		text-transform: none;
+	}
+
+	.wp-block-woocommerce-cart .wc-block-components-totals-footer-item {
+		padding-block: var(--dentall-space-16);
+	}
+
+	.wp-block-woocommerce-empty-cart-block,
+	.wp-block-woocommerce-cart .wc-block-components-error {
+		box-sizing: border-box;
+		padding: var(--dentall-space-48) var(--dentall-space-24);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		background-color: var(--dentall-color-surface-sky);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-components-error {
+		border-color: var(--dentall-color-error);
+		background-color: var(--dentall-color-surface-error);
+		color: var(--dentall-color-text);
+	}
+}

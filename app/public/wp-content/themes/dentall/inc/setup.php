@@ -122,3 +122,27 @@ function dentall_enqueue_product_detail_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );
+
+/**
+ * 只在WooCommerce购物车页加载PC布局样式。
+ *
+ * 购物车数量、删除、库存与金额继续由Cart Block和Store API负责；主题只增强展示，
+ * 避免把交易页样式加载到商品详情或其他页面。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_assets() {
+	if ( ! function_exists( 'is_cart' ) || ! is_cart() ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-cart',
+		get_stylesheet_directory_uri() . '/assets/css/cart.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
