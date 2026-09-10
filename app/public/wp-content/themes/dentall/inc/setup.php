@@ -119,6 +119,16 @@ function dentall_enqueue_product_detail_assets() {
 			$theme->get( 'Version' ),
 			true
 		);
+
+		wp_localize_script(
+			'dentall-product-variation',
+			'dentallVariationStatus',
+			array(
+				'checkingText'   => __( 'Checking availability…', 'dentall' ),
+				'errorText'      => __( "We couldn't check availability. Clear your selection and try again.", 'dentall' ),
+				'requestTimeout' => 15000,
+			)
+		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );

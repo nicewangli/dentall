@@ -271,19 +271,24 @@ function dentall_configure_storefront_shell() {
 add_action( 'after_setup_theme', 'dentall_configure_storefront_shell', 40 );
 
 /**
- * 保留WooCommerce原生商品Meta品牌文字，移除Storefront额外的品牌缩略图。
+ * 收敛Storefront在商品详情额外输出的品牌缩略图与浮动前后商品导航。
  *
  * 两条输出链会在已分配品牌时重复表达同一事实；缩略图还会把品牌素材加载到标题前。
- * 本函数只调整Storefront展示Hook，不影响product_brand关系、归档、筛选或Product Schema。
+ * 浮动前后商品导航会在平板覆盖Tabs，且不在DentAll详情设计范围内。这里只调整详情页
+ * 展示Hook，不影响品牌关系、商品归档分页、Related/Upsells、URL、筛选或Product Schema。
  *
  * @return void
  */
-function dentall_remove_storefront_product_brand_thumbnail() {
+function dentall_configure_storefront_product_detail() {
 	if ( function_exists( 'storefront_woocommerce_brands_single' ) ) {
 		remove_action( 'woocommerce_single_product_summary', 'storefront_woocommerce_brands_single', 4 );
 	}
+
+	if ( function_exists( 'storefront_single_product_pagination' ) ) {
+		remove_action( 'woocommerce_after_single_product_summary', 'storefront_single_product_pagination', 30 );
+	}
 }
-add_action( 'after_setup_theme', 'dentall_remove_storefront_product_brand_thumbnail', 40 );
+add_action( 'after_setup_theme', 'dentall_configure_storefront_product_detail', 40 );
 
 /**
  * 在Simple与Variable商品详情使用与输入框可访问名称一致的简短数量标签。

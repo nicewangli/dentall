@@ -2,9 +2,10 @@
 类型: WordPress实战学习笔记
 项目: DentAll WooCommerce
 日期: 2026-09-08
+收口日期: 2026-09-10
 工作日: Day66
 主题: 集成基线与商品全链路回归
-状态: 回归阶段记录（待三项P2处置确认）
+状态: 项目技术记录已收口（D66三项P2已在Local关闭；费曼自测仍待）
 掌握度: 初识，待费曼自测
 验证环境: 隔离Local；集成基线278d20d；运行版本与结果见对应项目笔记
 tags: [DentAll, WordPress实战, 集成回归, 证据边界]
@@ -17,12 +18,12 @@ tags: [DentAll, WordPress实战, 集成回归, 证据边界]
 - 学习索引：[[WordPress实战笔记索引]]；对应项目笔记：[[../Day66-商品浏览闭环集成回归]]。
 - 前置学习：[[Day54-WooCommerce商品发现链路回归与证据复用]]、[[Day61-变体生命周期与展示语义]]。
 - 同主题知识：[[Day63-WooCommerce附加信息与公开文件边界]]、[[Day65-渲染生命周期与结构化数据去重]]。
-- 后续学习：[[Day68-Cart-Block响应式布局与状态证据]]已记录D67之上的候选响应式验证；这不关闭本篇三项P2，也不提前视为D67/D68/M5完成。
+- 后续学习：[[Day68-Cart-Block响应式布局与状态证据]]记录D67之上的候选响应式验证；它在当时不曾自动关闭本篇三项P2，RSK-035/037/038已于2026-09-10通过独立授权修复并在Local关闭。
 - 后续学习：[[Day69-Cart Store与经典Fragments桥接]]已记录独立Local候选；D67/D68/D70与W12集成仍待，不提前视为完成。
 - 后续优惠券学习：[[Day70-WooCommerce优惠券校验与金额真相]]。
 
 > [!important] 阶段边界
-> 本篇记录已核对的集成、源码及D66动态回归证据。RSK-035旧展示、RSK-037平板局部遮挡与RSK-038长参数裁切仍开放；笔记生成不代表M5通过、用户接受延期或非Local可上线。索引与直接关联笔记已显式互链，用户掌握度仍待本人自测。
+> 本篇同时保留2026-09-08首次回归的真实失败证据，以及2026-09-10用户授权“你先修复已有的三个P2”后的关闭证据。RSK-035/037/038已按DentAll 0.41.0在Local关闭，D66/M5仅按Local技术口径完成；不代表非Local可上线。索引与直接关联笔记已显式互链，用户掌握度仍待本人自测。
 
 ## 今日学习成果
 
@@ -34,9 +35,10 @@ tags: [DentAll, WordPress实战, 集成回归, 证据边界]
 
 **今天的问题：** D60、D61、D63分别形成过交付，但单日完成不等于同一运行树已通过整链路。D66把D60 `c99126d`、D61 `6b51620`、D63 `0e5b428`的历史与运行代码汇入`278d20d818f07edcd8c2cd693314f82038db12dc`，再检查列表到详情、变体选择到加购，以及资源、SEO和异常状态能否共同成立。
 
-- 掌握：Git集成、数据库/媒体/会话隔离、历史证据复用、RSK-035分层判定；不展开新错误状态系统、CR-005实施、订单支付或部署。
+- 9月8日掌握：Git集成、数据库/媒体/会话隔离、历史证据复用、RSK-035分层判定；当时不展开新错误状态系统、CR-005实施、订单支付或部署。
+- 9月10日新授权：只实现三个既有P2的子主题最小修复，继续不触碰CR-005、订单支付、正式配置或非Local部署。
 - 真实入口：下文`setup.php`、`product-variation.js`；商品发现、Simple/Variable详情与隔离购物车。
-- 源码核查基于WooCommerce 11.0.0、DentAll 0.35.0；D61报告环境为WordPress 7.0.4、PHP 8.2.29、Storefront 4.6.2。不能将历史版本表自动当作本次进程证明。
+- 首次源码核查基于WooCommerce 11.0.0、DentAll 0.35.0；D61报告环境为WordPress 7.0.4、PHP 8.2.29、Storefront 4.6.2。最终修复主题为DentAll 0.41.0、Core 0.2.9；不能将历史版本表自动当作本次进程证明。
 
 ## 先建立整体模型
 
@@ -121,15 +123,16 @@ const syncButtonState = ( $form ) => {
 | 代码点 | 真实作用 | 为什么保留这一边界 |
 |---|---|---|
 | `wc-add-to-cart-variation`依赖 | WordPress先加载Woo已注册的原生脚本 | 不复制原生匹配逻辑，不另引入框架 |
-| `hasClass('disabled')` | 把当前原生类映射给辅助技术 | 不制造购买事实，也不能修复原生类本身残留 |
-| `hide_variation` / `show_variation`监听 | 原生展示事件后同步当前表单 | 初始先设`aria-disabled=true`；不自行计算价格或拦截POST |
+| `hasClass('disabled')`（D61基线） | 把当前原生类映射给辅助技术 | 不制造购买事实；9月8日据此发现它单独不能修复原生旧状态残留 |
+| `hide_variation` / `show_variation`监听（D61基线） | 原生展示事件后同步当前表单 | 初始先设`aria-disabled=true`；9月10日扩展为同时约束当前XHR、选择签名与请求阶段，仍不自行计算价格或拦截POST |
 
 ### 运行证据
 
 - 已执行`git show --no-patch --format=fuller 278d20d`确认实际合并父提交；`git diff --quiet 278d20d 6b51620 -- app/public`退出码0，证明合成运行树与D61相同，不证明动态通过。
 - 集成阶段PHP/JS语法及冲突检查记录在[[../Day66-商品浏览闭环集成回归]]；静态检查不能证明页面、金额或恢复正确。
 - D61历史失败证据：先选可购变体，再切换另一组合并令查询返回503，可残留旧可见状态；键盘提交被服务端要求重新选择，购物车为空。它证明该次请求被拒绝，不证明所有异常均安全或体验已修复。
-- **D66动态证据**：集成`278d20d`在独立环回副本执行；Variable inline363/363、AJAX121/121及独立交易12/12、Simple16/16、Coming Soon10/10。内容自动80/80，但长参数视觉QA发现RSK-038；发现回归原始458/462与定向15/15分开保留，4项金额格式Oracle已纠偏；品牌原始12/14按既定无Canonical合同复核，不虚写成重跑。RSK-035复现≠修复，768px导航遮挡另记RSK-037。安全新进程17/17＋5/5＋11/11、完整首快照恢复及停机通过；完整目录与边界见[[../Day66-商品浏览闭环集成回归]]，不把报告汇总当作M5通过。
+- **2026-09-08 D66动态证据**：集成`278d20d`在独立环回副本执行；Variable inline363/363、AJAX121/121及独立交易12/12、Simple16/16、Coming Soon10/10。内容自动80/80，但长参数视觉QA发现RSK-038；发现回归原始458/462与定向15/15分开保留，4项金额格式Oracle已纠偏；品牌原始12/14按既定无Canonical合同复核，不虚写成重跑。RSK-035复现不等于修复，768px导航遮挡另记RSK-037。安全新进程17/17＋5/5＋11/11、完整首快照恢复及停机通过；这些历史失败是后续修复的输入，不因9月10日关闭而删除。
+- **2026-09-10关闭证据**：DentAll 0.41.0的inline核心6/6、AJAX综合17/17、长标签＋长值布局40/40、恢复正常短值40/40通过；Hook探针为Product Pagination false、Upsells 15、Related 20、Shop Pagination 30。最终独立AJAX 19/19、inline 6/6且pageerror均为0；最终四端AJAX 24/24、inline 12/12且errors均为0，独立变体回归合计61/61。五商品、订单/退款、session、Coming Soon、marker与端口均回到预期终态。安全/交易独立终审P0/P1/P2/P3=0，适用版本锁定WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2；真实读屏器未测，范围见对应项目笔记。
 
 ## 职责边界
 
@@ -149,14 +152,17 @@ const syncButtonState = ( $form ) => {
 | 类型与注册 | `setup.php`注册`wp_enqueue_scripts` Action，回调为`dentall_enqueue_product_detail_assets`，优先级50 |
 | 输入与返回 | 回调无Hook参数；通过查询上下文读取当前商品；Action不靠返回值改页面 |
 | 副作用与范围 | 商品详情加载CSS，Variable详情额外enqueue脚本；不直接写商品数据 |
-| 前端事件 | 原生`hide_variation` / `show_variation`触发当前表单ARIA同步；`.dentall`为监听命名空间 |
-| 回滚思路 | 在授权Local验证后恢复受控版本并复核资源；Git回退不自动恢复会话、数据库或媒体 |
+| 前端事件 | 在`.dentall`命名空间监听当前Woo `VariationForm`的`wc_variation_form`、`check_variations`、`reset_data`、`hide_variation`与`show_variation`，并跟踪该表单当前XHR、选择签名和阶段 |
+| 失败状态 | pending清旧可见price/stock/`variation_id`并禁用购买；只给`.single_variation_wrap`设置`aria-busy`，将可见`aria-live`状态放在其紧邻前方、busy子树外；HTTP/parser/network/15秒timeout显示可访问错误；pending的`reset_data`直接abort当前XHR，正常abort和陈旧回调不覆盖新选择 |
+| Storefront Hook | `after_setup_theme`中只移除商品详情优先级30的Product Pagination；Related、Upsells与Shop分页保持 |
+| 属性表CSS | 仅`table.shop_attributes th/td`使用`overflow-wrap:anywhere`，`th`保留`min-width:6rem` |
+| 回滚思路 | 回退5个DentAll主题文件并从0.41.0恢复0.40.0；无数据库迁移或Theme Mod要恢复，仍须复核资源、会话与风险状态 |
 
 ## 安全、数据与站点影响
 
 | 检查面 | 本次结论与验证边界 |
 |---|---|
-| 输入、Capability、Nonce、转义 | 两段摘录无新增业务输入、后台写入口或HTML文本输出；不能推导整条加购链因此无需验证。Nonce不能代替权限检查 |
+| 输入、Capability、Nonce、转义 | 没有新增后台写入口、业务字段或AJAX端点；状态文字经PHP本地化传入，Woo仍负责Variation与服务端加购。Nonce不能代替权限检查 |
 | 数据库与媒体 | 集成本身不写商品；动态TEST可能改变隔离数据、会话或文件，必须独立快照、核对与恢复 |
 | URL、SEO与缓存 | 无新增运行SEO逻辑；仍需验证Canonical、robots、Schema及跳转。Local禁止索引会影响输出预期，不能套用公开环境Oracle |
 | 支付、物流与订单 | 不做真实支付、结账订单或物流配置；加购通过不代表后续交易链通过 |
@@ -187,7 +193,19 @@ const syncButtonState = ( $form ) => {
 
 原生在选择变化时清空隐藏变体ID；失败可留下旧展示，[Woo 11.0.0表单处理](https://github.com/woocommerce/woocommerce/blob/11.0.0/plugins/woocommerce/includes/class-wc-form-handler.php)会拒绝缺少有效变体选择的该类提交。当前D61适配仅映射ARIA，不能修补这条失败路径。默认30个变体阈值以内通常使用预载；提高阈值会改变数据传输与浏览器处理成本，并非整体修复。[Woo官方Variable说明](https://woocommerce.com/document/variable-product/)。
 
-RSK-035为既有P2，开发者负责D66复审、最晚非Local部署前处理；维持原生、等待上游、增加最小主题错误适配是不同候选。新增提示/恢复行为超出D61薄映射范围，须说明验收与工时并重新确认；不能借学习笔记自动批准。
+RSK-035当时为既有P2，开发者负责D66复审、最晚非Local部署前处理；维持原生、等待上游、增加最小主题错误适配是不同候选。该判断促成了单独确认，不能借学习笔记自动批准。2026-09-10用户明确授权“你先修复已有的三个P2”后，项目选择最小主题适配并完成Local验证；上游机制若变化仍须重新核对。
+
+### 2026-09-10三项P2为何这样关闭
+
+| 风险 | 最小实现 | 保留的责任边界 | Local证据 |
+|---|---|---|---|
+| RSK-035旧Variation展示 | 只跟踪当前Woo表单已有XHR；pending清旧展示与ID，失败保持禁用并提示，15秒超时有界 | 不新增请求、匹配、价格/库存算法、自动重试或服务端交易规则 | inline 6/6；AJAX综合17/17；最终独立19/19＋6/6；最终四端24/24＋12/12，页面错误0 |
+| RSK-037平板遮挡 | 版本化`remove_action`移除Storefront商品详情相邻Product Pagination | 不改父主题、Theme Mod、Shop分页、Related或Upsells | Hook探针false/15/20/30 |
+| RSK-038属性表裁切 | `th/td`局部`overflow-wrap:anywhere`，`th`最小6rem | 不全局断词、不隐藏/截断内容、不改商品值 | inline四宽12/12；长标签/长值40/40；短值恢复40/40 |
+
+主动abort与失败必须分开：用户快速改变选择时，旧请求被取消是正常生命周期，不应弹错误；网络、HTTP、解析或超时才进入错误状态。选择签名和XHR身份让旧回调只能结束自己的生命周期，不能把旧Variation重新画到新选择上。这个原则可迁移，具体Woo事件名和对象字段不能跨版本照搬。
+
+RSK-037最终没有采用原候选的Customizer开关，因为代码版本化更适合随DentAll发布和回滚，并能通过精确Hook探针证明只移除一个详情回调。RSK-038保留6rem标签列，是在“连续长词可断”与“普通短值表格仍可扫读”之间建立边界，而不是把表格强制固定布局。
 
 ## 掌握标准
 
@@ -225,7 +243,7 @@ RSK-035为既有P2，开发者负责D66复审、最晚非Local部署前处理；
 
 ## 收尾总结
 
-今天确认了集成来源、隔离回归与证据分层：原生金额格式和禁索引保护可使错误Oracle报红，而中心hit-test、DOM全文与页面overflow全绿也可能漏掉遮挡/裁切。RSK-035/037/038须先确认最小处置；下一篇D67只能在当前门槛满足后承接，不预填交付结论。
+今天确认了集成来源、隔离回归与证据分层：原生金额格式和禁索引保护可使错误Oracle报红，而中心hit-test、DOM全文与页面overflow全绿也可能漏掉遮挡/裁切。2026-09-08因此保留RSK-035/037/038，2026-09-10经明确授权用当前请求状态、精确Hook和局部断行完成Local关闭；原失败证据继续保留，Staging/Production及D69/D72期限性P2不随之关闭。
 
 ## 后续如何向AI高效提问
 
@@ -256,7 +274,7 @@ AI解释不是验证证据；请求具体版本的官方源码依据，实际结
 
 ### WordPress/WooCommerce当前实现
 
-本项目以受控子主题/插件代码、独立数据库/媒体/会话和新运行报告固定上下文；通过WordPress条件enqueue与Woo原生事件进行薄展示适配。Woo 11.0.0的经典变体失败边界仍需明确处置，不能用默认预载或ARIA映射替代修复与验收。
+本项目以受控子主题/插件代码、独立数据库/媒体/会话和新运行报告固定上下文；通过WordPress条件enqueue与Woo原生事件进行薄展示适配。DentAll 0.41.0已在Local对Woo 11.0.0经典变体失败边界完成当前请求适配，但升级Woo/Storefront、改变阈值或接入第三方Variation Gallery时仍须重新验证，不能永久沿用本次结论。
 
 ### Shopify或其他平台的对应机制
 

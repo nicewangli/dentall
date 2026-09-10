@@ -60,6 +60,14 @@
 - RSK-038 / P2：234字符无断点TEST参数令Additional information表格在390/768/1024/1440均宽2328.53125px，右侧被裁；页面`scrollWidth=viewport`并不代表内部内容完整。原28/28自动断言只覆盖DOM/键盘和页面宽度，人工图像QA未通过。负责人开发者，D66/M5前确认现有详情CSS最小单元格换行/边界修复，补测表格/单元格几何与完整可读性；不修改商品事实或强制业务手工插空格。
 - 三项均无自动延期接受。确认单、图像与实际报告见[[笔记/Day66-商品浏览闭环集成回归]]；D66/M5暂不标Done，D67候选保持隔离。
 
+### 2026-09-10授权实施与关闭
+
+- 用户明确授权：“你先修复已有的三个P2”。该授权只覆盖RSK-035/037/038的既有DentAll主题最小修复、隔离Local复验与文档收口；不包含Staging/Production部署、正式内容、邮件、支付、税费、物流或缓存配置。
+- **RSK-035 / P2已在Local关闭：** DentAll 0.41.0监听当前Woo `VariationForm`实例的AJAX生命周期。请求进入pending时立即清空旧可见price、stock和`variation_id`、隐藏旧Variation并保持购买禁用；`aria-busy`只设在`.single_variation_wrap`，其前方busy子树外的可见`aria-live`状态负责播报。HTTP、parser、network及15秒timeout失败显示可访问错误并继续保持安全状态；pending的`reset_data`直接abort当前XHR，正常主动abort不误报错误，过期请求或陈旧回调不能覆盖更新后的选择。inline核心合同6/6、AJAX综合17/17通过；最终独立AJAX 19/19、inline 6/6且pageerror均为0，最终四端AJAX 24/24、inline 12/12且errors均为0。
+- **RSK-037 / P2已在Local关闭：** 子主题在版本化代码中只从`woocommerce_after_single_product_summary`优先级30移除Storefront `storefront_single_product_pagination`，不写Theme Mod、不改父主题。Hook探针确认Product Pagination为false，Upsells仍为15、Related仍为20、Shop归档分页仍为30；商品详情相邻prev/next导航被移除，其他商品发现与推荐入口保留。
+- **RSK-038 / P2已在Local关闭：** `table.shop_attributes`的`th/td`局部使用`overflow-wrap:anywhere`，并为`th`保留`min-width:6rem`。最终inline四宽12/12、长标签＋长值布局40/40、恢复正常短值40/40通过；没有使用全局`word-break`、隐藏溢出、JS截断或修改商品事实。
+- 当前结论仅为D66/M5的Local三项门槛关闭，最终独立变体回归合计61/61，安全/交易独立终审P0/P1/P2/P3=0；五商品精确恢复，orders/refunds=0、sessions=1，Coming Soon恢复`yes`、本轮marker不存在，PHP应用错误扫描0，MySQL仅本地自签CA warning后正常shutdown，16662/16663监听0。版本边界锁定WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2。原2026-09-08失败、截图、自动断言漏检与候选比较继续保留为发现证据；真实读屏器、Staging/Production及正式内容、邮件、支付、税费、物流、真实缓存/设备仍须按各自门槛复验，Woo/Storefront升级必须重跑。RSK-039/040及D69/D72其他期限性P2没有因本次关闭而改变状态。
+
 ## D69 Cart Store与经典fragment兼容边界（2026-09-08）
 
 - RSK-039 / P2：浏览器完全禁用`sessionStorage`或`localStorage`时，WooCommerce 11.0的`cart-fragments.js`只执行一次首屏刷新，不再绑定`wc_fragment_refresh`监听；因此Cart Store同页改量后，D69的公开事件没有消费者，Header暂时保留上次服务端值。当前代码已验证事件无人消费时立即释放内部状态，不锁死、不自建客户端数量、不自动重试；导航或刷新页面会重新取得服务端Header。负责人：开发者；延期理由：增加直连官方fragment端点的无存储fallback会复制Woo响应处理并扩大本日“只桥接公开机制”的维护面。复审节点：D72 W12合成回归，最晚在任何非Local部署前的支持浏览器/隐私模式矩阵中决定实现fallback或明确浏览器支持边界。

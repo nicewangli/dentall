@@ -399,6 +399,16 @@
 - 数据、SEO与缓存：第一版`mailto:`不把个人信息提交到WordPress；最终交易事实只保存在WooCommerce订单明细中。无新公共URL或Schema，动态交易页缓存规则不变。正式邮箱、实际投递、超大购物车邮件长度、支付沙盒和员工操作SOP仍需后续环境验收。
 - 回滚：移除主题Cart Filter脚本和Core守卫模块并回退版本即可恢复WooCommerce原生结账；设置项和历史原生订单不需要数据迁移或删除。
 
+## ADR-039：D66三项商品详情P2采用子主题最小修复并保留原生交易真相
+
+- 状态：已接受并于2026-09-10完成隔离Local验证。用户明确授权：“你先修复已有的三个P2”。该决定只关闭RSK-035/037/038的Local门槛，不批准Staging/Production部署，也不改变D69/D72期限性P2。
+- RSK-035决定：继续由WooCommerce负责Variation匹配、价格、库存与服务端加购校验；DentAll 0.41.0只监听当前Woo `VariationForm`已创建的AJAX请求。pending先清空旧price、stock和`variation_id`并禁用购买；HTTP、parser、network及15秒timeout失败显示可访问错误且保持安全状态。正常abort不报错，选择签名和当前XHR共同阻止过期成功、失败或`show_variation`回调覆盖新选择。不新增AJAX端点、匹配算法、自动重试、商品字段或交易状态源。
+- RSK-037决定：不再使用原候选的环境Theme Mod。子主题在`after_setup_theme`中按Storefront 4.6.2公开回调名，只移除商品详情`woocommerce_after_single_product_summary`优先级30的`storefront_single_product_pagination`。Shop归档分页、Related、Upsells、商品URL、筛选和Sticky配置保持原职责；Hook探针结果分别为Product Pagination false、Upsells 15、Related 20、Shop Pagination 30。
+- RSK-038决定：只在商品详情原生Additional Information的`table.shop_attributes`内为`th/td`设置`overflow-wrap:anywhere`，并给`th`保留`min-width:6rem`，使连续长标签和值可读且短值表格仍保有标签列。不开启全站断词、不隐藏内容、不用JS截断，也不要求编辑人员修改商品事实。
+- 证据：inline核心6/6、AJAX综合17/17、长标签＋长值布局40/40、恢复正常短值40/40均通过；最终独立AJAX 19/19、inline 6/6且pageerror均为0，最终四端AJAX 24/24、inline 12/12且errors均为0，独立变体回归合计61/61。五商品精确恢复、orders/refunds=0、sessions=1、Coming Soon=`yes`、marker不存在、16662/16663监听0。安全/交易独立终审P0/P1/P2/P3=0，锁定WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2；原D66失败与视觉证据保留，避免把修复后结果伪写成首次回归全绿。
+- 数据、SEO与环境：修改5个既有DentAll主题文件并将主题版本升至0.41.0；不改DentAll Core、商品/Variation、库存、订单、URL、Schema、索引设置、支付、税费、物流、邮件或缓存配置。移除Product Pagination会减少商品详情的相邻prev/next内部链接，但Shop分页、Related与Upsells入口保留；正式内容、Variation Gallery多图、真实辅助技术/设备、Staging/Production及缓存层仍须后续验证。
+- 回滚：整体回退这5个主题文件并恢复0.40.0即可回到修复前行为；没有数据库迁移或Theme Mod需要恢复。若只回退RSK-037，必须同时恢复原Storefront详情分页Hook并复验768px遮挡；若只回退RSK-035或038，须重新开放相应风险，不能继续沿用本次关闭结论。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

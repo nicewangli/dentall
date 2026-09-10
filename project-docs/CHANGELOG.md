@@ -4,13 +4,22 @@
 
 ## Unreleased
 
+### D66三项P2授权修复与Local关闭（2026-09-10）
+
+- 用户明确授权“你先修复已有的三个P2”。DentAll由0.40.0升至0.41.0，Core保持0.2.9；只修改5个既有主题文件，不新增模板、插件、AJAX端点、字段、数据迁移或Theme Mod。
+- RSK-035继续以WooCommerce为Variation和服务端交易真相源，只监听当前`VariationForm`已有XHR。pending立即清空旧可见price、stock与`variation_id`并禁用购买；`aria-busy`仅作用于`.single_variation_wrap`，其前方busy子树外的可见`aria-live`状态负责播报。HTTP、parser、network及15秒timeout均显示可访问错误并保持安全状态；pending的`reset_data`直接abort当前XHR，主动abort和陈旧回调不能覆盖新选择。
+- RSK-037通过版本化`remove_action`只移除Storefront商品详情相邻Product Pagination；RSK-038只在`table.shop_attributes th/td`使用`overflow-wrap:anywhere`并给`th`保留6rem最小宽度。Shop分页、Upsells、Related、商品事实和普通短值布局保持原职责。
+- 运行差分为5个既有主题文件新增257行、删除7行、净增250行，新增运行文件0；Variable脚本从22行增至248行并净增8个小型状态辅助函数，PHP函数净增0，CSS净增2个局部规则块。增长用于隔离当前XHR、选择签名、超时、主动abort、真实失败及迟到回调，不引入第二请求、Variation匹配算法或通用状态框架。
+- Local综合证据为inline核心6/6、AJAX综合17/17、长标签＋长值40/40、恢复正常短值40/40；Hook探针为Product Pagination false、Upsells 15、Related 20、Shop Pagination 30。最终独立重跑为AJAX 19/19与inline 6/6，pageerror均为0；最终四端为AJAX 24/24与inline 12/12，errors均为0，并覆盖busy作用域、live status位于busy子树外以及不完整选择直接中止且无迟到状态，独立变体回归合计61/61。五商品精确恢复，orders/refunds=0、sessions=1，Coming Soon=`yes`、marker不存在，PHP应用错误扫描0，MySQL仅本地自签CA warning后正常shutdown，16662/16663监听0。安全/交易独立终审P0/P1/P2/P3=0，锁定WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2。
+- RSK-035/037/038据此仅在D66/M5的Local技术口径关闭。原2026-09-08失败证据继续保留；修复源提交`5c4cefb`已通过非快进合并纳入并推送`main`，但尚未部署。Staging/Production、正式内容、邮件、支付、税费、物流、缓存、真实设备/辅助技术与Variation Gallery多图仍待验；RSK-039/040及D69/D72期限性P2没有改变。
+
 ### D67～D72 W12 Local集成收口（2026-09-10，已合入main）
 
 - 以`codex/day72-cart-regression@369f1d3`的D67→D70线性历史为基线，纳入D71/D72源提交`ff92cdc`，运行树`7176a3f`与终验文档`56f3a2a`由`6b5c96e`合入并推送`origin/main`。Cart响应式、Header Cart同步、优惠券触控修复、金额验证与人工运费报价同时保留；DentAll统一为0.40.0，Core为0.2.9。
 - 合成树静态检查通过：PHP lint、Node语法、PHP纯合同36/36、JS纯合同23/23及`git diff --check`。全新同步后的隔离Local动态回归通过D71金额177/177、D72报价18/18、可变商品/长属性/优惠券/空态67/67；Header浏览器八组场景及竞态状态机五组场景全部通过。
 - 首轮可变商品回归的唯一P1是复用测试脚本期待`TESTD72`标记，而当前夹具按`TESTD71`命名；仅修正忽略目录测试假设后完整重跑67/67，运行代码未因该项变化。最终标记订单0、checkout draft 0、报价TEST option 0、商品/Variation锁与快照0，隔离端口17171/17172已停止。
 - 远端SHA核验后移除`fb49`及D66～D70、旧D72回归共六棵Day临时工作树的Git登记；D67～D69以83项逐文件白名单私密归档结果/脚本/TEST截图，加README后清单84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`。D71～D72归档剔除2份本机路径快照后清单66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本和浏览器配置未归档并随临时树清理；六个分支均保留，当前Codex任务占用导致`fb49`原位置只剩0文件/0子目录空壳。
-- 本记录只证明Local合成树可进入主线，不代表Staging部署、正式报价邮箱、真实邮件客户端、SMTP、支付网关、Express钱包、真实税费/物流或D66/M5已验收。
+- 本记录只证明当时的Local合成树可进入主线，不代表Staging部署、正式报价邮箱、真实邮件客户端、SMTP、支付网关、Express钱包、真实税费/物流或D66/M5已验收；D66三项其后于2026-09-10另获授权修复并关闭Local。
 
 ### D72人工运费邮件报价与结账边界（2026-09-09，未合并）
 
@@ -33,7 +42,7 @@
 - 在D67重放提交`21f2941`之上把购物车样式改为Mobile First基础层＋既有75rem PC增强层：补`min-width:0`、长文本/通用错误安全断行、44px增减/Remove、128px数量选择器，以及空态/错误卡片；继续复用原生Cart Block DOM、Flex、容器查询和Store API。DentAll候选版本由0.36.0升至0.37.0，Core保持0.2.8。
 - 相对D67只修改3个既有运行文件，65行新增/35行删除、净增30行；新增运行文件、函数、Hook、模板、JavaScript、查询、字段、插件和依赖均为0。`setup.php`只有既有Cart条件加载说明注释变化，加载生命周期仍为`is_cart()`。
 - 全新独立Local副本最终198/198断言通过；覆盖Simple/Variation、六宽、1199/1200、长文本/缺图、loading/error/售罄/不可购买/空态、触控/键盘、Cross-sell图片及Page ID 8批准英文候选。英文验证后已恢复中文原哈希，全部购物车、商品/Variation及整库恢复；源Local只读快照不变，端口已停止。
-- 独立功能发现保留1项D70/P2：原生`Add coupons`高度20px，功能可展开但未达到44px触控目标。D66的RSK-035/037/038未关闭，故D68/D67/M5不标Done；未合并、推送、部署，未改正式数据、URL、SEO输出、支付、物流或缓存配置。主题版本查询串会在未来部署时刷新相关资源缓存。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
+- 独立功能发现保留1项D70/P2：原生`Add coupons`高度20px，功能可展开但未达到44px触控目标。D68完成时D66的RSK-035/037/038尚未关闭，故当时D68/D67/M5不标Done；三项其后于2026-09-10另行授权修复。该候选当时未合并、推送、部署，未改正式数据、URL、SEO输出、支付、物流或缓存配置。主题版本查询串会在未来部署时刷新相关资源缓存。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
 
 ### D69 Header Cart与Mini Cart状态联动（2026-09-08，独立Local候选）
 
@@ -42,7 +51,7 @@
 - 初审发现的BFCache误退订和本页旧fragment晚到覆盖均已修复。终态用localized精确端点、公开jQuery AJAX生命周期与Cart revision等待整个fragment批次落地；Store/fragment失败、HTTP 200无目标fragment、204、abort、快速连续变化及下一次真实变化恢复均有界验证，无自动无限重试。
 - 终态JS为176行、4452字节，源码与隔离运行副本SHA-256均为`269AD1E247B6C4BD3A05F001D9757BC90442DBFB043588C86E989A42002C166B`。Code Review、安全、独立测试均为P0/P1=0；隔离数据库已恢复测试前59表基线、D69临时用户为0，10669监听为0。
 - RSK-039/040继续作为期限性P2：Web Storage完全禁用时Woo 11.0不消费刷新事件；极端双标签错序且来源标签立即关闭时，剩余标签可能暂显旧Header。两者不改服务端Cart，导航/刷新或后续变化恢复；D72/W12合成及最晚非Local浏览器矩阵复审，不依赖Woo私有存储键或擅自增加fallback。
-- 当前仅独立分支和隔离Local技术候选，未合并`main`、未推送或部署。D66的RSK-035/037/038、D67/D68/D70、W12、M5、正式内容、真实辅助技术、Production缓存/CWV仍独立待验。详见[[笔记/Day69-Header Cart与Mini Cart状态联动]]。
+- 本条记录的是D69形成时的独立分支和隔离Local技术候选，当时未合并`main`、未推送或部署；当时D66的RSK-035/037/038、D67/D68/D70、W12、M5、正式内容、真实辅助技术、Production缓存/CWV仍独立待验。D66三项其后已关闭Local，D69的RSK-039/040不因该关闭而改变。详见[[笔记/Day69-Header Cart与Mini Cart状态联动]]。
 
 ### D70原生优惠券规则与边界验证（2026-09-08，已完成）
 
@@ -51,11 +60,11 @@
 - 唯一P2在D70源提交中编号为`RSK-039`，集成时映射为`RSK-041`：96字符连续券码错误的内层裁切，四端页面无横向滚动；交D68评估最小展示候选、D72回归，后由W12六宽合成回归在Local关闭。D71税费、D75免邮/运费、D78跨订单次数仍未验，本日未进Checkout，未建订单、支付、库存或邮件流程。
 - 15券、1 Customer、1边界商品、51 session已删除，恢复12/12，PHP Fatal/Warning 0，HTTP/MySQL监听与D70进程0。原`.codex-tmp/day70`与23个同源预演回收站条目（含对应数据与元数据）已精确永久删除，未清空其他回收站；独立终审path/recycle/listeners/processes/git全0，P0/P1/安全P2为0。旧浏览器轮次、一次30秒中断、共享MySQL `10011`及权威前harness预演均已在权威前关闭，不纳入终态通过数。详见[[笔记/Day70-优惠券规则与边界验证]]。
 
-### D66集成、远端同步与商品闭环回归（2026-09-08，待缺陷处置）
+### D66集成、远端同步与商品闭环首次回归（2026-09-08，当时待缺陷处置）
 
 - `278d20d`保留D60/D61/D63祖先并合入、推送main；完成工作树登记已清理，160份独有忽略证据私密归档，3个Windows占用空目录保留。D67候选未纳入，未部署非Local。
 - 本轮在同一集成运行树执行商品发现、Simple/Variable、四端、键盘、SEO及恢复检查；测试方法纠偏、原始失败与真实缺陷分别记录。RSK-035仍开放，新增RSK-037记录原生相邻商品导航在768px遮挡Tabs，RSK-038记录连续长参数表格四端裁切；内容80/80为自动断言，长参数视觉QA未通过。
-- 本轮运行文件、函数、CSS规则块、字段和行数净增均为0，主题/Core不升版本；原生配置关闭导航及最小Variable错误适配均为待确认候选。验收命令、报告、风险与影响见[[笔记/Day66-商品浏览闭环集成回归]]，不宣称D66/M5完成。
+- 当轮运行文件、函数、CSS规则块、字段和行数净增均为0，主题/Core不升版本；原生配置关闭导航及最小Variable错误适配当时均为待确认候选。验收命令、报告、风险与影响见[[笔记/Day66-商品浏览闭环集成回归]]；该历史条目不宣称首次回归全绿，后续关闭事实见本页2026-09-10条目。
 
 ### D61原生变体选择与购买验证（2026-09-08）
 
