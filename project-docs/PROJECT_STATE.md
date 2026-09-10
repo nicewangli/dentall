@@ -4,11 +4,11 @@
 
 ## 状态快照
 
-- D60（`c99126d`）、D61（`6b51620`）、D63（`0e5b428`）与既有D59/D62/D64/D65已在`278d20d`汇齐并推送`origin/main`。D67～D72运行树`7176a3f`和终验文档`56f3a2a`已由`6b5c96e`合入并推送`origin/main`，远端SHA已核验；非Local仍未部署。D66的RSK-035/037/038尚未处置，M5不标Done。
+- D60（`c99126d`）、D61（`6b51620`）、D63（`0e5b428`）与既有D59/D62/D64/D65已在`278d20d`汇齐并推送`origin/main`。D67～D72运行树`7176a3f`和终验文档`56f3a2a`已由`6b5c96e`合入并推送`origin/main`，远端SHA已核验；非Local仍未部署。2026-09-10用户授权“你先修复已有的三个P2”后，DentAll 0.41.0专项分支已在Local关闭RSK-035/037/038，D66/M5按Local技术口径完成；最终独立AJAX 19/19、inline 6/6及四端24/24、12/12均无页面错误，安全/交易终审P0～P3=0。该修复尚未合入`main`或部署。
 
-- D67运行候选已从旧候选`13f2235`（原父基线`7220fe5`）按最小运行增量重放到`main@c9ca48c`之上：仅恢复原样`cart.css`、Cart条件加载并把当时主题候选版本升至`0.36.0`；静态核对保留D61 Variable资源不变。原待补的Variable购物车动态行已由D68隔离候选验证覆盖；该增量现已进入W12合成候选，但D66的RSK-035/037/038仍为非Local门槛。
+- D67运行候选已从旧候选`13f2235`（原父基线`7220fe5`）按最小运行增量重放到`main@c9ca48c`之上：仅恢复原样`cart.css`、Cart条件加载并把当时主题候选版本升至`0.36.0`；静态核对保留D61 Variable资源不变。原待补的Variable购物车动态行已由D68隔离候选验证覆盖；该增量现已进入W12合成候选。D67形成时尚未关闭的RSK-035/037/038，已于2026-09-10通过独立授权修复完成Local关闭，非Local仍须复验。
 
-- D68在D67重放增量上以Mobile First基础规则补齐Cart Block手机/平板可读性、44px数量增减/移除目标、128px数量选择器、长文本与通用错误换行，以及空态/错误卡片；当时主题候选版本为`0.37.0`。全新独立Local副本六宽及Page ID 8英文候选共198/198断言通过，源Local继续只读且仍为中文，隔离库已恢复、购物车已清空、服务已停止。原生`Add coupons`高度随后由D70的`369f1d3`补足；本结果不关闭D66三项P2或把M5标Done。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
+- D68在D67重放增量上以Mobile First基础规则补齐Cart Block手机/平板可读性、44px数量增减/移除目标、128px数量选择器、长文本与通用错误换行，以及空态/错误卡片；当时主题候选版本为`0.37.0`。全新独立Local副本六宽及Page ID 8英文候选共198/198断言通过，源Local继续只读且仍为中文，隔离库已恢复、购物车已清空、服务已停止。原生`Add coupons`高度随后由D70的`369f1d3`补足；D68结果本身没有关闭D66三项P2，三项已于2026-09-10另行授权修复。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
 
 - D69已完成Header Cart/Mini Cart状态联动候选；D70已完成WooCommerce原生优惠券规则与恢复验证，其长券码展示项在集成记录映射为`RSK-041`，并已由W12六宽合成回归在Local关闭、留Staging复验。两日原始证据、风险与恢复边界分别见[[笔记/Day69-Header Cart与Mini Cart状态联动]]和[[笔记/Day70-优惠券规则与边界验证]]。
 
@@ -18,14 +18,14 @@
 
 - W12合成树终验已通过：D71金额177/177、D72报价18/18、可变商品/长属性/优惠券/空态67/67；Header Cart浏览器正常流、故障恢复、Variable、桌面/触屏Mini Cart、四宽与BFCache全通过，竞态状态机覆盖乱序旧响应、HTML 200、204、中止和快速连续变化。报价TEST option、订单、checkout draft及商品夹具状态均已清理，17171/17172监听为0。首轮唯一P1来自复用脚本期待`TESTD72`而当前夹具按`TESTD71`命名；修正测试假设后完整67/67重跑通过，未修改运行代码。
 
-- D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当前Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支均保留。当前Git只登记主工作树、Day25历史归档树和Staging部署树。
+- D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当时Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支均保留。当前Git另登记本次`D:\LocalWP\dentall-day66-p2-fixes`修复工作树；主工作树、Day25历史归档树和Staging部署树均保留。
 
 - 更新日期：2026-09-10。
-- 当前阶段：D67～D72已通过`main@6b5c96e`完成Local代码收口并推送远端。D66的RSK-035/037/038仍是非Local部署前门槛，D66/M5暂不标Done；D69的RSK-039/040和D72两项已记录P2继续按各自期限管理，D70长券码错误展示已由合成树响应式规则覆盖并在67/67中通过。
+- 当前阶段：D67～D72已通过`6b5c96e`完成Local代码收口，清理文档提交后当前`main@35c9c07`已推送远端；DentAll 0.41.0专项分支已在Local关闭D66的RSK-035/037/038，D66/M5按Local技术口径完成，但尚未合入`main`或部署。D69的RSK-039/040和D72两项已记录P2继续按各自期限管理，D70长券码错误展示已由合成树响应式规则覆盖并在67/67中通过。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
-- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4按Local技术v1通过。W12已完成Local代码收口，但不等于Staging部署或M6。
+- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口，但不等于Staging部署或M6。
 - 当前状态：Cloudways Flexible为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换曾验证。后续部署仍须重新做备份、环境差异与回滚预检。
-- 当前版本：`main`为DentAll 0.40.0/Core 0.2.9，同时保留Header Cart同步与人工运费报价脚本。Staging仍是部署提交`501e5e5`与Core 0.2.6；共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次Git整合自动改变。
+- 当前版本：已推送的`main`仍为DentAll 0.40.0/Core 0.2.9；本次D66修复工作树为DentAll 0.41.0/Core 0.2.9，同时保留Header Cart同步与人工运费报价脚本。Staging仍是部署提交`501e5e5`与Core 0.2.6；共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次修复自动改变。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## D62并行检查点：原生字段复核与零扩展收口
@@ -746,11 +746,13 @@
 - [x] 已撤销缺页、About、Solutions、FAQ和文章内容的生成计划与项目内候选副本；后续仅在对应开发日出现明确视觉证据缺口时另行说明并申请生成授权。
 - [x] 冻结目录只用于本机开发选稿和版本追踪，当前被Git忽略，不等于团队备份；没有修改WordPress运行代码、数据库、URL、SEO、缓存、支付、物流或部署配置。
 
-## D66阶段结果：集成回归已执行，待三项P2处置
+## D66阶段结果：首次回归与2026-09-10授权关闭
 
-- `278d20d`已合入并推送main，完成工作树清理与必要忽略证据归档；本轮运行实现净增0，主题/Core不升版本。共享Local业务数据、支付、物流、DNS与非Local部署未改。
-- 新鲜证据包括Variable inline363/363、AJAX121/121及独立交易12/12、Simple16/16；内容自动80/80但长参数视觉QA未通过。商品发现原始458/462与定向15/15、品牌原始12/14与合同复核分别记录，不将Oracle纠偏伪写为原始全绿。详细范围、恢复与停机证据见[[笔记/Day66-商品浏览闭环集成回归]]。
-- RSK-035原生AJAX旧状态仍复现但服务端拒绝无效提交；RSK-037确认768px相邻导航遮挡Tab文字/焦点；RSK-038确认234字符参数使表格宽2328.53125px而四端裁切。三项均为P2，负责人开发者，待确认最小适配/原生开关/局部换行候选或明确延期；当前不标D66/M5 Done，不合并D67。
+- **2026-09-08首次回归：** `278d20d`已合入并推送main，完成工作树清理与必要忽略证据归档；当轮运行实现净增0，主题/Core不升版本。新鲜证据包括Variable inline363/363、AJAX121/121及独立交易12/12、Simple16/16；内容自动80/80但长参数视觉QA未通过。商品发现原始458/462与定向15/15、品牌原始12/14与合同复核分别记录，不将Oracle纠偏伪写为原始全绿。
+- **2026-09-08真实发现：** RSK-035原生AJAX旧状态仍复现但服务端拒绝无效提交；RSK-037确认768px相邻导航遮挡Tab文字/焦点；RSK-038确认234字符参数使表格宽2328.53125px而四端裁切。三项当时保持P2开放，原失败、截图和自动断言漏检证据继续保留。
+- **2026-09-10授权与实现：** 用户明确授权“你先修复已有的三个P2”。DentAll 0.41.0监听当前Woo `VariationForm`既有AJAX：pending清空旧可见price/stock/`variation_id`并禁用购买，只对`.single_variation_wrap`设置`aria-busy`，其前方busy子树外的可见`aria-live`状态负责播报；HTTP/parser/network/15秒timeout安全失败，pending的`reset_data`直接abort当前XHR，主动abort及陈旧回调不覆盖新选择。版本化Hook只移除商品详情Product Pagination；属性表`th/td`局部使用`overflow-wrap:anywhere`且`th`最小6rem。
+- **Local关闭证据：** inline核心6/6、AJAX综合17/17、长标签＋长值40/40、恢复正常短值40/40通过；Hook探针为Product Pagination false、Upsells 15、Related 20、Shop Pagination 30。最终独立AJAX `ajax-final-busy-scope-independent-20260910-1225`为19/19、inline `inline-final-busy-scope-independent-20260910-1227`为6/6，pageerror均为0；最终四端AJAX `viewports-ajax-final-busy-scope-20260910-1232`为24/24、inline `viewports-inline-final-busy-scope-20260910-1233`为12/12，errors均为0，独立变体回归合计61/61。五商品精确恢复，orders/refunds=0、sessions=1，Coming Soon恢复`yes`、marker不存在，PHP应用错误扫描0，MySQL仅本地自签CA warning后正常shutdown，16662/16663监听0。安全/交易独立终审最终P0/P1/P2/P3=0，锁定WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2。D66/M5仅按Local技术口径完成；Staging/Production、正式内容、邮件、支付、税费、物流、缓存、真实读屏器和Variation Gallery多图未验，Woo/Storefront升级须重跑，RSK-039/040及D69/D72期限性P2状态不变。
+- 本次修复由`codex/day66-p2-fixes`承载，尚未合入`main`或部署；共享Local业务数据、商品/Variation、媒体、订单和非Local配置未因该结论改变。详细范围见[[笔记/Day66-商品浏览闭环集成回归]]。
 - 项目笔记与独立学习笔记、索引及直接前置笔记已显式互链；学习掌握度由用户本人自测，不以自动生成标记掌握。
 
 ## D68阶段结果：响应式Cart Block候选已完成隔离技术验证
@@ -768,7 +770,7 @@
 - Header fragment只替换`span.dentall-cart-content`，保留父主题监听所在的`a.cart-contents`；浏览器fragment结构键升级为`_dentall_header_v2`。Mini Cart既有显隐规则增加`:focus-within`，Tab进入面板仍保持可见。
 - 初审发现并关闭两项问题：BFCache的`pagehide.persisted=true`不再误退订；首次旧fragment响应晚到不再覆盖本页新状态。常规快速变化的fragment最大并发为1，优惠券字段单独变化请求为0；HTTP 200无目标fragment会释放状态，不造成永久门闩。
 - RSK-039/040为期限性P2：Web Storage完全禁用时Woo 11不消费刷新事件；极端双标签错序且来源标签立即关闭时，剩余标签可能暂显旧Header。两者不回写服务端Cart，导航/刷新或后续变化可恢复；负责人开发者，D72/W12合成回归复审，最晚非Local浏览器矩阵决定fallback或支持边界。
-- D69独立Local技术候选已收口：终态JS为176行、4452字节，源码与运行副本哈希一致；Code Review、安全、独立测试均确认P0/P1为0，开放P2仅为已登记的RSK-039/040。隔离数据库已恢复测试前转储，59张表可读、D69临时用户为0，10669监听为0；本分支独立提交，不合并、不推送。D66/M5和W12不因此Done。详细证据见[[笔记/Day69-Header Cart与Mini Cart状态联动]]及[[笔记/WordPress实战笔记/Day69-Cart Store与经典Fragments桥接]]。
+- D69独立Local技术候选已收口：终态JS为176行、4452字节，源码与运行副本哈希一致；Code Review、安全、独立测试均确认P0/P1为0，开放P2仅为已登记的RSK-039/040。隔离数据库已恢复测试前转储，59张表可读、D69临时用户为0，10669监听为0；本分支独立提交，不合并、不推送。D69当时不使D66/M5或W12自动Done；D66三项其后于2026-09-10另行授权关闭，RSK-039/040仍开放。详细证据见[[笔记/Day69-Header Cart与Mini Cart状态联动]]及[[笔记/WordPress实战笔记/Day69-Cart Store与经典Fragments桥接]]。
 
 ## D70阶段结果：原生优惠券交易、恢复与私有目录销毁通过
 
@@ -789,9 +791,9 @@
 
 ## 下一步三个验收结果（当前）
 
-1. 确认并处置RSK-035/037/038，或明确接受有原因、负责人和期限的P2延期；定向复验后再判断D66/M5及D67/D68候选是否具备集成条件。
-2. D72在自己的集成树吸收D69/D70/D71确定提交，重验Header、Mini Cart、Cart、优惠与运费/税费的同会话时序；地址/税区改变而商品key/数量不变时，经典Mini Cart小计不得停留旧值。D69/D70的风险编号冲突也由D72统一去重。
-3. D72明确Cart内地区入口产品决定；继续把TEST估算与正式政策分开。真实设备/辅助技术、公开Canonical、CDN/缓存/CWV、支付、物流、税费、邮件、公司Git所有权与非Local部署仍分别验收。
+1. 将`codex/day66-p2-fixes`合入`main`并推送远端`main`，随后核对远端SHA；当前Local关闭与专项分支交付不等于主线集成或非Local发布。
+2. 进入Staging前做受控代码白名单、文件＋数据库备份、环境差异、配置重放、缓存和回滚预检；禁止用Local数据库或uploads覆盖Staging既有商品、媒体和订单，并在Staging重新验证RSK-035/037/038。
+3. 继续独立管理RSK-039/040及D72两项期限性P2；正式内容、真实设备/辅助技术、公开Canonical、CDN/CWV、支付、物流、税费、邮件、公司Git所有权与非Local部署仍分别验收。
 
 ## D72阶段结果：人工运费邮件报价候选完成
 
@@ -807,7 +809,7 @@
 
 - 如果支付、物流、税费和SMTP长期不确认，会影响W13以后关键路径。
 - D59已关闭768～1199px顶层双列和Local Sticky遮挡留项，但依赖Storefront 4.6.2的float/gutter/clear/After Footer回调与Theme Mod默认值；升级父主题、切换主题或复制数据库后，必须重跑1199/1200、DOM/脚本、推荐hit-test及配置读回。非Local未授权关闭，不能由Local结果推断。
-- D55～D61依赖WooCommerce经典单品DOM、Summary/Meta Hook、Gallery/Variation图片属性与数量输入参数Filter，以及Storefront的clearfix、`.screen-reader-text`重要声明和原生脚本；升级WooCommerce、Storefront或切换区块单品模板后，必须重新核对模板/Hook、促销与数量标签语义、`:has()`选择器、资源条件、Simple/Variable、单/多/缺图、品牌/评分、Zoom/PhotoSwipe、1199/1200与四端。`RSK-035`记录原生AJAX pending或失败后可能暂留旧按钮状态及可见价格/库存，当前服务端仍拒绝空`variation_id`；重复合法POST会按原生行为累加，本次未专项证明幂等。未来启用Variation Gallery多图、Quick View或第三方调用`get_variation`时，必须重验动态`sizes`与DOM路径。
+- D55～D61及D66修复依赖WooCommerce经典单品DOM、Summary/Meta Hook、Gallery/Variation图片属性、当前`VariationForm`的XHR生命周期与数量输入参数Filter，以及Storefront的Hook回调名、clearfix、`.screen-reader-text`重要声明和原生脚本。RSK-035已在DentAll 0.41.0的当前Woo/Storefront版本上关闭Local，但升级WooCommerce、Storefront、切换区块单品模板、改变Variation阈值、启用Variation Gallery多图/Quick View或由第三方调用`get_variation`时，必须重验pending清旧状态、busy/live边界、reset abort、超时、旧回调隔离、动态`sizes`、Product Pagination Hook及DOM路径。重复合法POST仍会按原生行为累加，本次未专项证明幂等。
 - D69依赖WooCommerce 11.0.0公开Cart Store descriptor、经典`wc-cart-fragments`的jQuery AJAX生命周期和Storefront对稳定`a.cart-contents`节点的交互监听。升级Woo/Storefront、改用fetch/`global:false`、切换Block Header/Mini Cart、禁用Web Storage或增加跨标签同步插件时，必须复验精确端点跟踪、初始化/错序/失败/BFCache、内部fragment selector和鼠标/键盘/触控。RSK-039/040不影响服务端Cart事实，但禁止宣称所有缓存与跨标签状态已覆盖。
 - D60业务来源材料只获准隔离Local内部验证，未登记为批准公开；受限且已停机的证据runtime仍保存完整副本数据库转储、日志和30张含内部样本截图，只允许本机管理员内部留存，禁止提交或外发，并应在证据保留期结束后整目录安全删除。未来重跑媒体夹具必须同时清理附件记录、原图和全部派生尺寸，不能只依赖`wp_delete_attachment()`结果。
 - 商品、文章和Page技术路径已完成D25抽查，WM-A可在受保护Staging按批准SOP用Simple模板v1小批次录入Draft；Variable/Variation CSV、正式内容审核、Production同步和发布仍是独立闸门。
@@ -912,10 +914,11 @@
 | W10 / D58 | 6小时50分钟 | 待用户记录 | 已完成（独立Local副本确认范围） | DentAll 0.33.0复用Woo经典Simple POST、库存、cart与notice，以4个局部CSS规则和1个展示Filter完成数量标签与间距。16项交易矩阵、15个匿名cart清理、五商品精确恢复、六宽/键盘/异常状态、Variable/Shop及三路终审通过，P0～P3=0；4个既有运行文件净+53行。共享Local、非Local、Variable加购、防重/AJAX及真实辅助技术未验 |
 | W10 / D59 | 6小时50分钟 | 待用户记录 | 已完成（隔离Local与共享Local配置确认范围） | DentAll 0.34.0以一个局部媒体规则让768～1199px Gallery/Summary满宽堆叠，1200px恢复D55双列；同步修正Gallery `sizes`与五图缩略图100px上限，并关闭共享Local原生Sticky。正常/多图/缺图/长文本共559/559、26页/47图、数据精确恢复及独立终审通过，P0～P3=0；3个既有运行文件净+4行。D61动态Variation、正式内容、实体设备/辅助技术、CWV及非Local未验 |
 | W10 / D60 | 6小时50分钟 | 待用户记录 | 已完成（W10 Local商品详情技术v1） | 业务来源材料仅作隔离Local代表TEST；Simple/Variable初始、长文案、五图、缺图、售罄、无价格、一次Simple加购及D64/D65边界共30页/30截图、419/419。5商品/modified、session、订单/退款/pending精确恢复，10附件/原图、69派生图、夹具副本、账号/凭据清理，服务关闭；运行代码0改动，终审P0～P3=0。正式内容、D61、实体设备/辅助技术、CWV和非Local仍待 |
-| W11 / D61 | 6小时50分钟 | 未记录 | 已完成（隔离Local技术v1；保留`RSK-035`） | DentAll 0.35.0复用Woo原生Variable选择、动态价格/库存/媒体和服务端交易，只补动态`sizes`、数量标签、5块CSS及按钮ARIA映射；4改+1个720字节JS，净+108行。9份报告581/581次断言、50张截图，独立交易/合同回归、8组新进程快照、17/17终态与服务关闭通过；自定义差分P0～P3=0，原生AJAX失败后旧按钮状态及可见价格/库存体验P2由D66复审。正式内容、真实辅助技术、CWV、Variation Gallery多图及非Local未验 |
+| W11 / D61 | 6小时50分钟 | 未记录 | 已完成（隔离Local技术v1；当时保留`RSK-035`） | DentAll 0.35.0复用Woo原生Variable选择、动态价格/库存/媒体和服务端交易，只补动态`sizes`、数量标签、5块CSS及按钮ARIA映射；4改+1个720字节JS，净+108行。9份报告581/581次断言、50张截图，独立交易/合同回归、8组新进程快照、17/17终态与服务关闭通过；自定义差分P0～P3=0，当时的原生AJAX旧状态P2已由D66在2026-09-10另行授权修复并关闭Local。正式内容、真实辅助技术、CWV、Variation Gallery多图及非Local未验 |
 | W11 / D62（并行） | 6小时50分钟 | 未记录 | 已完成（零扩展文档与证据范围） | 用户批准当前代表商品零新增字段、零运行代码，维持ACF停用；修正免费ACF 6.8.7实物与旧Pro安装记录的偏差，记录原生承载、PDF/许可/迁移边界并完成项目与学习收尾。CR-005、D58～D61、D63和非Local均不因D62完成；D61其后已独立完成 |
 | W11 / D63（并行） | 6小时50分钟 | 未记录 | 已完成（当前Local原生承载与空状态技术收口） | 第一版只面向匿名公开补充资料；复用Woo原生Description/Additional Information，#44/#46字段、源码空态、同运行代码四端/单一键盘路径、PDF拒绝、5MB和公开直链边界通过。无合格PDF所以入口0；运行代码/字段/部署0变更，数据库业务/配置显式写入0且未做本轮全表前后哈希，正式文件与撤回链未验 |
-| W12 / D69（并行候选） | 6小时50分钟 | 未记录 | 已完成（独立Local技术候选；保留RSK-039/040） | DentAll 0.36.0候选连接Block Cart Store与经典Header/Mini Cart fragment，修正外层链接监听丢失及BFCache/旧响应竞态；Simple/Variable、匿名/Customer、故障/快速变化、四端和作用域通过，三路终审P0/P1=0。隔离数据库已恢复、10669已停止；D66三项P2、W12合成、非Local和Production均未完成 |
+| W11 / D66 | 未记录 | 未记录 | 已完成（D66/M5 Local三项P2关闭；待`main`集成与非Local复验） | 2026-09-10按用户“你先修复已有的三个P2”授权，以DentAll 0.41.0跟踪当前Woo AJAX安全状态、精确移除Storefront商品详情Product Pagination并局部修复属性表长词。inline 6/6、AJAX综合17/17、长值/短值各40/40及Hook探针通过；最终独立AJAX 19/19、inline 6/6、四端24/24与12/12均0错误，独立变体回归合计61/61且终态精确恢复，安全/交易终审P0～P3=0。Staging/Production、正式内容/邮件/支付/税费/物流/缓存、真实读屏器仍未验，D69/D72期限性P2不变 |
+| W12 / D69（并行候选） | 6小时50分钟 | 未记录 | 已完成（独立Local技术候选；保留RSK-039/040） | DentAll 0.36.0候选连接Block Cart Store与经典Header/Mini Cart fragment，修正外层链接监听丢失及BFCache/旧响应竞态；Simple/Variable、匿名/Customer、故障/快速变化、四端和作用域通过，三路终审P0/P1=0。隔离数据库已恢复、10669已停止；形成当时D66三项尚未关闭、W12尚未合成的历史快照，RSK-039/040与非Local/Production仍未完成 |
 | W12 / D70 | 6小时50分钟 | 未记录 | 已完成（交易、恢复与私有目录销毁通过） | 独立Local复用Woo原生三券型和Store API；前/后105/105、权威浏览器17通过/1 P2、独立8/8，P0/P1为0。源提交的RSK-039长错误裁切映射为集成RSK-041并交D72；15券、1 Customer、1边界商品、51 session已删除，恢复12/12，原私有目录与23个同源回收站条目（含对应数据与元数据）精确销毁，安全终审P0/P1/P2为0。运行代码/插件/权限/金额算法0改动；D71税费、D75免邮/运费、D78跨订单次数及Checkout/订单/支付/库存/邮件未验 |
 
 ## D65并行范围与主分支集成（2026-09-07）

@@ -261,6 +261,15 @@
 	line-height: var(--dentall-line-height-heading);
 }
 
+/* 原生属性表允许连续名称/参数断行，避免其最小内容宽度撑出Tabs容器。 */
+.single-product div.product .woocommerce-tabs table.shop_attributes :is(th, td) {
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .woocommerce-tabs table.shop_attributes th {
+	min-width: 6rem;
+}
+
 /* D64只编排原生推荐区网格，卡片内容与购买动作继续复用D29和WooCommerce。 */
 .single-product div.product > :is(.related, .upsells) > ul.products {
 	display: grid;
