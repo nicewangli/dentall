@@ -1002,9 +1002,9 @@ D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart�
 
 保留P2：`mailto:`点击捕获依赖Woo 11 Cart内部class并阻止事件下行，可能影响目标/冒泡型分析监听，Woo升级与埋点须回归；未新增报价订单meta，订单按当前商品配送属性与Shipping line推断，历史待付订单及商品physical/virtual切换须在支付日专项验证。
 
-## D67～D72 W12合成树终验（2026-09-10，待main合并）
+## D67～D72 W12合成树终验（2026-09-10，已合入main）
 
-运行树为`codex/day72-w12-integration@7176a3f`，DentAll 0.40.0/Core 0.2.9。隔离副本从该合成树重新同步28个自定义文件；测试数据库为`dentall_day71_fb49_20260908`，源Local、Staging、Production均未写入。
+运行树为`codex/day72-w12-integration@7176a3f`，终验文档为`56f3a2a`，两者已由`main@6b5c96e`合入并推送；DentAll 0.40.0/Core 0.2.9。隔离副本从该合成树重新同步28个自定义文件；测试数据库为`dentall_day71_fb49_20260908`，源Local、Staging、Production均未写入。
 
 | 用例组 | 实际证据 | 结论与边界 |
 |---|---|---|

@@ -4,9 +4,9 @@
 
 ## Unreleased
 
-### D67～D72 W12 Local集成收口（2026-09-10，待main合并）
+### D67～D72 W12 Local集成收口（2026-09-10，已合入main）
 
-- 以`codex/day72-cart-regression@369f1d3`的D67→D70线性历史为基线，纳入D71/D72源提交`ff92cdc`，在`codex/day72-w12-integration@7176a3f`同时保留Cart响应式、Header Cart同步、优惠券触控修复、金额验证与人工运费邮件报价；DentAll统一为0.40.0，Core为0.2.9。
+- 以`codex/day72-cart-regression@369f1d3`的D67→D70线性历史为基线，纳入D71/D72源提交`ff92cdc`，运行树`7176a3f`与终验文档`56f3a2a`由`6b5c96e`合入并推送`origin/main`。Cart响应式、Header Cart同步、优惠券触控修复、金额验证与人工运费报价同时保留；DentAll统一为0.40.0，Core为0.2.9。
 - 合成树静态检查通过：PHP lint、Node语法、PHP纯合同36/36、JS纯合同23/23及`git diff --check`。全新同步后的隔离Local动态回归通过D71金额177/177、D72报价18/18、可变商品/长属性/优惠券/空态67/67；Header浏览器八组场景及竞态状态机五组场景全部通过。
 - 首轮可变商品回归的唯一P1是复用测试脚本期待`TESTD72`标记，而当前夹具按`TESTD71`命名；仅修正忽略目录测试假设后完整重跑67/67，运行代码未因该项变化。最终标记订单0、checkout draft 0、报价TEST option 0、商品/Variation锁与快照0，隔离端口17171/17172已停止。
 - 本记录只证明Local合成树可进入主线，不代表Staging部署、正式报价邮箱、真实邮件客户端、SMTP、支付网关、Express钱包、真实税费/物流或D66/M5已验收。
