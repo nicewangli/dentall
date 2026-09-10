@@ -29,7 +29,10 @@
 |---|---|
 | 冻结运行代码源 | `97ebdc3637a313d53e10abdbc5dc181b99f69fef`；后续纯文档提交可推进`main`分支头，但不得改变下列两个运行子树或目标清单指纹 |
 | 运行子树 | DentAll主题tree `27852ee731af90a3644130aca25612a196e7c3eb`；DentAll Core tree `39b316ed03c32f1842d4ea7528b74a592c090529` |
-| 上次已部署基线 | `501e5e5fc2e8a800f637a7fd6b5e6a2d0947c8c6`；生成候选后`deploy/staging`分支头会前进，不能再用分支头等于该SHA作为检查条件 |
+| 上次已部署基线 | `501e5e5fc2e8a800f637a7fd6b5e6a2d0947c8c6`；候选独立生成与审阅期间，远端`deploy/staging`必须精确等于该值。首次写入窗口推A前须再次读取远端旧端并确认仍为该值，只有推A成功后分支头才允许前进 |
+| 候选A：依赖预置 | 提交`75d1eadfe0cdd6375e457bd1afc09a5bfe1ac15b`；唯一父提交为`501e5e5`；tree `9f4f9c0c8dc61344d9eb349d5ce0b1ff6da734fb`；相对基线精确19A |
+| 候选B：运行切换 | 提交`cf996e0ea48ece4c9af2388ea65259bce68b33b4`；唯一父提交为A；tree `2bf5c1852a8e03a56c4d09a789c3af4eabf71533`；相对A精确5M/4D |
+| 候选保存位置 | 本地及远端独立审阅分支`codex/staging-release-20260910`均指向B；`deploy/staging`仍精确停在`501e5e5`，尚未触发Cloudways Pull |
 | 历史关系 | 两分支没有共同祖先，禁止直接merge或使用`--allow-unrelated-histories` |
 | 路径映射 | `main:app/public/wp-content/...` → `deploy/staging:wp-content/...` → `public_html/wp-content/...` |
 | 目标版本 | DentAll `0.41.0`；DentAll Core `0.2.9` |

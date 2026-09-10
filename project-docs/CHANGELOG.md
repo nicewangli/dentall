@@ -4,7 +4,7 @@
 
 ## Unreleased
 
-### Staging首轮发布白名单与回滚预检（2026-09-10，仅文档）
+### Staging首轮发布候选与现场只读预检（2026-09-10，预检前置NO-GO）
 
 - 冻结运行代码提交`97ebdc3`及主题/Core两个tree，允许后续纯文档提交推进`main`分支头；`501e5e5`作为上次已部署基线而非未来候选分支头。两套历史无共同祖先且目录根不同，只能从冻结Git对象做`app/public/wp-content/**`到根级`wp-content/**`的受控映射，禁止直接merge或递归复制Local目录。
 - 发布白名单为DentAll Core 8文件和DentAll主题20文件，共28文件、385,771字节；相对基线为19新增、5更新、4不变、4删除。排除4个未跟踪商品导入文件、项目文档、测试证据、WordPress Core、Storefront、第三方插件、mu-plugin、数据库和uploads。
@@ -13,7 +13,9 @@
 - TEST验收拆为受保护环境下允许登记夹具回归的`GO-TECH`，以及正式内容与独立内容处置后零可见明确测试标记的`GO-PRESENTATION`；代码发布窗口不顺手撤稿、改名、解绑或删除TEST对象。
 - 回滚优先精确恢复主题/配置和两个DentAll第一方目录。`Web Files only`会覆盖整个`public_html/private_html`，包括uploads、Core、父主题和第三方文件，仅在备份后没有Web文件写入或能对账增量时使用；Database/Complete Restore只用于确认的数据损坏并评估恢复点之后的商品、媒体和订单损失。
 - 从冻结Git对象重算28文件、385,771字节、19A/5M/4=/4D、两个运行tree和清单指纹均一致；PHP 8.2.29 lint 13/13、Node语法4/4、本地Markdown链接0缺失、敏感信息模式0命中、`git diff --check`通过，最终两次独立方案审阅P0/P1/P2=0。
-- 本记录没有生成或推送新部署提交，没有连接或写入Cloudways，没有创建远端备份、移动服务器文件、切换主题、重放配置、清缓存或修改Staging数据库/uploads。
+- 已从冻结Git对象生成两阶段候选：A `75d1ead`以`501e5e5`为唯一父提交且仅19A；B `cf996e0`以A为唯一父提交且仅5M/4D，最终tree为`2bf5c1852a8e03a56c4d09a789c3af4eabf71533`。本地及远端独立审阅分支`codex/staging-release-20260910`均指向B，`deploy/staging`仍精确为`501e5e5`。两路独立候选审查P0～P3=0，附加PHP 8.2.9 lint 13/13和Node 24语法4/4通过；一次性校验工作树已清理。
+- 首次Staging现场只读尝试严格停在WordPress引导之前：TCP/22可达且保存的WinSCP会话、加密PPK路径与主机指纹可识别，但PPK尚未由用户解锁，本次可用Cloudways控制台会话停在登录页；本机虽有未加入PATH的LocalWP MySQL/MariaDB客户端，但尚未建立已认证的Staging SSH隧道、连接参数和只读数据库入口，因此无法先查询`theme_switched`和`theme_switched_via_customizer`，整体保持`NO-GO`。没有访问Staging前后台、运行WP-CLI、创建远端备份、移动服务器文件、切换主题、重放配置、清缓存或修改Staging数据库/uploads/Cloudways配置。
+- 修正本机`.git/info/exclude`对既有未知零字节文件的转义，消除`rg`忽略规则解析警告；该本地Git元数据不进入提交、不改变候选。同步纠正账户、架构和风险登记中Cloudways仍处试用期及Staging管理员未建立的过期状态；公司Git所有权、独立备份副本、MFA与备份管理员仍是治理门槛。
 
 ### D66三项P2授权修复与Local关闭（2026-09-10）
 

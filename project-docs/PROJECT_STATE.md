@@ -25,7 +25,7 @@
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口，但不等于Staging部署或M6。
 - 当前状态：Cloudways Flexible为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换曾验证。后续部署仍须重新做备份、环境差异与回滚预检。
-- 当前版本：已推送的`main`为DentAll 0.41.0/Core 0.2.9，同时保留Header Cart同步与人工运费报价脚本。Staging仍是部署提交`501e5e5`与Core 0.2.6；共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次修复自动改变。
+- 当前版本：已推送的`main`为DentAll 0.41.0/Core 0.2.9，同时保留Header Cart同步与人工运费报价脚本。Staging上次登记的部署基线为`501e5e5`/Core 0.2.6，远端`deploy/staging`当前仍为该提交；本轮尚未读取服务器文件、插件版本或哈希，不能据此排除现场漂移。共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次修复自动改变。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## D62并行检查点：原生字段复核与零扩展收口
@@ -791,13 +791,14 @@
 
 ## 下一步三个验收结果（当前）
 
-1. 从冻结运行代码提交`97ebdc3`的Git对象在上次已部署基线`501e5e5`上生成A/B两阶段候选：A只预置19个新增依赖，B再执行5更新/4删除并得到最终28文件；复核两个运行tree和三个清单指纹，不直接合并、不递归复制Local目录。
-2. 对当前Staging执行只读现场盘点和TEST对象分层审计；确认环境类型、Storefront活动基线、插件版本、角色版本/能力、主题option/菜单/Custom CSS、文件漂移、恢复入口/日志、缓存、磁盘空间和网站人员短暂写入冻结均可进入`GO`后，才创建应用级On-Demand文件＋数据库备份并开始写入。
-3. 两次独立Pull之间受备份保护地隔离4个旧模板；最终核对28文件后再激活DentAll并精确恢复主题映射，先完成`GO-TECH`及RSK-035/037/038，再以独立配置/内容变更达到零可见TEST的`GO-PRESENTATION`，任何阶段失败按精确第一方代码回滚优先处理。
+1. 用户在本机受控交互窗口解锁既有加密PPK并登录Cloudways/MFA；不得把凭据发到聊天。解锁后可先做必要的不引导WordPress的只读Shell发现，以确认实际路径、数据库命令和连接方式；在任何HTTP、WP-CLI或WordPress引导前，必须通过数据库直读确认`theme_switched`与`theme_switched_via_customizer`均无真值，任一真值立即保持`NO-GO`并转独立、先备份的修复窗口。
+2. 哨兵通过后继续Staging只读现场盘点和TEST对象分层审计；确认环境类型、Storefront活动基线、插件版本、角色版本/能力、主题option/菜单/Custom CSS、文件漂移、恢复入口/日志、缓存、磁盘空间和网站人员短暂写入冻结均可进入`GO`后，才创建应用级On-Demand文件＋数据库备份并开始写入。
+3. 只在全部现场硬闸门通过后，将`deploy/staging`依次快进到已冻结的A、B并分别Pull；两次Pull之间受备份保护地隔离4个旧模板。最终核对28文件后再激活DentAll并精确恢复主题映射，先完成`GO-TECH`及RSK-035/037/038，再以独立配置/内容变更达到零可见TEST的`GO-PRESENTATION`。
 
-## Staging首轮发布白名单与恢复预检（2026-09-10，仅方案）
+## Staging首轮发布候选与恢复预检（2026-09-10，候选已生成；现场前置NO-GO）
 
 - 冻结运行代码提交为`97ebdc3637a313d53e10abdbc5dc181b99f69fef`，主题tree为`27852ee731af90a3644130aca25612a196e7c3eb`、Core tree为`39b316ed03c32f1842d4ea7528b74a592c090529`；纯文档提交可继续推进`main`分支头。`501e5e5fc2e8a800f637a7fd6b5e6a2d0947c8c6`是上次已部署基线而非未来候选分支头。两套历史无共同祖先且根目录不同，禁止直接merge；完整实施边界见[RUNBOOK](RUNBOOK.md)，逐项证据入口见[RELEASE_CHECKLIST](RELEASE_CHECKLIST.md)。
+- A `75d1eadfe0cdd6375e457bd1afc09a5bfe1ac15b`以`501e5e5`为唯一父提交，tree为`9f4f9c0c8dc61344d9eb349d5ce0b1ff6da734fb`且相对基线精确19A；B `cf996e0ea48ece4c9af2388ea65259bce68b33b4`以A为唯一父提交，tree为`2bf5c1852a8e03a56c4d09a789c3af4eabf71533`且相对A精确5M/4D。本地及远端独立审阅分支`codex/staging-release-20260910`均指向B；远端`deploy/staging`仍为`501e5e5`，没有触发Cloudways Pull。
 - 部署白名单只映射`app/public/wp-content/themes/dentall/**`和`app/public/wp-content/plugins/dentall-core/**`的受控Git对象到部署分支根级`wp-content/**`，最终为28文件、385,771字节，清单SHA-256为`9912fcce92c95dd269c8657f3de23c730816586f75fb40889ffd4bf729774fd7`。当前无DentAll mu-plugin；数据库、uploads、WordPress Core、Storefront、第三方插件、文档、TEST证据及4个未跟踪商品导入文件全部排除。
 - 相对`501e5e5`为19新增、5更新、4不变、4删除。旧`header.php`、`footer.php`、`front-page.php`、`index.php`会阻断Storefront子主题继承；Cloudways Via Git不会自动删除源分支已移除的文件，因此必须在应用级On-Demand备份成功后逐项核对Git blob并移出`public_html`，不能只依赖发布提交中的删除记录。
 - Cloudways未承诺部署目录原子切换；活动Core入口会引用新增`shipping-quote.php`。方案因此拆为A“只新增19个依赖”与B“5更新/4删除”两次Pull，中间核对依赖并隔离4个旧模板；不能用编辑冻结替代并发HTTP、Cron和健康检查的代码兼容性。B完成后仍保持Storefront活动，先验Core交易闸门和角色不变量，再激活DentAll。
@@ -805,8 +806,10 @@
 - 回滚优先定点恢复主题/配置和两个DentAll第一方目录，顺序由当前完整栈和切换哨兵决定：只有活动主题＋正常插件集可加载且哨兵无真值时，才可先正常切回Storefront；任一truthy或任一活动栈Fatal时先在WordPress引导之外Pull精确基线代码，基线栈可加载并以非skip请求消费可能生命周期后，若DentAll仍活动再正常切Storefront。随后按发布哈希撤回19个新增文件。`Web Files only`会覆盖整个`public_html/private_html`，包括uploads、Core、父主题和第三方文件，仅在证明备份后零Web文件写入或已保存并可对账增量时使用；普通代码故障不得恢复整库。
 - TEST验收分两层：`GO-TECH`允许已登记夹具在Password Protection＋全站noindex下用于回归，但Local专用公告、Newsletter、占位Logo和Trust数字在Staging HTML必须为0；`GO-PRESENTATION`再以独立内容变更和正式样本实现用户可见明确测试标记为0。代码部署不顺手撤稿、改名、解绑或删除既有TEST对象。
 - 正式报价邮箱不阻塞发布包生成或受保护Staging的代码部署；空值会安全禁用邮件入口，但Core仍阻止实体商品普通Checkout，因此未配置企业控制邮箱时不得把D72业务闭环标记通过。该项与正式内容、支付、税费和物流继续独立验收。
-- 现场还必须确认`dentall_core_role_version=7`和两组角色能力哈希，并建立切换哨兵感知的独立恢复入口：只有哨兵无真值且当前活动主题＋正常插件集稳定时才预演`--skip-plugins --skip-themes`的只读WP-CLI，skip不用于实际主题激活；任一truthy或任一活动栈Fatal时先在WordPress引导之外恢复精确代码/文件，不让普通WP-CLI提前消费生命周期或给出相反恢复路径。否则Core可能写角色数据库，或Fatal恢复时错误改写菜单/Widget。本轮仅完成Local Git/源码/官方平台行为分析和文档更新，没有生成/推送候选、连接或修改Cloudways、创建备份、移动服务器文件、切换主题、重放配置、清缓存或修改Staging数据库/uploads。
-- 本地机械复核已从冻结Git对象得到28文件、385,771字节、19A/5M/4=/4D及两个运行tree/清单指纹完全一致；PHP 8.2.29 lint 13/13、Node语法4/4、Markdown本地链接0缺失、敏感信息模式0命中、`git diff --check`通过。两次独立方案审阅在最终修正后均为P0/P1/P2=0；这些证据只证明发布方案和冻结源码，不代表Staging现场预检或部署已完成。
+- 现场还必须确认`dentall_core_role_version=7`和两组角色能力哈希，并建立切换哨兵感知的独立恢复入口：只有哨兵无真值且当前活动主题＋正常插件集稳定时才预演`--skip-plugins --skip-themes`的只读WP-CLI，skip不用于实际主题激活；任一truthy或任一活动栈Fatal时先在WordPress引导之外恢复精确代码/文件，不让普通WP-CLI提前消费生命周期或给出相反恢复路径。否则Core可能写角色数据库，或Fatal恢复时错误改写菜单/Widget。
+- 首次现场只读尝试严格停在第一条数据库查询之前并判定`NO-GO`：TCP/22可达，保存的WinSCP会话、加密PPK路径与主机指纹可识别，但PPK尚未由用户解锁，本次可用Cloudways控制台会话停在登录页；本机虽有未加入PATH的LocalWP数据库客户端，但尚未建立已认证的Staging SSH隧道、连接参数和只读数据库入口。绝对WordPress路径、服务器数据库客户端、WP-CLI、PHP/Application/Web日志路径与读取权限仍未核实；没有访问Staging前后台、运行WP-CLI、创建备份，亦未修改应用代码、数据库、uploads或Cloudways配置。
+- 本地机械复核从冻结Git对象得到28文件、385,771字节、19A/5M/4=/4D及两个运行tree/清单指纹完全一致；候选B逐路径blob/mode与冻结运行源差异0。原PHP 8.2.29 lint 13/13、报价PHP 36/36、报价JS 23/23继续由完全相同的冻结blob继承，本轮另以PHP 8.2.9 lint 13/13和Node 24语法4/4复核通过；两路独立候选审查P0～P3=0，一次性校验工作树已删除。这些证据只证明发布候选，不代表Staging现场预检或部署已完成。
+- 安全预检发现并关闭本机`.git/info/exclude`转义P2，`rg`扫描已不再报ignore解析警告；该本地Git元数据不进入提交。`ACCESS_AND_SECRETS.md`中过期的Cloudways试用期和Staging管理员未建立状态已按D4既有证据纠正；公司Git所有权、独立备份副本、MFA与备份管理员仍未完成，不因本轮候选通过而关闭。
 
 ## D72阶段结果：人工运费邮件报价候选完成
 

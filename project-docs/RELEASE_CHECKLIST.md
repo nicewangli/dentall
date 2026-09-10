@@ -15,19 +15,22 @@
 
 > 本节只适用于从冻结运行代码提交`97ebdc3637a313d53e10abdbc5dc181b99f69fef`首次同步DentAll `0.41.0`和Core `0.2.9`。后续纯文档提交可以推进`main`分支头；运行发布源由提交可达性、两个运行tree和清单指纹共同确认。勾选必须有命令输出、Cloudways状态、截图或操作记录；未勾选的硬闸门不得凭口头判断跳过。详细白名单与恢复边界见[部署、运维与恢复手册](RUNBOOK.md)。
 
+> 2026-09-10执行状态：A=`75d1eadfe0cdd6375e457bd1afc09a5bfe1ac15b`，B=`cf996e0ea48ece4c9af2388ea65259bce68b33b4`，已保存到独立审阅分支`codex/staging-release-20260910`并经两路独立审查通过；远端`deploy/staging`仍为`501e5e5`。首次Staging现场只读尝试在数据库哨兵查询前判定`NO-GO`：加密PPK尚未由用户解锁，本次可用Cloudways控制台会话停在登录页；本机虽有未加入PATH的LocalWP数据库客户端，但尚未建立已认证的Staging SSH隧道、连接参数和只读数据库入口。没有访问Staging前后台、引导WordPress、运行WP-CLI、创建备份，亦未修改应用代码、数据库、uploads或Cloudways配置。
+
 ### 发布包与删除语义
 
-- [ ] 冻结提交可读取，当前`main`和`origin/main`均包含它；主题tree为`27852ee731af90a3644130aca25612a196e7c3eb`，Core tree为`39b316ed03c32f1842d4ea7528b74a592c090529`。
-- [ ] 上次已部署基线为`501e5e5fc2e8a800f637a7fd6b5e6a2d0947c8c6`；不要求候选生成后的`deploy/staging`分支头仍等于该值。
-- [ ] 已记录A“依赖预置”和B“切换”两个候选SHA：A相对基线只有19A，B相对A只有5M/4D，B最终相对基线为19A/5M/4=/4D。
-- [ ] 已确认两分支无共同祖先；发布包从Git对象映射生成，没有直接merge、递归复制Local目录或读取未跟踪文件。
-- [ ] 候选只含`wp-content/themes/dentall/**`和`wp-content/plugins/dentall-core/**`，最终精确为28文件、385,771字节。
-- [ ] 清单指纹为`9912fcce92c95dd269c8657f3de23c730816586f75fb40889ffd4bf729774fd7`。
-- [ ] 相对基线精确得到19新增、5更新、4不变、4删除；没有第三个路径前缀或DentAll mu-plugin。
-- [ ] 4个未跟踪的商品导入相关文件、项目文档、测试/证据、数据库、uploads、Core、父主题和第三方插件均未进入候选。
-- [ ] PHP 13/13 lint、JS 4/4语法、报价PHP 36/36、报价JS 23/23、`git diff --check`和路径守卫通过。
-- [ ] 已接受Cloudways Pull不会自动删除旧文件；4个旧模板的核对、隔离和恢复步骤已写入本次操作记录。
-- [ ] 回滚时必须撤回的19个新增文件清单指纹为`23d298b6113cdb0631aaeb0aa448f9e17a757231b8b43cdf551a49baa47d6da7`。
+- [x] 冻结提交可读取，当前`main`和`origin/main`均包含它；主题tree为`27852ee731af90a3644130aca25612a196e7c3eb`，Core tree为`39b316ed03c32f1842d4ea7528b74a592c090529`。
+- [x] 上次已部署基线为`501e5e5fc2e8a800f637a7fd6b5e6a2d0947c8c6`；候选独立生成与审阅期间，远端`deploy/staging`仍精确等于该值。
+- [ ] 首次写入窗口推A前已重新读取远端`deploy/staging`，旧端仍精确为`501e5e5`；实际推送使用写死A SHA和旧端保护，未用当前分支名或泛化快进替代。
+- [x] 已记录A“依赖预置”和B“切换”两个候选SHA：A相对基线只有19A，B相对A只有5M/4D，B最终相对基线为19A/5M/4=/4D。
+- [x] 已确认两分支无共同祖先；发布包从Git对象映射生成，没有直接merge、递归复制Local目录或读取未跟踪文件。
+- [x] 候选只含`wp-content/themes/dentall/**`和`wp-content/plugins/dentall-core/**`，最终精确为28文件、385,771字节。
+- [x] 清单指纹为`9912fcce92c95dd269c8657f3de23c730816586f75fb40889ffd4bf729774fd7`。
+- [x] 相对基线精确得到19新增、5更新、4不变、4删除；没有第三个路径前缀或DentAll mu-plugin。
+- [x] 4个未跟踪的商品导入相关文件、项目文档、测试/证据、数据库、uploads、Core、父主题和第三方插件均未进入候选。
+- [x] PHP 13/13 lint、JS 4/4语法、报价PHP 36/36、报价JS 23/23、`git diff --check`和路径守卫通过。
+- [x] 已接受Cloudways Pull不会自动删除旧文件；4个旧模板的核对、隔离和恢复步骤已写入本次操作记录。
+- [x] 回滚时必须撤回的19个新增文件清单指纹为`23d298b6113cdb0631aaeb0aa448f9e17a757231b8b43cdf551a49baa47d6da7`。
 - [ ] 没有把A和B作为一次Pull执行；若现场无法两阶段Pull，已有Cloudways原子部署证据，或已有真正隔离WordPress请求/Cron且独立于当前插件/主题的恢复方案，否则`NO-GO`。
 
 ### Staging现场只读硬闸门

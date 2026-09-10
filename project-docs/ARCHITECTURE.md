@@ -55,7 +55,7 @@ WordPress
 | Web服务器 | Nginx 1.26.1 | LocalWP本地版本；Cloudways实际版本D4补充 |
 | WordPress | 7.0.3 | 已安装；升级先走Staging |
 | WooCommerce | 11.0.0 | 已安装并激活；记录模板兼容性 |
-| 托管平台 | Cloudways，配置已选定，待正式购买 | D2/D4记录实际PHP、数据库、Web服务器、缓存和日志位置 |
+| 托管平台 | Cloudways Flexible / DigitalOcean Premium 4GB，已升级Full Access | 每次部署窗口重新记录实际PHP、数据库、Web服务器、缓存和日志位置 |
 | Node构建工具 | 待确认 | 只有主题构建需要时引入并锁定版本 |
 | Composer | 待确认 | 只有采用依赖管理时引入并提交lock文件 |
 
