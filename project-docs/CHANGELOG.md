@@ -4,6 +4,17 @@
 
 ## Unreleased
 
+### Staging首轮发布白名单与回滚预检（2026-09-10，仅文档）
+
+- 冻结运行代码提交`97ebdc3`及主题/Core两个tree，允许后续纯文档提交推进`main`分支头；`501e5e5`作为上次已部署基线而非未来候选分支头。两套历史无共同祖先且目录根不同，只能从冻结Git对象做`app/public/wp-content/**`到根级`wp-content/**`的受控映射，禁止直接merge或递归复制Local目录。
+- 发布白名单为DentAll Core 8文件和DentAll主题20文件，共28文件、385,771字节；相对基线为19新增、5更新、4不变、4删除。排除4个未跟踪商品导入文件、项目文档、测试证据、WordPress Core、Storefront、第三方插件、mu-plugin、数据库和uploads。
+- 记录Cloudways Via Git不自动删除源仓库已移除文件的边界：旧Starter主题的`header.php`、`footer.php`、`front-page.php`、`index.php`必须在应用级On-Demand备份后逐项核对并移出`public_html`；反向Git回滚也必须精确撤回19个新增文件，不能只Pull旧代码。
+- 因Cloudways未承诺原子目录切换，发布拆为A“只预置19个新增依赖”与B“再更新5文件/登记4删除”两次Pull，避免活动Core入口先更新而`shipping-quote.php`尚未落盘。新增角色版本/能力前后不变量、切换哨兵感知的WP-CLI/WordPress外部恢复入口、日志、主题option/Custom CSS、菜单自动映射、`secondary`未绑定与`handheld`未注册等现场`NO-GO`门槛；`theme_switched`只作生命周期诊断，备份前有真值即停止，另开先备份的授权修复窗口，禁止回滚时回灌旧真值。
+- TEST验收拆为受保护环境下允许登记夹具回归的`GO-TECH`，以及正式内容与独立内容处置后零可见明确测试标记的`GO-PRESENTATION`；代码发布窗口不顺手撤稿、改名、解绑或删除TEST对象。
+- 回滚优先精确恢复主题/配置和两个DentAll第一方目录。`Web Files only`会覆盖整个`public_html/private_html`，包括uploads、Core、父主题和第三方文件，仅在备份后没有Web文件写入或能对账增量时使用；Database/Complete Restore只用于确认的数据损坏并评估恢复点之后的商品、媒体和订单损失。
+- 从冻结Git对象重算28文件、385,771字节、19A/5M/4=/4D、两个运行tree和清单指纹均一致；PHP 8.2.29 lint 13/13、Node语法4/4、本地Markdown链接0缺失、敏感信息模式0命中、`git diff --check`通过，最终两次独立方案审阅P0/P1/P2=0。
+- 本记录没有生成或推送新部署提交，没有连接或写入Cloudways，没有创建远端备份、移动服务器文件、切换主题、重放配置、清缓存或修改Staging数据库/uploads。
+
 ### D66三项P2授权修复与Local关闭（2026-09-10）
 
 - 用户明确授权“你先修复已有的三个P2”。DentAll由0.40.0升至0.41.0，Core保持0.2.9；只修改5个既有主题文件，不新增模板、插件、AJAX端点、字段、数据迁移或Theme Mod。
