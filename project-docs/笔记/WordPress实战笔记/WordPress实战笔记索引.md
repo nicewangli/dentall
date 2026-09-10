@@ -114,7 +114,7 @@ tags:
 | Day66 | [[Day66-集成基线与商品全链路回归]] | [[../Day66-商品浏览闭环集成回归]] | 初识，待费曼自测 | — | Git与运行树、隔离数据、Oracle、四端/交易证据分层；等待RSK-035/037/038处置；中心命中或页面无溢出不能替代文字无遮挡、长参数可读性与M5验收 |
 | Day68候选 | [[Day68-Cart-Block响应式布局与状态证据]] | [[../Day68-手机与平板响应式购物车候选验证]] | 初识，待费曼自测 | — | Cart Block服务端Page骨架、前端Store API与Flex响应式分层；Mobile First基础规则、75rem增强、六宽正常/异常/空态与可逆Page 8英文候选证据；`Add coupons`触控归D70，不把198/198外推成D68/D67/M5 Done |
 | Day69（并行候选） | [[Day69-Cart Store与经典Fragments桥接]] | [[../Day69-Header Cart与Mini Cart状态联动]] | 初识，待费曼自测 | — | Cart Store保持唯一事实源，商品key/quantity变化有界触发经典fragment；保留Header锚点监听、失败保底、BFCache与四端。Web Storage禁用及极端跨标签错序为期限性P2，待W12集成和非Local浏览器矩阵 |
-| Day70 | [[Day70-WooCommerce优惠券校验与金额真相]] | [[../Day70-优惠券规则与边界验证]] | 初识，待费曼自测 | — | Woo原生三券型、Cart/订单事实分层、Store API整数金额、限制/会话/故障与精确恢复；源提交唯一展示P2 `RSK-039`映射为集成`RSK-041`并交D72，税费、免邮/运费和跨订单次数留D71/D75/D78 |
+| Day70 | [[Day70-WooCommerce优惠券校验与金额真相]] | [[../Day70-优惠券规则与边界验证]] | 初识，待费曼自测 | — | Woo原生三券型、Cart/订单事实分层、Store API整数金额、限制/会话/故障与精确恢复；源提交唯一展示P2 `RSK-039`映射为集成`RSK-041`，后由W12六宽回归在Local关闭；税费、免邮/运费和跨订单次数留D71/D75/D78 |
 | Day71候选 | [[Day71-WooCommerce运费税费与金额真相]] | [[../Day71-运费税费与金额摘要候选验证]] | 初识，待费曼自测 | — | `WC_Cart`、Shipping/Tax、Store API和Cart Block的单向金额链；`null`/无rate的0、最小货币单位、grams、Nonce/Cart-Token、Customer/session副作用、含税与舍入、库存及整库恢复。运行代码0新增；Cart内地区入口和正式政策不在通过口径 |
 | Day72候选 | [[Day72-人工运费报价与结账安全边界]] | [[../Day72-人工运费邮件报价与购物车收口]] | 初识，待费曼自测 | — | 固定商品价＋人工运费的状态边界；无Shipping Method时改按Product配送属性输出Store API扩展事实，Cart邮件与三路服务端守卫分责，原生Pending order/Shipping/Tax/Fee/Order Pay承载最终交易。PHP/JS/隔离Local通过；正式邮箱与非Local仍待 |
 

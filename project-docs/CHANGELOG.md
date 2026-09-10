@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+### D67～D72 W12 Local集成收口（2026-09-10，待main合并）
+
+- 以`codex/day72-cart-regression@369f1d3`的D67→D70线性历史为基线，纳入D71/D72源提交`ff92cdc`，在`codex/day72-w12-integration@7176a3f`同时保留Cart响应式、Header Cart同步、优惠券触控修复、金额验证与人工运费邮件报价；DentAll统一为0.40.0，Core为0.2.9。
+- 合成树静态检查通过：PHP lint、Node语法、PHP纯合同36/36、JS纯合同23/23及`git diff --check`。全新同步后的隔离Local动态回归通过D71金额177/177、D72报价18/18、可变商品/长属性/优惠券/空态67/67；Header浏览器八组场景及竞态状态机五组场景全部通过。
+- 首轮可变商品回归的唯一P1是复用测试脚本期待`TESTD72`标记，而当前夹具按`TESTD71`命名；仅修正忽略目录测试假设后完整重跑67/67，运行代码未因该项变化。最终标记订单0、checkout draft 0、报价TEST option 0、商品/Variation锁与快照0，隔离端口17171/17172已停止。
+- 本记录只证明Local合成树可进入主线，不代表Staging部署、正式报价邮箱、真实邮件客户端、SMTP、支付网关、Express钱包、真实税费/物流或D66/M5已验收。
+
 ### D72人工运费邮件报价与结账边界（2026-09-09，未合并）
 
 - 按CR-012把实体商品Cart的普通Checkout入口替换为预填报价邮件；客户WhatsApp仅为邮件中的可选字段，公司WhatsApp展示留给D89。报价邮箱进入WooCommerce Shipping设置，默认空值且不回退`admin_email`；主题升至0.38.0，Core升至0.2.9。
@@ -40,7 +47,7 @@
 
 - 在分支`codex/day70-coupon-rules`、基线`c9ca48c8489bf351dcb7ce04bc84080528dc68f1`的独立Local复用WooCommerce原生三券型与Store API；运行代码、插件/依赖、角色权限、金额算法和版本均0改动。源`public`复制范围为13,421个文件，三方树SHA-256均为`A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528`，自定义主题17文件、Core 7文件另行校验。
 - 权威配置前/后审计均105/105，后审计晚于浏览器结束；15券、订单0、用量全0、`free_shipping=false`与角色表不变。权威浏览器/Store API脚本SHA-256为`03FD52B92998DE1AB9FFBC0C80054BEEC49B4C00E22DFD3F9DC8A8C6D7CDCE10`，17项通过、1项P2，P0/P1为0，warning 0、预期Console错误11、意外0；独立结果SHA-256为`21F06E5F0E31E011D5C20231CCF9786861AC5640B5AA208258FE0C96DB66A0CF`，8/8且P0/P1/P2为0。
-- 唯一P2在D70源提交中编号为`RSK-039`，集成时映射为`RSK-041`：96字符连续券码错误的内层裁切，四端页面无横向滚动；交D68评估最小展示候选、D72回归。D71税费、D75免邮/运费、D78跨订单次数仍未验，本日未进Checkout，未建订单、支付、库存或邮件流程。
+- 唯一P2在D70源提交中编号为`RSK-039`，集成时映射为`RSK-041`：96字符连续券码错误的内层裁切，四端页面无横向滚动；交D68评估最小展示候选、D72回归，后由W12六宽合成回归在Local关闭。D71税费、D75免邮/运费、D78跨订单次数仍未验，本日未进Checkout，未建订单、支付、库存或邮件流程。
 - 15券、1 Customer、1边界商品、51 session已删除，恢复12/12，PHP Fatal/Warning 0，HTTP/MySQL监听与D70进程0。原`.codex-tmp/day70`与23个同源预演回收站条目（含对应数据与元数据）已精确永久删除，未清空其他回收站；独立终审path/recycle/listeners/processes/git全0，P0/P1/安全P2为0。旧浏览器轮次、一次30秒中断、共享MySQL `10011`及权威前harness预演均已在权威前关闭，不纳入终态通过数。详见[[笔记/Day70-优惠券规则与边界验证]]。
 
 ### D66集成、远端同步与商品闭环回归（2026-09-08，待缺陷处置）

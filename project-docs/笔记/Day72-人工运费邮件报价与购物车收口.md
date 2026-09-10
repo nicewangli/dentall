@@ -6,7 +6,7 @@
 周次: W12
 实际有效工时: 用户未记录
 验收层级: 独立Local候选实现与交易边界验证
-状态: 已完成批准范围；正式邮箱与非Local部署待后续验收
+状态: 已完成批准范围与D67～D72 Local合成树终验；正式邮箱与非Local部署待后续验收
 ---
 
 # Day72 人工运费邮件报价与购物车收口
@@ -70,6 +70,14 @@ WooCommerce 11.0.0的`WC_Cart::needs_shipping()`在全站没有任何配送方�
 | 日志 | 有效实现请求未匹配新增PHP Fatal/Warning/Parse；刻意Store API 409在浏览器Console单独视为预期负向证据 |
 
 隔离环境沿用D71副本：WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29、HTTP 17171、MySQL 17172。测试使用`quotes@dentall.test`和TEST订单，未发送邮件、未调用外部服务、未启用支付。
+
+## 2026-09-10 W12合成树收口
+
+D71/D72源提交`ff92cdc`已纳入D67→D70线性候选，在`codex/day72-w12-integration@7176a3f`形成DentAll 0.40.0/Core 0.2.9合成树；Header Cart同步和人工运费报价两套Cart资源同时保留。重新同步28个自定义运行文件后，PHP/JS纯合同36/36与23/23、D71金额177/177、D72报价18/18、Variable/长属性/Coupon/空态67/67全部通过；Header正常/失败恢复/Variable/Mini Cart/四宽/BFCache及五组竞态状态机也全部通过。
+
+Variable/Coupon首轮唯一P1来自复用测试脚本期待`TESTD72Size/TESTD72Shade`，而当前夹具按`TESTD71Size/TESTD71Shade`命名。仅修正忽略目录中的测试期待并完整重跑67/67，运行代码没有因此修改。最终标记订单、checkout draft和报价TEST option均为0，商品与Variation锁/快照不存在，17171/17172监听和PID文件为0。
+
+这份证据允许W12候选进入主线，不代表Staging已部署。D66的RSK-035/037/038、正式报价邮箱、真实邮件客户端、SMTP、支付沙盒、Express钱包、真实税费/物流和缓存仍按发布门槛分别验收。
 
 ## 数据、URL、SEO、缓存与部署影响
 
