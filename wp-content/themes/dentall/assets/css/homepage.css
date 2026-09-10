@@ -1,0 +1,525 @@
+/*
+ * D38 首页 Hero、D39精选分类区与D40方案区。
+ * 页面结构保持单一语义 DOM；小屏建立基础布局，宽屏再渐进增强。
+ */
+
+/* Homepage模板承载多个全宽区块；解除父级容器宽度后，由各区块内层复用公共容器。 */
+.page-template-template-homepage .site-content > .col-full {
+	max-width: none;
+	margin: 0;
+	padding: 0;
+}
+
+.page-template-template-homepage .content-area {
+	float: none;
+	width: 100%;
+	margin: 0;
+}
+
+.page-template-template-homepage .site-main,
+.page-template-template-homepage:not(.has-post-thumbnail) .site-main {
+	margin: 0;
+	padding: 0;
+}
+
+.dentall-home-hero {
+	background: linear-gradient(
+		90deg,
+		var(--dentall-color-surface-blue),
+		var(--dentall-color-surface-sky)
+	);
+}
+
+.dentall-home-hero__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	min-block-size: 20rem;
+	min-inline-size: 0;
+	padding-block: var(--dentall-space-32);
+}
+
+/* Storefront 的 clearfix 伪元素不能成为 Grid 子项。 */
+.dentall-home-hero__inner::before,
+.dentall-home-hero__inner::after,
+.dentall-home-hero__content::before,
+.dentall-home-hero__content::after {
+	display: none;
+	content: none;
+}
+
+.dentall-home-hero :where(h1, p, ul, figure) {
+	margin: 0;
+}
+
+.dentall-home-hero__content > p:empty {
+	display: none;
+}
+
+.page-template-template-homepage .dentall-home-hero__content {
+	z-index: 1;
+	grid-area: 1 / 1;
+	display: grid;
+	align-content: center;
+	align-self: center;
+	gap: var(--dentall-space-16);
+	inline-size: 100%;
+	min-inline-size: 0;
+	margin: 0;
+	font-size: inherit;
+	max-inline-size: 36rem;
+	text-align: start;
+}
+
+.dentall-home-hero__content > h1 {
+	font-size: clamp(
+		var(--dentall-font-size-xl),
+		calc(1.25rem + 2vw),
+		var(--dentall-font-size-2xl)
+	);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+.dentall-home-hero__content > h1 strong {
+	display: block;
+	color: var(--dentall-color-action);
+}
+
+.dentall-home-hero__content > p,
+.dentall-home-hero__content > ul > li {
+	overflow-wrap: anywhere;
+}
+
+.dentall-home-hero__content > p {
+	max-inline-size: min(72%, 22rem);
+}
+
+/* 用户已确认390/768隐藏三项辅助卖点；1024起恢复，CTA与核心文案始终保留。 */
+.dentall-home-hero__content > ul {
+	display: none;
+	gap: var(--dentall-space-16);
+	padding-inline-start: var(--dentall-space-24);
+	list-style: disc;
+}
+
+.dentall-home-hero__content > ul > li {
+	min-inline-size: 0;
+	padding-inline-start: var(--dentall-space-4);
+}
+
+.dentall-home-hero__content > ul > li::marker {
+	color: var(--dentall-color-action);
+	font-size: 1.25em;
+}
+
+.dentall-home-hero__content > ul > li strong {
+	display: block;
+}
+
+.dentall-home-hero__content > .wp-block-buttons {
+	margin: 0;
+}
+
+.dentall-home-hero__content .wp-block-button,
+.dentall-home-hero__content .wp-block-button__link {
+	max-inline-size: 100%;
+}
+
+.dentall-home-hero__content .wp-block-button__link {
+	white-space: normal;
+}
+
+.dentall-home-hero__media {
+	z-index: 0;
+	grid-area: 1 / 1;
+	align-self: end;
+	aspect-ratio: 2 / 1;
+	inline-size: 56%;
+	max-inline-size: 48rem;
+	min-inline-size: 0;
+	margin: 0;
+	justify-self: end;
+}
+
+.dentall-home-hero__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: contain;
+	object-position: right center;
+}
+
+.page-template-template-homepage .dentall-home-hero--without-media .dentall-home-hero__content {
+	inline-size: 100%;
+}
+
+.dentall-home-hero--without-media .dentall-home-hero__content > p {
+	max-inline-size: 36rem;
+}
+
+.dentall-home-hero--without-content .dentall-home-hero__media {
+	justify-self: center;
+}
+
+/*
+ * D39分类菜单只决定精选项和顺序；Flex按实际输出数量换行，不把9写成数据上限。
+ * 分类卡内部继续由style.css中的D29 CategoryCard规则负责。
+ */
+.dentall-home-categories {
+	background-color: var(--dentall-color-surface);
+}
+
+.dentall-home-categories__inner {
+	padding-block: var(--dentall-space-32);
+}
+
+.page-template-template-homepage .dentall-home-categories ul.products {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: center;
+	gap: var(--dentall-space-24) var(--dentall-space-16);
+	margin: 0;
+	padding: 0;
+}
+
+/* Storefront的clearfix不能成为Flex项目。 */
+.page-template-template-homepage .dentall-home-categories ul.products::before,
+.page-template-template-homepage .dentall-home-categories ul.products::after {
+	display: none;
+	content: none;
+}
+
+.page-template-template-homepage .site-main .dentall-home-categories ul.products > li.product-category {
+	flex: 0 0 calc(33.333333% - var(--dentall-space-16));
+	clear: none;
+	float: none;
+	width: auto;
+	margin: 0;
+}
+
+.dentall-home-categories .product-category .count {
+	display: none;
+}
+
+/* D40菜单只选择和排序Page；此处仅负责区域节奏与1/1/2/4列渐进布局。 */
+.dentall-home-solutions {
+	background-color: var(--dentall-color-surface);
+}
+
+.dentall-home-solutions__title {
+	margin: 0 0 var(--dentall-space-24);
+	overflow-wrap: anywhere;
+}
+
+.dentall-home-solutions__grid {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+/* 浅色表面按展示位置形成层次；菜单重排只改变内容顺序，不增加业务颜色字段。 */
+.dentall-home-solutions .dentall-solution-card:nth-child(2) .dentall-solution-card__link {
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.dentall-home-solutions .dentall-solution-card:nth-child(4) .dentall-solution-card__link {
+	background-color: var(--dentall-color-surface-mint);
+}
+
+.dentall-home-solutions .dentall-solution-card__summary {
+	display: none;
+}
+
+/*
+ * D41直接复用WooCommerce ProductCard；区域只负责标题、总览链接和横向浏览能力。
+ * Mobile露出下一张卡作为滚动提示，宽屏按3/4/5张递增，不复制轮播DOM或加载JavaScript。
+ */
+.dentall-home-best-sellers {
+	padding-block-end: var(--dentall-space-16);
+	background-color: var(--dentall-color-surface);
+}
+
+.dentall-home-best-sellers__header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--dentall-space-16);
+	margin-block-end: var(--dentall-space-24);
+}
+
+.dentall-home-best-sellers__title {
+	min-inline-size: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.dentall-home-best-sellers__all {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: var(--dentall-space-8);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.page-template-template-homepage .dentall-home-best-sellers ul.products {
+	display: grid;
+	grid-auto-columns: 86%;
+	grid-auto-flow: column;
+	grid-template-columns: none;
+	gap: var(--dentall-space-16);
+	margin: 0;
+	padding: 0 0 var(--dentall-space-8);
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scroll-padding-inline: var(--dentall-space-4);
+	scroll-snap-type: inline mandatory;
+	scrollbar-width: thin;
+}
+
+.page-template-template-homepage .dentall-home-best-sellers ul.products::before,
+.page-template-template-homepage .dentall-home-best-sellers ul.products::after {
+	display: none;
+	content: none;
+}
+
+.page-template-template-homepage .site-main .dentall-home-best-sellers ul.products > li.product {
+	clear: none;
+	float: none;
+	inline-size: auto;
+	min-inline-size: 0;
+	margin: 0;
+	scroll-snap-align: start;
+}
+
+/*
+ * 设计稿信任数据只由PHP在Local输出。Mobile使用独立条目，宽屏合并为同一浅色信息带。
+ */
+.dentall-home-trust {
+	padding-block-start: 0;
+	padding-block-end: var(--dentall-space-24);
+	background-color: var(--dentall-color-surface);
+}
+
+.dentall-home-trust__list {
+	display: grid;
+	gap: var(--dentall-space-8);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-home-trust__item {
+	display: grid;
+	grid-template-columns: 2.75rem minmax(0, 1fr);
+	align-items: center;
+	gap: var(--dentall-space-12);
+	min-inline-size: 0;
+	padding: var(--dentall-space-12) var(--dentall-space-16);
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.dentall-home-trust__icon {
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border-radius: 50%;
+	background-color: var(--dentall-color-surface);
+	color: var(--dentall-color-action);
+}
+
+.dentall-home-trust__icon svg {
+	inline-size: var(--dentall-space-24);
+	block-size: var(--dentall-space-24);
+}
+
+.dentall-home-trust__copy {
+	min-inline-size: 0;
+	font-size: var(--dentall-font-size-xs);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+.dentall-home-trust__value {
+	display: block;
+	margin-block-end: var(--dentall-space-4);
+	color: var(--dentall-color-action);
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-bold);
+}
+
+.dentall-home-trust__label,
+.dentall-home-trust__description {
+	display: inline;
+}
+
+.dentall-home-trust__description {
+	color: var(--dentall-color-text-muted);
+}
+
+@media (min-width: 48rem) {
+	.page-template-template-homepage .dentall-home-hero__content {
+		inline-size: 50%;
+	}
+
+	.dentall-home-hero__content > p {
+		max-inline-size: none;
+	}
+
+	.page-template-template-homepage .site-main .dentall-home-categories ul.products > li.product-category {
+		flex-basis: calc(20% - var(--dentall-space-16));
+	}
+
+	.dentall-home-solutions .dentall-solution-card__summary {
+		display: block;
+	}
+
+	.page-template-template-homepage .dentall-home-best-sellers ul.products {
+		grid-auto-columns: calc((100% - (2 * var(--dentall-space-16))) / 3);
+	}
+
+	.dentall-home-trust__list {
+		grid-auto-columns: calc((100% - (3 * var(--dentall-space-8))) / 4);
+		grid-auto-flow: column;
+		grid-template-columns: none;
+		gap: var(--dentall-space-8);
+		padding: var(--dentall-space-16);
+		overflow-x: auto;
+		scroll-snap-type: inline mandatory;
+		scrollbar-width: thin;
+		border-radius: var(--dentall-radius-lg);
+		background-color: var(--dentall-color-surface-sky);
+	}
+
+	.dentall-home-trust__item {
+		grid-template-columns: 2.5rem minmax(0, 1fr);
+		align-content: center;
+		gap: var(--dentall-space-8);
+		padding: var(--dentall-space-8);
+		background-color: transparent;
+		scroll-snap-align: start;
+	}
+
+	.dentall-home-trust__icon {
+		inline-size: 2.5rem;
+		block-size: 2.5rem;
+	}
+
+	.dentall-home-trust__value {
+		font-size: var(--dentall-font-size-base);
+	}
+
+	.dentall-home-trust__label,
+	.dentall-home-trust__description {
+		display: block;
+	}
+}
+
+@media (min-width: 64rem) {
+	.page-template-template-homepage .dentall-home-hero__content {
+		inline-size: 54%;
+	}
+
+	.dentall-home-hero__content > ul {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.page-template-template-homepage .site-main .dentall-home-categories ul.products > li.product-category {
+		flex-basis: calc(11.111111% - var(--dentall-space-16));
+	}
+
+	.dentall-home-solutions__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.page-template-template-homepage .dentall-home-best-sellers ul.products {
+		grid-auto-columns: calc((100% - (3 * var(--dentall-space-16))) / 4);
+	}
+
+	.dentall-home-trust__list {
+		grid-auto-flow: row;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		overflow: visible;
+	}
+
+	.dentall-home-trust__item {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		gap: var(--dentall-space-12);
+	}
+
+	.dentall-home-trust__icon {
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
+	}
+}
+
+@media (min-width: 75rem) {
+	.dentall-home-solutions__grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.page-template-template-homepage .dentall-home-best-sellers ul.products {
+		grid-auto-columns: calc((100% - (4 * var(--dentall-space-16))) / 5);
+	}
+
+	.dentall-home-trust__list {
+		padding: var(--dentall-space-24) var(--dentall-space-32);
+	}
+
+	.dentall-home-trust__item {
+		grid-template-columns: 3rem minmax(0, 1fr);
+		gap: var(--dentall-space-16);
+		padding-inline: var(--dentall-space-12);
+	}
+
+	.dentall-home-trust__icon {
+		inline-size: 3rem;
+		block-size: 3rem;
+	}
+
+	.dentall-home-trust__value {
+		font-size: var(--dentall-font-size-lg);
+	}
+
+	.dentall-home-hero__inner {
+		position: relative;
+		min-block-size: 22rem;
+		padding-block: 0;
+	}
+
+	.page-template-template-homepage .dentall-home-hero__content {
+		z-index: 1;
+		grid-area: 1 / 1;
+		align-self: center;
+		gap: var(--dentall-space-16);
+		padding-block: var(--dentall-space-24);
+	}
+
+	.dentall-home-hero__media {
+		position: absolute;
+		z-index: 0;
+		align-self: stretch;
+		inset-block: 0;
+		inset-inline-end: 0;
+		aspect-ratio: auto;
+		block-size: 100%;
+		inline-size: min(63%, 48rem);
+	}
+
+	.dentall-home-hero--without-content .dentall-home-hero__media {
+		inset-inline: 0;
+		margin-inline: auto;
+	}
+
+	.dentall-home-hero__content > h1 {
+		font-size: var(--dentall-font-size-display);
+	}
+
+	.dentall-home-hero__content > p {
+		font-size: var(--dentall-font-size-lg);
+	}
+}

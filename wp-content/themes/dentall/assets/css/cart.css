@@ -1,0 +1,135 @@
+/*
+ * D67-D68购物车骨架：保留WooCommerce Cart Block的DOM、Flex布局、Store API和状态逻辑。
+ * 基础层只补可读性、触控目标与异常状态；既有PC断点继续负责商品行和金额摘要视觉层级。
+ */
+
+body.woocommerce-cart .site-main .entry-header {
+	margin-bottom: var(--dentall-space-32);
+	padding-bottom: 0;
+}
+
+body.woocommerce-cart .site-main .entry-title {
+	margin: 0;
+}
+
+.wp-block-woocommerce-cart :where(
+	.wc-block-cart__main,
+	.wc-block-cart__sidebar,
+	.wc-block-cart-item__product,
+	.wc-block-cart-item__wrap,
+	.wc-block-components-product-metadata
+) {
+	min-width: 0;
+}
+
+.wp-block-woocommerce-cart :where(
+	table.wc-block-cart-items .wc-block-components-product-name,
+	.wc-block-components-product-metadata,
+	table.wc-block-cart-items .wc-block-cart-item__total
+) {
+	overflow-wrap: anywhere;
+}
+
+.wp-block-woocommerce-cart .wc-block-cart-item__remove-link {
+	min-inline-size: 2.75rem;
+}
+
+/* 44px触控按钮与WooCommerce原生40px数量输入框合计为128px。 */
+.wp-block-woocommerce-cart .wc-block-cart-item__quantity > .wc-block-components-quantity-selector {
+	inline-size: 8rem;
+}
+
+.wp-block-woocommerce-cart .wc-block-cart-item__quantity .wc-block-components-quantity-selector__button {
+	min-inline-size: 2.75rem;
+}
+
+/* WooCommerce仅给优惠券折叠按钮文本行高；补足整块触控高度且不改原生展开逻辑。 */
+.wp-block-woocommerce-cart .wc-block-components-panel__button {
+	min-block-size: 2.75rem;
+	align-items: center;
+}
+
+/* 长错误码位于Flex子项中，先允许文本收缩，再在连续字符串处安全断行。 */
+.wp-block-woocommerce-cart .wc-block-components-validation-error > p > span {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}
+
+.wp-block-woocommerce-empty-cart-block,
+.wp-block-woocommerce-cart .wc-block-components-error {
+	box-sizing: border-box;
+	padding: var(--dentall-space-48) var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.wp-block-woocommerce-cart .wc-block-components-error {
+	border-color: var(--dentall-color-error);
+	background-color: var(--dentall-color-surface-error);
+	color: var(--dentall-color-text);
+}
+
+@media (min-width: 75rem) {
+
+	.wp-block-woocommerce-cart .wc-block-cart__main {
+		padding-inline-end: var(--dentall-space-32);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart__sidebar {
+		box-sizing: border-box;
+		padding: var(--dentall-space-24);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		background-color: var(--dentall-color-surface);
+		box-shadow: var(--dentall-shadow-card);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items {
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__image img {
+		aspect-ratio: 1;
+		border-radius: var(--dentall-radius-md);
+		background-color: var(--dentall-color-surface-sky);
+		object-fit: contain;
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-components-product-name {
+		max-width: none;
+		color: var(--dentall-color-heading);
+		font-size: var(--dentall-font-size-base);
+		font-weight: var(--dentall-font-weight-semibold);
+		line-height: var(--dentall-line-height-heading);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__wrap {
+		gap: var(--dentall-space-8);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-components-product-metadata {
+		color: var(--dentall-color-text-muted);
+	}
+
+	.wp-block-woocommerce-cart table.wc-block-cart-items .wc-block-cart-item__total {
+		font-size: var(--dentall-font-size-base);
+		font-weight: var(--dentall-font-weight-semibold);
+	}
+
+	.wp-block-woocommerce-cart .wc-block-cart__totals-title {
+		padding: 0 0 var(--dentall-space-16);
+		color: var(--dentall-color-heading);
+		font-size: var(--dentall-font-size-xl);
+		font-weight: var(--dentall-font-weight-bold);
+		line-height: var(--dentall-line-height-heading);
+		text-align: left;
+		text-transform: none;
+	}
+
+	.wp-block-woocommerce-cart .wc-block-components-totals-footer-item {
+		padding-block: var(--dentall-space-16);
+	}
+
+}

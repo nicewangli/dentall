@@ -1,0 +1,322 @@
+/*
+ * D55/D59商品详情骨架：保留WooCommerce原生DOM与Storefront清除机制，
+ * 平板采用上下文档流，PC重分配图库和摘要的顶层列宽。
+ */
+
+/*
+ * D56商品图库：同一套WooCommerce原生DOM承载单图、多图和缺图；方形画布先占位，
+ * 原图、srcset、FlexSlider、Zoom与PhotoSwipe继续由平台负责。
+ */
+.single-product div.product .woocommerce-product-gallery > .woocommerce-product-gallery__wrapper {
+	aspect-ratio: 1;
+	overflow: hidden;
+}
+
+.single-product div.product .woocommerce-product-gallery__image > a {
+	box-sizing: border-box;
+	display: grid;
+	place-items: center;
+	aspect-ratio: 1;
+	overflow: hidden;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface);
+}
+
+.single-product div.product .woocommerce-product-gallery__image > a > img:not(.zoomImg),
+.single-product div.product .woocommerce-product-gallery--without-images .woocommerce-product-gallery__image--placeholder > img {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: contain;
+}
+
+.single-product div.product .woocommerce-product-gallery--without-images .woocommerce-product-gallery__image--placeholder {
+	box-sizing: border-box;
+	display: grid;
+	place-items: center;
+	block-size: 100%;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface);
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport {
+	margin-bottom: var(--dentall-space-16);
+}
+
+.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 6.25rem));
+	gap: var(--dentall-space-8);
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs::before,
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs::after {
+	content: none;
+}
+
+/* 保持足够权重，覆盖Storefront按图库列数生成的nth-child浮动规则。 */
+.storefront-full-width-content.single-product div.product .woocommerce-product-gallery[data-columns] .flex-control-thumbs > li:nth-child(n) {
+	float: none;
+	clear: none;
+	width: auto;
+	margin: 0;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs img {
+	box-sizing: border-box;
+	display: block;
+	inline-size: 100%;
+	aspect-ratio: 1;
+	padding: var(--dentall-space-4);
+	border: 2px solid transparent;
+	border-radius: var(--dentall-radius-md);
+	background-color: var(--dentall-color-surface);
+	object-fit: contain;
+	opacity: 0.72;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs img:is(.flex-active, :hover) {
+	border-color: var(--dentall-color-action);
+	opacity: 1;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger {
+	top: var(--dentall-space-12);
+	right: var(--dentall-space-12);
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: 50%;
+	background-color: var(--dentall-color-surface);
+	color: var(--dentall-color-action);
+	text-decoration: none;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger:hover {
+	border-color: var(--dentall-color-action);
+	background-color: var(--dentall-color-surface-blue);
+	color: var(--dentall-color-action-hover);
+}
+
+/*
+ * D57商品基础信息：继续使用WooCommerce原生标题、评分、价格、摘要、库存和Meta，
+ * 只建立稳定的视觉层级；字段内容和输出规则仍由上游负责。
+ */
+.single-product div.product > .onsale {
+	position: absolute;
+	z-index: 2;
+	inset: var(--dentall-space-12) auto auto var(--dentall-space-12);
+	margin: 0;
+	padding: var(--dentall-space-4) var(--dentall-space-8);
+	border: 0;
+	border-radius: var(--dentall-radius-sm);
+	background-color: var(--dentall-color-action);
+	color: var(--dentall-color-surface);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+	line-height: var(--dentall-line-height-body);
+}
+
+.single-product div.product .summary .product_title {
+	margin: 0 0 var(--dentall-space-16);
+	font-size: var(--dentall-font-size-2xl);
+}
+
+.single-product div.product .summary .woocommerce-product-rating {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--dentall-space-8);
+	margin: 0 0 var(--dentall-space-16);
+	font-size: var(--dentall-font-size-sm);
+}
+
+.single-product div.product .summary .woocommerce-product-rating::before,
+.single-product div.product .summary .woocommerce-product-rating::after {
+	content: none;
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating {
+	float: none;
+	margin: 0;
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating::before {
+	color: var(--dentall-color-border-strong);
+}
+
+.single-product div.product .summary .woocommerce-product-rating .star-rating span::before {
+	color: var(--dentall-color-rating-decoration);
+}
+
+.single-product div.product .summary > .price {
+	margin: 0 0 var(--dentall-space-24);
+	color: var(--dentall-color-heading);
+	font-size: var(--dentall-font-size-2xl);
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary > .price del {
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-regular);
+	opacity: 1;
+}
+
+.single-product div.product .summary > .price del ~ ins {
+	margin-inline-start: var(--dentall-space-8);
+}
+
+.single-product div.product .summary > .price ins {
+	color: inherit;
+	font-weight: inherit;
+	text-decoration: none;
+}
+
+.single-product div.product .summary .woocommerce-product-details__short-description {
+	margin: 0 0 var(--dentall-space-24);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary .woocommerce-product-details__short-description > :last-child {
+	margin-bottom: 0;
+}
+
+.single-product div.product .summary .stock {
+	margin: 0 0 var(--dentall-space-24);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.single-product div.product .summary .product_meta {
+	padding-top: var(--dentall-space-16);
+	border-top-color: var(--dentall-color-border-subtle);
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-sm);
+	line-height: var(--dentall-line-height-body);
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .summary .product_meta > :where(.sku_wrapper, .posted_in, .tagged_as)
+	+ :where(.sku_wrapper, .posted_in, .tagged_as) {
+	margin-block-start: var(--dentall-space-4);
+}
+
+/*
+ * Simple与Variable购买区复用原生POST表单。数量标签只在可见输入旁展开；
+ * Woo将仅剩一件或独售商品的数量改为hidden时，保留原来的隐藏语义。
+ */
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary form.cart {
+	margin: 0 0 var(--dentall-space-24);
+	padding: 0;
+}
+
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary form.cart .quantity {
+	float: none;
+	margin: 0;
+}
+
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary .quantity:has(input:not([type="hidden"])) {
+	margin-bottom: var(--dentall-space-16);
+}
+
+.single-product div.product:is(.product-type-simple, .product-type-variable) .summary .quantity:has(input:not([type="hidden"])) label {
+	display: block;
+	/* WooCommerce的screen-reader-text以!important定位，须在此精确复位。 */
+	position: static !important;
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	margin: 0 0 var(--dentall-space-8);
+	overflow: visible;
+}
+
+/* D61只编排Woo原生Variation表单；选择、价格、库存与可购买判断仍由平台负责。 */
+.single-product div.product.product-type-variable .summary table.variations .label {
+	padding-bottom: var(--dentall-space-8);
+}
+
+.single-product div.product.product-type-variable .summary table.variations select {
+	width: 100%;
+	max-width: 100%;
+}
+
+.single-product div.product.product-type-variable .summary .reset_variations {
+	margin: var(--dentall-space-8) 0 0;
+}
+
+.single-product div.product.product-type-variable .summary .single_variation {
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product.product-type-variable .summary .single_variation .price {
+	color: var(--dentall-color-heading);
+	font-size: var(--dentall-font-size-xl);
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
+}
+
+/* 原生属性表允许连续名称/参数断行，避免其最小内容宽度撑出Tabs容器。 */
+.single-product div.product .woocommerce-tabs table.shop_attributes :is(th, td) {
+	overflow-wrap: anywhere;
+}
+
+.single-product div.product .woocommerce-tabs table.shop_attributes th {
+	min-width: 6rem;
+}
+
+/* D64只编排原生推荐区网格，卡片内容与购买动作继续复用D29和WooCommerce。 */
+.single-product div.product > :is(.related, .upsells) > ul.products {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--dentall-space-16);
+	margin-block-end: var(--dentall-space-48);
+}
+
+.single-product div.product > :is(.related, .upsells) > ul.products::before,
+.single-product div.product > :is(.related, .upsells) > ul.products::after {
+	content: none;
+}
+
+.single-product div.product > :is(.related, .upsells) > ul.products > li.product {
+	width: auto;
+	min-width: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+@media (min-width: 48rem) {
+	.single-product div.product > :is(.related, .upsells) > ul.products {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dentall-space-24);
+	}
+}
+
+@media (min-width: 64rem) {
+	.single-product div.product > :is(.related, .upsells) > ul.products {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 48rem) and (max-width: 74.999rem) {
+	.storefront-full-width-content.single-product div.product > :is(.woocommerce-product-gallery, .summary) {
+		float: none;
+		width: 100%;
+		margin-inline-end: 0;
+	}
+}
+
+@media (min-width: 75rem) {
+	.storefront-full-width-content.single-product div.product > .woocommerce-product-gallery {
+		width: 56.5217391304%;
+	}
+
+	.storefront-full-width-content.single-product div.product > .summary {
+		width: 39.1304347826%;
+	}
+}

@@ -1,0 +1,208 @@
+<?php
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * 初始化DentAll子主题自身能力。
+ *
+ * Storefront已经注册WooCommerce支持、菜单位置及通用主题能力，子主题不重复注册。
+ *
+ * @return void
+ */
+function dentall_theme_setup() {
+	load_child_theme_textdomain( 'dentall', get_stylesheet_directory() . '/languages' );
+	add_post_type_support( 'page', 'excerpt' );
+}
+add_action( 'after_setup_theme', 'dentall_theme_setup', 20 );
+
+/**
+ * 加载全站壳层资源。
+ *
+ * Header、导航和Footer具有相同的全站加载生命周期，统一放入site-shell.css；
+ * 依赖Storefront已经登记的子主题基础样式，确保Design Token和覆盖顺序稳定。D33移除
+ * Handheld Footer DOM后，同步移除只为该DOM服务的父主题脚本。
+ *
+ * @return void
+ */
+function dentall_enqueue_site_shell_assets() {
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-site-shell',
+		get_stylesheet_directory_uri() . '/assets/css/site-shell.css',
+		array( 'storefront-child-style' ),
+		$theme->get( 'Version' )
+	);
+
+	wp_dequeue_script( 'storefront-handheld-footer-bar' );
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_site_shell_assets', 40 );
+
+/**
+ * 按页面身份加载商品目录资源。
+ *
+ * Shop、商品taxonomy与商品搜索共享目录样式；移动筛选脚本只进入实际输出筛选DOM的
+ * Shop与商品分类。普通WordPress搜索继续使用Storefront自身资源。
+ *
+ * @return void
+ */
+function dentall_enqueue_catalog_assets() {
+	if (
+		! function_exists( 'is_shop' )
+		|| ! function_exists( 'is_product_taxonomy' )
+	) {
+		return;
+	}
+
+	$is_catalog_archive = ! is_search() && ( is_shop() || is_product_taxonomy() );
+	$is_product_search  = is_search()
+		&& is_post_type_archive( 'product' )
+		&& 'product' === get_query_var( 'post_type' );
+
+	if ( ! $is_catalog_archive && ! $is_product_search ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-catalog',
+		get_stylesheet_directory_uri() . '/assets/css/catalog.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	if ( function_exists( 'dentall_is_catalog_filter_archive' ) && dentall_is_catalog_filter_archive() ) {
+		wp_enqueue_script(
+			'dentall-catalog-filters',
+			get_stylesheet_directory_uri() . '/assets/js/catalog-filters.js',
+			array(),
+			$theme->get( 'Version' ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_catalog_assets', 45 );
+
+/**
+ * 只在WooCommerce商品详情页加载详情结构样式。
+ *
+ * D55保留WooCommerce与Storefront原生模板和Hook，只调整顶层PC骨架；
+ * 图库、信息与购买区沿用同一按页样式。Variable页面额外加载一个语义适配脚本，
+ * 交易交互继续由WooCommerce负责。
+ *
+ * @return void
+ */
+function dentall_enqueue_product_detail_assets() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-product-detail',
+		get_stylesheet_directory_uri() . '/assets/css/product-detail.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	$product = function_exists( 'wc_get_product' )
+		? wc_get_product( get_queried_object_id() )
+		: false;
+
+	if ( $product instanceof WC_Product && $product->is_type( 'variable' ) ) {
+		wp_enqueue_script(
+			'dentall-product-variation',
+			get_stylesheet_directory_uri() . '/assets/js/product-variation.js',
+			array( 'wc-add-to-cart-variation' ),
+			$theme->get( 'Version' ),
+			true
+		);
+
+		wp_localize_script(
+			'dentall-product-variation',
+			'dentallVariationStatus',
+			array(
+				'checkingText'   => __( 'Checking availability…', 'dentall' ),
+				'errorText'      => __( "We couldn't check availability. Clear your selection and try again.", 'dentall' ),
+				'requestTimeout' => 15000,
+			)
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );
+
+/**
+ * 只在WooCommerce购物车页加载响应式展示样式。
+ *
+ * 购物车数量、删除、库存与金额继续由Cart Block和Store API负责；主题只增强展示，
+ * 避免把交易页样式加载到商品详情或其他页面。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_assets() {
+	if ( ! function_exists( 'is_cart' ) || ! is_cart() ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-cart',
+		get_stylesheet_directory_uri() . '/assets/css/cart.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	wp_enqueue_script(
+		'dentall-shipping-quote',
+		get_stylesheet_directory_uri() . '/assets/js/shipping-quote.js',
+		array( 'wc-blocks-checkout', 'wp-i18n' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_localize_script(
+		'dentall-shipping-quote',
+		'dentallShippingQuote',
+		array(
+			'recipient' => function_exists( 'dentall_core_get_shipping_quote_email' )
+				? dentall_core_get_shipping_quote_email()
+				: '',
+			'cartUrl'   => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
+
+/**
+ * 只在Cart Block页面同步Store API购物车与经典Header Cart fragments。
+ *
+ * Cart Block以wc/store/cart为真实状态源；本脚本不保存第二份购物车数据，
+ * 仅在服务端返回的商品键或数量发生变化后请求WooCommerce重绘现有fragments。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_header_sync_assets() {
+	if (
+		! function_exists( 'is_cart' )
+		|| ! is_cart()
+		|| ! has_block( 'woocommerce/cart' )
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_script(
+		'dentall-cart-header-sync',
+		get_stylesheet_directory_uri() . '/assets/js/cart-header-sync.js',
+		array( 'jquery', 'wp-data', 'wc-blocks-data-store', 'wc-cart-fragments' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_script_add_data( 'dentall-cart-header-sync', 'strategy', 'defer' );
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 );
