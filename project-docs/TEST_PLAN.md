@@ -965,6 +965,43 @@ Core0.2.8在`127.0.0.1:16565`：独立增量的12页前后+4页Yoast退出分支
 
 未验收：D71税费、D75免邮/运费、D78跨订单总次数与每用户次数；Checkout、订单、支付、库存和邮件未执行。
 
+## D71运费、税费与金额摘要候选验证（2026-09-08，未合并）
+
+运行候选为`codex/day71-shipping-totals`，以合并提交`0ca4ba4`完整继承D67→D68运行树；D71运行代码零变化，DentAll保持0.37.0。验证只发生在独立文件/数据库副本`dentall_day71_fb49_20260908`；源Local只读，不进入Checkout、订单、支付、邮件或非Local。脱敏摘要与证据边界见[[笔记/Day71-运费税费与金额摘要候选验证]]及[[笔记/Day72-人工运费邮件报价与购物车收口]]；原始结果只在本机忽略目录保存，没有受控的`tests/day71-results.json`。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 基线与隔离 | WordPress 7.0.4、WooCommerce 11.0.0、PHP 8.2.29、USD/2位、kg/cm；预测试税率0、coupon 0、订单/退款0、checkout draft 0 | 通过；正式税率、费率、免邮和承运商未配置 |
+| 未定位与地区 | 未定位为`has_calculated_shipping=false`及运费`null`；CA/NY当前rate随地址更换；加拿大不可配送和TX无方式为已计算、rate空、运费0 | 通过；无rate的0未标Free；地址只证明格式/计算，不证明真实或可投递 |
+| 金额三面一致 | 对每个成功状态以脱敏trace核对`WC_Cart` getter、Store API原始最小单位字符串与Cart Block DOM | 通过；未计算时PHP getter为0而API为`null`是明确的表示合同，不判矛盾 |
+| TEST税额与舍入 | 未税CA 3275、coupon后2941；含税CA 3094、coupon后2782；两行商品逐行/小计舍入6694/6693 | 通过；全部单位为美分，只证明固定TEST输入，不给税务建议 |
+| 商品、Variation与库存 | #44为1200g；#51继承父级2kg，组合总重3200g、数量2后5200g；#53覆盖2500g；#52缺货与#51超库存均400且状态稳定 | 通过；Flat Rate不按重量/尺寸自动定价，计费重与承运商归D75 |
+| 安全与缓存 | 缺Nonce 401、错误Nonce 403；旧/伪造rate未改变当前NY rate/金额；Store API响应`no-store`；报告不保存Token、Nonce、Cookie或完整地址 | 通过；Cart-Token按会话秘密处理，不能进入共享缓存或日志 |
+| 会话与失败恢复 | A/B匿名购物车、地区、coupon与rate不串；登录Customer跨新上下文读回NY购物车；网络失败保留CA状态，重试成功 | 通过；`cart/update-customer`会写Customer/session并重算，不是只读API |
+| 响应式与状态 | 390/768/1024/1199/1200/1440页面、Cart和摘要横溢出0，金额碰撞0，coupon Focus可见；库存alert、loading、无方式和网络错误路径覆盖 | 通过；实体设备、屏幕阅读器、真实弱网、CDN/CWV未验 |
+| 交易边界 | 全程订单/退款0、checkout draft 0；无支付、邮件、库存扣减/回补 | 通过当前不下单边界；不能外推D73～D78 |
+| 恢复 | TEST Customer删除；库存恢复；整库恢复后功能审计与预测试逐字段相等，coupon 0、session 1、税率0、基线区域1 | 通过；最终源快照、端口和独立复验结果见脱敏JSON |
+
+D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart内地址/地区编辑表单，因此地区切换是在Woo原生`cart/update-customer`路由完成；不能把本结果写成Cart内运费计算器UI已交付。该产品/架构决定由D72收口，并与D73地址字段、D75正式物流保持边界。D69的Header/Mini Cart刷新签名只覆盖商品key与数量，D72必须专项验证地址/税区变化后的经典Mini Cart小计，不能只看Header数量。
+
+## D72人工运费邮件报价与结账边界（2026-09-09，未合并）
+
+运行候选为DentAll 0.38.0/Core 0.2.9，只在D71隔离Local副本验证；正式报价邮箱、真实邮件客户端、支付网关、SMTP、Staging与Production均未启用。详细边界见[[笔记/Day72-人工运费邮件报价与购物车收口]]。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 静态与纯合同 | PHP 36/36、JS 23/23；Core入口/模块/setup PHP lint、JS语法、diff检查通过 | 覆盖设置、实体/虚拟/空车、双Cart数据形态、邮件结构、动态数量、URI编码、路由、地址锁与无Shipping订单付款前判定 |
+| Cart邮件入口 | 主集成18/18；实体Cart显示邮件报价，数量1→3实时更新，390/1440无横溢出，缺邮箱不回退`admin_email` | 未实际发送邮件；真实设备默认邮件客户端待验 |
+| 商品状态 | 独立Simple/Variation、全虚拟与混合Cart探针 | 虚拟Cart普通Checkout；混合Cart按实体商品报价；Variation邮件含SKU/规格/数量 |
+| 结账守卫 | 普通Checkout回Cart；Store API直接提交409且0 draft；带版本/无版本/大小写与Batch子请求覆盖 | Agentic complete为纯合同覆盖；真实Agentic功能未启用 |
+| 已报价/未报价订单 | 原生Pending订单带Product、Shipping、Fee与Tax可重算，`order-pay`可访问且付款前库存不扣；配送地址和适用Billing税基地域改写被409拒绝；实体Pending订单缺Shipping时REST付款409、经典POST 302回原页并显示错误 | 未启用真实网关，不代表实际支付、邮件、库存扣减/回补通过；员工必须先填准Shipping及税基地域 |
+| 交互与响应式 | 390/768/1024/1440实体入口无横溢出；报价按钮48/66/48/48px；捕获`mailto:`点击后Cart不进入持续loading | 外部邮件客户端取消/返回仍需真实设备确认 |
+| 恢复与隔离 | 标记订单0、checkout draft 0、TEST税率0、库存恢复8、报价option不存在；无外部响应；17171/17172停止 | 源Local、Staging、Production均未写入 |
+
+当前代码/安全/独立测试终审未发现开放P0/P1。支付启用前仍须把Cart/Product Express Checkout列为发布阻断：实体报价Cart不能出现Apple Pay、Google Pay、PayPal Express等绕过入口，只允许已人工报价订单沿经验证的`order-pay`路径付款。
+
+保留P2：`mailto:`点击捕获依赖Woo 11 Cart内部class并阻止事件下行，可能影响目标/冒泡型分析监听，Woo升级与埋点须回归；未新增报价订单meta，订单按当前商品配送属性与Shipping line推断，历史待付订单及商品physical/virtual切换须在支付日专项验证。
+
 ## 测试记录模板（后续填写）
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

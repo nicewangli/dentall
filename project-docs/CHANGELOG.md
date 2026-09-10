@@ -4,6 +4,22 @@
 
 ## Unreleased
 
+### D72人工运费邮件报价与结账边界（2026-09-09，未合并）
+
+- 按CR-012把实体商品Cart的普通Checkout入口替换为预填报价邮件；客户WhatsApp仅为邮件中的可选字段，公司WhatsApp展示留给D89。报价邮箱进入WooCommerce Shipping设置，默认空值且不回退`admin_email`；主题升至0.38.0，Core升至0.2.9。
+- Core按商品自身`needs_shipping()`输出Store API扩展事实，并在普通Checkout、经典Checkout、Store API带版本/无版本/Batch/大小写变体及Agentic complete入口阻止未报价购物车建单；已有Shipping line的待付款订单锁定已报价配送地址，并在按Billing计税时锁定账单税基地域。`order-pay`页面可打开，但实体/无法解析商品订单缺Shipping明细时，REST与经典付款提交都会安全失败。
+- Cart脚本只在购物车加载，邮件含商品、SKU、规格、数量、当前商品小计、coupon及姓名、公司、邮箱、可选WhatsApp、完整地址等填写位；收件人URI编码防止保留字符改变`mailto:`结构，捕获邮件点击避免Woo原生按钮持续loading。
+- 纯PHP 36/36、纯JS 23/23与PHP/Node语法通过；隔离Local主集成18/18，并由独立测试继续覆盖虚拟/混合Cart、Variation、四宽、显式USD、原生Shipping/Fee/Tax待付款订单、库存不扣、地址锁、无Shipping付款守卫与Batch旁路。所有TEST订单、tax、option和checkout draft清理，17171/17172已停止；未发送邮件、未启用支付或访问外部服务。
+- 未改共享Local、Staging、Production、DNS、正式税率/运费或真实支付。正式公司报价邮箱是Staging业务验收前置；真实设备邮件客户端、SMTP/人工订单邮件、支付沙盒与Express钱包禁用/绕过验证仍是D76/D78发布门槛。详见[[笔记/Day72-人工运费邮件报价与购物车收口]]。
+
+### D71运费、税费与金额摘要候选（2026-09-08，未合并）
+
+- `codex/day71-shipping-totals`以`0ca4ba4`完整继承D67→D68候选运行树；D71没有新增或修改运行代码、函数、Hook、CSS规则、模板、JavaScript、查询、字段、插件或依赖，DentAll保持0.37.0、Core保持0.2.8。WooCommerce原生`WC_Cart`、Shipping/Tax API、Store API和Cart Block继续作为唯一金额链。
+- 独立Local用TEST CA/NY固定费率和税率、不可配送国家及无方式地区完成177/177主断言；未定位运费`null`、当前rate替换、含税/未税、coupon税额分配、逐行/小计舍入、Simple/Variation重量继承/覆盖、超库存/缺货、A/B匿名会话、登录Customer、网络失败重试及六宽DOM均通过。Store API与服务端getter按状态合同一致，Cart Block金额一致。
+- 缺/错Nonce分别401/403，旧/伪造rate不改变当前rate与金额，Store API响应`Cache-Control: no-store`；脱敏证据不包含Cookie、Nonce、Cart-Token、完整地址或测试凭据。订单/退款与checkout draft保持0，测试Customer、库存、tax/rate/coupon/session由删除和整库恢复清理。
+- 当前Cart Block没有Cart内地址编辑表单；地区切换仅在Woo原生`cart/update-customer`合同验证，不等于Cart运费计算器UI完成。所有税率/费率均为TEST，不代表正式税务、配送、免邮或承运商政策；Flat Rate也不会按kg/cm自动计价。D72须决定Cart地区入口，并验证D69经典Mini Cart在地址/税区变化后的金额同步。
+- 未改共享Local、正式数据、URL/SEO、页面缓存、支付、物流正式配置、邮件、Staging、Production或DNS；候选未推送、未部署。详见[[笔记/Day71-运费税费与金额摘要候选验证]]。
+
 ### D68手机与平板响应式Cart Block候选（2026-09-08，未合并）
 
 - 在D67重放提交`21f2941`之上把购物车样式改为Mobile First基础层＋既有75rem PC增强层：补`min-width:0`、长文本/通用错误安全断行、44px增减/Remove、128px数量选择器，以及空态/错误卡片；继续复用原生Cart Block DOM、Flex、容器查询和Store API。DentAll候选版本由0.36.0升至0.37.0，Core保持0.2.8。

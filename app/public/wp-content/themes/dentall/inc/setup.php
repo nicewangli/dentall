@@ -144,6 +144,25 @@ function dentall_enqueue_cart_assets() {
 		array( 'dentall-site-shell' ),
 		$theme->get( 'Version' )
 	);
+
+	wp_enqueue_script(
+		'dentall-shipping-quote',
+		get_stylesheet_directory_uri() . '/assets/js/shipping-quote.js',
+		array( 'wc-blocks-checkout', 'wp-i18n' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_localize_script(
+		'dentall-shipping-quote',
+		'dentallShippingQuote',
+		array(
+			'recipient' => function_exists( 'dentall_core_get_shipping_quote_email' )
+				? dentall_core_get_shipping_quote_email()
+				: '',
+			'cartUrl'   => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' ),
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
 
