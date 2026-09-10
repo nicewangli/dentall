@@ -17,6 +17,7 @@
 - 前置笔记：[[Day26-Storefront子主题骨架]]
 - 后续笔记：[[Day28-基础控件与可访问状态]]
 - 当日学习笔记：[[WordPress实战笔记/Day27-Design-Token与Mobile-First容器|Day27-Design-Token与Mobile-First容器]]
+- 后续Cart候选验证：[[Day68-手机与平板响应式购物车候选验证]]（只建立设计债与实际候选证据的关系，不改变D27完成口径）。
 - 当前事实入口：`project-docs/PROJECT_STATE.md`
 - 设计参考入口：`design-assets/README.md`
 

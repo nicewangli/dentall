@@ -83,7 +83,7 @@
 ### 购物车和结账
 
 - [ ] 新增、修改数量、删除和空购物车。
-- [ ] 优惠券成功、失败、过期和重复使用。
+- [x] 优惠券成功、失败、过期和同车重复使用（D70隔离Local购物车范围通过；连续长错误展示在集成中映射为`RSK-041`并由W12六宽回归关闭，跨订单次数另留D78）。
 - [ ] 运费地区、免邮边界和金额舍入。
 - [ ] 地址必填、格式错误和错误定位。
 - [ ] 支付成功、取消、失败、重复回调和超时。
@@ -930,6 +930,93 @@ Core0.2.8在`127.0.0.1:16565`：独立增量的12页前后+4页Yoast退出分支
 | Coming Soon与独立恢复 | 退出分支10/10；安全终态17/17、属性/品牌5/5、文件隔离11/11 | 首快照完整恢复、旧D61的96证据哈希不变、临时助手归档、16062/16063监听/对应进程0；安全通过不关闭三项UX P2 |
 
 三项P2负责人开发者，D66/M5前确认处置，最晚非Local部署前解决或明确接受有期限的延期；本轮未擅自实现新错误UX、关闭导航或增加换行CSS。正式内容/认证/PDF正向路径、Variation Gallery多图、重复Variable合法POST、实体设备/屏幕阅读器、公开索引、非Local缓存/CWV与部署仍未验。
+
+## D68响应式Cart Block候选验证（2026-09-08，未合并）
+
+运行候选为`codex/day68-cart-responsive`，父级D67重放提交`21f2941`，WordPress 7.0.4、WooCommerce 11.0.0、PHP 8.2.29、Storefront 4.6.2、Yoast 28.2、DentAll候选0.37.0/Core 0.2.8。验证仅发生在全新独立Local副本；源Local只读，未访问Checkout、订单或非Local。最终脱敏摘要见`tests/day68-results.json`，详细边界见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 运行树与资源 | 3个候选文件哈希与隔离运行树一致；`cart.css?ver=0.37.0`只加载1次，Shop等非Cart作用域不受新增规则影响 | 通过；main仍0.35.0，D67/D68未合并 |
+| 正常Simple与Variation | 六宽；#44及Variation #51；数量1→2；Store API金额Simple 2499→4998、Variation 3999→7998，币种USD；DOM/可见金额一致 | 通过；Variation `parent`响应字段为null属当前Store API实际合同，不伪造断言 |
+| 响应式与触控 | 390/768/1024/1199/1200/1440；页面根横溢出0；数量选择器128×44、增减/Remove 44×44、Checkout 48；焦点和中心命中通过 | 通过；真实设备/读屏器未验 |
+| 内容压力与异常 | 长名称、连续长属性、缺图、initial loading、update error、售罄/不可购买、96字符连续错误、空态 | 通过；通用错误只补Flex收缩与安全断行，不自建状态机 |
+| Cross-sell图片 | 首轮空白经等待/滚动探针确认是截图时序；六宽图片complete且自然尺寸>0，资源失败0 | 通过；不冻结正式推荐商品或素材 |
+| Page ID 8英文候选 | 39/39；标题`Cart`及3段批准英文；ID/slug/status/Woo绑定/Block拓扑不变；`/cart/`、noindex/nofollow | 通过后已恢复中文；Production非全站noindex下Canonical未验 |
+| 清理与源Local | 全部匿名购物车清空；商品/Variation及隔离整库恢复；源Local只读快照和`wp-config.php`哈希不变；16868/16869监听0 | 通过；源Local未持久化英文内容 |
+
+最终独立汇总为198/198断言通过，断言失败P0/P1/P2/P3均为0；独立功能发现P0=0、P1=0、P2=1、P3=0。唯一P2为原生`Add coupons` disclosure六宽均20px；Enter及顶部/中心/底部指针均可展开，不阻塞D68交易正确性。负责人D70；延期原因是优惠码入口和规则属于D70；计划D70完成44px触控目标并回归六宽、键盘与错误态。D66的RSK-035/037/038仍开放，故D68、D67与M5均不标Done。
+
+## D70隔离Local优惠券规则与边界验证（2026-09-08）
+
+权威轮次在分支`codex/day70-coupon-rules`、基线`c9ca48c8489bf351dcb7ce04bc84080528dc68f1`的独立Local副本执行；WordPress 7.0.4、WooCommerce 11.0.0、PHP 8.2.29、Storefront 4.6.2、DentAll 0.35.0/Core 0.2.8，HPOS已启用。运行代码、插件/依赖、角色权限和金额算法均0改动。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 源完整性与隔离 | 源`public`复制范围为13,421个文件；复制前源/复制后源/目标SHA-256均为`A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528`，自定义主题17文件、Core 7文件另行校验 | 源Local只读，运行树没有被部分复制或测试写入污染 |
+| 配置前后不变量 | 前/后均105/105；后审计`2026-09-08T06:07:41Z`晚于浏览器结束`06:07:15.381Z`；15券、订单0、用量全0、`free_shipping=false`、角色表不变 | 不以测试前快照代替测试后状态 |
+| 权威浏览器/Store API | 脚本SHA-256 `03FD52B92998DE1AB9FFBC0C80054BEEC49B4C00E22DFD3F9DC8A8C6D7CDCE10`；17项通过、1项P2，P0/P1为0；warning 0、预期Console错误11、意外错误0 | 唯一P2在源提交中为`RSK-039`，集成映射为`RSK-041`长券码错误内层裁切；页面无横向滚动，交D68/D72，后由W12六宽合成回归关闭 |
+| 三券型金额 | 12.5%：2499→优惠312/总额2187；固定购物车555：2499→1944；固定商品$2.25：2件Variation优惠共450，混合Simple行2499不变 | 服务端金额、Variation父限制和混合适用通过；不由前端手算 |
+| 失败、重算与会话 | 重复/移除重用、过期/不存在、min/max数量变化、individual-use两顺序、匿名隔离、Customer当前购物车与网络失败重试通过 | 失败后Store API购物车不变；过期错误约5秒恢复后骨架0、商品#44在、行/总额均2499 |
+| 独立交易复核 | 结果SHA-256 `21F06E5F0E31E011D5C20231CCF9786861AC5640B5AA208258FE0C96DB66A0CF`；8/8，P0/P1/P2为0 | 二次确认隔离/HPOS、三券型实际金额、最低额低一单位与精确等值、订单/用量前后0，以及过期错误约5秒后释放骨架并恢复真实购物车 |
+| 清理、恢复与停机 | 15券、1 Customer、1边界商品、51 session已删除，恢复12/12，PHP Fatal/Warning 0，HTTP/MySQL端口与D70进程0 | 原`.codex-tmp/day70`与23个同源预演回收站条目（含对应数据与元数据）已精确永久删除，未清空其他回收站；独立终审path/recycle/listeners/processes/git全0，P0/P1/安全P2为0 |
+
+旧浏览器轮次、一次30秒中断、共享MySQL `10011`与权威前harness预演（PID guard、`mysqldump` option-file、blanket cache遗漏24个源码文件、router/失败清理、source partial）均在权威轮次前关闭，不纳入通过数。2条Windows引号导致的只读CLI Parse error没有写数据。详见[[笔记/Day70-优惠券规则与边界验证]]。
+
+未验收：D71税费、D75免邮/运费、D78跨订单总次数与每用户次数；Checkout、订单、支付、库存和邮件未执行。
+
+## D71运费、税费与金额摘要候选验证（2026-09-08，未合并）
+
+运行候选为`codex/day71-shipping-totals`，以合并提交`0ca4ba4`完整继承D67→D68运行树；D71运行代码零变化，DentAll保持0.37.0。验证只发生在独立文件/数据库副本`dentall_day71_fb49_20260908`；源Local只读，不进入Checkout、订单、支付、邮件或非Local。脱敏摘要与证据边界见[[笔记/Day71-运费税费与金额摘要候选验证]]及[[笔记/Day72-人工运费邮件报价与购物车收口]]；原始结果只在本机忽略目录保存，没有受控的`tests/day71-results.json`。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 基线与隔离 | WordPress 7.0.4、WooCommerce 11.0.0、PHP 8.2.29、USD/2位、kg/cm；预测试税率0、coupon 0、订单/退款0、checkout draft 0 | 通过；正式税率、费率、免邮和承运商未配置 |
+| 未定位与地区 | 未定位为`has_calculated_shipping=false`及运费`null`；CA/NY当前rate随地址更换；加拿大不可配送和TX无方式为已计算、rate空、运费0 | 通过；无rate的0未标Free；地址只证明格式/计算，不证明真实或可投递 |
+| 金额三面一致 | 对每个成功状态以脱敏trace核对`WC_Cart` getter、Store API原始最小单位字符串与Cart Block DOM | 通过；未计算时PHP getter为0而API为`null`是明确的表示合同，不判矛盾 |
+| TEST税额与舍入 | 未税CA 3275、coupon后2941；含税CA 3094、coupon后2782；两行商品逐行/小计舍入6694/6693 | 通过；全部单位为美分，只证明固定TEST输入，不给税务建议 |
+| 商品、Variation与库存 | #44为1200g；#51继承父级2kg，组合总重3200g、数量2后5200g；#53覆盖2500g；#52缺货与#51超库存均400且状态稳定 | 通过；Flat Rate不按重量/尺寸自动定价，计费重与承运商归D75 |
+| 安全与缓存 | 缺Nonce 401、错误Nonce 403；旧/伪造rate未改变当前NY rate/金额；Store API响应`no-store`；报告不保存Token、Nonce、Cookie或完整地址 | 通过；Cart-Token按会话秘密处理，不能进入共享缓存或日志 |
+| 会话与失败恢复 | A/B匿名购物车、地区、coupon与rate不串；登录Customer跨新上下文读回NY购物车；网络失败保留CA状态，重试成功 | 通过；`cart/update-customer`会写Customer/session并重算，不是只读API |
+| 响应式与状态 | 390/768/1024/1199/1200/1440页面、Cart和摘要横溢出0，金额碰撞0，coupon Focus可见；库存alert、loading、无方式和网络错误路径覆盖 | 通过；实体设备、屏幕阅读器、真实弱网、CDN/CWV未验 |
+| 交易边界 | 全程订单/退款0、checkout draft 0；无支付、邮件、库存扣减/回补 | 通过当前不下单边界；不能外推D73～D78 |
+| 恢复 | TEST Customer删除；库存恢复；整库恢复后功能审计与预测试逐字段相等，coupon 0、session 1、税率0、基线区域1 | 通过；最终源快照、端口和独立复验结果见脱敏JSON |
+
+D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart内地址/地区编辑表单，因此地区切换是在Woo原生`cart/update-customer`路由完成；不能把本结果写成Cart内运费计算器UI已交付。该产品/架构决定由D72收口，并与D73地址字段、D75正式物流保持边界。D69的Header/Mini Cart刷新签名只覆盖商品key与数量，D72必须专项验证地址/税区变化后的经典Mini Cart小计，不能只看Header数量。
+
+## D72人工运费邮件报价与结账边界（2026-09-09，未合并）
+
+运行候选为DentAll 0.38.0/Core 0.2.9，只在D71隔离Local副本验证；正式报价邮箱、真实邮件客户端、支付网关、SMTP、Staging与Production均未启用。详细边界见[[笔记/Day72-人工运费邮件报价与购物车收口]]。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 静态与纯合同 | PHP 36/36、JS 23/23；Core入口/模块/setup PHP lint、JS语法、diff检查通过 | 覆盖设置、实体/虚拟/空车、双Cart数据形态、邮件结构、动态数量、URI编码、路由、地址锁与无Shipping订单付款前判定 |
+| Cart邮件入口 | 主集成18/18；实体Cart显示邮件报价，数量1→3实时更新，390/1440无横溢出，缺邮箱不回退`admin_email` | 未实际发送邮件；真实设备默认邮件客户端待验 |
+| 商品状态 | 独立Simple/Variation、全虚拟与混合Cart探针 | 虚拟Cart普通Checkout；混合Cart按实体商品报价；Variation邮件含SKU/规格/数量 |
+| 结账守卫 | 普通Checkout回Cart；Store API直接提交409且0 draft；带版本/无版本/大小写与Batch子请求覆盖 | Agentic complete为纯合同覆盖；真实Agentic功能未启用 |
+| 已报价/未报价订单 | 原生Pending订单带Product、Shipping、Fee与Tax可重算，`order-pay`可访问且付款前库存不扣；配送地址和适用Billing税基地域改写被409拒绝；实体Pending订单缺Shipping时REST付款409、经典POST 302回原页并显示错误 | 未启用真实网关，不代表实际支付、邮件、库存扣减/回补通过；员工必须先填准Shipping及税基地域 |
+| 交互与响应式 | 390/768/1024/1440实体入口无横溢出；报价按钮48/66/48/48px；捕获`mailto:`点击后Cart不进入持续loading | 外部邮件客户端取消/返回仍需真实设备确认 |
+| 恢复与隔离 | 标记订单0、checkout draft 0、TEST税率0、库存恢复8、报价option不存在；无外部响应；17171/17172停止 | 源Local、Staging、Production均未写入 |
+
+当前代码/安全/独立测试终审未发现开放P0/P1。支付启用前仍须把Cart/Product Express Checkout列为发布阻断：实体报价Cart不能出现Apple Pay、Google Pay、PayPal Express等绕过入口，只允许已人工报价订单沿经验证的`order-pay`路径付款。
+
+保留P2：`mailto:`点击捕获依赖Woo 11 Cart内部class并阻止事件下行，可能影响目标/冒泡型分析监听，Woo升级与埋点须回归；未新增报价订单meta，订单按当前商品配送属性与Shipping line推断，历史待付订单及商品physical/virtual切换须在支付日专项验证。
+
+## D67～D72 W12合成树终验（2026-09-10，待main合并）
+
+运行树为`codex/day72-w12-integration@7176a3f`，DentAll 0.40.0/Core 0.2.9。隔离副本从该合成树重新同步28个自定义文件；测试数据库为`dentall_day71_fb49_20260908`，源Local、Staging、Production均未写入。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 静态与纯合同 | PHP lint、Node语法、`git diff --check`；PHP 36/36、JS 23/23 | Header同步与人工报价资源均按Cart作用域保留，版本统一 |
+| D71金额链 | 177/177，P0～P3失败均为0 | 继续是TEST地区/费率/税率，不冻结正式政策 |
+| D72报价闭环 | 18/18，预期负向请求单独记录 | 邮件未真实发送，正式邮箱与客户端待Staging验收 |
+| Header浏览器 | 正常数量/移除、Store API失败恢复、fragment失败恢复、Variable、桌面/触屏Mini Cart、390/768/1024/1440与BFCache全通过 | Web Storage禁用和极端跨标签关闭仍按既有期限性P2管理 |
+| Header状态机 | 乱序旧响应、HTML 200、204、abort、快速连续变化均通过 | 没有无限自动重试；下一次真实变化可恢复 |
+| Variable/Coupon/状态 | 67/67，P0～P3失败均为0；Variation精确恢复且锁/快照0 | 首轮唯一失败是脚本标记D72/D71不一致，修正测试假设后完整重跑通过，运行代码0改动 |
+| 清理与停机 | 标记订单0、checkout draft 0、报价TEST option 0；17171/17172监听0、PID文件0 | 忽略目录只作为待归档证据，不进入Git或部署包 |
+
+本终验允许合成树进入`main`，不等于Staging发布批准。Staging前仍须处理或由用户明确接受D66的RSK-035/037/038，并执行受控备份、环境差异、配置重放、缓存与回滚预检。
 
 ## 测试记录模板（后续填写）
 

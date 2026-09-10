@@ -379,6 +379,26 @@
 - 性能与缓存：不新增查询、远程请求、Cron、脚本或资源文件；关闭Sticky会停止其DOM/脚本输出，但当前未做CWV对比，不宣称性能提升。DentAll升至0.34.0，为现有条件详情CSS刷新版本化缓存键；页面缓存仍须按目标环境验证。
 - 部署与回滚：代码和Theme Mod是两个独立交付对象。回退代码时逆向D59提交并恢复主题版本；回退Local配置时在Customizer重新勾选Sticky，或移除该Theme Mod键以回到Storefront 4.6.2默认true。Git不会同步数据库配置；未来若Staging/Production采用相同决定，必须另行授权、逐环境保存并核对活动主题、DOM、脚本、缓存与遮挡。详见[[笔记/Day59-商品详情四端购买区与Sticky收口]]。
 
+## ADR-037：D70复用WooCommerce原生优惠券与Store API金额真相
+
+- 状态：已接受（2026-09-08）；用户明确批准三种原生券型及TEST矩阵、隔离Local写入与恢复，不加插件、不自定义金额、不扩权。
+- 决定：第一版优先使用WooCommerce `percent`、`fixed_cart`和`fixed_product`原生规则；以`WC_Coupon`配置、`WC_Cart`/`WC_Discounts`与Store API的服务端整数金额为交易真相，Cart Block只负责输入与展示。不新增计算器、组合规则、插件或主题/Core交易代码。
+- 数据与权限：15张`TEST-D70-*`券、1个TEST Customer和1个边界商品只在独立Local存在；全部券`free_shipping=false`，没有Checkout或订单。Website Manager既有优惠券能力与Content Editor拒绝合同保持，角色表不变；HPOS保持启用。
+- 验证证据：配置前/后审计均105/105，浏览器/Store API权威轮次17项通过、1项P2，P0/P1为0；独立交易复核8/8且P0/P1/P2为0。唯一P2 `RSK-039`是96字符连续券码错误的内层裁切，交D68候选处理、D72回归，不在D70跨职责改CSS。
+- 边界：D70只证明当前购物车的规则、金额和会话。含税/不含税折扣及舍入留D71，免邮/运费留D75，跨订单总次数、每用户次数、取消/退款回补留D78。未验Checkout、订单、支付、库存或邮件。
+- 恢复与部署：15券、1 Customer、1边界商品和51 session已精确删除，恢复审计12/12，HTTP/MySQL监听与D70进程为0。原`.codex-tmp/day70`已永久删除；23个同源预演回收站条目（含对应数据与元数据）已按`DeletedFrom`与当前SID物理父目录精确永久删除，未清空其他回收站；独立终审path/recycle/listeners/processes/git全0，P0/P1/安全P2为0。运行代码、插件/依赖、权限与金额算法均0改动，无非Local部署；回滚只是本次隔离副本的清理，不对共享Local、Staging或Production执行数据回滚。
+
+## ADR-038：标准商品第一版先邮件确认运费再开放订单付款
+
+- 状态：已接受；用户于2026-09-09明确同意实施人工运费报价流程，并指定第一版以邮箱为正式入口、客户WhatsApp为可选联系方式。
+- 问题与边界：该决定处理的是已有确定价格商品的整车运费，不是ADR-013/ADR-014中的无定价定制商品询价。定制展示商品仍不进入购物车，CR-004继续保持条件需求。
+- 决策：含需配送商品的Cart Block把普通Proceed to Checkout替换为`Request a Shipping Quote`邮件入口；邮件携带商品、SKU、规格、数量、商品小计和收货信息模板。业务人员确认费用后，在WooCommerce创建或编辑`Pending payment`订单，以原生Shipping、Tax、Fee明细重算总额并发送`order-pay`链接。
+- 联系渠道：报价收件邮箱由WooCommerce Shipping设置保存，默认空值且不静默使用`admin_email`。客户WhatsApp仅作为邮件模板中的可选字段，业务人员可写入Billing phone或私密订单备注；公司WhatsApp展示留给D89 Contact Us页面，不阻塞本决定。
+- 技术边界：Cart Block展示使用WooCommerce Blocks官方Filter；跨主题结账保护进入`dentall-core`。服务端同时覆盖普通Checkout页面、经典结账提交和Cart/Checkout Store API；人工订单的`order-pay`与`order-received`端点必须保持可用。全虚拟、无需配送的购物车保留普通结账。
+- 不做：不新增ACF金额字段、订单表、询价CPT、站内邮件发送、WhatsApp API、第三方报价插件、承运商实时报价或0元运费占位；不启用真实支付、SMTP或生产配置。
+- 数据、SEO与缓存：第一版`mailto:`不把个人信息提交到WordPress；最终交易事实只保存在WooCommerce订单明细中。无新公共URL或Schema，动态交易页缓存规则不变。正式邮箱、实际投递、超大购物车邮件长度、支付沙盒和员工操作SOP仍需后续环境验收。
+- 回滚：移除主题Cart Filter脚本和Core守卫模块并回退版本即可恢复WooCommerce原生结账；设置项和历史原生订单不需要数据迁移或删除。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

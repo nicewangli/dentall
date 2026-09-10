@@ -4,6 +4,52 @@
 
 ## Unreleased
 
+### D67～D72 W12 Local集成收口（2026-09-10，待main合并）
+
+- 以`codex/day72-cart-regression@369f1d3`的D67→D70线性历史为基线，纳入D71/D72源提交`ff92cdc`，在`codex/day72-w12-integration@7176a3f`同时保留Cart响应式、Header Cart同步、优惠券触控修复、金额验证与人工运费邮件报价；DentAll统一为0.40.0，Core为0.2.9。
+- 合成树静态检查通过：PHP lint、Node语法、PHP纯合同36/36、JS纯合同23/23及`git diff --check`。全新同步后的隔离Local动态回归通过D71金额177/177、D72报价18/18、可变商品/长属性/优惠券/空态67/67；Header浏览器八组场景及竞态状态机五组场景全部通过。
+- 首轮可变商品回归的唯一P1是复用测试脚本期待`TESTD72`标记，而当前夹具按`TESTD71`命名；仅修正忽略目录测试假设后完整重跑67/67，运行代码未因该项变化。最终标记订单0、checkout draft 0、报价TEST option 0、商品/Variation锁与快照0，隔离端口17171/17172已停止。
+- 本记录只证明Local合成树可进入主线，不代表Staging部署、正式报价邮箱、真实邮件客户端、SMTP、支付网关、Express钱包、真实税费/物流或D66/M5已验收。
+
+### D72人工运费邮件报价与结账边界（2026-09-09，未合并）
+
+- 按CR-012把实体商品Cart的普通Checkout入口替换为预填报价邮件；客户WhatsApp仅为邮件中的可选字段，公司WhatsApp展示留给D89。报价邮箱进入WooCommerce Shipping设置，默认空值且不回退`admin_email`；主题升至0.38.0，Core升至0.2.9。
+- Core按商品自身`needs_shipping()`输出Store API扩展事实，并在普通Checkout、经典Checkout、Store API带版本/无版本/Batch/大小写变体及Agentic complete入口阻止未报价购物车建单；已有Shipping line的待付款订单锁定已报价配送地址，并在按Billing计税时锁定账单税基地域。`order-pay`页面可打开，但实体/无法解析商品订单缺Shipping明细时，REST与经典付款提交都会安全失败。
+- Cart脚本只在购物车加载，邮件含商品、SKU、规格、数量、当前商品小计、coupon及姓名、公司、邮箱、可选WhatsApp、完整地址等填写位；收件人URI编码防止保留字符改变`mailto:`结构，捕获邮件点击避免Woo原生按钮持续loading。
+- 纯PHP 36/36、纯JS 23/23与PHP/Node语法通过；隔离Local主集成18/18，并由独立测试继续覆盖虚拟/混合Cart、Variation、四宽、显式USD、原生Shipping/Fee/Tax待付款订单、库存不扣、地址锁、无Shipping付款守卫与Batch旁路。所有TEST订单、tax、option和checkout draft清理，17171/17172已停止；未发送邮件、未启用支付或访问外部服务。
+- 未改共享Local、Staging、Production、DNS、正式税率/运费或真实支付。正式公司报价邮箱是Staging业务验收前置；真实设备邮件客户端、SMTP/人工订单邮件、支付沙盒与Express钱包禁用/绕过验证仍是D76/D78发布门槛。详见[[笔记/Day72-人工运费邮件报价与购物车收口]]。
+
+### D71运费、税费与金额摘要候选（2026-09-08，未合并）
+
+- `codex/day71-shipping-totals`以`0ca4ba4`完整继承D67→D68候选运行树；D71没有新增或修改运行代码、函数、Hook、CSS规则、模板、JavaScript、查询、字段、插件或依赖，DentAll保持0.37.0、Core保持0.2.8。WooCommerce原生`WC_Cart`、Shipping/Tax API、Store API和Cart Block继续作为唯一金额链。
+- 独立Local用TEST CA/NY固定费率和税率、不可配送国家及无方式地区完成177/177主断言；未定位运费`null`、当前rate替换、含税/未税、coupon税额分配、逐行/小计舍入、Simple/Variation重量继承/覆盖、超库存/缺货、A/B匿名会话、登录Customer、网络失败重试及六宽DOM均通过。Store API与服务端getter按状态合同一致，Cart Block金额一致。
+- 缺/错Nonce分别401/403，旧/伪造rate不改变当前rate与金额，Store API响应`Cache-Control: no-store`；脱敏证据不包含Cookie、Nonce、Cart-Token、完整地址或测试凭据。订单/退款与checkout draft保持0，测试Customer、库存、tax/rate/coupon/session由删除和整库恢复清理。
+- 当前Cart Block没有Cart内地址编辑表单；地区切换仅在Woo原生`cart/update-customer`合同验证，不等于Cart运费计算器UI完成。所有税率/费率均为TEST，不代表正式税务、配送、免邮或承运商政策；Flat Rate也不会按kg/cm自动计价。D72须决定Cart地区入口，并验证D69经典Mini Cart在地址/税区变化后的金额同步。
+- 未改共享Local、正式数据、URL/SEO、页面缓存、支付、物流正式配置、邮件、Staging、Production或DNS；候选未推送、未部署。详见[[笔记/Day71-运费税费与金额摘要候选验证]]。
+
+### D68手机与平板响应式Cart Block候选（2026-09-08，未合并）
+
+- 在D67重放提交`21f2941`之上把购物车样式改为Mobile First基础层＋既有75rem PC增强层：补`min-width:0`、长文本/通用错误安全断行、44px增减/Remove、128px数量选择器，以及空态/错误卡片；继续复用原生Cart Block DOM、Flex、容器查询和Store API。DentAll候选版本由0.36.0升至0.37.0，Core保持0.2.8。
+- 相对D67只修改3个既有运行文件，65行新增/35行删除、净增30行；新增运行文件、函数、Hook、模板、JavaScript、查询、字段、插件和依赖均为0。`setup.php`只有既有Cart条件加载说明注释变化，加载生命周期仍为`is_cart()`。
+- 全新独立Local副本最终198/198断言通过；覆盖Simple/Variation、六宽、1199/1200、长文本/缺图、loading/error/售罄/不可购买/空态、触控/键盘、Cross-sell图片及Page ID 8批准英文候选。英文验证后已恢复中文原哈希，全部购物车、商品/Variation及整库恢复；源Local只读快照不变，端口已停止。
+- 独立功能发现保留1项D70/P2：原生`Add coupons`高度20px，功能可展开但未达到44px触控目标。D66的RSK-035/037/038未关闭，故D68/D67/M5不标Done；未合并、推送、部署，未改正式数据、URL、SEO输出、支付、物流或缓存配置。主题版本查询串会在未来部署时刷新相关资源缓存。详见[[笔记/Day68-手机与平板响应式购物车候选验证]]。
+
+### D69 Header Cart与Mini Cart状态联动（2026-09-08，独立Local候选）
+
+- `codex/day69-header-cart-sync`将DentAll候选版本升至0.36.0；仅在实际Block Cart页加载1个脚本，以公开`wc/store/cart`的商品key/quantity变化触发经典Header/Mini Cart fragment。继续使用Woo Session与服务端HTML，不新增模板、插件、接口、字段、第二Store、轮询或交易逻辑。
+- fragment改为只替换`span.dentall-cart-content`，保留Storefront监听所在的`a.cart-contents`，结构缓存键从`_dentall_header_v1`升至`_dentall_header_v2`；既有Mini Cart显隐规则只增加`:focus-within`。Simple/Variable、匿名/Customer、非空/空态、鼠标/键盘/模拟触屏、四宽及按页资源作用域通过。
+- 初审发现的BFCache误退订和本页旧fragment晚到覆盖均已修复。终态用localized精确端点、公开jQuery AJAX生命周期与Cart revision等待整个fragment批次落地；Store/fragment失败、HTTP 200无目标fragment、204、abort、快速连续变化及下一次真实变化恢复均有界验证，无自动无限重试。
+- 终态JS为176行、4452字节，源码与隔离运行副本SHA-256均为`269AD1E247B6C4BD3A05F001D9757BC90442DBFB043588C86E989A42002C166B`。Code Review、安全、独立测试均为P0/P1=0；隔离数据库已恢复测试前59表基线、D69临时用户为0，10669监听为0。
+- RSK-039/040继续作为期限性P2：Web Storage完全禁用时Woo 11.0不消费刷新事件；极端双标签错序且来源标签立即关闭时，剩余标签可能暂显旧Header。两者不改服务端Cart，导航/刷新或后续变化恢复；D72/W12合成及最晚非Local浏览器矩阵复审，不依赖Woo私有存储键或擅自增加fallback。
+- 当前仅独立分支和隔离Local技术候选，未合并`main`、未推送或部署。D66的RSK-035/037/038、D67/D68/D70、W12、M5、正式内容、真实辅助技术、Production缓存/CWV仍独立待验。详见[[笔记/Day69-Header Cart与Mini Cart状态联动]]。
+
+### D70原生优惠券规则与边界验证（2026-09-08，已完成）
+
+- 在分支`codex/day70-coupon-rules`、基线`c9ca48c8489bf351dcb7ce04bc84080528dc68f1`的独立Local复用WooCommerce原生三券型与Store API；运行代码、插件/依赖、角色权限、金额算法和版本均0改动。源`public`复制范围为13,421个文件，三方树SHA-256均为`A9C8759A6F6335AC20D74F6FE79E7991274F1DC33F8D0921EDBB832B4CDEF528`，自定义主题17文件、Core 7文件另行校验。
+- 权威配置前/后审计均105/105，后审计晚于浏览器结束；15券、订单0、用量全0、`free_shipping=false`与角色表不变。权威浏览器/Store API脚本SHA-256为`03FD52B92998DE1AB9FFBC0C80054BEEC49B4C00E22DFD3F9DC8A8C6D7CDCE10`，17项通过、1项P2，P0/P1为0，warning 0、预期Console错误11、意外0；独立结果SHA-256为`21F06E5F0E31E011D5C20231CCF9786861AC5640B5AA208258FE0C96DB66A0CF`，8/8且P0/P1/P2为0。
+- 唯一P2在D70源提交中编号为`RSK-039`，集成时映射为`RSK-041`：96字符连续券码错误的内层裁切，四端页面无横向滚动；交D68评估最小展示候选、D72回归，后由W12六宽合成回归在Local关闭。D71税费、D75免邮/运费、D78跨订单次数仍未验，本日未进Checkout，未建订单、支付、库存或邮件流程。
+- 15券、1 Customer、1边界商品、51 session已删除，恢复12/12，PHP Fatal/Warning 0，HTTP/MySQL监听与D70进程0。原`.codex-tmp/day70`与23个同源预演回收站条目（含对应数据与元数据）已精确永久删除，未清空其他回收站；独立终审path/recycle/listeners/processes/git全0，P0/P1/安全P2为0。旧浏览器轮次、一次30秒中断、共享MySQL `10011`及权威前harness预演均已在权威前关闭，不纳入终态通过数。详见[[笔记/Day70-优惠券规则与边界验证]]。
+
 ### D66集成、远端同步与商品闭环回归（2026-09-08，待缺陷处置）
 
 - `278d20d`保留D60/D61/D63祖先并合入、推送main；完成工作树登记已清理，160份独有忽略证据私密归档，3个Windows占用空目录保留。D67候选未纳入，未部署非Local。

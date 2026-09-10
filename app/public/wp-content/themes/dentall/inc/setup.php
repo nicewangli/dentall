@@ -122,3 +122,77 @@ function dentall_enqueue_product_detail_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_product_detail_assets', 50 );
+
+/**
+ * 只在WooCommerce购物车页加载响应式展示样式。
+ *
+ * 购物车数量、删除、库存与金额继续由Cart Block和Store API负责；主题只增强展示，
+ * 避免把交易页样式加载到商品详情或其他页面。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_assets() {
+	if ( ! function_exists( 'is_cart' ) || ! is_cart() ) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-cart',
+		get_stylesheet_directory_uri() . '/assets/css/cart.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	wp_enqueue_script(
+		'dentall-shipping-quote',
+		get_stylesheet_directory_uri() . '/assets/js/shipping-quote.js',
+		array( 'wc-blocks-checkout', 'wp-i18n' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_localize_script(
+		'dentall-shipping-quote',
+		'dentallShippingQuote',
+		array(
+			'recipient' => function_exists( 'dentall_core_get_shipping_quote_email' )
+				? dentall_core_get_shipping_quote_email()
+				: '',
+			'cartUrl'   => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
+
+/**
+ * 只在Cart Block页面同步Store API购物车与经典Header Cart fragments。
+ *
+ * Cart Block以wc/store/cart为真实状态源；本脚本不保存第二份购物车数据，
+ * 仅在服务端返回的商品键或数量发生变化后请求WooCommerce重绘现有fragments。
+ *
+ * @return void
+ */
+function dentall_enqueue_cart_header_sync_assets() {
+	if (
+		! function_exists( 'is_cart' )
+		|| ! is_cart()
+		|| ! has_block( 'woocommerce/cart' )
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_script(
+		'dentall-cart-header-sync',
+		get_stylesheet_directory_uri() . '/assets/js/cart-header-sync.js',
+		array( 'jquery', 'wp-data', 'wc-blocks-data-store', 'wc-cart-fragments' ),
+		$theme->get( 'Version' ),
+		true
+	);
+
+	wp_script_add_data( 'dentall-cart-header-sync', 'strategy', 'defer' );
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 );
