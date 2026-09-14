@@ -26,17 +26,11 @@ function dentall_disable_page_menu_fallback( $args ) {
 add_filter( 'wp_nav_menu_args', 'dentall_disable_page_menu_fallback', 20 );
 
 /**
- * 输出仅供Local骨架验证的公告栏。
- *
- * 正式文案尚未获得业务确认，因此其他环境不输出占位内容。
+ * 输出与人工运费报价流程一致的全站公告栏。
  *
  * @return void
  */
 function dentall_announcement_bar() {
-	if ( 'local' !== wp_get_environment_type() ) {
-		return;
-	}
-
 	$currency_code   = function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : '';
 	$currency_symbol = $currency_code && function_exists( 'get_woocommerce_currency_symbol' )
 		? get_woocommerce_currency_symbol( $currency_code )
@@ -45,9 +39,9 @@ function dentall_announcement_bar() {
 	<aside class="dentall-announcement" aria-label="<?php esc_attr_e( 'Store announcement', 'dentall' ); ?>">
 		<div class="col-full dentall-announcement__inner">
 			<ul class="dentall-announcement__messages" aria-label="<?php esc_attr_e( 'Store notices', 'dentall' ); ?>">
-				<li><?php esc_html_e( '[TEST] Free Shipping on Orders Over $199', 'dentall' ); ?></li>
-				<li><?php esc_html_e( '[TEST] 5–10-Day Easy Returns', 'dentall' ); ?></li>
-				<li><?php esc_html_e( '[TEST] Trusted by 10,000+ Dental Professionals', 'dentall' ); ?></li>
+				<li><?php esc_html_e( 'Shipping Quotes Based on Order Quantity', 'dentall' ); ?></li>
+				<li><?php esc_html_e( 'Email Support for Shipping Confirmation', 'dentall' ); ?></li>
+				<li><?php esc_html_e( 'Trusted by 10,000+ Dental Professionals', 'dentall' ); ?></li>
 			</ul>
 			<ul class="dentall-announcement__utilities" aria-label="<?php esc_attr_e( 'Store preferences and help', 'dentall' ); ?>">
 				<?php if ( $currency_code ) : ?>
@@ -65,38 +59,61 @@ function dentall_announcement_bar() {
 add_action( 'storefront_before_header', 'dentall_announcement_bar', 10 );
 
 /**
- * 在Local没有正式Custom Logo时输出占位Logo。
+ * 返回WordPress Custom Logo，未设置时回退到已批准的主题Logo资产。
  *
- * 正式Logo仍由WordPress原生Custom Logo管理；一旦后台设置Logo，或请求不在Local，
- * 立即回到Storefront原生品牌输出，不让临时素材进入其他环境。
+ * @param string $loading     图片加载策略。
+ * @param string $extra_class 额外图片class。
+ * @return string
+ */
+function dentall_get_brand_logo_image( $loading = 'eager', $extra_class = '' ) {
+	$logo_id = absint( get_theme_mod( 'custom_logo' ) );
+	$classes = trim( 'custom-logo ' . sanitize_html_class( $extra_class ) );
+
+	if ( $logo_id ) {
+		$logo_html = wp_get_attachment_image(
+			$logo_id,
+			'full',
+			false,
+			array(
+				'class'    => $classes,
+				'loading'  => $loading,
+				'decoding' => 'async',
+			)
+		);
+
+		if ( $logo_html ) {
+			return $logo_html;
+		}
+	}
+
+	return sprintf(
+		'<img class="%1$s" src="%2$s" width="1024" height="240" alt="%3$s" loading="%4$s" decoding="async">',
+		esc_attr( $classes ),
+		esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-placeholder-v2.png' ),
+		esc_attr( get_bloginfo( 'name' ) ),
+		esc_attr( $loading )
+	);
+}
+
+/**
+ * 输出全站Header品牌Logo。
  *
  * @return void
  */
 function dentall_site_branding() {
-	if ( 'local' !== wp_get_environment_type() || has_custom_logo() ) {
-		storefront_site_branding();
-		return;
-	}
-
-	$logo_url = get_stylesheet_directory_uri() . '/assets/images/logo-placeholder-v2.png';
-	$logo_alt = sprintf(
+	$site_name  = get_bloginfo( 'name' );
+	$home_label = sprintf(
 		/* translators: %s: site name. */
-		__( '%s placeholder logo', 'dentall' ),
-		get_bloginfo( 'name' )
+		__( '%s home', 'dentall' ),
+		$site_name
 	);
 	?>
 	<div class="site-branding">
 		<?php if ( is_home() ) : ?>
 			<h1 class="logo">
 		<?php endif; ?>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="custom-logo-link" rel="home">
-			<img
-				class="custom-logo dentall-placeholder-logo"
-				src="<?php echo esc_url( $logo_url ); ?>"
-				width="1024"
-				height="240"
-				alt="<?php echo esc_attr( $logo_alt ); ?>"
-			>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="custom-logo-link" rel="home" aria-label="<?php echo esc_attr( $home_label ); ?>">
+			<?php echo dentall_get_brand_logo_image(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</a>
 		<?php if ( is_home() ) : ?>
 			</h1>
