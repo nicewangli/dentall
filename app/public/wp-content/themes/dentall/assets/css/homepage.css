@@ -207,9 +207,33 @@
 	background-color: var(--dentall-color-surface);
 }
 
+.dentall-home-solutions__header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--dentall-space-16);
+	margin-block-end: var(--dentall-space-24);
+}
+
 .dentall-home-solutions__title {
-	margin: 0 0 var(--dentall-space-24);
+	min-width: 0;
+	margin: 0;
 	overflow-wrap: anywhere;
+}
+
+.dentall-home-solutions__all {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: var(--dentall-space-8);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-semibold);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.dentall-home-solutions__all[aria-disabled="true"] {
+	pointer-events: none;
 }
 
 .dentall-home-solutions__grid {
@@ -294,7 +318,7 @@
 }
 
 /*
- * 设计稿信任数据只由PHP在Local输出。Mobile使用独立条目，宽屏合并为同一浅色信息带。
+ * 信任数据由Core中的首页设置提供。Mobile使用独立条目，宽屏合并为同一浅色信息带。
  */
 .dentall-home-trust {
 	padding-block-start: 0;
@@ -460,6 +484,10 @@
 @media (min-width: 75rem) {
 	.dentall-home-solutions__grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.dentall-home-solutions .dentall-solution-card__link {
+		min-block-size: 12rem;
 	}
 
 	.page-template-template-homepage .dentall-home-best-sellers ul.products {

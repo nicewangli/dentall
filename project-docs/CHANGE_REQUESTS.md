@@ -260,6 +260,31 @@
 - 需要谁确认：实施范围已由用户于2026-09-09确认；业务方仅需在Staging验收前提供公司控制的正式报价邮箱，Contact Us公司WhatsApp由D89另行确认。
 - 对应任务、提交和截图：[[笔记/Day72-人工运费邮件报价与购物车收口]]；D71/D72源提交为`ff92cdc`，运行树为`7176a3f`，终验文档为`56f3a2a`，主线合并为`6b5c96e`。D67～D72合成树已通过Local终验并进入远端`main`；原始隔离证据保存在本机忽略目录，未部署非Local。
 
+### CR-013：按首页设计稿补齐Staging展示与后台可维护入口
+
+- 类型：修改首页、全站Header/Footer展示与后台维护方式。
+- 提出人：用户。
+- 提出日期：2026-09-14。
+- 优先级：P1。
+- 状态：Approved / Implementing；用户确认`logo-placeholder-v2.png`为正式Logo，Solutions与Trust先沿用已确认设计稿内容，Newsletter及社交图标本轮必须显示，并明确“其余按照方案实施”；社交跳转与Newsletter真实服务后续接入。
+- 原约定范围：D31～D42只完成Local技术骨架；公告、Trust、Newsletter和占位Logo受Local环境闸门保护，Staging仅部署代码且保留自身业务数据。
+- 新需求：Header使用正式Logo并按设计稿配置九项Primary导航；首页输出四张正式Solution卡与五项Trust数据；Newsletter在所有环境显示设计稿展示态；Footer按五列菜单输出正式Logo和Facebook、Instagram、LinkedIn、YouTube图标。不存在的目标页暂用`#`，由业务人员后续维护。
+- 第一版必须做：复用WordPress原生Custom Logo、Menu、Page、Excerpt与Featured Image；四张Solution卡按设计稿文案及CTA输出；Trust使用首页Page专用、可修订的最小meta编辑区；Newsletter输入和按钮保持不可提交；社交图标只展示不跳转；动态年份版权；390、768、1024、1440px回归。
+- 第一版明确不做：不安装ACF或其他插件；不接Newsletter订阅存储、SMTP、营销平台、Double Opt-in或隐私同意流程；不虚构社交账号URL；不输出支付品牌徽标；不启用支付、税费、自动运费、DNS或Production；不覆盖Staging商品、订单、客户和媒体库。
+- 使用角色、频率和数据：Administrator低频维护Logo和菜单；Website Manager按运营需要编辑Solution Page的标题、摘要、特色图及首页Trust短文本。首页最多四张Solution卡、五项固定图标Trust数据，不面向大批量条目。
+- 候选方案与取舍：Logo/Menu/Page优先使用WordPress原生能力；Trust因Website Manager没有`edit_theme_options`且ACF停用，采用`dentall-core`中的首页Page meta box；展示结构继续留在子主题。Newsletter和社交本轮只输出无外部请求的静态展示态，避免提前建立不可审计的数据流。
+- 影响文件/数据：主题将调整Header品牌回退、公告、Solutions、Trust、Newsletter、Footer和响应式CSS，并新增本地SVG社交图标资产；Core新增首页Trust meta模块。Local/Staging需分别建立或绑定菜单、Solution Page及Trust值，环境数据库互不覆盖。
+- URL/SEO影响：四个正式Solution Page会新增可访问URL；其他缺失页面暂为`#`，不制造猜测Slug。页面发布前保持Staging `noindex`；后续正式URL建立后需更新菜单与`URL_SEO_MAP.md`。
+- 权限/安全影响：Trust保存同时检查`edit_post`、Administrator或Website Manager标记与nonce，并清洗长度；不授予Website Manager`edit_theme_options`。Newsletter不含`form`、字段`name`或提交端点，社交图标不含外部链接。
+- 支付/物流/缓存影响：保留CR-012人工运费报价；公告不展示免邮或退货承诺；支付图标不输出。Trust中的`Secure Payments`是用户批准的展示内容，但真实支付仍是Production发布闸门。仅改页面HTML/CSS和Page meta，不增加远程调用或交易页缓存。
+- 预计工时：乐观1天 / 可能1.5天 / 保守2天，含代码、Local四端验证、Staging白名单候选、配置与现场回归；Newsletter或社交真实接入另行确认估时。
+- 进度影响：作为已部署代码后的展示收口插入当前Staging窗口；不替代D73～D78结账、支付与邮件计划，也不把M6或Production标记完成。
+- 新风险：`#`链接暂不可完成导航；设计稿Trust数值仍需业务方最终承担准确性；Newsletter展示态可能被误解为可订阅；社交图标暂不可点击；Solution空正文页面仍需业务人员补充正式内容。
+- 回滚方式：回退本轮主题/Core白名单文件并重新Pull；删除或解绑本轮菜单/Page/meta不会影响商品、订单、客户或既有媒体。部署前后继续保留Cloudways恢复点和文件副本。
+- 验收标准：1）Header、九项菜单、Newsletter、五列Footer、Footer Logo及四个社交图标在四档视口无横向溢出且无可见`TEST`；2）四张Solutions与五项Trust按设计稿显示并可由约定角色维护；3）Newsletter不产生提交请求、社交图标无伪造URL、支付徽标不输出，商品/Cart/Account关键入口回归正常。
+- 需要谁确认：用户已于2026-09-14通过“Newsletter需要显示……正式社交URL、社交图标也需要输出，其余按照你的方案来”确认主体范围，随后明确社交功能暂不接入但图标必须可见；不存在新的业务阻塞。
+- 对应任务、提交和截图：本轮隔离分支`codex/day73-staging-home-alignment`；设计基线`design-assets/references/home/home-desktop-1440.png`；实现、测试与Staging证据待回填。
+
 ## 新变更模板
 
 ### CR-XXX：标题

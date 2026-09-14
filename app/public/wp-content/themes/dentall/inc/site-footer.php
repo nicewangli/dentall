@@ -14,36 +14,41 @@ function dentall_setup_site_footer() {
 	register_nav_menu( 'footer', __( 'Footer navigation', 'dentall' ) );
 
 	remove_action( 'storefront_footer', 'storefront_footer_widgets', 10 );
-	add_action( 'storefront_before_footer', 'dentall_render_newsletter_preview', 10 );
+	add_action( 'storefront_before_footer', 'dentall_render_newsletter', 10 );
 	add_action( 'storefront_footer', 'dentall_render_site_footer', 10 );
 	add_filter( 'storefront_credit_link', '__return_false' );
 }
 add_action( 'after_setup_theme', 'dentall_setup_site_footer', 30 );
 
 /**
- * 输出仅用于Local视觉验收、明确不可提交的Newsletter壳层。
+ * 输出Newsletter展示态。
  *
- * 未选择服务商和数据规则前不输出form、name或任何提交端点，避免产生邮箱数据。
+ * 真实订阅服务尚未接入，因此不输出form、name或提交端点，避免静默收集邮箱数据。
  *
  * @return void
  */
-function dentall_render_newsletter_preview() {
-	if ( 'local' !== wp_get_environment_type() ) {
-		return;
-	}
+function dentall_render_newsletter() {
+	$sprite_url = get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg';
 	?>
 	<section class="dentall-newsletter" aria-labelledby="dentall-newsletter-title">
 		<div class="col-full dentall-newsletter__inner">
 			<div class="dentall-newsletter__content">
-				<p class="dentall-newsletter__eyebrow"><?php esc_html_e( '[TEST] Preview only', 'dentall' ); ?></p>
-				<h2 id="dentall-newsletter-title"><?php esc_html_e( 'Join the DentAll newsletter', 'dentall' ); ?></h2>
-				<p id="dentall-newsletter-status"><?php esc_html_e( 'Newsletter sign-up is not connected in this Local preview.', 'dentall' ); ?></p>
+				<span class="dentall-newsletter__icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" focusable="false">
+						<use href="<?php echo esc_url( $sprite_url . '#icon-mail' ); ?>"></use>
+					</svg>
+				</span>
+				<div class="dentall-newsletter__copy">
+					<h2 id="dentall-newsletter-title"><?php esc_html_e( 'Get the latest deals & product updates', 'dentall' ); ?></h2>
+					<p><?php esc_html_e( 'Join our newsletter.', 'dentall' ); ?></p>
+				</div>
 			</div>
 
 			<div class="dentall-newsletter__preview" aria-describedby="dentall-newsletter-status">
-				<label for="dentall-newsletter-email"><?php esc_html_e( 'Email address', 'dentall' ); ?></label>
-				<input id="dentall-newsletter-email" type="email" placeholder="<?php echo esc_attr__( 'name@example.com', 'dentall' ); ?>" autocomplete="email" disabled>
-				<button type="button" disabled><?php esc_html_e( 'Subscribe (disabled)', 'dentall' ); ?></button>
+				<label class="screen-reader-text" for="dentall-newsletter-email"><?php esc_html_e( 'Email address', 'dentall' ); ?></label>
+				<input id="dentall-newsletter-email" type="email" placeholder="<?php echo esc_attr__( 'Enter your email', 'dentall' ); ?>" autocomplete="email" disabled>
+				<button type="button" disabled><?php esc_html_e( 'Subscribe', 'dentall' ); ?></button>
+				<span id="dentall-newsletter-status" class="screen-reader-text"><?php esc_html_e( 'Newsletter subscription is coming soon.', 'dentall' ); ?></span>
 			</div>
 		</div>
 	</section>
@@ -51,15 +56,17 @@ function dentall_render_newsletter_preview() {
 }
 
 /**
- * 输出Footer品牌与单一两级菜单。
+ * 输出Footer品牌、展示态社交图标与单一两级菜单。
  *
- * 菜单未绑定时不回退为全部Page；Local显示TEST提示，非Local保持安静空状态。
- * 社交账号与支付方式没有正式事实，因此本函数不输出对应占位项。
+ * 菜单未绑定时不回退为全部Page；社交账号尚未确认，因此图标不输出链接。
+ * 支付方式尚未验收，本函数不输出支付品牌徽标。
  *
  * @return void
  */
 function dentall_render_site_footer() {
-	$site_name = get_bloginfo( 'name' );
+	$site_name    = get_bloginfo( 'name' );
+	$sprite_url   = get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg';
+	$social_icons = array( 'facebook', 'instagram', 'linkedin', 'youtube' );
 	/* translators: %s: Site name. */
 	$home_label = sprintf( __( '%s home', 'dentall' ), $site_name );
 	?>
@@ -80,16 +87,41 @@ function dentall_render_site_footer() {
 					)
 				);
 				?>
-			<?php elseif ( 'local' === wp_get_environment_type() ) : ?>
-				<p class="dentall-footer__menu-status"><?php esc_html_e( '[TEST] Footer navigation is not assigned.', 'dentall' ); ?></p>
 			<?php endif; ?>
 		</div>
 
 		<div class="dentall-footer__brand">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $home_label ); ?>">
-				<?php echo esc_html( $site_name ); ?>
+			<a class="dentall-footer__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $home_label ); ?>">
+				<?php echo dentall_get_brand_logo_image( 'lazy', 'dentall-footer__logo-image' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
+			<ul class="dentall-footer-social" aria-hidden="true">
+				<?php foreach ( $social_icons as $icon ) : ?>
+					<li>
+						<span class="dentall-footer-social__icon">
+							<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+								<use href="<?php echo esc_url( $sprite_url . '#icon-' . $icon ); ?>"></use>
+							</svg>
+						</span>
+					</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 	</div>
 	<?php
 }
+
+/**
+ * 使用动态年份输出设计稿版权文案。
+ *
+ * @param string $copyright Storefront默认版权文案。
+ * @return string
+ */
+function dentall_footer_copyright_text( $copyright ) {
+	return sprintf(
+		/* translators: 1: Current year. 2: Site name. */
+		__( '© %1$s %2$s. All rights reserved.', 'dentall' ),
+		wp_date( 'Y' ),
+		get_bloginfo( 'name' )
+	);
+}
+add_filter( 'storefront_copyright_text', 'dentall_footer_copyright_text' );
