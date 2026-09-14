@@ -26,6 +26,46 @@ function dentall_disable_page_menu_fallback( $args ) {
 add_filter( 'wp_nav_menu_args', 'dentall_disable_page_menu_fallback', 20 );
 
 /**
+ * 确保Primary菜单具有设计稿中的分类按钮入口。
+ *
+ * 后台明确配置的样式类优先；仅当整个Primary菜单缺少该类时，才在渲染阶段
+ * 为首个顶级菜单项补齐，不写回菜单数据库。
+ *
+ * @param array    $items 菜单项对象。
+ * @param stdClass $args  菜单渲染参数。
+ * @return array
+ */
+function dentall_mark_primary_menu_categories_item( $items, $args ) {
+	if ( empty( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+		return $items;
+	}
+
+	$first_top_level_item = null;
+
+	foreach ( $items as $item ) {
+		if ( 0 !== (int) $item->menu_item_parent ) {
+			continue;
+		}
+
+		if ( null === $first_top_level_item ) {
+			$first_top_level_item = $item;
+		}
+
+		if ( in_array( 'dentall-menu-categories', (array) $item->classes, true ) ) {
+			return $items;
+		}
+	}
+
+	if ( null !== $first_top_level_item ) {
+		$first_top_level_item->classes   = (array) $first_top_level_item->classes;
+		$first_top_level_item->classes[] = 'dentall-menu-categories';
+	}
+
+	return $items;
+}
+add_filter( 'wp_nav_menu_objects', 'dentall_mark_primary_menu_categories_item', 20, 2 );
+
+/**
  * 输出与人工运费报价流程一致的全站公告栏。
  *
  * @return void

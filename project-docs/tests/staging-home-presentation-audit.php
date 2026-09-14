@@ -72,6 +72,62 @@ $checks['announcement_matches_manual_quote_flow'] = false !== strpos( $announcem
 	&& false === stripos( $announcement_html, 'free shipping' )
 	&& false === stripos( $announcement_html, 'TEST' );
 
+$primary_items = array(
+	(object) array(
+		'menu_item_parent' => 0,
+		'classes'          => array(),
+	),
+	(object) array(
+		'menu_item_parent' => 0,
+		'classes'          => array(),
+	),
+);
+$footer_items = array(
+	(object) array(
+		'menu_item_parent' => 0,
+		'classes'          => array(),
+	),
+);
+$explicit_items = array(
+	(object) array(
+		'menu_item_parent' => 0,
+		'classes'          => array(),
+	),
+	(object) array(
+		'menu_item_parent' => 0,
+		'classes'          => array( 'dentall-menu-categories' ),
+	),
+);
+
+dentall_mark_primary_menu_categories_item(
+	$primary_items,
+	(object) array( 'theme_location' => 'primary' )
+);
+dentall_mark_primary_menu_categories_item(
+	$primary_items,
+	(object) array( 'theme_location' => 'primary' )
+);
+dentall_mark_primary_menu_categories_item(
+	$footer_items,
+	(object) array( 'theme_location' => 'footer' )
+);
+dentall_mark_primary_menu_categories_item(
+	$explicit_items,
+	(object) array( 'theme_location' => 'primary' )
+);
+
+$checks['primary_menu_categories_class_is_stable'] = 20 === has_filter(
+	'wp_nav_menu_objects',
+	'dentall_mark_primary_menu_categories_item'
+)
+	&& 1 === count( array_keys( $primary_items[0]->classes, 'dentall-menu-categories', true ) )
+	&& ! in_array( 'dentall-menu-categories', $primary_items[1]->classes, true )
+	&& ! in_array( 'dentall-menu-categories', $footer_items[0]->classes, true )
+	&& ! in_array( 'dentall-menu-categories', $explicit_items[0]->classes, true )
+	&& 1 === count(
+		array_keys( $explicit_items[1]->classes, 'dentall-menu-categories', true )
+	);
+
 ob_start();
 dentall_render_newsletter();
 $newsletter_html = ob_get_clean();
