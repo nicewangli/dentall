@@ -283,9 +283,28 @@ function dentall_get_homepage_solutions() {
 }
 
 /**
+ * 按设计稿卡片顺序返回第一版CTA文案。
+ *
+ * Page继续负责标题、摘要、图片与URL；CTA仅是当前四槽位的展示文案。
+ *
+ * @param int $index 从0开始的卡片位置。
+ * @return string
+ */
+function dentall_get_homepage_solution_cta( $index ) {
+	$labels = array(
+		__( 'Shop Now', 'dentall' ),
+		__( 'Shop Now', 'dentall' ),
+		__( 'Get Started', 'dentall' ),
+		__( 'Explore Now', 'dentall' ),
+	);
+
+	return $labels[ $index ] ?? __( 'Learn more', 'dentall' );
+}
+
+/**
  * 在精选分类之后输出首页方案区。
  *
- * 0个有效Page时整个区域保持空输出；未确认Solutions总览URL前不显示View all。
+ * 0个有效Page时整个区域保持空输出；总览Page尚未建立时使用已确认的空链接占位。
  *
  * @return void
  */
@@ -298,7 +317,13 @@ function dentall_homepage_solutions() {
 	?>
 	<section class="dentall-home-solutions dentall-section" aria-labelledby="dentall-home-solutions-title">
 		<div class="dentall-home-solutions__inner col-full">
-			<h2 id="dentall-home-solutions-title" class="dentall-home-solutions__title"><?php esc_html_e( 'Shop by Solution', 'dentall' ); ?></h2>
+			<div class="dentall-home-solutions__header">
+				<h2 id="dentall-home-solutions-title" class="dentall-home-solutions__title"><?php esc_html_e( 'Shop by Solution', 'dentall' ); ?></h2>
+				<a class="dentall-home-solutions__all" href="#" aria-disabled="true" tabindex="-1">
+					<?php esc_html_e( 'View all solutions', 'dentall' ); ?>
+					<span aria-hidden="true">→</span>
+				</a>
+			</div>
 			<ul class="dentall-home-solutions__grid dentall-grid">
 				<?php foreach ( $solutions as $index => $solution ) : ?>
 					<?php
@@ -345,7 +370,7 @@ function dentall_homepage_solutions() {
 									<span class="dentall-solution-card__summary"><?php echo esc_html( $summary ); ?></span>
 								<?php endif; ?>
 								<span class="dentall-solution-card__cta">
-									<?php esc_html_e( 'Learn more', 'dentall' ); ?>
+									<?php echo esc_html( dentall_get_homepage_solution_cta( $index ) ); ?>
 									<span aria-hidden="true">→</span>
 								</span>
 							</div>
@@ -564,53 +589,20 @@ function dentall_homepage_best_sellers() {
 }
 
 /**
- * 返回设计稿中的Local环境信任指标预览数据。
- *
- * 这些数值尚未经过业务证明，只用于还原设计稿；Staging与Production必须保持空输出。
+ * 返回Core管理的首页信任指标。
  *
  * @return array[]
  */
 function dentall_get_homepage_trust_metrics() {
-	if ( 'local' !== wp_get_environment_type() ) {
+	if ( ! function_exists( 'dentall_core_get_home_trust_metrics' ) ) {
 		return array();
 	}
 
-	return array(
-		array(
-			'icon'        => 'professionals',
-			'value'       => __( '10,000+', 'dentall' ),
-			'label'       => __( 'Dental Professionals', 'dentall' ),
-			'description' => __( 'Trust DentAll', 'dentall' ),
-		),
-		array(
-			'icon'        => 'globe',
-			'value'       => __( '100+', 'dentall' ),
-			'label'       => __( 'Countries Served', 'dentall' ),
-			'description' => __( 'Worldwide', 'dentall' ),
-		),
-		array(
-			'icon'        => 'box',
-			'value'       => __( '5,000+', 'dentall' ),
-			'label'       => __( 'Quality Products', 'dentall' ),
-			'description' => __( 'In Stock', 'dentall' ),
-		),
-		array(
-			'icon'        => 'smile',
-			'value'       => __( '99.5%', 'dentall' ),
-			'label'       => __( 'Customer Satisfaction', 'dentall' ),
-			'description' => __( 'Rate', 'dentall' ),
-		),
-		array(
-			'icon'        => 'lock',
-			'value'       => __( 'Secure Payments', 'dentall' ),
-			'label'       => '',
-			'description' => __( 'Multiple safe payment options', 'dentall' ),
-		),
-	);
+	return dentall_core_get_home_trust_metrics( get_queried_object_id() );
 }
 
 /**
- * 输出设计稿信任指标的Local预览。
+ * 输出首页信任指标。
  *
  * @return void
  */
