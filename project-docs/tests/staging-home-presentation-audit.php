@@ -81,9 +81,9 @@ $checks['newsletter_is_visible_but_non_submitting'] = false !== strpos( $newslet
 	&& false !== strpos( $newsletter_html, 'Enter your email' )
 	&& false !== strpos( $newsletter_html, '>Subscribe<' )
 	&& false === stripos( $newsletter_html, '<form' )
-	&& false === preg_match( '/\sname=(["\'])/i', $newsletter_html )
+	&& 0 === preg_match( '/\sname=(["\'])/i', $newsletter_html )
 	&& 2 === substr_count( $newsletter_html, ' disabled' )
-	&& false === stripos( $newsletter_html, 'TEST' );
+	&& 0 === preg_match( '/\btest\b/i', wp_strip_all_tags( $newsletter_html ) );
 
 ob_start();
 dentall_render_site_footer();
@@ -95,7 +95,7 @@ $social_html  = false !== $social_end ? substr( $footer_html, $social_start, $so
 $checks['footer_has_logo_and_four_display_icons'] = false !== strpos( $footer_html, 'dentall-footer__logo-image' )
 	&& 4 === substr_count( $social_html, 'dentall-footer-social__icon' )
 	&& false === stripos( $social_html, '<a ' );
-$checks['footer_omits_payment_badges'] = false === preg_match( '/\b(Visa|Mastercard|PayPal|Apple Pay|Google Pay)\b/i', $footer_html );
+$checks['footer_omits_payment_badges'] = 0 === preg_match( '/\b(Visa|Mastercard|PayPal|Apple Pay|Google Pay)\b/i', $footer_html );
 $checks['footer_uses_dynamic_copyright'] = sprintf(
 	'© %1$s %2$s. All rights reserved.',
 	wp_date( 'Y' ),
