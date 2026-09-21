@@ -23,7 +23,7 @@
 | WPML SEO | 多语言SEO | 协调Yoast元数据、Sitemap和多语言SEO输出 | 随WPML启用，不单独提前安装 | 启用时记录 | WPML免费兼容扩展/公司账户 | 高 | 停用前检查hreflang、Sitemap、Canonical和各语言元数据 |
 | WooCommerce Multilingual & Multicurrency | 多语言商城 | 未来同步商品翻译、库存和WooCommerce前台字符串；第一版不启用多币种 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前验证商品、变体、库存、结账和邮件；币种功能保持关闭直到另行立项 |
 | 缓存插件 | 性能 | 页面缓存和资源优化 | 待选型 | - | 待确认 | 高 | 关闭并清缓存 |
-| SMTP插件 | 邮件 | 订单邮件可靠发送 | 待选型 | - | 企业邮件账户 | 高 | 切换SMTP服务 |
+| FluentSMTP | 邮件 | 作为唯一WordPress邮件处理器，记录事务邮件并在非Local通过Elastic Email API外发 | 用户已在共享Local安装；共享Local只读核对为未启用/未配置。D77隔离Local已启用并以PHP mail→Mailpit完成成功、失败与日志验证；Staging待Cloudways、DNS就绪后接入Elastic Email API | 2.4.0；2026-09-21核验 | GPL/免费插件；Elastic Email付费Add-on与企业账户由公司持有 | 高：Options、`${prefix}fsmpt_email_logs`、每日清理Cron、外部API请求；日志含客户邮箱、订单正文与付款链接 | 停用前保存脱敏故障证据；连接、API Key、Cloudways Add-on和DNS分层回滚。停用不会自动删除Options/日志表；禁止第二个SMTP插件或未验证fallback |
 | 备份插件/主机备份 | 运维 | 数据库和文件备份 | 待选型 | - | 企业账户 | 高 | 保留独立离线备份 |
 | WooCommerce Stripe Gateway | 支付 | 信用卡、借记卡及经确认的钱包支付 | 方向已选，待公司主体、销售国家和Stripe开户资格确认；当前不安装、不连接真实账户 | 安装时记录 | GPL/免费插件；企业Stripe账户按交易收费 | 高 | 先用Test Mode和Webhook回归；禁用前处理待捕获、退款和Webhook |
 | WooCommerce PayPal Payments | 支付 | PayPal付款 | 方向已选，待企业PayPal账户确认；当前不安装、不连接真实账户 | 安装时记录 | GPL/免费插件；企业PayPal账户按交易收费 | 高 | 先用Sandbox回归；禁用前处理退款、争议和Webhook |

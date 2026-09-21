@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "workday": "D77",
+  "recorded_at": "2026-09-21",
+  "scope": "isolated_local_transactional_email",
+  "status": "passed",
+  "environment": {
+    "wordpress": "7.1",
+    "woocommerce": "11.0.0",
+    "php": "8.2.29",
+    "fluent_smtp": "2.4.0",
+    "mailpit": "1.24.1",
+    "hpos_enabled": true,
+    "internet_delivery": false
+  },
+  "package": {
+    "source": "wordpress.org",
+    "sha256": "ded5a19a40bfbff92e5caf2fe41d236a02892b7cd2252a436e766ed7450d609a"
+  },
+  "configuration": {
+    "connection_count": 1,
+    "local_provider": "php_mail_to_mailpit",
+    "fallback_connection": false,
+    "simulation": false,
+    "log_retention_days": 7,
+    "approved_email_masked": "m***@chinaadsdentallab.com",
+    "wordpress_admin_email_unchanged": true,
+    "deferred_transactional_emails": false,
+    "elastic_email_key_present": false
+  },
+  "success_matrix": {
+    "fluent_smtp_sent": 11,
+    "fluent_smtp_failed": 0,
+    "mailpit_messages": 11,
+    "customer_messages": 7,
+    "admin_messages": 4,
+    "woocommerce_email_events": {
+      "customer_invoice": 2,
+      "new_order": 2,
+      "customer_processing_order": 2,
+      "customer_completed_order": 1,
+      "failed_order": 1,
+      "customer_failed_order": 1,
+      "cancelled_order": 1,
+      "customer_cancelled_order": 1
+    },
+    "from_all_match": true,
+    "from_name_all_match": true,
+    "return_path_all_match": true,
+    "customer_reply_to_company_all_match": true,
+    "admin_reply_to_customer_all_match": true,
+    "order_pay_link_messages": 2
+  },
+  "negative_matrix": {
+    "no_recipient_skips": 2,
+    "invalid_billing_email_rejected_by_crud": true,
+    "duplicate_new_order_sends": 0,
+    "wrong_or_missing_runtime_guard_sends": 0,
+    "closed_port_new_failed_logs": 1,
+    "closed_port_new_sent_logs": 0,
+    "closed_port_new_mailpit_messages": 0
+  },
+  "payment_page": {
+    "http_status": 200,
+    "order_pay_endpoint": true,
+    "redirected_to_cart": false,
+    "php_fatal": false,
+    "order_key_recorded": false
+  },
+  "permissions": {
+    "website_manager_manage_woocommerce": true,
+    "website_manager_manage_options": false,
+    "fluent_smtp_capability": "manage_options"
+  },
+  "safety": {
+    "explicit_case_required": true,
+    "smtp_loopback_and_port_guard": true,
+    "mailpit_health_guard": true,
+    "database_marker_guard": true,
+    "expected_email_from_untracked_environment": true,
+    "tracked_full_email": false,
+    "tracked_api_key": false,
+    "cleanup_failure_only_state_tested": true,
+    "cleanup_empty_main_state_tested": true
+  },
+  "cleanup": {
+    "test_orders_remaining": 0,
+    "fluent_smtp_logs_remaining": 0,
+    "mailpit_messages_remaining": 0,
+    "test_state_remaining": false,
+    "temporary_database_removed": true,
+    "temporary_directories_removed": true,
+    "temporary_processes_stopped": true
+  },
+  "independent_review": {
+    "code_review_p0_p1_p2_open": 0,
+    "security_review_p0_p1_p2_open": 0,
+    "mail_matrix_reproduced": true,
+    "payment_page_reproduced": true
+  },
+  "deferred": [
+    "cloudways_elastic_email_add_on",
+    "elastic_email_api_connection",
+    "sending_domain_verification",
+    "spf_dkim_dmarc",
+    "staging_real_inbox_and_spam",
+    "bounce_and_complaint_handling",
+    "d76_d78_order_payment_integration"
+  ]
+}

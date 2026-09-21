@@ -14,7 +14,7 @@
 | Staging Website Manager（WM-A已验；WM-B条件性） | 企业/对应工作人员 | 开发者负责技术管理 | 密码不写入Git；由企业密码管理器或对应工作人员安全保管 | WM-A已需；WM-B触发时 | 待确认 | D24已验证WM-A登录、Page草稿、预览和系统权限边界。CR-007不要求当前创建WM-B；未来第二位人员上岗或出现权限/交接/审计差异时，必须用公司控制、唯一且可收信的邮箱建立独立账号并补验，禁止共享WM-A |
 | 内容与素材Markdown登记簿 | 企业 | 当前由WM-A维护业务记录；开发者维护结构、Git版本与交付证据 | `project-docs/CONTENT_ASSET_REGISTER.md`；随项目Git保存 | 不适用 | 待确认 | 已确定为唯一活动登记载体；后续内容发布、变更及素材授权只更新该Markdown。D24 A/C3-A/C5技术路径已有项目证据；公司控制的Git远程所有权、备份和交接路径仍待完成。早期`.xlsx`中的16条A/C3-A/C4记录已迁移，生成文件已删除且不入库；未来多人协作时按CR-007补验并发与责任归属 |
 | 支付平台 | 企业账户 | 待确认 | 企业密码管理器 | 必须 | 财务/负责人 | 未确认 |
-| SMTP/邮件服务 | 企业账户 | 开发者 | 企业密码管理器 | 必须 | 待确认 | 未确认 |
+| SMTP/邮件服务 | 企业Cloudways与Elastic Email账户；公司域名和批准邮箱由企业控制 | 开发者配置，Administrator维护WordPress连接 | Elastic Email API Key只存企业密码管理器及目标环境秘密配置；不写Git/Markdown/截图 | 必须 | 待确认 | 技术路线已确认：Cloudways Elastic Email付费Add-on＋FluentSMTP＋公司域名；D77隔离Local已通过。共享Local已安装FluentSMTP 2.4.0但尚未启用/配置；Cloudways开通、域名验证、DNS与Staging真实投递待环境就绪 |
 | 分析/站长平台 | 企业账户 | SEO/开发 | 企业密码管理器 | 必须 | 待确认 | 未确认 |
 | 备份存储 | 企业账户 | 开发者 | 企业密码管理器 | 必须 | 待确认 | Cloudways应用备份能力与既有恢复点已验证；公司控制的独立第二副本及备份管理员仍未建立 |
 
