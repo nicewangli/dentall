@@ -123,10 +123,33 @@ assert.equal(parsedMailto.pathname, 'quotes@example.com');
 assert.equal(parsedMailto.searchParams.get('subject'), 'Shipping quote request');
 assert.match(body, /Dental & Kit \| SKU: KIT-01 \| Specification: Size: Large \| Quantity: 2/);
 assert.match(body, /Mirror \| SKU: Not provided \| Specification: Standard \| Quantity: 1/);
-assert.match(body, /WhatsApp \(optional\):/);
-assert.match(body, /Full delivery address:/);
+assert.match(body, /Required unless marked optional\./);
+assert.match(body, /Billing email \(Required; enter an accurate email address\):/);
+assert.match(body, /Phone \/ WhatsApp \(optional\):/);
+assert.match(body, /Shipping first name \(Required\):/);
+assert.match(body, /Shipping last name \(Required\):/);
+assert.match(body, /Shipping company \(optional\):/);
+assert.match(body, /Shipping country \(Required\):/);
+assert.match(body, /Shipping state \/ province \(Required\):/);
+assert.match(body, /Shipping city \(Required\):/);
+assert.match(body, /Shipping postal code \(Required\):/);
+assert.match(body, /Shipping address line 1 \(Required\):/);
+assert.match(body, /Shipping address line 2 \(optional\):/);
+assert.match(body, /Billing address same as shipping\? \(Required: Yes \/ No\):/);
+assert.match(body, /Billing first name \(Required if No\):/);
+assert.match(body, /Billing last name \(Required if No\):/);
+assert.match(body, /Billing company \(optional\):/);
+assert.match(body, /Billing country \(Required if No\):/);
+assert.match(body, /Billing state \/ province \(Required if No\):/);
+assert.match(body, /Billing city \(Required if No\):/);
+assert.match(body, /Billing postal code \(Required if No\):/);
+assert.match(body, /Billing address line 1 \(Required if No\):/);
+assert.match(body, /Billing address line 2 \(optional\):/);
 assert.match(body, /Current product subtotal before discounts, shipping, tax and fees: USD\s*123\.45/);
 assert.match(body, /Coupon codes shown in cart: DENTALL10/);
+assert.match(body, /DentAll will confirm shipping, any seller-collected tax, and other charges included in the order before payment\./);
+assert.match(body, /Import duties, import taxes, customs clearance charges, and carrier brokerage or disbursement fees are excluded from the DentAll order total/);
+assert.match(body, /paid by the customer directly to customs or the carrier when assessed\./);
 
 const clickState = { prevented: false, stopped: false };
 filters.__testQuoteClickHandler({
@@ -200,4 +223,4 @@ assert.equal(
 	'https://example.com/cart/'
 );
 
-console.log(JSON.stringify({ status: 'pass', assertions: 23 }));
+console.log(JSON.stringify({ status: 'pass', assertions: 46 }));

@@ -292,7 +292,22 @@ add_filter( 'rest_request_after_callbacks', 'dentall_core_track_rest_route_after
  * @return bool
  */
 function dentall_core_order_requires_shipping_quote( $order ) {
-	if ( ! $order instanceof WC_Order || ! $order->needs_payment() ) {
+	return $order instanceof WC_Order
+		&& $order->needs_payment()
+		&& dentall_core_order_contains_shipping_products( $order );
+}
+
+/**
+ * 判断订单是否包含需配送或已无法解析的商品，不受订单状态影响。
+ *
+ * 生命周期守卫需要在订单过期并取消后仍能识别人工报价订单，因此不能把
+ * needs_payment()混入这项商品事实。
+ *
+ * @param WC_Order|null $order 订单。
+ * @return bool
+ */
+function dentall_core_order_contains_shipping_products( $order ) {
+	if ( ! $order instanceof WC_Order ) {
 		return false;
 	}
 
@@ -314,8 +329,55 @@ function dentall_core_order_requires_shipping_quote( $order ) {
  * @return bool
  */
 function dentall_core_order_has_quoted_shipping( $order ) {
-	return dentall_core_order_requires_shipping_quote( $order )
-		&& ! empty( $order->get_items( 'shipping' ) );
+	if ( ! dentall_core_order_contains_shipping_products( $order ) ) {
+		return false;
+	}
+
+	$has_positive_line = false;
+
+	foreach ( $order->get_items( 'shipping' ) as $shipping_item ) {
+		$total = is_callable( array( $shipping_item, 'get_total' ) ) ? (float) $shipping_item->get_total( 'edit' ) : 0.0;
+
+		if ( $total < 0 ) {
+			return false;
+		}
+
+		if ( $total > 0 ) {
+			$has_positive_line = true;
+		}
+	}
+
+	return $has_positive_line && (float) $order->get_shipping_total( 'edit' ) > 0;
+}
+
+/**
+ * 判断人工报价订单是否具备付款前必须核实的联系与地址资料。
+ *
+ * Company、Address 2、电话和WhatsApp不是第一版必填项。州省与邮编按当前
+ * 业务合同保留必填；若未来开放不使用这些字段的国家，需要重新确认国家合同。
+ *
+ * @param WC_Order|null $order 订单。
+ * @return bool
+ */
+function dentall_core_order_has_required_quote_details( $order ) {
+	if ( ! $order instanceof WC_Order ) {
+		return false;
+	}
+
+	$required_fields = array( 'first_name', 'last_name', 'country', 'state', 'postcode', 'city', 'address_1' );
+
+	foreach ( array( 'shipping', 'billing' ) as $address_type ) {
+		foreach ( $required_fields as $field ) {
+			$getter = 'get_' . $address_type . '_' . $field;
+			$value  = is_callable( array( $order, $getter ) ) ? trim( (string) $order->{$getter}( 'edit' ) ) : '';
+
+			if ( '' === $value ) {
+				return false;
+			}
+		}
+	}
+
+	return is_email( (string) $order->get_billing_email( 'edit' ) );
 }
 
 /**
@@ -333,14 +395,25 @@ function dentall_core_order_shipping_address_matches_request( $request, $order )
 		$shipping = is_array( $billing ) ? $billing : array();
 	}
 
-	$fields = array( 'company', 'country', 'state', 'postcode', 'city', 'address_1', 'address_2' );
+	$fields = array(
+		'first_name',
+		'last_name',
+		'company',
+		'country',
+		'state',
+		'postcode',
+		'city',
+		'address_1',
+		'address_2',
+		'phone',
+	);
 
 	foreach ( $fields as $field ) {
 		$request_value = isset( $shipping[ $field ] ) && is_scalar( $shipping[ $field ] )
 			? sanitize_text_field( (string) $shipping[ $field ] )
 			: '';
 		$getter        = 'get_shipping_' . $field;
-		$order_value   = is_callable( array( $order, $getter ) ) ? sanitize_text_field( (string) $order->{$getter}() ) : '';
+		$order_value   = is_callable( array( $order, $getter ) ) ? sanitize_text_field( (string) $order->{$getter}( 'edit' ) ) : '';
 
 		if ( $request_value !== $order_value ) {
 			return false;
@@ -351,31 +424,42 @@ function dentall_core_order_shipping_address_matches_request( $request, $order )
 }
 
 /**
- * 当Woo按账单地址计税时，锁定会决定税额的账单地域字段。
+ * 锁定报价采用的完整账单地址和付款联系资料。
  *
- * 按配送地址计税已由完整配送地址锁覆盖；按店铺基准地址计税不依赖客户地址。
+ * 即使当前税基不是账单地址，客户变更账单资料也属于已确认报价内容变化，
+ * 必须先停用旧单并重新报价。
  *
  * @param WP_REST_Request $request 付款请求。
  * @param WC_Order        $order   已报价订单。
  * @return bool
  */
-function dentall_core_order_tax_address_matches_request( $request, $order ) {
-	if ( 'billing' !== get_option( 'woocommerce_tax_based_on', 'shipping' ) ) {
-		return true;
-	}
-
+function dentall_core_order_billing_address_matches_request( $request, $order ) {
 	$billing = $request->get_param( 'billing_address' );
 
 	if ( ! is_array( $billing ) ) {
 		return false;
 	}
 
-	foreach ( array( 'country', 'state', 'postcode', 'city' ) as $field ) {
+	$fields = array(
+		'first_name',
+		'last_name',
+		'company',
+		'country',
+		'state',
+		'postcode',
+		'city',
+		'address_1',
+		'address_2',
+		'email',
+		'phone',
+	);
+
+	foreach ( $fields as $field ) {
 		$request_value = isset( $billing[ $field ] ) && is_scalar( $billing[ $field ] )
 			? sanitize_text_field( (string) $billing[ $field ] )
 			: '';
 		$getter        = 'get_billing_' . $field;
-		$order_value   = is_callable( array( $order, $getter ) ) ? sanitize_text_field( (string) $order->{$getter}() ) : '';
+		$order_value   = is_callable( array( $order, $getter ) ) ? sanitize_text_field( (string) $order->{$getter}( 'edit' ) ) : '';
 
 		if ( $request_value !== $order_value ) {
 			return false;
@@ -421,9 +505,17 @@ function dentall_core_lock_quoted_order_shipping_address( $dispatch_result, $req
 		);
 	}
 
+	if ( ! dentall_core_order_has_required_quote_details( $order ) ) {
+		return new WP_Error(
+			'dentall_shipping_quote_details_required',
+			__( 'Complete billing and shipping details are required before this order can proceed to payment.', 'dentall-core' ),
+			array( 'status' => 409 )
+		);
+	}
+
 	if (
 		dentall_core_order_shipping_address_matches_request( $request, $order )
-		&& dentall_core_order_tax_address_matches_request( $request, $order )
+		&& dentall_core_order_billing_address_matches_request( $request, $order )
 	) {
 		return $dispatch_result;
 	}
@@ -443,12 +535,16 @@ add_filter( 'rest_dispatch_request', 'dentall_core_lock_quoted_order_shipping_ad
  * @return void
  */
 function dentall_core_block_unquoted_order_pay_action( $order ) {
-	if ( ! dentall_core_order_requires_shipping_quote( $order ) || dentall_core_order_has_quoted_shipping( $order ) ) {
+	if ( ! dentall_core_order_requires_shipping_quote( $order ) ) {
+		return;
+	}
+
+	if ( dentall_core_order_has_quoted_shipping( $order ) && dentall_core_order_has_required_quote_details( $order ) ) {
 		return;
 	}
 
 	wc_add_notice(
-		__( 'Shipping must be confirmed before this order can proceed to payment.', 'dentall-core' ),
+		__( 'A positive shipping quote and complete billing and shipping details are required before payment.', 'dentall-core' ),
 		'error'
 	);
 

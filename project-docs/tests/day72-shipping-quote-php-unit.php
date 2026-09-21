@@ -11,6 +11,7 @@ define( 'REST_REQUEST', true );
 $test_options = array();
 $test_notices = array();
 $test_orders  = array();
+$test_getter_contexts = array();
 
 function add_filter() {}
 function add_action() {}
@@ -67,34 +68,72 @@ class WC_Order_Item_Product {
 	public function get_product() { return $this->product; }
 }
 
+class WC_Order_Item_Shipping {
+	public function __construct( private float $total ) {}
+	public function get_total( $context = 'view' ) {
+		global $test_getter_contexts;
+		$test_getter_contexts[] = array( 'shipping_item_total', $context );
+		return $this->total;
+	}
+}
+
 class WC_Order {
 	public function __construct(
 		private bool $payment,
-		private bool $shipping_line,
+		private float|array|null $shipping_total,
 		private bool $physical_product,
-		private array $shipping_address
+		private array $shipping_address,
+		private array $billing_address
 	) {}
 	public function needs_payment() { return $this->payment; }
 	public function get_items( $type ) {
 		if ( 'shipping' === $type ) {
-			return $this->shipping_line ? array( new stdClass() ) : array();
+			if ( null === $this->shipping_total ) {
+				return array();
+			}
+
+			return array_map(
+				static fn( $total ) => new WC_Order_Item_Shipping( (float) $total ),
+				(array) $this->shipping_total
+			);
 		}
 
 		return 'line_item' === $type
 			? array( new WC_Order_Item_Product( new WC_Product( $this->physical_product ) ) )
 			: array();
 	}
-	public function get_shipping_country() { return $this->shipping_address['country'] ?? ''; }
-	public function get_shipping_company() { return $this->shipping_address['company'] ?? ''; }
-	public function get_shipping_state() { return $this->shipping_address['state'] ?? ''; }
-	public function get_shipping_postcode() { return $this->shipping_address['postcode'] ?? ''; }
-	public function get_shipping_city() { return $this->shipping_address['city'] ?? ''; }
-	public function get_shipping_address_1() { return $this->shipping_address['address_1'] ?? ''; }
-	public function get_shipping_address_2() { return $this->shipping_address['address_2'] ?? ''; }
-	public function get_billing_country() { return $this->shipping_address['country'] ?? ''; }
-	public function get_billing_state() { return $this->shipping_address['state'] ?? ''; }
-	public function get_billing_postcode() { return $this->shipping_address['postcode'] ?? ''; }
-	public function get_billing_city() { return $this->shipping_address['city'] ?? ''; }
+	private function get_address_field( $type, $field, $context ) {
+		global $test_getter_contexts;
+		$test_getter_contexts[] = array( $type . '_' . $field, $context );
+		$address = 'shipping' === $type ? $this->shipping_address : $this->billing_address;
+		return $address[ $field ] ?? '';
+	}
+	public function get_shipping_total( $context = 'view' ) {
+		global $test_getter_contexts;
+		$test_getter_contexts[] = array( 'shipping_total', $context );
+		return array_sum( (array) $this->shipping_total );
+	}
+	public function get_shipping_first_name( $context = 'view' ) { return $this->get_address_field( 'shipping', 'first_name', $context ); }
+	public function get_shipping_last_name( $context = 'view' ) { return $this->get_address_field( 'shipping', 'last_name', $context ); }
+	public function get_shipping_country( $context = 'view' ) { return $this->get_address_field( 'shipping', 'country', $context ); }
+	public function get_shipping_company( $context = 'view' ) { return $this->get_address_field( 'shipping', 'company', $context ); }
+	public function get_shipping_state( $context = 'view' ) { return $this->get_address_field( 'shipping', 'state', $context ); }
+	public function get_shipping_postcode( $context = 'view' ) { return $this->get_address_field( 'shipping', 'postcode', $context ); }
+	public function get_shipping_city( $context = 'view' ) { return $this->get_address_field( 'shipping', 'city', $context ); }
+	public function get_shipping_address_1( $context = 'view' ) { return $this->get_address_field( 'shipping', 'address_1', $context ); }
+	public function get_shipping_address_2( $context = 'view' ) { return $this->get_address_field( 'shipping', 'address_2', $context ); }
+	public function get_shipping_phone( $context = 'view' ) { return $this->get_address_field( 'shipping', 'phone', $context ); }
+	public function get_billing_first_name( $context = 'view' ) { return $this->get_address_field( 'billing', 'first_name', $context ); }
+	public function get_billing_last_name( $context = 'view' ) { return $this->get_address_field( 'billing', 'last_name', $context ); }
+	public function get_billing_company( $context = 'view' ) { return $this->get_address_field( 'billing', 'company', $context ); }
+	public function get_billing_country( $context = 'view' ) { return $this->get_address_field( 'billing', 'country', $context ); }
+	public function get_billing_state( $context = 'view' ) { return $this->get_address_field( 'billing', 'state', $context ); }
+	public function get_billing_postcode( $context = 'view' ) { return $this->get_address_field( 'billing', 'postcode', $context ); }
+	public function get_billing_city( $context = 'view' ) { return $this->get_address_field( 'billing', 'city', $context ); }
+	public function get_billing_address_1( $context = 'view' ) { return $this->get_address_field( 'billing', 'address_1', $context ); }
+	public function get_billing_address_2( $context = 'view' ) { return $this->get_address_field( 'billing', 'address_2', $context ); }
+	public function get_billing_email( $context = 'view' ) { return $this->get_address_field( 'billing', 'email', $context ); }
+	public function get_billing_phone( $context = 'view' ) { return $this->get_address_field( 'billing', 'phone', $context ); }
 }
 
 require dirname( __DIR__, 2 ) . '/app/public/wp-content/plugins/dentall-core/includes/shipping-quote.php';
@@ -180,40 +219,122 @@ dentall_core_track_rest_route_after_callback( null, array(), $outer_request );
 $GLOBALS['wp']->query_vars['rest_route'] = '/wc/agentic/v1/checkout_sessions/session-123/complete';
 $checks['agentic_checkout_completion_detected'] = dentall_core_is_cart_checkout_store_api_request();
 
-$quoted_address = array(
-	'country'   => 'US',
-	'state'     => 'CA',
-	'postcode'  => '90001',
-	'city'      => 'Los Angeles',
-	'address_1' => '100 Main St',
-	'address_2' => '',
+$shipping_address = array(
+	'first_name' => 'Ava',
+	'last_name'  => 'Lee',
+	'company'    => 'Westside Dental',
+	'country'    => 'US',
+	'state'      => 'CA',
+	'postcode'   => '90001',
+	'city'       => 'Los Angeles',
+	'address_1'  => '100 Main St',
+	'address_2'  => 'Suite 2',
+	'phone'      => '+1 555 0100',
 );
-$test_orders[91] = new WC_Order( true, true, true, $quoted_address );
-$same_address_request = new WP_REST_Request(
+$billing_address = array(
+	'first_name' => 'Morgan',
+	'last_name'  => 'Chen',
+	'company'    => 'DentAll Procurement',
+	'country'    => 'US',
+	'state'      => 'TX',
+	'postcode'   => '73301',
+	'city'       => 'Austin',
+	'address_1'  => '200 Billing Rd',
+	'address_2'  => 'Floor 3',
+	'email'      => 'morgan@example.com',
+	'phone'      => '+1 555 0200',
+);
+
+$test_orders[91] = new WC_Order( true, 25.0, true, $shipping_address, $billing_address );
+$checks['positive_shipping_quote_detected'] = dentall_core_order_has_quoted_shipping( $test_orders[91] );
+$checks['complete_quote_details_accepted'] = dentall_core_order_has_required_quote_details( $test_orders[91] );
+$complete_request = new WP_REST_Request(
 	'/wc/store/v1/checkout/91',
 	'POST',
-	array( 'shipping_address' => $quoted_address )
+	array(
+		'shipping_address' => $shipping_address,
+		'billing_address'  => $billing_address,
+	)
 );
-$checks['quoted_order_same_address_allowed'] = null === dentall_core_lock_quoted_order_shipping_address(
+$checks['complete_distinct_shipping_and_billing_allowed'] = null === dentall_core_lock_quoted_order_shipping_address(
 	null,
-	$same_address_request,
+	$complete_request,
 	'',
 	array()
 );
-$changed_address         = $quoted_address;
-$changed_address['state'] = 'NY';
-$changed_address_request = new WP_REST_Request(
-	'/wc/store/checkout/91',
+$test_getter_contexts = array();
+dentall_core_order_has_quoted_shipping( $test_orders[91] );
+dentall_core_order_has_required_quote_details( $test_orders[91] );
+dentall_core_order_shipping_address_matches_request( $complete_request, $test_orders[91] );
+dentall_core_order_billing_address_matches_request( $complete_request, $test_orders[91] );
+$checks['transaction_guards_read_edit_context_only'] = count( $test_getter_contexts ) >= 38
+	&& array() === array_filter(
+		$test_getter_contexts,
+		static fn( $getter ) => 'edit' !== $getter[1]
+	);
+
+$matching_billing_address          = $shipping_address;
+$matching_billing_address['email'] = 'ava@example.com';
+$test_orders[92] = new WC_Order( true, 18.0, true, $shipping_address, $matching_billing_address );
+$matching_address_request = new WP_REST_Request(
+	'/wc/store/v1/checkout/92',
 	'POST',
-	array( 'shipping_address' => $changed_address )
+	array(
+		'shipping_address' => $shipping_address,
+		'billing_address'  => $matching_billing_address,
+	)
 );
-$address_error = dentall_core_lock_quoted_order_shipping_address( null, $changed_address_request, '', array() );
-$checks['quoted_order_changed_address_blocked'] = $address_error instanceof WP_Error
-	&& isset( $address_error->errors['dentall_shipping_quote_address_locked'] );
+$checks['complete_matching_shipping_and_billing_allowed'] = null === dentall_core_lock_quoted_order_shipping_address(
+	null,
+	$matching_address_request,
+	'',
+	array()
+);
+
+$locked_mutations = array(
+	'shipping_first_name' => array( 'shipping', 'first_name', 'Changed' ),
+	'shipping_last_name'  => array( 'shipping', 'last_name', 'Changed' ),
+	'shipping_phone'      => array( 'shipping', 'phone', '+1 555 9999' ),
+	'shipping_street'     => array( 'shipping', 'address_1', '999 Changed St' ),
+	'billing_first_name'  => array( 'billing', 'first_name', 'Changed' ),
+	'billing_last_name'   => array( 'billing', 'last_name', 'Changed' ),
+	'billing_phone'       => array( 'billing', 'phone', '+1 555 8888' ),
+	'billing_street'      => array( 'billing', 'address_1', '888 Changed Rd' ),
+	'billing_email'       => array( 'billing', 'email', 'changed@example.com' ),
+);
+
+foreach ( $locked_mutations as $name => $mutation ) {
+	$request_shipping = $shipping_address;
+	$request_billing  = $billing_address;
+
+	if ( 'shipping' === $mutation[0] ) {
+		$request_shipping[ $mutation[1] ] = $mutation[2];
+	} else {
+		$request_billing[ $mutation[1] ] = $mutation[2];
+	}
+
+	$changed_request = new WP_REST_Request(
+		'/wc/store/checkout/91',
+		'POST',
+		array(
+			'shipping_address' => $request_shipping,
+			'billing_address'  => $request_billing,
+		)
+	);
+	$changed_error = dentall_core_lock_quoted_order_shipping_address( null, $changed_request, '', array() );
+	$checks[ 'quoted_order_' . $name . '_change_blocked' ] = $changed_error instanceof WP_Error
+		&& isset( $changed_error->errors['dentall_shipping_quote_address_locked'] );
+}
+
+$changed_shipping          = $shipping_address;
+$changed_shipping['state'] = 'NY';
 $mixed_case_changed_address_request = new WP_REST_Request(
 	'/WC/STORE/V1/CHECKOUT/91',
 	'POST',
-	array( 'shipping_address' => $changed_address )
+	array(
+		'shipping_address' => $changed_shipping,
+		'billing_address'  => $billing_address,
+	)
 );
 $mixed_case_address_error = dentall_core_lock_quoted_order_shipping_address(
 	null,
@@ -223,37 +344,108 @@ $mixed_case_address_error = dentall_core_lock_quoted_order_shipping_address(
 );
 $checks['mixed_case_quoted_order_changed_address_blocked'] = $mixed_case_address_error instanceof WP_Error
 	&& isset( $mixed_case_address_error->errors['dentall_shipping_quote_address_locked'] );
-$test_options['woocommerce_tax_based_on'] = 'billing';
-$changed_billing                        = $quoted_address;
-$changed_billing['state']               = 'TX';
-$changed_billing_request = new WP_REST_Request(
-	'/wc/store/v1/checkout/91',
+
+foreach ( array( 'shipping', 'billing', 'base' ) as $tax_basis ) {
+	$test_options['woocommerce_tax_based_on'] = $tax_basis;
+	$changed_billing                          = $billing_address;
+	$changed_billing['address_1']             = '300 Changed Billing Rd';
+	$changed_billing_request = new WP_REST_Request(
+		'/wc/store/v1/checkout/91',
+		'POST',
+		array(
+			'shipping_address' => $shipping_address,
+			'billing_address'  => $changed_billing,
+		)
+	);
+	$billing_error = dentall_core_lock_quoted_order_shipping_address(
+		null,
+		$changed_billing_request,
+		'',
+		array()
+	);
+	$checks[ 'billing_locked_when_tax_based_on_' . $tax_basis ] = $billing_error instanceof WP_Error
+		&& isset( $billing_error->errors['dentall_shipping_quote_address_locked'] );
+}
+
+$test_orders[93] = new WC_Order( true, 0.0, true, $shipping_address, $billing_address );
+$checks['zero_shipping_quote_rejected'] = ! dentall_core_order_has_quoted_shipping( $test_orders[93] );
+$test_orders[198] = new WC_Order( true, array( 100.0, -100.0 ), true, $shipping_address, $billing_address );
+$checks['zero_net_shipping_quote_rejected'] = ! dentall_core_order_has_quoted_shipping( $test_orders[198] );
+$test_orders[199] = new WC_Order( true, array( 100.0, -10.0 ), true, $shipping_address, $billing_address );
+$checks['negative_shipping_line_rejected_even_with_positive_net'] = ! dentall_core_order_has_quoted_shipping( $test_orders[199] );
+$zero_shipping_request = new WP_REST_Request(
+	'/wc/store/v1/checkout/93',
 	'POST',
 	array(
-		'shipping_address' => $quoted_address,
-		'billing_address'  => $changed_billing,
+		'shipping_address' => $shipping_address,
+		'billing_address'  => $billing_address,
 	)
 );
-$billing_error = dentall_core_lock_quoted_order_shipping_address( null, $changed_billing_request, '', array() );
-$checks['billing_tax_location_change_blocked'] = $billing_error instanceof WP_Error
-	&& isset( $billing_error->errors['dentall_shipping_quote_address_locked'] );
-$test_options['woocommerce_tax_based_on'] = 'shipping';
-$test_orders[92] = new WC_Order( true, false, true, $quoted_address );
+$zero_shipping_error = dentall_core_lock_quoted_order_shipping_address( null, $zero_shipping_request, '', array() );
+$checks['physical_order_with_zero_shipping_blocked'] = $zero_shipping_error instanceof WP_Error
+	&& isset( $zero_shipping_error->errors['dentall_shipping_quote_required'] );
+
+$test_orders[94] = new WC_Order( true, null, true, $shipping_address, $billing_address );
 $unquoted_request = new WP_REST_Request(
-	'/wc/store/v1/checkout/92',
+	'/wc/store/v1/checkout/94',
 	'POST',
-	array( 'shipping_address' => $changed_address )
+	array(
+		'shipping_address' => $shipping_address,
+		'billing_address'  => $billing_address,
+	)
 );
 $unquoted_order_error = dentall_core_lock_quoted_order_shipping_address( null, $unquoted_request, '', array() );
 $checks['physical_order_without_shipping_line_blocked'] = $unquoted_order_error instanceof WP_Error
 	&& isset( $unquoted_order_error->errors['dentall_shipping_quote_required'] );
-$test_orders[93] = new WC_Order( true, false, false, $quoted_address );
-$virtual_order_request = new WP_REST_Request(
-	'/wc/store/v1/checkout/93',
+
+$incomplete_shipping               = $shipping_address;
+$incomplete_shipping['first_name'] = '';
+$test_orders[95] = new WC_Order( true, 25.0, true, $incomplete_shipping, $billing_address );
+$checks['missing_required_shipping_detail_rejected'] = ! dentall_core_order_has_required_quote_details( $test_orders[95] );
+$incomplete_details_request = new WP_REST_Request(
+	'/wc/store/v1/checkout/95',
 	'POST',
-	array( 'shipping_address' => $changed_address )
+	array(
+		'shipping_address' => $incomplete_shipping,
+		'billing_address'  => $billing_address,
+	)
 );
-$checks['virtual_order_without_shipping_line_allowed'] = null === dentall_core_lock_quoted_order_shipping_address(
+$incomplete_details_error = dentall_core_lock_quoted_order_shipping_address(
+	null,
+	$incomplete_details_request,
+	'',
+	array()
+);
+$checks['missing_required_shipping_detail_blocks_payment'] = $incomplete_details_error instanceof WP_Error
+	&& isset( $incomplete_details_error->errors['dentall_shipping_quote_details_required'] );
+
+$invalid_billing          = $billing_address;
+$invalid_billing['email'] = 'not-an-email';
+$test_orders[96] = new WC_Order( true, 25.0, true, $shipping_address, $invalid_billing );
+$checks['invalid_required_billing_email_rejected'] = ! dentall_core_order_has_required_quote_details( $test_orders[96] );
+$invalid_billing_request = new WP_REST_Request(
+	'/wc/store/v1/checkout/96',
+	'POST',
+	array(
+		'shipping_address' => $shipping_address,
+		'billing_address'  => $invalid_billing,
+	)
+);
+$invalid_billing_error = dentall_core_lock_quoted_order_shipping_address( null, $invalid_billing_request, '', array() );
+$checks['invalid_required_billing_email_blocks_payment'] = $invalid_billing_error instanceof WP_Error
+	&& isset( $invalid_billing_error->errors['dentall_shipping_quote_details_required'] );
+
+$test_orders[97] = new WC_Order( true, null, false, array(), array() );
+$virtual_order_request = new WP_REST_Request(
+	'/wc/store/v1/checkout/97',
+	'POST',
+	array(
+		'shipping_address' => $changed_shipping,
+		'billing_address'  => $invalid_billing,
+	)
+);
+$checks['virtual_order_does_not_require_shipping_quote'] = ! dentall_core_order_requires_shipping_quote( $test_orders[97] );
+$checks['virtual_order_without_quote_or_details_allowed'] = null === dentall_core_lock_quoted_order_shipping_address(
 	null,
 	$virtual_order_request,
 	'',

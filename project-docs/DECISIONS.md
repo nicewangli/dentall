@@ -409,6 +409,21 @@
 - 数据、SEO与环境：修改5个既有DentAll主题文件并将主题版本升至0.41.0；不改DentAll Core、商品/Variation、库存、订单、URL、Schema、索引设置、支付、税费、物流、邮件或缓存配置。移除Product Pagination会减少商品详情的相邻prev/next内部链接，但Shop分页、Related与Upsells入口保留；正式内容、Variation Gallery多图、真实辅助技术/设备、Staging/Production及缓存层仍须后续验证。
 - 回滚：整体回退这5个主题文件并恢复0.40.0即可回到修复前行为；没有数据库迁移或Theme Mod需要恢复。若只回退RSK-037，必须同时恢复原Storefront详情分页Hook并复验768px遮挡；若只回退RSK-035或038，须重新开放相应风险，不能继续沿用本次关闭结论。
 
+## ADR-040：人工报价订单采用完整地址合同和首次付款邮件起算的72小时生命周期
+
+- 状态：已接受并完成授权范围的Local技术验收；用户于2026-09-21明确批准“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。Staging/Production、SMTP、正式税务和真实网关仍未验收。
+- 背景：ADR-038已经决定实体商品先邮件询价，再以WooCommerce原生待付款订单和`order-pay`收取最终金额。后续业务确认要求详细配送地址、Billing与Shipping可以不同、Guest可付款、报价三天有效，且商品、数量、优惠、地址或费用变化时旧单先不可付款并创建新单。
+- 字段决定：商品、SKU、Variation、数量、小计和coupon由Cart自动带入。Billing email、Shipping first/last name、country/state/city/postcode/address 1为第一版必填合同；Billing与Shipping不同时也提供完整Billing资料。Company、address 2、phone/WhatsApp和配送速度可选。`mailto:`不构成站内强校验，业务复核和付款前服务端守卫共同保证订单完整。
+- 身份决定：新客户可使用Guest订单免注册付款。已有Customer只在业务人员核对后于后台显式选择；不根据相同邮箱自动猜测账号归属。邮箱自助注册、登录安全和历史Guest订单归属行为留D79按目标WooCommerce版本验证。
+- 物流决定：人工报价订单必须具有大于0的原生Shipping line，0元Shipping、Free Shipping或Fee占位不能替代已确认运费。商品、数量、coupon、完整Billing/Shipping、Shipping、Tax或Fee任一实质变化时，旧订单先变为不可付款，再复核并建立新订单和新付款链接。
+- 有效期决定：72小时只从该订单第一次成功发送付款邮件起算；建单、保存、预览、复制付款链接或发送失败均不启动。第一次起算和到期事实一经建立不可由同一订单重发覆盖。到期且仍未付款的订单自动变为不可付款；异步任务延迟时，付款请求必须读取同一到期事实实时拒绝。重复邮件、重复任务和并发请求必须幂等。
+- 技术方向：继续复用`dentall-core`、WooCommerce Order CRUD与`order-pay`守卫；独立`shipping-quote-lifecycle.php`职责模块保存首次发送、到期、原始值内容签名、随机token及不可逆关闭事实，并以Action Scheduler安排`dentall_expire_shipping_quote`单次动作。经典与Store API对未签发草稿均只拒付、保持`pending`；已签发且过期/变化/关闭的旧单才取消。无效已签发报价不能重发Customer Invoice。普通后台停用先取消全部后台实体报价候选，严格核验保存与读回，成功后才清理动作；失败会阻止停用。不直接写订单表，保持HPOS兼容，不引入第三方报价插件或独立状态表。
+- 税费决定：DentAll不在订单中代收import duties、import taxes、customs clearance charges或carrier brokerage/disbursement fees；客户在产生时直接向海关或承运商支付。该决定不判断卖方Sales Tax、VAT或GST义务；正式税开关、含税口径、计税地址、税率和申报责任仍待财税负责人确认。
+- 邮件与网关边界：邮件发送调用成功定义报价起点，但不证明SMTP实际投递，收件/退信留D77。网页和Store API拒绝过期付款不证明已经发往网关的交易会被撤销；目标网关的晚到webhook、订单状态、库存、coupon及退款/回补必须在D76/D78通过，作为M6完成闸门。
+- 数据、URL、SEO与缓存：不新增公共URL、Schema、Canonical、robots或Sitemap；继续使用WooCommerce原生订单、地址、费用和`order-pay`。交易页不得页面缓存。每个目标订单只保留最少生命周期事实和必要单次动作；队列性能与清理在Local和非Local分别核对。
+- 回滚：普通后台停用会先取消报价候选并核验，再清理DentAll报价动作；之后方可撤下新增Hook和实时守卫，并保留兼容读取或明确清理既有订单meta。WordPress静默停用/更新会跳过该Hook，非Local回滚必须使用维护窗口、停发付款邮件并确认没有在途支付。不得删除历史订单或绕过Woo CRUD。回滚后人工SOP只能作为临时替代，不能继续宣称系统自动执行三天有效期。
+- 验证边界：D73 PHP 59/59、邮件JavaScript 46/46，D75生命周期PHP 83/83；真实Woo及展示Filter负向场景40/40、权限/REST 15/15、普通停用3/3、Action Scheduler真实执行、四端Cart/四类付款页和浏览后4/4终态均通过，安全终审P0/P1=0。两次首次邮件真正并发成功缺少跨请求原子锁，按低频B2B SOP登记P3；静默停用/更新为非Local发布P2门禁；第三方私有对象订单项目meta兼容性登记RSK-047/P2。SMTP、目标主机Cron和真实网关竞态仍属D77及D76/D78。
+
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。
