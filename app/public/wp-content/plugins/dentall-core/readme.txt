@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,10 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.4.0 =
+* 补全人工报价的收货与账单资料合同、正数Shipping校验和完整地址锁。
+* 新增付款申请首次成功发送后72小时自动失效、内容变更失效及实时付款守卫。
 
 = 0.3.0 =
 * 新增静态首页Trust指标的最小编辑区、权限边界与Page修订支持。

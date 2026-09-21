@@ -4,6 +4,17 @@
 
 ## Unreleased
 
+### D73＋D75报价字段与72小时生命周期（2026-09-21，Local已完成）
+
+- 用户明确授权：“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。CR-014与ADR-040登记完整字段、Guest/Customer、正数Shipping、旧单替换、进口费用及自动过期合同；D73/D75按Local授权范围完成，M6仍等待真实支付闭环。
+- D73补齐邮件中的Billing email、结构化Shipping和可分离Billing地址；商品/SKU/Variation/数量/小计/coupon继续由Cart自动带入。新客户可Guest付款，已有Customer只在业务人员核对后显式关联，不根据邮箱自动猜测账号。
+- D73通过PHP 59/59、邮件JavaScript 46/46；D75通过生命周期PHP 83/83。真实Woo建单/邮件/签名与展示Filter负向场景40/40、权限与REST 15/15、四端Cart/四类付款页、浏览后4/4终态及普通停用3/3通过，Console Error与应用错误日志末段均为0。
+- D75由订单CRUD事实、Action Scheduler单次动作和经典/Store API实时守卫共同执行首次成功发送起算、重发不续期、内容变化失效、不可逆关闭及72小时到期。Action `#745`真实完成；未签发草稿只拒付不取消，已签发失效旧单取消；无效已签发报价不能重发付款邮件。普通停用会先取消全部后台人工报价候选并核验持久化，失败则阻止停用，之后才清理专属动作。独立安全终审P0/P1=0。
+- Import duties、import taxes、customs clearance及carrier brokerage/disbursement费用由客户直接向海关或承运商支付，不进入DentAll订单总额。卖方Sales Tax/VAT/GST、含税口径、计税地址和正式税率仍待财税负责人确认。
+- 到期网页拒付不覆盖已启动网关流程；真实网关晚到webhook、订单状态、库存和coupon竞态保留为D76/D78完成闸门。当前不启用真实邮件、支付或正式税/物流配置，不部署Staging/Production。
+- 当前低频B2B采用单人单次发送SOP；两次首次邮件真正并发成功缺少跨请求原子锁，登记为RSK-045/P3。实现没有常驻轮询或前台定时请求；已验证的非并发、顺序发送路径每份报价只保留一个单次Action。WordPress静默停用/更新会绕过普通停用Hook，登记为非Local发布P2门禁：关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。
+- 生命周期meta、状态、创建来源和订单key均以WooCommerce `edit`上下文读取，展示Filter无法改变付款守卫。标准Woo标量、数组及`WC_Meta_Data`已覆盖；第三方订单项目meta若保存带私有状态且不提供`JsonSerializable`/`get_data()`的普通对象，当前稳定化签名不能观察其私有属性，登记为RSK-047/P2兼容边界。
+
 ### Staging首轮发布候选与现场只读预检（2026-09-10，预检前置NO-GO）
 
 - 冻结运行代码提交`97ebdc3`及主题/Core两个tree，允许后续纯文档提交推进`main`分支头；`501e5e5`作为上次已部署基线而非未来候选分支头。两套历史无共同祖先且目录根不同，只能从冻结Git对象做`app/public/wp-content/**`到根级`wp-content/**`的受控映射，禁止直接merge或递归复制Local目录。
