@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+### D74＋D86整合准备（2026-10-06）
+
+- 用户授权基于`origin/main@a8897f0`整合已确认的D74与D86，再经合成回归、独立审查和当次备份发布至Staging；当前部署基线为`a07af22`（DentAll 0.45.0/Core 0.5.0），整合候选版本为DentAll 0.46.0/Core 0.6.0。
+- 保留主线首次Invoice资料门禁、Shipping/Billing规则、D79归户替换单、D80代理修复和D85样式；D74增量只取`ff8eb8a`。D74文档编号统一为ADR-044/RSK-055，避免覆盖D77既有编号。此处只记录整合准备，不代表合成测试、推送或Staging部署完成。
+
 ### D80客户密码重置（2026-09-22，Staging邮件链路验收完成）
 
 - 将WooCommerce My Account作为第一版统一找回入口；WordPress核心`lostpassword`与`retrievepassword`请求跳转到Woo入口，既有`rp/resetpass`有效链接不被拦截。
@@ -24,13 +29,22 @@
 - FluentSMTP 2.4.0保持单一公司BossMail连接：`s196h.chinaemail.cn:465`、SSL、身份验证、日志开启、模拟发送关闭；既有受控外部测试为1次成功、SMTP响应`OK`。经用户明确授权，本次另向受控QQ邮箱发送订单`#1579`的TEST Customer Invoice；FluentSMTP日志由7增至8，新记录状态为“已发送”。
 - 390/768/1024/1440px对普通Page、My Account、Shop和Cart的16组Staging回归均为HTTP 200、0横向溢出、0重复ID、0页面/控制台错误；两套匿名会话的Header Cart分别为1项与0项。全站保持`noindex, nofollow`，My Account为`private/no-cache`，当日WooCommerce日志没有错误级记录。
 - Cloudways Password Protection按用户决定暂不启用并登记为临时接受风险。Staging TEST订单`#1579`已证明不完整Customer Invoice在SMTP前阻断；补齐美国地址、`$6`商品和`$12`人工运费后，于`2026-09-22 05:58:12 UTC`首次签发，截止时间固定为`2026-09-25 05:58:12 UTC`，Action Scheduler仅有1项对应待执行动作。现有公开`TEST D12 Manager Published Page`已切换为Full width，390/768/1024/1440px无侧栏、无横向溢出，文章宽度为350/704/736/736px；页面既有TEST商品图404作为内容夹具问题保留。未启用真实支付，Production与DNS未变更。
+
+### D74订单摘要、四端结账与税费责任说明（2026-09-22，Local技术完成）
+
+- 用户确认第一版由深圳公司主要面向美国、加拿大和澳大利亚企业客户，以USD未税价销售；客户作为Importer of Record，import duties、import taxes、customs clearance和carrier brokerage由客户直接向海关或承运商支付。DentAll依法必须代收的Sales Tax、VAT、GST或HST才进入订单，并在WooCommerce原生金额明细中单列；没有真实税额时不制造`Tax 0`。
+- 虚拟普通Checkout继续复用WooCommerce Checkout Block和Store API；实体人工报价继续复用原生`order-pay`与`form-pay`金额表。主题只增加条件加载的`checkout.css`，用同一语义DOM完成390、768、1024和1440px可读布局、长文本断行、44px付款按钮及PC摘要层级，不重算金额、不复制模板、不增加前端状态或请求。
+- 有效人工报价在WooCommerce完成订单key、归属和Guest邮箱验证后，显示首次成功发送邮件确定的服务端绝对截止时间及站点时区；重发不续期，不做浏览器倒计时。未签发、过期、内容变化或已关闭报价不输出该摘要。
+- Cart报价邮件、Customer Invoice和`order-pay`统一明确客户为Importer of Record，并区分“客户直接支付的进口费用”与“DentAll依法代收并单列的卖方税”。主题升至0.44.0，Core升至0.4.1。
+- 静态与合同验证通过：PHP/JavaScript语法、D73 PHP 59/59、D74扩展后的D75生命周期95/95、报价邮件46/46及`git diff --check`通过。独立Local真实WooCommerce/Chrome为150/150，覆盖普通Checkout与`order-pay`各390/768/1024/1440、Guest验证前不泄露、金额一致、无`Tax 0`、绝对截止、浏览器时区不改文本、重发不续期、长文本、无溢出、焦点及最终按钮≥44px；Console、pageerror、HTTP/PHP应用错误均为0。首轮42px P2经提高局部选择器特异性修复并关闭，代码、安全和独立测试终审P0～P3均为0。
+- 隔离TEST商品、报价订单、checkout draft、相关计划任务、数据库、账号、PHP/MySQL进程和17474/17475端口已清理，源Local配置哈希与商品/选项不变量通过。隔离副本沿用的Checkout标题、隐私文案与日期格式仍有中文，登记RSK-055并要求第一版英语站在非Local展示验收前统一；这不改变D74金额和截止逻辑结论。目标网关、正式税率、SMTP、边缘缓存、Staging和Production仍未验收。
 ### D73＋D75报价字段与72小时生命周期（2026-09-21，Local已完成）
 
 - 用户明确授权：“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。CR-014与ADR-040登记完整字段、Guest/Customer、正数Shipping、旧单替换、进口费用及自动过期合同；D73/D75按Local授权范围完成，M6仍等待真实支付闭环。
 - D73补齐邮件中的Billing email、结构化Shipping和可分离Billing地址；商品/SKU/Variation/数量/小计/coupon继续由Cart自动带入。新客户可Guest付款，已有Customer只在业务人员核对后显式关联，不根据邮箱自动猜测账号。
 - D73通过PHP 59/59、邮件JavaScript 46/46；D75通过生命周期PHP 83/83。真实Woo建单/邮件/签名与展示Filter负向场景40/40、权限与REST 15/15、四端Cart/四类付款页、浏览后4/4终态及普通停用3/3通过，Console Error与应用错误日志末段均为0。
 - D75由订单CRUD事实、Action Scheduler单次动作和经典/Store API实时守卫共同执行首次成功发送起算、重发不续期、内容变化失效、不可逆关闭及72小时到期。Action `#745`真实完成；未签发草稿只拒付不取消，已签发失效旧单取消；无效已签发报价不能重发付款邮件。普通停用会先取消全部后台人工报价候选并核验持久化，失败则阻止停用，之后才清理专属动作。独立安全终审P0/P1=0。
-- Import duties、import taxes、customs clearance及carrier brokerage/disbursement费用由客户直接向海关或承运商支付，不进入DentAll订单总额。卖方Sales Tax/VAT/GST、含税口径、计税地址和正式税率仍待财税负责人确认。
+- Import duties、import taxes、customs clearance及carrier brokerage/disbursement费用由作为Importer of Record的客户直接向海关或承运商支付，不进入DentAll订单总额。D74随后冻结USD未税展示和卖方依法代收Sales Tax/VAT/GST/HST时单列的第一版界面合同；各司法辖区注册义务、阈值、商品分类、计税地址、正式税率和申报仍待财税负责人确认。
 - 到期网页拒付不覆盖已启动网关流程；真实网关晚到webhook、订单状态、库存和coupon竞态保留为D76/D78完成闸门。当前不启用真实邮件、支付或正式税/物流配置，不部署Staging/Production。
 - 当前低频B2B采用单人单次发送SOP；两次首次邮件真正并发成功缺少跨请求原子锁，登记为RSK-045/P3。实现没有常驻轮询或前台定时请求；已验证的非并发、顺序发送路径每份报价只保留一个单次Action。WordPress静默停用/更新会绕过普通停用Hook，登记为非Local发布P2门禁：关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。
 - 生命周期meta、状态、创建来源和订单key均以WooCommerce `edit`上下文读取，展示Filter无法改变付款守卫。标准Woo标量、数组及`WC_Meta_Data`已覆盖；第三方订单项目meta若保存带私有状态且不提供`JsonSerializable`/`get_data()`的普通对象，当前稳定化签名不能观察其私有属性，登记为RSK-047/P2兼容边界。

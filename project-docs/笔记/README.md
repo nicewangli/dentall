@@ -17,7 +17,7 @@
 
 ## 专题学习笔记
 
-D59～D65各日已按批准范围完成；D60/D61/D63已通过`278d20d`合入并推送main。D68响应式购物车、D69 Header Cart/Mini Cart、D70原生优惠券、D71金额链和D72人工运费报价已形成D67～D72单一Local集成树，通过终验并由`6b5c96e`合入远端main。D73报价字段/客户身份与D75人工物流/72小时生命周期已按授权完成隔离Local技术验收：D73 PHP 59/59、D75 PHP 83/83、JavaScript 46/46、真实Woo及展示Filter负向场景40/40、权限审计15/15、普通停用3/3、四端/付款页和浏览后终态均通过；目标网关、SMTP、财税口径及非Local仍按后续Day验收。2026-09-10用户授权“你先修复已有的三个P2”后，DentAll 0.41.0专项分支已关闭D66的RSK-035/037/038，D66/M5按Local技术口径完成；修复源提交`5c4cefb`已通过非快进合并纳入并推送`main`，非Local仍待复验，D69和D72期限性P2继续管理。公开环境、正式内容、邮件、支付、真实税费/物流、缓存、真实辅助技术、CWV与Variation Gallery多图另验。
+D59～D65各日已按批准范围完成；D60/D61/D63已通过`278d20d`合入并推送main。D68响应式购物车、D69 Header Cart/Mini Cart、D70原生优惠券、D71金额链和D72人工运费报价已形成D67～D72单一Local集成树，通过终验并由`6b5c96e`合入远端main。D73报价字段/客户身份、D74订单摘要/绝对截止/费用责任与D75人工物流/72小时生命周期均已完成授权范围的隔离Local技术验收。D74源分支历史证据为D73 PHP 59/59、D75扩展合同95/95、JavaScript 46/46、D74浏览器150/150，三路终审P0～P3=0，隔离TEST环境已恢复；RSK-055英语展示统一、目标网关、SMTP、正式税务配置及D74非Local仍按后续Day验收。2026-09-10用户授权“你先修复已有的三个P2”后，DentAll 0.41.0专项分支已关闭D66的RSK-035/037/038，D66/M5按Local技术口径完成；修复源提交`5c4cefb`已通过非快进合并纳入并推送`main`，非Local仍待复验，D69和D72期限性P2继续管理。公开环境、正式内容、邮件、支付、真实税费/物流、缓存、真实辅助技术、CWV与Variation Gallery多图另验。
 
 | 专题 | 入口 | 用途 |
 |---|---|---|
@@ -25,7 +25,7 @@ D59～D65各日已按批准范围完成；D60/D61/D63已通过`278d20d`合入并
 
 ## 周总结
 
-D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实战笔记/Day80-WooCommerce密码重置与防枚举]]。D85隔离Local记录：[[Day85-通用内容页模板与编辑回归]]；对应学习：[[WordPress实战笔记/Day85-原生Page模板与正文样式边界]]。D79实施记录：[[Day79-登录注册与订单归属]]；对应学习：[[WordPress实战笔记/Day79-WooCommerce账户身份与订单归属]]。D77实施记录：[[Day77-FluentSMTP事务邮件Local验证]]；对应学习：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。D75实施记录：[[Day75-人工物流与报价72小时生命周期]]；对应学习：[[WordPress实战笔记/Day75-WooCommerce报价过期与订单生命周期]]。D73实施记录：[[Day73-报价字段与客户身份合同]]；对应学习：[[WordPress实战笔记/Day73-WooCommerce报价字段与客户身份边界]]。D72候选记录：[[Day72-人工运费邮件报价与购物车收口]]；对应学习：[[WordPress实战笔记/Day72-人工运费报价与结账安全边界]]。D71候选记录：[[Day71-运费税费与金额摘要候选验证]]；对应学习：[[WordPress实战笔记/Day71-WooCommerce运费税费与金额真相]]。D70阶段记录：[[Day70-优惠券规则与边界验证]]；对应学习：[[WordPress实战笔记/Day70-WooCommerce优惠券校验与金额真相]]。D69候选记录：[[Day69-Header Cart与Mini Cart状态联动]]；对应学习：[[WordPress实战笔记/Day69-Cart Store与经典Fragments桥接]]。D68候选记录：[[Day68-手机与平板响应式购物车候选验证]]；对应学习：[[WordPress实战笔记/Day68-Cart-Block响应式布局与状态证据]]。D66阶段记录：[[Day66-商品浏览闭环集成回归]]；对应学习：[[WordPress实战笔记/Day66-集成基线与商品全链路回归]]。
+D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实战笔记/Day80-WooCommerce密码重置与防枚举]]。D85隔离Local记录：[[Day85-通用内容页模板与编辑回归]]；对应学习：[[WordPress实战笔记/Day85-原生Page模板与正文样式边界]]。D79实施记录：[[Day79-登录注册与订单归属]]；对应学习：[[WordPress实战笔记/Day79-WooCommerce账户身份与订单归属]]。D77实施记录：[[Day77-FluentSMTP事务邮件Local验证]]；对应学习：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。D75实施记录：[[Day75-人工物流与报价72小时生命周期]]；对应学习：[[WordPress实战笔记/Day75-WooCommerce报价过期与订单生命周期]]。D74实施记录：[[Day74-订单摘要与四端结账]]；对应学习：[[WordPress实战笔记/Day74-WooCommerce订单摘要与服务端截止时间]]。D73实施记录：[[Day73-报价字段与客户身份合同]]；对应学习：[[WordPress实战笔记/Day73-WooCommerce报价字段与客户身份边界]]。D72候选记录：[[Day72-人工运费邮件报价与购物车收口]]；对应学习：[[WordPress实战笔记/Day72-人工运费报价与结账安全边界]]。D71候选记录：[[Day71-运费税费与金额摘要候选验证]]；对应学习：[[WordPress实战笔记/Day71-WooCommerce运费税费与金额真相]]。D70阶段记录：[[Day70-优惠券规则与边界验证]]；对应学习：[[WordPress实战笔记/Day70-WooCommerce优惠券校验与金额真相]]。D69候选记录：[[Day69-Header Cart与Mini Cart状态联动]]；对应学习：[[WordPress实战笔记/Day69-Cart Store与经典Fragments桥接]]。D68候选记录：[[Day68-手机与平板响应式购物车候选验证]]；对应学习：[[WordPress实战笔记/Day68-Cart-Block响应式布局与状态证据]]。D66阶段记录：[[Day66-商品浏览闭环集成回归]]；对应学习：[[WordPress实战笔记/Day66-集成基线与商品全链路回归]]。
 
 | 周次 | 笔记 | 结论 |
 |---|---|---|
@@ -124,6 +124,7 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day71候选 | [[Day71-运费税费与金额摘要候选验证]] | 已完成批准范围的独立Local技术验证：以`0ca4ba4`继承D67→D68，运行代码0变化；177/177主断言覆盖地区、TEST运费/税费、含税/未税、舍入、重量、库存、会话、安全和六宽金额。Cart内没有地址编辑表单，地区切换仅验证原生Store API合同；正式政策、D72集成、D73地址与D75物流另验 |
 | Day72候选 | [[Day72-人工运费邮件报价与购物车收口]] | 已按CR-012实现邮箱人工运费报价：Cart邮件包含商品/SKU/规格/数量/小计和可选WhatsApp；三路服务端守卫阻断普通结账，Pending order的Shipping与`order-pay`保留。PHP 36/36、JS 23/23、隔离Local 18/18通过；正式邮箱、真实设备邮件客户端、支付/邮件及非Local仍待 |
 | Day73 | [[Day73-报价字段与客户身份合同]] | 已完成授权范围的Local技术验收：商品自动带入、完整Billing/Shipping、Guest付款页及已有Customer归属边界；PHP 59/59、邮件JavaScript 46/46、真实Woo及展示Filter负向场景40/40、权限和四端浏览器通过。D76/D78真实支付、D79注册和非Local另验 |
+| Day74 | [[Day74-订单摘要与四端结账]] | 已完成Local技术验收：虚拟Checkout与实体`order-pay`复用Woo金额事实，加入服务端绝对截止、Importer of Record和税费分层说明；D73 59/59、D75 95/95、邮件46/46、浏览器150/150、三路终审P0～P3=0。首轮42px按钮P2已最小修复并四端≥44px，环境恢复；RSK-055英语展示、正式税务、网关、SMTP和非Local另验 |
 | Day75 | [[Day75-人工物流与报价72小时生命周期]] | 已完成授权范围的Local技术验收：正数Shipping、首次成功发信起算72小时、重发不续期、内容变化旧单失效、实时付款守卫和Action Scheduler真实执行；生命周期83/83、动态40/40、权限15/15、浏览后4/4及普通停用3/3通过。并发首次发信P3、静默更新和第三方私有对象meta P2已登记，真实网关/Cron留D76/D78 |
 | Day77 | [[Day77-FluentSMTP事务邮件Local验证]] | 隔离Local成功/失败/日志链已验证；Staging采用FluentSMTP＋BossMail SMTP并由受控QQ邮箱实际收件。Elastic Email未启用、DNS未修改；Header认证、业务触发、日志保留和退信仍待 |
 | Day79 | [[Day79-登录注册与订单归属]] | 已完成独立Local身份与归属范围；业务确认不存在共享账单邮箱、代理或代采购。已签发Guest报价在验证归户后按D75签名取消旧单并由Website Manager建立替换报价；D80已完成Local找回候选，支付沙盒和非Local缓存仍待 |

@@ -1,0 +1,125 @@
+/*
+ * D74结账与付款摘要：保留WooCommerce Checkout Block、form-pay表格和支付组件的
+ * 单一语义DOM，只补最小宽度、长文本、触控和PC层级，不改变金额或交互状态。
+ */
+
+body.woocommerce-checkout .site-main .entry-header {
+	margin-bottom: var(--dentall-space-32);
+	padding-bottom: 0;
+}
+
+body.woocommerce-checkout .site-main .entry-title {
+	margin: 0;
+}
+
+.wp-block-woocommerce-checkout :where(
+	.wc-block-checkout__main,
+	.wc-block-checkout__sidebar,
+	.wc-block-components-checkout-step,
+	.wc-block-components-checkout-order-summary__content,
+	.wc-block-components-order-summary-item__description
+) {
+	min-width: 0;
+}
+
+.wp-block-woocommerce-checkout :where(
+	.wc-block-components-product-name,
+	.wc-block-components-product-metadata,
+	.wc-block-components-totals-item__label,
+	.wc-block-components-totals-item__value,
+	.wc-block-components-checkout-step__description
+) {
+	overflow-wrap: anywhere;
+}
+
+body.woocommerce-checkout .wp-block-woocommerce-checkout .wc-block-components-button.wc-block-components-checkout-place-order-button {
+	min-height: 44px;
+}
+
+.woocommerce-order-pay .dentall-quote-terms {
+	box-sizing: border-box;
+	margin: 0 0 var(--dentall-space-24);
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-inline-start: var(--dentall-space-4) solid var(--dentall-color-action);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface-blue);
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-order-pay .dentall-quote-terms > :last-child {
+	margin-bottom: 0;
+}
+
+.woocommerce-order-pay .dentall-quote-terms h2 {
+	margin: 0 0 var(--dentall-space-16);
+	font-size: var(--dentall-font-size-xl);
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
+}
+
+.woocommerce-order-pay #order_review,
+.woocommerce-order-pay #order_review > :where(.shop_table, #payment) {
+	min-width: 0;
+}
+
+.woocommerce-order-pay #order_review > .shop_table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.woocommerce-order-pay #order_review > .shop_table :where(th, td) {
+	padding: var(--dentall-space-12) var(--dentall-space-8);
+	overflow-wrap: anywhere;
+	vertical-align: top;
+}
+
+.woocommerce-order-pay #order_review > .shop_table .product-name {
+	width: 48%;
+}
+
+.woocommerce-order-pay #order_review > .shop_table .product-quantity {
+	width: 16%;
+	text-align: center;
+}
+
+.woocommerce-order-pay #order_review > .shop_table :where(.product-total, .product-subtotal) {
+	width: 36%;
+	text-align: end;
+}
+
+.woocommerce-order-pay #payment {
+	border-radius: var(--dentall-radius-lg);
+}
+
+.woocommerce-order-pay #payment #place_order {
+	width: 100%;
+	min-height: 44px;
+}
+
+@media (min-width: 75rem) {
+	.wp-block-woocommerce-checkout .wc-block-checkout__sidebar {
+		box-sizing: border-box;
+		padding: var(--dentall-space-24);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		background-color: var(--dentall-color-surface);
+		box-shadow: var(--dentall-shadow-card);
+	}
+
+	.woocommerce-order-pay #order_review {
+		display: grid;
+		grid-template-columns: minmax(0, 1.35fr) minmax(20rem, 0.65fr);
+		align-items: start;
+		gap: var(--dentall-space-24) var(--dentall-space-32);
+	}
+
+	.woocommerce-order-pay #order_review > .shop_table {
+		grid-row: 1 / span 2;
+		margin: 0;
+	}
+
+	.woocommerce-order-pay #payment {
+		margin: 0;
+	}
+}

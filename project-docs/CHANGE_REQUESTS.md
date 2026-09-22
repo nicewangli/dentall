@@ -291,25 +291,26 @@
 - 提出人：用户。
 - 提出日期：2026-09-21。
 - 优先级：P0。
-- 状态：Review / Local implementation complete；字段、身份和72小时业务合同已按授权落地并通过独立Local终验，尚未合并、部署非Local或完成真实网关闭环。
+- 状态：D73/D75主体已于2026-09-22随批次①合入主线并部署Staging；D74订单摘要/费用说明已完成源分支Local技术验收，2026-10-06获准与D86整合发布，当前合成验证与部署尚未完成。真实网关闭环仍未完成。
 - 授权原文：用户明确回复“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。
+- D74补充确认：用户于2026-09-22确认公司注册地为中国深圳，第一版主要销往美国、加拿大和澳大利亚且主要面向企业；随后确认按建议执行。第一版按USD未税价展示，客户作为Importer of Record并直接承担进口环节费用；DentAll依法必须代收的Sales Tax、VAT、GST或HST才在WooCommerce订单中单列，没有真实税额时不显示`Tax 0`。D74同时覆盖虚拟商品普通Checkout和实体人工报价`order-pay`，报价截止使用服务端生成的带时区绝对时间，不做实时倒计时。
 - 要解决的问题：CR-012已建立“Cart邮件申请报价 → 人工待付款订单 → `order-pay`”边界，但邮件字段尚未完整区分Billing/Shipping，订单仅有Shipping line仍不足以证明资料完整；原方案也没有精确的报价有效期，旧链接可能在业务所称的三天之后继续尝试付款。
 - 使用角色、频率和数据：访客或客户低频发送常规少量行项目的报价邮件；Website Manager或其他具备订单权限的授权人员核对客户身份、地址、商品和费用，建立并发送人工报价订单。数据继续使用当前Cart商品事实、WooCommerce原生Customer/Order/Billing/Shipping/Shipping line/Tax/Fee和最少的订单生命周期meta，不新增询价CPT或重复订单表。
 - 第一版必须做：1）Cart自动带入商品、SKU、Variation规格、数量、小计和coupon；邮件明确要求准确Billing email和完整Shipping地址，Shipping国家仅限美国、加拿大、澳大利亚；Billing可与Shipping不同且国家不限制，其州省、邮编等必填性遵循WooCommerce国家地址规则，Company、address 2、phone/WhatsApp和配送速度可选；2）新客户允许Guest付款，已有Customer只在业务人员核对后显式关联，付款前要求正数Shipping和完整Billing/Shipping并锁定已确认资料；3）第一次成功发送付款邮件时只写一次起算/到期事实，72小时后未付款旧单自动不可付款，重发不续期，实质内容变化先停用旧单再复核并创建新订单。
-- 第一版明确不做：不建设站内报价表单、询价CPT、CRM、PDF报价、自动承运商报价、WhatsApp API或客户身份自动匹配；不强迫Guest先注册，不提前实施D79注册/历史订单归属；不以0元或Free Shipping占位；不自动判断卖方Sales Tax/VAT/GST义务；不承诺D75已覆盖真实网关晚到webhook。
-- 进口费用口径：Import duties、import taxes、customs clearance charges及carrier brokerage/disbursement fees不进入DentAll订单总额，由客户在实际产生时直接向海关或承运商支付。该口径不等于卖方销售税义务已确认；正式含税/未税展示、计税地址和税率仍由财税负责人确认。
+- 第一版明确不做：不建设站内报价表单、询价CPT、CRM、PDF报价、自动承运商报价、WhatsApp API或客户身份自动匹配；不强迫Guest先注册，不提前实施D79注册/历史Guest订单归属；不以0元或Free Shipping占位；不由系统自动判断各司法辖区的税务注册、阈值、商品分类、税率或申报义务；不承诺D75已覆盖真实网关晚到webhook。
+- 进口费用与卖方税口径：客户是Importer of Record。Import duties、import taxes、customs clearance fees及carrier brokerage fees不进入DentAll订单总额，由客户在实际产生时直接向海关或承运商支付。第一版价格为USD未税价；DentAll依法必须代收的Sales Tax、VAT、GST或HST使用WooCommerce原生Tax事实并单列，没有真实税额时不显示`Tax 0`。该展示与责任口径不替代财税判断；正式注册义务、阈值、商品分类、计税地址、税率和申报仍须上线前由财税负责人确认。
 - 原生与实施方案：WooCommerce原生Order、Customer、Billing/Shipping、Shipping/Tax/Fee和`order-pay`继续作为交易事实；原生Hold stock不能精确表达“后台人工订单从首次成功发信起算、重发不续期”，也会影响其他待付款场景。最小实现位于既有`dentall-core`报价职责模块，使用WooCommerce CRUD保存首次发送/到期/签名/token/关闭事实，使用Action Scheduler安排单次动作，并在经典与Store API付款请求读取同一事实实时守卫。第三方报价插件和独立插件未引入。
 - 数据与HPOS：订单生命周期事实通过WooCommerce CRUD保存，不直接读写订单内部表；Action Scheduler只接收最小订单标识。已落地的六项meta为`_dentall_quote_issued_at`、`_dentall_quote_expires_at`、`_dentall_quote_signature`、`_dentall_quote_token`、`_dentall_quote_closed_at`和`_dentall_quote_closed_reason`；已验证的非并发、顺序发送路径为每份报价安排一个精确单次Action，并通过订单备注记录签发、失效和关闭原因。普通停用使用WooCommerce API逐单关闭报价候选并核验持久化，全部成功后才清理专属Action组；不直接清理订单表。WordPress静默停用或插件更新可能绕过停用Hook，非Local继续执行维护窗口门禁。
 - 权限与安全：后台发信和订单维护沿用WooCommerce订单权限；前台付款沿用订单key、会话和网关安全合同。相同邮箱只是线索，不是账号所有权证明。到期任务与请求时守卫必须幂等并重新读取订单状态；前端文案或倒计时不能决定付款资格。
-- URL/SEO、缓存与性能：不新增公开URL、Canonical、Schema、robots或Sitemap条目；继续使用原生`order-pay`。Cart、Checkout和Order Pay不得页面缓存。每个报价订单最多安排必要的单次动作，不增加前台远程请求；队列数量和past-due状态必须在测试与非Local部署时观察。
+- URL/SEO、缓存与性能：不新增公开URL、Canonical、Schema、robots或Sitemap条目；继续使用原生Checkout Block和`order-pay`。Cart、Checkout和Order Pay不得页面缓存。D74只条件加载一份结账CSS，截止时间服务端输出一次，不增加倒计时、轮询或远程请求。每个报价订单最多安排必要的单次动作；队列数量和past-due状态必须在测试与非Local部署时观察。
 - 支付、物流与邮件：人工订单必须有大于0的Shipping line；进口费用不由DentAll代收。第一次邮件发送调用成功只定义有效期起点，不证明SMTP已投递，实际收件/退信留D77。到期后网页拒付不等于真实网关已启动交易会自动终止；D76/D78必须验证晚到webhook、订单状态、库存和coupon回补。
 - 回滚：普通停用先通过Woo CRUD取消已签发及未签发的后台实体报价候选并核验持久化，再清理尚未执行的DentAll报价过期动作；任一步失败即阻止停用。之后再移除生命周期Hook和付款守卫，并按最终兼容方案处理既有订单meta；订单、客户和原生费用明细继续保留。不得通过删除历史订单或直接清订单表完成回滚。
 - 预计工时与排期：D73字段/身份合同与D75生命周期合并实施，自动失效相对人工SOP扩大为订单持久化、调度和交易测试，预计增加约2～3个有效工作日；D76开始前完成代码、安全和独立Local收口。真实网关特有修复另行估时。
 - 验收标准：1）邮件字段、Guest/已有Customer和完整Billing/Shipping合同通过，缺资料、0/无Shipping或地址变化均在网关前拒绝；2）首次成功发送只建立一次72小时截止，重发不续期，调度延迟时实时守卫仍拒绝，重复任务幂等；3）内容变化后旧单不可付款且新单独立，D76/D78把真实网关晚到webhook列为完成闸门，所有Local TEST订单、动作、meta与设置可核对恢复。
-- 需要谁确认：本变更主体范围与72小时起点已由用户明确批准。财税负责人仍需在正式税配置前确认卖方Sales Tax/VAT/GST、含税口径和计税地址；D76/D78需基于目标网关完成竞态验收。
-- Local证据：D73 PHP 59/59、邮件JavaScript 46/46；D75生命周期PHP 83/83；真实Woo建单/邮件/签名及展示Filter负向场景40/40、权限和REST审计15/15、Action Scheduler到期动作真实完成、四端Cart与四类付款页通过且Console Error为0、浏览后订单终态4/4、普通停用3/3。安全终审P0/P1=0。
-- 残余边界：极低概率的两次首次邮件真正并发成功仍可能产生两个token动作并由最后保存轻微改变截止时间，按低频B2B单人单次发送SOP管理为P3；严格原子锁需另开范围。WordPress静默停用/更新会绕过普通停用Hook，按非Local发布P2门禁关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。第三方订单项目meta若保存带私有状态且未实现`JsonSerializable`/`get_data()`的普通对象，当前签名只覆盖其可见结构，按RSK-047/P2在引入此类插件前做兼容测试或实现有界序列化。SMTP投递、目标主机Cron时效、真实网关扣款/晚到webhook、库存和coupon仍分别留D77、D76/D78。
-- 对应任务、提交和证据：[[笔记/Day73-报价字段与客户身份合同]]、[[笔记/Day75-人工物流与报价72小时生命周期]]；当前分支`codex/day73-day75-quote-expiry`，本轮未部署Staging/Production。
+- 需要谁确认：本变更主体范围、72小时起点及D74展示/责任口径已由用户明确批准。财税负责人仍需在正式税配置和上线前确认各销售司法辖区的注册义务、阈值、商品分类、计税地址、正式税率和申报；D76/D78需基于目标网关完成竞态验收。
+- Local证据：D73 PHP 59/59、邮件JavaScript 46/46；D74扩展后的D75生命周期PHP 95/95，并精确覆盖`before_woocommerce_pay_form`优先级20及`accepted_args=1`。D73/D75既有真实Woo建单/邮件/签名及展示Filter负向场景40/40、权限和REST审计15/15、Action Scheduler到期动作、四端Cart与四类付款页、浏览后订单终态4/4、普通停用3/3继续保留。D74独立Local真实Checkout/`order-pay`浏览器150/150，两个路径各覆盖390/768/1024/1440；金额、Guest防泄露、绝对截止、时区不变、重发不续期、税费责任、无`Tax 0`、长文本、焦点、无溢出和按钮≥44px通过，Console/pageerror/HTTP/PHP应用错误均为0。TEST数据、独立库、进程和端口已清理；代码、安全和独立测试终审P0～P3=0。
+- 残余边界：极低概率的两次首次邮件真正并发成功仍可能产生两个token动作并由最后保存轻微改变截止时间，按低频B2B单人单次发送SOP管理为P3；严格原子锁需另开范围。WordPress静默停用/更新会绕过普通停用Hook，按非Local发布P2门禁关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。第三方订单项目meta若保存带私有状态且未实现`JsonSerializable`/`get_data()`的普通对象，当前签名只覆盖其可见结构，按RSK-047/P2在引入此类插件前做兼容测试或实现有界序列化。隔离Local继承的Checkout标题、隐私文案和日期格式含中文，按RSK-055在第一版英语站展示验收前统一。SMTP投递、目标主机Cron时效、真实网关扣款/晚到webhook、库存和coupon仍分别留D77、D76/D78。
+- 对应任务、提交和证据：[[笔记/Day73-报价字段与客户身份合同]]、[[笔记/Day74-订单摘要与四端结账]]、[[笔记/Day75-人工物流与报价72小时生命周期]]；D74源分支`codex/day74-checkout-summary`继承D73/D75历史提交。本次仅重放D74的`ff8eb8a`增量到最新主线，保留批次①已交付修复；本批次Staging尚未部署，Production不在范围。
 
 ## 新变更模板
 
