@@ -20,14 +20,15 @@
 
 - D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当时Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支及D66修复分支均保留。D66修复工作树已在远端`main`核验后移除；主工作树、Day25历史归档树和Staging部署树均保留。
 
-- 2026-09-21用户明确授权D73＋D75，并指定72小时从同一订单第一次成功发送付款邮件起算、重发不续期。D73完整Billing/Shipping、Guest/Customer边界和D75正数Shipping/自动过期已在`codex/day73-day75-quote-expiry`完成授权范围的隔离Local技术验收；D73 PHP 59/59、邮件JavaScript 46/46、D75 PHP 83/83、真实Woo及展示Filter负向场景40/40、权限/REST 15/15、四端与四类付款页、终态4/4及普通停用3/3均通过。进口税费由客户直接向海关或承运商支付，卖方Sales Tax/VAT/GST及含税口径仍待财税负责人确认；D76/D78真实网关晚到webhook、D77 SMTP/目标环境Cron和非Local部署未完成，M6不标记Done。
+- 2026-09-21用户明确授权D73＋D75，并指定72小时从同一订单第一次成功发送付款邮件起算、重发不续期。D73完整Billing/Shipping、Guest/Customer边界和D75正数Shipping/自动过期已完成授权范围的隔离Local技术验收；D73 PHP 59/59、邮件JavaScript 46/46、D75原合同83/83、真实Woo及展示Filter负向场景40/40、权限/REST 15/15、四端与四类付款页、终态4/4及普通停用3/3均通过。
+- 2026-09-22用户确认D74按建议实施：深圳公司第一版主要面向美国、加拿大、澳大利亚企业客户，USD未税展示；客户为Importer of Record并向海关或承运商直接支付进口环节费用，DentAll依法必须代收的Sales Tax/VAT/GST/HST才在订单中单列，没有真实税额时不显示`Tax 0`。虚拟普通Checkout与实体报价`order-pay`都纳入四端摘要；截止显示服务端绝对时间与站点时区，不做倒计时。D74扩展后的D75合同95/95、D73 59/59、邮件46/46，独立Local浏览器150/150，代码/安全/独立测试终审P0～P3=0；TEST数据与隔离环境已清理。正式税务注册/税率、RSK-048英语展示统一、D76/D78真实网关、D77 SMTP/目标环境Cron和非Local部署未完成，M6不标记Done。
 
 - 更新日期：2026-09-21。
-- 当前阶段：D67～D72已通过`6b5c96e`完成Local代码收口，DentAll 0.41.0的D66修复源提交`5c4cefb`也已通过非快进合并纳入并推送`main`；D73/D75已在当前专项分支完成Local技术验收，尚未合并或部署。RSK-035/037/038已关闭Local，D66/M5按Local技术口径完成；D69的RSK-039/040和D72两项继续按各自期限管理，D70长券码错误展示已由合成树响应式规则覆盖并在67/67中通过。
+- 当前阶段：D67～D72已通过`6b5c96e`完成Local代码收口，DentAll 0.41.0的D66修复源提交`5c4cefb`也已通过非快进合并纳入并推送`main`；D73/D75完成提交已由当前`codex/day74-checkout-summary`继承，D74已完成运行改动、合同测试、独立Local真实Checkout/`order-pay`四端终验及三路终审，当前分支尚未合并或部署。RSK-035/037/038已关闭Local，D66/M5按Local技术口径完成；D69的RSK-039/040、D72两项和D74新增RSK-048继续按各自期限管理，D70长券码错误展示已由合成树响应式规则覆盖并在67/67中通过。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口，但不等于Staging部署或M6。
 - 当前状态：Cloudways Flexible为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换曾验证。后续部署仍须重新做备份、环境差异与回滚预检。
-- 当前版本：已推送的`main`为DentAll 0.41.0/Core 0.2.9；当前D73/D75分支候选为DentAll 0.43.0/Core 0.4.0，尚未合并或部署。Staging上次登记的部署基线为`501e5e5`/Core 0.2.6，远端`deploy/staging`当前仍为该提交；本轮尚未读取服务器文件、插件版本或哈希，不能据此排除现场漂移。共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次实现改变。
+- 当前版本：已推送的`main`为DentAll 0.41.0/Core 0.2.9；当前D74分支候选为DentAll 0.44.0/Core 0.4.1，并继承D73/D75的DentAll 0.43.0/Core 0.4.0提交，尚未合并或部署。Staging上次登记的部署基线为`501e5e5`/Core 0.2.6，远端`deploy/staging`当前仍为该提交；本轮尚未读取服务器文件、插件版本或哈希，不能据此排除现场漂移。共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次实现改变。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## D62并行检查点：原生字段复核与零扩展收口
@@ -72,7 +73,7 @@
 - 已确认D6可安排30分钟实录；代表商品可由编辑人员在提出需求后约1小时提供。
 - 已记录WordPress 7.0.3、WooCommerce 11.0.0、PHP 8.2.29、MySQL 8.4.0、Nginx 1.26.1和LocalWP 10.1.1+6939。
 - WooCommerce已安装并激活；核心数据表及商店、购物车、结账和账户页面已生成。
-- 已设置第一版前台英语、管理员中文、USD、暂不计算税费、`Asia/Shanghai`和`/%postname%/`。
+- 第一版目标为前台英语、管理员中文、USD、`Asia/Shanghai`和`/%postname%/`；D74隔离Local发现Checkout标题、隐私文案和日期格式仍含中文，已登记RSK-048，不能继续把“前台英语已完整设置”视为无条件完成。正式税配置仍待财税确认。
 - 已启用仅限Local的调试日志且不向页面显示错误；Mailpit本地邮件冒烟测试通过。
 - 已明确老板不参与日常执行，只提供资金、域名资料、必要访问资料和实体产品内容支持。
 - 已复核Git跟踪范围，未跟踪WordPress核心、第三方插件、uploads、数据库、日志、备份实体或`wp-config.php`。
@@ -833,6 +834,16 @@
 - 进口关税、进口税、清关费及承运商brokerage/disbursement费用不进入DentAll订单总额，由客户向海关或承运商支付。卖方销售税、VAT/GST、含税/未税展示、计税地址和正式税率仍待财税负责人确认；当前不据此写Staging/Production税配置。
 - D76/D78必须在目标支付网关沙盒验证“付款已启动后订单到期/取消，晚到webhook仍返回”的竞态，并串联库存、coupon、订单状态、Guest/Customer和替换订单。D77验证SMTP实际投递/退信和目标主机Cron。两次首次邮件真正并发仍按RSK-045/P3由单一经办人SOP管理；第三方订单项目meta的私有对象签名能力按RSK-047/P2在引入相关插件前复验。这些边界未通过前，D75不得外推为真实支付闭环，M6保持未完成。
 
+## D74阶段状态：订单摘要、四端结账与费用责任Local技术完成
+
+- 用户已确认公司注册地中国深圳、第一版主要销售到美国/加拿大/澳大利亚且主要为B2B，并批准按建议实施：USD未税价；客户作为Importer of Record并直接支付import duties、import taxes、customs clearance及carrier brokerage；DentAll依法必须代收的Sales Tax、VAT、GST或HST才进入订单并单列，没有真实税额时不显示`Tax 0`。正式税务注册义务、阈值、商品分类、计税地址、税率和申报仍需财税负责人上线前确认。
+- 虚拟商品普通Checkout保留Checkout Block与Store API；实体报价保留`order-pay`、原生`form-pay`表格和WooCommerce金额行。新增`checkout.css`只在Checkout/付款端点加载，以Mobile First基础层和75rem PC增强层覆盖390/768/1024/1440px、长文本、最小宽度、44px付款按钮和摘要层级；不新增模板、金额算法、JavaScript状态或远程请求。
+- `dentall-core`只对有效已签发报价在`before_woocommerce_pay_form`输出条款。WooCommerce在此前已完成订单key、归属和Guest邮箱验证；回调仍用订单`edit`原始meta复核生命周期，显示首次签发保存的服务端绝对截止时间、站点时区和UTC `datetime`，不重算72小时、不做倒计时。未签发、过期、内容变化和已关闭报价不输出。
+- Cart报价邮件、Customer Invoice与付款页统一Importer of Record和税费分层文案。DentAll主题由0.43.0升至0.44.0，Core由0.4.0升至0.4.1。D73 59/59、D74扩展后的D75 95/95、邮件46/46、PHP/JS语法和`git diff --check`通过；独立Local真实WooCommerce/Chrome为150/150，覆盖普通Checkout与`order-pay`各390/768/1024/1440、Guest验证前不泄露、金额、无`Tax 0`、绝对截止、时区不变、重发不续期、长文本、焦点、无溢出及按钮≥44px。Console/pageerror/HTTP/PHP应用错误均为0，代码/安全/独立测试终审P0～P3=0。
+- 首轮浏览器发现普通Checkout按钮受Woo Blocks更高特异性规则覆盖而只有42px；最终以限定Checkout body、Block根节点和精确按钮class的选择器稳定覆盖为44px，不使用`!important`，四端复验关闭。TEST商品、报价订单、checkout draft、相关动作、独立数据库、账号、PHP/MySQL进程和17474/17475端口均清理，源Local配置哈希与商品/选项不变量通过。
+- 隔离副本沿用的普通Checkout标题、隐私文案和日期格式仍含中文，已登记RSK-048；这不影响D74金额、访问和生命周期Local技术结论，但阻塞第一版英语展示验收。真实设备/读屏、目标网关、SMTP、正式税务和非Local缓存仍按后续门禁验证。
+- 本日没有修改商品/订单正式数据、URL、SEO输出、Tax/Shipping/Fee配置、支付网关、SMTP、缓存策略、Staging、Production或DNS。部署时主题版本查询串会使`checkout.css`缓存失效；Checkout和`order-pay`仍必须从页面/边缘缓存排除。
+
 ## 本周风险
 
 - 首轮同步存在Cloudways“Pull不删除旧文件”的结构性风险：若4个旧Starter模板未受控移除，DentAll 0.41.0即使声明`Template: storefront`仍会继续使用旧模板，造成Header/Footer/Home与Hook架构混用；反向回滚也必须另行撤回19个新增文件，不能把“Pull旧提交成功”等同于文件系统已恢复。
@@ -951,6 +962,7 @@
 | W12 / D69（并行候选） | 6小时50分钟 | 未记录 | 已完成（独立Local技术候选；保留RSK-039/040） | DentAll 0.36.0候选连接Block Cart Store与经典Header/Mini Cart fragment，修正外层链接监听丢失及BFCache/旧响应竞态；Simple/Variable、匿名/Customer、故障/快速变化、四端和作用域通过，三路终审P0/P1=0。隔离数据库已恢复、10669已停止；形成当时D66三项尚未关闭、W12尚未合成的历史快照，RSK-039/040与非Local/Production仍未完成 |
 | W12 / D70 | 6小时50分钟 | 未记录 | 已完成（交易、恢复与私有目录销毁通过） | 独立Local复用Woo原生三券型和Store API；前/后105/105、权威浏览器17通过/1 P2、独立8/8，P0/P1为0。源提交的RSK-039长错误裁切映射为集成RSK-041并交D72；15券、1 Customer、1边界商品、51 session已删除，恢复12/12，原私有目录与23个同源回收站条目（含对应数据与元数据）精确销毁，安全终审P0/P1/P2为0。运行代码/插件/权限/金额算法0改动；D71税费、D75免邮/运费、D78跨订单次数及Checkout/订单/支付/库存/邮件未验 |
 | W13 / D73 | 未记录 | 未记录 | 已完成（Local字段与身份合同） | 完整Billing/Shipping、Guest付款和人工Customer关联合同已落地；D73 PHP 59/59、邮件JavaScript 46/46、真实Woo及展示Filter负向场景40/40、权限/REST 15/15通过。邮箱自助注册与历史Guest订单归属留D79；正式SMTP、卖方代收税口径和非Local未验 |
+| W13 / D74 | 未记录 | 未记录 | 已完成（Local技术验收） | 普通虚拟Checkout与实体报价`order-pay`复用Woo金额事实，新增按页结账CSS、服务端绝对截止时间及Importer of Record/税费分层说明；D73 59/59、D75 95/95、邮件46/46、独立浏览器150/150和三路终审P0～P3=0。首轮42px P2已修复为稳定44px并四端关闭，环境已恢复；RSK-048英语展示、正式税务、网关、SMTP、缓存和非Local未验 |
 | W13 / D75 | 未记录 | 未记录 | 已完成（Local 72小时生命周期） | 正数Shipping、首次成功发送付款邮件起算、重发不续期、内容变化关闭旧单、Action Scheduler单次任务及经典/Store API实时守卫已落地；D75 PHP 83/83、四端与四类付款页、终态4/4、普通停用3/3通过。RSK-045/P3并发首次签发、RSK-046/P2静默停用/更新、RSK-047/P2第三方私有对象meta及D76/D78真实网关晚到webhook仍为后续闸门，尚未合并或部署 |
 
 ## D65并行范围与主分支集成（2026-09-07）

@@ -1036,6 +1036,24 @@ D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart�
 
 本终验允许合成树进入`main`，不等于Staging发布批准。D66的RSK-035/037/038已于2026-09-10在DentAll 0.41.0专项分支关闭Local，源提交`5c4cefb`已通过非快进合并纳入并推送`main`；仍须在Staging执行代码白名单、文件＋数据库备份、环境差异、配置重放、缓存与回滚预检后重新验证三项。禁止用Local数据库或uploads覆盖Staging既有商品、媒体和订单。
 
+## D74订单摘要与四端结账（2026-09-22，Local技术完成）
+
+运行候选为`codex/day74-checkout-summary`，DentAll 0.44.0/Core 0.4.1，并继承D73/D75已完成提交。独立副本使用loopback HTTP `17474`、MySQL `17475`和独立数据库`dentall_d74_independent`；WP-Cron、外发HTTP、PHP mail、真实网关和文件修改关闭。被测主题/Core关键文件最终SHA与主工作区一致，测试完成后独立数据库、账号、进程和端口已清理。
+
+| 用例组 | 实际证据 | 结论与边界 |
+|---|---|---|
+| 静态与纯合同 | Core入口、生命周期、主题setup PHP lint；报价脚本/测试Node语法；`git diff --check`；D73 PHP 59/59、D75 95/95、邮件46/46 | 全部通过；D75故障注入日志为预期安全分支，不是回归 |
+| 浏览器总览 | 真实WooCommerce/Chrome 150/150，failures 0；普通Checkout与`order-pay`各4张截图，390/768/1024/1440 | 通过；桌面Chrome模拟，不代替真实设备/读屏 |
+| 实体报价金额 | 商品`2 × $99.95 = $199.90`、Shipping `$35.00`、Documentation fee `$7.25`、Total `$242.15`四端一致 | Woo订单事实保持唯一来源；没有`Tax $0`或虚构税行 |
+| 责任与截止 | Importer of Record、进口费用客户直付、DentAll依法代收税单列；`datetime=2026-09-25T01:40:03Z`，可见Asia/Shanghai；Asia/Shanghai与America/New_York浏览器上下文显示一致，重发不续期 | 通过；没有倒计时，付款资格仍由服务端守卫决定 |
+| Guest与订单访问 | Guest验证前无terms和order review；正确Billing email后输出；错误order key不泄露条款、商品或金额 | 通过Woo原生验证＋DentAll二次生命周期复核 |
+| 普通虚拟Checkout | 长名称商品Subtotal/Total均`$123.45`；无实体Shipping、`Tax $0`、报价截止或Importer文案 | 通过；普通虚拟路径不误套人工报价说明 |
+| 响应式与触控 | 两条路径四端根级/表格/条款溢出0，键盘focus可见。首轮普通Checkout按钮42px，定位为Woo Blocks高特异性`3em`覆盖；提高局部选择器特异性后普通Checkout均44px，`order-pay`为44px或51.98px | P2已修复并关闭；未用`!important`，不影响原生disabled/loading/focus或其他按钮 |
+| 错误与日志 | Console 0、pageerror 0、HTTP≥400 0；最终HTTP PHP日志Fatal/Parse/Warning/Deprecated/Uncaught/DB error 0；`wp-debug`无条目 | CLI既有Imagick DLL警告和早期已修正bootstrap历史警告不属于最终HTTP应用错误 |
+| 恢复与源不变量 | TEST商品209/210、订单211、checkout draft及相关计划任务清零；独立数据库与账号删除；17474/17475监听、PHP/MySQL记录PID和子PID退出；源Local `wp-config.php`哈希一致，商品/选项未变化 | 通过；证据留本机隔离目录，不进入Git |
+
+D74范围内开放P0/P1/P2/P3均为0。隔离副本继承的Checkout标题、隐私文案和日期格式含中文，登记RSK-048；它不改变金额、访问和生命周期结论，但第一版英语站展示验收前必须统一。真实/沙箱网关、异步回调与逾期竞态、SMTP、正式税务注册/税率、Staging/Production缓存/CDN、真实设备和读屏仍未验证，分别按D76/D77/D78与发布门禁处理。
+
 ## 测试记录模板（后续填写）
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

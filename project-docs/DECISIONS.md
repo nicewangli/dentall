@@ -418,11 +418,24 @@
 - 物流决定：人工报价订单必须具有大于0的原生Shipping line，0元Shipping、Free Shipping或Fee占位不能替代已确认运费。商品、数量、coupon、完整Billing/Shipping、Shipping、Tax或Fee任一实质变化时，旧订单先变为不可付款，再复核并建立新订单和新付款链接。
 - 有效期决定：72小时只从该订单第一次成功发送付款邮件起算；建单、保存、预览、复制付款链接或发送失败均不启动。第一次起算和到期事实一经建立不可由同一订单重发覆盖。到期且仍未付款的订单自动变为不可付款；异步任务延迟时，付款请求必须读取同一到期事实实时拒绝。重复邮件、重复任务和并发请求必须幂等。
 - 技术方向：继续复用`dentall-core`、WooCommerce Order CRUD与`order-pay`守卫；独立`shipping-quote-lifecycle.php`职责模块保存首次发送、到期、原始值内容签名、随机token及不可逆关闭事实，并以Action Scheduler安排`dentall_expire_shipping_quote`单次动作。经典与Store API对未签发草稿均只拒付、保持`pending`；已签发且过期/变化/关闭的旧单才取消。无效已签发报价不能重发Customer Invoice。普通后台停用先取消全部后台实体报价候选，严格核验保存与读回，成功后才清理动作；失败会阻止停用。不直接写订单表，保持HPOS兼容，不引入第三方报价插件或独立状态表。
-- 税费决定：DentAll不在订单中代收import duties、import taxes、customs clearance charges或carrier brokerage/disbursement fees；客户在产生时直接向海关或承运商支付。该决定不判断卖方Sales Tax、VAT或GST义务；正式税开关、含税口径、计税地址、税率和申报责任仍待财税负责人确认。
+- 税费决定：客户作为Importer of Record；DentAll不在订单中代收import duties、import taxes、customs clearance fees或carrier brokerage fees，客户在产生时直接向海关或承运商支付。D74补充确认第一版使用USD未税价，DentAll依法必须代收的Sales Tax、VAT、GST或HST才由WooCommerce原生Tax事实单列，没有真实税额时不显示`Tax 0`。正式注册义务、阈值、商品分类、计税地址、税率和申报仍待财税负责人确认。
 - 邮件与网关边界：邮件发送调用成功定义报价起点，但不证明SMTP实际投递，收件/退信留D77。网页和Store API拒绝过期付款不证明已经发往网关的交易会被撤销；目标网关的晚到webhook、订单状态、库存、coupon及退款/回补必须在D76/D78通过，作为M6完成闸门。
 - 数据、URL、SEO与缓存：不新增公共URL、Schema、Canonical、robots或Sitemap；继续使用WooCommerce原生订单、地址、费用和`order-pay`。交易页不得页面缓存。每个目标订单只保留最少生命周期事实和必要单次动作；队列性能与清理在Local和非Local分别核对。
 - 回滚：普通后台停用会先取消报价候选并核验，再清理DentAll报价动作；之后方可撤下新增Hook和实时守卫，并保留兼容读取或明确清理既有订单meta。WordPress静默停用/更新会跳过该Hook，非Local回滚必须使用维护窗口、停发付款邮件并确认没有在途支付。不得删除历史订单或绕过Woo CRUD。回滚后人工SOP只能作为临时替代，不能继续宣称系统自动执行三天有效期。
-- 验证边界：D73 PHP 59/59、邮件JavaScript 46/46，D75生命周期PHP 83/83；真实Woo及展示Filter负向场景40/40、权限/REST 15/15、普通停用3/3、Action Scheduler真实执行、四端Cart/四类付款页和浏览后4/4终态均通过，安全终审P0/P1=0。两次首次邮件真正并发成功缺少跨请求原子锁，按低频B2B SOP登记P3；静默停用/更新为非Local发布P2门禁；第三方私有对象订单项目meta兼容性登记RSK-047/P2。SMTP、目标主机Cron和真实网关竞态仍属D77及D76/D78。
+- 验证边界：D73 PHP 59/59、邮件JavaScript 46/46，D74扩展后的D75生命周期PHP 95/95；D73/D75真实Woo及展示Filter负向场景40/40、权限/REST 15/15、普通停用3/3、Action Scheduler真实执行、四端Cart/四类付款页和浏览后4/4终态均通过，D74代码与安全终审P0～P3=0。两次首次邮件真正并发成功缺少跨请求原子锁，按低频B2B SOP登记P3；静默停用/更新为非Local发布P2门禁；第三方私有对象订单项目meta兼容性登记RSK-047/P2。SMTP、目标主机Cron和真实网关竞态仍属D77及D76/D78。
+
+## ADR-041：订单摘要复用Woo金额事实，报价期限只显示服务端绝对时间
+
+- 状态：已接受并完成Local技术验收；用户于2026-09-22明确确认按建议实施。尚未部署Staging/Production。
+- 背景：D74需要同时改善两条不同结账路径：虚拟商品走普通Checkout Block，实体商品走人工报价后的`order-pay`。两条路径必须显示一致的商品、Shipping、Tax、Fee和Total，但不能建立第二套金额算法；报价客户还需要知道确定的付款截止时间和费用责任。
+- 金额决定：WooCommerce Order、Cart、Store API、Checkout Block和`form-pay`继续是金额唯一事实源。DentAll不在PHP或JavaScript重算商品、折扣、Shipping、Tax、Fee或Total，不复制WooCommerce结账模板，也不为税额为0的订单制造`Tax 0`。
+- 截止时间决定：只对已签发、内容未变、未过期且未关闭的人工报价显示服务端保存的绝对截止时间。显示按WordPress站点日期、时间格式与时区本地化，同时在`time[datetime]`保留UTC机器值；重发不续期，不提供浏览器倒计时。付款资格仍由D75服务端守卫决定，页面显示不是安全边界。
+- 访问与输出决定：报价说明挂在WooCommerce完成订单key、订单归属和Guest邮箱验证后的`before_woocommerce_pay_form`，只接收WooCommerce传入的`WC_Order`，交易meta使用`edit`上下文读取，文本和属性分别转义。Cart报价邮件、Customer Invoice和付款页统一说明客户是Importer of Record。
+- 布局决定：子主题只在Checkout与`order-pay`条件加载`checkout.css`；采用一套语义DOM、Mobile First基础层和75rem PC增强层。普通Checkout保持Block结构，`order-pay`保持原生`form-pay`表格与支付区；仅处理`min-width:0`、长文本、触控高度、固定列宽和PC摘要层级。
+- 税费决定：深圳公司第一版主要面向美国、加拿大和澳大利亚企业客户，以USD未税价展示。客户作为Importer of Record并向海关或承运商直接支付进口环节费用；DentAll依法必须代收的Sales Tax、VAT、GST或HST才进入订单并单列。该界面合同不等于已完成任何国家或地区的税务注册、阈值、商品分类、税率或申报判断，正式上线前仍需财税负责人确认。
+- 数据、URL、SEO、缓存与性能：不新增字段、订单meta、公共URL、Canonical、Schema、robots或Sitemap；不增加数据库查询、远程请求、前端计时器或轮询。Checkout和`order-pay`必须继续排除页面缓存。新增一份按页加载CSS，版本号随主题0.44.0用于资源缓存失效；Core升至0.4.1。
+- 回滚：移除`before_woocommerce_pay_form`展示Hook及子主题结账样式加载，恢复主题/Core版本即可回到原生视觉；不需要数据库迁移或数据回写。回滚展示不能撤销D75生命周期守卫，也不能改变已保存的订单金额和截止事实。
+- 验证边界：PHP/JavaScript语法、D73 59/59、D75 95/95、报价邮件46/46、`git diff --check`与代码/安全独立审查通过。隔离Local真实WooCommerce/Chrome为150/150；普通Checkout与`order-pay`各覆盖390/768/1024/1440，Guest验证前不泄露、金额一致、无`Tax 0`、绝对截止、两种浏览器时区显示一致、重发不续期、焦点、无溢出和按钮≥44px均通过，Console/pageerror/HTTP/PHP应用错误为0，TEST数据与独立环境已清理。首轮42px P2已修复并关闭，终审P0～P3为0。隔离站继承的中文Checkout标题、隐私文案和日期格式登记RSK-048；目标网关、正式税率、SMTP、边缘缓存、Staging和Production不在本决定完成口径。
 
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 

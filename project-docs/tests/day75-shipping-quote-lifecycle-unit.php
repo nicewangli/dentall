@@ -16,19 +16,38 @@ $test_unscheduled_groups = array();
 $test_uuid_sequence      = 0;
 $test_json_encode_failure = false;
 $test_filters             = array();
+$test_actions             = array();
 $test_order_queries       = array();
 $test_wc_get_orders_results = array();
 $test_wc_get_orders_failure = false;
 $test_wp_die_calls        = array();
 $test_order_read_sequences = array();
 
-function add_action() {}
+function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+	global $test_actions;
+	$test_actions[] = compact( 'hook', 'callback', 'priority', 'accepted_args' );
+}
 function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	global $test_filters;
 	$test_filters[] = compact( 'hook', 'callback', 'priority', 'accepted_args' );
 }
 function __( $value ) { return $value; }
 function esc_html( $value ) { return htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8' ); }
+function esc_html__( $value ) { return esc_html( $value ); }
+function esc_attr( $value ) { return htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8' ); }
+function get_option( $key, $default = false ) {
+	$options = array(
+		'date_format' => 'F j, Y',
+		'time_format' => 'g:i a',
+	);
+	return $options[ $key ] ?? $default;
+}
+function wp_timezone() { return new DateTimeZone( 'Asia/Shanghai' ); }
+function wp_timezone_string() { return 'Asia/Shanghai'; }
+function wp_date( $format, $timestamp, $timezone = null ) {
+	$date = new DateTimeImmutable( '@' . (int) $timestamp );
+	return $date->setTimezone( $timezone ?: new DateTimeZone( 'UTC' ) )->format( $format );
+}
 function wp_strip_all_tags( $value ) { return strip_tags( (string) $value ); }
 function wp_json_encode( $value ) {
 	global $test_json_encode_failure;
@@ -889,6 +908,55 @@ try {
 		&& $unscheduled_group_count === count( $test_unscheduled_groups )
 		&& $wp_die_count + 1 === count( $test_wp_die_calls );
 }
+
+/* D74：只在Woo已经授权的有效报价付款表单前展示绝对截止时间和费用边界。 */
+$summary_order = dentall_test_make_order( 190 );
+dentall_test_stamp_quote( $summary_order, 4102185600, 4102444800, 'd74-summary-token' );
+$summary_order->view_meta_overrides[ DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META ] = 4102531200;
+ob_start();
+dentall_core_render_shipping_quote_payment_terms( $summary_order );
+$summary_html = ob_get_clean();
+$checks['d74_valid_quote_outputs_one_summary'] = 1 === substr_count( $summary_html, 'class="dentall-quote-terms"' );
+$checks['d74_summary_uses_saved_utc_datetime'] = str_contains( $summary_html, 'datetime="2100-01-01T00:00:00Z"' );
+$checks['d74_summary_uses_localized_site_time_and_timezone'] = str_contains( $summary_html, 'January 1, 2100 8:00 am (Asia/Shanghai)' );
+$checks['d74_summary_reads_expiry_in_edit_context'] = in_array(
+	array( 'meta:' . DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, 'edit' ),
+	$summary_order->getter_contexts,
+	true
+);
+$checks['d74_summary_states_resend_does_not_extend'] = str_contains( $summary_html, 'does not extend it' );
+$checks['d74_summary_separates_import_and_seller_collected_tax'] = str_contains( $summary_html, 'payable by the customer directly to customs or the carrier' )
+	&& str_contains( $summary_html, 'DentAll is required to collect will be shown separately in the order total' );
+$checks['d74_summary_states_customer_is_importer_of_record'] = str_contains( $summary_html, 'The customer is the importer of record.' );
+$checks['d74_summary_does_not_claim_all_tax_is_customer_paid'] = ! str_contains( strtolower( $summary_html ), 'all taxes' );
+$checks['d74_summary_hook_receives_only_authorized_order'] = in_array(
+	array(
+		'hook'          => 'before_woocommerce_pay_form',
+		'callback'      => 'dentall_core_render_shipping_quote_payment_terms',
+		'priority'      => 20,
+		'accepted_args' => 1,
+	),
+	$test_actions,
+	true
+);
+
+$unissued_summary_order = dentall_test_make_order( 191 );
+ob_start();
+dentall_core_render_shipping_quote_payment_terms( $unissued_summary_order );
+$checks['d74_unissued_quote_outputs_no_summary'] = '' === ob_get_clean();
+
+$changed_summary_order = dentall_test_make_order( 192 );
+dentall_test_stamp_quote( $changed_summary_order, 4102185600, 4102444800, 'd74-changed-token' );
+$changed_summary_order->totals['total'] = '999.00';
+ob_start();
+dentall_core_render_shipping_quote_payment_terms( $changed_summary_order );
+$checks['d74_changed_quote_outputs_no_summary'] = '' === ob_get_clean();
+
+$expired_summary_order = dentall_test_make_order( 193 );
+dentall_test_stamp_quote( $expired_summary_order, time() - DENTALL_SHIPPING_QUOTE_LIFETIME - 1, time() - 1, 'd74-expired-token' );
+ob_start();
+dentall_core_render_shipping_quote_payment_terms( $expired_summary_order );
+$checks['d74_expired_quote_outputs_no_summary'] = '' === ob_get_clean();
 
 $failed_checks = array();
 

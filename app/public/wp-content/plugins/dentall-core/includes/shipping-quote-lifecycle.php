@@ -308,7 +308,7 @@ function dentall_core_add_shipping_quote_email_terms( $order, $sent_to_admin, $p
 	}
 
 	$message = __( 'This quote is valid for 72 hours from the first successful sending of this payment request. Sending it again does not extend the deadline.', 'dentall-core' );
-	$duties  = __( 'Import duties, import taxes, customs clearance charges and carrier collection fees are not included in the DentAll order total and must be paid directly to customs or the carrier.', 'dentall-core' );
+	$duties  = __( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees and carrier brokerage charges are not included in the DentAll order total and are payable by the customer directly to customs or the carrier. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall-core' );
 
 	if ( $plain_text ) {
 		echo "\n" . wp_strip_all_tags( $message ) . "\n" . wp_strip_all_tags( $duties ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -318,6 +318,79 @@ function dentall_core_add_shipping_quote_email_terms( $order, $sent_to_admin, $p
 	echo '<p>' . esc_html( $message ) . '<br>' . esc_html( $duties ) . '</p>';
 }
 add_action( 'woocommerce_email_after_order_table', 'dentall_core_add_shipping_quote_email_terms', 20, 4 );
+
+/**
+ * 以站点语言与时区格式化报价截止时间。
+ *
+ * 时间事实始终读取首次签发时保存的UTC时间戳；这里只负责展示，不能据当前请求
+ * 重新推算72小时。明确附带时区，避免海外客户把深圳站点时间误认为浏览器本地时间。
+ *
+ * @param int $expires_at UTC时间戳。
+ * @return string
+ */
+function dentall_core_format_shipping_quote_expiry( $expires_at ) {
+	$expires_at = (int) $expires_at;
+
+	if ( $expires_at <= 0 ) {
+		return '';
+	}
+
+	$date_format = (string) get_option( 'date_format', 'F j, Y' );
+	$time_format = (string) get_option( 'time_format', 'g:i a' );
+	$timezone    = wp_timezone();
+	$timezone_id = wp_timezone_string();
+
+	if ( '' === $timezone_id ) {
+		$timezone_id = 'UTC';
+	}
+
+	return sprintf(
+		/* translators: 1: localized date and time, 2: site timezone identifier. */
+		__( '%1$s (%2$s)', 'dentall-core' ),
+		wp_date( trim( $date_format . ' ' . $time_format ), $expires_at, $timezone ),
+		$timezone_id
+	);
+}
+
+/**
+ * 在Woo完成订单、订单密钥/归属与Guest邮箱验证后展示报价期限和费用边界。
+ *
+ * 金额明细继续完全由紧随其后的WooCommerce原生form-pay表格输出；本函数不读取
+ * 请求中的订单ID、不计算金额，也不为没有真实税额的订单制造Tax 0行。
+ *
+ * @param WC_Order $order WooCommerce已授权访问的待付款订单。
+ * @return void
+ */
+function dentall_core_render_shipping_quote_payment_terms( $order ) {
+	if (
+		! $order instanceof WC_Order
+		|| ! dentall_core_is_shipping_quote_candidate( $order )
+		|| '' !== dentall_core_get_shipping_quote_block_reason( $order )
+	) {
+		return;
+	}
+
+	$issued_at  = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
+	$expires_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, true, 'edit' );
+
+	if ( $issued_at <= 0 || $expires_at <= $issued_at ) {
+		return;
+	}
+
+	$heading_id = 'dentall-quote-terms-' . $order->get_id();
+	$datetime   = gmdate( 'Y-m-d\TH:i:s\Z', $expires_at );
+	$deadline   = dentall_core_format_shipping_quote_expiry( $expires_at );
+	$terms      = __( 'This deadline is based on the first successfully sent payment email. Sending the payment request again does not extend it.', 'dentall-core' );
+	$charges    = __( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees and carrier brokerage charges are not included in this order total and are payable by the customer directly to customs or the carrier. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall-core' );
+
+	echo '<section class="dentall-quote-terms" aria-labelledby="' . esc_attr( $heading_id ) . '">';
+	echo '<h2 id="' . esc_attr( $heading_id ) . '">' . esc_html__( 'Quote validity and charges', 'dentall-core' ) . '</h2>';
+	echo '<p><strong>' . esc_html__( 'Payment deadline:', 'dentall-core' ) . '</strong> <time datetime="' . esc_attr( $datetime ) . '">' . esc_html( $deadline ) . '</time></p>';
+	echo '<p>' . esc_html( $terms ) . '</p>';
+	echo '<p>' . esc_html( $charges ) . '</p>';
+	echo '</section>';
+}
+add_action( 'before_woocommerce_pay_form', 'dentall_core_render_shipping_quote_payment_terms', 20, 1 );
 
 /**
  * 阻止向已签发但已失效的待付款报价重发带付款链接的Customer Invoice。

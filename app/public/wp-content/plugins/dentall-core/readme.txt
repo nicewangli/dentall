@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,10 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.4.1 =
+* 在已授权的人工报价付款页显示服务端绝对截止时间、客户进口商责任及费用边界。
+* 保留WooCommerce原生订单摘要和金额事实，不生成Tax 0或客户端金额副本。
 
 = 0.4.0 =
 * 补全人工报价的收货与账单资料合同、正数Shipping校验和完整地址锁。

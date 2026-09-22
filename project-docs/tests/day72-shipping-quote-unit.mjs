@@ -147,8 +147,9 @@ assert.match(body, /Billing address line 1 \(Required if No\):/);
 assert.match(body, /Billing address line 2 \(optional\):/);
 assert.match(body, /Current product subtotal before discounts, shipping, tax and fees: USD\s*123\.45/);
 assert.match(body, /Coupon codes shown in cart: DENTALL10/);
-assert.match(body, /DentAll will confirm shipping, any seller-collected tax, and other charges included in the order before payment\./);
-assert.match(body, /Import duties, import taxes, customs clearance charges, and carrier brokerage or disbursement fees are excluded from the DentAll order total/);
+assert.match(body, /Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total\./);
+assert.match(body, /The customer is the importer of record\./);
+assert.match(body, /Import duties, import taxes, customs clearance fees, and carrier brokerage charges are excluded from the DentAll order total/);
 assert.match(body, /paid by the customer directly to customs or the carrier when assessed\./);
 
 const clickState = { prevented: false, stopped: false };
