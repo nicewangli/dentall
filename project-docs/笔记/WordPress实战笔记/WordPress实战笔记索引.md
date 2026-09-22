@@ -117,11 +117,11 @@ tags:
 | Day70 | [[Day70-WooCommerce优惠券校验与金额真相]] | [[../Day70-优惠券规则与边界验证]] | 初识，待费曼自测 | — | Woo原生三券型、Cart/订单事实分层、Store API整数金额、限制/会话/故障与精确恢复；源提交唯一展示P2 `RSK-039`映射为集成`RSK-041`，后由W12六宽回归在Local关闭；税费、免邮/运费和跨订单次数留D71/D75/D78 |
 | Day71候选 | [[Day71-WooCommerce运费税费与金额真相]] | [[../Day71-运费税费与金额摘要候选验证]] | 初识，待费曼自测 | — | `WC_Cart`、Shipping/Tax、Store API和Cart Block的单向金额链；`null`/无rate的0、最小货币单位、grams、Nonce/Cart-Token、Customer/session副作用、含税与舍入、库存及整库恢复。运行代码0新增；Cart内地区入口和正式政策不在通过口径 |
 | Day72候选 | [[Day72-人工运费报价与结账安全边界]] | [[../Day72-人工运费邮件报价与购物车收口]] | 初识，待费曼自测 | — | 固定商品价＋人工运费的状态边界；无Shipping Method时改按Product配送属性输出Store API扩展事实，Cart邮件与三路服务端守卫分责，原生Pending order/Shipping/Tax/Fee/Order Pay承载最终交易。PHP/JS/隔离Local通过；正式邮箱与非Local仍待 |
-| Day73 | [[Day73-WooCommerce报价字段与客户身份边界]] | [[../Day73-报价字段与客户身份合同]] | 初识，Local技术验收完成 | — | Cart自动商品事实、邮件地址合同、Woo原生Billing/Shipping、Guest付款与Customer显式关联分层；PHP 59/59、邮件JavaScript 46/46及真实Woo/展示Filter负向40/40、权限/四端浏览器通过，不把邮箱格式当身份验证 |
-| Day75 | [[Day75-WooCommerce报价过期与订单生命周期]] | [[../Day75-人工物流与报价72小时生命周期]] | 初识，Local技术验收完成 | — | 首次成功发送付款邮件起算、重发不续期、异步调度与实时守卫共用到期事实；生命周期83/83、真实队列、HTTP终态及普通停用3/3通过，并发首次签发P3、静默更新和第三方私有对象meta P2及D76/D78真实网关仍待 |
-| Day77 | [[Day77-WordPress事务邮件链与可观察性]] | [[../Day77-FluentSMTP事务邮件Local验证]] | 初识，待费曼自测 | 2026-09-22 | Woo邮件、`wp_mail()`、FluentSMTP、BossMail、真实收件与日志分层；Local隔离链和Staging外部收件已通过，Header认证及完整业务触发仍待 |
+| Day73 | [[Day73-WooCommerce报价字段与客户身份边界]] | [[../Day73-报价字段与客户身份合同]] | 初识，Local技术验收完成 | — | Cart自动商品事实、邮件地址合同、Woo原生Billing/Shipping、Guest付款与Customer显式关联分层；批次合同65/65，Staging订单#1579已通过不完整资料SMTP前阻断及美国地址正向签发 |
+| Day75 | [[Day75-WooCommerce报价过期与订单生命周期]] | [[../Day75-人工物流与报价72小时生命周期]] | 初识，Local技术验收完成 | — | 首次成功发送付款邮件起算、重发不续期、异步调度与实时守卫共用到期事实；批次合同89/89，Staging订单#1579已签发并仅保留1项72小时到期Action；目标主机实际到期与D76/D78真实网关仍待 |
+| Day77 | [[Day77-WordPress事务邮件链与可观察性]] | [[../Day77-FluentSMTP事务邮件Local验证]] | 初识，待费曼自测 | 2026-09-22 | Woo邮件、`wp_mail()`、FluentSMTP、BossMail、真实收件与日志分层；Local隔离链、Staging外部测试收件及TEST Customer Invoice SMTP接受已通过，Header认证与业务邮件最终呈现仍待 |
 | Day79 | [[Day79-WooCommerce账户身份与订单归属]] | [[../Day79-登录注册与订单归属]] | 初识，待费曼自测 | 2026-09-22 | Guest、Customer、Billing email与订单归属；邮箱验证归户、登录错误、安全边界及与D75已签发报价的替换单合同 |
-| Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；仅隔离Local通过 |
+| Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；隔离Local通过，Staging现有TEST Page已切换Full width并完成四端命中 |
 
 D68～D72已依据各日候选实现、故障注入、金额/优惠合同和独立Local回放形成学习记录；D73与D75已完成授权范围的隔离Local技术验收，静态、真实Woo、Action Scheduler、权限、浏览器与终态证据均已回填。D31～D66既有记录保留原证据范围。D61转入D66的RSK-035及D66新增的RSK-037/038已于2026-09-10经独立授权修复并关闭Local；D69与D72期限性P2继续按原期限管理。学习记录不代替用户费曼自测，D73/D75也不代替正式内容、税费、目标网关、SMTP、缓存和非Local验收。
 

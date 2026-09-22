@@ -12,10 +12,10 @@
 - D77活动方案统一为FluentSMTP＋公司BossMail SMTP；Staging受控QQ邮箱已实际收件，Cloudways Elastic Email未启用、DNS未修改。CR/ADR/RSK编号已统一为D73＋D75的CR-014/ADR-040/RSK-042～047、D77的CR-015/ADR-041/RSK-048、D79的ADR-042/RSK-049～051。
 - 合成合同已通过：报价PHP 65/65、邮件JavaScript 46/46、生命周期89/89、D79登录16/16，集成改动PHP lint、Node语法、冲突标记和`git diff --check`通过；独立代码、安全和测试复核P0/P1=0。
 - 集成候选已合入并推送`origin/main@fdb342b`；以`f81f236`冻结Staging发布候选并把`origin/deploy/staging`从`c784a61`安全推进到该提交。Cloudways拉取前创建文件＋数据库On-Demand备份，恢复点为`2026-09-22 03:11:13 UTC`；拉取后远端主题/Core关键文件blob与候选逐项一致，公开DentAll版本为0.44.0。
-- Staging保存My Account自助注册后，公开页同时显示Login/Register，注册仅要求邮箱并发送设密链接，WordPress原生公开注册保持关闭。PayPal Payments 4.1.2已启用但未完成配置，Store API可用支付方式为空；没有启用真实收款或创建订单。
-- FluentSMTP 2.4.0保持单一公司BossMail连接：`s196h.chinaemail.cn:465`、SSL、身份验证、日志开启、模拟发送关闭；既有受控外部测试为1次成功、SMTP响应`OK`。本次部署后没有再次对外发送邮件。
+- Staging保存My Account自助注册后，公开页同时显示Login/Register，注册仅要求邮箱并发送设密链接，WordPress原生公开注册保持关闭。PayPal Payments 4.1.2已启用但未完成配置，Store API可用支付方式为空；没有启用真实收款。本次后续验收只建立明确标记的TEST报价订单`#1579`，未执行付款。
+- FluentSMTP 2.4.0保持单一公司BossMail连接：`s196h.chinaemail.cn:465`、SSL、身份验证、日志开启、模拟发送关闭；既有受控外部测试为1次成功、SMTP响应`OK`。经用户明确授权，本次另向受控QQ邮箱发送订单`#1579`的TEST Customer Invoice；FluentSMTP日志由7增至8，新记录状态为“已发送”。
 - 390/768/1024/1440px对普通Page、My Account、Shop和Cart的16组Staging回归均为HTTP 200、0横向溢出、0重复ID、0页面/控制台错误；两套匿名会话的Header Cart分别为1项与0项。全站保持`noindex, nofollow`，My Account为`private/no-cache`，当日WooCommerce日志没有错误级记录。
-- Cloudways Password Protection按用户决定暂不启用并登记为临时接受风险。D73＋D75的Staging TEST订单、邮件门禁、首次签发/Action/到期/归户链仍待实际取证；D85代码已部署，但现有普通Page均为默认右侧栏模板，尚无Full width代表页命中规则。Production与DNS未变更。
+- Cloudways Password Protection按用户决定暂不启用并登记为临时接受风险。Staging TEST订单`#1579`已证明不完整Customer Invoice在SMTP前阻断；补齐美国地址、`$6`商品和`$12`人工运费后，于`2026-09-22 05:58:12 UTC`首次签发，截止时间固定为`2026-09-25 05:58:12 UTC`，Action Scheduler仅有1项对应待执行动作。现有公开`TEST D12 Manager Published Page`已切换为Full width，390/768/1024/1440px无侧栏、无横向溢出，文章宽度为350/704/736/736px；页面既有TEST商品图404作为内容夹具问题保留。未启用真实支付，Production与DNS未变更。
 ### D73＋D75报价字段与72小时生命周期（2026-09-21，Local已完成）
 
 - 用户明确授权：“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。CR-014与ADR-040登记完整字段、Guest/Customer、正数Shipping、旧单替换、进口费用及自动过期合同；D73/D75按Local授权范围完成，M6仍等待真实支付闭环。

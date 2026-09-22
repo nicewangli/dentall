@@ -5,8 +5,8 @@
 计划检查点: D73（人工报价字段与客户身份合同）
 周次: W13
 实际有效工时: 用户未记录
-验收层级: 已完成授权范围的隔离Local技术验收；真实支付留D76/D78
-状态: Local完成；代码已部署Staging，真实TEST报价订单验收待完成
+验收层级: 隔离Local技术验收与Staging代表性门禁/签发通过；真实支付留D76/D78
+状态: Local完成；Staging代表性TEST报价门禁与正向签发已通过
 ---
 
 # Day73 报价字段与客户身份合同
@@ -113,7 +113,9 @@ WooCommerce后续是否把经验证邮箱的历史Guest订单归入新账号，�
 - 批次①已进入`origin/main@fdb342b`，发布候选`f81f236`已由Cloudways Via Git拉取；远端DentAll 0.44.0、DentAll Core 0.4.1关键文件blob与候选一致。拉取前文件＋数据库恢复点为`2026-09-22 03:11:13 UTC`。
 - 当前Staging保持`noindex, nofollow`，PayPal Payments虽已安装启用但未完成设置，Store API返回可用支付方式为空；没有真实支付或订单写入。
 - 纯合同复验为报价PHP 65/65、邮件JavaScript 46/46；Store API地址输入证明US、CA、AU及Billing HK能被WooCommerce地址层接受，未知国家`ZZ`由WooCommerce拒绝。GB在Cart地址API可保存是Woo原生行为，D73的三国限制由报价邮件选项和订单付款守卫执行，不能把Cart API当作最终白名单证据。
-- 尚未完成的Staging证据是：建立明确TEST人工报价订单，分别验证US/CA/AU正向、GB负向、缺正数Shipping/缺地址时首封Customer Invoice在SMTP前被阻断，以及完整订单进入D75签发链。完成这些动作前，D73仍只按“代码已部署、环境验收部分通过”记录。
+- 明确TEST人工报价订单`#1579`保留Guest与`pending`状态，私人备注标明“do not fulfill”。商品为SKU `TH2103`、数量1、小计`$6`；首次尝试只保留姓名和受控QQ邮箱，不含完整地址与正数Shipping，后台提示`Payment email not sent...`，FluentSMTP日志仍为7条，证明邮件在SMTP前被阻断。
+- 随后补齐美国Billing/Shipping地址，增加`TEST Manual Shipping $12`，订单总额为`$18`；后台成功显示Email “订单详情” sent并进入D75首次签发链，FluentSMTP新增`Details for order #1579 on DentAll`记录，状态为“已发送”，日志总数为8。
+- 本次Staging代表样本证明US正向和不完整资料负向。CA/AU正向与GB负向未为凑矩阵额外创建订单；三国白名单及GB拒绝继续由65/65纯合同覆盖，并在D76/D78真实支付批次按需抽样。没有执行付款、库存扣减或真实税务配置。
 - Cloudways Password Protection按用户决定暂不启用；该决定不改变全站noindex、支付关闭和不得向外部人员分发测试付款链接的要求。
 
 ## 可复用核心思想

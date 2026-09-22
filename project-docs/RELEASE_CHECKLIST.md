@@ -170,13 +170,13 @@
 
 ## 批次①D73＋D75、D77、D79、D85 Staging检查
 
-- [ ] 发布候选以当前远端`origin/deploy/staging@c784a61`为唯一父提交并使用旧端保护；没有从仍停在`501e5e5`的本地部署工作树直接发布。
+- [x] 发布候选以当时远端`origin/deploy/staging@c784a61`为唯一父提交并使用旧端保护；`origin/deploy/staging`已安全推进到`f81f236`，没有从仍停在`501e5e5`的本地部署工作树直接发布。
 
-- [ ] 发布提交已冻结，DentAll为0.44.0、DentAll Core为0.4.1；Core同时加载`shipping-quote.php`、`shipping-quote-lifecycle.php`和`customer-account.php`。
+- [x] 发布提交已冻结，DentAll为0.44.0、DentAll Core为0.4.1；Core同时加载`shipping-quote.php`、`shipping-quote-lifecycle.php`和`customer-account.php`，远端关键blob与`f81f236`一致。
 - [ ] 维护窗口已开启，Core自动更新关闭，Customer Invoice暂停；无在途付款或活动真实报价，支付网关保持关闭。
-- [ ] 同点文件＋数据库备份、现场版本/配置/哈希和回滚入口已记录；回滚按“先取消报价候选或同点恢复文件＋数据库”执行。
-- [ ] Woo Shipping国家仅美国、加拿大、澳大利亚，Billing国家不限制；首封付款邮件缺正数Shipping或地址资料时不发送、不签发、不调度。
+- [x] 同点文件＋数据库备份、现场版本/配置/哈希和回滚入口已记录；恢复点为`2026-09-22 03:11:13 UTC`，回滚按“先取消报价候选或同点恢复文件＋数据库”执行。
+- [x] Woo Shipping国家仅美国、加拿大、澳大利亚，Billing国家不限制；订单`#1579`实测首封缺正数Shipping/完整地址时在SMTP前阻断，补齐美国地址与`$12`Shipping后成功签发。
 - [ ] Guest有效报价归户后旧报价取消并按SOP建立替换单；不同客户会话、订单详情和完整付款URL保持隔离。
-- [ ] FluentSMTP为唯一处理器并连接公司BossMail；Cloudways Elastic Email未启用、无fallback。受控外部收件、原始Header、失败日志、回复、Cron和日志清理均记录。
-- [ ] Guest Checkout与My Account注册开启；Checkout自动开户和WordPress Anyone can register关闭；账户/Checkout/Order Pay整页缓存绕过。
-- [ ] PayPal、Stripe、BACS保持关闭；本批次不提交真实支付。保留一张72小时TEST报价观察目标环境真实到期，其他TEST用户、订单、动作和敏感日志在验收后清理。
+- [ ] FluentSMTP为唯一处理器并连接公司BossMail；Cloudways Elastic Email未启用、无fallback。受控测试邮件已实际收件，TEST Customer Invoice已被SMTP接受；原始Header、业务邮件收件箱/垃圾箱、回复、退信和日志治理仍待记录。
+- [ ] My Account注册已开启，Checkout自动开户和WordPress Anyone can register关闭，My Account已确认`private/no-cache`；Guest Checkout设置与Checkout/Order Pay整页缓存绕过继续在D76交易验收复核。
+- [ ] PayPal Payments已启用但未完成配置，Store API `payment_methods=[]`；Stripe、BACS和真实收款保持关闭。本批次未提交支付。订单`#1579`保留为72小时TEST报价，唯一到期Action计划于`2026-09-25 05:58:12 UTC`运行；到期复核后再清理TEST订单、动作和敏感日志。

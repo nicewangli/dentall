@@ -5,8 +5,8 @@
 计划检查点: D77（订单邮件和SMTP）
 周次: W13
 实际有效工时: 用户未记录
-验收层级: 隔离Local技术验证
-状态: Local应用链与Staging SMTP传输已完成；业务触发和邮件认证按后续Day验收
+验收层级: 隔离Local应用链与Staging SMTP/TEST Customer Invoice验证
+状态: Local应用链、Staging SMTP传输与TEST Customer Invoice触发已通过；邮件认证按后续Day验收
 ---
 
 # Day77 FluentSMTP事务邮件Local验证
@@ -208,8 +208,8 @@ flowchart LR
 ## 2026-09-22 批次①部署后复核
 
 - Staging插件清单确认FluentSMTP 2.4.0处于启用状态，只有1个活动邮件连接和1个活动发件人。连接为公司邮箱、`s196h.chinaemail.cn:465`、SSL、SMTP验证开启；凭据继续保存在服务器数据库中且浏览器不回传已保存密码。
-- 邮件日志开启并保留14天，邮件模拟关闭。日志共7条：1条成功、6条为早期配置排错失败；成功记录显示发件人为DentAll公司邮箱、Email Service为SMTP Server、耗时4.08秒，服务器响应为`OK`。本轮只读复核没有点击重发、重试或发送测试邮件。
-- 当前证据证明公司BossMail连接和既有受控外部收件成功，不证明部署后的业务Customer Invoice、密码重置、垃圾箱、回复、退信、SPF/DKIM/DMARC原始Header或跨设备体验；这些仍按D77/D80及上线清单验收。
+- 邮件日志开启并保留14天，邮件模拟关闭。业务触发前日志共7条；不完整订单发信被D73门禁拦截后仍为7条。完整TEST订单`#1579`发出Customer Invoice后，新增主题`Details for order #1579 on DentAll`，收件人为受控QQ邮箱，状态为“已发送”，日志总数为8。
+- 当前证据证明公司BossMail连接、既有受控外部收件以及部署后的Customer Invoice已被SMTP接受；仍不证明本次业务邮件已在收件箱/垃圾箱最终呈现，也不覆盖密码重置、回复、退信、SPF/DKIM/DMARC原始Header或跨设备体验。这些继续按D77/D80及上线清单验收。
 - Cloudways Elastic Email保持未启用，DNS未修改；当前活动方案继续是FluentSMTP＋公司BossMail，不再把Elastic Email列为本轮待配置项。
 
 ## 可复用核心思想
