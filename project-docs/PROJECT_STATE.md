@@ -20,16 +20,22 @@
 
 - D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当时Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支及D66修复分支均保留。D66修复工作树已在远端`main`核验后移除；主工作树、Day25历史归档树和Staging部署树均保留。
 
-- 批次①集成候选已在`codex/batch1-integration`纳入D73＋D75、D77、D79和D85。独立审查发现并已修复首封付款邮件资料门禁与地址国家合同：Shipping仅美国、加拿大、澳大利亚，Billing国家不限制并遵循WooCommerce国家字段规则；已签发Guest报价因验证邮箱归户而改变Customer ID时取消旧单，由Website Manager建立替换报价。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。D77当前采用FluentSMTP＋BossMail，Staging受控外部收件已通过，Elastic Email未启用。 合成合同为报价PHP 65/65、邮件JavaScript 46/46、生命周期89/89、D79登录16/16，独立代码、安全和测试复核P0/P1=0。
+- 批次①已完成集成、主线合并、发布候选冻结与Staging拉取。`origin/main`为`fdb342b`，Cloudways发布分支`origin/deploy/staging`为`f81f236`；远端DentAll `0.44.0`、DentAll Core `0.4.1`关键文件Git blob与`f81f236`逐项一致。部署前已创建文件＋数据库On-Demand备份，恢复点为`2026-09-22 03:11:13 UTC`。Shipping仅美国、加拿大、澳大利亚，Billing国家不限制并遵循WooCommerce国家字段规则；已签发Guest报价因验证邮箱归户而改变Customer ID时取消旧单，由Website Manager建立替换报价。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。合成合同为报价PHP 65/65、邮件JavaScript 46/46、生命周期89/89、D79登录16/16，独立代码、安全和测试复核P0/P1=0。
+
+- 2026-09-22 Staging验收已确认：首页、Shop、My Account、Cart均为HTTP 200，空Cart访问Checkout按Woo原生行为302返回Cart；全站继续输出`noindex, nofollow`，My Account响应为`private/no-cache`，两套匿名浏览器会话的Header Cart分别显示1项和0项，没有跨会话串缓存。390/768/1024/1440px对普通Page、My Account、Shop与Cart完成16组回归：0横向溢出、0重复ID、0页面错误、0控制台错误，交互控件高度至少44px；My Account在390px单列、768px起双列。
+
+- D79的My Account自助注册已在Staging保存并公开生效：退出登录页面同时提供Login与Register，注册只要求邮箱并发送设密链接；WordPress原生`wp-login.php?action=register`仍跳转`registration=disabled`。PayPal Payments 4.1.2已安装启用但仍显示“完成设置”，Store API `payment_methods=[]`且没有创建订单，真实支付继续关闭。FluentSMTP 2.4.0为单一活动连接，发件人为公司邮箱，SMTP主机`s196h.chinaemail.cn:465`、SSL、验证开启，邮件日志开启、模拟发送关闭；既有受控测试记录显示1次成功并收到SMTP `OK`，本轮部署后未再次发送外部邮件。
+
+- 当前Staging仍有三项验收边界：Cloudways Password Protection按用户2026-09-22决定暂不启用，作为临时风险接受；D73＋D75尚未用Staging TEST订单实际执行“不完整首封Customer Invoice阻断、首次成功签发、Action唯一性、72小时到期和验证邮箱归户取消旧报价”；D85运行CSS已部署，但现有普通Page仍为默认右侧栏模板，没有Full width代表页命中D85规则，因此Staging内容页模板验收未完成。WooCommerce当日日志没有Fatal/Error/Critical/Warning记录。
 
 - D85已按用户确认的最小范围在独立Local副本完成：原生Page继续使用现有Full width模板，主题源候选`0.43.0`只增加普通Page正文阅读行长与连续字符换行两块局部CSS；22个页面场景616/616、Website Manager Gutenberg编辑回归67/67、静态检查和独立代码审查均通过。三个明确TEST Page、两个临时用户及编辑标记已清理，隔离服务已停止；共享Local、Staging、菜单、SEO配置、订单、支付和物流均未写入。详见[[笔记/Day85-通用内容页模板与编辑回归]]。
 
 - 更新日期：2026-09-22。
-- 当前阶段：既有D67～D72与D66修复已进入`main`且尚未部署；D73＋D75、D77、D79和D85源候选已提交并进入`codex/batch1-integration`，正在完成合成测试与Staging门禁，尚未合并`main`、推送或部署。
+- 当前阶段：批次①D73＋D75、D77、D79和D85已合入并推送`main`，发布候选`f81f236`已由Cloudways Via Git拉取到Staging；正在关闭Staging TEST订单生命周期与D85 Full width代表页两项证据缺口，Production未部署。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
 - 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口；D85已完成独立Local技术回归，但不等于W15/M7、Staging部署或正式内容验收。
-- 当前状态：Cloudways Flexible为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换曾验证。后续部署仍须重新做备份、环境差异与回滚预检。
-- 当前版本：`main`与`origin/main`基线为`e9b5d2b`，DentAll 0.42.0/Core 0.3.0；批次①集成候选为DentAll 0.44.0/Core 0.4.1。2026-09-22只读刷新确认远端`origin/deploy/staging`已为`c784a61`，其中DentAll 0.42.0/Core 0.3.0；本地部署工作树仍停在旧`501e5e5`，不得从旧工作树直接发布。D77邮件配置已在Staging单独完成并实际收件，批次①代码候选尚未部署。
+- 当前状态：Cloudways Flexible为Full Access；Staging HTTPS、禁止索引、支付关闭、备份恢复入口已复核。Cloudways Password Protection按用户决定暂不启用；在恢复保护或切换正式域名前，不向外部人员分发临时域名和测试订单链接。
+- 当前版本：`main`与`origin/main`为`fdb342b`，DentAll 0.44.0/Core 0.4.1；`origin/deploy/staging`为`f81f236`，Staging远端关键文件blob和公开主题版本均与该候选一致。Production未部署，DNS未切换。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
 
 ## D85并行检查点：原生Page Full width与编辑回归

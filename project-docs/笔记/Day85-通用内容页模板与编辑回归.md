@@ -7,7 +7,7 @@
 计划工时: 6小时50分钟有效工作
 实际有效工时: 未记录；不使用计划工时代填
 验收层级: 隔离Local技术验收完成；正式内容、真实设备与非Local未验
-状态: 已完成（授权的D85最小范围）
+状态: Local最小范围完成；代码已部署Staging，Full width代表页配置待验
 ---
 
 # DentAll 每日复盘 D85：通用内容页模板与编辑回归
@@ -151,6 +151,14 @@
 
 - 下一检查点第一件事：只有在用户单独确认Day86后，才只读梳理博客列表、分类、分页、空状态和SEO边界。
 - 需要提前准备：正式内容仍由业务方协调；D85结果不作为D73～D84、W15或M7完成证据。
+
+## 2026-09-22 Staging部署与验收补充
+
+- D85两块正文规则已随DentAll 0.44.0部署，远端`style.css` blob与发布候选`f81f236`一致；主题资源查询版本为0.44.0。
+- 在390/768/1024/1440px对普通Page、My Account、Shop和Cart执行16组浏览器回归，均为HTTP 200、无页面横向溢出、无重复ID、无页面错误和控制台错误，交互控件高度至少44px，全站继续输出`noindex, nofollow`。
+- Staging当前12个已发布Page的REST `template`均为空，抽查Sample Page、TEST D12 Page和Packaging Solutions均为`page-template-default`与`right-sidebar`；因此D85严格限定的Full width正文规则没有在现有Staging内容页命中。Sample Page在1440px正文宽度约928px，不能作为D85的46rem验收证据。
+- 为保持本轮不擅自修改公开Page，未把任何页面切换为Full width。下一步应在现有TEST D12 Page或新建明确TEST Page上选择Storefront Full width模板，保存后重跑四宽、长内容、连续标识符、键盘Focus与编辑恢复；正式内容页再由业务方按已批准URL和文案逐页配置。
+- 因此本轮结论是“D85代码部署和公共回归通过，Staging模板命中验收未完成”，不能将普通默认模板页面的无溢出误写为D85 Full width完成。
 
 ## 可复用核心思想
 

@@ -6,7 +6,7 @@
 周次: W14
 实际有效工时: 用户未记录
 验收层级: 独立Local技术实现与身份归属验证
-状态: 已完成批准的D79 Local范围；真实SMTP、密码重置、支付沙盒、非Local缓存与限频按后续检查点验收
+状态: Local完成；Staging自助注册与四端公开页已通过，真实归户替换报价仍待验
 ---
 
 # Day79 登录注册与订单归属
@@ -179,6 +179,14 @@ WooCommerce的`form-login.php`输出同一份语义DOM、Label、Nonce、登录�
 - D81～D84：已登录Dashboard、地址表单、订单列表/详情/再次购买和账户全链路视觉。
 - D100及非Local：Cloudways/Varnish/CDN缓存隔离、HTTPS Cookie、WAF限频和真实多会话。
 - 真实屏幕阅读器、实体设备、正式英语页面内容和正式隐私文案仍需对应验收；当前隔离数据继承了共享Local的中英混合内容，本轮未改业务文案。
+
+## 2026-09-22 Staging部署与验收补充
+
+- WooCommerce“允许客户在‘我的账户’页面上创建账户”已在Staging保存，后台显示“您的设置已保存”。退出登录访问`/my-account/`同时出现Login和Register；Register没有用户名或密码输入，只要求邮箱并发送密码设置链接。
+- WordPress原生`/wp-login.php?action=register`仍302跳转到`registration=disabled`，注册入口继续由WooCommerce My Account承载，没有开放第二套WordPress注册表单。
+- 390px下Login/Register为单列，768/1024/1440px为双列；四宽均无横向溢出、重复ID、页面错误或控制台错误，按钮高度至少44px。My Account响应头为`private/no-cache`，公开请求无需清缓存即可读到最新注册表单。
+- 两个匿名浏览器上下文分别拥有1项和0项购物车，Header Cart数量没有串会话。PayPal Payments尚未完成配置，Store API `payment_methods=[]`；本轮没有注册真实账户、触发设密邮件或创建订单。
+- 仍待Staging代表样本验证：已验证邮箱把符合条件的历史Guest订单归入Customer；已签发Guest报价因`customer_id`变化而取消；Website Manager创建替换报价；不同邮箱与已归属其他Customer的订单保持不动。完成前不把“注册入口通过”外推为“订单归属闭环通过”。
 
 ## 可复用核心思想
 

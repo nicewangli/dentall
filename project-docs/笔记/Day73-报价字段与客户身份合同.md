@@ -6,7 +6,7 @@
 周次: W13
 实际有效工时: 用户未记录
 验收层级: 已完成授权范围的隔离Local技术验收；真实支付留D76/D78
-状态: 已完成（Local）；未部署Staging/Production
+状态: Local完成；代码已部署Staging，真实TEST报价订单验收待完成
 ---
 
 # Day73 报价字段与客户身份合同
@@ -107,6 +107,14 @@ WooCommerce后续是否把经验证邮箱的历史Guest订单归入新账号，�
 - 订单付款页面若允许改变已报价地址，会使Shipping、Tax或其他费用失去依据，因此完整Billing/Shipping必须锁定。
 - 卖方应否代收Sales Tax、VAT或GST、采用含税还是未税展示，以及计税地址仍待财税负责人确认；D73只冻结字段能力，不作税务判断。
 - D74继续验证`order-pay`摘要和四端布局；D79负责注册、登录及历史Guest订单归属行为。
+
+## 2026-09-22 Staging部署与验收补充
+
+- 批次①已进入`origin/main@fdb342b`，发布候选`f81f236`已由Cloudways Via Git拉取；远端DentAll 0.44.0、DentAll Core 0.4.1关键文件blob与候选一致。拉取前文件＋数据库恢复点为`2026-09-22 03:11:13 UTC`。
+- 当前Staging保持`noindex, nofollow`，PayPal Payments虽已安装启用但未完成设置，Store API返回可用支付方式为空；没有真实支付或订单写入。
+- 纯合同复验为报价PHP 65/65、邮件JavaScript 46/46；Store API地址输入证明US、CA、AU及Billing HK能被WooCommerce地址层接受，未知国家`ZZ`由WooCommerce拒绝。GB在Cart地址API可保存是Woo原生行为，D73的三国限制由报价邮件选项和订单付款守卫执行，不能把Cart API当作最终白名单证据。
+- 尚未完成的Staging证据是：建立明确TEST人工报价订单，分别验证US/CA/AU正向、GB负向、缺正数Shipping/缺地址时首封Customer Invoice在SMTP前被阻断，以及完整订单进入D75签发链。完成这些动作前，D73仍只按“代码已部署、环境验收部分通过”记录。
+- Cloudways Password Protection按用户决定暂不启用；该决定不改变全站noindex、支付关闭和不得向外部人员分发测试付款链接的要求。
 
 ## 可复用核心思想
 
