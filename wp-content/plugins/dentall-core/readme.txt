@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.3.0
+Stable tag: 0.4.1
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,15 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.4.1 =
+* 新增WooCommerce账户登录公开错误归一化，并保留原始错误供审计与限频。
+* 集成D79邮箱验证归户与D75报价签名：已签发Guest报价归户后取消旧单并要求建立替换报价。
+* 首封付款邮件增加正数Shipping、完整地址及有效国家门禁；Shipping仅允许美国、加拿大和澳大利亚，Billing按WooCommerce国家地址规则验证。
+
+= 0.4.0 =
+* 补全人工报价的收货与账单资料合同、正数Shipping校验和完整地址锁。
+* 新增付款申请首次成功发送后72小时自动失效、内容变更失效及实时付款守卫。
 
 = 0.3.0 =
 * 新增静态首页Trust指标的最小编辑区、权限边界与Page修订支持。

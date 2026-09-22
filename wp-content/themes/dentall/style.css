@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.42.0
+Version: 0.44.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -464,6 +464,18 @@ a:where(:active) {
 	.col-full {
 		padding-inline: var(--dentall-gutter-wide);
 	}
+}
+
+/* D85保留Full width无侧栏骨架，只限制普通Page的阅读行长。 */
+.page-template-template-fullwidth:not(.woocommerce-page) .site-main > article.type-page {
+	max-width: 46rem;
+	margin-inline: auto;
+}
+
+/* anywhere参与最小宽度计算，避免连续标识符撑开段落或表格。 */
+.page-template-template-fullwidth:not(.woocommerce-page) .entry-content {
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 /*

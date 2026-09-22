@@ -1,0 +1,68 @@
+/*
+ * D79复用WooCommerce原生登录/注册DOM，只负责退出登录后的“我的账户”认证布局。
+ */
+.woocommerce-account .woocommerce #customer_login {
+	display: grid;
+	gap: var(--dentall-space-24);
+}
+
+.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background: var(--dentall-color-surface);
+	box-shadow: var(--dentall-shadow-card);
+}
+
+.woocommerce-account .woocommerce #customer_login h2 {
+	margin-block: 0 var(--dentall-space-24);
+}
+
+.woocommerce-account .woocommerce #customer_login form {
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce #customer_login :where(.form-row) {
+	margin-block-end: var(--dentall-space-16);
+}
+
+.woocommerce-account .woocommerce #customer_login :where(label) {
+	display: inline-block;
+	margin-block-end: var(--dentall-space-8);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.woocommerce-account .woocommerce #customer_login .woocommerce-form-login__rememberme {
+	display: flex;
+	align-items: center;
+	gap: var(--dentall-space-8);
+	min-height: 2.75rem;
+}
+
+.woocommerce-account .woocommerce #customer_login :where(.woocommerce-form-login__submit, .woocommerce-form-register__submit) {
+	width: 100%;
+}
+
+.woocommerce-account .woocommerce #customer_login :where(.lost_password, .woocommerce-privacy-policy-text) {
+	margin-block-end: 0;
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-account .woocommerce #customer_login .lost_password a {
+	text-decoration: underline;
+	text-underline-offset: 0.16em;
+}
+
+@media (min-width: 48rem) {
+	.woocommerce-account .woocommerce #customer_login {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dentall-space-32);
+	}
+
+	.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+		padding: var(--dentall-space-32);
+	}
+}

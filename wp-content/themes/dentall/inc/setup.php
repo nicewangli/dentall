@@ -206,3 +206,31 @@ function dentall_enqueue_cart_header_sync_assets() {
 	wp_script_add_data( 'dentall-cart-header-sync', 'strategy', 'defer' );
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 );
+
+/**
+ * 只为退出登录后的“我的账户”认证页加载布局样式。
+ *
+ * 登录、注册、Nonce、会话和邮件继续由WooCommerce负责；主题不覆盖账户模板。
+ * 已登录Dashboard及后续地址、订单端点留在各自工作日处理。
+ *
+ * @return void
+ */
+function dentall_enqueue_account_auth_assets() {
+	if (
+		! function_exists( 'is_account_page' )
+		|| ! is_account_page()
+		|| is_user_logged_in()
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-account-auth',
+		get_stylesheet_directory_uri() . '/assets/css/account-auth.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_account_auth_assets', 60 );
