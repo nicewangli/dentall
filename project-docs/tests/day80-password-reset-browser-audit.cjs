@@ -256,7 +256,7 @@ async function verifyUsedLinkLayouts(browser, resetUrl) {
 		const identityWait = Math.max(0, 10500 - (Date.now() - firstRequestAt));
 		await requestPage.waitForTimeout(identityWait);
 		const identityLimited = await submitResetRequest(requestPage, manifest.email);
-		same(readMail().length, mailBefore + 1, '来源冷却结束后60秒身份限频未阻止重复邮件。');
+		same(readMail().length, mailBefore + 1, '短等待后60秒身份限频未阻止重复邮件。');
 		same(identityLimited.heading, existing.heading, '身份限频公开标题发生变化。');
 
 		const unknown = await submitResetRequest(requestPage, `${manifest.marker}-missing@example.test`);

@@ -142,10 +142,10 @@ function dentall_core_is_customer_lost_password_request() {
 }
 
 /**
- * 生成不含邮箱、用户名或IP明文的找回密码限频项。
+ * 生成不含邮箱或用户名明文的找回密码限频项。
  *
- * 标识符限制同一账户线索60秒内重复发信；服务器直接看到的来源IP增加10秒短闸门。
- * 不信任可伪造的转发头，且不将任何原始身份数据写入WooCommerce限频表。
+ * 标识符限制同一账户线索60秒内重复发信，不将原始身份数据写入WooCommerce限频表。
+ * 来源IP限频留给明确理解代理拓扑的边缘层，避免共享代理地址造成全站误伤。
  *
  * @param string $login 客户提交的邮箱或用户名。
  * @return array<string,int>
@@ -153,18 +153,10 @@ function dentall_core_is_customer_lost_password_request() {
 function dentall_core_password_reset_rate_limits( $login ) {
 	$identity = strtolower( sanitize_user( trim( $login ) ) );
 	$salt     = wp_salt( 'auth' );
-	$limits   = array(
+
+	return array(
 		'dentall_password_reset_identity_' . hash_hmac( 'sha256', $identity, $salt ) => 60,
 	);
-	$remote = isset( $_SERVER['REMOTE_ADDR'] ) && is_string( $_SERVER['REMOTE_ADDR'] )
-		? trim( wp_unslash( $_SERVER['REMOTE_ADDR'] ) )
-		: '';
-
-	if ( false !== filter_var( $remote, FILTER_VALIDATE_IP ) ) {
-		$limits[ 'dentall_password_reset_origin_' . hash_hmac( 'sha256', $remote, $salt ) ] = 10;
-	}
-
-	return $limits;
 }
 
 /**

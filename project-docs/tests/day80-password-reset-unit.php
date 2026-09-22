@@ -154,25 +154,24 @@ assert_same( false, dentall_core_is_customer_lost_password_request(), '畸形账
 
 $_SERVER['REMOTE_ADDR'] = '203.0.113.80';
 $limits                 = dentall_core_password_reset_rate_limits( 'Customer@Example.Test' );
-assert_same( 2, count( $limits ), '有效来源应生成身份与来源两道限频。' );
-assert_same( array( 60, 10 ), array_values( $limits ), '限频冷却时间与确认范围不符。' );
+assert_same( 1, count( $limits ), '找回请求应只生成身份限频，避免共享代理来源误伤全站。' );
+assert_same( array( 60 ), array_values( $limits ), '身份限频冷却时间与确认范围不符。' );
 $stored_keys = implode( ' ', array_keys( $limits ) );
 assert_same( false, str_contains( $stored_keys, 'customer@example.test' ), '限频键泄露了邮箱明文。' );
-assert_same( false, str_contains( $stored_keys, '203.0.113.80' ), '限频键泄露了IP明文。' );
+assert_same( false, str_contains( $stored_keys, '203.0.113.80' ), '身份限频键不应包含来源IP。' );
 assert_same( false, dentall_core_throttle_password_reset( $limits ), '首次请求被错误限频。' );
-assert_same( 2, WC_Rate_Limiter::$set_calls, '首次请求没有写入两道限频。' );
+assert_same( 1, WC_Rate_Limiter::$set_calls, '首次请求没有写入身份限频。' );
 assert_same( true, dentall_core_throttle_password_reset( $limits ), '重复请求没有命中限频。' );
-assert_same( 2, WC_Rate_Limiter::$set_calls, '受限重试刷新了冷却时间。' );
+assert_same( 1, WC_Rate_Limiter::$set_calls, '受限重试刷新了冷却时间。' );
 
 $equivalent_limits = dentall_core_password_reset_rate_limits( 'Customer%00@Example.Test' );
 assert_same( array_key_first( $limits ), array_key_first( $equivalent_limits ), 'Woo等价账号输入生成了不同身份限频键。' );
+$_SERVER['REMOTE_ADDR'] = '198.51.100.80';
+assert_same( $limits, dentall_core_password_reset_rate_limits( 'Customer@Example.Test' ), '来源地址改变了身份限频键。' );
 $other_limits = dentall_core_password_reset_rate_limits( 'other@example.test' );
-assert_same( true, dentall_core_throttle_password_reset( $other_limits ), '同一来源更换账号线索绕过了来源限频。' );
-assert_same( 2, WC_Rate_Limiter::$set_calls, '来源已受限时仍写入了新身份限频键。' );
-assert_same( false, isset( WC_Rate_Limiter::$limits[ array_key_first( $other_limits ) ] ), '来源已受限时创建了新身份限频记录。' );
-
-$_SERVER['REMOTE_ADDR'] = 'malformed-ip';
-assert_same( 1, count( dentall_core_password_reset_rate_limits( 'same@example.test' ) ), '畸形来源IP不应写入限频键。' );
+assert_same( false, dentall_core_throttle_password_reset( $other_limits ), '不同账号线索被共享来源错误限频。' );
+assert_same( 2, WC_Rate_Limiter::$set_calls, '不同账号线索没有写入自己的身份限频。' );
+assert_same( true, isset( WC_Rate_Limiter::$limits[ array_key_first( $other_limits ) ] ), '不同账号线索缺少独立限频记录。' );
 
 $endpoint_active = false;
 assert_same(

@@ -5,11 +5,11 @@
 ## D80客户密码重置候选（2026-09-22）
 
 - 用户确认客户账户邮箱由单一客户控制，并批准第一版以My Account为统一找回入口、通用公开提示、适度限频和至少12字符服务端规则；明确不增加CAPTCHA、独立重发按钮或第三方安全插件。Staging阶段获准建立一个专用TEST客户、向受控测试邮箱真实发送一次并检查Woo/FluentSMTP私有日志。
-- Local候选已完成：Core在Woo默认处理器前验证Nonce与非空输入，使用HMAC身份键60秒和直连来源键10秒限频，命中后不续期；存在与不存在账号返回相同标题、正文和路径。密钥、邮件、有效期、单次使用和成功后登录继续由WordPress/WooCommerce负责，新密码由`validate_password_reset`强制至少12字符。
+- Local候选已完成：Core在Woo默认处理器前验证Nonce与非空输入，使用HMAC身份键60秒限频，命中后不续期；存在与不存在账号返回相同标题、正文和路径。Cloudways官方说明真实访客地址位于`HTTP_X_REAL_IP`，目标环境未提供PHP侧可核验证据，因此发布候选不使用可能代表共享代理的`REMOTE_ADDR`，来源级限频留给可信边缘层。密钥、邮件、有效期、单次使用和成功后登录继续由WordPress/WooCommerce负责，新密码由`validate_password_reset`强制至少12字符。
 - 主题仅扩展既有账户CSS的条件加载和找回/重置表单样式；DentAll候选版本为0.45.0，DentAll Core为0.5.0。没有新增数据库Schema、公共URL、Cron、远程服务、插件或前端脚本。
 - 证据：D80合同28/28、D79回归16/16；请求表单、通用确认、新密码表单、短密码错误、已用链接五类状态在390/768/1024/1440px共135/135通过，页面错误、Console Error和请求失败均为0；代码、安全、测试独立复核P0/P1=0。
 - 隔离Local的3名`example.test` TEST客户、4条限频记录、数据库`dentall_day80`、私有邮件捕获目录与8089服务已清理，Schema计数0、目录不存在、监听0。共享Local、Staging、Production没有写入。
-- 当前状态是“Local候选完成、Staging未部署/未发信”。Staging首先验证代理后的`REMOTE_ADDR`不是共享地址，再部署候选并用一个专用TEST客户完成一次真实投递和私有日志核对；完整令牌、邮箱和正文不得进入Git或公开证据。Production、真实客户和DNS不在本轮。
+- 当前状态是“Local候选完成、Staging未部署/未发信”。部署候选已移除未经证明安全的来源键；下一步用一个专用TEST客户完成一次真实投递和私有日志核对，完整令牌、邮箱和正文不得进入Git或公开证据。Production、真实客户和DNS不在本轮。
 
 ## 状态快照
 
