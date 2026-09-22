@@ -349,7 +349,9 @@ function dentall_core_guard_shipping_quote_invoice_recipient( $recipient, $order
 
 	if ( '' !== $reason && '' !== $recipient && function_exists( 'is_admin' ) && is_admin() && class_exists( 'WC_Admin_Meta_Boxes' ) ) {
 		WC_Admin_Meta_Boxes::add_error(
-			__( 'Payment email not sent: add a positive Shipping line and complete the approved billing and shipping details first.', 'dentall-core' )
+			0 < $issued_at
+				? __( 'Payment email not sent: this issued quote is no longer valid. Create and confirm a replacement order before sending another payment email.', 'dentall-core' )
+				: __( 'Payment email not sent: add a positive Shipping line and complete the approved billing and shipping details first.', 'dentall-core' )
 		);
 	}
 

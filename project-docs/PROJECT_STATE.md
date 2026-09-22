@@ -20,7 +20,7 @@
 
 - D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当时Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支及D66修复分支均保留。D66修复工作树已在远端`main`核验后移除；主工作树、Day25历史归档树和Staging部署树均保留。
 
-- 批次①集成候选已在`codex/batch1-integration`纳入D73＋D75、D77、D79和D85。独立审查发现并已修复首封付款邮件资料门禁与地址国家合同：Shipping仅美国、加拿大、澳大利亚，Billing国家不限制并遵循WooCommerce国家字段规则；已签发Guest报价因验证邮箱归户而改变Customer ID时取消旧单，由Website Manager建立替换报价。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。D77当前采用FluentSMTP＋BossMail，Staging受控外部收件已通过，Elastic Email未启用。 合成合同为报价PHP 65/65、邮件JavaScript 46/46、生命周期87/87、D79登录16/16，独立代码、安全和测试复核P0/P1=0。
+- 批次①集成候选已在`codex/batch1-integration`纳入D73＋D75、D77、D79和D85。独立审查发现并已修复首封付款邮件资料门禁与地址国家合同：Shipping仅美国、加拿大、澳大利亚，Billing国家不限制并遵循WooCommerce国家字段规则；已签发Guest报价因验证邮箱归户而改变Customer ID时取消旧单，由Website Manager建立替换报价。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。D77当前采用FluentSMTP＋BossMail，Staging受控外部收件已通过，Elastic Email未启用。 合成合同为报价PHP 65/65、邮件JavaScript 46/46、生命周期89/89、D79登录16/16，独立代码、安全和测试复核P0/P1=0。
 
 - D85已按用户确认的最小范围在独立Local副本完成：原生Page继续使用现有Full width模板，主题源候选`0.43.0`只增加普通Page正文阅读行长与连续字符换行两块局部CSS；22个页面场景616/616、Website Manager Gutenberg编辑回归67/67、静态检查和独立代码审查均通过。三个明确TEST Page、两个临时用户及编辑标记已清理，隔离服务已停止；共享Local、Staging、菜单、SEO配置、订单、支付和物流均未写入。详见[[笔记/Day85-通用内容页模板与编辑回归]]。
 

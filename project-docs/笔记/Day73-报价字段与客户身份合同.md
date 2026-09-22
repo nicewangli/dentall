@@ -21,7 +21,7 @@
 
 ## 先给结论
 
-> 批次①集成补充（2026-09-22）：Shipping国家仅限美国、加拿大、澳大利亚。Billing国家不限制，州省、邮编等字段是否必填由WooCommerce对应国家的地址合同决定；Billing email仍必须有效。首封付款邮件发送前会校验正数Shipping及完整Billing/Shipping，失败时不发送、不签发、不调度。
+> 批次①集成补充（2026-09-22）：Shipping国家仅限美国、加拿大、澳大利亚。Billing国家不限制，州省、邮编等字段是否必填由WooCommerce对应国家的地址合同决定；Billing email仍必须有效。首封付款邮件发送前会校验正数Shipping及完整Billing/Shipping，失败时不发送、不签发、不调度。原D73源验收为59/59；批次①新增三国白名单、Billing locale与未知国家负向后为65/65。
 
 D73不再建立实体商品的普通公共Checkout表单。CR-012已经把实体商品流程改为“Cart邮件申请报价 → 业务人员建立WooCommerce待付款订单 → 客户使用`order-pay`付款”，因此本日冻结的是报价邮件、后台订单和付款守卫之间的字段合同。
 

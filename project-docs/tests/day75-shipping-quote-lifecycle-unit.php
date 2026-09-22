@@ -21,8 +21,10 @@ $test_wc_get_orders_results = array();
 $test_wc_get_orders_failure = false;
 $test_wp_die_calls        = array();
 $test_order_read_sequences = array();
+$test_admin_errors         = array();
 
 function add_action() {}
+function is_admin() { return true; }
 function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	global $test_filters;
 	$test_filters[] = compact( 'hook', 'callback', 'priority', 'accepted_args' );
@@ -64,6 +66,13 @@ function wp_generate_uuid4() {
 	++$test_uuid_sequence;
 
 	return '11111111-1111-4111-8111-' . str_pad( (string) $test_uuid_sequence, 12, '0', STR_PAD_LEFT );
+}
+
+class WC_Admin_Meta_Boxes {
+	public static function add_error( $message ) {
+		global $test_admin_errors;
+		$test_admin_errors[] = $message;
+	}
 }
 
 function as_schedule_single_action( $timestamp, $hook, $args, $group, $unique ) {
@@ -469,6 +478,10 @@ $checks['first_invoice_without_positive_shipping_clears_recipient'] = ''
 		$missing_shipping_email_order,
 		new WC_Email( 'customer_invoice', $missing_shipping_email_order )
 	);
+$checks['incomplete_first_invoice_admin_error_requests_missing_data'] = str_contains(
+	$test_admin_errors[ count( $test_admin_errors ) - 1 ] ?? '',
+	'add a positive Shipping line'
+);
 $missing_details_email_order = dentall_test_make_order( 118 );
 $missing_details_email_order->has_required_quote_details = false;
 $checks['first_invoice_without_required_details_clears_recipient'] = ''
@@ -509,6 +522,10 @@ $checks['expired_quote_clears_invoice_recipient'] = ''
 		$expired_invoice_order,
 		new WC_Email( 'customer_invoice', $expired_invoice_order )
 	);
+$checks['invalid_issued_quote_admin_error_requests_replacement'] = str_contains(
+	$test_admin_errors[ count( $test_admin_errors ) - 1 ] ?? '',
+	'Create and confirm a replacement order'
+);
 
 $failed_email_order = dentall_test_make_order( 111 );
 dentall_core_issue_shipping_quote_after_email(
