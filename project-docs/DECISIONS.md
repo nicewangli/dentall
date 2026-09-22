@@ -438,6 +438,16 @@
 - 归属规则：客户通过Woo邮箱验证链证明控制账户邮箱后，WooCommerce把同一Billing email且`customer_id=0`的历史Guest订单写入该Customer ID；已归属其他Customer的订单不移动。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。
 - 报价协作：若一张已签发Guest报价因邮箱验证被自动写入Customer ID，D75签名会按既定防篡改合同取消旧报价；Website Manager须复核并创建、发送替换报价，不自动改签或延长旧链接。验证后新产生的Guest订单也不会在每次登录时自动重扫。
 - 安全与回滚：登录未知账号/错密只统一公开提示，原始错误码保留给审计与限频；重复邮箱注册与密码找回枚举留D80。完整Guest `order-pay` URL按Bearer秘密管理。已归属订单不能随代码回滚自动恢复为Guest，必须经审计和授权逐单处理。
+
+## ADR-043：客户密码重置统一进入My Account并复用原生密钥链
+
+- 状态：已接受并完成D80独立Local技术验证；用户确认客户账户邮箱由单一客户控制，并授权Staging建立专用TEST客户、真实发送一次重置邮件及检查Woo/FluentSMTP私有日志。
+- 入口与公开反馈：第一版以WooCommerce My Account为唯一找回入口；WordPress核心`lostpassword`与`retrievepassword`请求跳转到Woo入口，邮件中的`rp/resetpass`链接保持原生处理。有效非空提交无论账号是否存在、是否发送或是否命中冷却，均返回相同公开标题、说明和路径。
+- 原生职责：密钥生成、有效期、单次使用、邮件和成功后登录继续由WordPress/WooCommerce负责。DentAll Core只在Woo处理器前完成限频和公开结果收口，并在`validate_password_reset`增加至少12字符的服务端规则；不新增密码存储、邮件队列或自定义重置令牌。
+- 限频：账号线索经Woo同类的`sanitize_user()`归一化后，以站点盐HMAC保存60秒身份键；服务器直接看到的有效`REMOTE_ADDR`以HMAC保存10秒来源键。命中任一键后不刷新现有期限、不写入其他键。不信任客户端可伪造的转发头。
+- 明确不做：第一版不增加CAPTCHA、独立重发按钮、第三方安全插件、自动重试或自定义邮件服务。
+- 风险与发布门槛：Woo原生限频为非原子检查后写入，极小并发窗口仍可能重复发送；存在账号会同步生成密钥和调用邮件链，响应耗时不保证恒定；Staging必须确认代理/CDN后的`REMOTE_ADDR`不是全站共享地址，且账户页与端点绕过共享整页缓存。
+- 回滚：回退Core与主题版本及D80模块增量即可恢复Woo原生找回流程；现有限频记录会按Woo过期机制清理，不做Schema迁移。已经成功修改的密码不随代码回滚恢复。
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

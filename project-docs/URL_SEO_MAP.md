@@ -48,7 +48,7 @@
 | 商品筛选参数 | Shop/商品分类基础URL追加`min_price`、`max_price`、`filter_size`、`filter_shade`、`filter_product_brand`及对应属性`query_type_*=or` | 否 | 去参数的当前基础归档 | D50～D53 Local已实现：任意价格、`filter_*`或`query_type_*`键均防御性`noindex, follow`，Yoast Canonical仍回当前基础归档；参数URL不进Sitemap。D53在`pre_get_posts`统一规范公开GET，缺失/非`or`查询类型、非法/未知筛选键和畸形品牌值302到当前分类或Shop的白名单第一页；商品搜索主动隔离这些键。仅未知`foo`或合法排序不触发筛选noindex。非Local缓存与抓取未验 |
 | 购物车 | `/cart/` | 否 | 自身 | noindex |
 | 结账 | `/checkout/` | 否 | 自身 | noindex |
-| 我的账户 | `/my-account/` | 否 | 自身 | noindex |
+| 我的账户 | `/my-account/`；找回入口`/my-account/lost-password/`；重置端点沿Woo原生URL | 否 | 自身 | noindex；D80将核心`lostpassword`/`retrievepassword`请求临时跳转到My Account，邮件中的`rp/resetpass`有效链接不改写；账户及重置响应必须绕过共享整页缓存 |
 | 博客 | `/blog/` | 是 | 自身 | ADR-022：Page `Blog`被指定为文章页；WordPress自动输出文章归档，正式列表UI与分页策略后续完成 |
 | 文章 | `/blog/{slug}/` | 是 | 自身 | ADR-021已冻结；不嵌入分类，D25后变更必须登记301、Canonical、Sitemap和内链影响 |
 | 文章分类归档 | `/blog/category/{slug}/` | 满足内容门槛后是 | 自身 | 主归档维度；正式名称/Slug、多篇文章和独立说明后索引，TEST/空/薄弱分类不得进入Production |

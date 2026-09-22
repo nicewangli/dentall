@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.4.1
+Stable tag: 0.5.0
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,10 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.5.0 =
+* 统一客户找回密码公开结果，增加匿名短时限频与服务端12字符最低密码规则。
+* 将WordPress核心找回请求入口归一到WooCommerce“我的账户”，继续复用原生密钥与邮件机制。
 
 = 0.4.1 =
 * 新增WooCommerce账户登录公开错误归一化，并保留原始错误供审计与限频。

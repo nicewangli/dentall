@@ -11,12 +11,12 @@ $registered_hooks = array();
 $valid_nonce      = 'valid-nonce';
 $assertions       = 0;
 
-function add_action( $hook, $callback, $priority, $accepted_args ) {
+function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	global $registered_hooks;
 	$registered_hooks[] = compact( 'hook', 'callback', 'priority', 'accepted_args' );
 }
 
-function add_filter( $hook, $callback, $priority, $accepted_args = 1 ) {
+function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	global $registered_hooks;
 	$registered_hooks[] = compact( 'hook', 'callback', 'priority', 'accepted_args' );
 }
