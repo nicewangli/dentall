@@ -1086,4 +1086,6 @@ Staging前继续保持支付关闭、只用TEST对象；需验证首封邮件后
 | 静态与独立复核 | PHP lint、Node语法、CSS花括号、`!important`、`git diff --check`；代码/安全/测试专项复核 | 通过；三方均确认P0/P1=0 |
 | 清理 | 3名`example.test` TEST客户、4条限频记录、隔离库`dentall_day80`、私有邮件捕获目录及8089服务 | 已清理；Schema计数0、运行目录不存在、监听0 |
 
-Staging候选只保留60秒HMAC身份冷却，不使用未经证明安全的`REMOTE_ADDR`，也不盲信`X-Forwarded-For`。随后仅创建一个专用TEST客户，向用户指定的受控测试邮箱真实发送一次，检查Woo/FluentSMTP私有日志且不在公开证据中记录完整令牌或邮件正文。Woo限频非原子并发窗口、同步SMTP时序差异和边缘来源限频待验保留为非阻塞风险。
+Staging候选只保留60秒HMAC身份冷却，不使用未经证明安全的`REMOTE_ADDR`，也不盲信`X-Forwarded-For`。原计划创建一个专用TEST Customer；现场发现受控邮箱已属于既有明确TEST账户，WordPress安全拒绝重复邮箱，因此在不改变其角色的前提下只向该账户真实发送一次，并检查Woo/FluentSMTP私有日志。Woo限频非原子并发窗口、同步SMTP时序差异和边缘来源限频待验保留为非阻塞风险。
+
+Staging实际执行：发布提交`a07af22`部署成功；既有D77受控邮箱已属于明确TEST账户，因此未新增重复账户。只提交一次真实找回请求，FluentSMTP成功计数增加1，Woo `transactional-emails`记录`customer_reset_password`发送成功，用户在手机端打开链接进入新密码表单。按用户决定不再创建Gmail TEST客户、不发送第二封、不提交新密码；Staging的12字符保存与单次使用不重复执行，继续引用完全相同代码的隔离Local证据。

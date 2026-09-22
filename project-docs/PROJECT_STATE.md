@@ -8,8 +8,9 @@
 - Local候选已完成：Core在Woo默认处理器前验证Nonce与非空输入，使用HMAC身份键60秒限频，命中后不续期；存在与不存在账号返回相同标题、正文和路径。Cloudways官方说明真实访客地址位于`HTTP_X_REAL_IP`，目标环境未提供PHP侧可核验证据，因此发布候选不使用可能代表共享代理的`REMOTE_ADDR`，来源级限频留给可信边缘层。密钥、邮件、有效期、单次使用和成功后登录继续由WordPress/WooCommerce负责，新密码由`validate_password_reset`强制至少12字符。
 - 主题仅扩展既有账户CSS的条件加载和找回/重置表单样式；DentAll候选版本为0.45.0，DentAll Core为0.5.0。没有新增数据库Schema、公共URL、Cron、远程服务、插件或前端脚本。
 - 证据：D80合同28/28、D79回归16/16；请求表单、通用确认、新密码表单、短密码错误、已用链接五类状态在390/768/1024/1440px共135/135通过，页面错误、Console Error和请求失败均为0；代码、安全、测试独立复核P0/P1=0。
-- 隔离Local的3名`example.test` TEST客户、4条限频记录、数据库`dentall_day80`、私有邮件捕获目录与8089服务已清理，Schema计数0、目录不存在、监听0。共享Local、Staging、Production没有写入。
-- 当前状态是“Local候选完成、Staging未部署/未发信”。部署候选已移除未经证明安全的来源键；下一步用一个专用TEST客户完成一次真实投递和私有日志核对，完整令牌、邮箱和正文不得进入Git或公开证据。Production、真实客户和DNS不在本轮。
+- 隔离Local的3名`example.test` TEST客户、4条限频记录、数据库`dentall_day80`、私有邮件捕获目录与8089服务已清理，Schema计数0、目录不存在、监听0。共享Local未写入。
+- Staging已在2026-09-22 07:44:52 UTC完成文件+数据库备份，并通过Cloudways Git部署`a07af22`；平台部署日志为success，DentAll Core 0.5.0、主题资源0.45.0、全站noindex及找回页`private/no-cache`均已核对。
+- 真实验收只向D77受控邮箱提交一次找回请求；公开通用确认成功，FluentSMTP成功计数2→3，Woo `transactional-emails`记录目标TEST用户的`customer_reset_password`发送成功，用户手机截图证明有效链接进入原生新密码表单。该邮箱已属于既有明确TEST账户，重复创建被WordPress安全拒绝且未发额外邮件；用户随后决定不再创建Gmail TEST客户。未提交新密码、未改角色、未新增账户、未发送第二封。Production、真实客户与DNS未改。
 
 ## 状态快照
 

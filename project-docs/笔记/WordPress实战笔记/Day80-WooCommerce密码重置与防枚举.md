@@ -204,7 +204,7 @@ if ( ! $limited && class_exists( 'WC_Shortcode_My_Account' ) ) {
 | URL与SEO | 统一My Account，保留原生重置链接，继续noindex | Staging复核 |
 | 缓存 | 账户和重置响应必须私有/no-cache | 目标Varnish/CDN待验 |
 | 支付、物流与订单 | 无变化 | D75归属合同不受影响 |
-| 部署与回滚 | 当前Local候选 | Staging以备份点和受控发布提交回滚 |
+| 部署与回滚 | Staging已部署`a07af22` | 文件+数据库备份点为2026-09-22 07:44:52 UTC |
 
 ## 动手练习
 
