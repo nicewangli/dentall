@@ -208,7 +208,7 @@ function dentall_enqueue_cart_header_sync_assets() {
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 );
 
 /**
- * 只为退出登录后的“我的账户”认证页加载布局样式。
+ * 只为“我的账户”认证与找回密码页加载布局样式。
  *
  * 登录、注册、Nonce、会话和邮件继续由WooCommerce负责；主题不覆盖账户模板。
  * 已登录Dashboard及后续地址、订单端点留在各自工作日处理。
@@ -216,11 +216,12 @@ add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_header_sync_assets', 55 
  * @return void
  */
 function dentall_enqueue_account_auth_assets() {
-	if (
-		! function_exists( 'is_account_page' )
-		|| ! is_account_page()
-		|| is_user_logged_in()
-	) {
+	if ( ! function_exists( 'is_account_page' ) || ! is_account_page() ) {
+		return;
+	}
+
+	$is_lost_password = function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'lost-password' );
+	if ( is_user_logged_in() && ! $is_lost_password ) {
 		return;
 	}
 

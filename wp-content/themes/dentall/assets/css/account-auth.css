@@ -6,15 +6,19 @@
 	gap: var(--dentall-space-24);
 }
 
-.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2),
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
 	box-sizing: border-box;
 	width: 100%;
-	margin: 0;
 	padding: var(--dentall-space-24);
 	border: 1px solid var(--dentall-color-border-subtle);
 	border-radius: var(--dentall-radius-lg);
 	background: var(--dentall-color-surface);
 	box-shadow: var(--dentall-shadow-card);
+}
+
+.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+	margin: 0;
 }
 
 .woocommerce-account .woocommerce #customer_login h2 {
@@ -25,11 +29,13 @@
 	margin: 0;
 }
 
-.woocommerce-account .woocommerce #customer_login :where(.form-row) {
+.woocommerce-account .woocommerce #customer_login :where(.form-row),
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(.form-row) {
 	margin-block-end: var(--dentall-space-16);
 }
 
-.woocommerce-account .woocommerce #customer_login :where(label) {
+.woocommerce-account .woocommerce #customer_login :where(label),
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(label) {
 	display: inline-block;
 	margin-block-end: var(--dentall-space-8);
 	font-weight: var(--dentall-font-weight-semibold);
@@ -42,7 +48,8 @@
 	min-height: 2.75rem;
 }
 
-.woocommerce-account .woocommerce #customer_login :where(.woocommerce-form-login__submit, .woocommerce-form-register__submit) {
+.woocommerce-account .woocommerce #customer_login :where(.woocommerce-form-login__submit, .woocommerce-form-register__submit),
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(button[type="submit"]) {
 	width: 100%;
 }
 
@@ -62,7 +69,20 @@
 		gap: var(--dentall-space-32);
 	}
 
-	.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+	.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2),
+	.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
 		padding: var(--dentall-space-32);
 	}
+}
+
+/* D80复用WooCommerce原生找回与重置表单，只补充单列卡片布局。 */
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
+	max-width: 36rem;
+	margin-inline: auto;
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(.form-row) {
+	float: none;
+	width: 100%;
 }
