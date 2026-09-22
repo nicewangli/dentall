@@ -15,7 +15,7 @@ tags:
 
 # Day77 WordPress实战：事务邮件链与可观察性
 
-> 项目事实更新（2026-09-22）：本篇以Elastic Email讲解“外部发送服务”这一角色，是D77 Local阶段形成时的候选示例。DentAll Staging实际采用FluentSMTP单处理器直连公司BossMail专用SMTP服务器，并已完成外部收件验证；Cloudways Elastic Email未启用。分层模型仍成立，具体服务商事实以ADR-040和项目Day77笔记为准。
+> 项目事实更新（2026-09-22）：DentAll Staging采用FluentSMTP单处理器直连公司BossMail专用SMTP服务器，并已完成外部收件验证；Cloudways Elastic Email未启用。本文统一以BossMail说明当前外部发送服务角色，具体事实以ADR-041和项目Day77笔记为准。
 
 ## 相关笔记
 
@@ -27,7 +27,7 @@ tags:
 
 ## 今日学习成果
 
-- [ ] 我能解释收件邮箱、WooCommerce邮件对象、`wp_mail()`、FluentSMTP、Elastic Email和DNS认证各自解决什么问题。
+- [ ] 我能解释收件邮箱、WooCommerce邮件对象、`wp_mail()`、FluentSMTP、BossMail SMTP和DNS认证各自解决什么问题。
 - [ ] 我能沿订单状态变化追到具体Woo邮件，并说明管理员通知与客户通知的Reply-To为什么不同。
 - [ ] 我能在隔离Local验证成功、跳过、去重、付款链接和连接失败，且不会把密钥、客户资料或TEST订单留在项目中。
 
@@ -41,7 +41,7 @@ D72已经让实体Cart通过`mailto:`向公司邮箱请求人工运费；业务�
 
 ### 一句话模型
 
-WooCommerce根据订单事实写信，`wp_mail()`把信交给唯一的邮局柜台，FluentSMTP选择运输通道并登记结果，Elastic Email负责把非Local邮件送上互联网，DNS记录证明发件域名身份，最终仍要到真实收件箱检查送达。
+WooCommerce根据订单事实写信，`wp_mail()`把信交给唯一的邮局柜台，FluentSMTP选择运输通道并登记结果，BossMail SMTP负责把非Local邮件送上互联网，DNS记录证明发件域名身份，最终仍要到真实收件箱检查送达。
 
 ### 记忆宫殿：公司信件室
 
@@ -52,9 +52,9 @@ WooCommerce根据订单事实写信，`wp_mail()`把信交给唯一的邮局柜�
 | 部门写好的信 | WooCommerce `WC_Email`对象与模板 | 它决定业务内容，不保证互联网送达 |
 | 内部投递窗口 | WordPress `wp_mail()` | 统一接口，不等于可靠外发服务 |
 | 唯一收发登记员 | FluentSMTP | 选择连接和记日志，不是客户邮箱 |
-| 快递公司 | Elastic Email | 接受API请求并外发，不负责Woo订单状态 |
+| 快递公司 | BossMail SMTP | 接受SMTP请求并外发，不负责Woo订单状态 |
 | 公司抬头和印章 | From、SPF、DKIM、DMARC | 身份对齐提高可信度，不保证进主收件箱 |
-| 收件部门 | 公司邮箱或客户邮箱 | 必须是真实可收信mailbox，Elastic Email不能替代 |
+| 收件部门 | 公司邮箱或客户邮箱 | 必须是真实可收信mailbox，BossMail SMTP不能替代 |
 | 本机假收件箱 | Mailpit | 能证明内容和Headers，不证明互联网声誉 |
 
 比喻的边界：现实快递“已揽收”不等于邮件系统的最终送达状态；Local Mailpit甚至没有进入互联网。因此每一层只能证明自己观察到的事实。
@@ -78,7 +78,7 @@ mindmap
       FluentSMTP单处理器
       成功与失败日志
     外部身份
-      Elastic Email API
+      BossMail SMTP
       SPF
       DKIM
       DMARC
@@ -125,8 +125,8 @@ sequenceDiagram
 
 | 概念 | 准确定义 | DentAll真实例子 | 常见误区 | 如何验证 |
 |---|---|---|---|---|
-| mailbox | 能真正接收、保存和回复邮件的邮箱 | 批准公司邮箱接报价和管理员通知 | 把Elastic Email发送账户当收件箱 | 从外部地址发送并实际回复 |
-| email provider | 接受应用请求并尝试互联网投递的服务 | Staging计划使用Elastic Email | 认为开通Add-on后WordPress自动接入 | 查看应用连接与服务日志 |
+| mailbox | 能真正接收、保存和回复邮件的邮箱 | 批准公司邮箱接报价和管理员通知 | 把BossMail SMTP发送账户当收件箱 | 从外部地址发送并实际回复 |
+| email provider | 接受应用请求并尝试互联网投递的服务 | Staging计划使用BossMail SMTP | 认为建立并验证企业SMTP连接后WordPress自动接入 | 查看应用连接与服务日志 |
 | mailer plugin | 在WordPress内接管发送、选连接和记录结果 | FluentSMTP | 同时启用两个处理器“提高可靠性” | 活动插件、连接数和PHPMailer Hook |
 | From | 邮件声明的发件身份 | 批准公司邮箱 | 只改显示名就算域名已认证 | 检查原始Headers和DNS对齐 |
 | Reply-To | 点击回复时默认目标 | 客户邮件回公司；管理员通知回客户 | 强制所有邮件使用同一个Reply-To | 分邮件类型检查Mailpit Headers |
@@ -215,7 +215,7 @@ if ( 'local' !== wp_get_environment_type() || '127.0.0.1' !== $host || 0 !== str
 
 | 检查面 | Local证据 | 非Local仍待 |
 |---|---|---|
-| 密钥 | Local无Elastic Email API Key；测试脚本不含完整公司邮箱 | 环境秘密注入与轮换 |
+| 密钥 | Local无真实BossMail SMTP凭据；测试脚本不含完整公司邮箱 | 环境秘密注入与轮换 |
 | 权限 | Website Manager无`manage_options` | Staging角色和插件UI实测 |
 | 日志 | 表结构、11 sent、1 failed；终审后清理 | 保留期、访问审计、支持导出脱敏 |
 | 个人信息 | TEST客户邮箱只用`example.test`；原始正文不入Git | 真实客户数据最小化与隐私政策 |
@@ -227,11 +227,11 @@ FluentSMTP日志表会保存正文和Headers，不能因为它叫“日志”就
 
 ## 性能、SEO、缓存与交易边界
 
-- 性能：非Local每封邮件增加一次Elastic Email外部请求和一次日志写入；每日Cron会清理旧日志。未测量前不声称性能零影响。
+- 性能：非Local每封邮件增加一次BossMail SMTP外部请求和一次日志写入；每日Cron会清理旧日志。未测量前不声称性能零影响。
 - SEO：邮件插件不应改变Title、Canonical、Schema、robots或Sitemap；D77无新公共URL。
 - 缓存：订单邮件不能从页面缓存判断；Cart、Checkout、My Account和Order Pay仍须排除页面缓存。
 - 交易：邮件通知不是订单状态真相。发送失败不能回滚订单，邮件成功也不能证明支付或库存已正确处理。
-- 回滚：停用FluentSMTP只停止处理器，不自动删除Options、日志表、外部Add-on、DNS记录或API Key；必须分层回滚。
+- 回滚：停用FluentSMTP只停止处理器，不自动删除Options、日志表、外部Add-on、DNS记录或SMTP凭据；必须分层回滚。
 
 ## 实际证据与首轮失败如何修正
 
@@ -280,7 +280,7 @@ FluentSMTP日志表会保存正文和Headers，不能因为它叫“日志”就
 ## 掌握标准
 
 - [ ] 两分钟内讲清从订单状态到收件箱的完整链。
-- [ ] 能解释为什么Mailpit成功不代表Elastic Email真实送达。
+- [ ] 能解释为什么Mailpit成功不代表BossMail SMTP真实送达。
 - [ ] 能指出New Order去重、Invoice手动发送和`no_recipient`跳过的差异。
 - [ ] 能解释管理员与客户邮件Reply-To的原生分支。
 - [ ] 能设计一轮不含真实密钥/客户数据的Local成功与失败测试。
@@ -293,7 +293,7 @@ FluentSMTP日志表会保存正文和Headers，不能因为它叫“日志”就
 1. 为什么“公司有一个邮箱”和“WordPress能可靠发信”是两个问题？
 2. 从Pending订单进入Processing开始，按顺序说出Woo Action、邮件对象、`wp_mail()`、FluentSMTP和连接各做什么。
 3. 为什么客户邮件和管理员订单通知的Reply-To不应该强行相同？
-4. `wp_mail()`返回成功、FluentSMTP状态为sent、Elastic Email接受和真实收件箱收到分别能证明什么？
+4. `wp_mail()`返回成功、FluentSMTP状态为sent、BossMail SMTP接受和真实收件箱收到分别能证明什么？
 5. 如何验证重复新订单通知不会发送，但人工订单详情允许再次发送？
 6. 为什么关闭SMTP端口且不配置fallback是一项有价值的测试？
 7. 更换同域邮箱与更换发件域名分别要重验哪些层？
@@ -346,7 +346,7 @@ DNS事实：[SPF/DKIM/DMARC验证状态，不粘贴密钥]
 ```
 
 > [!warning] AI验证边界
-> 不向AI提供API Key、完整付款链接、订单Key、Cookie、原始客户正文或数据库。版本相关结论回到官方文档、插件源码或隔离Local复演。
+> 不向AI提供SMTP凭据、完整付款链接、订单Key、Cookie、原始客户正文或数据库。版本相关结论回到官方文档、插件源码或隔离Local复演。
 
 ## 变种应用到其他项目
 
@@ -365,7 +365,7 @@ DNS事实：[SPF/DKIM/DMARC验证状态，不粘贴密钥]
 
 ### WordPress/WooCommerce当前实现
 
-WooCommerce的`WC_Email`、状态Action、CRUD、Recipient过滤、Header分支和新订单去重构成业务层；`wp_mail()`是统一接口；FluentSMTP承担连接与日志；Elastic Email承担非Local外发。每层都应使用公开API或插件配置，不直接修改Woo、WordPress或第三方插件核心。
+WooCommerce的`WC_Email`、状态Action、CRUD、Recipient过滤、Header分支和新订单去重构成业务层；`wp_mail()`是统一接口；FluentSMTP承担连接与日志；当前第一版由公司BossMail SMTP承担非Local外发。每层都应使用公开API或插件配置，不直接修改Woo、WordPress或第三方插件核心。
 
 ### Shopify或其他平台的对应机制
 

@@ -16,14 +16,16 @@
 - 每日笔记索引：[[README|DentAll每日笔记索引]]。
 - 当日学习笔记：[[WordPress实战笔记/Day79-WooCommerce账户身份与订单归属]]。
 - 前置付款边界：[[Day72-人工运费邮件报价与购物车收口]]。
-- 决策与需求：[[../DECISIONS#ADR-040：客户验证邮箱后按唯一账单邮箱归属历史Guest订单|ADR-040]]、[[../REQUIREMENTS#Must：第一版必须完成|R-008]]。
+- 决策与需求：[[../DECISIONS#ADR-042：客户验证邮箱后按唯一账单邮箱归属历史Guest订单|ADR-042]]、[[../REQUIREMENTS#Must：第一版必须完成|R-008]]。
 - 后续检查点：D80密码重置、D81账户首页、D82地址管理、D83订单中心、D84账户全链路回归。
 
 ## 结论
 
 D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购买，也可以在My Account自行注册。WooCommerce 11.0在客户通过新账户设密或确认邮件证明控制该邮箱后，把同一Billing email且仍为`customer_id=0`的历史Guest订单关联到该Customer；不同邮箱订单和已经归属其他Customer的订单不移动。
 
-2026-09-22，业务方进一步确认：客户不存在多人共用账单邮箱、代理下单或代采购的情况，账户邮箱可以作为第一版唯一订单所有人边界。因此RSK-042的发布NO-GO已经解除；若未来业务模式改变，必须在开放新模式前重新评估历史Guest订单归属规则。
+2026-09-22，业务方进一步确认：客户不存在多人共用账单邮箱、代理下单或代采购的情况，账户邮箱可以作为第一版唯一订单所有人边界。因此RSK-049的发布NO-GO已经解除；若未来业务模式改变，必须在开放新模式前重新评估历史Guest订单归属规则。
+
+与D75合成后的操作合同是：已签发Guest报价若在邮箱验证后被WooCommerce写入Customer ID，报价签名会因订单归属变化而失效，旧订单自动取消。Website Manager必须复核客户、商品、地址、Shipping、Tax和Fee，并建立及发送一张新的替换报价；不得恢复旧订单、复制旧付款链接、手改生命周期meta或把归户视为自动续期。
 
 DentAll只增加两项上游没有替项目完成的最小职责：
 
@@ -71,10 +73,10 @@ DentAll只增加两项上游没有替项目完成的最小职责：
 | 文件 | 职责 | 为什么保留 |
 |---|---|---|
 | `app/public/wp-content/plugins/dentall-core/includes/customer-account.php` | 只处理Woo My Account有效Nonce登录中的凭据错误归一化 | 安全规则跨主题存在，且需避开wp-login与其他认证入口 |
-| `app/public/wp-content/plugins/dentall-core/dentall-core.php` | 版本升至0.3.1并加载账户模块 | 主入口继续只做模块加载 |
+| `app/public/wp-content/plugins/dentall-core/dentall-core.php` | 源候选升至0.3.1；集成后为0.4.1并同时加载账户与报价生命周期模块 | 主入口继续只做模块加载 |
 | `app/public/wp-content/themes/dentall/assets/css/account-auth.css` | 未登录账户页的卡片、间距和1→2列布局 | 有独立页面生命周期，避免把账户规则塞回全站样式 |
 | `app/public/wp-content/themes/dentall/inc/setup.php` | 只在My Account且未登录时enqueue账户样式 | 已登录Dashboard不承担无效资源请求 |
-| `app/public/wp-content/themes/dentall/style.css` | 主题版本升至0.43.0 | 为新增静态资源提供缓存版本键 |
+| `app/public/wp-content/themes/dentall/style.css` | 源候选升至0.43.0；批次集成后统一为0.44.0 | 为新增静态资源提供缓存版本键 |
 
 测试脚本位于`project-docs/tests/day79-*`，只在明确的`dentall_day79`环回隔离库运行；运行前检查环境、数据库名和私有清单路径。密码、Cookie、Nonce、确认Key、订单Key、邮件正文、SQL和数据库客户端配置均未进入Git。
 
@@ -105,7 +107,7 @@ DentAll只增加两项上游没有替项目完成的最小职责：
 
 ### 环境
 
-- 独立Local：WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29、DentAll 0.43.0、DentAll Core 0.3.1。
+- 独立Local：WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29、D79源候选DentAll 0.43.0、DentAll Core 0.3.1；批次集成为DentAll 0.44.0、Core 0.4.1。
 - HTTP与MySQL只监听`127.0.0.1`；运行根ACL只有`SYSTEM`和本机`Administrator`。
 - 使用随机`example.test`身份、独立浏览器Context和WooCommerce CRUD/HPOS兼容订单；未创建真实客户、Completed订单或付款。
 
@@ -160,7 +162,7 @@ WooCommerce的`form-login.php`输出同一份语义DOM、Label、Nonce、登录�
 | 支付 | 未提交真实付款；只验证`order-pay`身份入口。重复付款、网关回调和双扣仍属D76～D78 |
 | 物流 | 不改变CR-012；实体Cart仍走人工报价，全虚拟Cart仍可原生Guest Checkout |
 | 邮件 | 仅私有捕获新账户与确认邮件；未证明SMTP、垃圾箱、延迟、跨设备或公司发件身份 |
-| 部署 | 未提交、未推送、未部署，未修改共享Local、Staging、Production、DNS或缓存配置 |
+| 部署 | D79源候选已提交并纳入批次①集成分支；尚未合并main、推送或部署，未修改共享Local、Staging、Production、DNS或缓存配置 |
 
 ## 回滚
 

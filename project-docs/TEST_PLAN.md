@@ -115,7 +115,7 @@
 - [ ] Site Kit连接正确的公司Search Console、GA4属性/数据流和GTM容器，开发者个人账号不是唯一所有者。
 - [ ] `view_item_list`、`select_item`、`view_item`、`add_to_cart`、`view_cart`和站内搜索事件触发一次且商品参数正确。
 - [ ] `begin_checkout`、`add_shipping_info`、`add_payment_info`和`purchase`的币种、金额、商品、数量及交易ID与WooCommerce订单一致。
-- [ ] Stripe、PayPal和BACS测试路径不会在失败、取消或未到账时误报`purchase`。
+- [ ] 第一版唯一在线支付方式PayPal在失败、取消、未到账或晚到Webhook时不会误报`purchase`；Stripe和BACS保持未安装/关闭。
 - [ ] 刷新感谢页、返回历史页面和重复Webhook不会造成同一交易ID重复计数。
 - [ ] 联系表单提交和公开资料下载事件可在GA4 DebugView中识别；询价事件仅在CR-004实际启用时加入并验证。
 - [ ] 登录用户、开发者和测试流量按规则排除；Staging事件不进入Production数据流。
@@ -1060,3 +1060,15 @@ D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart�
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
 |---|---|---|---|---|---|---|---|
 | TC-001 | Staging/Chrome | 测试商品有库存 | 加购并完成沙盒支付 | 订单成功、库存减少、邮件送达 | 待测 | 未开始 | |
+
+## 批次①集成合同回归（2026-09-22）
+
+| 范围 | 结果 | 边界 |
+|---|---|---|
+| D73/D72 PHP报价合同 | 65/65 | US、CA、AU Shipping逐国正向，Billing HK无州/邮编locale正向，以及GB/未知Billing与Shipping国家代码拒绝；真实Woo/Staging仍按发布矩阵复验 |
+| D73邮件JavaScript | 46/46 | 纯合同通过，真实邮件客户端另验 |
+| D75生命周期 | 87/87 | 新增首封缺Shipping/资料不发、不签发、不调度，以及验证邮箱归户后旧Guest报价取消 |
+| D79登录错误合同 | 16/16 | 账户真实浏览器/邮件/缓存仍按Staging矩阵复验 |
+| 静态检查 | 集成改动PHP全部lint通过；D79两个Node脚本`--check`通过；无冲突标记；`git diff --check`通过 | D85的616/616和编辑67/67来自源候选；集成后仍需代表页面四端回归 |
+
+Staging前继续保持支付关闭、只用TEST对象；需验证首封邮件后台错误反馈、BossMail业务触发/Header/日志、账户三会话隔离、交易页缓存绕过、目标主机Action Scheduler，并保留一张72小时TEST报价观察真实到期。

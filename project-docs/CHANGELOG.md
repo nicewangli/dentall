@@ -4,6 +4,14 @@
 
 ## Unreleased
 
+### 批次①集成候选：D73＋D75、D77、D79、D85（2026-09-22）
+
+- 以`origin/main@e9b5d2b`建立`codex/batch1-integration`，依次纳入D73＋D75、D85、D79和D77两个源提交；最终候选统一为DentAll 0.44.0、DentAll Core 0.4.1，并同时加载报价生命周期与客户账户模块。
+- 修复集成审查发现的交易P1：首封Customer Invoice在正数Shipping或地址资料不完整时不再发出、不签发且不调度；Shipping服务端白名单固定为美国、加拿大、澳大利亚；Billing允许WooCommerce已知的全部国家并按国家地址规则判断州省/邮编必填性，未知国家代码安全拒绝。
+- D79与D75协作合同冻结：邮箱验证把已签发Guest报价归入Customer后，`customer_id`变化会按防篡改签名取消旧报价，Website Manager复核并创建替换报价；不自动改签或延长旧付款链接。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。
+- D77活动方案统一为FluentSMTP＋公司BossMail SMTP；Staging受控QQ邮箱已实际收件，Cloudways Elastic Email未启用、DNS未修改。CR/ADR/RSK编号已统一为D73＋D75的CR-014/ADR-040/RSK-042～047、D77的CR-015/ADR-041/RSK-048、D79的ADR-042/RSK-049～051。
+- 合成合同已通过：报价PHP 65/65、邮件JavaScript 46/46、生命周期87/87、D79登录16/16，集成改动PHP lint、Node语法、冲突标记和`git diff --check`通过；独立代码、安全和测试复核P0/P1=0。
+- 当前仅为集成候选；合成测试、独立复核和Staging发布门禁通过前不合并`main`、不推进`deploy/staging`。
 ### D73＋D75报价字段与72小时生命周期（2026-09-21，Local已完成）
 
 - 用户明确授权：“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。CR-014与ADR-040登记完整字段、Guest/Customer、正数Shipping、旧单替换、进口费用及自动过期合同；D73/D75按Local授权范围完成，M6仍等待真实支付闭环。

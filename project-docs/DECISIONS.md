@@ -413,7 +413,7 @@
 
 - 状态：已接受并完成授权范围的Local技术验收；用户于2026-09-21明确批准“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。Staging/Production、SMTP、正式税务和真实网关仍未验收。
 - 背景：ADR-038已经决定实体商品先邮件询价，再以WooCommerce原生待付款订单和`order-pay`收取最终金额。后续业务确认要求详细配送地址、Billing与Shipping可以不同、Guest可付款、报价三天有效，且商品、数量、优惠、地址或费用变化时旧单先不可付款并创建新单。
-- 字段决定：商品、SKU、Variation、数量、小计和coupon由Cart自动带入。Billing email、Shipping first/last name、country/state/city/postcode/address 1为第一版必填合同；Billing与Shipping不同时也提供完整Billing资料。Company、address 2、phone/WhatsApp和配送速度可选。`mailto:`不构成站内强校验，业务复核和付款前服务端守卫共同保证订单完整。
+- 字段决定：商品、SKU、Variation、数量、小计和coupon由Cart自动带入。Shipping国家仅限美国、加拿大、澳大利亚并要求对应WooCommerce国家合同中的完整地址；Billing国家不限制，州省、邮编等字段按WooCommerce对应国家的required规则判断。Billing email必须有效，Billing与Shipping可不同；Company、address 2、phone/WhatsApp和配送速度可选。`mailto:`不构成站内强校验，业务复核、首封付款邮件门禁和付款前服务端守卫共同保证订单完整。
 - 身份决定：新客户可使用Guest订单免注册付款。已有Customer只在业务人员核对后于后台显式选择；不根据相同邮箱自动猜测账号归属。邮箱自助注册、登录安全和历史Guest订单归属行为留D79按目标WooCommerce版本验证。
 - 物流决定：人工报价订单必须具有大于0的原生Shipping line，0元Shipping、Free Shipping或Fee占位不能替代已确认运费。商品、数量、coupon、完整Billing/Shipping、Shipping、Tax或Fee任一实质变化时，旧订单先变为不可付款，再复核并建立新订单和新付款链接。
 - 有效期决定：72小时只从该订单第一次成功发送付款邮件起算；建单、保存、预览、复制付款链接或发送失败均不启动。第一次起算和到期事实一经建立不可由同一订单重发覆盖。到期且仍未付款的订单自动变为不可付款；异步任务延迟时，付款请求必须读取同一到期事实实时拒绝。重复邮件、重复任务和并发请求必须幂等。
@@ -424,6 +424,20 @@
 - 回滚：普通后台停用会先取消报价候选并核验，再清理DentAll报价动作；之后方可撤下新增Hook和实时守卫，并保留兼容读取或明确清理既有订单meta。WordPress静默停用/更新会跳过该Hook，非Local回滚必须使用维护窗口、停发付款邮件并确认没有在途支付。不得删除历史订单或绕过Woo CRUD。回滚后人工SOP只能作为临时替代，不能继续宣称系统自动执行三天有效期。
 - 验证边界：D73 PHP 59/59、邮件JavaScript 46/46，D75生命周期PHP 83/83；真实Woo及展示Filter负向场景40/40、权限/REST 15/15、普通停用3/3、Action Scheduler真实执行、四端Cart/四类付款页和浏览后4/4终态均通过，安全终审P0/P1=0。两次首次邮件真正并发成功缺少跨请求原子锁，按低频B2B SOP登记P3；静默停用/更新为非Local发布P2门禁；第三方私有对象订单项目meta兼容性登记RSK-047/P2。SMTP、目标主机Cron和真实网关竞态仍属D77及D76/D78。
 
+## ADR-041：事务邮件采用FluentSMTP单处理器并由BossMail负责第一版外发
+
+- 状态：已接受；D77隔离Local和Staging受控外部收件已通过，业务触发、Header认证、日志保留和失败/退信继续验收。
+- 决策：WordPress只启用FluentSMTP一个邮件处理器；第一版由公司BossMail SMTP外发，发件邮箱为`materials@chinaadsdentallab.com`。Cloudways Elastic Email不启用，不配置fallback，不因本决定修改DNS。
+- 边界：WooCommerce负责邮件对象与触发，`wp_mail()`是统一接口，FluentSMTP负责SMTP连接与日志，BossMail负责外部投递；任何一层显示成功都不能替代真实收件箱和原始Header证据。
+- 安全与回滚：SMTP密码只存企业密码管理器及目标环境连接；停用前保存脱敏故障证据并分别回滚连接、Woo邮件设置和日志。日志中的客户资料及完整付款链接按敏感数据处理。
+
+## ADR-042：客户验证邮箱后按唯一账单邮箱归属历史Guest订单
+
+- 状态：已接受并完成D79独立Local技术验证；真实SMTP、密码找回、支付沙盒、公开限频与非Local缓存仍待。
+- 账户入口：Guest Checkout和My Account自助注册开启；Checkout自动开户与WordPress通用`Anyone can register`关闭。Woo自动生成用户名并通过新账户邮件引导设密。
+- 归属规则：客户通过Woo邮箱验证链证明控制账户邮箱后，WooCommerce把同一Billing email且`customer_id=0`的历史Guest订单写入该Customer ID；已归属其他Customer的订单不移动。业务方确认第一版不存在共享账单邮箱、代理下单或代采购。
+- 报价协作：若一张已签发Guest报价因邮箱验证被自动写入Customer ID，D75签名会按既定防篡改合同取消旧报价；Website Manager须复核并创建、发送替换报价，不自动改签或延长旧链接。验证后新产生的Guest订单也不会在每次登录时自动重扫。
+- 安全与回滚：登录未知账号/错密只统一公开提示，原始错误码保留给审计与限频；重复邮箱注册与密码找回枚举留D80。完整Guest `order-pay` URL按Bearer秘密管理。已归属订单不能随代码回滚自动恢复为Guest，必须经审计和授权逐单处理。
 ## ADR-T01：采用Storefront父主题与DentAll项目子主题
 
 - 状态：已接受并完成D26 Local技术验证（2026-08-24）；用户明确授权“复用现有`dentall`目录转换为Storefront子主题、处理阻断继承的旧Starter模板、保留D25 TEST对象、D26只做骨架与资源加载”。

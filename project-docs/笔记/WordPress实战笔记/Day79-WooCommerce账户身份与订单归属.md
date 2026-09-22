@@ -6,7 +6,7 @@
 主题: WooCommerce账户身份与订单归属
 状态: Local实现完成，待费曼自测
 掌握度: 初识
-验证环境: 独立Local；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29、DentAll 0.43.0、DentAll Core 0.3.1
+验证环境: 独立Local；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29、D79源候选DentAll 0.43.0、DentAll Core 0.3.1；批次集成DentAll 0.44.0、Core 0.4.1
 tags:
   - DentAll
   - WordPress实战

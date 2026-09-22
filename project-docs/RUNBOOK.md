@@ -1,4 +1,6 @@
 # 部署、运维与恢复手册
+> [!important] 2026-09-22批次①基线更新
+> 只读`git fetch`确认`origin/deploy/staging=c784a61`，已包含2026-09-14首页/页脚和后续菜单修复；本地`deploy/staging`工作树仍为旧`501e5e5`。本批次必须从远端`c784a61`新建发布候选并使用旧端保护，不能从旧本地工作树直接提交或推送。下方2026-09-10的`501e5e5`/A/B步骤仅保留当次历史证据，不是本批次发布基线。
 
 > 当前Staging已确定使用Cloudways Flexible；标准代码部署采用Cloudways Via Git与代码专用部署分支。Production部署规则在正式上线准备阶段冻结。
 
@@ -314,3 +316,22 @@ Cloudways Flexible当前支持Complete、Web Files only和Database only恢复；
 - 验证结果：
 - 回滚是否需要：
 - 相关日志、提交和截图：
+
+## 批次①报价与账户发布补充（D73＋D75、D77、D79、D85）
+
+### 发布前硬门槛
+
+1. 进入维护窗口，关闭DentAll Core自动更新并暂停人工发送Customer Invoice；确认没有在途付款、没有待处理网关请求，支付网关继续关闭。
+2. 同时备份应用文件和数据库，并记录当前Core/主题版本、活动插件、Woo账户设置、Shipping国家、缓存绕过、Scheduled Actions和FluentSMTP配置摘要；凭据不写入记录。
+3. Shipping国家只允许美国、加拿大、澳大利亚；Billing国家不限制。首封付款邮件必须在正数Shipping和完整地址通过后发送。
+4. Guest报价若在邮箱验证归户时被系统取消，Website Manager必须创建并发送替换报价；禁止手工恢复旧链接或修改生命周期meta。
+5. Staging只使用TEST订单/账号，PayPal、Stripe、BACS保持关闭；Cart、Checkout、My Account和Order Pay必须绕过整页缓存。
+
+### 报价代码回滚
+
+不能只回退Git文件后继续保留仍为`pending`/`failed`的已签发报价，因为旧Core可能没有实时生命周期守卫，旧链接会重新可付。回滚必须二选一：
+
+- 在维护模式中停发付款邮件，使用当前受保护版本取消全部人工报价候选并核对持久化，再回退代码；或
+- 把应用文件和数据库恢复到同一个发布前快照，并核对快照之后是否产生订单、客户、邮件或其他业务写入。
+
+完成后验证报价候选数、Action Scheduler、订单状态、Customer归属、账户访问、缓存和PHP日志，再解除维护。已写入订单的Customer ID不会因代码回滚自动恢复为Guest；任何逆向处理必须逐单审计并取得授权。

@@ -167,3 +167,16 @@
 - 证据链接：
 - 发现问题：
 - 后续负责人和截止时间：
+
+## 批次①D73＋D75、D77、D79、D85 Staging检查
+
+- [ ] 发布候选以当前远端`origin/deploy/staging@c784a61`为唯一父提交并使用旧端保护；没有从仍停在`501e5e5`的本地部署工作树直接发布。
+
+- [ ] 发布提交已冻结，DentAll为0.44.0、DentAll Core为0.4.1；Core同时加载`shipping-quote.php`、`shipping-quote-lifecycle.php`和`customer-account.php`。
+- [ ] 维护窗口已开启，Core自动更新关闭，Customer Invoice暂停；无在途付款或活动真实报价，支付网关保持关闭。
+- [ ] 同点文件＋数据库备份、现场版本/配置/哈希和回滚入口已记录；回滚按“先取消报价候选或同点恢复文件＋数据库”执行。
+- [ ] Woo Shipping国家仅美国、加拿大、澳大利亚，Billing国家不限制；首封付款邮件缺正数Shipping或地址资料时不发送、不签发、不调度。
+- [ ] Guest有效报价归户后旧报价取消并按SOP建立替换单；不同客户会话、订单详情和完整付款URL保持隔离。
+- [ ] FluentSMTP为唯一处理器并连接公司BossMail；Cloudways Elastic Email未启用、无fallback。受控外部收件、原始Header、失败日志、回复、Cron和日志清理均记录。
+- [ ] Guest Checkout与My Account注册开启；Checkout自动开户和WordPress Anyone can register关闭；账户/Checkout/Order Pay整页缓存绕过。
+- [ ] PayPal、Stripe、BACS保持关闭；本批次不提交真实支付。保留一张72小时TEST报价观察目标环境真实到期，其他TEST用户、订单、动作和敏感日志在验收后清理。

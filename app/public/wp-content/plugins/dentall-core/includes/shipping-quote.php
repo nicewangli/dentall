@@ -6,6 +6,7 @@
 defined( 'ABSPATH' ) || exit;
 
 const DENTALL_SHIPPING_QUOTE_EMAIL_OPTION = 'dentall_shipping_quote_email';
+const DENTALL_SHIPPING_QUOTE_ALLOWED_COUNTRIES = array( 'US', 'CA', 'AU' );
 
 /**
  * 取得已验证的报价收件邮箱。
@@ -353,8 +354,9 @@ function dentall_core_order_has_quoted_shipping( $order ) {
 /**
  * 判断人工报价订单是否具备付款前必须核实的联系与地址资料。
  *
- * Company、Address 2、电话和WhatsApp不是第一版必填项。州省与邮编按当前
- * 业务合同保留必填；若未来开放不使用这些字段的国家，需要重新确认国家合同。
+ * Company、Address 2、电话和WhatsApp不是第一版必填项。Shipping仅允许
+ * 美国、加拿大和澳大利亚；Billing国家不限制，并按WooCommerce对应国家的
+ * 地址字段规则决定州省、邮编等字段是否必填。
  *
  * @param WC_Order|null $order 订单。
  * @return bool
@@ -364,9 +366,22 @@ function dentall_core_order_has_required_quote_details( $order ) {
 		return false;
 	}
 
-	$required_fields = array( 'first_name', 'last_name', 'country', 'state', 'postcode', 'city', 'address_1' );
-
 	foreach ( array( 'shipping', 'billing' ) as $address_type ) {
+		$country_getter = 'get_' . $address_type . '_country';
+		$country        = is_callable( array( $order, $country_getter ) )
+			? strtoupper( trim( (string) $order->{$country_getter}( 'edit' ) ) )
+			: '';
+
+		if ( ! dentall_core_quote_country_exists( $country ) ) {
+			return false;
+		}
+
+		if ( 'shipping' === $address_type && ! in_array( $country, DENTALL_SHIPPING_QUOTE_ALLOWED_COUNTRIES, true ) ) {
+			return false;
+		}
+
+		$required_fields = dentall_core_get_quote_required_address_fields( $address_type, $country );
+
 		foreach ( $required_fields as $field ) {
 			$getter = 'get_' . $address_type . '_' . $field;
 			$value  = is_callable( array( $order, $getter ) ) ? trim( (string) $order->{$getter}( 'edit' ) ) : '';
@@ -378,6 +393,71 @@ function dentall_core_order_has_required_quote_details( $order ) {
 	}
 
 	return is_email( (string) $order->get_billing_email( 'edit' ) );
+}
+
+/**
+ * 确认国家代码存在于当前WooCommerce国家集合。
+ *
+ * WooCommerce会为未知代码回退默认地址字段，因此不能只依赖
+ * get_address_fields()判断国家是否有效；国家服务不可用时安全拒绝。
+ *
+ * @param string $country ISO 3166-1 alpha-2国家代码。
+ * @return bool
+ */
+function dentall_core_quote_country_exists( $country ) {
+	if ( 1 !== preg_match( '/^[A-Z]{2}$/', $country ) ) {
+		return false;
+	}
+
+	$woocommerce = function_exists( 'WC' ) ? WC() : null;
+	$countries   = is_object( $woocommerce ) && isset( $woocommerce->countries ) ? $woocommerce->countries : null;
+
+	if ( ! is_object( $countries ) ) {
+		return false;
+	}
+
+	if ( is_callable( array( $countries, 'country_exists' ) ) ) {
+		return (bool) $countries->country_exists( $country );
+	}
+
+	if ( is_callable( array( $countries, 'get_countries' ) ) ) {
+		return array_key_exists( $country, (array) $countries->get_countries() );
+	}
+
+	return false;
+}
+
+/**
+ * 按WooCommerce国家地址合同取得报价必须字段。
+ *
+ * 只从第一版已确认的姓名和地址字段中读取required；Billing email在订单层
+ * 单独校验，避免Woo默认电话规则意外扩大已确认业务范围。Woo不可用时采用
+ * 保守字段集，防止在异常引导环境中放行资料不完整的报价。
+ *
+ * @param string $address_type billing或shipping。
+ * @param string $country      ISO 3166-1 alpha-2国家代码。
+ * @return string[]
+ */
+function dentall_core_get_quote_required_address_fields( $address_type, $country ) {
+	$candidate_fields = array( 'first_name', 'last_name', 'country', 'state', 'postcode', 'city', 'address_1' );
+	$required_fields  = $candidate_fields;
+	$woocommerce      = function_exists( 'WC' ) ? WC() : null;
+	$countries        = is_object( $woocommerce ) && isset( $woocommerce->countries ) ? $woocommerce->countries : null;
+
+	if ( is_object( $countries ) && is_callable( array( $countries, 'get_address_fields' ) ) ) {
+		$prefix          = $address_type . '_';
+		$address_fields  = $countries->get_address_fields( $country, $prefix );
+		$required_fields = array();
+
+		foreach ( $candidate_fields as $field ) {
+			$key = $prefix . $field;
+			if ( ! empty( $address_fields[ $key ]['required'] ) ) {
+				$required_fields[] = $field;
+			}
+		}
+	}
+
+	return array_values( array_unique( array_merge( array( 'first_name', 'last_name', 'country', 'address_1' ), $required_fields ) ) );
 }
 
 /**

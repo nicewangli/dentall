@@ -11,15 +11,15 @@
 
 # Day77 FluentSMTP事务邮件Local验证
 
-> 2026-09-22补充：本篇后文保留2026-09-21隔离Local验证与当时Elastic Email候选方案的历史记录。Staging实际已改用公司BossMail专用SMTP主机`s196h.chinaemail.cn:465`和SSL，并从`materials@chinaadsdentallab.com`成功发送到受控QQ邮箱；Cloudways Elastic Email未启用、DNS未修改。当前活动决策以ADR-040和下方补充验收为准，不再照旧清单配置第二条Elastic Email连接。
+> 2026-09-22补充：本篇后文保留2026-09-21隔离Local验证与当时Elastic Email候选方案的历史记录。Staging实际已改用公司BossMail专用SMTP主机`s196h.chinaemail.cn:465`和SSL，并从`materials@chinaadsdentallab.com`成功发送到受控QQ邮箱；Cloudways Elastic Email未启用、DNS未修改。当前活动决策以ADR-041和下方补充验收为准，不再照旧清单配置第二条Elastic Email连接。
 
 ## 相关笔记
 
 - 每日笔记索引：[[README|DentAll每日笔记索引]]。
 - 直接前置：[[Day72-人工运费邮件报价与购物车收口]]。
 - 当日学习笔记：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。
-- 变更与决定：[[../CHANGE_REQUESTS#CR-014：第一版统一使用公司邮箱并由FluentSMTP接入BossMail事务邮件|CR-014]]、[[../DECISIONS#ADR-040：事务邮件采用FluentSMTP单处理器并由BossMail负责第一版外发|ADR-040]]。
-- 风险：[[../RISK_REGISTER#RSK-042：事务邮件送达与日志治理风险（2026-09-21）|RSK-042]]。
+- 变更与决定：[[../CHANGE_REQUESTS#CR-015：第一版统一使用公司邮箱并由FluentSMTP接入BossMail事务邮件|CR-015]]、[[../DECISIONS#ADR-041：事务邮件采用FluentSMTP单处理器并由BossMail负责第一版外发|ADR-041]]。
+- 风险：[[../RISK_REGISTER#RSK-048：事务邮件显示已发送但未送达，或日志泄漏客户资料与付款链接|RSK-048]]。
 
 ## 先给结论
 
@@ -203,7 +203,7 @@ flowchart LR
 - 公司域名SPF、DKIM、DMARC的当前真实值尚未核验或修改。
 - Staging插件启用与真实收件箱已验证；日志表、Cron、垃圾箱、回复和退信仍待验证。
 - D73～D76没有当前分支的完成笔记，D77不据此宣称D76、D78、M6或完整订单闭环完成。
-- 五份发布状态文档在另一个工作区有并行未提交更新，本分支不覆盖；待该任务合并后再把D77阶段事实追加到`PROJECT_STATE.md`、`CHANGELOG.md`、`RUNBOOK.md`、`RELEASE_CHECKLIST.md`和总档案。
+- D77源候选已纳入批次①集成分支；中央状态、风险和决策记录在集成收口中统一更新。
 
 ## 可复用核心思想
 
@@ -213,7 +213,7 @@ flowchart LR
 
 ### WordPress/WooCommerce当前实现
 
-WooCommerce负责订单邮件内容和状态触发，`wp_mail()`提供统一发送接口，FluentSMTP接管接口并记录结果，Elastic Email在非Local负责外发。管理员订单通知的Reply-To由WooCommerce原生指向客户Billing Email；不要为了表面一致而覆盖有业务价值的默认行为。
+WooCommerce负责订单邮件内容和状态触发，`wp_mail()`提供统一发送接口，FluentSMTP接管接口并记录结果，当前第一版由公司BossMail SMTP负责非Local外发。管理员订单通知的Reply-To由WooCommerce原生指向客户Billing Email；不要为了表面一致而覆盖有业务价值的默认行为。
 
 ### Shopify或其他平台的对应机制
 

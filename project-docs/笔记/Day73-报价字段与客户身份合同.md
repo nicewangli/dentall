@@ -21,6 +21,8 @@
 
 ## 先给结论
 
+> 批次①集成补充（2026-09-22）：Shipping国家仅限美国、加拿大、澳大利亚。Billing国家不限制，州省、邮编等字段是否必填由WooCommerce对应国家的地址合同决定；Billing email仍必须有效。首封付款邮件发送前会校验正数Shipping及完整Billing/Shipping，失败时不发送、不签发、不调度。
+
 D73不再建立实体商品的普通公共Checkout表单。CR-012已经把实体商品流程改为“Cart邮件申请报价 → 业务人员建立WooCommerce待付款订单 → 客户使用`order-pay`付款”，因此本日冻结的是报价邮件、后台订单和付款守卫之间的字段合同。
 
 商品名称、SKU、Variation规格、数量、商品小计和当前coupon由Cart自动带入邮件，客户不需要重新抄写。客户必须提供准确的Billing email、收件人姓名和完整配送地址；账单地址可以与配送地址不同。Company、Address line 2、Phone/WhatsApp和Preferred delivery speed保持可选。
@@ -36,7 +38,7 @@ D73不再建立实体商品的普通公共Checkout表单。CR-012已经把实体
 | 商品、SKU、Variation、数量、小计、coupon | 当前WooCommerce Cart | 自动带入 | 客户不重复填写，邮件内容仍需业务人员复核 |
 | Billing email | 客户 | 必填且必须是有效邮箱 | 用于订单联系和Guest付款身份核对，不等于邮箱所有权验证 |
 | Shipping first/last name | 客户 | 必填 | 与订单Shipping字段对应 |
-| Shipping country/state/city/postcode/address 1 | 客户 | 必填 | 当前合同要求完整结构化地址；未来开放不使用州省或邮编的国家时重新评估 |
+| Shipping country/state/city/postcode/address 1 | 客户 | 必填 | Shipping国家仅限美国、加拿大、澳大利亚，并按WooCommerce对应国家地址规则验证完整结构化地址 |
 | Shipping company/address 2 | 客户 | 可选 | 空值不能阻止报价 |
 | Billing address | 客户 | 可与Shipping相同；不同时填写完整结构化地址 | 报价确认后作为锁定内容，变化时必须重新报价 |
 | Phone/WhatsApp、Preferred delivery speed | 客户 | 可选 | 不作为付款必填或账号关联依据 |

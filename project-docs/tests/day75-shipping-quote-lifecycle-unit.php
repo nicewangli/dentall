@@ -461,6 +461,31 @@ $checks['first_invoice_keeps_recipient_before_quote_is_issued'] = 'buyer@example
 		$admin_physical_order,
 		new WC_Email( 'customer_invoice', $admin_physical_order )
 	);
+$missing_shipping_email_order = dentall_test_make_order( 117 );
+$missing_shipping_email_order->has_quoted_shipping = false;
+$checks['first_invoice_without_positive_shipping_clears_recipient'] = ''
+	=== dentall_core_guard_shipping_quote_invoice_recipient(
+		'buyer@example.test',
+		$missing_shipping_email_order,
+		new WC_Email( 'customer_invoice', $missing_shipping_email_order )
+	);
+$missing_details_email_order = dentall_test_make_order( 118 );
+$missing_details_email_order->has_required_quote_details = false;
+$checks['first_invoice_without_required_details_clears_recipient'] = ''
+	=== dentall_core_guard_shipping_quote_invoice_recipient(
+		'buyer@example.test',
+		$missing_details_email_order,
+		new WC_Email( 'customer_invoice', $missing_details_email_order )
+	);
+$scheduled_before_incomplete_callback = count( $test_scheduled_actions );
+dentall_core_issue_shipping_quote_after_email(
+	true,
+	'customer_invoice',
+	new WC_Email( 'customer_invoice', $missing_details_email_order )
+);
+$checks['incomplete_invoice_callback_does_not_issue_or_schedule'] = array() === $missing_details_email_order->meta
+	&& 0 === $missing_details_email_order->save_count
+	&& $scheduled_before_incomplete_callback === count( $test_scheduled_actions );
 $checks['valid_issued_quote_keeps_invoice_recipient'] = 'buyer@example.test'
 	=== dentall_core_guard_shipping_quote_invoice_recipient(
 		'buyer@example.test',
@@ -889,6 +914,14 @@ try {
 		&& $unscheduled_group_count === count( $test_unscheduled_groups )
 		&& $wp_die_count + 1 === count( $test_wp_die_calls );
 }
+
+$verified_customer_quote = dentall_test_make_order( 187 );
+dentall_test_stamp_quote( $verified_customer_quote, time() - 60, time() + 3600, 'verified-customer-token' );
+$verified_customer_quote->customer_id = 77;
+dentall_core_invalidate_changed_shipping_quote( 187, $verified_customer_quote );
+$checks['verified_email_auto_assignment_closes_old_guest_quote'] = 'cancelled' === $verified_customer_quote->status
+	&& 1 === count( $verified_customer_quote->status_updates )
+	&& str_contains( $verified_customer_quote->status_updates[0]['note'], 'changed after its payment email' );
 
 $failed_checks = array();
 

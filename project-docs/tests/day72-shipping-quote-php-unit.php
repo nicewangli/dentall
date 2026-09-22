@@ -44,6 +44,28 @@ class WC_Cart {
 	public function get_cart() { return array( array( 'data' => new WC_Product( $this->shipping ) ) ); }
 }
 
+class WC_Countries_Stub {
+	public function country_exists( $country ) {
+		return in_array( $country, array( 'US', 'CA', 'AU', 'HK', 'GB' ), true );
+	}
+
+	public function get_address_fields( $country, $prefix ) {
+		$required = array( 'first_name', 'last_name', 'country', 'city', 'address_1' );
+
+		if ( in_array( $country, array( 'US', 'CA', 'AU' ), true ) ) {
+			$required[] = 'state';
+			$required[] = 'postcode';
+		}
+
+		$fields = array();
+		foreach ( array( 'first_name', 'last_name', 'country', 'state', 'postcode', 'city', 'address_1' ) as $field ) {
+			$fields[ $prefix . $field ] = array( 'required' => in_array( $field, $required, true ) );
+		}
+
+		return $fields;
+	}
+}
+
 class WP_Error {
 	public array $errors = array();
 	public array $error_data = array();
@@ -169,7 +191,10 @@ $empty_cart    = new WC_Cart( true, true );
 $checks['physical_cart_requires_quote'] = dentall_core_cart_requires_shipping_quote( $physical_cart );
 $checks['virtual_cart_keeps_normal_checkout'] = ! dentall_core_cart_requires_shipping_quote( $virtual_cart );
 $checks['empty_cart_never_requires_quote'] = ! dentall_core_cart_requires_shipping_quote( $empty_cart );
-$wc_instance = (object) array( 'cart' => $physical_cart );
+$wc_instance = (object) array(
+	'cart'      => $physical_cart,
+	'countries' => new WC_Countries_Stub(),
+);
 dentall_core_block_unquoted_classic_checkout();
 $checks['classic_checkout_adds_blocking_error'] = 1 === count( $test_notices )
 	&& 'error' === $test_notices[0][1];
@@ -248,6 +273,30 @@ $billing_address = array(
 $test_orders[91] = new WC_Order( true, 25.0, true, $shipping_address, $billing_address );
 $checks['positive_shipping_quote_detected'] = dentall_core_order_has_quoted_shipping( $test_orders[91] );
 $checks['complete_quote_details_accepted'] = dentall_core_order_has_required_quote_details( $test_orders[91] );
+foreach ( array( 'CA' => 194, 'AU' => 195 ) as $allowed_country => $order_id ) {
+	$allowed_shipping            = $shipping_address;
+	$allowed_shipping['country'] = $allowed_country;
+	$test_orders[ $order_id ] = new WC_Order( true, 25.0, true, $allowed_shipping, $billing_address );
+	$checks[ 'shipping_country_' . strtolower( $allowed_country ) . '_is_allowed' ] = dentall_core_order_has_required_quote_details( $test_orders[ $order_id ] );
+}
+$hong_kong_billing             = $billing_address;
+$hong_kong_billing['country']  = 'HK';
+$hong_kong_billing['state']    = '';
+$hong_kong_billing['postcode'] = '';
+$test_orders[190] = new WC_Order( true, 25.0, true, $shipping_address, $hong_kong_billing );
+$checks['billing_country_without_state_or_postcode_uses_woocommerce_locale'] = dentall_core_order_has_required_quote_details( $test_orders[190] );
+$unknown_billing            = $billing_address;
+$unknown_billing['country'] = 'ZZ';
+$test_orders[192] = new WC_Order( true, 25.0, true, $shipping_address, $unknown_billing );
+$checks['unknown_billing_country_is_rejected'] = ! dentall_core_order_has_required_quote_details( $test_orders[192] );
+$unsupported_shipping            = $shipping_address;
+$unsupported_shipping['country'] = 'GB';
+$test_orders[191] = new WC_Order( true, 25.0, true, $unsupported_shipping, $billing_address );
+$checks['shipping_country_outside_us_ca_au_is_rejected'] = ! dentall_core_order_has_required_quote_details( $test_orders[191] );
+$unknown_shipping            = $shipping_address;
+$unknown_shipping['country'] = 'ZZ';
+$test_orders[193] = new WC_Order( true, 25.0, true, $unknown_shipping, $billing_address );
+$checks['unknown_shipping_country_is_rejected'] = ! dentall_core_order_has_required_quote_details( $test_orders[193] );
 $complete_request = new WP_REST_Request(
 	'/wc/store/v1/checkout/91',
 	'POST',

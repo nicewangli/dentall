@@ -320,11 +320,11 @@ function dentall_core_add_shipping_quote_email_terms( $order, $sent_to_admin, $p
 add_action( 'woocommerce_email_after_order_table', 'dentall_core_add_shipping_quote_email_terms', 20, 4 );
 
 /**
- * 阻止向已签发但已失效的待付款报价重发带付款链接的Customer Invoice。
+ * 阻止向资料不完整或已失效的待付款报价发送Customer Invoice。
  *
  * Customer Invoice是人工邮件，会绕过WooCommerce常规enabled开关，因此通过
- * 收件人Filter使发送安全失败。未签发订单必须保留收件人，首封邮件才能生成
- * 付款链接并在发送成功后启动报价。
+ * 收件人Filter使发送安全失败。未签发订单只有在正数Shipping和地址合同完整时
+ * 才保留收件人；这样客户不会先收到一个随后必然被拒绝的付款链接。
  *
  * @param string        $recipient 收件人。
  * @param WC_Order|null $order     邮件订单。
@@ -336,12 +336,24 @@ function dentall_core_guard_shipping_quote_invoice_recipient( $recipient, $order
 		! $order instanceof WC_Order
 		|| ! dentall_core_is_shipping_quote_candidate( $order )
 		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
-		|| 0 >= (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' )
 	) {
 		return $recipient;
 	}
 
-	return '' === dentall_core_get_shipping_quote_block_reason( $order ) ? $recipient : '';
+	$issued_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
+	$reason    = 0 < $issued_at
+		? dentall_core_get_shipping_quote_block_reason( $order )
+		: ( dentall_core_order_has_quoted_shipping( $order )
+			? ( dentall_core_order_has_required_quote_details( $order ) ? '' : 'details' )
+			: 'shipping' );
+
+	if ( '' !== $reason && '' !== $recipient && function_exists( 'is_admin' ) && is_admin() && class_exists( 'WC_Admin_Meta_Boxes' ) ) {
+		WC_Admin_Meta_Boxes::add_error(
+			__( 'Payment email not sent: add a positive Shipping line and complete the approved billing and shipping details first.', 'dentall-core' )
+		);
+	}
+
+	return '' === $reason ? $recipient : '';
 }
 add_filter( 'woocommerce_email_recipient_customer_invoice', 'dentall_core_guard_shipping_quote_invoice_recipient', PHP_INT_MAX, 3 );
 
@@ -364,6 +376,13 @@ function dentall_core_issue_shipping_quote_after_email( $success, $email_id, $em
 		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
 		|| 0 < (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' )
 	) {
+		return;
+	}
+
+	if ( ! dentall_core_order_has_quoted_shipping( $order ) || ! dentall_core_order_has_required_quote_details( $order ) ) {
+		$order->add_order_note(
+			__( 'This payment request was not activated because the quote data was incomplete when the email result returned. Complete the order and send a new payment email.', 'dentall-core' )
+		);
 		return;
 	}
 
@@ -413,11 +432,6 @@ function dentall_core_issue_shipping_quote_after_email( $success, $email_id, $em
 		);
 	}
 
-	if ( ! dentall_core_order_has_quoted_shipping( $order ) || ! dentall_core_order_has_required_quote_details( $order ) ) {
-		$order->add_order_note(
-			__( 'This payment request was sent with incomplete quote data. Payment remains blocked; cancel this order and create a complete replacement quote.', 'dentall-core' )
-		);
-	}
 }
 add_action( 'woocommerce_email_sent', 'dentall_core_issue_shipping_quote_after_email', 20, 3 );
 

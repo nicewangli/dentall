@@ -295,7 +295,7 @@
 - 授权原文：用户明确回复“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。
 - 要解决的问题：CR-012已建立“Cart邮件申请报价 → 人工待付款订单 → `order-pay`”边界，但邮件字段尚未完整区分Billing/Shipping，订单仅有Shipping line仍不足以证明资料完整；原方案也没有精确的报价有效期，旧链接可能在业务所称的三天之后继续尝试付款。
 - 使用角色、频率和数据：访客或客户低频发送常规少量行项目的报价邮件；Website Manager或其他具备订单权限的授权人员核对客户身份、地址、商品和费用，建立并发送人工报价订单。数据继续使用当前Cart商品事实、WooCommerce原生Customer/Order/Billing/Shipping/Shipping line/Tax/Fee和最少的订单生命周期meta，不新增询价CPT或重复订单表。
-- 第一版必须做：1）Cart自动带入商品、SKU、Variation规格、数量、小计和coupon；邮件明确要求准确Billing email、Shipping first/last name及country/state/city/postcode/address 1，Billing可与Shipping不同，Company、address 2、phone/WhatsApp和配送速度可选；2）新客户允许Guest付款，已有Customer只在业务人员核对后显式关联，付款前要求正数Shipping和完整Billing/Shipping并锁定已确认资料；3）第一次成功发送付款邮件时只写一次起算/到期事实，72小时后未付款旧单自动不可付款，重发不续期，实质内容变化先停用旧单再复核并创建新订单。
+- 第一版必须做：1）Cart自动带入商品、SKU、Variation规格、数量、小计和coupon；邮件明确要求准确Billing email和完整Shipping地址，Shipping国家仅限美国、加拿大、澳大利亚；Billing可与Shipping不同且国家不限制，其州省、邮编等必填性遵循WooCommerce国家地址规则，Company、address 2、phone/WhatsApp和配送速度可选；2）新客户允许Guest付款，已有Customer只在业务人员核对后显式关联，付款前要求正数Shipping和完整Billing/Shipping并锁定已确认资料；3）第一次成功发送付款邮件时只写一次起算/到期事实，72小时后未付款旧单自动不可付款，重发不续期，实质内容变化先停用旧单再复核并创建新订单。
 - 第一版明确不做：不建设站内报价表单、询价CPT、CRM、PDF报价、自动承运商报价、WhatsApp API或客户身份自动匹配；不强迫Guest先注册，不提前实施D79注册/历史订单归属；不以0元或Free Shipping占位；不自动判断卖方Sales Tax/VAT/GST义务；不承诺D75已覆盖真实网关晚到webhook。
 - 进口费用口径：Import duties、import taxes、customs clearance charges及carrier brokerage/disbursement fees不进入DentAll订单总额，由客户在实际产生时直接向海关或承运商支付。该口径不等于卖方销售税义务已确认；正式含税/未税展示、计税地址和税率仍由财税负责人确认。
 - 原生与实施方案：WooCommerce原生Order、Customer、Billing/Shipping、Shipping/Tax/Fee和`order-pay`继续作为交易事实；原生Hold stock不能精确表达“后台人工订单从首次成功发信起算、重发不续期”，也会影响其他待付款场景。最小实现位于既有`dentall-core`报价职责模块，使用WooCommerce CRUD保存首次发送/到期/签名/token/关闭事实，使用Action Scheduler安排单次动作，并在经典与Store API付款请求读取同一事实实时守卫。第三方报价插件和独立插件未引入。
@@ -344,3 +344,15 @@
 - [ ] 判断历史订单或客户数据是否仍依赖该字段。
 - [ ] 明确软删除、停用还是物理删除。
 - [ ] 在Staging验证回滚。
+
+### CR-015：第一版统一使用公司邮箱并由FluentSMTP接入BossMail事务邮件
+
+- 类型：外部事务邮件集成与运维配置。
+- 提出人：用户。
+- 提出日期：2026-09-21；2026-09-22按Staging实测修正服务商。
+- 优先级：P0。
+- 状态：Local隔离链路与Staging外部收件已验证；Header认证、业务触发矩阵、日志保留和失败/退信仍待批次①Staging收口。
+- 业务范围：第一版统一使用`materials@chinaadsdentallab.com`作为报价收件、WooCommerce通知发件身份和适用Reply-To；以后可以更换，但必须同步核对四类配置和历史链接边界。
+- 实施方案：WordPress只保留FluentSMTP一个邮件处理器；Staging使用公司BossMail专用SMTP主机、465端口和SSL。Cloudways Elastic Email未启用，不建立第二连接或fallback，不修改DNS。
+- 凭据与数据：邮箱密码只进入企业密码管理器和目标环境FluentSMTP配置，不进入Git、Markdown、截图或测试结果。邮件日志含客户邮箱、订单正文和付款链接，按最小期限保存并在验收后清理TEST记录。
+- 验收标准：1）受控外部邮箱实际收件；2）Woo客户/管理员、找回密码和询盘邮件按对应Day验证To/From/Reply-To/Return-Path与失败日志；3）原始Header核对SPF、DKIM、DMARC，Cron和日志保留期可观察且可回滚。

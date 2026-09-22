@@ -111,7 +111,7 @@ flowchart TD
 |---|---|---|---|---|
 | Guest order | `customer_id=0`或未关联账号的Woo订单 | 新客户直接使用付款链接 | Guest等于不需要Billing email | 订单CRUD与付款页访问 |
 | Customer关联 | 订单明确引用已有客户账号 | 员工核对后后台选择Customer | 邮箱相同会安全自动关联 | 检查订单customer ID及登录账号 |
-| 地址完整性 | 合同要求的原生字段均有有效值 | 姓名、国家、州省、城市、邮编、地址1 | 邮件写了地址就等于订单完整 | 对每个订单getter做负向测试 |
+| 地址完整性 | 合同要求的原生字段均有有效值 | Shipping仅US/CA/AU并按国家规则验证；Billing国家不限制，州省/邮编必填性读取WooCommerce locale | 邮件写了地址就等于订单完整 | 对国家白名单、各国required字段和订单getter做负向测试 |
 | 地址锁 | 付款请求地址与已报价订单一致 | 修改街道或邮箱被拒绝 | 只锁国家/州省即可 | REST逐字段变更矩阵 |
 | 邮箱格式 | 字符串通过WordPress邮箱校验 | Billing email可用于订单联系 | 格式正确等于邮箱属于付款人 | D79另验所有权与登录 |
 
