@@ -1036,6 +1036,23 @@ D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart�
 
 本终验允许合成树进入`main`，不等于Staging发布批准。D66的RSK-035/037/038已于2026-09-10在DentAll 0.41.0专项分支关闭Local，源提交`5c4cefb`已通过非快进合并纳入并推送`main`；仍须在Staging执行代码白名单、文件＋数据库备份、环境差异、配置重放、缓存与回滚预检后重新验证三项。禁止用Local数据库或uploads覆盖Staging既有商品、媒体和订单。
 
+## D85隔离Local通用内容页与编辑回归（2026-09-21）
+
+环境为独立文件与数据库副本，HTTP/MySQL仅监听回环端口；测试完成后已清理夹具并停止服务。详细过程与边界见[[笔记/Day85-通用内容页模板与编辑回归]]。
+
+| 用例组 | 实际证据 | 结果与边界 |
+|---|---|---|
+| 隔离与基线 | 从共享Local只读复制文件/数据库；测试前后核对源`wp-config.php`哈希、Git HEAD/状态、选项、商品、文章、元数据和terms | 通过；共享Local、Staging和Production未写入 |
+| Page对象 | 原生短、长、空三个Published TEST Page；现有Full width模板；隔离Website Manager；复用既有媒体 | 通过；无ACF/CPT、模板覆盖、媒体上传或正式内容 |
+| 缺口与最小方案 | 1024/1440px基线约115/151字符每行；390px表格client 350px、scroll 584px；比较仅限阅读宽度/断行的候选与额外表格滚动候选 | 采用更小的两块CSS；额外表格规则没有实测收益，未保留 |
+| Page四端 | 短、长、空三页×390/768/1024/1440；文章宽350/704/736/736px；图片、长文本、表格、空正文、唯一H1/main/article及无侧栏 | 616/616总断言中的Page部分通过，文档横向溢出0 |
+| 键盘 | 实际Tab/Enter/Shift+Tab覆盖Skip Link进入主内容、短/长页正文链接、面包屑返回和3px实线Focus | 通过；空页无正文链接，按不适用记录；屏幕阅读器和实体设备未验 |
+| SEO | 单一Title与robots；隔离全站`noindex, nofollow, noarchive`，Canonical按环境抑制；JSON-LD可解析且WebPage URL正确 | 通过隔离边界；未修改Reading、Yoast、Slug、菜单或Sitemap，公开Canonical仍待非Local验收 |
+| 编辑回归 | 非管理员Website Manager；Gutenberg 3区块；预览/自动保存隔离；正式保存、前台可见、修订4→6、核心编辑器精确恢复；最终正文SHA与对象字段不变 | 67/67浏览器断言通过；编辑器最终无脏状态，标记和自动保存已清理 |
+| 共享页面 | Home、Shop、Product、Cart、My Account各390/1440px；D85选择器匹配、计算样式、资源请求与页面横溢出 | 616/616总断言通过；共享页面均未命中D85规则，`style.css?ver=0.43.0`仅请求一次 |
+| 静态与独立审查 | PHP lint；CSS花括号104/104；`!important` 0；行内风险0；`git diff --check`；最终一文件差分独立审查 | 全部通过；P0/P1/P2/P3均为0 |
+| 清理与停机 | TEST Page 0、临时用户0、编辑标记0、订单/退款0；Woo session为源基线同一记录；隔离HTTP/MySQL端口关闭 | 通过；隔离副本和脱敏证据保留在Git忽略目录，不进入交付差分 |
+
 ## 测试记录模板（后续填写）
 
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |

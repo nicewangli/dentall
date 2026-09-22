@@ -185,6 +185,13 @@
 - 现有空分类#24是有效200空集合，保留Woo原生状态，但不得因技术上可访问就进入Production导航、Sitemap验收或正式索引结论。不存在term和越界分页仍应为真实404。
 - 本配置只存在于Local数据库；Staging/Production部署不能依赖Git自动携带，必须按本节两个键重放，并复核缓存后的Title、OG、Canonical、robots、Sitemap和代表分页。
 
+### D85原生Page模板与TEST SEO边界
+
+- D85只验证原生Page与既有Full width模板，不新增内容类型、路由、Slug规则、重定向、菜单入口或Sitemap配置。短、长、空三页均为隔离Local的明确TEST夹具，清理后不构成正式URL资产。
+- 三页均为单一Title、单一H1、单一main和单一article；JSON-LD可解析并保持各自WebPage URL，没有新增Product或Article事实。主题CSS只改变正文展示宽度与连续字符换行，不改变页面HTML语义、URL或结构化数据责任。
+- 隔离副本全站继续输出单一`noindex, nofollow, noarchive`，Yoast在该环境边界下不输出Canonical；这证明没有重复SEO输出，但不能证明Production可索引页面的自身Canonical、Sitemap或缓存结果。
+- Website Manager编辑回归后，标题、状态、Slug、作者与Full width模板均恢复原值；Reading、Yoast、导航和菜单哈希不变。正式页面名称、Slug、文案、素材、索引决定和导航归属继续由业务方确认，并在非Local发布前重新验收。
+
 ## 上线前SEO检查
 
 ### D65商品详情输出责任（主分支Local集成范围已完成）

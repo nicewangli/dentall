@@ -466,6 +466,18 @@ a:where(:active) {
 	}
 }
 
+/* D85保留Full width无侧栏骨架，只限制普通Page的阅读行长。 */
+.page-template-template-fullwidth:not(.woocommerce-page) .site-main > article.type-page {
+	max-width: 46rem;
+	margin-inline: auto;
+}
+
+/* anywhere参与最小宽度计算，避免连续标识符撑开段落或表格。 */
+.page-template-template-fullwidth:not(.woocommerce-page) .entry-content {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
 /*
  * D29 C2只处理原生WooCommerce商品卡内部；列表列数、间距和筛选布局仍留D44。
  * 价格、促销、评分与购买动作继续使用WooCommerce输出，不复制模板或隐藏关键购买信息。

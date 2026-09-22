@@ -18,6 +18,7 @@
 - 后续笔记：[[Day29-三类卡片组件契约]]
 - 当日WordPress实战学习笔记：[[WordPress实战笔记/Day28-基础控件状态与CSS级联]]
 - 同主题笔记：[[WordPress实战笔记/Day27-Design-Token与Mobile-First容器|Day27-Design-Token与Mobile-First容器]]
+- 后续同主题验证：[[Day85-通用内容页模板与编辑回归]]
 - 当前事实入口：`project-docs/PROJECT_STATE.md`
 - 代码规则入口：`project-docs/CODEX_WP_WC_RULES.md`
 - 设计参考入口：`design-assets/README.md`

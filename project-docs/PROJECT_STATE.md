@@ -20,15 +20,27 @@
 
 - D67～D72工作树收尾：`fb49`及`c278`、`de5b`、`2bae`、`e4ac`、`e2dc`、`c6df`均已从Git登记移除，后六个工作树路径不存在；`fb49`只因当时Codex任务占用保留0文件/0子目录空壳。D67～D69私密归档采用83项逐文件白名单，加README后清单共84份、5,569,504字节，SHA-256为`13566070bba962f1b2aa9b7a2ee0b1730cbe4d4da00864fd32beefa8ba3807d9`；D71～D72归档剔除2份本机路径快照后共66份、4,846,680字节，SHA-256为`47af8cfd3036817d0caa628500e60f7d26fb880323bfdd0f25d840b53fadd822`。两份归档逐文件哈希、密钥、本机路径和禁入文件检查均为0异常，ACL仅SYSTEM与本机Administrator。至少1,353,861,759字节的数据库、SQL、凭据、客户端配置、日志、密钥、WordPress副本及浏览器配置未归档并随临时树清理；六个源分支及D66修复分支均保留。D66修复工作树已在远端`main`核验后移除；主工作树、Day25历史归档树和Staging部署树均保留。
 
-- 2026-09-21用户明确授权D73＋D75，并指定72小时从同一订单第一次成功发送付款邮件起算、重发不续期。D73完整Billing/Shipping、Guest/Customer边界和D75正数Shipping/自动过期已在`codex/day73-day75-quote-expiry`完成授权范围的隔离Local技术验收；D73 PHP 59/59、邮件JavaScript 46/46、D75 PHP 83/83、真实Woo及展示Filter负向场景40/40、权限/REST 15/15、四端与四类付款页、终态4/4及普通停用3/3均通过。进口税费由客户直接向海关或承运商支付，卖方Sales Tax/VAT/GST及含税口径仍待财税负责人确认；D76/D78真实网关晚到webhook、D77 SMTP/目标环境Cron和非Local部署未完成，M6不标记Done。
+- D85已按用户确认的最小范围在独立Local副本完成：原生Page继续使用现有Full width模板，主题候选`0.43.0`只增加普通Page正文阅读行长与连续字符换行两块局部CSS；22个页面场景616/616、Website Manager Gutenberg编辑回归67/67、静态检查和独立代码审查均通过。三个明确TEST Page、两个临时用户及编辑标记已清理，隔离服务已停止；共享Local、Staging、菜单、SEO配置、订单、支付和物流均未写入。详见[[笔记/Day85-通用内容页模板与编辑回归]]。
 
 - 更新日期：2026-09-21。
-- 当前阶段：D67～D72已通过`6b5c96e`完成Local代码收口，DentAll 0.41.0的D66修复源提交`5c4cefb`也已通过非快进合并纳入并推送`main`；D73/D75已在当前专项分支完成Local技术验收，尚未合并或部署。RSK-035/037/038已关闭Local，D66/M5按Local技术口径完成；D69的RSK-039/040和D72两项继续按各自期限管理，D70长券码错误展示已由合成树响应式规则覆盖并在67/67中通过。
+- 当前阶段：既有D67～D72与D66修复已进入`main`且尚未部署；本工作树的D85仅完成隔离Local技术验证，未提交、合并、推送或部署。D85不补记D73～D84，也不改变W15/M7及其他Day状态；正式Page内容仍由业务方协调后验收。
 - 当前计划：单休20周编辑先行版，120个工作日，自然周期约4.6个月，对外按4.5～5个月管理。
-- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口，但不等于Staging部署或M6。
+- 当前里程碑：M1技术预验收已在D6通过，Website Manager培训者预演已在D13通过；D18 M2候选冻结通过。D25技术/人员路径已通过，但正式内容/素材与公司Git治理未完成；D42 M4与D66 M5均按Local技术口径完成。W12已完成Local代码收口；D85已完成独立Local技术回归，但不等于W15/M7、Staging部署或正式内容验收。
 - 当前状态：Cloudways Flexible为Full Access；受保护Staging、HTTPS、禁止索引、支付关闭边界、恢复入口及凭据轮换曾验证。后续部署仍须重新做备份、环境差异与回滚预检。
-- 当前版本：已推送的`main`为DentAll 0.41.0/Core 0.2.9；当前D73/D75分支候选为DentAll 0.43.0/Core 0.4.0，尚未合并或部署。Staging上次登记的部署基线为`501e5e5`/Core 0.2.6，远端`deploy/staging`当前仍为该提交；本轮尚未读取服务器文件、插件版本或哈希，不能据此排除现场漂移。共享Local仅保留已授权的`storefront_sticky_add_to_cart=false` Theme Mod，任何非Local配置均未因本次实现改变。
+- 当前版本：`main`与`origin/main`基线为`e9b5d2b`，DentAll 0.42.0/Core 0.3.0；本工作树的D85候选仅把DentAll升至0.43.0，尚未提交。Staging上次登记的部署基线为`501e5e5`/Core 0.2.6，远端`deploy/staging`仍为该提交；本轮没有读取或修改服务器文件、插件版本或哈希，不能据此排除现场漂移。共享Local和任何非Local配置均未因D85改变。
 - 2026-08-22用户已在Staging确认并保存WooCommerce全局币种为`USD`（左侧货币符号、千位`,`、小数`.`、两位小数）；商品CSV价格继续只录纯数值，不承担币种转换。Staging密码重置邮件当前未送达，与既有“SMTP未配置”事实一致；不阻塞已通过的Draft商品录入，Website Manager临时由管理员受控重置密码，正式自助找回须在企业事务邮件服务选型后独立验收。
+
+## D85并行检查点：原生Page Full width与编辑回归
+
+- 2026-09-21用户明确授权D85仅限隔离Local：采用原生Page、现有Full width模板和既有Token，允许明确TEST代表样本；只有实测缺口才补最小正文CSS及必要加载调整，并完成四端、键盘、编辑、SEO和文档回归。授权明确排除共享Local、Staging、菜单、SEO配置、其他Day、提交、合并、推送和部署。
+- 隔离副本创建短、长、空三种TEST Page，均为原生Page、Published、Full width，并由隔离Website Manager持有。长页复用既有媒体，覆盖标题、段落、列表、引用、图片、表格、长文本和连续标识符；未上传媒体、未创建自定义字段、模板、插件或正式内容。
+- 基线实测证明1024/1440px正文阅读行分别约115/151字符，390px表格外层可视宽350px而滚动宽584px，确有阅读和裁切缺口。最终只在既有`style.css`内增加两块作用于`.page-template-template-fullwidth:not(.woocommerce-page)`的规则：文章最大宽度46rem并居中，正文`min-width: 0`与`overflow-wrap: anywhere`；主题版本升至0.43.0用于资源缓存失效。没有新增CSS请求、条件加载、函数、模板或DOM。
+- 最终22个页面场景共616/616断言通过：三类Page在390/768/1024/1440px均无页面横向溢出，文章宽度为350/704/736/736px，图片尺寸/替代文本/边界正常，长表格不再溢出；Home、Shop、Product、Cart和My Account在390/1440px均未命中D85选择器。实际键盘验证覆盖Skip Link进入主内容、正文链接、可见3px焦点轮廓和Shift+Tab返回；空页因没有正文链接按不适用记录。
+- SEO回归确认每页单一Title、H1、main和article，隔离环境继续输出单一`noindex, nofollow, noarchive`且不输出Canonical，JSON-LD可解析并保持WebPage URL；未修改URL、Slug、Reading、Yoast、菜单或Sitemap配置。全站noindex环境不能代替公开环境自身Canonical和索引验证。
+- Website Manager以非管理员角色在Gutenberg完成67/67断言：3个区块加载，预览/自动保存标记只出现在预览，正式保存后前台可见，再通过核心编辑器精确恢复；最终正文哈希、标题、作者、状态、Slug和Full width模板不变，修订数在最终一轮由4增至6，编辑器无脏状态。Reading、Yoast、导航和菜单哈希均未改变。
+- 运行差分仅1个既有文件：13行新增、1行删除、净增12行；新增运行文件0、函数0、规则块2、CSS声明4、主题版本元数据1项、资源请求0。PHP lint、CSS花括号104/104、`!important` 0、行内风险0及`git diff --check`通过；独立代码审查P0/P1/P2/P3均为0。
+- 三个TEST Page、两个临时用户、全部编辑标记和自动保存已清理；订单/退款保持0，WooCommerce session保持源基线同一条记录。隔离PHP/MySQL端口已关闭。最终只读复核确认共享Local的`wp-config.php`哈希、Git HEAD/状态、选项、商品、文章、元数据和terms与复制前一致。
+- 剩余边界：正式Page文案与素材、真实设备/屏幕阅读器、公开环境Canonical、Staging/Production、缓存/CDN及复杂固定宽度嵌入仍待对应阶段验证；若首页未来改用Full width模板或正式内容出现复杂表格，应重新回归选择器作用域与内容溢出。
 
 ## D62并行检查点：原生字段复核与零扩展收口
 
@@ -821,17 +833,7 @@
 - 运行增量为2个新文件：Core模块负责设置、Store API事实和交易守卫；主题JS只在Cart加载，负责`mailto:`模板与按钮交互。另修改Core入口、Cart资源加载和两个版本号；DentAll为0.38.0、Core为0.2.9。无模板覆盖、CSS规则、数据表、CPT、ACF、第三方插件、远程请求、Cron或构建链。
 - PHP纯合同36/36、JS纯合同23/23、PHP/Node语法和diff检查通过；隔离Local主集成18/18，独立测试另覆盖虚拟/混合Cart、Variation、四宽、显式USD、原生Shipping/Fee/Tax订单、库存不扣、地址锁、无Shipping订单REST 409与经典付款302回原页、Batch和loading恢复。终态为标记订单0、checkout draft 0、TEST税率0、库存8、报价option不存在，17171/17172停止；源Local不写入。
 - 未启用真实邮件、支付、正式税率/物流、Staging、Production、DNS或缓存配置。真实设备默认邮件客户端、公司邮箱所有权/留存、人工订单邮件、支付沙盒、库存扣减/回补及Cart/Product Express钱包必须在D76/D78启用支付前验证；报价前不得出现快捷支付旁路。
-- 当前保留两项P2升级边界：Cart邮件点击为Woo 11持续loading的最小DOM兼容层，可能影响目标/冒泡型点击分析，需在Woo升级或埋点时回归；D72的“是否属于人工报价订单”判断仍不使用专用类型meta，而按当前商品配送属性与Shipping line推断。D75只为已签发报价新增首次签发、到期、签名、token、关闭时间和关闭原因六项生命周期meta；历史待付款订单及商品physical/virtual变化仍需在D76/D78专项验证。
-
-## D73＋D75阶段状态：字段、身份与72小时生命周期Local完成
-
-- 用户授权原文为“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”；CR-014与ADR-040已登记合同、影响和回滚候选。
-- D73已冻结字段责任：Cart自动带入商品/SKU/Variation/数量/小计/coupon；客户提供有效Billing email、收件人姓名及完整Shipping地址，Billing可不同，Company、address 2、phone/WhatsApp和配送速度可选。新客户可Guest付款；已有Customer只在核对后显式关联，邮箱自助注册与历史Guest订单归属留D79。
-- D73已通过PHP语法与59项纯合同，并通过主题脚本/测试入口Node语法及46项邮件合同；覆盖正数/0/净0/负数Shipping、完整/缺失资料、完整Billing/Shipping锁、姓名/电话/街道/email变化、三种`tax_based_on`、虚拟订单、结构化地址、不同Billing、Cart商品事实、进口费用边界和交易字段`edit`原始上下文。真实Woo及展示Filter负向场景40/40、权限/REST 15/15、390/768/1024/1440 Cart及四类付款页均通过。
-- D75已冻结并实现：人工订单必须有大于0的Shipping；第一次付款邮件成功发送建立一次72小时截止，重发不续期；商品、数量、coupon、Customer关联、Billing/Shipping、Shipping、Tax、Fee、币种或总额变化时旧单取消，再创建新订单。`shipping-quote-lifecycle.php`的83项带桩PHP合同、真实Action Scheduler、浏览后终态4/4和普通停用3/3通过；无常驻守护进程或前台轮询，已验证的非并发、顺序发送路径每份报价只保留一个单次Action。
-- 普通后台停用会先用Woo CRUD查询并取消已签发及未签发的后台实体报价候选，严格检查状态保存与读回，全部成功后才清理专属动作；失败会阻止停用。WordPress静默停用/更新会绕过该Hook，已登记RSK-046/P2，非Local必须关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。
-- 进口关税、进口税、清关费及承运商brokerage/disbursement费用不进入DentAll订单总额，由客户向海关或承运商支付。卖方销售税、VAT/GST、含税/未税展示、计税地址和正式税率仍待财税负责人确认；当前不据此写Staging/Production税配置。
-- D76/D78必须在目标支付网关沙盒验证“付款已启动后订单到期/取消，晚到webhook仍返回”的竞态，并串联库存、coupon、订单状态、Guest/Customer和替换订单。D77验证SMTP实际投递/退信和目标主机Cron。两次首次邮件真正并发仍按RSK-045/P3由单一经办人SOP管理；第三方订单项目meta的私有对象签名能力按RSK-047/P2在引入相关插件前复验。这些边界未通过前，D75不得外推为真实支付闭环，M6保持未完成。
+- 当前保留两项P2升级边界：Cart邮件点击为Woo 11持续loading的最小DOM兼容层，可能影响目标/冒泡型点击分析，需在Woo升级或埋点时回归；报价订单不新增meta，而按当前商品配送属性与Shipping line推断，历史待付款订单及商品physical/virtual变化需在D76/D78专项验证。
 
 ## 本周风险
 
@@ -950,8 +952,6 @@
 | W11 / D66 | 未记录 | 未记录 | 已完成（D66/M5 Local三项P2关闭并纳入`main`；非Local复验待完成） | 2026-09-10按用户“你先修复已有的三个P2”授权，以DentAll 0.41.0跟踪当前Woo AJAX安全状态、精确移除Storefront商品详情Product Pagination并局部修复属性表长词。inline 6/6、AJAX综合17/17、长值/短值各40/40及Hook探针通过；最终独立AJAX 19/19、inline 6/6、四端24/24与12/12均0错误，独立变体回归合计61/61且终态精确恢复，安全/交易终审P0～P3=0。源提交`5c4cefb`已通过非快进合并纳入并推送`main`；Staging/Production、正式内容/邮件/支付/税费/物流/缓存、真实读屏器仍未验，D69/D72期限性P2不变 |
 | W12 / D69（并行候选） | 6小时50分钟 | 未记录 | 已完成（独立Local技术候选；保留RSK-039/040） | DentAll 0.36.0候选连接Block Cart Store与经典Header/Mini Cart fragment，修正外层链接监听丢失及BFCache/旧响应竞态；Simple/Variable、匿名/Customer、故障/快速变化、四端和作用域通过，三路终审P0/P1=0。隔离数据库已恢复、10669已停止；形成当时D66三项尚未关闭、W12尚未合成的历史快照，RSK-039/040与非Local/Production仍未完成 |
 | W12 / D70 | 6小时50分钟 | 未记录 | 已完成（交易、恢复与私有目录销毁通过） | 独立Local复用Woo原生三券型和Store API；前/后105/105、权威浏览器17通过/1 P2、独立8/8，P0/P1为0。源提交的RSK-039长错误裁切映射为集成RSK-041并交D72；15券、1 Customer、1边界商品、51 session已删除，恢复12/12，原私有目录与23个同源回收站条目（含对应数据与元数据）精确销毁，安全终审P0/P1/P2为0。运行代码/插件/权限/金额算法0改动；D71税费、D75免邮/运费、D78跨订单次数及Checkout/订单/支付/库存/邮件未验 |
-| W13 / D73 | 未记录 | 未记录 | 已完成（Local字段与身份合同） | 完整Billing/Shipping、Guest付款和人工Customer关联合同已落地；D73 PHP 59/59、邮件JavaScript 46/46、真实Woo及展示Filter负向场景40/40、权限/REST 15/15通过。邮箱自助注册与历史Guest订单归属留D79；正式SMTP、卖方代收税口径和非Local未验 |
-| W13 / D75 | 未记录 | 未记录 | 已完成（Local 72小时生命周期） | 正数Shipping、首次成功发送付款邮件起算、重发不续期、内容变化关闭旧单、Action Scheduler单次任务及经典/Store API实时守卫已落地；D75 PHP 83/83、四端与四类付款页、终态4/4、普通停用3/3通过。RSK-045/P3并发首次签发、RSK-046/P2静默停用/更新、RSK-047/P2第三方私有对象meta及D76/D78真实网关晚到webhook仍为后续闸门，尚未合并或部署 |
 
 ## D65并行范围与主分支集成（2026-09-07）
 
