@@ -6,17 +6,19 @@
 周次: W13
 实际有效工时: 用户未记录
 验收层级: 隔离Local技术验证
-状态: Local阶段已完成；Cloudways、DNS与Staging真实投递待环境就绪
+状态: Local应用链与Staging SMTP传输已完成；业务触发和邮件认证按后续Day验收
 ---
 
 # Day77 FluentSMTP事务邮件Local验证
+
+> 2026-09-22补充：本篇后文保留2026-09-21隔离Local验证与当时Elastic Email候选方案的历史记录。Staging实际已改用公司BossMail专用SMTP主机`s196h.chinaemail.cn:465`和SSL，并从`materials@chinaadsdentallab.com`成功发送到受控QQ邮箱；Cloudways Elastic Email未启用、DNS未修改。当前活动决策以ADR-040和下方补充验收为准，不再照旧清单配置第二条Elastic Email连接。
 
 ## 相关笔记
 
 - 每日笔记索引：[[README|DentAll每日笔记索引]]。
 - 直接前置：[[Day72-人工运费邮件报价与购物车收口]]。
 - 当日学习笔记：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。
-- 变更与决定：[[../CHANGE_REQUESTS#CR-014：第一版统一使用公司邮箱并接入Elastic Email事务邮件|CR-014]]、[[../DECISIONS#ADR-040：事务邮件采用FluentSMTP单处理器并由Elastic Email负责非Local外发|ADR-040]]。
+- 变更与决定：[[../CHANGE_REQUESTS#CR-014：第一版统一使用公司邮箱并由FluentSMTP接入BossMail事务邮件|CR-014]]、[[../DECISIONS#ADR-040：事务邮件采用FluentSMTP单处理器并由BossMail负责第一版外发|ADR-040]]。
 - 风险：[[../RISK_REGISTER#RSK-042：事务邮件送达与日志治理风险（2026-09-21）|RSK-042]]。
 
 ## 先给结论
@@ -27,7 +29,7 @@
 
 隔离Local结果通过：FluentSMTP记录11条成功、Mailpit精确捕获11封，其中客户邮件7封、管理员通知4封；两封人工订单详情含原生付款链接；无收件人和邮件层无效收件人均跳过；非法Billing Email被WooCommerce CRUD拒绝；重复触发新订单邮件没有重复发送。关闭SMTP端口后新增1条失败日志、Mailpit数量不变且没有fallback。原生付款页返回200，没有跳转Cart或PHP Fatal。
 
-这些证据只关闭D77的Local阶段，不代表Cloudways Add-on、Elastic Email API、SPF/DKIM/DMARC、互联网送达、垃圾箱、回复路径、Staging或M6已完成。
+Local证据只关闭应用生成、接管、日志和失败可见性；2026-09-22补充的Staging测试进一步证明BossMail传输与外部收件可用。SPF/DKIM/DMARC原始Header、垃圾箱、回复、失败日志、业务触发和M6仍未完成。
 
 ## 授权、范围与三个验收结果
 
@@ -168,7 +170,22 @@ flowchart LR
 - 物流/税：TEST订单包含固定TEST Shipping以通过D72付款边界，不建立正式运费或税务政策。
 - 部署：本轮不改Cloudways、DNS、Staging或Production。非Local执行前必须先备份、核对单一处理器、保存环境密钥并准备回滚。
 
-## 后续Staging清单
+## 2026-09-22 Staging补充验收与后续清单
+
+已完成：
+
+1. Staging启用FluentSMTP并建立单一BossMail SMTP连接；主机为`s196h.chinaemail.cn`，端口465，加密为SSL。
+2. 发件人为`materials@chinaadsdentallab.com`，显示名称为DentAll；测试邮件已由受控QQ邮箱实际收到。
+3. Cloudways Elastic Email Add-on未启用，DNS未修改，未建立fallback。
+
+仍需完成：
+
+1. 复核FluentSMTP日志表、每日清理Cron和最小保留期。
+2. 从原始邮件Header核对SPF、DKIM、DMARC和Return-Path对齐。
+3. D76/D78使用TEST订单验证客户邮件与管理员通知；D80验证找回密码；D89验证询盘通知。
+4. 验证失败日志、垃圾箱和回复路径，随后删除TEST订单及包含付款链接或客户资料的敏感日志。
+
+### 原候选清单（已由BossMail方案取代，仅保留历史）
 
 1. 在企业Cloudways账户开通Elastic Email Add-on并绑定目标Application。
 2. 在Elastic Email验证公司发件域名；由DNS管理员添加官方给出的精确SPF/DKIM记录，并按公司政策配置DMARC。
@@ -182,9 +199,9 @@ flowchart LR
 
 ## 未关闭事项
 
-- Cloudways Add-on购买/绑定、Elastic Email账户与API Key尚未配置。
+- Cloudways Elastic Email Add-on未启用且已不属于当前第一版活动方案；不存在对应API Key配置。
 - 公司域名SPF、DKIM、DMARC的当前真实值尚未核验或修改。
-- Staging插件启用、日志表、Cron、真实收件箱/垃圾箱、回复和退信尚未验证。
+- Staging插件启用与真实收件箱已验证；日志表、Cron、垃圾箱、回复和退信仍待验证。
 - D73～D76没有当前分支的完成笔记，D77不据此宣称D76、D78、M6或完整订单闭环完成。
 - 五份发布状态文档在另一个工作区有并行未提交更新，本分支不覆盖；待该任务合并后再把D77阶段事实追加到`PROJECT_STATE.md`、`CHANGELOG.md`、`RUNBOOK.md`、`RELEASE_CHECKLIST.md`和总档案。
 

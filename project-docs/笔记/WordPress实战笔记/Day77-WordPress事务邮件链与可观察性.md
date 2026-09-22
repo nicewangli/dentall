@@ -15,6 +15,8 @@ tags:
 
 # Day77 WordPress实战：事务邮件链与可观察性
 
+> 项目事实更新（2026-09-22）：本篇以Elastic Email讲解“外部发送服务”这一角色，是D77 Local阶段形成时的候选示例。DentAll Staging实际采用FluentSMTP单处理器直连公司BossMail专用SMTP服务器，并已完成外部收件验证；Cloudways Elastic Email未启用。分层模型仍成立，具体服务商事实以ADR-040和项目Day77笔记为准。
+
 ## 相关笔记
 
 - 学习索引：[[WordPress实战笔记索引]]。
