@@ -15,12 +15,13 @@ tags:
 
 # Day86 WordPress实战：文章主查询与归档Hook边界
 
-> 2026-10-06整合补充：本篇实现与浏览器证据来自2026-09-22独立D86源分支（主题0.42.1/Core 0.2.8），不代替最新主线合成测试。当前基线已含D85、D79和D80，D74＋D86候选统一为主题0.46.0/Core 0.6.0；本批次尚未推送或部署，进度见[[../../PROJECT_STATE|项目当前状态]]。
+> 2026-10-06整合补充：本篇原实现证据来自2026-09-22独立D86源分支（主题0.42.1/Core 0.2.8）。最新主线已含D85、D79和D80，最终合成源码`12274cd`（主题0.46.0/Core 0.6.0）已重新完成Local回归；源分支证据和新合成证据分开记录。本批次尚未推送或部署，详见[[../Day86-D74与D86整合发布记录]]与[[../../PROJECT_STATE|项目当前状态]]。
 
 ## 相关笔记
 
 - 学习索引：[[WordPress实战笔记索引]]
 - 对应项目笔记：[[../Day86-博客列表分类分页与空状态]]
+- 合成验收与发布记录：[[../Day86-D74与D86整合发布记录]]
 - 前置学习笔记：无直接编号依赖；D19内容模型是项目事实来源，但本篇只讲前台请求链
 - 后续学习笔记：D87文章详情完成后回填
 
@@ -132,8 +133,8 @@ flowchart TD
 ### 从入口开始追踪
 
 1. `functions.php`加载`inc/blog.php`。
-2. `wp_enqueue_scripts`仅在Blog归档登记CSS。
-3. `wp`优先级20时，父主题已注册回调且条件标签可用，DentAll移除默认文章Header/Content/Taxonomy和默认分页。
+2. 主查询完成后触发`wp`；优先级20时父主题已注册回调且条件标签可用，DentAll移除默认文章Header/Content/Taxonomy和默认分页。
+3. 进入父主题模板后，`wp_head`阶段触发`wp_enqueue_scripts`，仅在Blog归档登记CSS；这晚于`wp`，早于正文循环输出。
 4. Storefront循环每个`article.hentry`时调用`dentall_blog_card()`。
 5. 循环结束调用核心`the_posts_pagination()`，读取同一个主查询。
 
@@ -183,7 +184,7 @@ add_action( 'storefront_loop_post', 'dentall_blog_card', 10 );
 | 机制类型 | Action、Template Hierarchy、Enqueue |
 | 名称或入口 | `wp`、`storefront_loop_before`、`storefront_loop_post`、`storefront_loop_after` |
 | 注册位置 | `inc/blog.php` |
-| 优先级 | 配置在`wp` 20；卡片10；分页10；标题20 |
+| 优先级 | 配置在`wp` 20；卡片10；分页10；标题5 |
 | 回调输入 | 主要通过当前主查询和全局Post上下文读取 |
 | 返回 | Action回调不返回修改值，直接登记资源或输出HTML |
 | 副作用 | 前台输出和CSS队列；无数据写入 |
@@ -199,9 +200,9 @@ add_action( 'storefront_loop_post', 'dentall_blog_card', 10 );
 | 输出转义 | URL、属性、标题、日期、摘要均按上下文转义；分类列表经`wp_kses_post` | PHP静态审查 |
 | 数据库写入 | 运行代码无 | TEST fixture只在隔离副本 |
 | URL与SEO | URL不变；唯一H1与页码标题通过 | Production Canonical/robots待D92 |
-| 缓存 | 条件CSS带主题版本 | 2026-10-06合成候选统一为主题0.46.0/Core 0.6.0，需重跑资源隔离 |
+| 缓存 | 条件CSS带主题版本 | 2026-10-06合成统一为主题0.46.0/Core 0.6.0，Local资源隔离已重跑通过；Staging仍待 |
 | 支付、物流与订单 | 不适用 | 无交易代码 |
-| 部署与回滚 | D86增量没有数据迁移；回退须针对本批次明确文件清单，不覆盖主线已有能力 | 2026-10-06基线已含D85并已部署；D74＋D86合成与Staging发布仍在进行中 |
+| 部署与回滚 | D86增量没有数据迁移；回退须针对本批次明确文件清单，不覆盖主线已有能力 | 2026-10-06基线已含D85；D74＋D86 Local合成通过，GitHub与Staging发布仍待 |
 
 ## 动手练习
 
