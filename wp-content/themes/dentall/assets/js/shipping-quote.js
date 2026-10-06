@@ -152,8 +152,8 @@
 				getCouponText( cart )
 			),
 			'',
-			__( 'DentAll will confirm shipping, any seller-collected tax, and other charges included in the order before payment.', 'dentall' ),
-			__( 'Import duties, import taxes, customs clearance charges, and carrier brokerage or disbursement fees are excluded from the DentAll order total and must be paid by the customer directly to customs or the carrier when assessed.', 'dentall' ),
+			__( 'DentAll will confirm shipping and every charge included in the order before payment. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall' ),
+			__( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees, and carrier brokerage charges are excluded from the DentAll order total and must be paid by the customer directly to customs or the carrier when assessed.', 'dentall' ),
 		].join( '\r\n' );
 		const subject = __( 'Shipping quote request', 'dentall' );
 

@@ -177,6 +177,34 @@ function dentall_enqueue_cart_assets() {
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_cart_assets', 55 );
 
 /**
+ * 只在实际结账或付款端点加载订单摘要样式。
+ *
+ * 普通虚拟商品Checkout继续由WooCommerce Checkout Block和Store API提供金额事实；
+ * 人工报价order-pay继续使用原生form-pay表格。主题只处理两者的四端可读布局。
+ *
+ * @return void
+ */
+function dentall_enqueue_checkout_assets() {
+	if (
+		! function_exists( 'is_checkout' )
+		|| ! is_checkout()
+		|| ( function_exists( 'is_order_received_page' ) && is_order_received_page() )
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-checkout',
+		get_stylesheet_directory_uri() . '/assets/css/checkout.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_checkout_assets', 55 );
+
+/**
  * 只在Cart Block页面同步Store API购物车与经典Header Cart fragments。
  *
  * Cart Block以wc/store/cart为真实状态源；本脚本不保存第二份购物车数据，
