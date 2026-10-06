@@ -149,15 +149,9 @@ function dentall_site_branding() {
 	);
 	?>
 	<div class="site-branding">
-		<?php if ( is_home() ) : ?>
-			<h1 class="logo">
-		<?php endif; ?>
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="custom-logo-link" rel="home" aria-label="<?php echo esc_attr( $home_label ); ?>">
 			<?php echo dentall_get_brand_logo_image(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</a>
-		<?php if ( is_home() ) : ?>
-			</h1>
-		<?php endif; ?>
 	</div>
 	<?php
 }

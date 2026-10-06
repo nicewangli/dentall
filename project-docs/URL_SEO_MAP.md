@@ -204,3 +204,16 @@
 - Canonical、分页、筛选和搜索规则无冲突；第一版不启用多语言URL。
 - 商品结构化数据无严重错误。
 - 分析工具和站长平台归属由企业账户持有。
+
+## D86博客列表与分类SEO合同（Local候选，2026-09-22）
+
+| 页面 | URL合同 | 当前输出 | 索引边界 | 后续 |
+|---|---|---|---|---|
+| Posts Page | `/blog/` | 唯一内容H1 `Blog`，主查询文章卡片 | 隔离Local强制noindex、无Canonical | D92按Production策略复验 |
+| Blog分页 | `/blog/page/{n}/`；第1页链接回`/blog/` | 核心分页，Page 2 Title含页码 | 越界页由主查询404 | D85合成后回归缓存与Title |
+| 文章分类 | `/category/{slug}/` | 原生分类H1、描述、主查询卡片和分页 | 当前隔离Local noindex | 正式分类是否索引按D92确认 |
+| 空分类 | `/category/{slug}/` | 200、原生Nothing Found、唯一H1 | 空term的Sitemap/索引由Yoast与内容策略另验 | 正式空分类不作为内容目标 |
+| 标签/作者/日期/搜索 | 既有规则 | D86不接管 | 沿用D19与现有Yoast边界 | 不因D86自动改变 |
+| 单篇文章 | `/{post-slug}/` | D86不接管 | 公开署名和作者Schema仍不一致 | D87实现与验证 |
+
+D86未更改固定链接、Slug、重定向、robots配置、Sitemap、Canonical生成器或Schema。当前`noindex,nofollow,noarchive`和无Canonical是隔离环境保护证据，不是Production目标状态。

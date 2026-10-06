@@ -953,3 +953,11 @@
 - 每天记录风险等级、启动的Agent、Review结果、未验证项和剩余风险。
 - 每周第6天记录计划完成率、编辑反馈、返工原因和下周风险。
 - 落后超过2个工作日时调整范围或里程碑，禁止默认占用每周唯一休息日。
+
+## D86状态：博客列表、分类、分页与空状态
+
+- **状态：独立Local技术完成，待D85集成与非Local复验。** 用户于2026-09-22明确同意按推荐方案实施；本分支在`e9b5d2b`基线上以DentAll `0.42.1`完成Posts Page与文章分类列表，不代表另一工作树中的D85 `0.43.0`已合入。
+- 实现继续使用WordPress主查询与Storefront原生模板链，只新增Blog职责模块和条件CSS；没有模板覆盖、自定义查询、JavaScript、插件、依赖、字段、后台入口、AJAX、Schema或数据库写入。标签、作者、日期、搜索、单篇文章和D87公开署名/作者Schema保持既有边界。
+- 隔离Local以8篇TEST文章、4条/页验证390/768/1024/1440的1/2/3/3列、特色图/缺图、英文日期、长文本、分类第2页、数字分页与44px Focus目标；Blog第2页、空分类、Blog全空、Blog/分类越界404、Home/Shop/Product/Cart资源隔离通过。分页真实DOM、H1 landmark、响应式`sizes`和空alt媒体链接名称问题均已修复并复验。
+- 当前隔离环境仍强制`noindex,nofollow,noarchive`且无Canonical，不能外推Production SEO；正式3篇文章、摘要、分类、授权16:9素材、D85合成版本、Staging/Production、真实辅助技术和Production缓存/CWV仍待。
+- 本日独立Code Review与Test Review终态均为P0/P1/P2/P3=0；初审发现的H1 landmark、响应式`sizes`、空alt媒体链接名称、英文日期与分类分隔符i18n问题已关闭。无表单、写接口、权限、REST或交易面，因此未启动安全专项Agent。完整证据见[[笔记/Day86-博客列表分类分页与空状态]]。

@@ -4,6 +4,15 @@
 
 ## Unreleased
 
+### D86博客列表、分类、分页与空状态（2026-09-22，独立Local技术完成）
+
+- 用户明确授权按推荐最小方案实施。DentAll独立分支由`0.42.0`升至`0.42.1`，新增职责明确的`inc/blog.php`与条件加载`assets/css/blog.css`；不新增模板覆盖、JavaScript、插件、依赖、字段、后台入口、自定义查询、AJAX或Schema。
+- Posts Page与文章分类继续复用WordPress主查询及Storefront `index/archive → loop → content`链，只在`wp`阶段替换文章循环与分页回调；卡片输出日期、分类、H2、摘要、可选16:9特色图和Read article，不输出后台作者、评论、标签或全文。
+- 取消Posts Page把全站Logo包成H1的旧条件，由内容区输出Blog唯一H1；空分类继续使用Storefront原生`content-none.php`唯一H1。Blog/Category无Sidebar，标签、作者、日期、搜索和单篇文章保持既有边界。
+- 隔离Local用8篇TEST文章、4条/页验证390/768/1024/1440的1/2/3/3列、有图/缺图、长标题/摘要、英文日期、分类第2页、Focus、44px目标、空分类、Blog全空与两类越界404；Home/Shop/Product/Cart资源隔离回归通过。首轮发现分页DOM选择器假设错误，独立审查另发现H1 landmark、响应式`sizes`和空alt媒体链接名称问题，均按真实DOM与页面合同修复后全量复验通过。
+- WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29下PHP lint与`git diff --check`通过。隔离环境保持`noindex,nofollow,noarchive`且无Canonical；Production索引/Canonical仍归D92。未改共享Local、Staging、Production、支付、订单、库存、税费、物流或缓存配置。
+- D85已在另一分支提交`5635f65`并使用`0.43.0`，但未合入当前D86工作树；D86当前`0.42.1`仅是独立差分版本。未来合成必须统一到更高版本并重跑D85/D86与相邻页面，当前不宣称集成完成。详见[[笔记/Day86-博客列表分类分页与空状态]]。
+
 ### Staging首轮发布候选与现场只读预检（2026-09-10，预检前置NO-GO）
 
 - 冻结运行代码提交`97ebdc3`及主题/Core两个tree，允许后续纯文档提交推进`main`分支头；`501e5e5`作为上次已部署基线而非未来候选分支头。两套历史无共同祖先且目录根不同，只能从冻结Git对象做`app/public/wp-content/**`到根级`wp-content/**`的受控映射，禁止直接merge或递归复制Local目录。

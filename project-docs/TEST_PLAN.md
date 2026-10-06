@@ -1041,3 +1041,24 @@ D71主报告177/177断言通过，P0/P1失败为0。当前Cart Block没有Cart�
 | 用例ID | 环境/设备 | 前置条件 | 步骤 | 预期 | 实际 | 状态 | 证据/缺陷 |
 |---|---|---|---|---|---|---|---|
 | TC-001 | Staging/Chrome | 测试商品有库存 | 加购并完成沙盒支付 | 订单成功、库存减少、邮件送达 | 待测 | 未开始 | |
+
+## D86博客归档Local验证（2026-09-22）
+
+| 用例 | 范围 | 预期 | 结果 | 边界 |
+|---|---|---|---|---|
+| D86-01 | `/blog/`四端 | 390/768/1024/1440为1/2/3/3列，每页4卡、唯一Blog H1、无横向溢出 | 通过 | 隔离TEST文章，不代表正式内容 |
+| D86-02 | 卡片状态 | 有图与缺图共存；16:9；长标题/摘要安全断行；不输出全文、后台作者、评论、标签 | 通过 | 图片授权和正式裁切待业务素材 |
+| D86-03 | 分页 | 第1/2页200，当前页`aria-current`正确，Page 1回根URL，目标至少44×44px | 通过 | 隔离环境4条/页只用于制造边界 |
+| D86-04 | 分类与空态 | 有内容分类输出H1/描述/卡片；空分类200、0卡片、原生`no-results`和唯一H1 | 通过 | 正式分类命名/描述待内容验收 |
+| D86-05 | 越界 | `/blog/page/99/`返回404且body含`error404` | 通过 | 继续由核心主查询负责 |
+| D86-06 | 可访问性 | 标题、分类、Read article、分页可聚焦且有可见Focus；H1/H2层级成立 | 通过（自动化） | 真实读屏器仍待 |
+| D86-07 | 资源隔离 | Blog/Category加载唯一`blog.css?ver=0.42.1`；Home/Shop/Product/Cart不加载且均200 | 通过 | D85合成后需用统一版本重跑 |
+| D86-08 | SEO当前环境 | Page 2 Title含页码；四页均`noindex,nofollow,noarchive`；无Canonical；未新增Schema | 通过当前Local合同 | Production robots/Canonical归D92，不外推 |
+| D86-09 | 静态 | 子主题PHP 7/7 lint、`git diff --check`、无行内资源/第二查询模式 | 通过 | PHP CLI有环境级缺失Imagick warning，`-n` lint无语法错误 |
+| D86-10 | 分类分页 | 分类第2页200、4卡、`aria-current=2`、Page 1回分类根URL；第99页404 | 通过 | 8篇TEST文章均关联测试分类 |
+| D86-11 | Posts Page全空 | 临时将隔离副本全部9篇发布文章转为Draft | 200、0卡片、原生`Nothing Found`唯一H1、无自定义Blog Header；随后9篇精确恢复Publish | 仅隔离副本，未触碰共享环境 |
+| D86-12 | 图片链接与日期 | 空alt图片链接仍有文章标题可访问名称；en-US日期为`September 22, 2026` | 通过 | 日期格式字符串使用WordPress i18n，可由翻译覆盖 |
+
+浏览器自动报告位于Git忽略目录`.codex-tmp/day86/evidence/browser-audit.json`；截图覆盖四个目标宽度。隔离服务收尾必须停止，TEST数据不得进入共享Local、Staging或Production。
+
+独立Code Review与Test Review终态均为P0/P1/P2/P3=0。一次最终浏览器重跑在`networkidle`等待阶段超时，HTTP只读检查仍为200；随后同一当前源码完整重跑通过，最终报告`passed: true`，不以超时轮次替代通过证据。
