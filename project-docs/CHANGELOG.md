@@ -38,6 +38,7 @@
 - Cart报价邮件、Customer Invoice和`order-pay`统一明确客户为Importer of Record，并区分“客户直接支付的进口费用”与“DentAll依法代收并单列的卖方税”。主题升至0.44.0，Core升至0.4.1。
 - 静态与合同验证通过：PHP/JavaScript语法、D73 PHP 59/59、D74扩展后的D75生命周期95/95、报价邮件46/46及`git diff --check`通过。独立Local真实WooCommerce/Chrome为150/150，覆盖普通Checkout与`order-pay`各390/768/1024/1440、Guest验证前不泄露、金额一致、无`Tax 0`、绝对截止、浏览器时区不改文本、重发不续期、长文本、无溢出、焦点及最终按钮≥44px；Console、pageerror、HTTP/PHP应用错误均为0。首轮42px P2经提高局部选择器特异性修复并关闭，代码、安全和独立测试终审P0～P3均为0。
 - 隔离TEST商品、报价订单、checkout draft、相关计划任务、数据库、账号、PHP/MySQL进程和17474/17475端口已清理，源Local配置哈希与商品/选项不变量通过。隔离副本沿用的Checkout标题、隐私文案与日期格式仍有中文，登记RSK-055并要求第一版英语站在非Local展示验收前统一；这不改变D74金额和截止逻辑结论。目标网关、正式税率、SMTP、边缘缓存、Staging和Production仍未验收。
+
 ### D73＋D75报价字段与72小时生命周期（2026-09-21，Local已完成）
 
 - 用户明确授权：“同意实施D73+D75并加入72小时自动失效，按首次成功发送付款邮件起算，重发不续期”。CR-014与ADR-040登记完整字段、Guest/Customer、正数Shipping、旧单替换、进口费用及自动过期合同；D73/D75按Local授权范围完成，M6仍等待真实支付闭环。
@@ -48,6 +49,15 @@
 - 到期网页拒付不覆盖已启动网关流程；真实网关晚到webhook、订单状态、库存和coupon竞态保留为D76/D78完成闸门。当前不启用真实邮件、支付或正式税/物流配置，不部署Staging/Production。
 - 当前低频B2B采用单人单次发送SOP；两次首次邮件真正并发成功缺少跨请求原子锁，登记为RSK-045/P3。实现没有常驻轮询或前台定时请求；已验证的非并发、顺序发送路径每份报价只保留一个单次Action。WordPress静默停用/更新会绕过普通停用Hook，登记为非Local发布P2门禁：关闭自动更新、进入维护模式、停发付款邮件并确认没有在途支付。
 - 生命周期meta、状态、创建来源和订单key均以WooCommerce `edit`上下文读取，展示Filter无法改变付款守卫。标准Woo标量、数组及`WC_Meta_Data`已覆盖；第三方订单项目meta若保存带私有状态且不提供`JsonSerializable`/`get_data()`的普通对象，当前稳定化签名不能观察其私有属性，登记为RSK-047/P2兼容边界。
+
+### D86博客列表、分类、分页与空状态（2026-09-22，独立Local技术完成）
+
+- 用户明确授权按推荐最小方案实施。DentAll独立分支由`0.42.0`升至`0.42.1`，新增职责明确的`inc/blog.php`与条件加载`assets/css/blog.css`；不新增模板覆盖、JavaScript、插件、依赖、字段、后台入口、自定义查询、AJAX或Schema。
+- Posts Page与文章分类继续复用WordPress主查询及Storefront `index/archive → loop → content`链，只在`wp`阶段替换文章循环与分页回调；卡片输出日期、分类、H2、摘要、可选16:9特色图和Read article，不输出后台作者、评论、标签或全文。
+- 取消Posts Page把全站Logo包成H1的旧条件，由内容区输出Blog唯一H1；空分类继续使用Storefront原生`content-none.php`唯一H1。Blog/Category无Sidebar，标签、作者、日期、搜索和单篇文章保持既有边界。
+- 隔离Local用8篇TEST文章、4条/页验证390/768/1024/1440的1/2/3/3列、有图/缺图、长标题/摘要、英文日期、分类第2页、Focus、44px目标、空分类、Blog全空与两类越界404；Home/Shop/Product/Cart资源隔离回归通过。首轮发现分页DOM选择器假设错误，独立审查另发现H1 landmark、响应式`sizes`和空alt媒体链接名称问题，均按真实DOM与页面合同修复后全量复验通过。
+- WordPress 7.0.4、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.29下PHP lint与`git diff --check`通过。隔离环境保持`noindex,nofollow,noarchive`且无Canonical；Production索引/Canonical仍归D92。未改共享Local、Staging、Production、支付、订单、库存、税费、物流或缓存配置。
+- 源分支历史边界（2026-09-22）：D86当时基于`e9b5d2b`，`0.42.1`仅为独立差分版本，未包含另一分支的D85。现于2026-10-06从已含D85并已部署的`a8897f0`整合，统一候选为DentAll 0.46.0/Core 0.6.0；D85/D86合成与相邻页面仍须重新回归，本批次尚未推送或部署。详见[[笔记/Day86-博客列表分类分页与空状态]]。
 
 ### Staging首轮发布候选与现场只读预检（2026-09-10，预检前置NO-GO）
 

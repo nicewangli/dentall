@@ -1107,3 +1107,24 @@ Staging前继续保持支付关闭、只用TEST对象；需验证首封邮件后
 Staging候选只保留60秒HMAC身份冷却，不使用未经证明安全的`REMOTE_ADDR`，也不盲信`X-Forwarded-For`。原计划创建一个专用TEST Customer；现场发现受控邮箱已属于既有明确TEST账户，WordPress安全拒绝重复邮箱，因此在不改变其角色的前提下只向该账户真实发送一次，并检查Woo/FluentSMTP私有日志。Woo限频非原子并发窗口、同步SMTP时序差异和边缘来源限频待验保留为非阻塞风险。
 
 Staging实际执行：发布提交`a07af22`部署成功；既有D77受控邮箱已属于明确TEST账户，因此未新增重复账户。只提交一次真实找回请求，FluentSMTP成功计数增加1，Woo `transactional-emails`记录`customer_reset_password`发送成功，用户在手机端打开链接进入新密码表单。按用户决定不再创建Gmail TEST客户、不发送第二封、不提交新密码；Staging的12字符保存与单次使用不重复执行，继续引用完全相同代码的隔离Local证据。
+
+## D86博客归档Local验证（2026-09-22）
+
+| 用例 | 范围 | 预期 | 结果 | 边界 |
+|---|---|---|---|---|
+| D86-01 | `/blog/`四端 | 390/768/1024/1440为1/2/3/3列，每页4卡、唯一Blog H1、无横向溢出 | 通过 | 隔离TEST文章，不代表正式内容 |
+| D86-02 | 卡片状态 | 有图与缺图共存；16:9；长标题/摘要安全断行；不输出全文、后台作者、评论、标签 | 通过 | 图片授权和正式裁切待业务素材 |
+| D86-03 | 分页 | 第1/2页200，当前页`aria-current`正确，Page 1回根URL，目标至少44×44px | 通过 | 隔离环境4条/页只用于制造边界 |
+| D86-04 | 分类与空态 | 有内容分类输出H1/描述/卡片；空分类200、0卡片、原生`no-results`和唯一H1 | 通过 | 正式分类命名/描述待内容验收 |
+| D86-05 | 越界 | `/blog/page/99/`返回404且body含`error404` | 通过 | 继续由核心主查询负责 |
+| D86-06 | 可访问性 | 标题、分类、Read article、分页可聚焦且有可见Focus；H1/H2层级成立 | 通过（自动化） | 真实读屏器仍待 |
+| D86-07 | 资源隔离 | Blog/Category加载唯一`blog.css?ver=0.42.1`；Home/Shop/Product/Cart不加载且均200 | 通过 | D85合成后需用统一版本重跑 |
+| D86-08 | SEO当前环境 | Page 2 Title含页码；四页均`noindex,nofollow,noarchive`；无Canonical；未新增Schema | 通过当前Local合同 | Production robots/Canonical归D92，不外推 |
+| D86-09 | 静态 | 相关子主题PHP lint、`git diff --check`、无行内资源/第二查询模式 | 通过 | PHP CLI有环境级缺失Imagick warning，`-n` lint无语法错误 |
+| D86-10 | 分类分页 | 分类第2页200、4卡、`aria-current=2`、Page 1回分类根URL；第99页404 | 通过 | 8篇TEST文章均关联测试分类 |
+| D86-11 | Posts Page全空 | 临时将隔离副本全部9篇发布文章转为Draft | 200、0卡片、原生`Nothing Found`唯一H1、无自定义Blog Header；随后9篇精确恢复Publish | 仅隔离副本，未触碰共享环境 |
+| D86-12 | 图片链接与日期 | 空alt图片链接仍有文章标题可访问名称；en-US日期为`September 22, 2026` | 通过 | 日期格式字符串使用WordPress i18n，可由翻译覆盖 |
+
+浏览器自动报告位于Git忽略目录`.codex-tmp/day86/evidence/browser-audit.json`；截图覆盖四个目标宽度。隔离服务收尾必须停止，TEST数据不得进入共享Local、Staging或Production。
+
+独立Code Review与Test Review终态均为P0/P1/P2/P3=0。一次最终浏览器重跑在`networkidle`等待阶段超时，HTTP只读检查仍为200；随后同一当前源码完整重跑通过，最终报告`passed: true`，不以超时轮次替代通过证据。

@@ -128,5 +128,6 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day75 | [[Day75-人工物流与报价72小时生命周期]] | 已完成授权范围的Local技术验收：正数Shipping、首次成功发信起算72小时、重发不续期、内容变化旧单失效、实时付款守卫和Action Scheduler真实执行；生命周期83/83、动态40/40、权限15/15、浏览后4/4及普通停用3/3通过。并发首次发信P3、静默更新和第三方私有对象meta P2已登记，真实网关/Cron留D76/D78 |
 | Day77 | [[Day77-FluentSMTP事务邮件Local验证]] | 隔离Local成功/失败/日志链已验证；Staging采用FluentSMTP＋BossMail SMTP并由受控QQ邮箱实际收件。Elastic Email未启用、DNS未修改；Header认证、业务触发、日志保留和退信仍待 |
 | Day79 | [[Day79-登录注册与订单归属]] | 已完成独立Local身份与归属范围；业务确认不存在共享账单邮箱、代理或代采购。已签发Guest报价在验证归户后按D75签名取消旧单并由Website Manager建立替换报价；D80已完成Local找回候选，支付沙盒和非Local缓存仍待 |
-| Day80 | [[Day80-密码重置流程]] | Local候选完成：My Account统一入口、通用反馈、60/10秒HMAC冷却、服务端至少12字符；28/28、16/16、五状态四宽135/135及独立复核通过。Staging真实投递、代理地址和缓存待验 |
-| Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋既有Full width模板，两块正文局部CSS；四端/共享页/键盘/SEO 616/616、Website Manager编辑67/67，TEST对象已清理。正式内容、真实设备/屏幕阅读器、公开Canonical与非Local仍待 |
+| Day80 | [[Day80-密码重置流程]] | Local与Staging邮件链路验收完成：My Account统一入口、通用反馈、60秒HMAC身份冷却、服务端至少12字符；28/28、16/16及五状态四宽135/135通过。537ba29已移除未经证明安全的共享代理REMOTE_ADDR限频；a07af22部署后受控邮件与有效重置表单通过，未在Staging保存新密码 |
+| Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
+| Day86 | [[Day86-博客列表分类分页与空状态]] | 独立Local技术完成：源候选DentAll 0.42.1复用WordPress主查询和Storefront Hook输出Blog/分类卡片、数字分页和空状态；四端、缺图/长文、44px、Focus、404、SEO当前环境与资源隔离通过。2026-10-06基于已含D85的主线进入D74＋D86合成，候选0.46.0/Core 0.6.0；合成与D86非Local仍待。对应学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
