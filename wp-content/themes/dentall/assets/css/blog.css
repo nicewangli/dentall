@@ -1,0 +1,194 @@
+/*
+ * D86只增强WordPress Posts Page与文章分类。
+ * 页面仍使用Storefront模板和WordPress主查询；本文件不作用于标签、搜索或文章详情。
+ */
+.dentall-blog-archive .content-area {
+	width: 100%;
+	float: none;
+	margin-right: 0;
+}
+
+.dentall-blog-header {
+	margin-bottom: 0;
+}
+
+.dentall-blog-header__title,
+.dentall-blog-archive .site-main > .page-header {
+	margin-bottom: 0;
+}
+
+.dentall-blog-header__title,
+.dentall-blog-archive .site-main > .page-header .page-title {
+	color: var(--dentall-color-heading);
+	font-size: clamp(var(--dentall-font-size-2xl), calc(1.5rem + 2vw), var(--dentall-font-size-display));
+	font-weight: var(--dentall-font-weight-bold);
+	line-height: var(--dentall-line-height-heading);
+	overflow-wrap: anywhere;
+}
+
+.dentall-blog-archive .site-main {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--dentall-space-24);
+}
+
+.dentall-blog-archive .site-main > :where(.dentall-blog-header, .page-header, .navigation, .no-results) {
+	grid-column: 1 / -1;
+}
+
+.dentall-blog-archive .site-main > .page-header .taxonomy-description {
+	max-width: 46rem;
+	margin-top: var(--dentall-space-12);
+	color: var(--dentall-color-text-muted);
+	overflow-wrap: anywhere;
+}
+
+.dentall-blog-archive .site-main > article.hentry {
+	min-width: 0;
+	margin: 0;
+}
+
+.dentall-blog-card {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	height: 100%;
+	overflow: hidden;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background-color: var(--dentall-color-surface);
+	box-shadow: var(--dentall-shadow-card);
+}
+
+.dentall-blog-card__media {
+	display: block;
+	overflow: hidden;
+	background-color: var(--dentall-color-surface-sky);
+}
+
+.dentall-blog-card__media:focus-visible {
+	outline-offset: -3px;
+}
+
+.dentall-blog-card__image {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+}
+
+.dentall-blog-card__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	padding: var(--dentall-space-24);
+	overflow-wrap: anywhere;
+}
+
+.dentall-blog-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--dentall-space-4) var(--dentall-space-12);
+	margin-bottom: var(--dentall-space-12);
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-sm);
+}
+
+.dentall-blog-card__date,
+.dentall-blog-card__categories {
+	min-width: 0;
+}
+
+.dentall-blog-card__categories a {
+	color: var(--dentall-color-action);
+	text-decoration-line: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.16em;
+}
+
+.dentall-blog-card__categories a:hover {
+	color: var(--dentall-color-action-hover);
+	text-decoration-thickness: 0.12em;
+}
+
+.dentall-blog-card__title {
+	margin: 0 0 var(--dentall-space-12);
+	font-size: var(--dentall-font-size-xl);
+}
+
+.dentall-blog-card__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.dentall-blog-card__title a:hover {
+	color: var(--dentall-color-action-hover);
+}
+
+.dentall-blog-card__excerpt {
+	margin: 0 0 var(--dentall-space-24);
+	color: var(--dentall-color-text-muted);
+}
+
+.dentall-blog-card__read-more {
+	display: inline-flex;
+	align-items: center;
+	align-self: flex-start;
+	min-height: 2.75rem;
+	margin-top: auto;
+	color: var(--dentall-color-action);
+	font-weight: var(--dentall-font-weight-semibold);
+	text-decoration-line: underline;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.16em;
+}
+
+.dentall-blog-card__read-more:hover {
+	color: var(--dentall-color-action-hover);
+	text-decoration-thickness: 0.12em;
+}
+
+.dentall-blog-archive .site-main > .navigation.pagination {
+	margin-top: var(--dentall-space-8);
+	padding-block: var(--dentall-space-16);
+}
+
+.dentall-blog-archive .pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--dentall-space-8);
+}
+
+.dentall-blog-archive .pagination .nav-links > .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8);
+	border-radius: var(--dentall-radius-sm);
+}
+
+.dentall-blog-archive .no-results {
+	max-width: 46rem;
+}
+
+.dentall-blog-archive .no-results .page-content {
+	overflow-wrap: anywhere;
+}
+
+@media (min-width: 48rem) {
+	.dentall-blog-archive .site-main {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 64rem) {
+	.dentall-blog-archive .site-main {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
