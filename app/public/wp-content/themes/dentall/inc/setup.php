@@ -263,3 +263,43 @@ function dentall_enqueue_account_auth_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_account_auth_assets', 60 );
+
+/**
+ * 只为登录后的账户页加载导航与表单样式；邮箱提示脚本只进入资料端点。
+ *
+ * @return void
+ */
+function dentall_enqueue_customer_account_assets() {
+	if (
+		! function_exists( 'is_account_page' )
+		|| ! is_account_page()
+		|| ! is_user_logged_in()
+		|| ( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'lost-password' ) )
+	) {
+		return;
+	}
+
+	$theme = wp_get_theme( get_stylesheet() );
+
+	wp_enqueue_style(
+		'dentall-customer-account',
+		get_stylesheet_directory_uri() . '/assets/css/customer-account.css',
+		array( 'dentall-site-shell' ),
+		$theme->get( 'Version' )
+	);
+
+	if (
+		function_exists( 'is_wc_endpoint_url' )
+		&& is_wc_endpoint_url( 'edit-account' )
+		&& in_array( 'customer', wp_get_current_user()->roles, true )
+	) {
+		wp_enqueue_script(
+			'dentall-account-email',
+			get_stylesheet_directory_uri() . '/assets/js/account-email.js',
+			array(),
+			$theme->get( 'Version' ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'dentall_enqueue_customer_account_assets', 60 );

@@ -123,6 +123,8 @@ tags:
 | Day77 | [[Day77-WordPress事务邮件链与可观察性]] | [[../Day77-FluentSMTP事务邮件Local验证]] | 初识，待费曼自测 | 2026-09-22 | Woo邮件、`wp_mail()`、FluentSMTP、BossMail、真实收件与日志分层；Local隔离链、Staging外部测试收件及TEST Customer Invoice SMTP接受已通过，Header认证与业务邮件最终呈现仍待 |
 | Day79 | [[Day79-WooCommerce账户身份与订单归属]] | [[../Day79-登录注册与订单归属]] | 初识，待费曼自测 | 2026-09-22 | Guest、Customer、Billing email与订单归属；邮箱验证归户、登录错误、安全边界及与D75已签发报价的替换单合同 |
 | Day80 | [[Day80-WooCommerce密码重置与防枚举]] | [[../Day80-密码重置流程]] | 初识，待费曼自测 | 2026-09-22 | 统一公开响应、HMAC冷却、原生重置密钥、12字符服务端底线，以及代理、缓存、SMTP与并发边界 |
+| Day81 | [[Day81-WooCommerce账户资料与登录邮箱边界]] | [[../Day81-账户仪表盘与资料策略]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 原生账户导航/资料表单、登录邮箱只读与服务端REST守卫、12字符改密及历史Guest归属边界 |
+| Day82 | [[Day82-WooCommerce默认地址与订单快照]] | [[../Day82-默认账单与配送地址]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 默认Billing/Shipping国家来源、My Account保存前校验、客户默认地址与旧订单/已签发报价快照分离 |
 | Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；隔离Local通过，Staging现有TEST Page已切换Full width并完成四端命中 |
 | Day86 | [[Day86-文章主查询与归档Hook边界]] | [[../Day86-博客列表分类分页与空状态]] | 初识，待费曼自测 | — | 主查询、Storefront Hook、分页/空态/404及四端证据完成；2026-10-06与D74合成重新通过，D85已在主线。发布证据见[[../Day86-D74与D86整合发布记录]]；D87、Production SEO与非Local仍待 |
 

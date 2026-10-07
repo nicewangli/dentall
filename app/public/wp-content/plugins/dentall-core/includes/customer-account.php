@@ -293,3 +293,137 @@ function dentall_core_validate_customer_reset_password( $errors ) {
 	}
 }
 add_action( 'validate_password_reset', 'dentall_core_validate_customer_reset_password', 10, 1 );
+
+/**
+ * 在WooCommerce保存个人资料前维持已验证登录邮箱与密码规则。
+ *
+ * 原生处理器已经验证Nonce并把目标限定为当前用户；此处只补项目身份合同。
+ * 未开放新邮箱验证和重新归户流程前，不允许通过伪造POST更换登录邮箱。
+ *
+ * @param WP_Error $errors 保存错误。
+ * @param object   $user   WooCommerce准备写入的当前用户资料。
+ * @return void
+ */
+function dentall_core_validate_customer_account_details( $errors, $user ) {
+	if ( ! is_wp_error( $errors ) || ! is_object( $user ) || ! isset( $user->ID ) ) {
+		return;
+	}
+
+	$current_user = wp_get_current_user();
+	if ( ! in_array( 'customer', $current_user->roles, true ) ) {
+		return;
+	}
+
+	if ( ! $current_user->exists() || (int) $user->ID !== $current_user->ID ) {
+		$errors->add( 'dentall_account_owner', __( 'We could not save these account details.', 'dentall-core' ) );
+		return;
+	}
+
+	if ( isset( $user->user_email ) && $user->user_email !== $current_user->user_email ) {
+		$errors->add( 'dentall_account_email_locked', __( 'Your account email address cannot be changed here.', 'dentall-core' ) );
+	}
+
+	if ( isset( $user->user_pass ) && is_string( $user->user_pass ) && mb_strlen( $user->user_pass, 'UTF-8' ) < 12 ) {
+		$errors->add( 'dentall_account_password_too_short', __( 'Use at least 12 characters for your new password.', 'dentall-core' ) );
+	}
+}
+add_action( 'woocommerce_save_account_details_errors', 'dentall_core_validate_customer_account_details', 10, 2 );
+
+/**
+ * 阻止客户通过WordPress原生REST自改入口绕过账户邮箱与改密合同。
+ *
+ * 当前用户对自己拥有edit_user能力，核心REST入口可直接写邮箱或密码。客户改密
+ * 继续使用要求当前密码的WooCommerce表单；管理员管理客户不受此限制。
+ *
+ * @param mixed           $response 当前REST响应。
+ * @param array           $handler  路由处理器。
+ * @param WP_REST_Request $request  REST请求。
+ * @return mixed
+ */
+function dentall_core_guard_customer_rest_account_update( $response, $handler, $request ) {
+	if ( is_wp_error( $response ) || ! $request instanceof WP_REST_Request || ! in_array( $request->get_method(), array( 'POST', 'PUT', 'PATCH' ), true ) ) {
+		return $response;
+	}
+
+	if ( ! preg_match( '#^/wp/v2/users/(?:me|[0-9]+)/?$#', $request->get_route() ) ) {
+		return $response;
+	}
+
+	$current_user = wp_get_current_user();
+	if ( ! $current_user->exists() || ! in_array( 'customer', $current_user->roles, true ) ) {
+		return $response;
+	}
+
+	// 请求参数可覆盖URL中的用户ID，不能只按路径ID判断是否为本人。
+	$email = $request->get_param( 'email' );
+	if ( is_string( $email ) && $email !== $current_user->user_email ) {
+		return new WP_Error( 'dentall_account_email_locked', __( 'Your account email address cannot be changed here.', 'dentall-core' ), array( 'status' => 403 ) );
+	}
+
+	if ( null !== $request->get_param( 'password' ) ) {
+		return new WP_Error( 'dentall_account_password_form', __( 'Change your password from your account details page.', 'dentall-core' ), array( 'status' => 403 ) );
+	}
+
+	return $response;
+}
+add_filter( 'rest_request_before_callbacks', 'dentall_core_guard_customer_rest_account_update', 10, 3 );
+
+/**
+ * 原生资料表单保留邮箱字段以维持WooCommerce提交合同，并说明第一版限制。
+ *
+ * @return void
+ */
+function dentall_core_render_account_email_notice() {
+	if ( ! in_array( 'customer', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	echo '<p class="dentall-account-email-note" id="dentall-account-email-note">' . esc_html__( 'Your account email address cannot be changed here. Contact us if it needs to be updated.', 'dentall-core' ) . '</p>';
+}
+add_action( 'woocommerce_edit_account_form_fields', 'dentall_core_render_account_email_notice' );
+
+/**
+ * 在WooCommerce写入客户默认地址前，复核国家属于对应的业务范围。
+ *
+ * 原生下拉按设置展示国家，但原生保存处理器未核对伪造POST的国家。订单报价仍以
+ * 独立的订单快照判断；这里仅防止客户默认地址写入不受支持的国家。
+ *
+ * @param int         $user_id      当前客户ID。
+ * @param string      $address_type billing或shipping。
+ * @param array       $address      原生表单字段定义。
+ * @param WC_Customer $customer     尚未保存的客户对象。
+ * @return void
+ */
+function dentall_core_validate_customer_address_country( $user_id, $address_type, $address, $customer ) {
+	unset( $address );
+	if ( ! in_array( 'customer', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	if ( ! $customer instanceof WC_Customer || (int) $user_id !== get_current_user_id() || $customer->get_id() !== (int) $user_id ) {
+		wc_add_notice( __( 'We could not save this address.', 'dentall-core' ), 'error' );
+		return;
+	}
+
+	if ( ! in_array( $address_type, array( 'billing', 'shipping' ), true ) ) {
+		return;
+	}
+
+	$get_country = 'get_' . $address_type . '_country';
+	$country     = $customer->{$get_country}( 'edit' );
+	$countries   = 'shipping' === $address_type
+		? WC()->countries->get_shipping_countries()
+		: WC()->countries->get_allowed_countries();
+
+	if (
+		! is_string( $country )
+		|| ! isset( $countries[ $country ] )
+		|| ( 'shipping' === $address_type && ! in_array( $country, DENTALL_SHIPPING_QUOTE_ALLOWED_COUNTRIES, true ) )
+	) {
+		$message = 'shipping' === $address_type
+			? __( 'Choose an available shipping country.', 'dentall-core' )
+			: __( 'Choose a valid billing country.', 'dentall-core' );
+		wc_add_notice( $message, 'error', array( 'id' => $address_type . '_country' ) );
+	}
+}
+add_action( 'woocommerce_after_save_address_validation', 'dentall_core_validate_customer_address_country', 10, 4 );

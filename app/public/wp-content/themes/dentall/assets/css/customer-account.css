@@ -1,0 +1,155 @@
+/* D81/D82沿用WooCommerce账户DOM：窄屏单列，宽屏导航与正文两列。 */
+.woocommerce-account.logged-in .entry-content > .woocommerce {
+	display: grid;
+	gap: var(--dentall-space-24);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content {
+	float: none;
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	margin: 0;
+	padding: var(--dentall-space-8);
+	list-style: none;
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background: var(--dentall-color-surface);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation a {
+	min-height: 2.75rem;
+	border-radius: var(--dentall-radius-sm);
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation a[aria-current="page"] {
+	background: var(--dentall-color-surface-blue);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation a:focus-visible,
+.woocommerce-account .woocommerce-MyAccount-content :where(a, button, input, select, textarea):focus-visible {
+	outline: 2px solid var(--dentall-color-focus-on-light);
+	outline-offset: 2px;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+	box-sizing: border-box;
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background: var(--dentall-color-surface);
+	box-shadow: var(--dentall-shadow-card);
+	overflow-wrap: anywhere;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .form-row-first,
+.woocommerce-account .woocommerce-MyAccount-content .form-row-last {
+	float: none;
+	width: 100%;
+	margin-right: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content :where(input.input-text, select, textarea, .select2-container) {
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content :where(input.input-text, select, .select2-selection) {
+	min-height: 2.75rem;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content :where(.woocommerce-EditAccountForm, .woocommerce-address-fields) {
+	max-width: 42rem;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content :where(.woocommerce-EditAccountForm, .woocommerce-address-fields) label {
+	display: inline-block;
+	margin-bottom: var(--dentall-space-8);
+	font-weight: var(--dentall-font-weight-semibold);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content #account_email[readonly] {
+	background: var(--dentall-color-surface-sky);
+	color: var(--dentall-color-text-muted);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .dentall-account-email-note {
+	margin-top: 0;
+	color: var(--dentall-color-text-muted);
+	font-size: var(--dentall-font-size-sm);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .addresses {
+	display: grid;
+	gap: var(--dentall-space-24);
+	float: none;
+	width: 100%;
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .col2-set.addresses > :is(.col-1, .col-2) {
+	float: none;
+	width: 100%;
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--dentall-space-8);
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title::before,
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title::after {
+	content: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title :where(h2, a) {
+	float: none;
+	margin: 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title a {
+	display: inline-flex;
+	align-items: center;
+	width: auto;
+	height: auto;
+	min-height: 2.75rem;
+	padding: 0;
+	text-indent: 0;
+	text-decoration: underline;
+	text-underline-offset: 0.16em;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Address-title a::before {
+	content: none;
+}
+
+@media (min-width: 48rem) {
+	.woocommerce-account .woocommerce-MyAccount-content .addresses {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 64rem) {
+	.woocommerce-account.logged-in .entry-content > .woocommerce {
+		grid-template-columns: 14rem minmax(0, 1fr);
+		gap: var(--dentall-space-32);
+	}
+
+	.woocommerce-account .woocommerce-MyAccount-navigation {
+		grid-column: 1;
+	}
+
+	.woocommerce-account .woocommerce-MyAccount-content {
+		grid-column: 2;
+		padding: var(--dentall-space-32);
+	}
+}

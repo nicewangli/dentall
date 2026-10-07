@@ -94,7 +94,8 @@
 - [x] D79独立Local：My Account自助注册、自动登录、设密、邮箱确认、登录/退出、无效Nonce、站内安全redirect及未知账号/错密同一公开提示；原始WordPress失败错误码保留给审计/限频组件。
 - [ ] D80：密码重置受理、真实邮件依赖、无效/过期/已用链接及防枚举完整流程。
 - [x] D79独立Local：邮箱验证后仅把同Billing email且`customer_id=0`的历史Guest订单归户；不同邮箱和已归属他人订单不移动；后置Guest重新登录仍不归户，Website Manager明确关联后才可见。
-- [ ] D82～D83：地址新增/修改、订单列表、详情、再次购买及完整页面体验；D79只证明Customer默认地址不会改写既有报价订单快照。
+- [x] D81/D82隔离Local：原生账户导航/资料与默认地址四宽可用；Customer登录邮箱自助修改在表单/核心REST被拒，改密至少12字符；Billing允许Woo已知国家，Shipping只允许US/CA/AU；旧订单及真实签发状态的TEST报价快照不随默认地址改变。
+- [ ] D83/D84：订单列表、详情、再次购买及完整账户链路；D81/D82的隔离Local结论仍需目标环境缓存、英语Page标题和原生设置复验。
 - [x] D79身份边界：A、B与匿名会话不串，跨客户订单详情不可见；Guest `order-pay`新旧订单的key/邮箱门槛和归户后登录要求已验证，未提交真实付款。
 - [x] D79角色回归：Customer不能进入后台；Website Manager仍可管理Woo/订单并保留`create_customers` capability（不等于可在后台新建WordPress用户），不能管理用户、插件或主题。
 
@@ -1090,6 +1091,20 @@ D74范围内开放P0/P1/P2/P3均为0。隔离副本继承的Checkout标题、隐
 | 静态检查 | 集成改动PHP全部lint通过；D79两个Node脚本`--check`通过；无冲突标记；`git diff --check`通过 | D85的616/616和编辑67/67来自源候选；集成后仍需代表页面四端回归 |
 
 Staging前继续保持支付关闭、只用TEST对象；需验证首封邮件后台错误反馈、BossMail业务触发/Header/日志、账户三会话隔离、交易页缓存绕过、目标主机Action Scheduler，并保留一张72小时TEST报价观察真实到期。
+
+## D81/D82账户资料与默认地址（2026-10-07，隔离Local）
+
+| 用例组 | 实际证据 | 结果与边界 |
+|---|---|---|
+| 纯合同与真实环境 | PHP合同26/26；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2 | Hook分支与原生站点相互印证；PHP合同不代替真实请求 |
+| 原生账户请求 | Customer A资料/地址HTTP表单9项；Guest、Customer B隔离 | 伪造登录邮箱拒绝、11字符拒绝/12字符接受、FR Billing保存、GB Shipping拒绝、US Shipping保存；不修改其他客户 |
+| 核心用户REST | `/users/me`、数字及前导零ID、body/query ID覆盖路径等拒绝用例 | 修改登录邮箱或绕过当前密码改密被403拒绝；非字符串邮箱由WP核心schema先以400拒绝 |
+| 交易快照 | 旧Woo订单六类字段不变；D75现有签发回调建立真正已签发TEST报价，再改客户默认Billing→GB、Shipping→CA | 5/5：新默认地址保存，旧报价的Customer ID、地址、金额/Shipping、状态、签发/到期/签名/Token逐项不变，签名匹配且仍按原单条件可付款；邮件回调模拟成功，未真实发信或付款 |
+| 四端页面 | Guest与Customer B；Dashboard、资料、地址列表及Billing/Shipping表单共5页×390/768/1024/1440 | 213/213；横溢出、重复ID、导航/地址列、条件资源、44px按钮、焦点和只读提示通过，Page/Console错误均0 |
+| 独立复核 | 代码/视觉与安全专项Agent；静态PHP/Node语法及`git diff --check` | 开放P0/P1/P2均0；伪造州省值成员校验为Woo原生P3观察项，不作为已完成的项目能力 |
+| 隔离清理 | 私有PHP/MySQL PID停止、18881/18882监听0 | 递归删除专用TEST目录被自动审批以`blocked by policy`拒绝；目录和隔离数据库文件仍在，须后续清理并复核，不记录为环境恢复完成 |
+
+目标环境仍须核对My Account原生Page的Storefront Full width模板、Selling countries=all、Shipping locations=specific US/CA/AU、英语Page标题、登录态整页缓存绕过、工作人员角色与真实邮件/交易全链路；D83/D84另验订单中心和再次购买。本轮只操作隔离Local，未改共享Local、Staging、Production或支付/缓存配置。
 
 ## D80客户密码重置Local候选（2026-09-22）
 

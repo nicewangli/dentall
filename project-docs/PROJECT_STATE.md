@@ -2,6 +2,14 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## D81/D82账户资料与默认地址隔离Local技术验收（2026-10-07）
+
+- 用户明确授权D81/D82确认单范围；ADR-045确定第一版Customer登录邮箱不开放My Account自助修改。姓名与显示名继续用WooCommerce原生资料表单，改密须当前密码且至少12字符；Billing email独立作为联系邮箱。管理员人工纠错须先核验新邮箱控制权、Guest归属与已签发报价，不新增自动迁移。
+- 复用WooCommerce 11.0.0 Dashboard、导航、资料与Billing/Shipping原生表单。`dentall-core`补Customer资料邮箱/密码校验、核心用户REST绕过守卫及默认地址国家成员校验；子主题仅条件加载账户CSS和资料页只读提示JS。候选版本DentAll 0.47.0/Core 0.7.0；未新增模板、字段、Schema、插件、公开URL、Cron或远程请求。
+- 隔离Local为WordPress 7.1/WooCommerce 11.0.0/Storefront 4.6.2：纯PHP合同26/26、原生HTTP表单9项、核心REST旁路10项（原6项＋body/query ID覆盖4项）、四端5页×390/768/1024/1440共213/213，页面与Console错误0。旧Woo订单六类快照字段不变；另经D75现有签发回调建立真实签发状态的TEST报价，客户默认Billing→GB、Shipping→CA后5/5检查通过，订单地址/金额/签名/到期/Token不变且仍按旧订单条件可付款。邮件回调在隔离环境模拟成功，未真实发信或支付。独立代码/视觉与安全终审开放P0/P1/P2=0，Woo原生州省成员校验缺口记P3观察。详见[[笔记/Day81-账户仪表盘与资料策略]]、[[笔记/Day82-默认账单与配送地址]]。
+- 隔离站点将My Account Page设为Storefront Full width，Selling countries设为all、Shipping locations设为specific US/CA/AU；这些只在隔离数据库生效，目标环境须在部署验收时逐项核对。账户Page英语标题、登录态缓存隔离、实体设备/读屏、D83订单中心与D84完整链路仍待。共享Local、Staging、Production、真实支付、DNS、缓存策略和邮件均未写入；原有RSK-055/056与OCP预取P2状态不因此关闭。
+- 隔离服务已停：专用PHP/MySQL PID消失，18881/18882监听0。递归删除经路径/链接核对后仍被自动审批以`blocked by policy`拒绝，未给出更具体理由；私有`D:\LocalWP\dentall\.codex-tmp\day81-day82-runtime`及隔离数据库文件仍在，不能宣称TEST环境清理完成。负责人为开发者，计划在D83新隔离测试环境启用前经允许的清理路径移除并复核目录/库均不存在；不绕过审批，也不影响共享Local或Staging。
+
 ## D74＋D86代码部署完成，交易缓存与完整报价验收未关闭（2026-10-06）
 
 - **临时私密预览已关闭，验收未通过（2026-10-07 01:21 UTC）：** 按用户明确授权原生开启、只读验证并关闭保存；Coming Soon及仅商店页面保持开启，未选Live。实际6次匿名GET中，私密Shop URL为Shop/noindex/MISS，但原A会话访问规范`/shop/`得到Coming Soon/HIT/Age22，提前停止并跳过启用态B对照。关闭后三次访问均为Coming Soon/noindex，旧链接为MISS，原A容器仍保留匹配Cookie但响应HIT，不能宣称PHP层Cookie撤销已验。新增RSK-056/P2，保持预览关闭，先只读核对有效页面缓存规则，任何调整另行授权；没有新订单、邮件、支付或缓存配置改动。独立测试及安全复核一致，完整预览/交易验收仍开放；详见发布记录。下方09:44及09:19为10月6日历史记录。
