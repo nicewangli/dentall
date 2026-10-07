@@ -4,9 +4,9 @@
 
 ## Unreleased
 
-### D81/D82与D87整合（2026-10-08，仅Git源码）
+### D81/D82与D87/D88整合（2026-10-08，仅Git源码）
 
-- 从`origin/main@d2ba25b`整合D87已完成的单篇文章与公开署名，保留主线D81/D82账户资料和默认地址能力。整合源码为DentAll 0.48.0/Core 0.8.0，Staging仍为0.46.0/0.6.0。
+- 从`origin/main@d2ba25b`整合D87已完成的单篇文章与公开署名，保留主线D81/D82账户资料和默认地址能力；D88 Solutions原生Page验证只增加文档，运行代码零增量。整合源码为DentAll 0.48.0/Core 0.8.0，Staging仍为0.46.0/0.6.0。
 - 本次只处理Git冲突、版本与文档，不重做隔离Local业务验收，也不改共享Local、Staging、Production、数据、缓存、支付或邮件。合成运行验收和部署仍需另行执行。
 
 ### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
@@ -23,6 +23,11 @@
 - `dentall-core`源候选版本为0.7.0；按Yoast目标Post上下文统一网页与REST预览的Article作者、作者元标签和社交资料，移除后台Person节点及WebPage悬空引用。保留后台`post_author`、原生路由、现有站点品牌X账号与分享元数据基础。
 - 隔离Local使用WordPress 7.1/WooCommerce 11.0.0/Storefront 4.6.2/Yoast 28.2/PHP 8.2.29：两篇不同后台作者网页/REST一致，四端共16次单篇/Blog/Page检查均200、唯一H1、无溢出或pageerror；长文、图/缺图、空正文、404、键盘、Website Manager编辑保存读回与恢复通过。独立Code Review终态P0～P3=0；预览/autosave与非Local未验。TEST文章、一次性凭据已清理，隔离服务/监听均0；自动审批拒绝删除Git忽略目录的临时WordPress与MySQL副本（仅称`blocked by policy`），副本仍在，详见[[笔记/Day87-文章详情与公开署名]]。源分支当时未部署。
 - 匿名WordPress Users REST仍返回后台显示名及作者链接，另列RSK-057/P2；D87不改该接口。正式内容、公开环境Canonical/索引、缓存/CDN、真实设备及Staging/Production另验。D86文档的文章/分类短路径笔误按已冻结D19 URL合同纠正，没有改网站路由。
+
+### D88 Solutions原生Page验证（2026-10-07，仅隔离Local）
+
+- 复用原生Page、Storefront Full width、D85正文规则和首页既有Page卡片；长/空正文、四端及相邻页面22组浏览器场景通过，运行代码、字段、模板、CSS和插件零改动。正式Solutions内容、层级URL、`/solutions/`聚合页及Staging/Production未验。
+- Gutenberg数据层预览与公开页隔离、正式保存读回已验证；程序生成区块的raw字节恢复未通过编辑器路径，后用WordPress API在隔离夹具恢复。可见Preview按钮直接点击及真实人员编辑验收仍待，详见[[笔记/Day88-Solutions原生Page前台验证]]。
 
 ### D74＋D86代码部署与Blog现场验收完成，交易验收未关闭（2026-10-06）
 

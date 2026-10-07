@@ -23,6 +23,10 @@ D59～D65各日已按批准范围完成；D60/D61/D63已通过`278d20d`合入并
 |---|---|---|
 | WordPress实战 | [[WordPress实战笔记/WordPress实战笔记索引\|WordPress实战笔记索引]] | 从DentAll真实开发代码中学习WordPress、WooCommerce、子主题、Hook、安全与排错；学习笔记与对应Day项目笔记显式双向链接 |
 
+## 最新检查点
+
+D88隔离Local技术记录：[[Day88-Solutions原生Page前台验证]]；对应学习：[[WordPress实战笔记/Day88-Page内容与URL边界]]。原生Page、Full width与既有样式通过代表性四宽验证，运行代码0改动；正式内容、URL、导航与非Local仍待。
+
 ## 周总结
 
 2026-10-06整合验收与发布记录：[[Day86-D74与D86整合发布记录]]；GitHub与Staging代码部署、完整文件/版本及Blog/分类四端、手机/桌面目视、Focus和标准URL验收完成。交易缓存与有效报价完整验收未关闭；B后日志已查看，对象缓存notice另列兼容性P2，不作为整批交易Done。订单修改/付款邮件暂停，内容编辑恢复待交接确认；A下载覆盖predeploy目录，恢复副本及待补责任/节点以发布记录为准。
@@ -134,3 +138,4 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
 | Day87 | [[Day87-文章详情与公开署名]] | 隔离Local实施原生Post单篇团队署名与Yoast作者输出一致性，长文四端阅读宽度已收敛；最终测试与清理以项目笔记为准，未部署；匿名Users REST披露后台名另列RSK-057/P2；学习见[[WordPress实战笔记/Day87-文章详情署名与SEO输出边界]] |
+| Day88（并行检查点） | [[Day88-Solutions原生Page前台验证]] | 授权的隔离Local技术范围完成：原生Page＋Full width＋既有正文规则，22组浏览器场景与编辑数据层回归；运行代码0改动，TEST数据已删、服务已停。Gutenberg原文字节恢复不能记为通过；正式内容、URL、真实设备和非Local仍待 |

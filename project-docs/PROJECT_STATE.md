@@ -2,10 +2,10 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
-## D81/D82与D87源码整合候选（2026-10-08）
+## D81/D82与D87/D88源码整合候选（2026-10-08）
 
-- 从`origin/main@d2ba25b`保留D81/D82账户资料与默认地址成果，纳入D87已提交的文章详情和统一公开署名。当前整合候选版本为DentAll 0.48.0/Core 0.8.0；Staging仍为0.46.0/0.6.0，未执行合成Local浏览器/业务验收、推送或部署。
-- D87原生Users REST披露后台显示名仍为RSK-057/P2，交独立安全任务。D81/D82和D87的源分支验证证据分别见下文与对应Day笔记，不能直接外推为合成站点、正式内容或Production验收。
+- 从`origin/main@d2ba25b`保留D81/D82账户资料与默认地址成果，纳入D87已提交的文章详情和统一公开署名；D88的Solutions原生Page验证仅带入文档，运行代码零增量。当前整合候选版本为DentAll 0.48.0/Core 0.8.0；Staging仍为0.46.0/0.6.0，未执行合成Local浏览器/业务验收、推送或部署。
+- D87原生Users REST披露后台显示名仍为RSK-057/P2，交独立安全任务；D88不代表正式Solutions Page、层级URL或`/solutions/`聚合页已发布。D81/D82、D87和D88的源分支验证证据分别见下文与对应Day笔记，不能直接外推为合成站点、正式内容或Production验收。
 
 ## D81/D82账户资料与默认地址隔离Local技术验收（2026-10-07）
 
@@ -22,6 +22,17 @@
 - **新发现RSK-057/P2：** 匿名WordPress Users REST的两名TEST作者端点仍200，公开后台显示名、Slug与作者归档链接。D87已授权范围仅统一单篇和Yoast输出，不能宣称后台身份全站匿名；开发者与Website Manager须在正式文章对外发布前确认REST治理范围并单独实施验证。原生Post REST的`author` ID仍保持真实后台作者。
 - URL沿用`/blog/{slug}/`及`/blog/category/{slug}/`；D86文档短路径已按D19合同纠正，没有改实际路由、SEO索引设置、缓存策略、支付、物流或订单。隔离Local仍noindex；正式内容、公开环境Canonical/缓存与Staging/Production不在本轮验收口径。详见[[笔记/Day87-文章详情与公开署名]]及[[笔记/WordPress实战笔记/Day87-文章详情署名与SEO输出边界]]。
 - 两篇TEST Post已从隔离库删除，一次性登录凭据文件已清空，隔离HTTP/MySQL服务及17871/17872监听均为0。自动审批拒绝递归`Remove-Item`删除忽略目录内的临时`public`与`mysql-data`副本，仅返回`blocked by policy`，未给更具体原因；副本保留供复核，未绕过拒绝。测试期间共享Local的10011端口由并发进程启动，本任务未接入，但不能宣称共享Local全局状态未变。
+
+## D88 Solutions原生Page隔离Local技术验证完成（2026-10-07）
+
+- 用户明确授权“按上述 D88 隔离 Local 范围实施”。D88源分支以当时的`09469d38`为源码，从已停止的D85副本建立独立Local运行环境；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、DentAll 0.46.0/Core 0.6.0、PHP 8.2.29。共享Local、Staging和Production未写入。
+- 原生Page＋Storefront Full width＋D85普通Page正文规则已覆盖代表性长文、空正文、无特色图、正文图、长连续字符与普通商品链接；没有真实代码缺口，运行文件、模板、字段、函数、CSS规则、插件和资源净增均为0。克隆中的四张已发布Solution Page仍为默认模板、短正文和无特色图，只能说明历史Local快照，本轮未修改它们，不能视为正式详情验收。
+- 独立无头浏览器对长/空Page与首页四宽、Shop/Cart/My Account/Blog/代表Product两宽完成22组HTTP 200；横向溢出、页面异常、失败请求、重复ID为0。详情单一main/H1、无侧栏，四宽正文350/704/736/736px；键盘Skip link与首页卡片焦点可见。首页四张既有Page卡片保持text-only，禁用的`View all solutions`未接通。
+- Website Manager可打开Gutenberg；数据层autosave预览与公开页隔离、正式保存后REST及前台读回通过。程序生成区块的raw SHA经Gutenberg一次恢复操作仍不同，**不能记为编辑器精确字节恢复通过**；隔离夹具用WordPress API从原文恢复到起始SHA后复核，再删除。可见Preview按钮的直接点击路径未完成，真实人员编辑验收仍待。
+- D88按中风险调度需求/文档专项与独立测试专项；无运行代码差分或交易、生产变更，未另启代码、安全、交易或设计专项。独立复核P0/P1/P2=0；P3两项为程序生成区块raw精确恢复限制及可见Preview按钮未取证，均不计为通过。项目开发者在正式Solutions录入/编辑培训前以业务代表样本补验预览和恢复需求，业务方负责内容/URL审核；详见D88笔记。
+- URL/SEO仅验证隔离副本：根级TEST Page为200，全站`noindex, nofollow, noarchive`，TEST条目未入Page Sitemap；`/solutions/`为404，伪造子路径被WordPress 301猜测重定向到根级TEST Page。`/solutions/`、`/solutions/{slug}/`仍是ADR-023候选，不据此冻结正式层级、Canonical、菜单或内容。
+- 两张TEST Page和临时Website Manager已删除；原四张Solution Page保留，TEST URL复核为404，隔离PHP/MySQL进程及18885/18886监听均为0，临时账号凭据文件已删除。文档与截图证据见[[笔记/Day88-Solutions原生Page前台验证]]；当日学习见[[笔记/WordPress实战笔记/Day88-Page内容与URL边界]]。
+- D88只按隔离Local技术层完成，不等于正式Solutions内容、W15/M7、真实设备/读屏、Staging/Production或真实缓存/SEO验收。CR-013首页四卡展示与正式详情内容、正式聚合入口分开管理；业务方仍需在录入审核节点确认条目、标题/Slug、图片授权、关系商品和导航。无新增订单、支付、物流、邮件、缓存策略、DNS或部署影响。RSK-056已按规范Shop范围关闭；交易缓存与OCP预取仍按各自开放风险管理。
 
 ## D74＋D86代码部署完成，交易缓存与完整报价验收未关闭（2026-10-06）
 
