@@ -2,6 +2,17 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## D88 Solutions原生Page隔离Local技术验证完成（2026-10-07）
+
+- 用户明确授权“按上述 D88 隔离 Local 范围实施”。以当前主线`09469d38`为源码，从已停止的D85副本建立本工作树独立Local运行环境；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、DentAll 0.46.0/Core 0.6.0、PHP 8.2.29。共享Local、Staging和Production未写入。
+- 原生Page＋Storefront Full width＋D85普通Page正文规则已覆盖代表性长文、空正文、无特色图、正文图、长连续字符与普通商品链接；没有真实代码缺口，运行文件、模板、字段、函数、CSS规则、插件和资源净增均为0。克隆中的四张已发布Solution Page仍为默认模板、短正文和无特色图，只能说明历史Local快照，本轮未修改它们，不能视为正式详情验收。
+- 独立无头浏览器对长/空Page与首页四宽、Shop/Cart/My Account/Blog/代表Product两宽完成22组HTTP 200；横向溢出、页面异常、失败请求、重复ID为0。详情单一main/H1、无侧栏，四宽正文350/704/736/736px；键盘Skip link与首页卡片焦点可见。首页四张既有Page卡片保持text-only，禁用的`View all solutions`未接通。
+- Website Manager可打开Gutenberg；数据层autosave预览与公开页隔离、正式保存后REST及前台读回通过。程序生成区块的raw SHA经Gutenberg一次恢复操作仍不同，**不能记为编辑器精确字节恢复通过**；隔离夹具用WordPress API从原文恢复到起始SHA后复核，再删除。可见Preview按钮的直接点击路径未完成，真实人员编辑验收仍待。
+- D88按中风险调度需求/文档专项与独立测试专项；无运行代码差分或交易、生产变更，未另启代码、安全、交易或设计专项。独立复核P0/P1/P2=0；P3两项为程序生成区块raw精确恢复限制及可见Preview按钮未取证，均不计为通过。项目开发者在正式Solutions录入/编辑培训前以业务代表样本补验预览和恢复需求，业务方负责内容/URL审核；详见D88笔记。
+- URL/SEO仅验证隔离副本：根级TEST Page为200，全站`noindex, nofollow, noarchive`，TEST条目未入Page Sitemap；`/solutions/`为404，伪造子路径被WordPress 301猜测重定向到根级TEST Page。`/solutions/`、`/solutions/{slug}/`仍是ADR-023候选，不据此冻结正式层级、Canonical、菜单或内容。
+- 两张TEST Page和临时Website Manager已删除；原四张Solution Page保留，TEST URL复核为404，隔离PHP/MySQL进程及18885/18886监听均为0，临时账号凭据文件已删除。文档与截图证据见[[笔记/Day88-Solutions原生Page前台验证]]；当日学习见[[笔记/WordPress实战笔记/Day88-Page内容与URL边界]]。
+- D88只按隔离Local技术层完成，不等于正式Solutions内容、W15/M7、真实设备/读屏、Staging/Production或真实缓存/SEO验收。CR-013首页四卡展示与正式详情内容、正式聚合入口分开管理；业务方仍需在录入审核节点确认条目、标题/Slug、图片授权、关系商品和导航。无新增订单、支付、物流、邮件、缓存策略、DNS或部署影响。D74/D86交易缓存及RSK-056等开放风险维持下述状态。
+
 ## D74＋D86代码部署完成，交易缓存与完整报价验收未关闭（2026-10-06）
 
 - **临时私密预览已关闭，验收未通过（2026-10-07 01:21 UTC）：** 按用户明确授权原生开启、只读验证并关闭保存；Coming Soon及仅商店页面保持开启，未选Live。实际6次匿名GET中，私密Shop URL为Shop/noindex/MISS，但原A会话访问规范`/shop/`得到Coming Soon/HIT/Age22，提前停止并跳过启用态B对照。关闭后三次访问均为Coming Soon/noindex，旧链接为MISS，原A容器仍保留匹配Cookie但响应HIT，不能宣称PHP层Cookie撤销已验。新增RSK-056/P2，保持预览关闭，先只读核对有效页面缓存规则，任何调整另行授权；没有新订单、邮件、支付或缓存配置改动。独立测试及安全复核一致，完整预览/交易验收仍开放；详见发布记录。下方09:44及09:19为10月6日历史记录。
