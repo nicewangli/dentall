@@ -8,6 +8,12 @@
 - Website Manager可编辑内容级标题和描述，但不能无记录修改已发布Slug、分类层级、Canonical或固定链接结构；高影响URL和技术SEO由开发者复核。
 - 每个HTML文档只能输出一个`<title>`。Local由Yoast负责SEO Title；DentAll Core仅在Yoast启用时移除WordPress核心重复的Block Template Title回调，Yoast停用后由WordPress核心回退输出，不把Title内容硬编码进主题或兼容模块。
 
+### D91 Staging元数据模板现场状态（2026-10-08）
+
+- 仅Staging应用`6604195`的Yoast `wpseo_titles`三键已在私有完整备份后调整：`title-tax-product_cat=%%term_title%% %%page%% %%sep%% %%sitename%%`、`social-title-tax-product_cat=%%term_title%%`、`title-404-wpseo=Page not found %%sep%% %%sitename%%`；其余172键不变，autoload仍为`auto`。这不是Production配置或正式分类内容冻结。
+- 全新404为真实404、`Page not found - DentAll`、noindex/nofollow且无Canonical；TEST商品分类标准URL定向清旧缓存后200，Title/OG为`TEST D12 Products - DentAll`，MISS→HIT均保持新值。Staging `blog_public=0`，其robots/Canonical结果不能代替Production索引验收。
+- `CAD/CAM Materials`的term ID 32旧标题覆盖已按追加授权、完整备份及严格差异核对移除；Yoast派生索引目标行定向刷新后仅标题与两个更新时间字段变化，层级最终记录与备份相同、目标SEO链接数仍为0。标准分类URL旧缓存经Breeze精确单URL清理，公网200、`CAD/CAM Materials - DentAll`的Title/OG、noindex/nofollow与MISS→HIT通过。正式分类内容与Production索引仍待审核；未改Slug、重定向、Canonical、Sitemap或缓存策略。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+
 ## 第一版页面映射
 
 具体英文Slug在关键词、分类结构和内容清单确认后冻结。项目为从零开发的新站，不包含旧站URL迁移。
@@ -218,8 +224,8 @@
 |---|---|---|---|---|
 | Posts Page | `/blog/` | 唯一内容H1 `Blog`，主查询文章卡片 | 隔离Local强制noindex、无Canonical | D92按Production策略复验 |
 | Blog分页 | `/blog/page/{n}/`；第1页链接回`/blog/` | 核心分页，Page 2 Title含页码 | 越界页由主查询404 | D74＋D86合成后回归缓存与Title；D85已在基线 |
-| 文章分类 | `/blog/category/{slug}/` | 原生分类H1、描述、主查询卡片和分页 | 当前隔离Local noindex | 正式分类是否索引按D92确认 |
-| 空分类 | `/blog/category/{slug}/` | 200、原生Nothing Found、唯一H1 | 空term的Sitemap/索引由Yoast与内容策略另验 | 正式空分类不作为内容目标 |
+| 文章分类 | `/blog/category/{slug}/` | 原生分类H1、描述、主查询卡片和分页 | 2026-10-08 Staging该路径200、根路径`/category/{slug}/`为404；早期Local行记录了根路径，待D92跨环境核对 | 正式分类是否索引按D92确认 |
+| 空分类 | `/blog/category/{slug}/` | 200、原生Nothing Found、唯一H1 | 空term的Sitemap/索引由Yoast与内容策略另验；空分类实际页面仍待目标环境验证 | 正式空分类不作为内容目标 |
 | 标签/作者/日期/搜索 | 既有规则 | D86不接管 | 沿用D19与现有Yoast边界 | 不因D86自动改变 |
 | 单篇文章 | `/blog/{slug}/` | D86不接管 | D86时公开署名和作者Schema仍不一致 | D87实现与验证 |
 

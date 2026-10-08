@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+### D91 Staging SEO模板与CAD/CAM单项定向修正（2026-10-08）
+
+- 按用户明确授权仅在Staging应用`6604195`完整备份Yoast `wpseo_titles`后，修正商品分类Title、Social Title与404 Title三键。独立进程验证三键正确、其他172键严格不变、autoload=`auto`；没有修改运行代码、插件、URL/Canonical/robots/Sitemap或Production配置。
+- 真实404及商品分类新响应的Title/OG、状态码和Staging noindex通过；标准TEST分类URL旧Varnish HIT已用Breeze精确单URL函数清理，公网随后MISS→HIT且持续显示新英文标题。用户另行授权后，私有备份`wpseo_taxonomy_meta`，仅移除`CAD/CAM Materials` term ID 32的旧标题覆盖，独立进程核对全选项其余字段不变；再备份并定向刷新Yoast indexable ID 46，仅标题与两个更新时间字段变化，层级最终记录与备份相同、目标SEO链接数仍为0。该分类标准URL单独清缓存后，公网Title/OG为`CAD/CAM Materials - DentAll`，200、noindex/nofollow及MISS→HIT通过。D91全量描述/社交/分类审核与D92索引审查仍待。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+
 ### D83/D84：再次购买暂缓与非支付账户链（2026-10-08，隔离Local技术验收）
 
 - 用户确认第一版暂缓 WooCommerce 11 原生“再次购买”。DentAll Core 升至 0.7.1：既有账户模块用原生状态 Filter 隐藏按钮，并在 Woo 装载 Cart 会话前拦截带 `order_again`、`_wpnonce` 的已登录直接请求，避免替换现有购物车。DentAll 主题升至 0.47.1，只在既有账户 CSS 增加三个局部规则以修正手机订单号和宽屏商品列；隔离 My Account、Cart Page 设为 Storefront Full width。

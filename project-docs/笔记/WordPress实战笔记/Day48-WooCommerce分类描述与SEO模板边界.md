@@ -23,6 +23,7 @@ tags:
 - 前置项目笔记：[[../Day47-商品搜索结果与边界状态|Day47-商品搜索结果与边界状态]]
 - URL与SEO事实：[[../../URL_SEO_MAP|URL与SEO映射]]
 - 后续学习笔记：[[Day49-WooCommerce属性查询表与商品级筛选]]
+- 同主题Staging复验：[[Day91-Yoast模板与缓存分层验证]]
 
 ## 今日学习成果
 

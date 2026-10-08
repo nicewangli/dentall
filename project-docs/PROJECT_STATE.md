@@ -6,6 +6,22 @@
 
 - 已基于当时的`origin/main@0d7dc83`形成[[笔记/Day107-系统回归准备与执行包]]：14组覆盖、最小TEST样本、隔离恢复与证据模板；PHP纯合同65/65、101/101、16/16、28/28及Node 46/46通过。准备记录先于本页下方D83/D84主线整合，不能替代新合成版本的浏览器、交易或目标环境回归；D108与D109～D114仍待执行。
 
+## D91 Staging SEO模板、CAD/CAM单项修正与单URL缓存验证（2026-10-08）
+
+- 用户先明确允许仅在Cloudways Staging应用`6604195`备份并修改Yoast `wpseo_titles`三键：商品分类Title、商品分类Social Title、404 Title；必要时仅清受影响页面缓存。随后另行授权备份并移除`CAD/CAM Materials`分类term ID 32的唯一旧标题覆盖、定向处理该分类索引和页面缓存。应用Folder `deufrhswrj`、`home/siteurl`、`blog_public=0`已交叉核对；Master SSH Terminal足够，应用用户SSH Access保持关闭。没有安装/更新插件、改运行代码、商品/文章、URL、robots、Canonical、Sitemap或Production。
+- 私有JSON完整备份验证为175键。受控写入后，独立WP-CLI进程确认三键等于D48 Local分类模板与本次英文404目标，其余172键严格不变、autoload仍为`auto`。全新404为真实404，Title/OG `Page not found - DentAll`、noindex/nofollow、无Canonical；分类未命中缓存请求为200，Title/OG `TEST D12 Products - DentAll`，Staging维持noindex/nofollow。分类标准URL先前仍为旧`归档`标题和Varnish HIT/Age约7500秒。
+- Breeze 2.5.12现场函数和Varnish启用状态只读确认后，分别对精确`/product-category/test-d12-products/`与`/product-category/cad-cam-materials/`执行单URL清理。两条公开标准URL均验证新Title/OG在首次MISS与随后HIT保持；TEST的Age为0→13秒，CAD/CAM为0→2秒。没有执行全站清理或修改缓存策略。此前公网PURGE/URLPURGE返回405、本机`:8080`原始URLPURGE返回403，均未计为成功。
+- Sitemap 16个商品分类URL中，原有15个匿名抽样为新标题；`CAD/CAM Materials`在新响应/MISS时仍有`归档`。追加授权后，先备份整个`wpseo_taxonomy_meta`，再通过Yoast单term API移除term 32的`wpseo_title`；独立进程核对原始数据库选项严格仅少该键、autoload仍为`auto`。新响应仍旧时确认目标`yoast_indexable` ID 46留有旧标题；其父级0、描述空、URL未变、关联链接0、层级1。备份目标索引后用Yoast 28.2自身的term watcher定向刷新，差异仅为`title`、`updated_at`、`object_last_modified`，层级最终记录与备份一致、目标SEO链接数仍0。CAD/CAM新查询与标准URL最终均为200、Title/OG `CAD/CAM Materials - DentAll`、Staging noindex/nofollow；标准URL已通过MISS→HIT。原D91/P2旧标题已关闭，正式分类标题审核仍交Website Manager。D91正式描述、社交字段补全与受控可见页面验收、Production索引及D92～D96仍待，不标D91整体Done。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+- 后续D91～D94共用URL清单完成第一轮匿名只读盘点，未再写站点或清缓存：多个代表页缺普通Meta Description；Shop仍是`Shop - DentAll`而非已定`Products`；商品搜索及品牌/商品标签Title仍有中文。D92抽样中Shop Page 1→根URL为301、Page 2为200、越界为404，非法筛选为受控302；文章分类实际路径含`/blog/`。D93 fresh Sitemap Index仍有7个子图，品牌3条、商品标签248条及样本Page，robots.txt的HTTP有两条不同`X-Robots-Tag`。D94匿名商品、Shop及分类正文是WooCommerce Coming Soon，首页未见Organization且社交图片仍待正式素材。Staging全站`noindex,nofollow`并无Canonical，不能据此宣布Production索引或公开商品Schema通过；四个Day各自定向验收后再做共同样本回归，当前均未因此标Done。证据与边界见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+
+## D92～D94 受控SEO抽样与Staging抓取边界（2026-10-08）
+
+- 用户要求按D92～D94分别推进并在D91～D94后做共用样本回归，同时询问能否临时开放Staging索引。本轮没有切换Staging：匿名HTTP仍可返回200，Sitemap含TEST Page、3个品牌和248个商品标签URL，且静态CSS及robots/Sitemap均显示疑似独立的`noindex,nofollow`响应头，来源未定位；仅改变WordPress `blog_public`既不能提供访问控制，也不能可靠模拟Production抓取终态。Cloudways应用、Production及共享Local设置均未写入。
+- D92：用当前分支DentAll代码、旧Local的独立数据库及回环PHP/MySQL副本做11类GET；隔离路由补上HTTP `X-Robots-Tag: noindex,nofollow`后11/11实测，HTML保持`blog_public=1`的Yoast机制分支。首页/Shop/分类/商品自身Canonical、合法变体父商品Canonical、排序回Shop、价格筛选`noindex,follow`且回Shop、商品搜索与真实404无Canonical。首轮仅两件TEST商品时Page 2为404；第二轮仅在隔离库以Woo CRUD补最少11件后，Shop 13件/2页，真实Page 2为200、自身Canonical、Head及可见`prev`回Shop，越界Page 3为404。11件夹具已删，九组相关表/设置快照行数与SHA-256回原值。隔离PHP的Page 1为200而Local Nginx及Staging为301，目标环境仍须验收。详见[[笔记/Day92-URL与Canonical受控验证]]。
+- D93：Staging只读确认Sitemap Index为7子图、品牌3条、商品标签248条，商品标签REST共294项（46空、199仅关联1商品、49至少2商品），Page子图含TEST。品牌入图与ADR-033第一版不入图合同不符；全站`blog_public=0`时REST三品牌的`robots.index=noindex`不能区分品牌专属设置。Yoast 28.2本机源码确认全站开关不直接排除taxonomy Sitemap，生成器读取taxonomy/term选项与过滤器，不依赖Indexable作为入图条件；Staging现值与XML缓存未核实。robots/Sitemap出现两条不同`X-Robots-Tag`，静态CSS也有固定`noindex,nofollow`，响应头来源未定位。商品标签正式索引策略等待业务决定。详见[[笔记/Day93-Sitemap与抓取边界审计]]。
+- D94：受控可见的TEST Simple、Variable及合法变体各只有一份Product和BreadcrumbList；Simple Offer USD24.99与可见促销现价一致，Variable AggregateOffer USD39.99～49.99与可见范围一致，变体Offer USD39.99且Canonical仍指父商品。隔离浏览器选择`small-98-mm`/`light`后动态区显示USD39.99、5件库存，匹配变体ID 51；54个放行请求均为回环、4个外站请求拦截、页面脚本错误0。商品图`alt`无缺/空；隔离首页有Yoast Organization，但资料取旧Local。正式Logo/图片与内容、Staging公开商品正文及在线富结果验证器均未验。详见[[笔记/Day94-商品与组织Schema阶段验证]]。
+- 隔离Coming Soon已恢复`yes`、PHP/MySQL服务停止、源Local关键选项及`wp-config`哈希不变；Staging只读HEAD仍`noindex,nofollow`。证据保留于Git忽略目录`.codex-tmp/day92-94-runtime/evidence/`，不作为正式内容发布。D91～D94均保持未整体Done；下一步先收敛品牌Sitemap与商品标签策略、目标环境分页/商品可见样本和正式素材，再做四日共用URL回归。运行代码净增0；仅隔离副本短暂写TEST数据并已按相关快照恢复，Staging/Production数据、URL、缓存策略、支付、物流与部署无变更。
+
 ## D83订单中心与D84非支付账户链隔离Local技术验收（2026-10-08）
 
 - 用户明确选择 B：第一版暂缓 WooCommerce 原生“再次购买”，保留订单列表/详情和 D84 非支付账户链。D81/D82 先前已进入主线，D83/D84 随后从该基线实施，并以合并提交 `291bcb4` 纳入主线版本；未重做资料或地址功能。源码合并不等于部署，共享 Local、Staging 和 Production 仍未安装本轮版本。
