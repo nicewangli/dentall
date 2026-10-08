@@ -147,4 +147,6 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day88（并行检查点） | [[Day88-Solutions原生Page前台验证]] | 授权的隔离Local技术范围完成：原生Page＋Full width＋既有正文规则，22组浏览器场景与编辑数据层回归；运行代码0改动，TEST数据已删、服务已停。Gutenberg原文字节恢复不能记为通过；正式内容、URL、真实设备和非Local仍待 |
 | Day89 | [[Day89-Contact表单与商品上下文]] | Fluent Forms Free仅隔离Local安装；Contact草稿导入样本、展示型商品来源服务端校验、四宽、提交/伪造/垃圾拦截/邮件失败链通过。正式收件、条目权限、留存隐私、目标缓存与公开SEO未验；学习见[[WordPress实战笔记/Day89-表单服务端上下文与通知边界]] |
 | Day90 | [[Day90-内容样本与集成抽样]] | D81/D82＋D87/D88＋D89合成隔离Local抽样与M7内容状态见项目笔记；正式内容不以TEST代替 |
+| Day103（并行） | [[Day103-权限与账户暴露审计]] | 核心Users REST定向读守卫在独立TEST站通过访客/角色/前序响应矩阵；oEmbed与RSS仍暴露TEST作者显示名，RSK-057 P2及目标环境验收开放。学习见[[WordPress实战笔记/Day103-REST权限与作者资料边界]] |
+| Day104（并行） | [[Day104-插件主题更新与安全配置审计]] | 官方WooCommerce/Breeze隔离升级、Woo数据库与任务队列、定向回归及同点文件/数据库恢复通过；Staging未升级，真实缓存与结账仍待验。学习见[[WordPress实战笔记/Day104-插件更新与数据库迁移回滚]] |
 | Day107 | [[Day107-系统回归准备与执行包]] | 14组系统覆盖、最小TEST样本、隔离恢复及证据模板已建立；当时基线五组纯合同通过，PayPal与目标环境回归未执行；学习见[[WordPress实战笔记/Day107-回归证据分层与WooCommerce状态真相]] |

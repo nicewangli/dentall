@@ -27,6 +27,19 @@
 - 从`origin/main@d2ba25b`保留D81/D82账户资料与默认地址成果，纳入D87已提交的文章详情和统一公开署名；D88的Solutions原生Page验证仅带入文档，运行代码零增量。当前整合候选版本为DentAll 0.48.0/Core 0.8.0；Staging仍为0.46.0/0.6.0，未执行合成Local浏览器/业务验收、推送或部署。
 - D87原生Users REST披露后台显示名仍为RSK-057/P2，交独立安全任务；D88不代表正式Solutions Page、层级URL或`/solutions/`聚合页已发布。D81/D82、D87和D88的源分支验证证据分别见下文与对应Day笔记，不能直接外推为合成站点、正式内容或Production验收。
 
+## D104插件更新隔离演练与配对恢复通过，Staging安全基线仍待（2026-10-08）
+
+- 2026-10-07 Staging最后记录为WordPress 7.1.3、WooCommerce 11.0.0、Breeze 2.5.12；本轮只在新建隔离站核验官方WooCommerce 11.2.0、Breeze 2.6.1，不对共享Local、Staging或Production升级。Woo/Breeze官方包逐文件与发布清单匹配；Woo升级前同点文件及数据库快照已核SHA-256。
+- 隔离Woo数据库由11.0.0升至11.2.0-1；Action Scheduler迁移后15/15个Woo迁移动作、5/5个TEST商品属性索引动作完成，更新组pending/failed=0且全队列failed=0。Breeze 2.6.1在无Staging旧配置的全新站启用并完成版本握手；TEST生成的Cart、Checkout、My Account自动排除不等于Cloudways现场规则通过。
+- 独立回归验证两匿名会话的简单商品$19与变体$35购物车金额及会话隔离，Users REST拒绝匿名作者资料、文章数字作者与链接保留；Shop、简单商品、可变商品、空Cart四宽16/16无横向溢出、运行时异常0，其中390px三页目视通过。TEST Checkout跳转Cart，未验结账提交；PayPal、Yoast、账户、真实邮件/支付和Staging缓存层未纳入。
+- 升级后已按同一时点的文件ZIP与SQL配对恢复：Woo文件和数据库均回11.0.0，Breeze文件/配置不在，TEST商品及变体为0；专用PHP/MySQL进程已停，20380/20381/20382端口监听0。已核对本轮隔离目录位于当前工作区且无重解析点，但递归清理命令被自动审批以`blocked by policy`拒绝；其中TEST账户凭据与快照仍保留在Git忽略目录，需后续按获准路径清理。RSK-060/P2与D104目标环境验收保持开放。详见[[笔记/Day104-插件主题更新与安全配置审计]]。
+
+## D103权限审计：Users REST定向守卫已通过隔离验证，整体身份风险未关闭（2026-10-08）
+
+- 用户明确授权本轮已提出的最小方案；当前`origin/main`保留D81/D82，D87统一公开署名仍在独立分支，尚未完成合成回归。D103在本任务分支把`dentall-core`候选升至0.7.1，新增一个独立REST模块，只限制访客和Customer对核心Users列表及非本人数字单项的GET/HEAD，保留本人、内容人员和文章数字作者关联；共享Local、Staging和Production均未部署。
+- 独立Code Review及安全复核分别发现初版前序非错误响应旁路、大小写路由和查询`id`覆盖路径ID的条件性绕过，均已在同一回调内修正。新建空TEST隔离站（WordPress 7.1/WooCommerce 11.0.0/PHP 8.2.29）的访客HTTP 9/9、角色REST 15/15、前序响应6/6符合定向合同；文章`?_embed=author`仍为200并保留作者数字ID和`_links`，嵌入资料不再含姓名/slug/link。Batch v1内层GET由核心schema拒绝，未发送写方法。
+- 隔离站实测oEmbed `author_name`/`author_url`及RSS2 `dc:creator`仍暴露TEST后台作者显示名，因此RSK-057保持P2开放，D103不标Done。目标环境Cookie+nonce、缓存旧响应、真实内容/客户端、D87合成、作者归档和Staging部署均待验；风险与细节见[[笔记/Day103-权限与账户暴露审计]]。
+
 ## D81/D82账户资料与默认地址隔离Local技术验收（2026-10-07）
 
 - 用户明确授权D81/D82确认单范围；ADR-045确定第一版Customer登录邮箱不开放My Account自助修改。姓名与显示名继续用WooCommerce原生资料表单，改密须当前密码且至少12字符；Billing email独立作为联系邮箱。管理员人工纠错须先核验新邮箱控制权、Guest归属与已签发报价，不新增自动迁移。

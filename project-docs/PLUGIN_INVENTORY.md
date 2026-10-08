@@ -11,8 +11,8 @@
 
 | 插件 | 类别 | 用途 | 状态 | 版本 | 许可证/归属 | 数据影响 | 替代/移除方案 |
 |---|---|---|---|---|---|---|---|
-| DentAll Core | 项目业务 | 跨主题角色/权限、SEO兼容、人工报价生命周期、账户身份及展示型商品Contact上下文 | D81/D82与D87/D88已进入当前Git集成分支；D89新增Contact候选后为0.9.0，仅隔离Local验证，未推送或部署。Staging仍为0.6.0 | 当前分支候选0.9.0；Staging 0.6.0 | GPL/项目自有 | 高：角色数据、订单meta、Action Scheduler、账户归属及Contact插件条目上下文 | 进入维护窗口、停发付款邮件并确认无在途支付；报价代码回滚前取消候选订单，或把文件与数据库恢复到同一快照；Contact回滚先撤表单并按留存处理条目，角色、订单和表单持久数据不能只靠回退PHP撤销 |
-| WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 已安装并激活，已完成D2基础配置 | 11.0.0；11.0.1可用但本日不升级 | GPL/项目 | 高 | 不可轻易替换 |
+| DentAll Core | 项目业务 | 跨主题角色/权限、SEO兼容、人工报价生命周期、账户身份、Contact商品上下文及Users REST读取守卫 | 当前整合分支候选0.9.1，D89及D103源功能均仅在隔离站验证；Staging上次记录为0.6.0，发布前须读取现场 | 当前分支0.9.1；Staging上次记录0.6.0 | GPL/项目自有 | 高：角色数据、订单meta、Action Scheduler、账户归属及Contact插件条目上下文；REST读取守卫本身不写数据 | 发布前受控回归；报价代码回滚前处理候选订单或配对恢复文件/数据库；Contact回滚先撤表单并按留存处理条目，持久数据不能只靠回退PHP撤销 |
+| WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 共享Local文件为11.0.0；2026-10-07 Staging记录为11.0.0，现场待复核；D104全新TEST站曾升至官方11.2.0、数据库11.2.0-1并完成迁移队列，现已配对恢复；目标环境未更新 | 目标站点上次记录11.0.0；隔离演练后文件与数据库已恢复11.0.0 | GPL/项目 | 高：版本迁移会改数据库、变体图库及结账/归档行为 | 更新前保留同一时点文件与数据库快照；数据库迁移后不能只回退插件PHP，须整组恢复并重测交易、SEO与缓存 |
 | Query Monitor | 本地开发 | 查询、Hook、请求和错误诊断 | Local已安装；D16冲突隔离后保持停用，仅限Local | 4.0.7 | GPL/开发者 | 低 | 停用并删除，不进入生产必需清单 |
 | ACF（免费版） | 字段 | 必要结构化展示字段的候选工具；D62未发现当前代表商品必须新增字段 | 2026-09-07 D62核对Local插件Header与目录：免费版已安装且停用，数据库ACF定义0；不启用、不卸载 | 6.8.7 | GPL v2或以后版本；免费包不证明公司持有Pro许可 | 当前无项目字段依赖 | 本次无迁移；未来引入字段须单独验证定义版本化、内容备份、停用依赖及恢复 |
 | ACF Pro | 字段候选 | 保留ADR-010的条件技术方向，只有原生字段不足且获批时考虑 | D62未发现独立Pro包或内置Pro代码；公司许可、激活及非Local安装状态未核验 | 未安装，不能沿用免费版版本号充当Pro实物证据 | 公司账户、持有人、有效期、站点额度与续费责任待核对 | 未来按字段与数据量评估 | JSON/PHP只版本化定义；值和媒体另备份；停用、导出迁移与回滚须在采用前验收 |
@@ -22,12 +22,12 @@
 | ACF Multilingual | 多语言字段 | 配置ACF字段的翻译、复制和同步模式 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前逐字段定义Translate/Copy/Copy once；移除前保留翻译字段数据 |
 | WPML SEO | 多语言SEO | 协调Yoast元数据、Sitemap和多语言SEO输出 | 随WPML启用，不单独提前安装 | 启用时记录 | WPML免费兼容扩展/公司账户 | 高 | 停用前检查hreflang、Sitemap、Canonical和各语言元数据 |
 | WooCommerce Multilingual & Multicurrency | 多语言商城 | 未来同步商品翻译、库存和WooCommerce前台字符串；第一版不启用多币种 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前验证商品、变体、库存、结账和邮件；币种功能保持关闭直到另行立项 |
-| 缓存插件 | 性能 | 页面缓存和资源优化 | 待选型 | - | 待确认 | 高 | 关闭并清缓存 |
+| Breeze Cache | 性能 | Staging页面缓存、资源优化和规范Shop排除 | 2026-10-07 Staging记录为已启用2.5.12；共享Local没有插件目录。D104仅在无旧配置的TEST站新装2.6.1并完成版本握手，后按快照恢复移除；目标现场版本与原排除须再核对 | Staging上次记录2.5.12；隔离新装2.6.1后已恢复移除 | GPL/Cloudways | 高：页面缓存、配置、资源优化与交易页隔离 | 记录原配置及Breeze/Varnish排除、同点备份；更新后回读整页HTML缓存开关并做匿名/登录、交易页及预览矩阵，必要时按快照回滚并清理缓存 |
 | FluentSMTP | 邮件 | 作为唯一WordPress邮件处理器，记录事务邮件并在第一版通过公司BossMail SMTP外发 | D77隔离Local已以PHP mail→Mailpit完成成功、失败与日志验证；Staging已通过BossMail专用SMTP主机、465/SSL发送，并由受控QQ邮箱实际收到。Cloudways Elastic Email未启用、DNS未修改；业务触发和Header认证待对应Day补验 | Local 2.4.0；Staging版本发布前复核 | GPL/免费插件；BossMail企业邮箱由公司持有 | 高：Options、`${prefix}fsmpt_email_logs`、每日清理Cron、外部SMTP请求；日志含客户邮箱、订单正文与付款链接 | 停用前保存脱敏故障证据；连接、邮箱密码和Woo邮件配置分层回滚。停用不会自动删除Options/日志表；禁止第二个SMTP插件或未验证fallback |
 | Fluent Forms Free | 联系表单候选 | Contact原生Page的姓名、邮箱、留言及可选展示型商品ID；条目与通知由插件管理 | D89仅在独立Local副本安装6.2.15并验证；导入文件为`draft`、通知默认关闭且收件人为空。未安装到共享Local、Staging或Production；正式收件、条目可见角色、留存期和隐私文案待确认 | 隔离Local 6.2.15；目标环境未安装 | GPL/WordPress.org免费版；升级维护由项目负责 | 高：插件自有表保存表单、条目、日志与通知设置；实测条目仍含browser、device、source_url，Contact专用Hook使IP/国家为空。前台CSS/JS和Token AJAX随表单加载；隔离Cron列有`fluentform_do_scheduled_tasks`每5分钟、`fluentform_do_email_report_scheduled_tasks`每天。发布前检查实际查询、远程请求与缓存 | 发布前备份表单配置和条目；撤回时先下架Contact表单或Page，再停用插件并复核公开页面与邮件，按已确认留存政策导出/删除条目。不能仅回退PHP撤销持久数据；不与其他表单插件重复负责同一入口 |
 | 备份插件/主机备份 | 运维 | 数据库和文件备份 | 待选型 | - | 企业账户 | 高 | 保留独立离线备份 |
 | WooCommerce Stripe Gateway | 支付（未来候选） | 信用卡、借记卡及钱包 | 第一版已明确排除，不安装、不连接账户；未来新增须重新做公司主体、销售国家、许可证、Webhook与退款确认 | 未安装 | GPL/免费插件；企业Stripe账户按交易收费 | 高 | 未来若立项先走Test Mode和Webhook回归 |
-| WooCommerce PayPal Payments | 支付 | 第一版唯一在线支付方式：PayPal | 业务已确认；当前暂不安装、不连接真实账户，待D76/D78用企业PayPal Sandbox实施与验收 | 安装时记录 | GPL/免费插件；企业PayPal账户按交易收费 | 高：订单、Webhook、退款、争议和外部请求 | 先用Sandbox回归成功/失败/取消/晚到Webhook；禁用前处理退款、争议和Webhook |
+| WooCommerce PayPal Payments | 支付 | 第一版唯一在线支付方式：PayPal | 共享Local已有插件目录，不能据此推断启用；D104隔离站未复制该插件，Staging现场状态待复核；真实账户与交易不纳入本轮 | Local目录Header为4.1.3，声明`WC tested up to: 11.0`；目标环境待复核 | GPL/免费插件；企业PayPal账户按交易收费 | 高：订单、Webhook、退款、争议和外部请求；Woo11.2兼容性不能由目录Header直接保证 | 先用Sandbox回归成功/失败/取消/晚到Webhook；禁用前处理退款、争议和Webhook |
 | WooCommerce Direct Bank Transfer（BACS） | 离线支付（未来候选） | 银行转账 | 第一版已明确排除并保持关闭；未来启用须单独确认正式收款信息、核账负责人和订单状态SOP | WooCommerce内置/关闭 | GPL/免费 | 高 | 保持关闭；未来启用前单独验收 |
 | WooCommerce内置Brands | 商品 | 原生`product_brand`、商品关联、CSV、详情/Schema、归档与筛选 | D52已在Local启用现有内置能力；未新增插件。品牌归档第一版由Yoast设为`noindex` | WooCommerce 11.0.0内置 | 随WooCommerce；无额外许可证 | 中 | 主题回滚不删除taxonomy或数据；移除前台适配即可停用入口。`WC_Widget_Brand_Nav`为内部类，Woo升级时必须回归，失效时先诚实空输出再评估替代 |
 
