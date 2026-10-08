@@ -81,6 +81,19 @@ tags:
 - 对精确TEST分类URL从公网尝试`PURGE`与`URLPURGE`均得405；对本机`:8080`直接`URLPURGE`为Apache 403，均不能作为缓存已清理的证据。停止直接发送原始方法，不扩大为全站清理。
 - Breeze现场版本为2.5.12，插件的单URL清理函数`breeze_varnish_purge_cache`存在；只读检查得到Varnish host `127.0.0.1`、active `yes`。源码复核表明无查询参数的精确URL走单URL `URLPURGE`，而`?breeze`进入全站分支。分别对标准TEST与CAD/CAM分类URL执行带站点和精确无查询URL守卫的单URL调用；WP-CLI只证明“请求已发出”，实际生效证据是两条标准URL后续各自的公网MISS→HIT及新Title/OG。没有全站清理。
 
+## D91～D94共用样本的只读基线
+
+2026-10-08继续以匿名HTTP核对标准URL与带新查询参数的新响应；有`X-Cache`头的相关样本为`MISS`，Shop未返回该头，不能据此称为缓存未命中。以下均未写站点或清理缓存。四天使用同一代表清单，但每项变更仍须当场定向验证，D94后再联合回归。当前清单包括首页、Shop、两级商品分类、Blog、文章、普通Page、真实404，以及按需加入排序、筛选、搜索、有效/越界分页、品牌与商品标签。旧`/product/test-d12-simple-fixed-pack/`已是404，不再作为商品样本。
+
+| 检查日 | 本轮只读事实 | 后续验收边界 |
+|---|---|---|
+| D91 元数据 | 首页、Shop、CAD/CAM与Zirconia分类、Dental Clinics、Blog和两篇文章均缺普通Meta Description；三个商品URL的Head有Description、OG Description和OG Image。Shop仍为`Shop - DentAll`，与已定`Products`不一致；商品搜索Title/OG仍有`您正搜索`。品牌`ADS`与商品标签`Aligner Chewies`的新响应仍带中文`归档`，不是旧页面缓存。抽样Twitter只有`summary_large_image`卡片，未输出独立Title/Description/Image。 | 正式页面描述与图片由Website Manager依据真实内容审核；技术模板及Staging同步差异需另定修正范围，不能用自动拼接描述代替正式文案。 |
+| D92 URL与索引 | `/shop/page/1/`为301到Shop，第2页200且Title含页码，越界第999页为真实404；有效价格筛选200，两个非法筛选请求302到Shop并带`X-Redirect-By: DentAll`与`no-store`。当前文章分类`/blog/category/test-d12-content/`为200，根路径`/category/test-d12-content/`为404；映射文档后段已按此Staging事实修订，原Local记录仍待环境复核。 | 全站`X-Robots-Tag: noindex, nofollow`使所有样本无Canonical；不能用Staging匿名响应证明Production的Canonical、分页或`follow`策略。 |
+| D93 抓取 | 未命中缓存的Sitemap Index为200并列7个子地图；品牌子图有3条URL，商品标签子图有248条URL，Page子图仍有样本页。未命中缓存的robots.txt为200并列Sitemap；HTTP同时有`noindex, follow`与`noindex, nofollow`两条`X-Robots-Tag`。 | 地图列出URL不等于当前允许索引；品牌入图与第一版Local约定不一致，标签与样本页的正式入图范围及两条响应头来源待D93核对。 |
+| D94 结构化数据与图片 | 首页现有JSON-LD未见Organization，OG/Twitter图片未输出，Logo文件仍是占位素材；首页10张图均有alt属性，其中4张为空值，需按装饰性逐张判断。商品、Shop、分类和Shop第2页匿名正文实际是WooCommerce Coming Soon块，H1为`Great things are on the horizon`。 | Coming Soon响应没有真实商品内容，不能把未见Product Schema判为公开商品缺陷，也不能据此验收商品alt、分页结果或筛选集合；需用受控可见样本复核。 |
+
+Staging仍为`blog_public=0`且WooCommerce Coming Soon开启；本轮没有为抽样解除保护。上述D92～D94只读发现用于安排工作，不代表三个Day已完成，也不代表Production索引或Schema已通过。
+
 ## 影响、风险与下一步
 
 | 领域 | 本轮影响 |
@@ -93,7 +106,7 @@ tags:
 
 - D91/P2的`CAD/CAM Materials`旧标题已按追加授权关闭：term覆盖、Yoast索引与标准URL页面缓存三层均有独立证据。正式分类标题审核仍由Website Manager在D92索引策略审查前继续；当前Staging禁索引，不能把它当成Production SEO已通过。
 - TEST和CAD/CAM标准URL的旧缓存问题已关闭；没有执行全站清理。其余URL不会因这两次定向清理而自动刷新，后续样本如发现旧页面应分别核对缓存层。
-- D91后续还须按计划复核描述、社交分享、代表页面与D92索引/Canonical/Sitemap；本轮定向修正不代替这些检查。
+- D91描述、社交字段与代表页面已形成只读缺口清单；正式内容、英文模板与Staging同步差异尚待处理，D91仍未整体收口。D92～D94按共用清单分别验证，最终再做一次四日联合回归；当前Staging保护与Coming Soon不适合代替受控可见页面和Production索引验收。
 - 凭据安全：本次排查中旧私钥口令曾在本机终端回显，应安排新密钥添加、验证后再撤销旧密钥；本笔记不保存口令。
 
 ## 减法审查

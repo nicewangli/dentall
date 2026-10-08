@@ -114,6 +114,7 @@ flowchart TD
 | 内容级覆盖 | 特定term自行保存的SEO字段 | CAD/CAM的`wpseo_title`已按单项授权移除；`linkdex`与`content_score`不变 |
 | Indexable | Yoast为对象建立的SEO记录 | term 32对应id 46曾留旧标题；用`build_indexable(32)`后标题清空 |
 | 页面缓存 | 缓存层保存并重放HTML响应 | TEST与CAD/CAM标准URL曾为旧`HIT`；各自定向清理后新`MISS`及后续`HIT`标题一致 |
+| Head与正文 | SEO Head可以指向原请求对象，但正文仍可能由站点保护模板代替 | 当前Staging商品、Shop及分类匿名响应有原URL的Title/状态，同时正文是WooCommerce Coming Soon；不能据此验证商品列表或Product Schema |
 
 ## 项目实战代码与命令
 
@@ -182,6 +183,12 @@ wp option pluck wpseo_titles title-404-wpseo
 
 ## 动手练习与排错
 
+### 四日共用样本中的新边界
+
+2026-10-08的后续匿名只读抽样将D91元数据与D92～D94共用URL放在同一张清单，但不把一次HTTP成功当作四天验收。旧TEST商品URL已成404；当前Sitemap中的商品URL虽为200，匿名正文却是Coming Soon。先检查状态码、Head与`HIT/MISS`，再检查正文实际模板；只有真正可见的商品页面才能验证Product/Offer、商品图片alt和购买信息。Staging的全站`noindex,nofollow`还会使Canonical缺席，因此要把“保护策略正确”与“Production自身Canonical正确”分开记录。
+
+这轮还读到品牌与商品标签进入fresh Sitemap、Shop和商品搜索Title与第一版英文约定不一致。它们是后续SEO治理的证据，并非本篇三键或CAD/CAM单项修正的副作用；没有据此改其他Yoast选项。
+
 1. **只读观察，已执行：** 读回两个Option的目标字段、Indexable id 46及HTTP Head；区分TEST分类的缓存旧`HIT`与CAD/CAM的新`MISS`旧Indexable。
 2. **隔离Local模拟，未执行：** 若练习模板变化，先备份Option与记录原值，仅改TEST分类，验证后精确恢复；不得把此练习记为Day91实测。
 3. **故障推演：** 若分类清理缓存后仍有旧标题，先看是否真为`MISS`，再检查term级字段与目标Indexable；不要重复改全局模板或盲目全站清缓存。
@@ -217,6 +224,7 @@ wp option pluck wpseo_titles title-404-wpseo
 ### 跨平台不变量
 
 源配置正确、SEO中间记录正确和用户收到正确页面是三个不同结论。修改有范围的设置时先留可恢复基线，再用差异证明未伤及其他设置；分类覆盖、Indexable与整页缓存需分别定位。
+公开响应还要同时核对Head与正文所代表的页面状态；保护模板的200和原URL的元数据不能代替真实商品内容与结构化数据验收。
 
 ### WordPress/WooCommerce当前实现
 
