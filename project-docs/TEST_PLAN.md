@@ -96,7 +96,9 @@
 - [x] D79独立Local：My Account自助注册、自动登录、设密、邮箱确认、登录/退出、无效Nonce、站内安全redirect及未知账号/错密同一公开提示；原始WordPress失败错误码保留给审计/限频组件。
 - [ ] D80：密码重置受理、真实邮件依赖、无效/过期/已用链接及防枚举完整流程。
 - [x] D79独立Local：邮箱验证后仅把同Billing email且`customer_id=0`的历史Guest订单归户；不同邮箱和已归属他人订单不移动；后置Guest重新登录仍不归户，Website Manager明确关联后才可见。
-- [ ] D82～D83：地址新增/修改、订单列表、详情、再次购买及完整页面体验；D79只证明Customer默认地址不会改写既有报价订单快照。
+- [x] D81/D82隔离Local：原生账户导航/资料与默认地址四宽可用；Customer登录邮箱自助修改在表单/核心REST被拒，改密至少12字符；Billing允许Woo已知国家，Shipping只允许US/CA/AU；旧订单及真实签发状态的TEST报价快照不随默认地址改变。
+- [x] D83隔离Local B方案：订单列表/详情、A/B/C/Guest归属、分页/空态及四端通过；隐藏原生“再次购买”且四类直接链接不改同一非空Cart。恢复重购仍为P2延期，目标Staging/HPOS/缓存及付款页另验。
+- [x] D84隔离Local非支付账户链：169项功能/布局断言和20张截图通过，私有邮件捕获、重置Key、密码长度、Guest拒绝及资料/地址/旧订单快照通过；原始第170项Console零错误断言因测试站`/favicon.ico` 404失败，保留原始FAIL并单独裁定非业务噪音。TEST对象与秘密残留为0；目标真实邮件、缓存、英语Page标题和原生设置仍需复验，真实支付闭环另属D76/D78与M6。
 - [x] D79身份边界：A、B与匿名会话不串，跨客户订单详情不可见；Guest `order-pay`新旧订单的key/邮箱门槛和归户后登录要求已验证，未提交真实付款。
 - [x] D79角色回归：Customer不能进入后台；Website Manager仍可管理Woo/订单并保留`create_customers` capability（不等于可在后台新建WordPress用户），不能管理用户、插件或主题。
 
@@ -1092,6 +1094,32 @@ D74范围内开放P0/P1/P2/P3均为0。隔离副本继承的Checkout标题、隐
 | 静态检查 | 集成改动PHP全部lint通过；D79两个Node脚本`--check`通过；无冲突标记；`git diff --check`通过 | D85的616/616和编辑67/67来自源候选；集成后仍需代表页面四端回归 |
 
 Staging前继续保持支付关闭、只用TEST对象；需验证首封邮件后台错误反馈、BossMail业务触发/Header/日志、账户三会话隔离、交易页缓存绕过、目标主机Action Scheduler，并保留一张72小时TEST报价观察真实到期。
+
+## D83/D84 B 方案隔离Local动态矩阵（2026-10-08）
+
+| 用例组 | 隔离Local结果 | 后续边界 |
+|---|---|---|
+| 禁用重购入口与直接请求 | Core 0.7.1；Woo 11 状态 Filter 为 `[]`，拦截 Hook 优先级 1，原生按钮隐藏。D83 Chrome 130/130 中有效/无效订单 ID、Nonce 与归属直接链接均按 B 方案跳转 Cart | 恢复原生“再次购买”为 P2 延期，先确认保留现有 Cart、报价及权限合同，再估工时与另行验收 |
+| 非空购物车不变量 | 同一会话两件商品、数量、优惠券、金额，在 own-valid、own-invalid、foreign-valid、unknown-valid 四类直链前后不变；未触发 Woo 原生清车重载 | Staging、目标缓存与 HPOS 另验；不以隔离结果推断目标环境 |
+| 订单中心与四端 | A13/B2/Guest1 共16张 TEST 单；A/B/C/Guest 归属、A 的 10+3 分页、空态、详情、错误 ID/key、按钮隐藏通过；390/768/1024/1440 四宽12图和最终390/768定向4图通过。My Account、Cart 在隔离站设为 Storefront Full width；主题0.47.1仅在既有账户CSS增加三个局部规则 | Pending未签发报价仍有Woo原生Pay动作；未点开付款页，不形成支付安全结论。目标Page模板、英语标题和缓存仍须核对 |
+| D84非支付账户链 | 169项功能/布局断言与20图通过；私有邮件捕获、11字符密码拒绝/12字符接受、旧重置Key失效、Guest订单拒绝、资料/地址/旧订单快照通过。第170项原始Console零错误断言为FAIL；PHP日志唯一`/favicon.ico` 404，经人工裁定为测试站非业务噪音 | 真实邮件、Staging/HPOS/缓存、已签发报价付款与支付闭环未验。390px确认邮箱提示按钮与说明顺序为P2，不影响操作；开发者在本轮代码首次部署Staging前局部调整并四端复验 |
+| 隔离数据与环境 | D83浏览器夹具16单、2商品、1券及B/C清理后曾保留A给D84；D84已清其1单、1商品及A。D83/D84 option、私有凭据、邮件捕获mu-plugin已删；最终扫描整站订单0、TEST Customer0、D84对象/秘密文件0。此前D83 CLI探针16单/2客户另行清理；专用PHP/MySQL进程已停，18183/19183均无监听 | 隔离库HPOS为off；D81/D82历史残留另案处理 |
+
+D83/D84完成的是隔离Local授权范围的技术验收。原始第170项FAIL不改写成自动通过；favicon裁定另留证据。D83-P2由开发者负责，恢复“再次购买”须另行定范围与工时。共享Local、Staging、Production、真实邮件、支付、DNS、物流与缓存配置未触碰；M6支付闭环保持开放。
+
+## D81/D82账户资料与默认地址（2026-10-07，隔离Local）
+
+| 用例组 | 实际证据 | 结果与边界 |
+|---|---|---|
+| 纯合同与真实环境 | PHP合同26/26；WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2 | Hook分支与原生站点相互印证；PHP合同不代替真实请求 |
+| 原生账户请求 | Customer A资料/地址HTTP表单9项；Guest、Customer B隔离 | 伪造登录邮箱拒绝、11字符拒绝/12字符接受、FR Billing保存、GB Shipping拒绝、US Shipping保存；不修改其他客户 |
+| 核心用户REST | `/users/me`、数字及前导零ID、body/query ID覆盖路径等拒绝用例 | 修改登录邮箱或绕过当前密码改密被403拒绝；非字符串邮箱由WP核心schema先以400拒绝 |
+| 交易快照 | 旧Woo订单六类字段不变；D75现有签发回调建立真正已签发TEST报价，再改客户默认Billing→GB、Shipping→CA | 5/5：新默认地址保存，旧报价的Customer ID、地址、金额/Shipping、状态、签发/到期/签名/Token逐项不变，签名匹配且仍按原单条件可付款；邮件回调模拟成功，未真实发信或付款 |
+| 四端页面 | Guest与Customer B；Dashboard、资料、地址列表及Billing/Shipping表单共5页×390/768/1024/1440 | 213/213；横溢出、重复ID、导航/地址列、条件资源、44px按钮、焦点和只读提示通过，Page/Console错误均0 |
+| 独立复核 | 代码/视觉与安全专项Agent；静态PHP/Node语法及`git diff --check` | 开放P0/P1/P2均0；伪造州省值成员校验为Woo原生P3观察项，不作为已完成的项目能力 |
+| 隔离清理 | 私有PHP/MySQL PID停止、18881/18882监听0 | 递归删除专用TEST目录被自动审批以`blocked by policy`拒绝；目录和隔离数据库文件仍在，须后续清理并复核，不记录为环境恢复完成 |
+
+目标环境仍须核对My Account原生Page的Storefront Full width模板、Selling countries=all、Shipping locations=specific US/CA/AU、英语Page标题、登录态整页缓存绕过、工作人员角色与真实邮件/交易全链路；D83/D84另验订单中心和再次购买。本轮只操作隔离Local，未改共享Local、Staging、Production或支付/缓存配置。
 
 ## D80客户密码重置Local候选（2026-09-22）
 

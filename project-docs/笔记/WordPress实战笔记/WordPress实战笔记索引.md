@@ -123,6 +123,10 @@ tags:
 | Day77 | [[Day77-WordPress事务邮件链与可观察性]] | [[../Day77-FluentSMTP事务邮件Local验证]] | 初识，待费曼自测 | 2026-09-22 | Woo邮件、`wp_mail()`、FluentSMTP、BossMail、真实收件与日志分层；Local隔离链、Staging外部测试收件及TEST Customer Invoice SMTP接受已通过，Header认证与业务邮件最终呈现仍待 |
 | Day79 | [[Day79-WooCommerce账户身份与订单归属]] | [[../Day79-登录注册与订单归属]] | 初识，待费曼自测 | 2026-09-22 | Guest、Customer、Billing email与订单归属；邮箱验证归户、登录错误、安全边界及与D75已签发报价的替换单合同 |
 | Day80 | [[Day80-WooCommerce密码重置与防枚举]] | [[../Day80-密码重置流程]] | 初识，待费曼自测 | 2026-09-22 | 统一公开响应、HMAC冷却、原生重置密钥、12字符服务端底线，以及代理、缓存、SMTP与并发边界 |
+| Day81 | [[Day81-WooCommerce账户资料与登录邮箱边界]] | [[../Day81-账户仪表盘与资料策略]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 原生账户导航/资料表单、登录邮箱只读与服务端REST守卫、12字符改密及历史Guest归属边界 |
+| Day82 | [[Day82-WooCommerce默认地址与订单快照]] | [[../Day82-默认账单与配送地址]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 默认Billing/Shipping国家来源、My Account保存前校验、客户默认地址与旧订单/已签发报价快照分离 |
+| Day83 | [[Day83-WooCommerce再次购买与购物车会话边界]] | [[../Day83-订单中心与再次购买暂缓]] | 初识，隔离Local技术验收通过 | 2026-10-08 | B方案暂缓原生Order again；Woo 11按钮Filter与Cart Session分阶段处理。真实HTTP/Chrome 130/130，A/B/C/Guest归属、10+3分页与四类直链前后非空Cart不变量通过；再次购买恢复仍为P2，目标HPOS/缓存/付款未验 |
+| Day84 | [[Day84-WooCommerce账户链与重置密钥]] | [[../Day84-账户全链路回归]] | 初识，非付款链隔离Local技术验收通过 | 2026-10-08 | Guest→A登录→资料/默认地址→旧订单快照→退出→找回/重置→新密码登录通过；20张四宽截图。原始脚本`status=fail`、169/170，末项Console错误定位为隔离站favicon 404并保留原报告；390订单提示顺序P2，真实SMTP、HPOS、支付与目标环境未验 |
 | Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；隔离Local通过，Staging现有TEST Page已切换Full width并完成四端命中 |
 | Day86 | [[Day86-文章主查询与归档Hook边界]] | [[../Day86-博客列表分类分页与空状态]] | 初识，待费曼自测 | — | 主查询、Storefront Hook、分页/空态/404及四端证据完成；2026-10-06与D74合成重新通过，D85已在主线。发布证据见[[../Day86-D74与D86整合发布记录]]；D87、Production SEO与非Local仍待 |
 | Day107 | [[Day107-回归证据分层与WooCommerce状态真相]] | [[../Day107-系统回归准备与执行包]] | 初识，待费曼自测 | 2026-10-08 | 以当前main五组纯合同和源任务版本盘点，区分站内订单、异步任务、邮件、缓存与支付网关证据；D108/D109～D114目标环境回归未执行 |

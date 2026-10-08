@@ -4,6 +4,22 @@
 
 ## Unreleased
 
+### D83/D84：再次购买暂缓与非支付账户链（2026-10-08，隔离Local技术验收）
+
+- 用户确认第一版暂缓 WooCommerce 11 原生“再次购买”。DentAll Core 升至 0.7.1：既有账户模块用原生状态 Filter 隐藏按钮，并在 Woo 装载 Cart 会话前拦截带 `order_again`、`_wpnonce` 的已登录直接请求，避免替换现有购物车。DentAll 主题升至 0.47.1，只在既有账户 CSS 增加三个局部规则以修正手机订单号和宽屏商品列；隔离 My Account、Cart Page 设为 Storefront Full width。
+- D83 隔离 Chrome 功能/布局断言 130/130，390/768/1024/1440 四宽12图及最终390/768定向4图通过。A13/B2/Guest1 共16单覆盖 A/B/C/Guest 归属、分页/空态、详情和原生按钮隐藏；同一非空 Cart 两件商品、数量、优惠券、金额在 own-valid、own-invalid、foreign-valid、unknown-valid 四类直链前后不变。Pending 未签发报价的原生 Pay 动作仍在，付款页未点开。D83 单一 404 是隔离 PHP 服务的 `/favicon.ico`，无业务资源错误。
+- D84 隔离浏览器 169 项功能/布局断言与20张截图通过；原始第170项 Console 零错误断言为 FAIL，PHP 日志唯一 `/favicon.ico` 404 经人工裁定为测试站非业务噪音，保留原始记录。私有邮件捕获、11字符密码拒绝/12字符接受、旧重置 Key 失效、Guest订单拒绝、资料/地址/旧订单快照及非支付账户链通过。390px确认邮箱提示按钮与说明顺序为P2，不影响操作；开发者在本轮代码首次部署Staging前局部调整并四端复验。
+- D83浏览器夹具16单、2商品、1券及Customer B/C已清理，当时保留Customer A供D84；D84已清其1单、1商品和继承的A。D83/D84 option、私有凭据、邮件捕获mu-plugin已删；最终扫描整站订单0、TEST Customer0、D84对象/秘密文件0。此前D83 CLI探针16单/2客户单独清理。专用PHP/MySQL进程已停，18183/19183均无监听；隔离目录与空测试库保留，D81/D82历史残留不在本轮范围。
+- 未增Woo模板、字段、公开URL、Cron或远程请求，未部署或修改共享Local、Staging、Production、真实邮件、支付、物流、DNS及缓存配置。隔离新装库HPOS为off；目标Staging/HPOS/真实邮件/缓存及已签发报价付款页仍待验，M6支付闭环不标完成。“再次购买”恢复为开发者负责的P2延期，须另定保车方案、范围与工时。
+
+### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
+
+- ADR-045确定第一版Customer登录邮箱不开放My Account自助修改；姓名/显示名沿用Woo原生资料表单，当前密码保护的改密增加至少12字符规则，Billing email仍为独立联系地址。
+- Core在Woo资料保存和WordPress核心用户REST写入口守住邮箱/密码边界，并在原生地址保存前复核Billing允许国家与Shipping US/CA/AU；主题为登录态账户页条件加载Mobile First样式，仅Customer资料端点加载邮箱只读提示。DentAll升至0.47.0，Core升至0.7.0；不覆盖Woo模板或新增数据字段。
+- 隔离Local纯PHP 26/26、原生HTTP表单9项、REST旁路10项、旧订单六类快照检查及真实签发状态的TEST报价地址更新5/5通过；5页×四宽浏览器213/213，页面/Console错误0，独立终审开放P0/P1/P2=0。签发邮件回调仅在隔离环境模拟成功，未实际投递或付款。
+- My Account原生Page需采用Storefront Full width；目标Woo Selling countries=all、Shipping locations=specific US/CA/AU及英语Page标题需在部署验收时核对。共享Local、Staging/Production、真实邮件、支付与缓存配置均未操作；目标缓存和D83/D84账户链路仍待。
+- 隔离PHP/MySQL和18881/18882监听已停止；自动审批以`blocked by policy`拒绝递归删除专用TEST目录，目录和隔离数据库文件保留待按允许路径清理，未宣称环境恢复完成。
+
 ### D74＋D86代码部署与Blog现场验收完成，交易验收未关闭（2026-10-06）
 
 - 用户授权基于`origin/main@a8897f0`整合已确认的D74与D86，再经合成回归、独立审查和当次备份发布至Staging；发布前/回滚基线为`a07af22`（DentAll 0.45.0/Core 0.5.0），整合候选版本为DentAll 0.46.0/Core 0.6.0。
