@@ -35,6 +35,10 @@ D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购
 
 发布候选的主题资源版本为`0.48.0`以与源码保持相同Git blob并刷新CSS缓存；它只包含D79视觉修复，不能据版本号推断D81/D82代码已部署。后续D81/D82进入Staging时需再升版本。当前Codex浏览器连接返回`nodeRepl.fetch request failed`，未取得已登录Cloudways控制台；不得绕过现场备份、哈希和可恢复入口预检，直接推进`deploy/staging`或宣称已部署。
 
+2026-10-08后续现场进展：用户登录的Cloudways会话已接通，应用`dentall-staging`的Via Git当前确为`deploy/staging`→`public_html/`。本次On-Demand文件＋数据库备份后，Cloudways显示最新可选恢复点与Last Backup Date均为`2026-10-08 05:26:09 UTC`；远端部署分支仍为`ed74467`，公开账户页仍加载`account-auth.css?ver=0.46.0`并保持`private/no-cache`、`noindex`。用户随后确认网站人员仍在写入，要求暂缓发布；因此没有推进`deploy/staging`、点击Pull或清缓存。实际发布窗口必须重新冻结写入、核对现场并创建新的当次备份，本次恢复点不作为未来发布前的充分条件。
+
+用户计划于2026-10-09 09:00（北京时间）回来发布。此时间只是约定的目标窗口，不自动解除当前写入冻结前置条件；明早按现场状态重新执行发布预检。
+
 `account-hero-placeholder.webp`与共享Local现有`uploads/2026/08/home-hero-dental-products-1536x1024-q84-local-only.webp`的SHA-256同为`B24D5E348AB31AE673192EE25E2A662870CBCC65C24120AA6C80839C523B3F7F`，仅作为已同意的开发占位图；正式页面上线前仍需独立核实素材授权及替换结果。
 
 ### Staging发布与回滚核对
