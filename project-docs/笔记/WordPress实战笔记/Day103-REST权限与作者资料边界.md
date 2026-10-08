@@ -6,7 +6,7 @@
 主题: REST权限与作者资料边界
 状态: Users REST 子面已在独立隔离站复演；全站作者暴露仍待治理
 掌握度: 初识，待本人费曼自测
-验证环境: 独立隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29；TEST作者与文章
+验证环境: 首轮隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29；后续整合候选 Core 0.9.1 的全新 TEST 站；均仅用 TEST 作者与文章
 tags:
   - DentAll
   - WordPress实战
@@ -19,6 +19,7 @@ tags:
 
 - 学习索引：[[WordPress实战笔记索引]]
 - 对应项目笔记：[[../Day103-权限与账户暴露审计]]
+- 前置公开署名学习笔记：[[Day87-文章详情署名与SEO输出边界]]
 - 相邻安全检查点：[[../Day104-插件主题更新与安全配置审计]]
 - 相邻学习笔记：[[Day104-插件更新与数据库迁移回滚]]
 - 后续公开署名与缓存复验：待形成真实笔记后双向回填。
@@ -27,13 +28,13 @@ tags:
 
 - [x] 能沿真实入口解释 Users REST 列表、数字单项、`/me`、文章 `author` 与 `?_embed=author` 的边界。
 - [x] 能指出定向读取守卫为何要同时检查路由、方法、能力、本人 ID 和请求参数 ID；独立审查发现的两处旁路已修复并隔离复测。
-- [ ] 能在目标站点核对 oEmbed、Feed、作者归档、缓存与真实编辑客户端；目前仅有隔离站 TEST 证据，个人费曼自测未做。
+- [ ] 能在目标站点核对 oEmbed、Feed、作者归档、缓存与真实编辑客户端；后续虽补了全新 TEST 的 Cookie＋Nonce 和更多 Feed 格式，目标站点及个人费曼自测仍未做。
 
 ## 真实项目场景与学习范围
 
 DentAll 的已发表 TEST 文章有后台作者。隔离检查发现，匿名 Users REST 可返回该作者的显示名、slug 与链接；这些是公开资料字段，不是登录凭据或邮箱。收紧 Users REST 之后，oEmbed `author_name`/`author_url` 和 RSS2 `dc:creator` 仍含同一显示名。因此本篇学习的核心是**一个授权边界只覆盖它实际拦截的输出路径**。
 
-本篇范围为 WordPress 原生 `/wp/v2/users` GET/HEAD 集合和数字单项、本人读取、内容人员读取、文章数字作者关联及嵌入。登录暴力防护、写接口、作者归档治理、D104 版本更新和真实站点发布各有独立验收。入口是 `app/public/wp-content/plugins/dentall-core/includes/rest-user-access.php`，挂载于 `rest_request_before_callbacks`，优先级 11。下述运行结论只对应独立隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29。
+本篇范围为 WordPress 原生 `/wp/v2/users` GET/HEAD 集合和数字单项、本人读取、内容人员读取、文章数字作者关联及嵌入。登录暴力防护、写接口、作者归档治理、D104 版本更新和真实站点发布各有独立验收；后续只借用 D81/D82 的客户写守卫作隔离回归，不扩大本篇实施范围。入口是 `app/public/wp-content/plugins/dentall-core/includes/rest-user-access.php`，挂载于 `rest_request_before_callbacks`，优先级 11。下述首轮结果只对应独立隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29；后续整合候选的事实另列。
 
 ## 先建立整体模型
 
@@ -135,7 +136,7 @@ if ( current_user_can( 'edit_posts' ) || current_user_can( 'list_users' ) ) {
 | WordPress Core | 负责 REST 路由匹配、请求身份、原生 permission callback、Posts/Users/oEmbed/RSS 输出；不改核心文件。 |
 | `dentall-core` | 主入口加载独立 `rest-user-access.php`；优先级 11 的 `rest_request_before_callbacks` 回调仅收紧站点所需 Users 读边界。 |
 | WooCommerce与主题 | 本次不改商品/订单 CRUD、不改 Storefront 或子主题展示；Customer 身份仍来自 WordPress 当前会话。 |
-| 输入与权限 | 用方法、路由、路径数字、有效参数 `id` 和 capability 决策；非写请求，无后台动作 Nonce；Cookie + nonce 的真实浏览器路径仍待测，Nonce 不取代 capability。 |
+| 输入与权限 | D103 读取守卫用方法、路由、路径数字、有效参数 `id` 和 capability 决策；它本身不执行后台写动作。后续整合 TEST 用真实 Cookie + REST Nonce 复测本人读取与既有客户写守卫；Nonce 不取代 capability。 |
 | 数据与输出 | 不写数据库、不更改文章作者 ID、不新增输出字段；拒绝响应由 WordPress REST 编码，PHP 文案经国际化函数。 |
 | URL/SEO/缓存 | Users REST 受限读取状态变 403，文章 200 与数字作者链接保持；Title/Meta/Canonical/Schema/robots/sitemap 未直接改写。目标缓存、第三方客户端与索引效果待验，不宣称零性能影响。 |
 | 支付、物流、部署 | 无支付、物流、价格、库存、订单改动；只在隔离站验证，目标部署与回滚另验。 |
@@ -144,9 +145,18 @@ if ( current_user_can( 'edit_posts' ) || current_user_can( 'list_users' ) ) {
 
 独立隔离 WordPress 的匿名 HTTP 9/9、角色 REST 15/15、前序 Filter 响应 6/6 通过。访客 Users 集合、数字项、HEAD、大小写路径为 403；匿名 `/me` 为原生 401；Customer 本人数字项和 `/me` 为 200，非本人及 ID 覆盖为 403；编辑三种角色可读。文章 10 原生与 `?_embed=author` 均为 200，作者数字 ID 3 与 `_links` 保留。Batch v1 内层 GET 被 WordPress 核心 schema 返回 400，不能由此推断批量写接口已测。oEmbed 与 RSS2 的 TEST 作者显示名仍公开；这项失败证据直接限制了“已解决”的表述。
 
+### 整合分支的后续隔离证据
+
+后续在 `e078fc5` 的新建 TEST 站以 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.9.1 复演；该站未装 Yoast、Breeze 或 Varnish。Customer 经 `wp-login.php` 获得真实 Cookie，再由 `admin-ajax.php?action=rest-nonce`获取 REST Nonce。混合大小写 `GET /wp/v2/UsErS/Me` 返回 200、`id=2`；同一路径和数字 `/2` 的改邮箱 POST 均返回 403 `dentall_account_email_locked`，PATCH 改密码返回 403 `dentall_account_password_form`，小写 POST 对照也是 403。独立复测无 Nonce 的本人 GET 为原生 401，有 Nonce 为 200，改邮箱 POST 为 403。这说明当前整合候选的代表性 Cookie＋Nonce 路径未因大小写绕过既有客户写边界，不能推出所有写端点或正式用户已验。
+
+验证“被拒绝的写请求未落库”时，基线必须取在**登录后、写请求前**：后续请求前后的 `WP_User->data` 与 usermeta SHA-256 严格相等。第一次登录本身会生成 session token 并改变 usermeta，拿登录前快照与登录后相比会把正常会话变化误判为写请求副作用。此比对只覆盖该 TEST 用户的这些数据面，不等于全库不变。
+
+匿名请求公开 TEST Post 的 oEmbed JSON 为 200，`author_name` 与 `author_url` 仍暴露后台作者；RSS2、Atom、RDF 和作者 Feed 均为 200 且含 TEST 后台名。TEST Atom 的作者 `<uri>` 存在并指向此站；目标作者个人网址是否有值待查。没有 Yoast 的此站作者归档为 200；历史 Staging 在 Yoast 关闭作者归档后曾测得 301，不能用其中一个环境替另一个作证。TEST 没有 Breeze/Varnish，旧 REST、oEmbed、Feed 是否命中目标缓存仍未知；D91 只证明 Staging 旧公开 HTML 可被 Varnish 保留。两项 TEST 服务已停，20430/20431 不再监听，运行代码未因本轮复验改变。TEST `http-error.log` 未匹配 Fatal/Warning；`wp-content/debug.log` 有一条 `wp_update_plugins()` 因 `WP_HTTP_BLOCK_EXTERNAL=true` 无法连接 WordPress.org 的 Warning，不应写成所有日志零错误，也不是 REST 守卫运行错误。oEmbed/Feed 若要治理，须另行确认输出范围、品牌 URL、客户端与缓存回滚。
+
 | 练习 | 安全边界与预期 |
 |---|---|
 | 只读观察 | 在隔离站分别请求 Users 集合、数字作者、文章、`?_embed=author`、oEmbed、RSS2；比较状态码与字段，特别区分 `author` 整数和 `author_name`。 |
+| 会话基线 | 用 TEST Customer 登录后才记录用户数据和元数据摘要，再带 Cookie＋Nonce 发代表性本人读取和拒绝写请求；不要把登录生成的 session token 计为写请求结果。 |
 | 最小改动与回滚 | 仅在独立 TEST 工作树修改守卫的路由判断，复跑访客/Customer/编辑矩阵；用版本控制恢复文件，不更改共享站点或正式用户。 |
 | 故障推演 | 若 Customer 可读员工项，先记录原始方法、路由、查询/body `id` 与响应，再查回调是否加载、优先级及 capability；若文章嵌入破裂，再查 `_links` 与嵌入错误对象。 |
 
@@ -196,7 +206,7 @@ if ( current_user_can( 'edit_posts' ) || current_user_can( 'list_users' ) ) {
 
 ### WordPress/WooCommerce当前实现
 
-本项目在 WordPress 7.1 的 `rest_request_before_callbacks` 对核心 Users REST GET/HEAD 做定向授权，保留本人和 `edit_posts`/`list_users` 访问；`?_embed=author` 会触发内部作者请求，但 oEmbed/RSS 仍需独立治理。WooCommerce 本次不改交易数据。
+本项目在 WordPress 7.1 的 `rest_request_before_callbacks` 对核心 Users REST GET/HEAD 做定向授权，保留本人和 `edit_posts`/`list_users` 访问；`?_embed=author` 会触发内部作者请求。整合 TEST 的 Cookie＋Nonce 验证既有客户写守卫仍生效，而 oEmbed 与 RSS2/Atom/RDF/作者 Feed 仍需独立治理。登录会写入会话元数据，数据前后比对应从登录完成后开始；WooCommerce 本次不改交易数据。
 
 ### Shopify或其他平台的对应机制
 
