@@ -26,7 +26,7 @@ tags:
 
 - [x] 能区分Simple的Offer现价、Variable的AggregateOffer范围和合法变体参数URL的Offer。
 - [x] 能说明为什么只在真实商品模板分支撤去Yoast重复面包屑，同时保留WooCommerce Product。
-- [ ] 能在浏览器与目标公开环境完成动态变体价格、正式图片、Organization和在线验证器复核；本轮未做。
+- [x] 能用隔离浏览器把选中变体的动态价、库存与变体数据对齐；正式图片、Organization和目标环境在线验证器仍待。
 
 ## 真实项目场景与学习范围
 
@@ -105,12 +105,12 @@ function dentall_core_remove_yoast_breadcrumb_reference( $data ) {
 |---|---|---|---|
 | Simple TEST商品 | Product 1、Offer 1、BreadcrumbList 1；USD 24.99、InStock | 划线原价29.99，促销现价24.99 | 正式商品价格或真实库存已确认 |
 | Variable TEST商品 | Product 1、AggregateOffer 1、BreadcrumbList 1；39.99～49.99 | 服务端可见同一范围 | 每个正式变体都已校对 |
-| 合法变体参数 | Product 1、Offer 1、BreadcrumbList 1；USD 39.99 | 服务端初始HTML仍显示父级范围；Canonical指父商品 | 浏览器选中后的动态价格已通过 |
+| 合法变体参数 | Product 1、Offer 1、BreadcrumbList 1；USD 39.99 | 服务端初始HTML仍显示父级范围；Canonical指父商品。浏览器选`small-98-mm`/`light`后动态区为USD 39.99、`5 in stock`，匹配变体ID 51 | 正式目标环境结果；客户端JSON-LD是否随选择改写 |
 | 隔离首页 | Yoast Organization 1 | 旧Local首页及组织资料 | Staging/Production首页组织信息已通过 |
 
-三个商品页面图片均有非空`alt`；隔离首页一张空`alt`是否为装饰图待人工判断。11类GET的真实商品、归档、搜索与404原始HTML/响应头位于本机忽略目录`.codex-tmp/day92-94-runtime/evidence/raw-guarded/`，解析结果见`summary.json`及`product-details.jsonl`。隔离PHP路由对11个HTML样本均返回HTTP`noindex,nofollow`，页面Meta仍按`blog_public=1`生成；这是两层不同输出。副本Coming Soon已恢复并停机。
+三个商品页面图片均有非空`alt`；隔离首页一张空`alt`是否为装饰图待人工判断。11类GET的真实商品、归档、搜索与404原始HTML/响应头位于本机忽略目录`.codex-tmp/day92-94-runtime/evidence/raw-guarded/`，解析结果见`summary.json`及`product-details.jsonl`。隔离浏览器所选变体的截图与结构化结果见`evidence/day92-page2/browser/`：放行请求54个均为回环地址，外站4请求被阻断，页面脚本错误0；没有加入购物车或进入结账。隔离PHP路由对11个HTML样本均返回HTTP`noindex,nofollow`，页面Meta仍按`blog_public=1`生成；这是两层不同输出。副本Coming Soon已恢复并停机。
 
-这些证据只证明本次旧Local数据与当前分支代码的样本输出。没有运行Google Rich Results Test/Schema验证器、浏览器变体动态交互、正式图片授权检查或公开目标环境缓存复验。
+这些证据只证明本次旧Local数据与当前分支代码的样本输出。没有运行Google Rich Results Test/Schema验证器、正式图片授权检查或公开目标环境缓存复验；浏览器父商品页的JSON-LD未被证明会随客户端选择改写，不能把参数URL的Offer与父页初始AggregateOffer混为一谈。
 
 ## 职责、安全与排错顺序
 
@@ -120,7 +120,7 @@ function dentall_core_remove_yoast_breadcrumb_reference( $data ) {
 | WooCommerce | 商品/变体价格、模板展示及商品JSON-LD | 不把测试价格写为正式数据 |
 | Yoast | WebPage、Organization、Canonical及社交输出 | 不负责替业务方确认Logo或公司资料 |
 | DentAll Core | 在目标经典商品模板协调重复面包屑 | 不自建一套Product Schema |
-| 浏览器 | 展示变体选择后的动态价格与库存 | 服务端初始HTML不能替代交互验收 |
+| 浏览器 | 展示变体选择后的动态价格与库存 | 隔离TEST样本已验，服务端初始HTML不能替代正式目标环境交互验收 |
 | 隔离运行时 | 私有复制、HTTP保护、恢复与停机 | 不自动证明Staging公开输出 |
 
 若Product缺失，依次检查HTTP状态与实际H1/正文是否Coming Soon、商品模板是否进入、Woo JSON-LD是否输出；若价格不一致，先区分原价/促销现价、父商品范围/选定变体，再查商品事实；若有两条面包屑，先确认Woo可见路径与两段JSON-LD及WebPage引用，不直接删除整个Yoast图谱。
@@ -131,7 +131,7 @@ function dentall_core_remove_yoast_breadcrumb_reference( $data ) {
 2. **隔离最小实验：** 只在私有数据库记录Coming Soon原值、暂时显示商品正文、抓取结构化数据，然后恢复原值并确认端口停机；本篇记录的是已完成实验，不授权修改Staging。
 3. **故障推演：** 设想选定变体网页显示49.99而Offer为39.99，先核对属性组合及客户端实际选中状态，再比对Woo变体数据和服务器JSON-LD；不直接硬编码Schema价格。
 
-当前掌握度为初识，开发者本人未完成费曼自测。达到“能排错”还需在浏览器验证变体选择后的价格与库存，并能说明同一URL在Coming Soon和真实模板下为什么会有不同Schema。
+当前掌握度为初识，开发者本人未完成费曼自测。达到“能排错”还需亲自解释隔离浏览器动态价/库存与变体数据的对应关系，并说明同一URL在Coming Soon和真实模板下为什么会有不同Schema。
 
 ### 费曼测试题
 

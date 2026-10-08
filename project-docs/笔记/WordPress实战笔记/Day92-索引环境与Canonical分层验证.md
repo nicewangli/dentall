@@ -28,7 +28,7 @@ tags:
 
 - [x] 能区分请求身份与正文、页面Meta robots、HTTP `X-Robots-Tag`及Canonical四类证据。
 - [x] 能沿真实`wp_robots` Filter解释为什么筛选页为`noindex, follow`，同时保留Yoast基础归档Canonical。
-- [ ] 能用有效第2页及目标环境完成分页Canonical、重定向与缓存验收；本轮样本不足。
+- [x] 能用最少可逆TEST夹具在隔离副本验证有效第2页的主查询、Canonical和`prev/next`；目标环境重定向与缓存仍待。
 
 ## 真实项目场景与范围
 
@@ -82,7 +82,7 @@ flowchart TD
 | HTTP `X-Robots-Tag` | 响应头中的抓取提示 | 复测11类请求均有测试路由护栏；这不是Staging配置变更 |
 | Canonical | 页面声明的首选URL | 合法变体参数指向父商品，排序指向Shop；不能把Canonical当成301 |
 | `noindex, follow` | 不将此响应作为独立索引目标，仍允许沿链接发现页面的策略 | 价格筛选与商品搜索均如此，但前者Canonical回Shop、后者无Canonical |
-| 有效分页 | 有真实结果且主查询为第2页的200响应 | 本轮只有两件商品，`/shop/page/2/`为404，不能用它证明有效第2页合同 |
+| 有效分页 | 有真实结果且主查询为第2页的200响应 | 首轮两件商品时第2页为404；第二轮隔离库临时扩至13件后，Page 2为200、主查询确认为第2页且自身Canonical |
 
 ## 项目实战代码
 
@@ -106,7 +106,9 @@ break;
 | Shop排序 | 200；`index, follow` | Shop | 排序不是独立首选URL |
 | Shop价格筛选 | 200；`noindex, follow` | Shop | robots与Canonical由不同机制收敛 |
 | 商品搜索 | 200；`noindex, follow` | 无 | 搜索与Shop不是等价内容 |
-| Shop第2页、未知URL | 404；`noindex, follow` | 无 | 第2页是样本量不足，不是分页通过 |
+| 首轮Shop第2页、未知URL | 404；`noindex, follow` | 无 | 首轮第2页是样本量不足；未知URL为真实404 |
+
+第二轮只在独立数据库以WooCommerce CRUD新增11件唯一TEST商品，让原2件变成13件、Shop每页12件。Shop首页主查询为13件/2页，Head `next`与可见分页指第2页；`/shop/page/2/`为200，主查询`paged=2`、唯一TEST卡片可见，页面Meta `index, follow`、Canonical自身、Head `prev`与可见上一页回Shop，且无`next`；越界第3页为404、无Canonical。11件夹具删除后，商品、term、关系、Woo lookup及关键设置九组快照的行数和SHA-256均回到创建前，相关Yoast Indexable夹具残留0；Coming Soon恢复并停服务。证据位于忽略目录`evidence/day92-page2/`，不把TEST数据写入正式内容。
 
 - 11类GET的HTTP保护头在隔离PHP路由复测均为`noindex,nofollow`；HTML页面Meta仍保留上述可索引分支，便于检查Yoast输出。服务只监听`127.0.0.1`，这不代表Staging已改变或Production抓取策略通过。
 - `/shop/page/1/`在隔离PHP路由为200、Canonical回Shop；运行中的Local Nginx及Staging则是301回Shop。这里存在路由环境差异，不能把隔离PHP路由当成最终重定向验收。
@@ -117,7 +119,7 @@ break;
 
 | 层级 | 负责内容 | 当前待验 |
 |---|---|---|
-| WordPress主查询 | URL对象与200/404、搜索和分页身份 | 真正有结果的Page 2 |
+| WordPress主查询 | URL对象与200/404、搜索和分页身份 | 隔离有效Page 2已通过，目标环境仍待 |
 | WooCommerce | 商品、归档和Coming Soon响应分支 | Staging受控可见商品正文 |
 | Yoast | 页面Meta、Canonical及SEO Head | 目标环境索引状态和实际缓存 |
 | `dentall-core` | 目录筛选参数页的`noindex, follow` | Staging部署版本与参数组合 |
@@ -131,7 +133,7 @@ break;
 2. **Local最小实验：** 仅在有访问限制的独立副本切换`blog_public`并对比Head；操作前记录原值，完成后恢复、确认保护头与服务停机。本篇记录的是已有隔离测试，不授权在Staging照做。
 3. **故障推演：** 假设参数URL被索引，先核对是否真正访问到了目标页面及缓存状态，再核对两层robots与Canonical，最后确认哪个配置/Filter实际负责。
 
-当前掌握度仍为初识，尚未由开发者本人完成费曼自测。达到“能排错”至少需复演有效分页、说明PHP路由与Nginx的Page 1差异，并指出恢复/回滚路径。
+当前掌握度仍为初识，尚未由开发者本人完成费曼自测。达到“能排错”至少需说明有效分页的主查询与`prev/next`证据、PHP路由与Nginx的Page 1差异，以及夹具恢复边界。
 
 ### 费曼测试题
 
@@ -152,7 +154,7 @@ break;
 
 ### 跨平台不变量
 
-索引状态、首选URL和路由状态码分别回答不同问题。受控验证应同时证明测试系统可观察目标分支和外层保护有效；样本不具备有效分页时必须明确保留验收空缺。
+索引状态、首选URL和路由状态码分别回答不同问题。受控验证应同时证明测试系统可观察目标分支和外层保护有效；样本不具备有效分页时可用最少可逆夹具补足，随后按原数据快照核对恢复。
 
 ### WordPress/WooCommerce当前实现
 

@@ -138,6 +138,6 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
 | Day91（阶段） | [[Day91-SEO元数据模板与Staging验证]] | Staging Yoast分类Title、Social Title及404 Title三键已备份、写入并验证其余172键不变；TEST与CAD/CAM分类均经单URL缓存MISS→HIT验证新标题。D91正式描述、社交资料和联合回归仍待；学习见[[WordPress实战笔记/Day91-Yoast模板与缓存分层验证]] |
-| Day92（进行中） | [[Day92-URL与Canonical受控验证]] | 当前分支代码＋独立旧Local库的11类URL抽样核对状态、robots与Canonical，隔离HTTP禁索引头已复测，原设置已恢复并停服务；有效分页及目标环境仍待。学习见[[WordPress实战笔记/Day92-索引环境与Canonical分层验证]] |
+| Day92（进行中） | [[Day92-URL与Canonical受控验证]] | 当前分支代码＋独立旧Local库的11类URL及最少TEST夹具抽样：有效Shop Page 2为200、自身Canonical和上一页链接，越界Page 3为404；夹具与设置已恢复，目标环境分页/缓存仍待。学习见[[WordPress实战笔记/Day92-索引环境与Canonical分层验证]] |
 | Day93（进行中） | [[Day93-Sitemap与抓取边界审计]] | Staging只读核对Sitemap 7子图、品牌3、商品标签248、TEST Page和双响应头；品牌入图原因、商品标签策略与响应头来源未决。学习见[[WordPress实战笔记/Day93-抓取信号与站点地图分层]] |
-| Day94（进行中） | [[Day94-商品与组织Schema阶段验证]] | 隔离TEST商品的Product/Offer/面包屑与可见价格抽样通过；目标环境、正式Logo和图片、浏览器动态变体及在线验证器待验。学习见[[WordPress实战笔记/Day94-商品Schema与可见内容一致性]] |
+| Day94（进行中） | [[Day94-商品与组织Schema阶段验证]] | 隔离TEST商品的Product/Offer/面包屑与可见价格抽样通过，浏览器选中变体的动态价与库存也和数据一致；目标环境、正式Logo和图片及在线验证器待验。学习见[[WordPress实战笔记/Day94-商品Schema与可见内容一致性]] |

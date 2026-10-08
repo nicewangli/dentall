@@ -122,6 +122,8 @@ flowchart TD
 - 项目代码：`app/public/wp-content/plugins/dentall-core/includes/seo-compatibility.php`中已有`wp_robots`过滤器，仅在Shop或商品分类带价格/筛选键时给参数页设置`noindex, follow`；这段代码不负责全站`blog_public`，也不能据此解释静态CSS上的响应头。本轮没有改该文件。
 - 平台机制：WordPress核心`wp_robots_noindex()`和Yoast的Sitemap/Canonical输出；生产环境Web服务器或缓存层的实际头规则仍待定位。
 
+本机Yoast SEO 28.2源码只读核对提供了更窄的Sitemap判断：`inc/sitemaps/class-taxonomy-sitemap-provider.php:64-73,312-336`选择公开taxonomy并排除全局`noindex-tax-{taxonomy}`严格为`true`的类型；`:240-259`检查term级`wpseo_noindex`与指向别处的Canonical。`inc/options/class-wpseo-taxonomy-meta.php:390-418,535-566`读取term元数据；此provider不以`yoast_indexable`为入图条件。`src/integrations/front-end/indexing-controls.php:50-54`的`blog_public=0`作用于前台robots，没有直接排除taxonomy Sitemap。`inc/sitemaps/class-sitemaps-cache.php:81-89`显示Yoast XML transient默认关闭但可被Filter启用，公网Varnish缓存又是独立层。以上是本机同版本源码机制，Staging具体选项、Filter及缓存仍未读回。
+
 ### 从入口开始追踪
 
 1. 先确认目标环境`blog_public=0`、Coming Soon开启，并用匿名请求核对页面实际可达性；本轮未重新读取Cloudways Password Protection设置。
@@ -139,7 +141,7 @@ flowchart TD
 | 新鲜robots/Sitemap头 | 各有两条不同`X-Robots-Tag` | 已确定哪一条来自WordPress、Yoast或Cloudways |
 | 静态CSS头 | 200且有`noindex,nofollow` | 所有动态路径的同值头必来自同一配置 |
 
-既有Local数据库里Yoast `noindex-tax-product_brand=true`、品牌词项为0；Staging品牌子图有3条。这是两个环境的不同事实，不能用Local选项推定Staging选项。Staging REST中ADS、Aidite和Toboom的Yoast `robots.index=noindex`，但全站`blog_public=0`，仍无法区分全站与品牌专属规则，也不能解释品牌为何入图。品牌当前**输出**与ADR-033合同不符，具体配置、派生索引与缓存须继续只读核实。公开Staging当前仍`blog_public=0`，没有通过短暂开放索引来制造Canonical证据。
+既有Local数据库里Yoast `noindex-tax-product_brand=true`、品牌词项为0；Staging品牌子图有3条。这是两个环境的不同事实，不能用Local选项推定Staging选项。Staging REST中ADS、Aidite和Toboom的Yoast `robots.index=noindex`，但全站`blog_public=0`，仍无法区分全站与品牌专属规则，也不能解释品牌为何入图。源码表明全站禁索引既不要求品牌入图，也不直接将品牌排除；品牌当前**输出**与ADR-033合同不符，Staging具体taxonomy/term选项、排除Filter与缓存须继续只读核实。公开Staging当前仍`blog_public=0`，没有通过短暂开放索引来制造Canonical证据。
 
 ## 职责边界与站点影响
 
@@ -147,7 +149,7 @@ flowchart TD
 |---|---|---|
 | WordPress | `blog_public`与`wp_robots`等动态页面机制 | 不能解释静态文件响应头的全部来源 |
 | WooCommerce | Coming Soon遮蔽商城正文 | 匿名200及Sitemap仍可存在，不能替代全站认证 |
-| Yoast | SEO Head、Indexable与XML Sitemap | 地图输出需对照配置、索引与缓存；本轮未写设置 |
+| Yoast | SEO Head、Indexable与XML Sitemap | 此版本taxonomy Sitemap生成器直接读取相关选项和Filter；应核对配置与XML缓存，不把Indexable当成入图依据 |
 | Web服务器与缓存 | 最终HTTP响应及可能的重放 | 双头与静态CSS提示继续调查；具体来源未定位 |
 | 内容负责人 | 正式品牌/标签/TEST页面策略和内容 | 未获决定前不批量删除或改索引规则 |
 
@@ -157,7 +159,7 @@ flowchart TD
 
 1. **已做的只读观察：** 对同一URL记录状态码、所有同名响应头、缓存头和XML内容，再用一条静态资源对照。检查“新鲜请求”时仍应观察是否真的`MISS`，不能只依赖查询参数。
 2. **已做的D92机制对照：** 当前分支隔离副本只监听环回，HTTP额外带`noindex,nofollow`；隔离数据库`blog_public=1`时观察到正常页Canonical与参数页robots，随后恢复Coming Soon并停服务。D93仍需核实Sitemap配置与双头来源，不能据此宣称公开搜索引擎验收。
-3. **故障推演：** 若后台品牌设为`noindex`但Sitemap仍列品牌，依次读回同环境选项、词项、Yoast派生索引、新鲜XML和标准XML缓存；不先清全站缓存或假定后台保存失败。若动态与静态响应都出现固定头，再分层找实际添加点。
+3. **故障推演：** 若后台品牌设为`noindex`但Sitemap仍列品牌，依次读回同环境taxonomy/term选项、排除Filter、词项、新鲜XML和标准XML缓存；不先清全站缓存或假定后台保存失败。若动态与静态响应都出现固定头，再分层找实际添加点。
 
 常见误区是把“地图列出”“匿名200”“`noindex`”“Coming Soon”和“密码保护”当作同一个开关。正确排查先收集最终HTTP，再核对应用状态和生成源；一旦需要改环境边界，先让访问控制与回滚经过单独验证。
 
