@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+### D83 B 方案：暂缓原生再次购买（2026-10-08，代码候选）
+
+- 用户确认第一版暂缓 WooCommerce 11 原生“再次购买”。DentAll Core 升至 0.7.1，在既有账户模块用原生状态 Filter 隐藏按钮，并在 Woo 装载 Cart 会话前拦截带双重购参数的已登录请求，避免其直接请求替换现有购物车。
+- PHP lint、D79/D80/D81-D82 纯合同 16/28/26 项与 `git diff --check` 通过；隔离 WP-CLI 确认 Filter 为 `[]`、拦截优先级 1；独立代码/安全源码复核无 P0～P2。隔离 PHP HTTP 服务启动被自动审批以 `blocked by policy` 拒绝，因此非空 Cart、订单列表/详情、账户链和四端动态验收未完成；D83/D84 均未标 Done。
+- 未增模板、字段、公开 URL、前端资源、远程请求或 Cron；未部署、未改共享 Local/Staging/Production、支付、邮件、物流或缓存配置。已登录重购参数请求将 302 到 Cart，目标性能、缓存及 SEO 输出仍待现场验证。
+
 ### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
 
 - ADR-045确定第一版Customer登录邮箱不开放My Account自助修改；姓名/显示名沿用Woo原生资料表单，当前密码保护的改密增加至少12字符规则，Billing email仍为独立联系地址。

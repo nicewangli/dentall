@@ -427,3 +427,38 @@ function dentall_core_validate_customer_address_country( $user_id, $address_type
 	}
 }
 add_action( 'woocommerce_after_save_address_validation', 'dentall_core_validate_customer_address_country', 10, 4 );
+
+/**
+ * 第一版不提供会替换当前购物车的原生“再次购买”入口。
+ *
+ * WooCommerce在按钮输出与订单重装购物车时都会查询此状态列表。直接请求还需在
+ * WooCommerce加载购物车会话前拦截，避免无效订单ID或空状态返回值影响现有购物车。
+ *
+ * @return array<int, string>
+ */
+function dentall_core_disable_order_again() {
+	return array();
+}
+add_filter( 'woocommerce_valid_order_statuses_for_order_again', 'dentall_core_disable_order_again' );
+
+/**
+ * 在WooCommerce处理order_again查询前返回购物车，保留原有会话商品。
+ *
+ * 仅隐藏按钮不足以阻止带Nonce的直接请求；WooCommerce在wp_loaded默认优先级
+ * 读取已登录用户的重购参数并可能替换购物车，因此这里提前阻断。
+ *
+ * @return void
+ */
+function dentall_core_redirect_order_again_request() {
+	if (
+		! function_exists( 'wc_get_cart_url' )
+		|| ! isset( $_GET['order_again'], $_GET['_wpnonce'] )
+		|| ! is_user_logged_in()
+	) {
+		return;
+	}
+
+	wp_safe_redirect( wc_get_cart_url() );
+	exit;
+}
+add_action( 'wp_loaded', 'dentall_core_redirect_order_again_request', 1 );

@@ -125,6 +125,7 @@ tags:
 | Day80 | [[Day80-WooCommerce密码重置与防枚举]] | [[../Day80-密码重置流程]] | 初识，待费曼自测 | 2026-09-22 | 统一公开响应、HMAC冷却、原生重置密钥、12字符服务端底线，以及代理、缓存、SMTP与并发边界 |
 | Day81 | [[Day81-WooCommerce账户资料与登录邮箱边界]] | [[../Day81-账户仪表盘与资料策略]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 原生账户导航/资料表单、登录邮箱只读与服务端REST守卫、12字符改密及历史Guest归属边界 |
 | Day82 | [[Day82-WooCommerce默认地址与订单快照]] | [[../Day82-默认账单与配送地址]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 默认Billing/Shipping国家来源、My Account保存前校验、客户默认地址与旧订单/已签发报价快照分离 |
+| Day83（候选） | [[Day83-WooCommerce再次购买与购物车会话边界]] | [[../Day83-订单中心与再次购买暂缓]] | 初识，静态与隔离CLI已核对 | — | 第一版暂缓原生Order again；Woo 11按钮Filter与Cart Session不同阶段，候选早期Hook已加载。独立HTTP服务启动被自动审批阻断，非空Cart、订单归属与四端动态验收均待补证；D83/D84未Done |
 | Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；隔离Local通过，Staging现有TEST Page已切换Full width并完成四端命中 |
 | Day86 | [[Day86-文章主查询与归档Hook边界]] | [[../Day86-博客列表分类分页与空状态]] | 初识，待费曼自测 | — | 主查询、Storefront Hook、分页/空态/404及四端证据完成；2026-10-06与D74合成重新通过，D85已在主线。发布证据见[[../Day86-D74与D86整合发布记录]]；D87、Production SEO与非Local仍待 |
 
