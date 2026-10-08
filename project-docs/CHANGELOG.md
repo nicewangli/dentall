@@ -4,6 +4,11 @@
 
 ## Unreleased
 
+### D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08，仅Git）
+
+- 以已含D83/D84的主线为底，合入D89/D90及其D87/D88前置、D103/D104、D91～D94阶段审计和D107准备。整合后的主题候选为0.49.0、Core候选为0.9.1；后者包含Contact上下文、文章SEO兼容与Users REST定向守卫。风险号统一为RSK-057作者身份、058 Contact、059 Sitemap/索引、060 Woo/Breeze目标更新。
+- 安全复核发现旧D81客户REST写守卫的大小写路由旁路；沿用现有函数与测试文件，正则增加`/i`和两条邮箱/密码负例，修改前合同失败、修改后28/28通过，真实WordPress Cookie＋Nonce写前后验证待执行。合成分支的静态与纯合同检查不等于系统浏览器或目标环境验收。没有在本次Git整合中安装插件、导入表单、更新目标站点、改数据/URL/SEO/缓存设置、发邮件、付款或部署。以下分日条目中的旧版本和“当时未合入”均为源任务历史状态。
+
 ### D91 Staging SEO模板与CAD/CAM单项定向修正（2026-10-08）
 
 - 按用户明确授权仅在Staging应用`6604195`完整备份Yoast `wpseo_titles`后，修正商品分类Title、Social Title与404 Title三键。独立进程验证三键正确、其他172键严格不变、autoload=`auto`；没有修改运行代码、插件、URL/Canonical/robots/Sitemap或Production配置。
