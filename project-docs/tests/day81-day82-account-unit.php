@@ -179,7 +179,9 @@ $rest = static fn( $method, $route, $params = array() ) => dentall_core_guard_cu
 same( 'dentall_account_email_locked', $rest( 'POST', '/wp/v2/users/me', array( 'email' => 'changed@example.test' ) )->get_error_code(), 'REST /me 可更换邮箱' );
 same( 'dentall_account_email_locked', $rest( 'PATCH', '/wp/v2/users/81', array( 'email' => 'changed@example.test' ) )->get_error_code(), 'REST 用户 ID 可更换邮箱' );
 same( 'dentall_account_email_locked', $rest( 'PATCH', '/wp/v2/users/081', array( 'email' => 'changed@example.test' ) )->get_error_code(), 'REST 前导零 ID 可绕过邮箱限制' );
+same( 'dentall_account_email_locked', $rest( 'POST', '/WP/v2/USERS/me', array( 'email' => 'changed@example.test' ) )->get_error_code(), 'REST 大小写路由可绕过邮箱限制' );
 same( 'dentall_account_password_form', $rest( 'PUT', '/wp/v2/users/me', array( 'password' => 'TwelveChars!' ) )->get_error_code(), 'REST 绕过旧密码验证' );
+same( 'dentall_account_password_form', $rest( 'PATCH', '/WP/v2/USERS/81', array( 'password' => 'TwelveChars!' ) )->get_error_code(), 'REST 大小写路由可绕过旧密码验证' );
 same( null, $rest( 'POST', '/wp/v2/users/me', array( 'name' => 'TEST Customer' ) ), 'REST 无关资料更新被拦截' );
 same( null, $rest( 'GET', '/wp/v2/users/me', array( 'email' => 'changed@example.test' ) ), 'REST 只读请求被拦截' );
 same( 'dentall_account_email_locked', $rest( 'POST', '/wp/v2/users/82', array( 'id' => 81, 'email' => 'changed@example.test' ) )->get_error_code(), '请求 ID 覆盖路径 ID 可绕过邮箱限制' );

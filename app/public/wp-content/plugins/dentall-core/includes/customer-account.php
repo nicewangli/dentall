@@ -345,7 +345,7 @@ function dentall_core_guard_customer_rest_account_update( $response, $handler, $
 		return $response;
 	}
 
-	if ( ! preg_match( '#^/wp/v2/users/(?:me|[0-9]+)/?$#', $request->get_route() ) ) {
+	if ( ! preg_match( '#^/wp/v2/users/(?:me|[0-9]+)/?$#i', $request->get_route() ) ) {
 		return $response;
 	}
 
