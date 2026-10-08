@@ -4,11 +4,13 @@
 
 ## Unreleased
 
-### D83 B 方案：暂缓原生再次购买（2026-10-08，代码候选）
+### D83/D84：再次购买暂缓与非支付账户链（2026-10-08，隔离Local技术验收）
 
-- 用户确认第一版暂缓 WooCommerce 11 原生“再次购买”。DentAll Core 升至 0.7.1，在既有账户模块用原生状态 Filter 隐藏按钮，并在 Woo 装载 Cart 会话前拦截带双重购参数的已登录请求，避免其直接请求替换现有购物车。
-- PHP lint、D79/D80/D81-D82 纯合同 16/28/26 项与 `git diff --check` 通过；隔离 WP-CLI 确认 Filter 为 `[]`、拦截优先级 1。另以 Woo CRUD 建立并清理 2 位 TEST 客户、16 张 TEST 订单，验证原生 A/B 查询、10+3 分页、状态/金额、详情归属及完成订单重购按钮抑制；Guest 的底层 `view_order` 能力在未登录 ID 0 下返回 true，CLI 账户入口仍只输出登录表单，真实 HTTP 待验。独立代码/安全源码复核无 P0～P2。隔离 PHP HTTP 服务启动被自动审批以 `blocked by policy` 拒绝，因此非空 Cart、订单页真实请求、账户链和四端动态验收未完成；D83/D84 均未标 Done。
-- 未增模板、字段、公开 URL、前端资源、远程请求或 Cron；未部署、未改共享 Local/Staging/Production、支付、邮件、物流或缓存配置。候选代码拟将命中的重购请求以 302 跳转到 Cart，实际响应、目标性能、缓存及 SEO 输出仍待现场验证。
+- 用户确认第一版暂缓 WooCommerce 11 原生“再次购买”。DentAll Core 升至 0.7.1：既有账户模块用原生状态 Filter 隐藏按钮，并在 Woo 装载 Cart 会话前拦截带 `order_again`、`_wpnonce` 的已登录直接请求，避免替换现有购物车。DentAll 主题升至 0.47.1，只在既有账户 CSS 增加三个局部规则以修正手机订单号和宽屏商品列；隔离 My Account、Cart Page 设为 Storefront Full width。
+- D83 隔离 Chrome 功能/布局断言 130/130，390/768/1024/1440 四宽12图及最终390/768定向4图通过。A13/B2/Guest1 共16单覆盖 A/B/C/Guest 归属、分页/空态、详情和原生按钮隐藏；同一非空 Cart 两件商品、数量、优惠券、金额在 own-valid、own-invalid、foreign-valid、unknown-valid 四类直链前后不变。Pending 未签发报价的原生 Pay 动作仍在，付款页未点开。D83 单一 404 是隔离 PHP 服务的 `/favicon.ico`，无业务资源错误。
+- D84 隔离浏览器 169 项功能/布局断言与20张截图通过；原始第170项 Console 零错误断言为 FAIL，PHP 日志唯一 `/favicon.ico` 404 经人工裁定为测试站非业务噪音，保留原始记录。私有邮件捕获、11字符密码拒绝/12字符接受、旧重置 Key 失效、Guest订单拒绝、资料/地址/旧订单快照及非支付账户链通过。390px确认邮箱提示按钮与说明顺序为P2，开发者在D85前复看。
+- D83浏览器夹具16单、2商品、1券及Customer B/C已清理，当时保留Customer A供D84；D84已清其1单、1商品和继承的A。D83/D84 option、私有凭据、邮件捕获mu-plugin已删；最终扫描整站订单0、TEST Customer0、D84对象/秘密文件0。此前D83 CLI探针16单/2客户单独清理。专用PHP/MySQL进程已停，18183/19183均无监听；隔离目录与空测试库保留，D81/D82历史残留不在本轮范围。
+- 未增Woo模板、字段、公开URL、Cron或远程请求，未部署或修改共享Local、Staging、Production、真实邮件、支付、物流、DNS及缓存配置。隔离新装库HPOS为off；目标Staging/HPOS/真实邮件/缓存及已签发报价付款页仍待验，M6支付闭环不标完成。“再次购买”恢复为开发者负责的P2延期，须另定保车方案、范围与工时。
 
 ### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
 

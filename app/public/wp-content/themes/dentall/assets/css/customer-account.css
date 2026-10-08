@@ -48,6 +48,21 @@
 	overflow-wrap: anywhere;
 }
 
+.woocommerce-account .woocommerce-orders-table__header-order-number,
+.woocommerce-account .woocommerce-orders-table__cell-order-number {
+	white-space: nowrap;
+}
+
+.woocommerce-account .woocommerce-table--order-details {
+	table-layout: fixed;
+}
+
+@media (max-width: 767px) {
+	.woocommerce-account .woocommerce-orders-table tbody th.woocommerce-orders-table__cell-order-number {
+		display: block;
+	}
+}
+
 .woocommerce-account .woocommerce-MyAccount-content .form-row-first,
 .woocommerce-account .woocommerce-MyAccount-content .form-row-last {
 	float: none;
