@@ -2,6 +2,14 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## D87文章详情与公开署名：隔离Local技术验证完成（2026-10-07）
+
+- 用户明确授权按D87最小范围在隔离Local实施。当前分支`codex/day87-article-detail`基于已完成D85/D86的`09469d3`；本任务未连接或写入共享Local，Staging和Production未改。原生Post、Storefront单篇模板、评论、相邻文章导航及实际`post_author`保留；子主题替换可见署名并限制46rem阅读宽，Core统一Yoast文章图谱、HTML作者及社交预览，候选版本DentAll 0.47.0/Core 0.7.0。
+- 隔离环境为WordPress 7.1、WooCommerce 11.0.0、Storefront 4.6.2、Yoast 28.2及PHP 8.2.29。两篇不同后台作者TEST Post的网页及Yoast REST预览均200，公开作者一致且后台显示名在相应HTML/SEO输出中为0；普通Article作者为团队Organization，Person节点与WebPage悬空作者引用为0。两篇单篇、Blog、普通Page四端16次页面检查均200、H1各1、无横向溢出和pageerror，单篇正文宽350/704/736/736px；长文、表格、长词、内容图、特色图、缺图、空正文、404与OG/Twitter基础均覆盖。390px键盘Skip、内链、相邻导航和评论路径通过；Website Manager原生编辑保存、公开读回和恢复通过。独立Code Review终态P0/P1/P2/P3=0；预览/autosave、真实设备和非Local仍未验。
+- **新发现RSK-057/P2：** 匿名WordPress Users REST的两名TEST作者端点仍200，公开后台显示名、Slug与作者归档链接。D87已授权范围仅统一单篇和Yoast输出，不能宣称后台身份全站匿名；开发者与Website Manager须在正式文章对外发布前确认REST治理范围并单独实施验证。原生Post REST的`author` ID仍保持真实后台作者。
+- URL沿用`/blog/{slug}/`及`/blog/category/{slug}/`；D86文档短路径已按D19合同纠正，没有改实际路由、SEO索引设置、缓存策略、支付、物流或订单。隔离Local仍noindex；正式内容、公开环境Canonical/缓存与Staging/Production不在本轮验收口径。详见[[笔记/Day87-文章详情与公开署名]]及[[笔记/WordPress实战笔记/Day87-文章详情署名与SEO输出边界]]。
+- 两篇TEST Post已从隔离库删除，一次性登录凭据文件已清空，隔离HTTP/MySQL服务及17871/17872监听均为0。自动审批拒绝递归`Remove-Item`删除忽略目录内的临时`public`与`mysql-data`副本，仅返回`blocked by policy`，未给更具体原因；副本保留供复核，未绕过拒绝。测试期间共享Local的10011端口由并发进程启动，本任务未接入，但不能宣称共享Local全局状态未变。
+
 ## D74＋D86代码部署完成，交易缓存与完整报价验收未关闭（2026-10-06）
 
 - **临时私密预览已关闭，验收未通过（2026-10-07 01:21 UTC）：** 按用户明确授权原生开启、只读验证并关闭保存；Coming Soon及仅商店页面保持开启，未选Live。实际6次匿名GET中，私密Shop URL为Shop/noindex/MISS，但原A会话访问规范`/shop/`得到Coming Soon/HIT/Age22，提前停止并跳过启用态B对照。关闭后三次访问均为Coming Soon/noindex，旧链接为MISS，原A容器仍保留匹配Cookie但响应HIT，不能宣称PHP层Cookie撤销已验。新增RSK-056/P2，保持预览关闭，先只读核对有效页面缓存规则，任何调整另行授权；没有新订单、邮件、支付或缓存配置改动。独立测试及安全复核一致，完整预览/交易验收仍开放；详见发布记录。下方09:44及09:19为10月6日历史记录。
@@ -209,7 +217,7 @@
 - 用户随后在Local执行相同设置。WooCommerce 11.0.0保存“默认”时会把空选项规范化为实际`product`基础；刷新后界面因此回显为第四项“自定义基础链接`product/`”。Local与Staging该回显均属核心代码预期行为，最终商品URL一致为`/product/{slug}/`，无需重复修改。
 - 用户已授权在Staging安装Yoast 28.2；插件文件成功安装后，自动激活导航多次超时，最终由用户在后台手动激活成功。后续五页矩阵确认首页、商店、两个已发布Simple商品和真实404均只有1个Title并输出`noindex, nofollow`；受全站禁止索引影响，五页均无Canonical，Production自身Canonical仍须在对应环境规则下另行验收。
 - D19 C1只读盘点确认Staging现有4篇文章（2篇发布、2篇草稿）、2个文章分类、1个TEST标签及多个默认/TEST作者身份；文章固定链接当前为`/%postname%/`，首页显示最新文章，尚无独立博客页。Yoast当前让文章、分类、标签和作者归档可索引，日期归档启用但`noindex`；本次盘点没有修改数据库、Slug、固定链接或SEO配置。
-- D19 C2已接受并修订ADR-017：文章范围限于DentAll工厂、公司、产品与服务相关信息，正式文章前台统一署名`DentAll Editorial Team`；若由两名Website Manager实际参与，仍应使用各自独立账号直接编写和发布，后台`post_author`保留内容作者，受支持字段的修订版本记录对应修改账号和时间，但二者不能证明发布、撤回或回收站动作人。当前由WM-A实测；依据CR-007，WM-B创建与跨账号验收不属于D24-D25当前门槛，只有第二人上岗或出现权限、交接、并发、强制互审及审计差异时才补验。团队规划仍可保留1名开发者＋2名网站人员的目标，第一版明确不新增品牌作者账号或新角色，也不把两名后台显示名改成同名。作者归档开关持久化、301回首页和作者Sitemap缺席均已验证；当前Yoast `Article` Schema仍输出实际后台账号为`Person`作者，公开署名与Schema统一转D87文章详情实现和验收。
+- D19 C2已接受并修订ADR-017：文章范围限于DentAll工厂、公司、产品与服务相关信息，正式文章前台统一署名`DentAll Editorial Team`；若由两名Website Manager实际参与，仍应使用各自独立账号直接编写和发布，后台`post_author`保留内容作者，受支持字段的修订版本记录对应修改账号和时间，但二者不能证明发布、撤回或回收站动作人。D19时由WM-A实测；依据CR-007，WM-B创建与跨账号验收不属于D24-D25门槛，只有第二人上岗或出现权限、交接、并发、强制互审及审计差异时才补验。团队规划仍可保留1名开发者＋2名网站人员的目标，第一版明确不新增品牌作者账号或新角色，也不把两名后台显示名改成同名。作者归档开关持久化、301回首页和作者Sitemap缺席均已验证；D19时Yoast `Article` Schema仍输出实际后台账号为`Person`作者，公开署名与Schema统一转D87文章详情实现和验收。
 - D19已接受ADR-018并完成Staging复核：日期归档关闭，`/blog/2026/08/`已验证301到首页；文章仍保留真实发布日期和修改日期，不改变文章详情URL。Production robots、Canonical、状态码与缓存另验。
 - D19已接受ADR-019并完成Staging复核：WordPress标签能力与现有`test-d12-manager` TEST标签继续保留，标签归档为`noindex, follow`且已从Yoast XML Sitemap排除；D25再决定TEST标签去留，Production结果另验。
 - D19已接受ADR-020并完成Staging信息架构复核：分类URL、SEO标题模板与`category-sitemap.xml`均符合规则。只有正式名称/Slug、多篇相关文章和独立说明的分类才满足Production索引门槛；现有`TEST D12 Content`与`Uncategorized`仍是D24/D25内容治理对象，Production索引和Canonical另验。
@@ -224,7 +232,7 @@
 - D19用户已将Cart、Checkout和My Account逐页设为Yoast `noindex`；刷新后的Page Sitemap从7项降为4项，只保留首页、Sample Page、Shop和D12 TEST页面，P1 SEO配置缺口关闭。三张WooCommerce必需页面未删除；Sample Page与D12 TEST页面仍转D25清理/去留。
 - D19只读HTTP验证：首页、`/blog/`、Cart和My Account为200；空购物车下Checkout 302到Cart后200。响应均有HTTP `X-Robots-Tag: noindex, nofollow`与Meta robots `noindex, nofollow`，且无Canonical，符合Staging全站禁止索引边界；Production自身Canonical仍未验。
 - D19确认`/blog/%postname%/`的WordPress前段会作用于文章相关归档：正确URL为`/blog/category/{slug}/`、`/blog/tag/{slug}/`、`/blog/author/{slug}/`及`/blog/{year}/{month}/`，不是此前假设的根路径`/category/`、`/tag/`。TEST分类/标签正确URL均200；标签为Yoast `noindex, follow`且无Sitemap；两个已有发布作者归档均301到首页；日期归档`/blog/2026/08/`亦301到首页。分类标题已移除“归档”变量；分类索引与Canonical受Staging全站`noindex`影响，Production另验。
-- D19两篇已发布TEST文章REST抽查确认后台作者分别保留实际账号，Yoast输出`Article` Schema；当前Schema作者仍是实际账号对应的`Person`，与ADR-017统一公开署名目标尚有实现差距。该差距不改变后台内容作者账号，已转D87文章详情模板与SEO输出验收，不在D19增加品牌账号、角色或修改Storefront/Yoast核心文件。
+- D19两篇已发布TEST文章REST抽查确认后台作者分别保留实际账号，Yoast输出`Article` Schema；D19时Schema作者仍是实际账号对应的`Person`，与ADR-017统一公开署名目标尚有实现差距。该差距不改变后台内容作者账号，已转D87文章详情模板与SEO输出验收，不在D19增加品牌账号、角色或修改Storefront/Yoast核心文件。
 - D19“博客信息架构v1”验收通过，P0=0、P1=0：冻结并验证原生Post/Category/Tag内容模型、静态首页与独立博客归档、文章/分类/标签URL、分类主归档、标签`noindex`、作者/日期归档关闭、Website Manager文章职责和Yoast Sitemap归类。D24真实内容、D25 TEST对象清理、D87公开署名/作者Schema及Production SEO均为已登记后续项，不阻塞D19完成。
 - D20 C1已完成Staging只读文章盘点与字段职责冻结：现有2篇发布、2篇草稿保持原状；两篇草稿均覆盖标题、摘要、特色图、TEST分类和2次修订，但正文极短、没有H2/H3或正文内链，不能替代D20长文验证。文章模板采用原生Post＋操作清单，草稿可不完整，送审前再检查标题、Slug、摘要、正文、特色图/alt、正式分类、后台实际作者、相关内链和SEO字段；特色图基线为16:9、推荐1600×900。C1未保存、发布、删除或修改任何Staging数据、URL和配置。
 - D20 C2已冻结正文骨架：文章标题承担唯一H1，正文常规使用引导段＋2～4个H2，确有下级内容才使用H3且不跳级；Paragraph、H2/H3、List、Image和Separator为常规集合，复杂布局、Table、File、Buttons及Embed等使用前复核，H1、Spacer、Custom HTML、未知Shortcode、直接iframe/script/style和手工空白排版禁止普通编辑使用。D20长文TEST夹具约1200～1500个英文单词、4个H2和至少1个H3，只作覆盖而非SEO字数标准；目录实现转D87按真实导航需求评估。C2未改Staging数据或代码。

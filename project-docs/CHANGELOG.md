@@ -4,6 +4,13 @@
 
 ## Unreleased
 
+### D87文章详情与统一公开署名（2026-10-07，仅隔离Local）
+
+- 用户批准D87最小范围：原生Post和Storefront单篇模板保持，子主题仅替换默认后台作者元信息并将正文、相邻导航和评论收敛至46rem阅读宽度。DentAll主题候选升至0.47.0。
+- `dentall-core`候选升至0.7.0；按Yoast目标Post上下文统一网页与REST预览的Article作者、作者元标签和社交资料，移除后台Person节点及WebPage悬空引用。保留后台`post_author`、原生路由、现有站点品牌X账号与分享元数据基础。
+- 隔离Local使用WordPress 7.1/WooCommerce 11.0.0/Storefront 4.6.2/Yoast 28.2/PHP 8.2.29：两篇不同后台作者网页/REST一致，四端共16次单篇/Blog/Page检查均200、唯一H1、无溢出或pageerror；长文、图/缺图、空正文、404、键盘、Website Manager编辑保存读回与恢复通过。独立Code Review终态P0～P3=0；预览/autosave与非Local未验。TEST文章、一次性凭据已清理，隔离服务/监听均0；自动审批拒绝删除Git忽略目录的临时WordPress与MySQL副本（仅称`blocked by policy`），副本仍在，详见[[笔记/Day87-文章详情与公开署名]]。当前未提交至主线、推送或部署。
+- 匿名WordPress Users REST仍返回后台显示名及作者链接，另列RSK-057/P2；D87不改该接口。正式内容、公开环境Canonical/索引、缓存/CDN、真实设备及Staging/Production另验。D86文档的文章/分类短路径笔误按已冻结D19 URL合同纠正，没有改网站路由。
+
 ### D74＋D86代码部署与Blog现场验收完成，交易验收未关闭（2026-10-06）
 
 - 用户授权基于`origin/main@a8897f0`整合已确认的D74与D86，再经合成回归、独立审查和当次备份发布至Staging；发布前/回滚基线为`a07af22`（DentAll 0.45.0/Core 0.5.0），整合候选版本为DentAll 0.46.0/Core 0.6.0。
