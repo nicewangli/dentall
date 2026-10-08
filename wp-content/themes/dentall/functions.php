@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/inc/setup.php';
+require_once __DIR__ . '/inc/account-auth.php';
 require_once __DIR__ . '/inc/storefront-hooks.php';
 require_once __DIR__ . '/inc/blog.php';
 require_once __DIR__ . '/inc/catalog-filters.php';
