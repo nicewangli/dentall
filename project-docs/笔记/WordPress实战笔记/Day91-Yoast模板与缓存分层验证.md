@@ -20,7 +20,8 @@ tags:
 - 学习索引：[[WordPress实战笔记索引]]
 - 对应项目笔记：[[../Day91-SEO元数据模板与Staging验证|Day91-SEO元数据模板与Staging验证]]
 - 前置学习笔记：[[Day48-WooCommerce分类描述与SEO模板边界]]
-- 后续学习笔记：D92索引与Canonical审计形成后回填
+- 后续学习笔记：[[Day92-索引环境与Canonical分层验证]]
+- 同轮抓取边界：[[Day93-抓取信号与站点地图分层]]
 - 项目事实：[[../../URL_SEO_MAP|URL与SEO映射]]
 
 ## 今日学习成果

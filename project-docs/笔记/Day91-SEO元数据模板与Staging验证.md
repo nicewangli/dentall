@@ -20,6 +20,8 @@ tags:
 ## 相关笔记
 
 - 学习笔记：[[WordPress实战笔记/Day91-Yoast模板与缓存分层验证]]
+- 后续项目笔记：[[Day92-URL与Canonical受控验证]]
+- 共用样本后续：[[Day93-Sitemap与抓取边界审计]]、[[Day94-商品与组织Schema阶段验证]]
 - 本地分类模板基线：[[Day48-商品分类内容与W8列表回归]]
 - URL与SEO映射：[[../URL_SEO_MAP|URL与SEO映射]]
 - 当前项目状态：[[../PROJECT_STATE|项目当前状态]]
