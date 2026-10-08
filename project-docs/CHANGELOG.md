@@ -4,6 +4,14 @@
 
 ## Unreleased
 
+### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
+
+- ADR-045确定第一版Customer登录邮箱不开放My Account自助修改；姓名/显示名沿用Woo原生资料表单，当前密码保护的改密增加至少12字符规则，Billing email仍为独立联系地址。
+- Core在Woo资料保存和WordPress核心用户REST写入口守住邮箱/密码边界，并在原生地址保存前复核Billing允许国家与Shipping US/CA/AU；主题为登录态账户页条件加载Mobile First样式，仅Customer资料端点加载邮箱只读提示。DentAll升至0.47.0，Core升至0.7.0；不覆盖Woo模板或新增数据字段。
+- 隔离Local纯PHP 26/26、原生HTTP表单9项、REST旁路10项、旧订单六类快照检查及真实签发状态的TEST报价地址更新5/5通过；5页×四宽浏览器213/213，页面/Console错误0，独立终审开放P0/P1/P2=0。签发邮件回调仅在隔离环境模拟成功，未实际投递或付款。
+- My Account原生Page需采用Storefront Full width；目标Woo Selling countries=all、Shipping locations=specific US/CA/AU及英语Page标题需在部署验收时核对。共享Local、Staging/Production、真实邮件、支付与缓存配置均未操作；目标缓存和D83/D84账户链路仍待。
+- 隔离PHP/MySQL和18881/18882监听已停止；自动审批以`blocked by policy`拒绝递归删除专用TEST目录，目录和隔离数据库文件保留待按允许路径清理，未宣称环境恢复完成。
+
 ### D74＋D86代码部署与Blog现场验收完成，交易验收未关闭（2026-10-06）
 
 - 用户授权基于`origin/main@a8897f0`整合已确认的D74与D86，再经合成回归、独立审查和当次备份发布至Staging；发布前/回滚基线为`a07af22`（DentAll 0.45.0/Core 0.5.0），整合候选版本为DentAll 0.46.0/Core 0.6.0。
