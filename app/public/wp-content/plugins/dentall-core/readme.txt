@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.6.0
+Stable tag: 0.7.1
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,12 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.7.1 =
+* 限制访客及客户读取原生Users REST中的后台作者资料，保留本人资料与内容编辑权限。
+
+= 0.7.0 =
+* 客户登录邮箱保持独立于Billing email，并收紧默认账单和配送地址的保存边界。
 
 = 0.6.0 =
 * 在已授权的人工报价付款页显示服务端绝对截止时间、客户进口商责任及费用边界。
