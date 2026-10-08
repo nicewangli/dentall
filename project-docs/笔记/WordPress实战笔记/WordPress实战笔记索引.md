@@ -126,7 +126,7 @@ tags:
 | Day81 | [[Day81-WooCommerce账户资料与登录邮箱边界]] | [[../Day81-账户仪表盘与资料策略]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 原生账户导航/资料表单、登录邮箱只读与服务端REST守卫、12字符改密及历史Guest归属边界 |
 | Day82 | [[Day82-WooCommerce默认地址与订单快照]] | [[../Day82-默认账单与配送地址]] | 初识，隔离Local技术复演通过 | 2026-10-07 | 默认Billing/Shipping国家来源、My Account保存前校验、客户默认地址与旧订单/已签发报价快照分离 |
 | Day83 | [[Day83-WooCommerce再次购买与购物车会话边界]] | [[../Day83-订单中心与再次购买暂缓]] | 初识，隔离Local技术验收通过 | 2026-10-08 | B方案暂缓原生Order again；Woo 11按钮Filter与Cart Session分阶段处理。真实HTTP/Chrome 130/130，A/B/C/Guest归属、10+3分页与四类直链前后非空Cart不变量通过；再次购买恢复仍为P2，目标HPOS/缓存/付款未验 |
-| Day84 | [[Day84-WooCommerce账户链与重置密钥]] | [[../Day84-账户全链路回归]] | 初识，非付款链隔离Local技术验收通过 | 2026-10-08 | Guest→A登录→资料/默认地址→旧订单快照→退出→找回/重置→新密码登录通过；20张四宽截图。原始脚本`status=fail`、169/170，末项Console错误定位为隔离站favicon 404并保留原报告；390订单提示顺序P2，真实SMTP、HPOS、支付与目标环境未验 |
+| Day84 | [[Day84-WooCommerce账户链与重置密钥]] | [[../Day84-账户全链路回归]] | 初识，非付款链与邮箱提示顺序隔离Local技术验收通过 | 2026-10-08 | Guest→A登录→资料/默认地址→旧订单快照→退出→找回/重置→新密码登录通过；合成候选再验20个四宽页面。原始脚本末项仍因隔离站favicon 404失败并保留FAIL；390订单提示的HTML/视觉顺序P2已在本地关闭，真实读屏、SMTP、HPOS、支付与目标环境未验 |
 | Day85（并行检查点） | [[Day85-原生Page模板与正文样式边界]] | [[../Day85-通用内容页模板与编辑回归]] | 初识，待费曼自测 | 2026-09-21 | 原生Page与Full width模板责任、正文阅读宽度、长token、全局样式作用域、四端/键盘/SEO和Gutenberg精确恢复；隔离Local通过，Staging现有TEST Page已切换Full width并完成四端命中 |
 | Day86 | [[Day86-文章主查询与归档Hook边界]] | [[../Day86-博客列表分类分页与空状态]] | 初识，待费曼自测 | — | 主查询、Storefront Hook、分页/空态/404及四端证据完成；2026-10-06与D74合成重新通过，D85已在主线。发布证据见[[../Day86-D74与D86整合发布记录]]；D87 单篇接续已在隔离 Local 完成主要回归，Production SEO与非Local仍待 |
 | Day87 | [[Day87-文章详情署名与SEO输出边界]] | [[../Day87-文章详情与公开署名]] | 初识，待费曼自测 | — | 两篇不同后台作者的网页/Yoast REST、Article Organization、无 Person/悬空引用、社交负分支、四端正文、键盘和 Gutenberg 保存读回已验；原生 Users REST 披露已列 RSK-057/P2。隔离服务与TEST文章已清理，临时副本删除受自动审批拦截；预览/autosave与非Local待验 |

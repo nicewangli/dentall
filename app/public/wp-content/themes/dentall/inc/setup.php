@@ -303,3 +303,31 @@ function dentall_enqueue_customer_account_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_customer_account_assets', 60 );
+
+/**
+ * 让Woo邮箱验证提示先说明原因，再给出操作链接。
+ *
+ * 仅匹配当前Woo原生Orders提示；标记变化时保留原通知，避免改写其他消息。
+ *
+ * @param string $message WooCommerce通知HTML。
+ * @return string
+ */
+function dentall_account_verification_notice_order( $message ) {
+	if (
+		! is_string( $message )
+		|| ! function_exists( 'is_account_page' )
+		|| ! function_exists( 'is_wc_endpoint_url' )
+		|| ! is_account_page()
+		|| ! is_wc_endpoint_url( 'orders' )
+		|| ! is_user_logged_in()
+	) {
+		return $message;
+	}
+
+	if ( 1 !== preg_match( '/\A(<a href="[^"]*wc_send_verification=1[^"]*" class="button wc-forward">[^<]+<\/a>)\s+(.+)\z/s', $message, $parts ) ) {
+		return $message;
+	}
+
+	return '<span class="dentall-account-verification-prompt"><span>' . $parts[2] . '</span> ' . $parts[1] . '</span>';
+}
+add_filter( 'woocommerce_add_notice', 'dentall_account_verification_notice_order' );
