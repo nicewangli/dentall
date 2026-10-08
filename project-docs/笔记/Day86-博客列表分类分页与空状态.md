@@ -22,6 +22,7 @@ tags:
 ## 相关笔记
 
 - 学习笔记：[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]]
+- 后续：[[Day87-文章详情与公开署名]]
 - 学习索引：[[WordPress实战笔记/WordPress实战笔记索引]]
 - 每日索引：[[README|DentAll每日笔记索引]]
 
@@ -94,7 +95,7 @@ flowchart LR
 | 检查面 | 结论 |
 |---|---|
 | 数据 | 运行代码不写数据库；8篇TEST文章只存在隔离副本 |
-| URL | 沿用`/blog/`、`/blog/page/N/`和`/category/{slug}/`；未改固定链接结构 |
+| URL | 沿用`/blog/`、`/blog/page/N/`和`/blog/category/{slug}/`；未改固定链接结构；分类路径于D87文档收尾纠正笔误 |
 | SEO | 唯一内容H1与分页标题通过；隔离环境强制`noindex,nofollow,noarchive`且无Canonical，Production Canonical/索引策略仍待D92；未新增Schema |
 | 缓存 | 新CSS仅在Blog/分类条件加载；历史源分支查询串为`0.42.1`，本次合成使用统一主题版本`0.46.0`并重跑资源隔离 |
 | 支付/订单/库存 | 不涉及 |

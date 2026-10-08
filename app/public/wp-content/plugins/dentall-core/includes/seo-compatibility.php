@@ -106,3 +106,119 @@ function dentall_core_noindex_catalog_filter_pages( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'dentall_core_noindex_catalog_filter_pages', PHP_INT_MAX );
+
+/**
+ * 依据Yoast目标文章判断，兼容页面请求与按文章ID生成的REST预览。
+ *
+ * @param object $context Yoast目标页面上下文。
+ * @return bool
+ */
+function dentall_core_is_public_post_seo_context( $context ) {
+	return isset( $context->indexable->object_type, $context->indexable->object_sub_type )
+		&& 'post' === $context->indexable->object_type
+		&& 'post' === $context->indexable->object_sub_type;
+}
+
+/**
+ * 单篇文章的公开署名是编辑团队，后台作者账号只承担内容归属。
+ *
+ * 使用独立Organization身份，保留Yoast原有Article日期、图片和publisher事实。
+ *
+ * @param array<string, mixed> $data Yoast Article节点。
+ * @param object               $context Yoast当前页面上下文。
+ * @return array<string, mixed>
+ */
+function dentall_core_article_editorial_author( $data, $context ) {
+	if ( ! dentall_core_is_public_post_seo_context( $context ) ) {
+		return $data;
+	}
+
+	$site_url      = isset( $context->site_url ) ? $context->site_url : home_url( '/' );
+	$data['author'] = array(
+		'@type' => 'Organization',
+		'@id'   => trailingslashit( $site_url ) . '#editorial-team',
+		'name'  => __( 'DentAll Editorial Team', 'dentall-core' ),
+	);
+
+	return $data;
+}
+add_filter( 'wpseo_schema_article', 'dentall_core_article_editorial_author', 10, 2 );
+
+/**
+ * Article不再引用后台账号时，移除Yoast独立生成的该账号Person节点。
+ *
+ * @param array<string, mixed> $data    Yoast Author节点。
+ * @param object               $context Yoast目标页面上下文。
+ * @return array<string, mixed>|false
+ */
+function dentall_core_hide_article_person_author( $data, $context ) {
+	return dentall_core_is_public_post_seo_context( $context ) ? false : $data;
+}
+add_filter( 'wpseo_schema_author', 'dentall_core_hide_article_person_author', 10, 2 );
+
+/**
+ * 若Yoast在WebPage上引用后台作者，移除已不再存在的Person引用。
+ *
+ * @param array<string, mixed> $data    Yoast WebPage节点。
+ * @param object               $context Yoast目标页面上下文。
+ * @return array<string, mixed>
+ */
+function dentall_core_remove_article_webpage_author( $data, $context ) {
+	if ( dentall_core_is_public_post_seo_context( $context ) ) {
+		unset( $data['author'] );
+	}
+
+	return $data;
+}
+add_filter( 'wpseo_schema_webpage', 'dentall_core_remove_article_webpage_author', 10, 2 );
+
+/**
+ * Yoast社交卡片中的个人账号属于后台身份，不用于公开编辑团队署名。
+ *
+ * @param object $presentation Yoast页面展示对象。
+ * @param object $context      Yoast目标页面上下文。
+ * @return object
+ */
+function dentall_core_article_social_presentation( $presentation, $context ) {
+	if ( dentall_core_is_public_post_seo_context( $context ) ) {
+		$site_twitter                            = ltrim( trim( (string) $presentation->twitter_site ), '@' );
+		$presentation->open_graph_article_author = '';
+		$presentation->twitter_creator           = 'person' !== $context->site_represents && '' !== $site_twitter
+			? '@' . $site_twitter
+			: '';
+	}
+
+	return $presentation;
+}
+add_filter( 'wpseo_frontend_presentation', 'dentall_core_article_social_presentation', 10, 2 );
+
+/**
+ * HTML作者元标签与可见署名保持一致。
+ *
+ * @param string $author       Yoast原作者名。
+ * @param object $presentation Yoast页面展示对象。
+ * @return string
+ */
+function dentall_core_article_meta_author( $author, $presentation ) {
+	return dentall_core_is_public_post_seo_context( $presentation->context )
+		? __( 'DentAll Editorial Team', 'dentall-core' )
+		: $author;
+}
+add_filter( 'wpseo_meta_author', 'dentall_core_article_meta_author', 10, 2 );
+
+/**
+ * Slack预览的Written by字段不应重新显示后台账号。
+ *
+ * @param array<string, string> $data         Yoast分享附加字段。
+ * @param object                $presentation Yoast页面展示对象。
+ * @return array<string, string>
+ */
+function dentall_core_article_slack_author( $data, $presentation ) {
+	$label = __( 'Written by', 'wordpress-seo' );
+	if ( dentall_core_is_public_post_seo_context( $presentation->context ) && isset( $data[ $label ] ) ) {
+		$data[ $label ] = __( 'DentAll Editorial Team', 'dentall-core' );
+	}
+
+	return $data;
+}
+add_filter( 'wpseo_enhanced_slack_data', 'dentall_core_article_slack_author', 10, 2 );
