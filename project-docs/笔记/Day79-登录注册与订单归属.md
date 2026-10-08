@@ -35,6 +35,8 @@ D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购
 
 发布候选的主题资源版本为`0.48.0`以与源码保持相同Git blob并刷新CSS缓存；它只包含D79视觉修复，不能据版本号推断D81/D82代码已部署。后续D81/D82进入Staging时需再升版本。当前Codex浏览器连接返回`nodeRepl.fetch request failed`，未取得已登录Cloudways控制台；不得绕过现场备份、哈希和可恢复入口预检，直接推进`deploy/staging`或宣称已部署。
 
+`account-hero-placeholder.webp`与共享Local现有`uploads/2026/08/home-hero-dental-products-1536x1024-q84-local-only.webp`的SHA-256同为`B24D5E348AB31AE673192EE25E2A662870CBCC65C24120AA6C80839C523B3F7F`，仅作为已同意的开发占位图；正式页面上线前仍需独立核实素材授权及替换结果。
+
 ### Staging发布与回滚核对
 
 1. 只读确认`deploy/staging@ed74467`、现场DentAll 0.46.0/Core 0.6.0、36个既有第一方文件及无意外漂移；核对受保护/noindex、支付关闭、账户页`private/no-cache`和可用错误日志与文件恢复入口。冻结本次发布期间的内容及订单写入，完成Cloudways当次文件＋数据库On-Demand备份并记下UTC恢复点。
