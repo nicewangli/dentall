@@ -24,6 +24,7 @@ tags:
 - 当日学习笔记：[[WordPress实战笔记/Day40-菜单驱动的Page映射与原生摘要]]
 - 前置学习笔记：[[WordPress实战笔记/Day39-菜单驱动的分类查询与Flex换行]]
 - 后续项目笔记：[[Day41-首页累计热卖与信任指标条]]
+- Solution Page详情验证：[[Day88-Solutions原生Page前台验证]]
 
 > [!success] 当前结论
 > D40推荐范围已在Local落地。首页新增独立`Homepage solutions`原生菜单位置，由菜单选择和排序真实已发布Page；Page标题、固定链接、手工Excerpt、特色图和发布状态仍是事实源。过滤后最多输出4张既有SolutionCard，0项整区不输出，首个有效项自动高亮，缺摘要不回退正文，缺图使用既有text-only合同。当前menu ID 28绑定4个明确标记且逐页`noindex`的TEST Page；未创建、链接或推断`/solutions/`，因此不显示`View all`。代码、数据、SEO、静态DOM和独立Review已完成；由于Chrome调试连接持续超时，未取得真实首页390/768/1024/1440截图与键盘Focus证据，该P3明确转D42复验，不能表述为真实浏览器四端视觉通过。

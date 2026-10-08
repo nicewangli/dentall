@@ -1,0 +1,32 @@
+/* Contact保留原生Page与Fluent Forms结构，只限定正文宽度和商品提示。 */
+.dentall-contact .entry-content {
+	max-width: 48rem;
+}
+
+.dentall-contact-context {
+	margin-block-end: var(--dentall-space-24);
+	padding: var(--dentall-space-16);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-color-surface-sky);
+	overflow-wrap: anywhere;
+}
+
+.dentall-contact-context h2 {
+	margin-block-end: var(--dentall-space-8);
+	font-size: var(--dentall-font-size-xl);
+}
+
+.dentall-contact-context p {
+	margin: 0;
+}
+
+.dentall-contact-context--missing {
+	background: var(--dentall-color-surface);
+}
+
+.dentall-contact .fluentform .ff-el-group :where(input, textarea):focus-visible,
+.dentall-contact .fluentform .ff-btn-submit:focus-visible {
+	outline: 2px solid var(--dentall-color-action);
+	outline-offset: 2px;
+}

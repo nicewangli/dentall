@@ -11,7 +11,7 @@
 
 | 插件 | 类别 | 用途 | 状态 | 版本 | 许可证/归属 | 数据影响 | 替代/移除方案 |
 |---|---|---|---|---|---|---|---|
-| DentAll Core | 项目业务 | 跨主题角色、权限、网站级SEO兼容、人工报价生命周期与账户身份边界 | 批次①集成候选0.4.1同时加载报价生命周期与客户账户模块；尚未合并main或部署。Staging现有版本须在发布预检重新读取 | 集成候选0.4.1；Staging现场待复核 | GPL/项目自有 | 高：角色数据、订单meta、Action Scheduler与账户归属 | 进入维护窗口、停发付款邮件并确认无在途支付；报价代码回滚前取消候选订单，或把文件与数据库恢复到同一快照；角色和订单持久数据不能只靠回退PHP撤销 |
+| DentAll Core | 项目业务 | 跨主题角色/权限、SEO兼容、人工报价生命周期、账户身份及展示型商品Contact上下文 | D81/D82与D87/D88已进入当前Git集成分支；D89新增Contact候选后为0.9.0，仅隔离Local验证，未推送或部署。Staging仍为0.6.0 | 当前分支候选0.9.0；Staging 0.6.0 | GPL/项目自有 | 高：角色数据、订单meta、Action Scheduler、账户归属及Contact插件条目上下文 | 进入维护窗口、停发付款邮件并确认无在途支付；报价代码回滚前取消候选订单，或把文件与数据库恢复到同一快照；Contact回滚先撤表单并按留存处理条目，角色、订单和表单持久数据不能只靠回退PHP撤销 |
 | WooCommerce | 商城核心 | 商品、订单、购物车和结账 | 已安装并激活，已完成D2基础配置 | 11.0.0；11.0.1可用但本日不升级 | GPL/项目 | 高 | 不可轻易替换 |
 | Query Monitor | 本地开发 | 查询、Hook、请求和错误诊断 | Local已安装；D16冲突隔离后保持停用，仅限Local | 4.0.7 | GPL/开发者 | 低 | 停用并删除，不进入生产必需清单 |
 | ACF（免费版） | 字段 | 必要结构化展示字段的候选工具；D62未发现当前代表商品必须新增字段 | 2026-09-07 D62核对Local插件Header与目录：免费版已安装且停用，数据库ACF定义0；不启用、不卸载 | 6.8.7 | GPL v2或以后版本；免费包不证明公司持有Pro许可 | 当前无项目字段依赖 | 本次无迁移；未来引入字段须单独验证定义版本化、内容备份、停用依赖及恢复 |
@@ -24,6 +24,7 @@
 | WooCommerce Multilingual & Multicurrency | 多语言商城 | 未来同步商品翻译、库存和WooCommerce前台字符串；第一版不启用多币种 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前验证商品、变体、库存、结账和邮件；币种功能保持关闭直到另行立项 |
 | 缓存插件 | 性能 | 页面缓存和资源优化 | 待选型 | - | 待确认 | 高 | 关闭并清缓存 |
 | FluentSMTP | 邮件 | 作为唯一WordPress邮件处理器，记录事务邮件并在第一版通过公司BossMail SMTP外发 | D77隔离Local已以PHP mail→Mailpit完成成功、失败与日志验证；Staging已通过BossMail专用SMTP主机、465/SSL发送，并由受控QQ邮箱实际收到。Cloudways Elastic Email未启用、DNS未修改；业务触发和Header认证待对应Day补验 | Local 2.4.0；Staging版本发布前复核 | GPL/免费插件；BossMail企业邮箱由公司持有 | 高：Options、`${prefix}fsmpt_email_logs`、每日清理Cron、外部SMTP请求；日志含客户邮箱、订单正文与付款链接 | 停用前保存脱敏故障证据；连接、邮箱密码和Woo邮件配置分层回滚。停用不会自动删除Options/日志表；禁止第二个SMTP插件或未验证fallback |
+| Fluent Forms Free | 联系表单候选 | Contact原生Page的姓名、邮箱、留言及可选展示型商品ID；条目与通知由插件管理 | D89仅在独立Local副本安装6.2.15并验证；导入文件为`draft`、通知默认关闭且收件人为空。未安装到共享Local、Staging或Production；正式收件、条目可见角色、留存期和隐私文案待确认 | 隔离Local 6.2.15；目标环境未安装 | GPL/WordPress.org免费版；升级维护由项目负责 | 高：插件自有表保存表单、条目、日志与通知设置；实测条目仍含browser、device、source_url，Contact专用Hook使IP/国家为空。前台CSS/JS和Token AJAX随表单加载；隔离Cron列有`fluentform_do_scheduled_tasks`每5分钟、`fluentform_do_email_report_scheduled_tasks`每天。发布前检查实际查询、远程请求与缓存 | 发布前备份表单配置和条目；撤回时先下架Contact表单或Page，再停用插件并复核公开页面与邮件，按已确认留存政策导出/删除条目。不能仅回退PHP撤销持久数据；不与其他表单插件重复负责同一入口 |
 | 备份插件/主机备份 | 运维 | 数据库和文件备份 | 待选型 | - | 企业账户 | 高 | 保留独立离线备份 |
 | WooCommerce Stripe Gateway | 支付（未来候选） | 信用卡、借记卡及钱包 | 第一版已明确排除，不安装、不连接账户；未来新增须重新做公司主体、销售国家、许可证、Webhook与退款确认 | 未安装 | GPL/免费插件；企业Stripe账户按交易收费 | 高 | 未来若立项先走Test Mode和Webhook回归 |
 | WooCommerce PayPal Payments | 支付 | 第一版唯一在线支付方式：PayPal | 业务已确认；当前暂不安装、不连接真实账户，待D76/D78用企业PayPal Sandbox实施与验收 | 安装时记录 | GPL/免费插件；企业PayPal账户按交易收费 | 高：订单、Webhook、退款、争议和外部请求 | 先用Sandbox回归成功/失败/取消/晚到Webhook；禁用前处理退款、争议和Webhook |

@@ -218,9 +218,17 @@
 |---|---|---|---|---|
 | Posts Page | `/blog/` | 唯一内容H1 `Blog`，主查询文章卡片 | 隔离Local强制noindex、无Canonical | D92按Production策略复验 |
 | Blog分页 | `/blog/page/{n}/`；第1页链接回`/blog/` | 核心分页，Page 2 Title含页码 | 越界页由主查询404 | D74＋D86合成后回归缓存与Title；D85已在基线 |
-| 文章分类 | `/category/{slug}/` | 原生分类H1、描述、主查询卡片和分页 | 当前隔离Local noindex | 正式分类是否索引按D92确认 |
-| 空分类 | `/category/{slug}/` | 200、原生Nothing Found、唯一H1 | 空term的Sitemap/索引由Yoast与内容策略另验 | 正式空分类不作为内容目标 |
+| 文章分类 | `/blog/category/{slug}/` | 原生分类H1、描述、主查询卡片和分页 | 当前隔离Local noindex | 正式分类是否索引按D92确认 |
+| 空分类 | `/blog/category/{slug}/` | 200、原生Nothing Found、唯一H1 | 空term的Sitemap/索引由Yoast与内容策略另验 | 正式空分类不作为内容目标 |
 | 标签/作者/日期/搜索 | 既有规则 | D86不接管 | 沿用D19与现有Yoast边界 | 不因D86自动改变 |
-| 单篇文章 | `/{post-slug}/` | D86不接管 | 公开署名和作者Schema仍不一致 | D87实现与验证 |
+| 单篇文章 | `/blog/{slug}/` | D86不接管 | D86时公开署名和作者Schema仍不一致 | D87实现与验证 |
 
 D86未更改固定链接、Slug、重定向、robots配置、Sitemap、Canonical生成器或Schema。当前`noindex,nofollow,noarchive`和无Canonical是隔离环境保护证据，不是Production目标状态。
+
+以上分类及单篇路径按D19已冻结的实际URL合同纠正了D86记录时的笔误；本次文档修正没有更改站点路由或重定向。
+
+## D87文章详情公开署名合同（隔离Local，2026-10-07）
+
+- `/blog/{slug}/`沿用原生Post、Storefront单篇模板和Yoast普通`Article`；可见署名与`Article.author`统一为`DentAll Editorial Team`，后台`post_author`继续保存实际编辑账号。
+- 单篇HTML作者元标签、Yoast REST预览作者字段与Slack/Twitter Written by统一为团队；原生REST Post的`author`数字ID仍是WordPress内容归属字段。作者归档继续按ADR-017关闭，不新增团队作者归档或单篇署名链接。
+- 现有Title、Meta Description、Canonical、robots、Sitemap、分类与文章路由均未改变；隔离Local维持全站noindex，公开环境的Canonical、索引及缓存输出仍待对应阶段验证。

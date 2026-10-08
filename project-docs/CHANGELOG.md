@@ -12,13 +12,36 @@
 - D83浏览器夹具16单、2商品、1券及Customer B/C已清理，当时保留Customer A供D84；D84已清其1单、1商品和继承的A。D83/D84 option、私有凭据、邮件捕获mu-plugin已删；最终扫描整站订单0、TEST Customer0、D84对象/秘密文件0。此前D83 CLI探针16单/2客户单独清理。专用PHP/MySQL进程已停，18183/19183均无监听；隔离目录与空测试库保留，D81/D82历史残留不在本轮范围。
 - 未增Woo模板、字段、公开URL、Cron或远程请求，未部署或修改共享Local、Staging、Production、真实邮件、支付、物流、DNS及缓存配置。隔离新装库HPOS为off；目标Staging/HPOS/真实邮件/缓存及已签发报价付款页仍待验，M6支付闭环不标完成。“再次购买”恢复为开发者负责的P2延期，须另定保车方案、范围与工时。
 
+### D89联系表单与D90集成抽样（2026-10-08，仅隔离Local候选）
+
+- 在D81/D82＋D87/D88集成源码上增加Contact原生Page的定制商品上下文、Fluent Forms草稿导入样本及联系页局部样式；D90又修复单篇Post长表格。主题候选为0.49.0，Core候选为0.9.0。Fluent Forms Free 6.2.15只装入隔离Local副本，正式收件人及条目权限、留存与隐私文案未定，未部署Staging或Production。
+- Contact表单对公开且可见的展示型Woo商品重新校验ID，保存前丢弃访客伪造的名称/URL/来源，并在通知邮件重新附上可信商品信息；仅此表单启用Honeypot、关闭IP和国家记录。Token依赖Fluent Forms全局启用并在目标环境核验生成路由。没有修改商品、订单、支付、物流、公共URL或缓存配置。
+- 四视口与表单、失败、伪造输入和D90内容抽样的实测范围见[[笔记/Day89-Contact表单与商品上下文]]、[[笔记/Day90-内容样本与集成抽样]]；测试结果不能外推至真实收件、公开环境缓存或正式内容验收。
+
+### D81/D82与D87/D88整合（2026-10-08，仅Git源码）
+
+- 从`origin/main@d2ba25b`整合D87已完成的单篇文章与公开署名，保留主线D81/D82账户资料和默认地址能力；D88 Solutions原生Page验证只增加文档，运行代码零增量。整合源码为DentAll 0.48.0/Core 0.8.0，Staging仍为0.46.0/0.6.0。
+- 本次只处理Git冲突、版本与文档，不重做隔离Local业务验收，也不改共享Local、Staging、Production、数据、缓存、支付或邮件。合成运行验收和部署仍需另行执行。
+
 ### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
 
 - ADR-045确定第一版Customer登录邮箱不开放My Account自助修改；姓名/显示名沿用Woo原生资料表单，当前密码保护的改密增加至少12字符规则，Billing email仍为独立联系地址。
-- Core在Woo资料保存和WordPress核心用户REST写入口守住邮箱/密码边界，并在原生地址保存前复核Billing允许国家与Shipping US/CA/AU；主题为登录态账户页条件加载Mobile First样式，仅Customer资料端点加载邮箱只读提示。DentAll升至0.47.0，Core升至0.7.0；不覆盖Woo模板或新增数据字段。
+- Core在Woo资料保存和WordPress核心用户REST写入口守住邮箱/密码边界，并在原生地址保存前复核Billing允许国家与Shipping US/CA/AU；主题为登录态账户页条件加载Mobile First样式，仅Customer资料端点加载邮箱只读提示。D81/D82源候选为DentAll 0.47.0/Core 0.7.0；不覆盖Woo模板或新增数据字段。
 - 隔离Local纯PHP 26/26、原生HTTP表单9项、REST旁路10项、旧订单六类快照检查及真实签发状态的TEST报价地址更新5/5通过；5页×四宽浏览器213/213，页面/Console错误0，独立终审开放P0/P1/P2=0。签发邮件回调仅在隔离环境模拟成功，未实际投递或付款。
 - My Account原生Page需采用Storefront Full width；目标Woo Selling countries=all、Shipping locations=specific US/CA/AU及英语Page标题需在部署验收时核对。共享Local、Staging/Production、真实邮件、支付与缓存配置均未操作；目标缓存和D83/D84账户链路仍待。
 - 隔离PHP/MySQL和18881/18882监听已停止；自动审批以`blocked by policy`拒绝递归删除专用TEST目录，目录和隔离数据库文件保留待按允许路径清理，未宣称环境恢复完成。
+
+### D87文章详情与统一公开署名（2026-10-07，仅隔离Local）
+
+- 用户批准D87最小范围：原生Post和Storefront单篇模板保持，子主题仅替换默认后台作者元信息并将正文、相邻导航和评论收敛至46rem阅读宽度。D87源候选主题版本为0.47.0。
+- `dentall-core`源候选版本为0.7.0；按Yoast目标Post上下文统一网页与REST预览的Article作者、作者元标签和社交资料，移除后台Person节点及WebPage悬空引用。保留后台`post_author`、原生路由、现有站点品牌X账号与分享元数据基础。
+- 隔离Local使用WordPress 7.1/WooCommerce 11.0.0/Storefront 4.6.2/Yoast 28.2/PHP 8.2.29：两篇不同后台作者网页/REST一致，四端共16次单篇/Blog/Page检查均200、唯一H1、无溢出或pageerror；长文、图/缺图、空正文、404、键盘、Website Manager编辑保存读回与恢复通过。独立Code Review终态P0～P3=0；预览/autosave与非Local未验。TEST文章、一次性凭据已清理，隔离服务/监听均0；自动审批拒绝删除Git忽略目录的临时WordPress与MySQL副本（仅称`blocked by policy`），副本仍在，详见[[笔记/Day87-文章详情与公开署名]]。源分支当时未部署。
+- 匿名WordPress Users REST仍返回后台显示名及作者链接，另列RSK-057/P2；D87不改该接口。正式内容、公开环境Canonical/索引、缓存/CDN、真实设备及Staging/Production另验。D86文档的文章/分类短路径笔误按已冻结D19 URL合同纠正，没有改网站路由。
+
+### D88 Solutions原生Page验证（2026-10-07，仅隔离Local）
+
+- 复用原生Page、Storefront Full width、D85正文规则和首页既有Page卡片；长/空正文、四端及相邻页面22组浏览器场景通过，运行代码、字段、模板、CSS和插件零改动。正式Solutions内容、层级URL、`/solutions/`聚合页及Staging/Production未验。
+- Gutenberg数据层预览与公开页隔离、正式保存读回已验证；程序生成区块的raw字节恢复未通过编辑器路径，后用WordPress API在隔离夹具恢复。可见Preview按钮直接点击及真实人员编辑验收仍待，详见[[笔记/Day88-Solutions原生Page前台验证]]。
 
 ### D74＋D86代码部署与Blog现场验收完成，交易验收未关闭（2026-10-06）
 
