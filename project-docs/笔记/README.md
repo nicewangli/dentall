@@ -135,6 +135,8 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day77 | [[Day77-FluentSMTP事务邮件Local验证]] | 隔离Local成功/失败/日志链已验证；Staging采用FluentSMTP＋BossMail SMTP并由受控QQ邮箱实际收件。Elastic Email未启用、DNS未修改；Header认证、业务触发、日志保留和退信仍待 |
 | Day79 | [[Day79-登录注册与订单归属]] | 已完成独立Local身份与归属范围；业务确认不存在共享账单邮箱、代理或代采购。已签发Guest报价在验证归户后按D75签名取消旧单并由Website Manager建立替换报价；D80已完成Local找回候选，支付沙盒和非Local缓存仍待 |
 | Day80 | [[Day80-密码重置流程]] | Local与Staging邮件链路验收完成：My Account统一入口、通用反馈、60秒HMAC身份冷却、服务端至少12字符；28/28、16/16及五状态四宽135/135通过。537ba29已移除未经证明安全的共享代理REMOTE_ADDR限频；a07af22部署后受控邮件与有效重置表单通过，未在Staging保存新密码 |
+| Day81 | [[Day81-账户仪表盘与资料策略]] | 已确认Customer登录邮箱不开放自助修改；隔离Local复用Woo原生资料表单并验证邮箱/密码与REST守卫，目标环境及账户缓存待验；学习见[[WordPress实战笔记/Day81-WooCommerce账户资料与登录邮箱边界]] |
+| Day82 | [[Day82-默认账单与配送地址]] | 隔离Local验证原生默认地址保存、Billing允许国家、Shipping US/CA/AU及旧订单/已签发报价快照不回写；目标环境设置与完整账户链路待验；学习见[[WordPress实战笔记/Day82-WooCommerce默认地址与订单快照]] |
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
 | Day87 | [[Day87-文章详情与公开署名]] | 隔离Local实施原生Post单篇团队署名与Yoast作者输出一致性，长文四端阅读宽度已收敛；最终测试与清理以项目笔记为准，未部署；匿名Users REST披露后台名另列RSK-057/P2；学习见[[WordPress实战笔记/Day87-文章详情署名与SEO输出边界]] |
