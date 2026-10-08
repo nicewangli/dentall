@@ -18,6 +18,7 @@
 - 每日笔记索引：[[README|DentAll每日笔记索引]]。
 - 直接前置：[[Day72-人工运费邮件报价与购物车收口]]。
 - 当日学习笔记：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。
+- 后续邮件链回归准备：[[Day107-系统回归准备与执行包]]。
 - 变更与决定：[[../CHANGE_REQUESTS#CR-015：第一版统一使用公司邮箱并由FluentSMTP接入BossMail事务邮件|CR-015]]、[[../DECISIONS#ADR-041：事务邮件采用FluentSMTP单处理器并由BossMail负责第一版外发|ADR-041]]。
 - 风险：[[../RISK_REGISTER#RSK-048：事务邮件显示已发送但未送达，或日志泄漏客户资料与付款链接|RSK-048]]。
 

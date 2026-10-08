@@ -27,6 +27,8 @@ D59～D65各日已按批准范围完成；D60/D61/D63已通过`278d20d`合入并
 
 2026-10-06整合验收与发布记录：[[Day86-D74与D86整合发布记录]]；GitHub与Staging代码部署、完整文件/版本及Blog/分类四端、手机/桌面目视、Focus和标准URL验收完成。交易缓存与有效报价完整验收未关闭；B后日志已查看，对象缓存notice另列兼容性P2，不作为整批交易Done。订单修改/付款邮件暂停，内容编辑恢复待交接确认；A下载覆盖predeploy目录，恢复副本及待补责任/节点以发布记录为准。
 
+D107回归准备：[[Day107-系统回归准备与执行包]]；对应学习：[[WordPress实战笔记/Day107-回归证据分层与WooCommerce状态真相]]。该检查点完成覆盖与执行准备，未执行D108/D109～D114系统回归。
+
 D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实战笔记/Day80-WooCommerce密码重置与防枚举]]。D85隔离Local记录：[[Day85-通用内容页模板与编辑回归]]；对应学习：[[WordPress实战笔记/Day85-原生Page模板与正文样式边界]]。D79实施记录：[[Day79-登录注册与订单归属]]；对应学习：[[WordPress实战笔记/Day79-WooCommerce账户身份与订单归属]]。D77实施记录：[[Day77-FluentSMTP事务邮件Local验证]]；对应学习：[[WordPress实战笔记/Day77-WordPress事务邮件链与可观察性]]。D75实施记录：[[Day75-人工物流与报价72小时生命周期]]；对应学习：[[WordPress实战笔记/Day75-WooCommerce报价过期与订单生命周期]]。D74实施记录：[[Day74-订单摘要与四端结账]]；对应学习：[[WordPress实战笔记/Day74-WooCommerce订单摘要与服务端截止时间]]。D73实施记录：[[Day73-报价字段与客户身份合同]]；对应学习：[[WordPress实战笔记/Day73-WooCommerce报价字段与客户身份边界]]。D72候选记录：[[Day72-人工运费邮件报价与购物车收口]]；对应学习：[[WordPress实战笔记/Day72-人工运费报价与结账安全边界]]。D71候选记录：[[Day71-运费税费与金额摘要候选验证]]；对应学习：[[WordPress实战笔记/Day71-WooCommerce运费税费与金额真相]]。D70阶段记录：[[Day70-优惠券规则与边界验证]]；对应学习：[[WordPress实战笔记/Day70-WooCommerce优惠券校验与金额真相]]。D69候选记录：[[Day69-Header Cart与Mini Cart状态联动]]；对应学习：[[WordPress实战笔记/Day69-Cart Store与经典Fragments桥接]]。D68候选记录：[[Day68-手机与平板响应式购物车候选验证]]；对应学习：[[WordPress实战笔记/Day68-Cart-Block响应式布局与状态证据]]。D66阶段记录：[[Day66-商品浏览闭环集成回归]]；对应学习：[[WordPress实战笔记/Day66-集成基线与商品全链路回归]]。
 
 | 周次 | 笔记 | 结论 |
@@ -133,3 +135,4 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day80 | [[Day80-密码重置流程]] | Local与Staging邮件链路验收完成：My Account统一入口、通用反馈、60秒HMAC身份冷却、服务端至少12字符；28/28、16/16及五状态四宽135/135通过。537ba29已移除未经证明安全的共享代理REMOTE_ADDR限频；a07af22部署后受控邮件与有效重置表单通过，未在Staging保存新密码 |
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
+| Day107 | [[Day107-系统回归准备与执行包]] | 14组系统覆盖、最小TEST样本、隔离恢复及证据模板已建立；本工作树五组纯合同通过，PayPal与目标环境回归未执行；学习见[[WordPress实战笔记/Day107-回归证据分层与WooCommerce状态真相]] |
