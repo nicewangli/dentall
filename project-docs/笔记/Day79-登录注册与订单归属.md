@@ -35,6 +35,13 @@ D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购
 
 发布候选的主题资源版本为`0.48.0`以与源码保持相同Git blob并刷新CSS缓存；它只包含D79视觉修复，不能据版本号推断D81/D82代码已部署。后续D81/D82进入Staging时需再升版本。当前Codex浏览器连接返回`nodeRepl.fetch request failed`，未取得已登录Cloudways控制台；不得绕过现场备份、哈希和可恢复入口预检，直接推进`deploy/staging`或宣称已部署。
 
+### Staging发布与回滚核对
+
+1. 只读确认`deploy/staging@ed74467`、现场DentAll 0.46.0/Core 0.6.0、36个既有第一方文件及无意外漂移；核对受保护/noindex、支付关闭、账户页`private/no-cache`和可用错误日志与文件恢复入口。冻结本次发布期间的内容及订单写入，完成Cloudways当次文件＋数据库On-Demand备份并记下UTC恢复点。
+2. 把A `669efcb`快进至`deploy/staging`，在Cloudways当前应用的Via Git执行一次Pull，核对成功日志及两个新增文件；A不改任何现有文件。再把B `c1de7f1`快进并Pull，核对最终38文件、5条变更路径、主题资源`0.48.0`；只定向清理Breeze缓存，不改缓存策略。
+3. 用真实Staging URL复验390/768/1024/1440px登录、`?dentall_auth=register`、错误态、找回密码页无侧栏、键盘焦点、`noindex`与`private/no-cache`；检查本次PHP/应用日志。邮箱已证实既有TEST账号找回邮件送达及链接可打开，另需新TEST邮箱补注册邮件与历史Guest订单归属，不能用当前记录替代。
+4. 若代码故障，先在`deploy/staging`追加前向回滚提交恢复B的三个旧文件并Pull，确认`functions.php`已撤销新模块引用；再按精确路径和哈希将A的两个新文件移到`public_html`之外，复测关键账户与结账保护。Cloudways不会因Git源缺文件自动删除服务器文件；仅在有数据损坏和增量损失评估后才考虑数据库恢复。
+
 2026-09-22，业务方进一步确认：客户不存在多人共用账单邮箱、代理下单或代采购的情况，账户邮箱可以作为第一版唯一订单所有人边界。因此RSK-049的发布NO-GO已经解除；若未来业务模式改变，必须在开放新模式前重新评估历史Guest订单归属规则。
 
 与D75合成后的操作合同是：已签发Guest报价若在邮箱验证后被WooCommerce写入Customer ID，报价签名会因订单归属变化而失效，旧订单自动取消。Website Manager必须复核客户、商品、地址、Shipping、Tax和Fee，并建立及发送一张新的替换报价；不得恢复旧订单、复制旧付款链接、手改生命周期meta或把归户视为自动续期。
