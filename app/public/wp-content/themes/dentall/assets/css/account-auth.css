@@ -1,88 +1,180 @@
-/*
- * D79复用WooCommerce原生登录/注册DOM，只负责退出登录后的“我的账户”认证布局。
- */
-.woocommerce-account .woocommerce #customer_login {
-	display: grid;
-	gap: var(--dentall-space-24);
+/* D79：一份WooCommerce原生DOM，按账户首页视图聚焦登录或注册。 */
+.dentall-auth-page .storefront-breadcrumb,
+.dentall-auth-page .entry-header {
+	display: none;
 }
 
-.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2),
-.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
+.dentall-auth {
+	margin-block: var(--dentall-space-24) var(--dentall-space-64);
+}
+
+.dentall-auth__layout {
 	box-sizing: border-box;
 	width: 100%;
-	padding: var(--dentall-space-24);
-	border: 1px solid var(--dentall-color-border-subtle);
-	border-radius: var(--dentall-radius-lg);
+	max-width: 38rem;
+	margin-inline: auto;
+}
+
+.dentall-auth__panel {
+	padding: var(--dentall-space-8);
 	background: var(--dentall-color-surface);
-	box-shadow: var(--dentall-shadow-card);
 }
 
-.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2) {
+.dentall-auth__intro {
+	margin-block-end: var(--dentall-space-32);
+	text-align: center;
+}
+
+.dentall-auth__intro h1 {
+	margin: 0 0 var(--dentall-space-8);
+	color: var(--dentall-color-heading);
+	font-size: var(--dentall-font-size-2xl);
+}
+
+.dentall-auth__intro p {
+	margin: 0;
+	color: var(--dentall-color-text-muted);
+}
+
+.woocommerce-account .woocommerce .dentall-auth #customer_login {
+	display: block;
+	float: none;
+	width: 100%;
 	margin: 0;
 }
 
-.woocommerce-account .woocommerce #customer_login h2 {
-	margin-block: 0 var(--dentall-space-24);
+.woocommerce-account .woocommerce .dentall-auth #customer_login > :where(.u-column1, .u-column2) {
+	float: none;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
 }
 
-.woocommerce-account .woocommerce #customer_login form {
+.dentall-auth--login #customer_login > .u-column2,
+.dentall-auth--register #customer_login > .u-column1,
+.dentall-auth #customer_login h2,
+.dentall-auth__panel > h2 {
+	display: none;
+}
+
+.woocommerce-account .woocommerce .dentall-auth :where(.woocommerce-form-login, .woocommerce-form-register) {
 	margin: 0;
 }
 
-.woocommerce-account .woocommerce #customer_login :where(.form-row),
+.woocommerce-account .woocommerce .dentall-auth :where(.woocommerce-form-login, .woocommerce-form-register) :where(.form-row),
 .woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(.form-row) {
 	margin-block-end: var(--dentall-space-16);
 }
 
-.woocommerce-account .woocommerce #customer_login :where(label),
+.woocommerce-account .woocommerce .dentall-auth :where(.woocommerce-form-login, .woocommerce-form-register) :where(label),
 .woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(label) {
 	display: inline-block;
 	margin-block-end: var(--dentall-space-8);
 	font-weight: var(--dentall-font-weight-semibold);
 }
 
-.woocommerce-account .woocommerce #customer_login .woocommerce-form-login__rememberme {
+.woocommerce-account .woocommerce .dentall-auth .woocommerce-form-login__rememberme {
 	display: flex;
 	align-items: center;
 	gap: var(--dentall-space-8);
 	min-height: 2.75rem;
 }
 
-.woocommerce-account .woocommerce #customer_login :where(.woocommerce-form-login__submit, .woocommerce-form-register__submit),
+.woocommerce-account .woocommerce .dentall-auth :where(.woocommerce-form-login__submit, .woocommerce-form-register__submit),
 .woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(button[type="submit"]) {
 	width: 100%;
 }
 
-.woocommerce-account .woocommerce #customer_login :where(.lost_password, .woocommerce-privacy-policy-text) {
+.woocommerce-account .woocommerce .dentall-auth :where(.lost_password, .woocommerce-privacy-policy-text) {
 	margin-block-end: 0;
 	overflow-wrap: anywhere;
 }
 
-.woocommerce-account .woocommerce #customer_login .lost_password a {
+.woocommerce-account .woocommerce .dentall-auth .lost_password a {
 	text-decoration: underline;
 	text-underline-offset: 0.16em;
 }
 
+.dentall-auth__switch {
+	margin: var(--dentall-space-24) 0 0;
+	text-align: center;
+}
+
 @media (min-width: 48rem) {
-	.woocommerce-account .woocommerce #customer_login {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: var(--dentall-space-32);
+	.dentall-auth {
+		padding: var(--dentall-space-32);
+		background: var(--dentall-color-surface-sky);
 	}
 
-	.woocommerce-account .woocommerce #customer_login > :where(.u-column1, .u-column2),
-	.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
+	.dentall-auth__panel {
 		padding: var(--dentall-space-32);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		box-shadow: var(--dentall-shadow-card);
+	}
+}
+
+@media (min-width: 75rem) {
+	.dentall-auth-page .site-content {
+		background: var(--dentall-color-surface-sky) url("../images/account-hero-placeholder.webp") center / cover no-repeat;
+	}
+
+	.dentall-auth {
+		display: flex;
+		align-items: center;
+		min-height: 36rem;
+		margin-block: 0;
+		padding: var(--dentall-space-40) clamp(3rem, 7vw, 6rem);
+		background: transparent;
+	}
+
+	.dentall-auth__layout {
+		width: 44%;
+		margin-inline: 0;
+		padding: var(--dentall-space-32);
+		border: 1px solid var(--dentall-color-border-subtle);
+		border-radius: var(--dentall-radius-lg);
+		background: var(--dentall-color-surface);
+		box-shadow: var(--dentall-shadow-card);
+	}
+
+	.dentall-auth__intro {
+		text-align: start;
+	}
+
+	.dentall-auth__panel {
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
 	}
 }
 
 /* D80复用WooCommerce原生找回与重置表单，只补充单列卡片布局。 */
 .woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
+	box-sizing: border-box;
+	width: 100%;
 	max-width: 36rem;
 	margin-inline: auto;
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background: var(--dentall-color-surface);
+	box-shadow: var(--dentall-shadow-card);
 	overflow-wrap: anywhere;
 }
 
 .woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password :where(.form-row) {
 	float: none;
 	width: 100%;
+}
+
+@media (min-width: 48rem) {
+	.woocommerce-account .woocommerce .woocommerce-ResetPassword.lost_reset_password {
+		padding: var(--dentall-space-32);
+	}
 }
