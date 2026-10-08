@@ -4,7 +4,7 @@
 
 ## D83订单中心与D84非支付账户链隔离Local技术验收（2026-10-08）
 
-- 用户明确选择 B：第一版暂缓 WooCommerce 原生“再次购买”，保留订单列表/详情和 D84 非支付账户链。`origin/main` 已包含 D81/D82 增量，当前独立分支 `codex/day83-day84-order-account` 从合成基线继续；未重做资料或地址功能，尚未合入或部署 D83/D84。
+- 用户明确选择 B：第一版暂缓 WooCommerce 原生“再次购买”，保留订单列表/详情和 D84 非支付账户链。D81/D82 先前已进入主线，D83/D84 随后从该基线实施，并以合并提交 `291bcb4` 纳入主线版本；未重做资料或地址功能。源码合并不等于部署，共享 Local、Staging 和 Production 仍未安装本轮版本。
 - DentAll Core 0.7.1 在既有账户模块通过 `woocommerce_valid_order_statuses_for_order_again` 隐藏原生按钮，并在 WooCommerce 装载 Cart 会话前拦截已登录用户携带 `order_again`、`_wpnonce` 的直接请求并跳转 Cart。DentAll 主题 0.47.1 仅在既有账户 CSS 增加三个局部规则，修正手机订单号显示和宽屏商品列；隔离站点 My Account、Cart 页面设为 Storefront Full width。无 Woo 核心、订单数据结构、模板覆盖、公开 URL、Cron 或外发 HTTP 变更；页面模板设置仅在隔离数据库生效。
 - PHP 语法、D79 16/16、D80 28/28、D81/D82 26/26 合同及独立源码审查通过。隔离 Chrome 的 D83 功能/布局断言 130/130，通过 390/768/1024/1440 四宽 12 张截图与最终 390/768 定向 4 张截图。A13/B2/Guest1 共 16 单验证 A/B/C/Guest 归属、10+3 分页、空态、详情与原生重购按钮隐藏；同一非空 Cart 的两件商品、数量、优惠券和金额，在 own-valid、own-invalid、foreign-valid、unknown-valid 四类直接链接前后均保持。唯一 404 为隔离 PHP 服务的 `/favicon.ico`，无业务资源错误。Pending 未签发报价仍显示 Woo 原生 Pay 动作，未点开付款页，不据此作支付安全结论。
 - D84 隔离浏览器 169 项功能/布局断言及 20 张截图通过；原始第 170 项“Console 错误为 0”断言为 FAIL，PHP 日志定位唯一 `/favicon.ico` 404，经人工裁定为测试站非业务噪音，保留原始失败记录。私有邮件捕获、11 字符密码拒绝/12 字符接受、旧重置 Key 失效、Guest 订单拒绝、资料/地址/旧订单快照及登录到退出的非支付账户链均通过；未真实发信或付款。390px 邮箱确认提示的按钮与说明顺序为 P2，由开发者在 D85 前复看。
