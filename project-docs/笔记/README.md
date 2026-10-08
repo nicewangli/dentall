@@ -131,5 +131,9 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day77 | [[Day77-FluentSMTP事务邮件Local验证]] | 隔离Local成功/失败/日志链已验证；Staging采用FluentSMTP＋BossMail SMTP并由受控QQ邮箱实际收件。Elastic Email未启用、DNS未修改；Header认证、业务触发、日志保留和退信仍待 |
 | Day79 | [[Day79-登录注册与订单归属]] | 已完成独立Local身份与归属范围；业务确认不存在共享账单邮箱、代理或代采购。已签发Guest报价在验证归户后按D75签名取消旧单并由Website Manager建立替换报价；D80已完成Local找回候选，支付沙盒和非Local缓存仍待 |
 | Day80 | [[Day80-密码重置流程]] | Local与Staging邮件链路验收完成：My Account统一入口、通用反馈、60秒HMAC身份冷却、服务端至少12字符；28/28、16/16及五状态四宽135/135通过。537ba29已移除未经证明安全的共享代理REMOTE_ADDR限频；a07af22部署后受控邮件与有效重置表单通过，未在Staging保存新密码 |
+| Day81 | [[Day81-账户仪表盘与资料策略]] | 已合入主线的账户资料增量：My Account原生入口、显示名、登录邮箱锁定与服务端REST守卫；隔离Local技术验收通过，目标环境仍需复验 |
+| Day82 | [[Day82-默认账单与配送地址]] | 已合入主线的默认Billing/Shipping增量：复用Woo原生表单与客户CRUD，保存前补国家校验；隔离Local技术验收通过，旧订单快照不随默认地址改变 |
+| Day83 | [[Day83-订单中心与再次购买暂缓]] | B方案订单中心隔离Local真实HTTP 130/130；A/B/C/Guest归属、分页与非空Cart四类重购直链前后不变量通过。原生再次购买恢复仍为P2，目标环境与付款未验 |
+| Day84 | [[Day84-账户全链路回归]] | 非付款账户链隔离Local业务及四端技术验收通过，20张截图；原始自动报告169/170且保留`status=fail`，末项为隔离站favicon 404。TEST对象/私有凭据已清理；390提示顺序P2，真实邮件、HPOS与目标环境未验 |
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
