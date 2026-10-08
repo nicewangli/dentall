@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.8.0
+Stable tag: 0.9.0
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,9 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.9.0 =
+* Contact表单提交前重新校验展示型商品，并在通知邮件中附上服务端商品上下文；Contact条目关闭IP与国家记录。
 
 = 0.8.0 =
 * 单篇文章公开署名统一为DentAll Editorial Team，Yoast Schema、元标签和社交预览不再暴露后台作者账号。

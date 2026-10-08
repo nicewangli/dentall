@@ -1,0 +1,144 @@
+[
+  {
+    "title": "DentAll Contact",
+    "status": "draft",
+    "has_payment": 0,
+    "type": "form",
+    "form_fields": {
+      "fields": [
+        {
+          "index": 1,
+          "element": "input_text",
+          "attributes": {
+            "type": "text",
+            "name": "name",
+            "value": "",
+            "autocomplete": "name",
+            "maxlength": 120
+          },
+          "settings": {
+            "label": "Name",
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Enter your name."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Name",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall-contact-name"
+        },
+        {
+          "index": 2,
+          "element": "input_email",
+          "attributes": {
+            "type": "email",
+            "name": "email",
+            "value": "",
+            "autocomplete": "email",
+            "maxlength": 254
+          },
+          "settings": {
+            "label": "Email",
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Enter your email."
+              },
+              "email": {
+                "value": true,
+                "message": "Enter a valid email address."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Email",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall-contact-email"
+        },
+        {
+          "index": 3,
+          "element": "textarea",
+          "attributes": {
+            "name": "message",
+            "value": "",
+            "class": "",
+            "rows": 6,
+            "maxlength": 5000
+          },
+          "settings": {
+            "label": "Message",
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Enter your message."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Message",
+            "template": "inputTextarea"
+          },
+          "uniqElKey": "dentall-contact-message"
+        },
+        {
+          "index": 4,
+          "element": "input_hidden",
+          "attributes": {
+            "type": "hidden",
+            "name": "dentall_product_id",
+            "value": ""
+          },
+          "settings": {
+            "admin_field_label": "Unverified product ID"
+          },
+          "editor_options": {
+            "title": "Hidden Field",
+            "template": "inputHidden"
+          },
+          "uniqElKey": "dentall-contact-product-id"
+        }
+      ],
+      "submitButton": {
+        "element": "button",
+        "attributes": {
+          "type": "submit",
+          "class": ""
+        },
+        "settings": {
+          "align": "left",
+          "button_style": "default",
+          "button_size": "md",
+          "container_class": "",
+          "button_ui": {
+            "type": "default",
+            "text": "Send message",
+            "img_url": ""
+          }
+        },
+        "editor_options": {
+          "title": "Submit Button"
+        },
+        "uniqElKey": "dentall-contact-submit"
+      }
+    },
+    "metas": [
+      {
+        "meta_key": "formSettings",
+        "value": "{\"confirmation\":{\"redirectTo\":\"samePage\",\"messageToShow\":\"Your message has been saved. Our team will review it.\",\"customPage\":null,\"samePageFormBehavior\":\"hide_form\",\"customUrl\":null},\"restrictions\":{\"limitNumberOfEntries\":{\"enabled\":false,\"numberOfEntries\":null,\"period\":\"total\",\"limitReachedMsg\":\"Maximum number of entries exceeded.\"},\"scheduleForm\":{\"enabled\":false,\"start\":null,\"end\":null,\"selectedDays\":null,\"pendingMsg\":\"Form submission is not started yet.\",\"expiredMsg\":\"Form submission is now closed.\"},\"requireLogin\":{\"enabled\":false,\"requireLoginMsg\":\"You must be logged in to submit the form.\"},\"denyEmptySubmission\":{\"enabled\":false,\"message\":\"Sorry, you cannot submit an empty form. Let's hear what you wanna say.\"},\"restrictForm\":{\"enabled\":false,\"fields\":{\"ip\":{\"status\":false,\"values\":\"\",\"message\":\"Sorry! You can't submit a form from your IP address.\",\"validation_type\":\"fail_on_condition_met\"},\"country\":{\"status\":false,\"values\":[],\"message\":\"Sorry! You can't submit a form the country you are residing.\",\"validation_type\":\"fail_on_condition_met\"},\"keywords\":{\"status\":false,\"values\":\"\",\"message\":\"Sorry! Your submission contains some restricted keywords.\"}}}},\"layout\":{\"labelPlacement\":\"top\",\"asteriskPlacement\":\"asterisk-right\",\"helpMessagePlacement\":\"with_label\",\"errorMessagePlacement\":\"inline\",\"cssClassName\":\"\"},\"delete_entry_on_submission\":\"no\",\"conv_form_per_step_save\":false,\"conv_form_resume_from_last_step\":false}"
+      },
+      {
+        "meta_key": "notifications",
+        "value": "{\"name\":\"DentAll Contact notification\",\"sendTo\":{\"type\":\"email\",\"email\":\"\"},\"fromName\":\"\",\"fromEmail\":\"\",\"replyTo\":\"{inputs.email}\",\"subject\":\"DentAll Contact\",\"message\":\"<p><strong>Name:</strong> {inputs.name}</p><p><strong>Email:</strong> {inputs.email}</p><p><strong>Message:</strong><br>{inputs.message}</p>\",\"conditionals\":{\"status\":false},\"enabled\":false}"
+      },
+      {
+        "meta_key": "template_name",
+        "value": "dentall-contact-v1"
+      }
+    ]
+  }
+]

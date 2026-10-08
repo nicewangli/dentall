@@ -24,6 +24,7 @@ tags:
 - 学习索引：[[WordPress实战笔记/WordPress实战笔记索引]]
 - 每日索引：[[README|DentAll每日笔记索引]]
 - 当前状态：[[../PROJECT_STATE|项目当前状态]]
+- 合成站点单篇与长表格回归：[[Day90-内容样本与集成抽样]]
 
 ## 授权、范围与责任
 
