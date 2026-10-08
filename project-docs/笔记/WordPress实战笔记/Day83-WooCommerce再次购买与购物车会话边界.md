@@ -4,9 +4,9 @@
 日期: 2026-10-08
 工作日: Day83
 主题: WooCommerce再次购买与购物车会话边界
-状态: 静态与隔离WP-CLI已核对，HTTP会话验收待恢复
+状态: 静态与隔离Woo CRUD已核对，HTTP会话验收待恢复
 掌握度: 初识
-验证环境: WooCommerce 11.0.0源码、DentAll Core 0.7.1候选、隔离WP-CLI；浏览器和Cart会话未验
+验证环境: WooCommerce 11.0.0源码、DentAll Core 0.7.1候选、隔离Woo CRUD/WP-CLI；浏览器和Cart会话未验
 tags:
   - DentAll
   - WordPress实战
@@ -27,6 +27,7 @@ tags:
 
 - [x] 能从Woo 11源码指出按钮输出和Cart重装分别使用的Hook。
 - [x] 能解释为什么仅让订单状态Filter返回空数组，仍不足以证明非空Cart保持不变。
+- [x] 能用隔离Woo CRUD订单核对原生订单查询、分页、状态金额及A/B详情归属，并说明Guest入口守卫与底层能力的区别。
 - [ ] 能在隔离Local用真实HTTP、Cookie和非空Cart完成前后快照；PHP服务启动被自动审批阻断，待恢复。
 
 ## 真实项目场景与整体模型
@@ -115,9 +116,10 @@ add_action( 'wp_loaded', 'dentall_core_redirect_order_again_request', 1 );
 | 代码与Woo源码 | PHP语法、`git diff --check`通过；Woo 11源码可追到按钮Filter、Cart Session与默认清空分支 | 特定网站真实Cookie与重定向结果 |
 | 既有合同 | D79 16/16、D80 28/28、D81/D82 26/26通过 | D83订单详情、Cart不变量或四端布局 |
 | 隔离WP-CLI | Core/Woo active，Filter为`[]`，DentAll拦截Hook优先级1 | HTTP请求、Session持久化、浏览器与A/B/Guest |
+| 隔离Woo CRUD | TEST客户A/B各1，订单A13/B2/Guest1共16张；原生查询、10+3分页、状态/金额、错误ID/key、A/B互看拒绝、完成订单按钮输出抑制通过；夹具全部清理、残留0 | HTTP入口、Cart、四端与目标HPOS。Woo底层`view_order`对未登录ID 0的Guest订单返回true，但My Account入口CLI调用先显示登录表单；真实请求仍待验 |
 | 独立审查 | 代码无开放P0～P2，安全无开放P0～P3 | 交易动态验收 |
 
-隔离副本`.codex-tmp/d83-b-isolated`及专属数据库保留，MySQL已停。自动审批拒绝启动`php -S 127.0.0.1:18183`，仅回报`blocked by policy`；没有HTTP、Cart前后、订单页和四端证据。不能把这个限制写成插件故障，也不能据此宣称B方案已经满足动态验收。
+隔离副本`.codex-tmp/d83-b-isolated`及专属数据库保留，测试邮件由隔离`pre_wp_mail`短路，MySQL已停且19183/18183无监听。自动审批拒绝启动`php -S 127.0.0.1:18183`，仅回报`blocked by policy`；没有HTTP、Cart前后、订单页和四端证据。不能把这个限制写成插件故障，也不能据此宣称B方案已经满足动态验收。
 
 | 层级 | 本主题职责 |
 |---|---|
@@ -146,6 +148,7 @@ add_action( 'wp_loaded', 'dentall_core_redirect_order_again_request', 1 );
 | 点击旧链接后Cart被替换 | 请求是否同时含两个参数、拦截是否先于Session | 同一Cookie的Cart前后快照与响应链 |
 | 订单A/B可互看 | 原生订单归属与`view-order`能力 | 两个TEST客户及Guest分别访问 |
 | CLI通过但浏览器失败 | CLI无真实HTTP Session或环境代码不同步 | 先核对版本，再抓HTTP请求和服务器日志 |
+| Guest底层能力显示可看Guest订单 | Woo按用户ID 0匹配订单归属，但My Account入口先检查登录态 | 用真实未登录HTTP访问Guest订单详情，确认只见登录页、无订单信息；并检查其他可达入口 |
 
 ## 掌握标准与费曼测试
 

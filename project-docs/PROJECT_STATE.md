@@ -6,10 +6,11 @@
 
 - 用户明确选择 B：第一版暂缓 WooCommerce 原生“再次购买”，先保留订单列表/详情及 D84 非支付账户链的验收方向。`origin/main` 已包含 D81/D82 增量，当前独立分支 `codex/day83-day84-order-account` 从该合成基线继续；未重做资料或地址功能。
 - Core 候选版本 0.7.1 只改插件版本与既有账户模块：`woocommerce_valid_order_statuses_for_order_again` 返回空状态以隐藏原生按钮；`wp_loaded` 优先级 1 对已登录且同时带 `order_again`、`_wpnonce` 的请求安全跳转 Cart。WooCommerce 11.0.0 在同一生命周期默认优先级 10 装载购物车；原生重购默认可清空现有 Cart，因此只隐藏按钮或只返回空状态不足以保障直接请求。未改 Woo 核心、订单 CRUD、模板、字段或主题资源。
-- 静态检查：两个 PHP 文件语法与 `git diff --check` 通过；D79 16/16、D80 28/28、D81/D82 26/26 纯 PHP 合同通过。新隔离副本只读 WP-CLI 确认 WooCommerce 11.0.0、Core 0.7.1 已启用、可重购状态过滤为 `[]`、拦截 Hook 优先级为 1；最终拦截条件调整后未在隔离副本重新发起 HTTP。独立代码审查无 P0～P2，安全审查无 P0～P3；均明确只基于源码。
-- 专属隔离副本位于本工作树 `.codex-tmp/d83-b-isolated`，数据库 `dentall_d83b_iso`；自动审批拒绝启动 `Start-Process ... php -S 127.0.0.1:18183 ...`，仅返回 `CreateProcess ... rejected: blocked by policy`，未给更具体原因。未换命令重试。专属 MySQL 已正常关闭，19183 端口未监听；隔离目录与数据库保留供后续验收，不触碰 D81/D82 的历史 TEST 残留。
+- 静态检查：两个 PHP 文件语法与 `git diff --check` 通过；D79 16/16、D80 28/28、D81/D82 26/26 纯 PHP 合同通过。隔离 WP-CLI 确认 WooCommerce 11.0.0、Core 0.7.1 已启用、可重购状态过滤为 `[]`、拦截 Hook 优先级为 1；隔离副本的两份 Core 运行文件与当前候选 SHA-256 一致。独立代码审查无 P0～P2，安全审查无 P0～P3；均明确只基于源码。
+- 本轮复用专属隔离数据库，通过 Woo CRUD 建立 Customer A/B 各一人与 16 张纯 TEST 订单（A13/B2/Guest1），邮件由隔离 `pre_wp_mail` 短路。原生 `wc_get_orders` 查询、A 的 10+3 分页、状态/格式化金额、错误 ID/key、A/B 互看拒绝、已完成订单的重购按钮输出抑制均在 WP-CLI 通过。Woo 底层 `current_user_can('view_order', Guest订单)` 对未登录 ID 0 返回 true；My Account 入口的 CLI 调用只输出登录表单而无详情，仍待真实 HTTP 核对。首次探针 20 项中 2 项为测试预期过窄/错误，定向探针已澄清，不记为应用通过项或代码缺陷。16/16 订单与 2/2 客户按 Woo CRUD 清理，残留订单/测试客户均为 0；隔离新装库 HPOS 为 off，不外推目标环境。
+- 专属隔离副本位于本工作树 `.codex-tmp/d83-b-isolated`，数据库 `dentall_d83b_iso`；自动审批拒绝启动 `Start-Process ... php -S 127.0.0.1:18183 ...`，仅返回 `CreateProcess ... rejected: blocked by policy`，未给更具体原因。未换命令重试。专属 MySQL 在 CLI 验证后已关闭，19183/18183 均未监听；隔离目录与数据库保留供后续验收，不触碰 D81/D82 的历史 TEST 残留。
 - **未验收：** 有/无效重购链接下的非空 Cart 前后不变量、原生按钮实际消失、订单列表/详情及 A/B/Guest 越权、390/768/1024/1440 四端、D84 非支付账户链和已签发报价付款页回归。因此 D83、D84、M6 均不标 Done，不能把源码审查写成浏览器通过。D83-P2 延期项由开发者负责：待环境管理员核准隔离 HTTP 服务启动方式后复用现有副本完成门禁；未来恢复“再次购买”须先形成保留现有 Cart、报价与权限边界的方案，再单独验收。新增工时和排期影响待环境恢复后评估，不默认吸收。
-- 本轮无共享 Local、Staging、Production、真实邮件、支付、DNS 或缓存配置改动。无新数据结构或公开 URL；目标请求会 302 到 Cart，真实缓存/SEO输出、支付及物流影响尚缺 HTTP 证据，部署未执行。详见[[笔记/Day83-订单中心与再次购买暂缓]]。
+- 本轮无共享 Local、Staging、Production、真实邮件、支付、DNS 或缓存配置改动。无新数据结构或公开 URL；候选代码拟将命中的请求以 302 跳转到 Cart，真实状态码、缓存/SEO输出、支付及物流影响尚缺 HTTP 证据，部署未执行。详见[[笔记/Day83-订单中心与再次购买暂缓]]。
 
 ## D81/D82账户资料与默认地址隔离Local技术验收（2026-10-07）
 
