@@ -102,6 +102,15 @@
 - [x] D79身份边界：A、B与匿名会话不串，跨客户订单详情不可见；Guest `order-pay`新旧订单的key/邮箱门槛和归户后登录要求已验证，未提交真实付款。
 - [x] D79角色回归：Customer不能进入后台；Website Manager仍可管理Woo/订单并保留`create_customers` capability（不等于可在后台新建WordPress用户），不能管理用户、插件或主题。
 
+### D83/D84合成版本的Staging验收清单（待统一发布窗口）
+
+- [ ] 发布前由统一窗口负责人冻结实际部署SHA、主题/Core/WP/Woo/PHP版本、第一方文件清单、HPOS和Woo页面绑定；确认My Account全宽模板、英语标题、Coming Soon、`noindex`、Breeze/Varnish/OCP、SMTP、日志及文件＋数据库备份。回滚目标取本窗口发布前的实际状态。
+- [ ] HPOS开启的Staging用Woo CRUD或原生后台创建少量明确标记的Customer A/B、Guest及订单：跨客户订单列表/详情不可见，历史地址与金额快照不变；原生“再次购买”入口隐藏，有效、无效、跨客户直链均不改变同一非空Cart的商品、数量、优惠券和金额。
+- [ ] D84在390/768/1024/1440px复验登录、资料、默认地址、订单、退出、找回、重置与旧Key失效；核对邮箱提示的视觉、DOM、读屏与键盘顺序，并保留正常、空、错误状态及日志证据。
+- [ ] 用匿名、Customer A/B的独立Cookie容器检查账户、订单、Cart、Checkout、找回及**真实**`order-pay`的冷/暖响应：记录状态、`Cache-Control`、`Age`、`X-Cache`和正文，不能共享命中或串出他人私有信息。Coming Soon占位页的缓存头不算真实付款页结论；OCP的`orders`预取notice单列P2。
+- [ ] 经批准的受控TEST收件箱限定邮件种类与封数，核对Woo触发、FluentSMTP接受、实际收件和重置结果。新建具有效报价条件的TEST Pending单：未签发时原生`Pay`动作即使可见也不能付款；签发后须以正确Key/邮箱进入真实付款页，核对商品、运费、税费、费用、总额及72小时绝对截止；错Key、他人、过期、内容变更均不得泄露或付款。本轮不提交支付，旧已取消TEST单不能替代有效样本。
+- [ ] 若缺当次备份、真实交易页不可达、私有缓存串用户、金额或状态不一致、发生非预期真实邮件/支付、P0/P1或TEST对象无法对账，则停止相应链并由统一窗口负责人按实际发布前状态回滚；TEST订单按批准清单留审计和清理，不以整库回退代替逐项处置。
+
 ### SEO、性能和安全
 
 - [ ] Sitemap、robots、Canonical、Schema和301。
