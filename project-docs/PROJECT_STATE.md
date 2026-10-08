@@ -2,6 +2,13 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## D91 Staging SEO模板三键与单URL缓存验证（2026-10-08）
+
+- 用户明确允许仅在Cloudways Staging应用`6604195`备份并修改Yoast `wpseo_titles`三键：商品分类Title、商品分类Social Title、404 Title；必要时仅清受影响页面缓存。应用Folder `deufrhswrj`、`home/siteurl`、`blog_public=0`已交叉核对；Master SSH Terminal足够，应用用户SSH Access保持关闭。没有安装/更新插件、改运行代码、商品/文章、URL、robots、Canonical、Sitemap或Production。
+- 私有JSON完整备份验证为175键。受控写入后，独立WP-CLI进程确认三键等于D48 Local分类模板与本次英文404目标，其余172键严格不变、autoload仍为`auto`。全新404为真实404，Title/OG `Page not found - DentAll`、noindex/nofollow、无Canonical；分类未命中缓存请求为200，Title/OG `TEST D12 Products - DentAll`，Staging维持noindex/nofollow。分类标准URL先前仍为旧`归档`标题和Varnish HIT/Age约7500秒。
+- Breeze 2.5.12现场函数和Varnish启用状态只读确认后，对精确`/product-category/test-d12-products/`执行一次带站点/无查询参数守卫的单URL清理。公开标准URL首次GET为新Title/OG、200、`X-Cache: MISS`、`Age: 0`；第二次相同标题且`HIT`、`Age: 13`。没有执行全站清理或修改缓存策略。此前公网PURGE/URLPURGE返回405、本机`:8080`原始URLPURGE返回403，均未计为成功。
+- Sitemap 16个商品分类URL中，15个匿名抽样为新标题；`CAD/CAM Materials`在新响应/MISS时仍有`归档`。只读WP-CLI确认它是term ID 32，其`wpseo_taxonomy_meta`分类级`wpseo_title`仍为`%%term_title%% 归档 %%page%% %%sep%% %%sitename%%`，覆盖全局模板；未获逐分类字段修改授权，故保留D91/P2，由开发者与Website Manager最晚D92索引审查前决定单项修正及正式分类审核范围。D91描述、其他社交/页面抽样、Production索引及D92～D96仍待，不标D91整体Done。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+
 ## D83订单中心与D84非支付账户链隔离Local技术验收（2026-10-08）
 
 - 用户明确选择 B：第一版暂缓 WooCommerce 原生“再次购买”，保留订单列表/详情和 D84 非支付账户链。D81/D82 先前已进入主线，D83/D84 随后从该基线实施，并以合并提交 `291bcb4` 纳入主线版本；未重做资料或地址功能。源码合并不等于部署，共享 Local、Staging 和 Production 仍未安装本轮版本。

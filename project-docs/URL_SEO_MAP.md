@@ -8,6 +8,12 @@
 - Website Manager可编辑内容级标题和描述，但不能无记录修改已发布Slug、分类层级、Canonical或固定链接结构；高影响URL和技术SEO由开发者复核。
 - 每个HTML文档只能输出一个`<title>`。Local由Yoast负责SEO Title；DentAll Core仅在Yoast启用时移除WordPress核心重复的Block Template Title回调，Yoast停用后由WordPress核心回退输出，不把Title内容硬编码进主题或兼容模块。
 
+### D91 Staging元数据模板现场状态（2026-10-08）
+
+- 仅Staging应用`6604195`的Yoast `wpseo_titles`三键已在私有完整备份后调整：`title-tax-product_cat=%%term_title%% %%page%% %%sep%% %%sitename%%`、`social-title-tax-product_cat=%%term_title%%`、`title-404-wpseo=Page not found %%sep%% %%sitename%%`；其余172键不变，autoload仍为`auto`。这不是Production配置或正式分类内容冻结。
+- 全新404为真实404、`Page not found - DentAll`、noindex/nofollow且无Canonical；TEST商品分类标准URL定向清旧缓存后200，Title/OG为`TEST D12 Products - DentAll`，MISS→HIT均保持新值。Staging `blog_public=0`，其robots/Canonical结果不能代替Production索引验收。
+- `CAD/CAM Materials`仍输出旧`归档`；已只读确认term ID 32的分类级Yoast `wpseo_title`单独覆盖全局模板。字段未改，开发者与Website Manager最晚D92前确认单项修正范围及正式内容复核。未改Slug、重定向、Canonical、Sitemap或缓存策略。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+
 ## 第一版页面映射
 
 具体英文Slug在关键词、分类结构和内容清单确认后冻结。项目为从零开发的新站，不包含旧站URL迁移。

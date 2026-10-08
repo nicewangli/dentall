@@ -137,3 +137,4 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day84 | [[Day84-账户全链路回归]] | 非付款账户链隔离Local业务及四端技术验收通过，20张截图；原始自动报告169/170且保留`status=fail`，末项为隔离站favicon 404。TEST对象/私有凭据已清理；390提示顺序P2，真实邮件、HPOS与目标环境未验 |
 | Day85（并行检查点） | [[Day85-通用内容页模板与编辑回归]] | 已完成隔离Local技术范围：原生Page＋Full width、两块局部CSS；四端/共享页/键盘/SEO 616/616、编辑67/67。已随批次①合入主线并在Staging既有TEST Page完成Full width四端命中；正式内容、真实设备/读屏和Production仍待 |
 | Day86 | [[Day86-博客列表分类分页与空状态]] | 最新主线Local合成通过：源码12274cd，主题0.46.0/Core0.6.0，D74/D79/D80/D85一并回归。GitHub与Staging代码部署、36文件/版本及Blog现场验收完成；交易缓存、对象缓存兼容性P2及有效报价完整验收未关闭；学习见[[WordPress实战笔记/Day86-文章主查询与归档Hook边界]] |
+| Day91（授权三键） | [[Day91-SEO元数据模板与Staging验证]] | Staging Yoast分类Title、Social Title及404 Title三键已备份、写入并验证其余172键不变；TEST分类标准URL单页清缓存后新标题MISS→HIT，CAD/CAM分类级覆盖已定位但未修改。D91整体描述、其他页面和索引审查仍待；学习见[[WordPress实战笔记/Day91-Yoast模板与缓存分层验证]] |
