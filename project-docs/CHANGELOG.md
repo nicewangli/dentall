@@ -4,10 +4,10 @@
 
 ## Unreleased
 
-### D91 Staging SEO模板定向修正（2026-10-08，三键已验）
+### D91 Staging SEO模板与CAD/CAM单项定向修正（2026-10-08）
 
 - 按用户明确授权仅在Staging应用`6604195`完整备份Yoast `wpseo_titles`后，修正商品分类Title、Social Title与404 Title三键。独立进程验证三键正确、其他172键严格不变、autoload=`auto`；没有修改运行代码、插件、URL/Canonical/robots/Sitemap或Production配置。
-- 真实404及商品分类新响应的Title/OG、状态码和Staging noindex通过；标准TEST分类URL旧Varnish HIT已用Breeze精确单URL函数清理，公网随后MISS→HIT且持续显示新英文标题。`CAD/CAM Materials`的旧`归档`已定位为term ID 32的分类级Yoast标题覆盖，未在三键授权内改写；D91全量描述/社交/分类审核与D92索引审查仍待。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
+- 真实404及商品分类新响应的Title/OG、状态码和Staging noindex通过；标准TEST分类URL旧Varnish HIT已用Breeze精确单URL函数清理，公网随后MISS→HIT且持续显示新英文标题。用户另行授权后，私有备份`wpseo_taxonomy_meta`，仅移除`CAD/CAM Materials` term ID 32的旧标题覆盖，独立进程核对全选项其余字段不变；再备份并定向刷新Yoast indexable ID 46，仅标题与两个更新时间字段变化，层级最终记录与备份相同、目标SEO链接数仍为0。该分类标准URL单独清缓存后，公网Title/OG为`CAD/CAM Materials - DentAll`，200、noindex/nofollow及MISS→HIT通过。D91全量描述/社交/分类审核与D92索引审查仍待。详见[[笔记/Day91-SEO元数据模板与Staging验证]]。
 
 ### D83/D84：再次购买暂缓与非支付账户链（2026-10-08，隔离Local技术验收）
 
