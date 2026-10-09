@@ -5,8 +5,8 @@
 计划检查点: D79（登录注册策略、错误与安全边界）
 周次: W14
 实际有效工时: 用户未记录
-验收层级: 独立Local技术实现与身份归属验证
-状态: 身份与订单归属技术范围已验证；登录注册设计稿视觉未完成，D79整体重开
+验收层级: 独立Local技术验证及Staging登录注册布局复验
+状态: Staging视觉修复已发布；正式素材、共享Local与注册归户目标验收仍待，D79未Done
 ---
 
 # Day79 登录注册与订单归属
@@ -22,6 +22,45 @@
 ## 结论
 
 D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购买，也可以在My Account自行注册。WooCommerce 11.0在客户通过新账户设密或确认邮件证明控制该邮箱后，把同一Billing email且仍为`customer_id=0`的历史Guest订单关联到该Customer；不同邮箱订单和已经归属其他Customer的订单不移动。
+
+## 2026-10-09 Staging实际发布与验收
+
+本次已完成Staging登录、注册及匿名找回密码页的布局修复发布；D79整体仍未Done。用户当日明确确认写入暂停并允许发布，延续已确认的邮箱注册、邮件设密和开发占位图范围。
+
+| 发布步骤 | 实际证据（UTC） |
+|---|---|
+| 当次备份 | Cloudways应用`dentall-staging/6604195`，文件＋数据库恢复点与Last Backup Date均为`2026-10-09 01:05:14` |
+| 基线 | `deploy/staging@ed74467`，公开账户CSS与style.css匹配旧Git blob，部署日志未见10月6日后其他Pull |
+| A预置 | `669efcb530cfa096dcd647d1bf62fdc6c35bcdc0`，`01:16:47` Pull success；图片200、34,244字节且哈希匹配，旧页面仍为0.46.0 |
+| B激活 | `c1de7f15c8cbbbedd2138e686be5a74067a95779`，`01:23:24` Pull success；公开CSS为0.48.0，新HTML结构生效 |
+| 现场版本 | WordPress 7.1.3、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.34、DentAll 0.48.0、Core 0.6.0；HPOS启用、兼容同步关闭 |
+| 文件核对边界 | Git候选只变更五文件且与已审查源码映射相同，其余33个旧blob不变；现场公开CSS、style.css、图片三项哈希匹配，PHP仅由新HTML结构证明已运行。未读取服务器全部38个文件，不能宣称现场全量哈希验收 |
+
+实际发布文件仍为子主题`inc/account-auth.php`、`assets/images/account-hero-placeholder.webp`、`assets/css/account-auth.css`、`functions.php`、`style.css`。两新增、三修改；文本263行新增、28行删除，净增235行，8个PHP函数和6个Hook注册。PHP模块只承载匿名认证页展示，CSS复用Woo原生表单，图片为已批准占位图；本次发布未追加实现或依赖。资源版本0.48.0用于缓存失效，不代表D81/D82已上线。
+
+### 目标页面复验
+
+- 独立匿名浏览器：登录/注册各390、768、1024、1440px，加找回密码390/1440px，10视图均HTTP 200、无页面横向溢出、无Storefront侧栏、无Console/Page error。
+- 登录/注册始终只显示对应表单；390px的Sign up/Sign in真实点击双向切换正常，可见Label及3px键盘焦点正常；1440px开发图实际渲染。登录/注册的390/1440截图已目视核对。
+- 找回密码这里只检查未带Token的请求表单与无侧栏，未填写或提交；10月8日链接成功打开新密码表单的截图不能替代部署后的Token表单与保存测试。
+- 清缓存后对`/my-account/`、`?dentall_auth=register`、`/my-account/lost-password/`实际GET均200、`private/no-cache`、`noindex`并加载0.48.0。找回端点返回重复noindex值，仍禁止索引，本次未改SEO配置。
+- 本地证据为忽略目录`.codex-tmp/day79-staging-live-evidence/`中的精简`results.json`与10张PNG；Cookie原文已去除，仅保留存在布尔值。没有提交登录、注册或找回表单。
+
+### 清缓存、日志与交接
+
+Breeze第一次从Woo支付`path=/offline`页面生成`/wp-admin/offline`清理目标而显示404，未将其记为成功。只读核对Breeze 2.5.12官方源码确认管理栏以`basename(REQUEST_URI)`构造地址，此类SPA路径会造成错误目标；不能从404推断清理完成。改在正常`wp-admin/admin.php`页面的Breeze菜单补执行一次，后台明确显示`Cache data has been purged: 1.17 Kb static cache cleaned`及`Varnish Cache has been purged.`。Blog缓存Last-Modified从`01:45:47`刷新至`01:47:46 UTC`，返回MISS；三个账户页面保持动态响应。缓存策略未保存或修改。
+
+Cloudways应用Error Logs实际显示38条：最新为`2026-10-09 01:28:27 UTC`，`wp-content/plugins/breeze/inc/cache/purge-varnish.php:111`报`Class "Breeze_Configuration" not found`，堆栈为shutdown，与首次错误清理链接吻合，证实该次清理失败。当前展示未见该时刻之后的新错误；其余可见为10月7日历史日志截断信息及上述堆栈分行。平台仅展示recent1000且存在截断，不能宣称完整主机PHP日志零错误。Breeze SPA路径兼容缺陷记P2：开发者/Codex负责，当前通过有效后台入口完成清理并恢复操作，下一次维护评估官方修复或升级；本次不修改插件核心。
+
+WooCommerce当日日志来源列表未出现fatal-errors，但这不代表Cloudways没有PHP错误；新增PayPal日志记录`01:40:25 UTC`访问商户关联接口404及warning，对应当前未完成配置的网关。OCP后台Connected/Valid；既有预取可观测性待验边界保留。
+
+本次代码发布和清缓存已结束，已通知用户商品、文章、媒体可恢复日常编辑。原有订单及付款邮件测试限制不因本次视觉发布解除。没有新账户、订单、邮件、支付、数据库迁移或配置保存；Production、DNS、物流和真实支付均未操作。
+
+剩余验收责任与节点：开发者/Codex在下一次D79收口时完成共享Local同步和受控新TEST邮箱链路；用户/业务方提供可用新邮箱并亲自设密、确认正式素材；Website Manager处理旧中文隐私提示及正式隐私页内容（RSK-055）。已有TEST账户10月8日找回邮件实收、链接可打开继续有效，但不证明新客户注册、Guest归户、保存密码或旧链接重放。正式素材和英语文案在第一版视觉验收前关闭。
+
+代码回滚仍以前向提交撤回B的三文件为优先，再处理A的两个未引用文件；不因展示问题回滚数据库。当次备份用于恢复保障，内容编辑恢复后须评估增量损失才可考虑数据库恢复。
+
+## 2026-10-08返工与暂缓发布历史
 
 **2026-10-08验收纠偏：** 上述结论只覆盖账户身份与订单归属技术范围。既有Woo原生双表单卡片没有还原冻结设计稿的登录/注册独立构图，原四端无溢出测试不能代替视觉验收。D79整体重开；下文历史测试结果仍保留其实际证明范围。
 
