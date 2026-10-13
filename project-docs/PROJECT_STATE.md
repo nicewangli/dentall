@@ -2,6 +2,12 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## Contact开发收口与运营责任确认（2026-10-13）
+
+- 用户已确认Contact收件为`materials@chinaadsdentallab.com`，由Website Manager主办、每天查收一次并全权处理留言。日常回复、条目处理、留存/删除安排及正式英文隐私提示、政策链接由网站管理人员负责；这些运营输入不作为当前开发前置，不要求开发者代填或参与日常处理。
+- 开发复用现有Contact原生Page正文作为隐私段落和链接的可编辑入口；Fluent Forms原生Managers支持对实际独立账号开放View Forms、View Entries、Manage Entries并限定Contact Form，不新增字段、角色、后台模块或运行代码。导入包写入已确认的公司收件地址，继续保持草稿和通知关闭；公开使用前由网站管理人员补齐文案与留存安排，在部署阶段完成目标权限、邮件、缓存和Canonical验收。
+- 后续分支`codex/contact-release-preflight`基于远端集成`e078fc5`，不重复合入已包含的`b1154a8`。D89隔离开发证据继续有效；D90正式3篇Post＋1个Page及授权素材由Website Manager完成，M7仍按真实内容与目标环境证据验收。本次不扩大功能范围，实际工时未记录。
+
 ## D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08）
 
 - 已推送远端的整合分支`codex/day83-day104-integration`合成了`origin/main@e7caa3a`（D83/D84已在主线）、D89/D90源`b1154a8`（包含等效D87/D88前置提交）、D103/D104源`9211ad3`、D91～D94源`1f54e63`及D107准备`5fd2ec3`；远端`main`保持`e7caa3a`。独立D87/D88源提交未重复摘取。当前Git候选为主题0.49.0、Core 0.9.1；Core补丁号用于承接D103的REST守卫。RSK-057为作者身份、058为Contact、059为Sitemap/索引、060为Woo/Breeze目标更新，四项均未关闭。下方各Day段落保留源任务当时的版本与基线，不代表整合后的现行版本。

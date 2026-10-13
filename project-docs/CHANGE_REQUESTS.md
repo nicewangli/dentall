@@ -100,7 +100,7 @@
 - 新风险：参考范围被误认为固定报价、URL参数被篡改、联系邮件缺失商品上下文、错误输出Offer Schema。
 - 回滚方式：停用展示价格范围和商品上下文预填，保留普通Contact页面；不影响标准商品购物车和历史订单。
 - 验收标准：四端正确显示参考范围和免责声明；无价格时有可接受状态；无法直接加购；Contact页显示并提交正确商品；篡改或无效Product ID被安全忽略；联系表单成功/错误/邮件失败可验证；无误导性Offer Schema。
-- 需要谁确认：方案已确认；正式参考范围、按钮英文文案、联系收件人和隐私文案在实现前由业务方确认。
+- 需要谁确认：方案已确认；正式参考范围和按钮英文文案由业务方维护。2026-10-13已确认Contact收件为`materials@chinaadsdentallab.com`，Website Manager每日查收并全权处理；隐私提示、政策链接和留存安排由其在正式开放前补齐，不阻塞隔离开发。
 - 对应任务、提交和截图：ADR-014、D10规则；实现阶段回填。
 
 ### CR-006：Website Manager扩展为商城运营负责人
@@ -353,7 +353,7 @@
 - 提出日期：2026-09-21；2026-09-22按Staging实测修正服务商。
 - 优先级：P0。
 - 状态：Local隔离链路与Staging外部收件已验证；Header认证、业务触发矩阵、日志保留和失败/退信仍待批次①Staging收口。
-- 业务范围：第一版统一使用`materials@chinaadsdentallab.com`作为报价收件、WooCommerce通知发件身份和适用Reply-To；以后可以更换，但必须同步核对四类配置和历史链接边界。
+- 业务范围：第一版统一使用`materials@chinaadsdentallab.com`作为报价收件、WooCommerce通知发件身份和适用Reply-To；2026-10-13另确认该地址用于Contact收件，由Website Manager每天查收并处理。以后可以更换，但必须同步核对四类配置和历史链接边界。
 - 实施方案：WordPress只保留FluentSMTP一个邮件处理器；Staging使用公司BossMail专用SMTP主机、465端口和SSL。Cloudways Elastic Email未启用，不建立第二连接或fallback，不修改DNS。
 - 凭据与数据：邮箱密码只进入企业密码管理器和目标环境FluentSMTP配置，不进入Git、Markdown、截图或测试结果。邮件日志含客户邮箱、订单正文和付款链接，按最小期限保存并在验收后清理TEST记录。
 - 验收标准：1）受控外部邮箱实际收件；2）Woo客户/管理员、找回密码和询盘邮件按对应Day验证To/From/Reply-To/Return-Path与失败日志；3）原始Header核对SPF、DKIM、DMARC，Cron和日志保留期可观察且可回滚。

@@ -1,12 +1,13 @@
 ---
 项目: DentAll WooCommerce
 日期: 2026-10-08
+补充日期: 2026-10-13
 工作日: D89
 计划检查点: D89（不自动等于一个完整实际工作日）
 周次: W15
 计划工时: 6小时50分钟有效工作
 实际有效工时: 未记录；不使用计划工时代填
-验收层级: 隔离Local技术验证；正式收件与隐私流程未验
+验收层级: 隔离Local技术验证；正式投递与目标环境未验
 状态: 已完成授权的隔离Local候选；未发布
 ---
 
@@ -22,7 +23,7 @@
 
 ## 结论与三个验收结果
 
-- [x] 在独立Local副本安装并评估Fluent Forms Free 6.2.15，保留WordPress原生Contact Page；提交Git的导入包保持`draft`、通知关闭、收件人留空，不含TEST地址或环境ID。
+- [x] 在独立Local副本安装并评估Fluent Forms Free 6.2.15，保留WordPress原生Contact Page；首次交付导入包为`draft`、通知关闭、收件人留空。2026-10-13按用户确认补入公司收件地址，仍不含TEST地址或环境ID。
 - [x] 展示型商品链接只传ID，Core在预填、入库与邮件前重读WooCommerce商品；有效TEST商品保留规范名称/URL，标准商品或伪造字段被拒绝。四宽Contact无横向溢出，前台正常/无效参数/必填错误/成功、Honeypot、Token及邮件失败均在隔离环境验证。
 - [x] 收件人、条目访问角色、留存期、隐私文案、目标缓存与公开Canonical列为发布门槛；未把隔离验证当成正式表单、真实邮件或M7内容验收。
 
@@ -57,7 +58,7 @@ D89原总计划已有Contact、FAQ、404、反垃圾、邮件与定制商品上�
 | 原生数据 | Contact与FAQ为WordPress Page；商品仍为WooCommerce Product。未增CPT、ACF字段或数据库表定义 |
 | Core | `includes/contact.php`集中商品ID/销售模式校验、表单入库清洗、邮件内容和Contact Canonical，随站点长期启用且跨主题 |
 | 子主题 | `inc/contact.php`只在Contact Page添加经校验的提示和条件CSS；`assets/css/contact.css`只含页面局部布局与焦点规则 |
-| 表单导入 | `project-docs/forms/dentall-contact-fluentform.json`是插件原生导出格式；草稿、通知关闭、收件人留空，导入后的环境ID由`dentall_contact_form_id`配置，绝不提交实际邮箱 |
+| 表单导入 | `project-docs/forms/dentall-contact-fluentform.json`是插件原生导出格式；草稿、通知关闭，2026-10-13写入已确认的公司Contact收件地址。导入后的环境ID由`dentall_contact_form_id`配置，不提交TEST地址、账号凭据或环境ID |
 | 删除的预实现 | 去掉客户端隐藏名称/URL/来源字段；去掉按表单强开Token的错误Hook；改用邮件专属`fluentform/email_body`，不污染访客确认提示 |
 
 商品ID只接受正整数。`wc_get_product()`得到的对象必须为已发布、可见且`dentall_sales_mode=display_only`，名称和URL由服务端重新获得；入库前丢弃客户端同名字段并写入可信值。访客可在留言中自行描述商品，但不能让浏览器填入的名称/URL成为系统标记。通知邮件再次验证商品；普通联系邮件不附商品。公开输出按上下文转义，表单插件负责其必填与邮箱校验。匿名公开表单不检查登录Capability，垃圾拦截用Fluent Forms全局Token和Contact专用Honeypot，不能把Nonce等同身份授权。
@@ -79,10 +80,21 @@ D89原总计划已有Contact、FAQ、404、反垃圾、邮件与定制商品上�
 
 D90抽样期间发现插件对导入表单的TextArea `class`与SubmitButton `container_class`缺失发出Warning。已在JSON补两个空默认键，同步隔离Form 3后Contact GET为200，新增日志中Warning/Fatal/Parse计数0；没有修改Fluent Forms源码或新增CSS行为。
 
+## 2026-10-13业务确认与原生维护入口
+
+用户明确Contact由`materials@chinaadsdentallab.com`收件，网站管理人员主办、每天查收一次并全权处理；批准的英文隐私提示和政策链接由他们后续自行补充，开发先留入口。用户进一步要求这些运营协作不阻塞开发，优先完成已授权功能闭环。
+
+- 隐私入口复用`页面 → Contact Us → 编辑`的原生正文：在表单短代码旁增加普通段落，填获批准的英文提示并通过编辑器链接工具选择政策Page。现有Website Manager具备Page编辑能力；正文是可直接维护的入口，无需新增数据字段、固定文案、特殊占位组件或PHP。政策正文也由Website Manager维护；如需绑定WordPress系统隐私政策页，在部署配置时由Administrator完成。
+- 条目入口复用`Fluent Forms → Settings → Managers`：Administrator为实际Website Manager独立账号仅勾选View Forms、View Entries、Manage Entries，并启用指定表单、明确选中目标Contact Form。导出由View Entries覆盖；处理、标记和删除由Manage Entries覆盖。指定列表不可为空，不在Roles页授权整个角色，不授予表单编辑、全局设置、支付或Full Access。初配属于开发/部署交接，日常处理归网站管理人员。
+- 具体留存天数、删除/导出安排、正式隐私文案和政策链接属于网站管理人员的后续运营任务；开发不代定期限，不做自动清理、工单、通知重试或新审计模块。未知留言量不改变当前四字段骨架，不重复询问。
+- 本次延续D89范围，原生入口与配置优先，没有新增运行文件、函数、规则块或依赖；公司地址只写入禁用通知配置，不触发发送。开发交付与运营内容、正式环境验收分别按证据判断，不将后续协作列为隔离开发阻塞。
+
+本次在既有隔离Local中调用插件原生`ManagerService::addManager()`创建临时Website Manager授权，真实WordPress＋插件ACL定向检查20/20通过：Contact三项能力允许，Form 5与表单/设置/支付/Full Access拒绝，Contact Page #207编辑能力允许，Content Editor条目访问拒绝，WordPress系统权限拒绝。测试用户均删除，角色能力表与测试前一致；隔离服务四端口均无监听。该证据验证原生配置和权限判断，未冒充目标环境实际登录、导出/删除动作或SMTP投递验收；脚本和结果只保留在本分支忽略目录`.codex-tmp/contact-owner-check.php`、`contact-owner-results.json`。ACL、ManagerService、FormManagerService三个插件源文件与原6.2.15版本包逐文件SHA-256一致，未修改第三方源码。
+
 ## 发布门槛与风险
 
-1. 业务方确认实际收件地址、由谁处理条目及所需频率/估计量；开发者核最小Capability，不给Website Manager或Content Editor整角色开放插件管理。目标通知默认关闭，地址未确认前保持草稿。
-2. 确认条目留存期、删除/导出责任与访客隐私告知。插件会保存姓名、邮箱、留言、browser、device、source_url；停用插件不会自动删除条目或日志。政策页与表单文案须与实际保存数据一致。
+1. 收件地址、Website Manager处理责任和每日一次查收已确认。部署时按上方原生Managers路径给实际账号配置Contact条目最小权限，并验证允许与拒绝路径；当前导入包仍为草稿、通知关闭。
+2. 正式开放前由Website Manager补齐具体留存安排、删除/导出操作和访客隐私告知。插件会保存姓名、邮箱、留言、browser、device、source_url；停用插件不会自动删除条目或日志。政策页与表单文案须与实际保存数据一致；这一运营待办不阻塞当前开发。
 3. 部署前备份目标数据库；安装经版本/兼容复核的插件，导入草稿、核字段和禁用通知、设置目标Form ID；配置确认的收件人与From/Reply-To，检查权限、全局Token生成端点、Honeypot、缓存查询参数隔离及公开Canonical后才发布。先用非真实客户TEST提交检查收件、失败日志和人员处理，再验四宽。回滚先撤下表单/Page，再停用插件并按留存决定处理条目；回退主题/Core不会删除插件数据。
 
 本次没有改生产或Staging数据、支付、物流、订单、缓存设置、DNS或索引状态。新增功能影响Contact页面的表单CSS/JS与AJAX、插件表单/条目/日志表及邮件处理；隔离Cron列出`fluentform_do_scheduled_tasks`每5分钟与`fluentform_do_email_report_scheduled_tasks`每天。实测没有性能前后基线，不能声称零影响。公开环境的Canonical、查询参数缓存和邮件服务仍未验；正式Contact文案、隐私政策及M7内容验收不在本轮结果内。

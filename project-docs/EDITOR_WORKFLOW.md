@@ -40,6 +40,13 @@
 - 当前`manage_woocommerce`会开放WooCommerce日常设置能力；这不等于可以无流程修改支付、税费、物流、邮件、Webhook或Production配置。相关操作继续要求变更记录、测试、备份和开发协同。
 - Website Manager拥有Yoast高级元数据权限不等于可以无记录修改索引。SEO Title和Meta Description属于日常内容操作；已发布Slug、Canonical、是否索引、nofollow及高级robots属于高影响操作，保存前应记录旧值、新值、原因、受影响URL和复核人。
 
+### Contact留言与隐私入口（2026-10-13确认）
+
+- Contact通知发送到`materials@chinaadsdentallab.com`。Website Manager每天查收一次，负责回复、条目状态、导出/删除及留存安排；常规处理不需要开发者参与。发现提交条目已保存而邮件未到时，先核条目与通知日志，技术故障再交开发排查。
+- 开发/部署初配使用Fluent Forms的`Settings → Managers`，对实际独立账号勾选View Forms、View Entries、Manage Entries，并显式限制为Contact Form。指定表单不得留空；不使用Roles整角色授权，不授予Forms Manager、Settings Manager、Payments或Full Access。随后网站管理人员从Contact表单的Entries入口处理留言。
+- 隐私提示与政策链接从`页面 → Contact Us → 编辑`维护：在表单短代码旁使用普通段落和原生链接工具，补获批准的英文说明并链接到政策Page。Website Manager可编辑政策正文；WordPress`设置 → 隐私`的系统绑定如有需要由Administrator在部署配置时完成。
+- 具体留存期限、政策内容和日常清理安排由Website Manager自行完善；说明应覆盖姓名、邮箱、留言、可选商品上下文，以及插件实际保存的browser、device、source_url。正式表单开放前核对文案和实际数据；当前开发继续使用TEST数据验证骨架。
+
 ### 已发布Slug与Canonical操作
 
 1. 草稿或从未公开的TEST对象可在首次正式发布前修正Slug，不为无公开价值的测试URL创建Production重定向。
