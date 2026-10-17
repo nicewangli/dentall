@@ -18,6 +18,15 @@
 
 ## 文件白名单
 
+### 2026-10-17离线发布预检
+
+- 源码核对点：统一候选`e078fc5`、D增量`97a9065 → d3b00ff`、A增量`18e0096`、B增量`a64491b`；远端`main=e7caa3a`、`deploy/staging=c1de7f1`。本次仅核对Git对象，未核现场文件，也未实际合成或部署。
+- 按下表路径映射核对9项：部署树缺少`inc/article.php`、`inc/contact.php`、`assets/css/contact.css`及Core `includes/contact.php`，其他5项与D候选不同。因此离线包中相对`e078fc5`的补丁不能直接套到部署树，须先接纳D87/D89前置模块和加载行。
+- A/B/D的Core入口均标为`0.9.2`，版本相同不表示内容相同。统一集成须保留B新增`shipping-quote-paypal.php`加载、A的SEO Filter及D的Contact加载；合并A/D同名版本的readme条目后确定最终版本。D本轮不改A的SEO实现或B的支付代码。
+- 主题`functions.php`须同时保留已部署D79的`inc/account-auth.php`与D的article/contact加载。D84的`inc/setup.php`和`assets/css/customer-account.css`补丁不在D增量内，必须由统一集成保留，不能用D目录覆盖。
+- 核对时，用户已在「W13 Day76｜PayPal沙盒支付流程拆解」分配B独占Staging窗口，B正在现场预检；D不进入共享浏览器或目标站操作。下一窗口由总协调确认B结束、A的SSH操作安排和最终发布提交后分配，不因本任务“开始下一步”推定窗口移交。
+- 原离线包`D工作包-d3b00ff.zip`的SHA-256仍为`608d871daa21e61d489cab3f18109e4638edbf38a7e125c1b60ca74db7f2e3da`，其中验收卡是`d3b00ff`快照；本节是后续预检记录，以当前Git文档为准。正式隐私文案及内容继续由Website Manager后补，不作为技术集成前置。
+
 源码`app/public/wp-content/`映射部署分支根级`wp-content/`。以下是D涉及的全部运行文件，不是可绕过统一集成的整文件覆盖清单。
 
 | 源码中`app/public/wp-content/`之后的路径 | 本包职责 | 合成方式 |
