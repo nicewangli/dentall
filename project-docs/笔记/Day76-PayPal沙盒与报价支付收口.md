@@ -32,8 +32,11 @@
 - 源码提交`a64491b5e4acadd5a20f76434044457b85ea93e7`已推送`origin/codex/day76-payment-state-fix`；没有合并`main`。
 - 已在独立托管工作树`day76-staging-paypal/dentall`以部署基线`c1de7f15c8cbbbedd2138e686be5a74067a95779`制作三文件回移植包，提交`dc20dc98d9db45b408fb5c770ce8893367665d4d`已推送`origin/codex/day76-staging-paypal-20261017`。Core发布版本为0.6.1，不把源码候选0.9.2及其余模块带入现场。
 - 发布包只改Core入口、生命周期、PayPal适配；两个模块与源提交blob相同，入口仅版本及一个require。主题tree保持`eee13d8325759f39d92e89270847074a5a4f77e1`，基础报价文件未改。发布包PHP3/3、差异范围及主题不变检查通过，清单见私人`.codex-tmp/day76-release-review/`。
-- 浏览器已读到Staging已登录：WordPress7.1.3、WooCommerce11.0.0、活动Core0.6.0、活动PayPal Payments4.1.2、FluentSMTP2.4.0；PayPal提示尚需连接，noindex和商店Coming Soon仍在。现场PayPal版本与本地原生测试4.1.3不同，须补核官方4.1.2调用链，不能以补丁号接近直接放行，也未擅自更新插件。
-- Cloudways已核应用`dentall-staging`／ID6604195及对应HTTPS地址，进入Backup and Restore并点击一次`Take Backup Now`后浏览器请求超时；随后Cloudways及Staging标签读取均超时。尚未读到备份完成、还原点或新时间，因此只记“结果未知”，没有重复提交备份、Restore或Pull。已请用户保持本任务在前台并提供备份状态／时间。
+- 浏览器已读到Staging已登录：WordPress7.1.3、WooCommerce11.0.0、活动Core0.6.0、活动PayPal Payments4.1.2、FluentSMTP2.4.0；PayPal提示尚需连接，noindex和商店Coming Soon仍在。付款设置中的实际模式／商户尚待读取，未擅自更新第三方插件。
+- 官方PayPal4.1.2补核：三个Hook的名称、参数和关键时序可适配本候选，Capture、Approved、异常及处理相关9文件与已测4.1.3规范化后相同；本候选无需因此改运行代码。独立真实4.1.2实体／Endpoint／Approved离线检查46/46通过（WordPress／Woo为夹具，无DB、站点或HTTP），见私人`paypal-412-offline.json`；不并入原生HPOS167项或现场通过数。
+- 补充无DB能力矩阵6组18/18：真实WP7.1的`WP_User::has_cap/map_meta_cap/current_user_can/WP_Hook`及Woo11原生能力Filter，配内存用户／订单。匿名→Guest单及本人→本人单允许；其他用户／匿名→已归属单、不存在订单均拒绝；登录Customer→尚未归户Guest单的`view_order=false`、`pay_for_order=true`。证据为私人`paypal-412-capabilities.json`，不含现场其他插件Filter或真实身份／支付链。
+- 4.1.2仍有现场限制：创建类目录不同但本模块未引用；原生pay-now权限为`view_order`而4.1.3为`pay_for_order`，因此按原生规则，已登录Customer持正确key支付尚未归户Guest单会被4.1.2拒绝，不能笼统说所有Guest不能付。匿名Guest及验证归户后的本人单仍须现场补验。4.1.2部分失败分支立即置`failed`，本生命周期已允许该状态，但重试／库存／邮件必须实测。包头Woo tested up to10.9，不据静态调用链宣称Woo11完整兼容。详情见私人`paypal-412-compatibility-review.md`。
+- Cloudways已核应用`dentall-staging`／ID6604195及对应HTTPS地址，进入Backup and Restore并仅提交一次`Take Backup Now`点击请求，随后工具超时；点击是否实际生效、备份是否完成均未知，Cloudways及Staging标签后续读取也超时。尚未读到备份完成、还原点或新时间，因此只记“结果未知”，没有重复提交备份、Restore或Pull。已请用户保持本任务在前台并提供备份状态／时间。
 - 截至02:03 UTC远端`deploy/staging`仍为`c1de7f1`；没有推进部署分支、Cloudways Pull、Sandbox授权、配置保存、新建现场订单、付款、退款或发信。服务器三文件物理基线、当前支付／订单快照、独立恢复／错误日志入口及同点备份仍须确认后才发布。
 
 ## 修复结果与职责

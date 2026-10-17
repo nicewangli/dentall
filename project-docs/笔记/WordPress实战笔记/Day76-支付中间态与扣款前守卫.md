@@ -82,7 +82,7 @@ Woo的`wc_maybe_reduce_stock_levels()`会在on-hold触发，给商品行写`_red
 | woocommerce_paypal_payments_before_order_process | bool、gateway或null、WC_Order，Filter | 已付返回false；无效抛网关异常 |
 | woocommerce_paypal_payments_before_capture_order | 原生PayPal订单，Action | 从custom_id重读Woo，在外部Capture前复核 |
 
-本轮网关源码为磁盘PayPal Payments4.1.3。保存卡/Vault、授权后捕获不都经过这些Hook，因此本地通过口径限普通钱包立即Capture；版本或功能变化必须重新追调用链。
+首次原生隔离测试的网关源码为PayPal Payments4.1.3；现场后来读到4.1.2，已另取官方包补核三Hook及关键调用链，并用真实4.1.2类执行46项离线检查。4.1.2原生创建权限及部分失败处理仍有差异，必须补现场身份／重试验证，不能只比较Hook名字。保存卡/Vault、授权后捕获不都经过这些Hook，因此本地通过口径限普通钱包立即Capture；版本或功能变化必须重新追调用链。
 
 ## 运行证据与安全影响
 
