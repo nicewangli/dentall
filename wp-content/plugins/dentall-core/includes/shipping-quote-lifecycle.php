@@ -14,6 +14,7 @@ const DENTALL_SHIPPING_QUOTE_CLOSED_REASON_META = '_dentall_quote_closed_reason'
 const DENTALL_SHIPPING_QUOTE_EXPIRY_HOOK        = 'dentall_expire_shipping_quote';
 const DENTALL_SHIPPING_QUOTE_ACTION_GROUP       = 'dentall-shipping-quote';
 const DENTALL_SHIPPING_QUOTE_LIFETIME           = 72 * HOUR_IN_SECONDS;
+const DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES = array( 'pending', 'failed', 'on-hold' );
 
 /**
  * 以原始状态判断订单，避免展示Filter改变交易守卫。
@@ -105,7 +106,18 @@ function dentall_core_get_quote_item_signature_data( $order, $type ) {
 			continue;
 		}
 
-		$data             = $item->get_data();
+		$data = $item->get_data();
+
+		/* Woo在on-hold扣库存时写入此运行标记；规格及其他业务meta仍参与签名。 */
+		if ( 'line_item' === $type ) {
+			foreach ( $data['meta_data'] ?? array() as $meta_index => $meta ) {
+				if ( '_reduced_stock' === ( $meta->get_data()['key'] ?? '' ) ) {
+					unset( $data['meta_data'][ $meta_index ] );
+				}
+			}
+			$data['meta_data'] = array_values( $data['meta_data'] ?? array() );
+		}
+
 		$data['item_id']  = (int) $item_id;
 		$rows[]           = dentall_core_normalize_quote_signature_value( $data );
 	}
@@ -187,11 +199,12 @@ function dentall_core_get_shipping_quote_signature( $order ) {
 /**
  * 取得当前报价不能付款的原因。空字符串表示可付款或不归本模块管理。
  *
- * @param WC_Order|null $order 订单。
- * @param int|null      $now   测试可注入的UTC时间戳。
+ * @param WC_Order|null $order         订单。
+ * @param int|null      $now           测试可注入的UTC时间戳。
+ * @param bool          $allow_on_hold 仅供网关完成与到期校验；客户不能重付on-hold订单。
  * @return string
  */
-function dentall_core_get_shipping_quote_block_reason( $order, $now = null ) {
+function dentall_core_get_shipping_quote_block_reason( $order, $now = null, $allow_on_hold = false ) {
 	if ( ! dentall_core_is_shipping_quote_candidate( $order ) ) {
 		return '';
 	}
@@ -200,7 +213,9 @@ function dentall_core_get_shipping_quote_block_reason( $order, $now = null ) {
 		return 'closed';
 	}
 
-	if ( ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) ) {
+	$statuses = $allow_on_hold ? DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES : array( 'pending', 'failed' );
+
+	if ( ! dentall_core_shipping_quote_order_has_status( $order, $statuses ) ) {
 		return 'status';
 	}
 
@@ -266,7 +281,8 @@ function dentall_core_cancel_shipping_quote( $order, $reason ) {
 		return false;
 	}
 
-	if ( ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) ) {
+	/* 状态本身不允许再次付款，不代表有效on-hold报价应被客户重访取消。 */
+	if ( 'status' === $reason || ! dentall_core_shipping_quote_order_has_status( $order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES ) ) {
 		return true;
 	}
 
@@ -656,7 +672,7 @@ function dentall_core_expire_shipping_quote( $order_id, $token ) {
 		|| ! is_string( $token )
 		|| '' === $token
 		|| ! hash_equals( (string) $order->get_meta( DENTALL_SHIPPING_QUOTE_TOKEN_META, true, 'edit' ), $token )
-		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
+		|| ! dentall_core_shipping_quote_order_has_status( $order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES )
 	) {
 		return;
 	}
@@ -667,7 +683,7 @@ function dentall_core_expire_shipping_quote( $order_id, $token ) {
 		return;
 	}
 
-	$reason = dentall_core_get_shipping_quote_block_reason( $order );
+	$reason = dentall_core_get_shipping_quote_block_reason( $order, null, true );
 	dentall_core_cancel_shipping_quote( $order, '' === $reason ? 'expired' : $reason );
 }
 add_action( DENTALL_SHIPPING_QUOTE_EXPIRY_HOOK, 'dentall_core_expire_shipping_quote', 10, 2 );
@@ -685,7 +701,7 @@ function dentall_core_invalidate_changed_shipping_quote( $order_id, $order ) { /
 	if (
 		$updating
 		|| ! $order instanceof WC_Order
-		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
+		|| ! dentall_core_shipping_quote_order_has_status( $order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES )
 		|| 0 >= (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' )
 	) {
 		return;
@@ -704,7 +720,10 @@ function dentall_core_invalidate_changed_shipping_quote( $order_id, $order ) { /
 add_action( 'woocommerce_update_order', 'dentall_core_invalidate_changed_shipping_quote', 20, 2 );
 
 /**
- * 离开待付款状态后永久关闭已签发报价，并清理尚未执行的单次任务。
+ * 进入付款完成或关闭终态后永久关闭报价，并清理尚未执行的单次任务。
+ *
+ * on-hold可能是网关授权或待确认中间态，继续保留签名与原截止时间；
+ * 能否接收payment_complete由独立守卫校验，不因此开放客户再次付款。
  *
  * @param int      $order_id 订单ID。
  * @param string   $old_status 原状态。
@@ -713,7 +732,7 @@ add_action( 'woocommerce_update_order', 'dentall_core_invalidate_changed_shippin
  * @return void
  */
 function dentall_core_unschedule_settled_shipping_quote( $order_id, $old_status, $new_status, $order ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-	if ( ! $order instanceof WC_Order || in_array( $new_status, array( 'pending', 'failed' ), true ) ) {
+	if ( ! $order instanceof WC_Order || in_array( $new_status, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES, true ) ) {
 		return;
 	}
 
@@ -757,12 +776,12 @@ function dentall_core_guard_shipping_quote_payment_complete( $statuses, $order )
 		return $statuses;
 	}
 
-	return '' === dentall_core_get_shipping_quote_block_reason( $order ) ? $statuses : array();
+	return '' === dentall_core_get_shipping_quote_block_reason( $order, null, true ) ? $statuses : array();
 }
 add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', 'dentall_core_guard_shipping_quote_payment_complete', PHP_INT_MAX, 2 );
 
 /**
- * 插件停用时先关闭有效付款链接，再清理专属任务组。
+ * 插件停用时先预检在途报价，再关闭待付款报价并清理专属任务组。
  *
  * 停用后实时付款守卫不会运行，因此不能让已签发的pending/failed报价继续
  * 保持WooCommerce原生可付款状态。邮件发送与签发写入之间也可能中断，所以
@@ -780,7 +799,7 @@ function dentall_core_deactivate_shipping_quote_lifecycle() {
 		$order_ids = wc_get_orders(
 			array(
 				'type'       => 'shop_order',
-				'status'     => array( 'pending', 'failed' ),
+				'status'     => DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES,
 				'limit'      => -1,
 				'return'     => 'ids',
 				'orderby'    => 'ID',
@@ -792,7 +811,8 @@ function dentall_core_deactivate_shipping_quote_lifecycle() {
 			throw new UnexpectedValueException( 'WooCommerce did not return an order ID list.' );
 		}
 
-		/* 先取得完整ID快照，再改状态，避免边分页边取消造成漏单。 */
+		/* 先检查整批在途订单；停用失败时不应提前取消其他有效报价。 */
+		$orders = array();
 		foreach ( $order_ids as $order_id ) {
 			$order = wc_get_order( absint( $order_id ) );
 
@@ -800,10 +820,29 @@ function dentall_core_deactivate_shipping_quote_lifecycle() {
 				throw new RuntimeException( 'A payable order returned by WooCommerce could not be loaded.' );
 			}
 
-			if ( ! dentall_core_is_shipping_quote_candidate( $order ) || ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) ) {
+			if ( ! dentall_core_is_shipping_quote_candidate( $order ) || ! dentall_core_shipping_quote_order_has_status( $order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES ) ) {
 				continue;
 			}
 
+			/* 取消本地订单不能撤销远端授权，不能在在途回调仍可能到达时移除守卫。 */
+			if ( dentall_core_shipping_quote_order_has_status( $order, 'on-hold' ) ) {
+				throw new RuntimeException( 'A payment quote is on hold. Reconcile its gateway payment before deactivating DentAll Core.' );
+			}
+			$orders[] = $order;
+		}
+
+		foreach ( $orders as $order ) {
+			$order_id = $order->get_id();
+			$order    = wc_get_order( $order_id );
+			if ( ! $order instanceof WC_Order ) {
+				throw new RuntimeException( 'A payment quote could not be reloaded before deactivation.' );
+			}
+			if ( ! dentall_core_is_shipping_quote_candidate( $order ) || ! dentall_core_shipping_quote_order_has_status( $order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES ) ) {
+				continue;
+			}
+			if ( dentall_core_shipping_quote_order_has_status( $order, 'on-hold' ) ) {
+				throw new RuntimeException( 'A payment quote entered on hold during deactivation. Reconcile its gateway payment first.' );
+			}
 			if ( true !== dentall_core_cancel_shipping_quote( $order, 'deactivated' ) ) {
 				throw new RuntimeException( 'An active payment quote could not be cancelled.' );
 			}
@@ -814,7 +853,7 @@ function dentall_core_deactivate_shipping_quote_lifecycle() {
 				throw new RuntimeException( 'A cancelled payment quote could not be read back from WooCommerce.' );
 			}
 
-			if ( dentall_core_shipping_quote_order_has_status( $persisted_order, array( 'pending', 'failed' ) ) ) {
+			if ( dentall_core_shipping_quote_order_has_status( $persisted_order, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES ) ) {
 				throw new RuntimeException( 'An active payment quote remained payable after cancellation.' );
 			}
 		}
