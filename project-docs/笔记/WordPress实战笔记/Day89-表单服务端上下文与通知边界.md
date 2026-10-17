@@ -164,6 +164,12 @@ if ( $product ) {
 
 向AI提问时提供WordPress/WooCommerce/Fluent Forms版本、表单ID、最小Hook代码、浏览器Network状态、插件日志、条目字段和目标环境；移除真实邮箱、客户资料与密钥，要求区分已测证据和推断。
 
+## 2026-10-17实战补证：资格与关闭语义
+
+WooCommerce的`publish`与`is_visible()`不排除带密码商品；Contact要表达“完全公开的商品上下文”，因此还须在既有helper拒绝非空`get_post_password('edit')`，不随密码Cookie生成不同的可缓存结果。四条调用路径及匿名HTTP的失败/修复证据已保留。
+
+Fluent Forms实际识别`unpublished`作为关闭值。旧导入值`draft`虽在普通短代码中隐藏，匿名preview和合法Token的直接POST仍可用；改成原生未发布后POST422且不入库。通知关闭只影响发邮件，不能代替提交关闭；检查字段字符串也不能代替真实GET/POST。优先用插件原生状态修复，不再新增自定义停用Hook。见[[../Day89-Contact表单与商品上下文]]。
+
 ## 可复用核心思想
 
 ### 跨平台不变量

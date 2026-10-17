@@ -232,6 +232,10 @@ $data['author'] = array(
 | 其他 SEO 插件 | 枚举 Article、元标签、社交和 REST 出口 | 插件 API、Schema 结构和停用行为 |
 | Shopify 或其他平台 | 编辑责任与公开品牌署名可能是不同概念 | 模板、结构化数据和预览接口的具体机制待验证 |
 
+## 2026-10-17实战补证：预览、保存与修订
+
+原生Post在可见Preview新标签中读取当前作者的autosave，匿名公开页仍读已保存正文；正常Save后公开页才变化。新TEST Post实际点击这条路径及Revisions → Restore后，原生区块基线raw SHA、作者/Slug/状态均恢复。排错时先核HTTP状态和重写规则：本轮隔离副本曾因新固定链接option配旧rewrite_rules把预览送到404，不能据此修改文章模板或误判autosave丢失。详细证据与边界见[[../Day87-文章详情与公开署名]]。
+
 ## 可复用核心思想
 
 ### 跨平台不变量
@@ -240,7 +244,7 @@ $data['author'] = array(
 
 ### WordPress/WooCommerce 当前实现
 
-在当前隔离 Local 分支中，原生 Post 的 `post_author` 保持不变；Storefront 单篇 Hook 由子主题替换公开 byline；`dentall-core` 通过 Yoast 目标 Post 上下文处理 Article、Author、WebPage、元标签和社交输出。两篇不同后台作者的网页/REST、图谱、社交、四端、键盘与 Gutenberg 保存读回已验证。匿名核心 Users REST 返回后台显示名与作者归档链接的限制已列 RSK-057/P2；本次未改 Post 的原生 `author` ID 或 Users 端点。WooCommerce 不参与文章署名。隔离服务与TEST文章已清理，但临时副本留存；预览/autosave和非Local结果不能由本篇推定。
+在隔离 Local 中，原生 Post 的 `post_author` 保持不变；Storefront 单篇 Hook 由子主题替换公开 byline；`dentall-core` 通过 Yoast 目标 Post 上下文处理 Article、Author、WebPage、元标签和社交输出。原轮次验证两篇不同后台作者的网页/REST、图谱、社交、四端、键盘与 Gutenberg 保存读回；2026-10-17又按上节补齐代表Post的可见Preview/autosave和修订恢复。RSK-057其他作者出口由A包收尾，D不改原生`author` ID或重复编写身份治理。WooCommerce不参与文章署名；非Local仍需目标证据。
 
 ### Shopify 或其他平台的对应机制
 
