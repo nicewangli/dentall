@@ -2,6 +2,16 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## A工作包安全续作（2026-10-17）
+
+- 复用干净工作树`codex/day103-day104-security-followup@416681f`，远端只读重核`main=e7caa3a`、`deploy/staging=c1de7f1`、整合候选`e078fc5`；没有从主目录旧main覆盖文件或重复合入`9211ad3`。总协调用户批准A/B/D后下发A；本任务随后明确确认作者链接使用现有Blog `/blog/`。
+- Core候选0.9.2在既有SEO模块增加4个回调/5个Filter，收口Post oEmbed JSON/XML、RSS2/Atom/RDF作者、Atom URI、Yoast Feed自动作者链接和作者Feed标题。后台作者/数字ID、Page/Product、评论及既有self路由保持；原REST与Customer Cookie＋Nonce证据复用。运行相关3文件新增68/删除2/净增66行（含版本与readme），新增文件0；未改账户、报价、Contact或主题代码。
+- 新TEST采用官方逐文件校验的WP7.1.3、Woo11.0、PHP8.2.29、Core0.9.2及Yoast28.2。原生42/42、Yoast全文43/43、摘要43/43和独立36HTTP/59断言通过；3名TEST作者数据/meta与5项内容作者关系摘要前后相同。代表作者归档/Feed关闭后301、Post HTML团队署名200通过；运行代码与安全Review无P0～P3，文档P3历史口径已修正。细节、日志边界及私有证据见[[笔记/Day103-权限与账户暴露审计]]。RSK-057/P2仍欠目标部署、缓存和真实客户端。
+- RSK-061/P1负责人已确认当前为开发人员；未来老板/WM参与管理不等于已授予主机权限。旧钥仍否获授权、全部作用域及备用通道未知；同笔记已备精确换钥、旧钥负向、日志和回退步骤，待协调方分配所有者在场的SSH窗口。没有换钥或关闭P1。
+- D104当前官方目标Woo11.2.1/Breeze2.6.2，WP7.1.3；旧11.2.0/2.6.1隔离结果继续保留。已补本地依赖差异、经典Checkout/查询参数缓存用例、按风险确定暂停范围、新同点快照与配对恢复材料，见[[笔记/Day104-插件主题更新与安全配置审计]]。D105/D106已接受阶段不重开；目标活动版本、HPOS/迁移队列和真实缓存未取新现场证据，RSK-060/P2开放。
+- 本轮HTTP PID27856/MySQL父PID31660已核身份后停止，20530/20531监听0；私有证据保存于本树`.codex-tmp/public-author-evidence-20261017/`。新TEST目录`.codex-tmp/public-author-20261017/`经绝对路径/无重解析点核对后，递归删除被自动审批以`blocked by policy`拒绝，TEST凭据/库/副本保留且未绕过。旧两目录`C:/Users/Administrator/.codex/worktrees/172d/dentall/.codex-tmp/d103-security-172d-20261008`及本树`.codex-tmp/cookie-nonce-e078fc5-20261008`原样保留。
+- 本地作者出口技术验收已通过；Git交付仅本任务候选分支，main统一合并和Staging部署/更新/换钥窗口由协调方安排。共享Local/Staging/Production、真实邮件/支付、DNS及交易数据均未由本轮写入。唯一下一步是分配SSH处置窗口，先核旧钥映射及独立备用通道；功能部署与插件更新另排窗口，不以其尚未分配阻塞其他隔离工作。
+
 ## D103/D104整合分支后续安全收尾（2026-10-08）
 
 - 本轮从远端`origin/codex/day83-day104-integration@e078fc5`建立独立后续分支；该提交已包含旧`9211ad3`，没有重复合入。本轮不改第一方运行代码或共享Local/Staging/Production；整合分支的Core为0.9.1。

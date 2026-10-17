@@ -4,9 +4,9 @@
 日期: 2026-10-08
 工作日: Day103
 主题: REST权限与作者资料边界
-状态: Users REST 子面已在独立隔离站复演；全站作者暴露仍待治理
+状态: REST及Post公开作者出口已隔离验证；目标环境与SSH授权待验
 掌握度: 初识，待本人费曼自测
-验证环境: 首轮隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29；后续整合候选 Core 0.9.1 的全新 TEST 站；均仅用 TEST 作者与文章
+验证环境: 首轮WP7.1/Core0.7.1、整合Core0.9.1；10月17日WP7.1.3/Core0.9.2/Yoast28.2；Woo11.0/PHP8.2.29，均仅TEST作者与内容
 tags:
   - DentAll
   - WordPress实战
@@ -32,9 +32,9 @@ tags:
 
 ## 真实项目场景与学习范围
 
-DentAll 的已发表 TEST 文章有后台作者。隔离检查发现，匿名 Users REST 可返回该作者的显示名、slug 与链接；这些是公开资料字段，不是登录凭据或邮箱。收紧 Users REST 之后，oEmbed `author_name`/`author_url` 和 RSS2 `dc:creator` 仍含同一显示名。因此本篇学习的核心是**一个授权边界只覆盖它实际拦截的输出路径**。
+DentAll的已发表TEST文章有后台作者。首轮隔离发现匿名Users REST可返回该作者的显示名、slug与链接；这些不是登录凭据或邮箱。收紧该接口后，oEmbed和Feed仍含后台身份，因此10月17日又沿各自公开扩展点补齐Post自动作者输出。本篇核心是**一个授权边界只覆盖它实际拦截的输出路径**，并以目标环境/缓存/第三方客户端尚待验收限定结论。
 
-本篇范围为 WordPress 原生 `/wp/v2/users` GET/HEAD 集合和数字单项、本人读取、内容人员读取、文章数字作者关联及嵌入。登录暴力防护、写接口、作者归档治理、D104 版本更新和真实站点发布各有独立验收；后续只借用 D81/D82 的客户写守卫作隔离回归，不扩大本篇实施范围。入口是 `app/public/wp-content/plugins/dentall-core/includes/rest-user-access.php`，挂载于 `rest_request_before_callbacks`，优先级 11。下述首轮结果只对应独立隔离 WordPress 7.1、WooCommerce 11.0.0、DentAll Core 0.7.1、PHP 8.2.29；后续整合候选的事实另列。
+首轮范围为WordPress原生`/wp/v2/users` GET/HEAD集合和数字单项、本人/内容人员读取、文章数字关联及嵌入，入口`rest-user-access.php`挂于`rest_request_before_callbacks`优先级11。10月8日借既有D81/D82客户写守卫作隔离回归；10月17日经新的A包及Blog链接确认，才增加Post oEmbed/Feed自动作者治理，详见后文。登录防护、作者归档策略、D104更新和目标发布仍有各自验收。下述首轮结果只对应WP7.1/Woo11.0/Core0.7.1/PHP8.2.29，后续证据另列，不改写历史计数。
 
 ## 先建立整体模型
 
@@ -153,6 +153,14 @@ if ( current_user_can( 'edit_posts' ) || current_user_can( 'list_users' ) ) {
 
 匿名请求公开 TEST Post 的 oEmbed JSON 为 200，`author_name` 与 `author_url` 仍暴露后台作者；RSS2、Atom、RDF 和作者 Feed 均为 200 且含 TEST 后台名。TEST Atom 的作者 `<uri>` 存在并指向此站；目标作者个人网址是否有值待查。没有 Yoast 的此站作者归档为 200；历史 Staging 在 Yoast 关闭作者归档后曾测得 301，不能用其中一个环境替另一个作证。TEST 没有 Breeze/Varnish，旧 REST、oEmbed、Feed 是否命中目标缓存仍未知；D91 只证明 Staging 旧公开 HTML 可被 Varnish 保留。两项 TEST 服务已停，20430/20431 不再监听，运行代码未因本轮复验改变。TEST `http-error.log` 未匹配 Fatal/Warning；`wp-content/debug.log` 有一条 `wp_update_plugins()` 因 `WP_HTTP_BLOCK_EXTERNAL=true` 无法连接 WordPress.org 的 Warning，不应写成所有日志零错误，也不是 REST 守卫运行错误。oEmbed/Feed 若要治理，须另行确认输出范围、品牌 URL、客户端与缓存回滚。
 
+### 2026-10-17公开署名的四条输出路径
+
+用户在A包续作中确认oEmbed/Feed的品牌链接使用现有Blog `/blog/`。源码复核把剩余输出分成四条：oEmbed的JSON/XML共同消费`oembed_response_data`；RSS2/RDF的`dc:creator`和Atom的`name`消费`the_author`；Atom个人网址消费`get_the_author_user_url`，而Yoast `%%AUTHORLINK%%`还消费`author_link`；作者Feed标题由`get_wp_title_rss()`取文档标题，直接读作者对象，绕过`the_author`。因此共享一个URL回调、另设标题回调比全局替换用户显示名更能保留后台语义，也无需覆盖核心Feed模板。
+
+作者Feed可能没有条目；判断标题不能依赖全局当前Post。实现按Feed、非评论、作者查询和`post_type`选择适用范围；空/default、`post`、`any`及包含Post的数组均覆盖，Product-only保持原生标题。条目作者回调仍按当前Post限定。Feed自身的self链接继续保留既有nicename路由，正文人工文本、评论作者、Page/Product和非Feed资料各有自己的语义；这不是全站账号信息脱敏。
+
+品牌链接用`get_post_type_archive_link('post')`复用WordPress的文章页设置。API在未配置静态文章页时可能退回首页；发布前必须核`show_on_front`、`page_for_posts`和实际结果，不能把API回退当作用户批准了首页。oEmbed保持数据值交核心统一编码，Feed文本/URL在对应输出上下文转义；站名含`&`也是XML解析样本。本轮实际回归结果及用户/Post归属摘要见对应项目笔记，不以这段机制说明代替运行证据。
+
 | 练习 | 安全边界与预期 |
 |---|---|
 | 只读观察 | 在隔离站分别请求 Users 集合、数字作者、文章、`?_embed=author`、oEmbed、RSS2；比较状态码与字段，特别区分 `author` 整数和 `author_name`。 |
@@ -206,7 +214,7 @@ if ( current_user_can( 'edit_posts' ) || current_user_can( 'list_users' ) ) {
 
 ### WordPress/WooCommerce当前实现
 
-本项目在 WordPress 7.1 的 `rest_request_before_callbacks` 对核心 Users REST GET/HEAD 做定向授权，保留本人和 `edit_posts`/`list_users` 访问；`?_embed=author` 会触发内部作者请求。整合 TEST 的 Cookie＋Nonce 验证既有客户写守卫仍生效，而 oEmbed 与 RSS2/Atom/RDF/作者 Feed 仍需独立治理。登录会写入会话元数据，数据前后比对应从登录完成后开始；WooCommerce 本次不改交易数据。
+本项目在WordPress的`rest_request_before_callbacks`对Users REST GET/HEAD做定向授权，保留本人和`edit_posts`/`list_users`访问；整合TEST的Cookie＋Nonce验证既有客户写守卫。10月17日另用oEmbed/Feed的定向Filter统一Post自动作者名和Blog链接，WP7.1.3/Yoast28.2组合隔离通过；作者归档、缓存与目标实配仍单独验收。登录会写入会话元数据，比对应从登录后开始；WooCommerce交易数据不由此作者治理改写。
 
 ### Shopify或其他平台的对应机制
 
