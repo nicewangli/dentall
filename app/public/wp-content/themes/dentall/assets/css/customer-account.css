@@ -48,6 +48,19 @@
 	overflow-wrap: anywhere;
 }
 
+.woocommerce-account .dentall-account-verification-prompt {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--dentall-space-12);
+}
+
+.woocommerce-account .dentall-account-verification-prompt > .button {
+	float: none;
+	margin: 0;
+	padding-inline: var(--dentall-space-8);
+}
+
 .woocommerce-account .woocommerce-orders-table__header-order-number,
 .woocommerce-account .woocommerce-orders-table__cell-order-number {
 	white-space: nowrap;
@@ -58,6 +71,10 @@
 }
 
 @media (max-width: 767px) {
+	.woocommerce-account .dentall-account-verification-prompt {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
 	.woocommerce-account .woocommerce-orders-table tbody th.woocommerce-orders-table__cell-order-number {
 		display: block;
 	}
