@@ -25,6 +25,7 @@ require_once __DIR__ . '/includes/rest-user-access.php';
 require_once __DIR__ . '/includes/seo-compatibility.php';
 require_once __DIR__ . '/includes/shipping-quote.php';
 require_once __DIR__ . '/includes/shipping-quote-lifecycle.php';
+require_once __DIR__ . '/includes/shipping-quote-paypal.php';
 require_once __DIR__ . '/includes/homepage-settings.php';
 require_once __DIR__ . '/includes/customer-account.php';
 require_once __DIR__ . '/includes/contact.php';
