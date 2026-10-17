@@ -5,8 +5,8 @@
 计划检查点: D79（登录注册策略、错误与安全边界）
 周次: W14
 实际有效工时: 用户未记录
-验收层级: 独立Local技术实现与身份归属验证
-状态: Local完成；Staging自助注册与四端公开页已通过，真实归户替换报价仍待验
+验收层级: 独立Local技术验证及Staging登录注册布局复验
+状态: Staging视觉修复已发布；正式素材、共享Local与注册归户目标验收仍待，D79未Done
 ---
 
 # Day79 登录注册与订单归属
@@ -23,6 +23,70 @@
 ## 结论
 
 D79已按确认的A方案形成Local技术候选：客户可以继续以Guest购买，也可以在My Account自行注册。WooCommerce 11.0在客户通过新账户设密或确认邮件证明控制该邮箱后，把同一Billing email且仍为`customer_id=0`的历史Guest订单关联到该Customer；不同邮箱订单和已经归属其他Customer的订单不移动。
+
+## 2026-10-09 Staging实际发布与验收
+
+本次已完成Staging登录、注册及匿名找回密码页的布局修复发布；D79整体仍未Done。用户当日明确确认写入暂停并允许发布，延续已确认的邮箱注册、邮件设密和开发占位图范围。
+
+| 发布步骤 | 实际证据（UTC） |
+|---|---|
+| 当次备份 | Cloudways应用`dentall-staging/6604195`，文件＋数据库恢复点与Last Backup Date均为`2026-10-09 01:05:14` |
+| 基线 | `deploy/staging@ed74467`，公开账户CSS与style.css匹配旧Git blob，部署日志未见10月6日后其他Pull |
+| A预置 | `669efcb530cfa096dcd647d1bf62fdc6c35bcdc0`，`01:16:47` Pull success；图片200、34,244字节且哈希匹配，旧页面仍为0.46.0 |
+| B激活 | `c1de7f15c8cbbbedd2138e686be5a74067a95779`，`01:23:24` Pull success；公开CSS为0.48.0，新HTML结构生效 |
+| 现场版本 | WordPress 7.1.3、WooCommerce 11.0.0、Storefront 4.6.2、PHP 8.2.34、DentAll 0.48.0、Core 0.6.0；HPOS启用、兼容同步关闭 |
+| 文件核对边界 | Git候选只变更五文件且与已审查源码映射相同，其余33个旧blob不变；现场公开CSS、style.css、图片三项哈希匹配，PHP仅由新HTML结构证明已运行。未读取服务器全部38个文件，不能宣称现场全量哈希验收 |
+
+实际发布文件仍为子主题`inc/account-auth.php`、`assets/images/account-hero-placeholder.webp`、`assets/css/account-auth.css`、`functions.php`、`style.css`。两新增、三修改；文本263行新增、28行删除，净增235行，8个PHP函数和6个Hook注册。PHP模块只承载匿名认证页展示，CSS复用Woo原生表单，图片为已批准占位图；本次发布未追加实现或依赖。资源版本0.48.0用于缓存失效，不代表D81/D82已上线。
+
+### 目标页面复验
+
+- 独立匿名浏览器：登录/注册各390、768、1024、1440px，加找回密码390/1440px，10视图均HTTP 200、无页面横向溢出、无Storefront侧栏、无Console/Page error。
+- 登录/注册始终只显示对应表单；390px的Sign up/Sign in真实点击双向切换正常，可见Label及3px键盘焦点正常；1440px开发图实际渲染。登录/注册的390/1440截图已目视核对。
+- 找回密码这里只检查未带Token的请求表单与无侧栏，未填写或提交；10月8日链接成功打开新密码表单的截图不能替代部署后的Token表单与保存测试。
+- 清缓存后对`/my-account/`、`?dentall_auth=register`、`/my-account/lost-password/`实际GET均200、`private/no-cache`、`noindex`并加载0.48.0。找回端点返回重复noindex值，仍禁止索引，本次未改SEO配置。
+- 本地证据为忽略目录`.codex-tmp/day79-staging-live-evidence/`中的精简`results.json`与10张PNG；Cookie原文已去除，仅保留存在布尔值。没有提交登录、注册或找回表单。
+
+### 清缓存、日志与交接
+
+Breeze第一次从Woo支付`path=/offline`页面生成`/wp-admin/offline`清理目标而显示404，未将其记为成功。只读核对Breeze 2.5.12官方源码确认管理栏以`basename(REQUEST_URI)`构造地址，此类SPA路径会造成错误目标；不能从404推断清理完成。改在正常`wp-admin/admin.php`页面的Breeze菜单补执行一次，后台明确显示`Cache data has been purged: 1.17 Kb static cache cleaned`及`Varnish Cache has been purged.`。Blog缓存Last-Modified从`01:45:47`刷新至`01:47:46 UTC`，返回MISS；三个账户页面保持动态响应。缓存策略未保存或修改。
+
+Cloudways应用Error Logs实际显示38条：最新为`2026-10-09 01:28:27 UTC`，`wp-content/plugins/breeze/inc/cache/purge-varnish.php:111`报`Class "Breeze_Configuration" not found`，堆栈为shutdown，与首次错误清理链接吻合，证实该次清理失败。当前展示未见该时刻之后的新错误；其余可见为10月7日历史日志截断信息及上述堆栈分行。平台仅展示recent1000且存在截断，不能宣称完整主机PHP日志零错误。Breeze SPA路径兼容缺陷记P2：开发者/Codex负责，当前通过有效后台入口完成清理并恢复操作，下一次维护评估官方修复或升级；本次不修改插件核心。
+
+WooCommerce当日日志来源列表未出现fatal-errors，但这不代表Cloudways没有PHP错误；新增PayPal日志记录`01:40:25 UTC`访问商户关联接口404及warning，对应当前未完成配置的网关。OCP后台Connected/Valid；既有预取可观测性待验边界保留。
+
+本次代码发布和清缓存已结束，已通知用户商品、文章、媒体可恢复日常编辑。原有订单及付款邮件测试限制不因本次视觉发布解除。没有新账户、订单、邮件、支付、数据库迁移或配置保存；Production、DNS、物流和真实支付均未操作。
+
+剩余验收责任与节点：开发者/Codex在下一次D79收口时完成共享Local同步和受控新TEST邮箱链路；用户/业务方提供可用新邮箱并亲自设密、确认正式素材；Website Manager处理旧中文隐私提示及正式隐私页内容（RSK-055）。已有TEST账户10月8日找回邮件实收、链接可打开继续有效，但不证明新客户注册、Guest归户、保存密码或旧链接重放。正式素材和英语文案在第一版视觉验收前关闭。
+
+代码回滚仍以前向提交撤回B的三文件为优先，再处理A的两个未引用文件；不因展示问题回滚数据库。当次备份用于恢复保障，内容编辑恢复后须评估增量损失才可考虑数据库恢复。
+
+## 2026-10-08返工与暂缓发布历史
+
+**2026-10-08验收纠偏：** 上述结论只覆盖账户身份与订单归属技术范围。既有Woo原生双表单卡片没有还原冻结设计稿的登录/注册独立构图，原四端无溢出测试不能代替视觉验收。D79整体重开；下文历史测试结果仍保留其实际证明范围。
+
+用户后续截图的地址栏确认为Staging`/my-account/`：注册表单虽已出现，但仍与登录表单并列并带Storefront博客侧栏。共享Local只读复核为DentAll 0.42.0/Core 0.3.0、`woocommerce_coming_soon=yes`、`woocommerce_enable_myaccount_registration=no`，因此匿名访问看到Coming Soon，且当前配置不输出注册表单。两环境差异来自代码发布版本与数据库设置，不能把Staging有注册误判为设计稿已实现。用户确认视觉修复继续保留邮箱注册与邮件设密，不接入Google/Apple；主视觉先用项目现有开发占位图，正式素材另验。隔离分支已形成单视图/无侧栏候选，真实页面与目标环境复验后才能关闭D79。
+
+2026-10-08补充：候选在独立真实Woo站对登录/注册×四宽及错误态完成复测，父主题浮动造成的卡片塌缩已修；目标环境仍未同步。Staging当前账户页`private/no-cache`、`noindex`；按用户选择，用已有受控TEST账户触发一次找回邮件，用户截图确认实际收件及链接可进入新密码表单，未提交新密码。该邮件属于已有账号找回，不是新客户注册邮件，更不能证明Guest历史订单归属。手机重置页还输出Storefront Search侧栏，已纳入同一展示修复候选；后续部署复验前D79不关闭。
+
+本次属于D79原设计验收缺口的返工，不新增注册方式、字段或订单规则。目标环境发布与四端复验暂估还需0.5～1个工作日；共享Local版本整理、Cloudways访问和正式素材确认会影响实际收口时间，工时以用户记录为准。D79关闭顺延，D80既有邮件功能证据保留，但不抵消D79视觉与新注册链路的待验项。
+
+源码修复提交`c629b22`已推至`codex/day79-visual-repair`。独立Staging发布候选以实际`deploy/staging@ed74467`为基线，A提交`669efcb`预置两个新文件，B提交`c1de7f1`修改三个既有主题文件；最终只涉及5个主题路径，现有36文件中的其余33个Git blob不变。候选分支`codex/day79-staging-release-20261008`已推送，但未推进`deploy/staging`，也未执行Cloudways备份或Pull；Staging仍是旧外观。发布前须核实当次备份、现场文件与设置，再完成Pull、缓存及四端回归；共享Local与Production不随Git推送改变。
+
+发布候选的主题资源版本为`0.48.0`以与源码保持相同Git blob并刷新CSS缓存；它只包含D79视觉修复，不能据版本号推断D81/D82代码已部署。后续D81/D82进入Staging时需再升版本。当前Codex浏览器连接返回`nodeRepl.fetch request failed`，未取得已登录Cloudways控制台；不得绕过现场备份、哈希和可恢复入口预检，直接推进`deploy/staging`或宣称已部署。
+
+2026-10-08后续现场进展：用户登录的Cloudways会话已接通，应用`dentall-staging`的Via Git当前确为`deploy/staging`→`public_html/`。本次On-Demand文件＋数据库备份后，Cloudways显示最新可选恢复点与Last Backup Date均为`2026-10-08 05:26:09 UTC`；远端部署分支仍为`ed74467`，公开账户页仍加载`account-auth.css?ver=0.46.0`并保持`private/no-cache`、`noindex`。用户随后确认网站人员仍在写入，要求暂缓发布；因此没有推进`deploy/staging`、点击Pull或清缓存。实际发布窗口必须重新冻结写入、核对现场并创建新的当次备份，本次恢复点不作为未来发布前的充分条件。
+
+用户计划于2026-10-09 09:00（北京时间）回来发布。此时间只是约定的目标窗口，不自动解除当前写入冻结前置条件；明早按现场状态重新执行发布预检。
+
+`account-hero-placeholder.webp`与共享Local现有`uploads/2026/08/home-hero-dental-products-1536x1024-q84-local-only.webp`的SHA-256同为`B24D5E348AB31AE673192EE25E2A662870CBCC65C24120AA6C80839C523B3F7F`，仅作为已同意的开发占位图；正式页面上线前仍需独立核实素材授权及替换结果。
+
+### Staging发布与回滚核对
+
+1. 只读确认`deploy/staging@ed74467`、现场DentAll 0.46.0/Core 0.6.0、36个既有第一方文件及无意外漂移；核对受保护/noindex、支付关闭、账户页`private/no-cache`和可用错误日志与文件恢复入口。冻结本次发布期间的内容及订单写入，完成Cloudways当次文件＋数据库On-Demand备份并记下UTC恢复点。
+2. 把A `669efcb`快进至`deploy/staging`，在Cloudways当前应用的Via Git执行一次Pull，核对成功日志及两个新增文件；A不改任何现有文件。再把B `c1de7f1`快进并Pull，核对最终38文件、5条变更路径、主题资源`0.48.0`；只定向清理Breeze缓存，不改缓存策略。
+3. 用真实Staging URL复验390/768/1024/1440px登录、`?dentall_auth=register`、错误态、找回密码页无侧栏、键盘焦点、`noindex`与`private/no-cache`；检查本次PHP/应用日志。邮箱已证实既有TEST账号找回邮件送达及链接可打开，另需新TEST邮箱补注册邮件与历史Guest订单归属，不能用当前记录替代。
+4. 若代码故障，先在`deploy/staging`追加前向回滚提交恢复B的三个旧文件并Pull，确认`functions.php`已撤销新模块引用；再按精确路径和哈希将A的两个新文件移到`public_html`之外，复测关键账户与结账保护。Cloudways不会因Git源缺文件自动删除服务器文件；仅在有数据损坏和增量损失评估后才考虑数据库恢复。
 
 2026-09-22，业务方进一步确认：客户不存在多人共用账单邮箱、代理下单或代采购的情况，账户邮箱可以作为第一版唯一订单所有人边界。因此RSK-049的发布NO-GO已经解除；若未来业务模式改变，必须在开放新模式前重新评估历史Guest订单归属规则。
 

@@ -67,6 +67,21 @@
 - 独立审查修复前序非错误响应、路由大小写及查询`id`覆盖路径ID的条件性绕过；最终隔离WordPress访客HTTP 9/9、角色REST 15/15、前序响应6/6符合规则。
 - oEmbed和RSS仍公开TEST作者显示名，RSK-057与D103整体保持开放；D87合成、目标缓存、正式内容和Staging部署另行验收。详见[[笔记/Day103-权限与账户暴露审计]]。
 
+### D79登录注册视觉纠偏已发布Staging（2026-10-09，整体验收未关闭）
+
+- 用户确认商品、文章、媒体、订单与配置写入已暂停后，在Cloudways `dentall-staging`应用`6604195`创建当次文件＋数据库备份，恢复点为`2026-10-09 01:05:14 UTC`。`deploy/staging`按A `669efcb`预置、B `c1de7f1`激活顺序推进，Cloudways分别于`01:16:47 UTC`和`01:23:24 UTC`记录Pull成功。
+- 最终Staging为DentAll `0.48.0`、Core `0.6.0`；相对部署基线`ed74467`仅包含5个主题文件（2新增、3修改），运行代码263行新增、28行删除、净增235行，8个PHP函数、6处Hook注册。本轮仅发布已审查候选，没有继续修改运行实现，也未纳入D81/D82账户资料功能。
+- A/B源码映射及CSS、主题声明、占位图3项公开资源哈希通过；现场未完成38个运行文件的全量哈希核对，不能据此宣称服务器完整文件树已逐项一致。独立匿名浏览器验证登录/注册各390、768、1024、1440px共8个视图，以及找回页390、1440px，均HTTP 200，无Storefront侧栏、横向溢出或JavaScript错误；登录/注册切换和键盘焦点通过。
+- Breeze首轮菜单在Woo `/offline`路由生成坏链接并跳转404，未计作成功。随后从有效的`wp-admin/admin.php`页面菜单补执行清理，界面明确确认静态缓存清理`1.17 Kb`及Varnish已清理。清后登录、注册、找回3页GET均200并保持`private/no-cache`、`noindex`及账户CSS `0.48.0`；Blog响应为MISS，`Last-Modified`从`01:45:47 UTC`刷新为`01:47:46 UTC`，未改变缓存策略。
+- 当日Woo日志来源未见`fatal-errors`；未配置的PayPal网关有一条`01:40:25 UTC`远端`merchant-integrations` 404 warning。Cloudways应用错误日志显示38条记录，最新为`01:28:27 UTC`的`Class Breeze_Configuration not found` Fatal，位于`wp-content/plugins/breeze/inc/cache/purge-varnish.php:111`的shutdown调用栈，与首次`/offline`坏链接时刻吻合，证实该次清缓存失败；其余可见内容为该调用栈分行与10月7日历史`log buffer truncated`，未显示`01:28:27 UTC`之后的新错误。该界面仅提供recent 1000且有截断展示，不能宣称全量日志零错；后续有效后台入口清理成功提示及账户HTTP复验通过。Breeze路径缺陷保留P2，由开发者/Codex在下次维护评估官方修复或更新，本次不改插件核心。商品、文章和媒体编辑已交接恢复，原有订单及付款邮件测试限制继续保留。
+- 开发占位图的正式素材验收、既有中文隐私文案、共享Local同步、新邮箱注册→邮件设密→历史Guest订单归户仍待；既有TEST账户找回邮件的实收与链接打开证据仅覆盖该找回链路。D79整体保持未Done，Production和真实支付未发布。
+
+### D79登录注册视觉纠偏候选（历史记录：2026-10-08，当时待目标环境验收）
+
+- Staging真实`/my-account/`可显示注册，但仍是Woo双表单加Storefront博客侧栏；共享Local的Coming Soon开启、My Account注册关闭且主题/Core版本滞后，解释了两环境表现不同。原D79技术测试不构成设计稿视觉完成证据。
+- 子主题候选沿用WooCommerce原生表单与邮件设密，用同一账户URL的`?dentall_auth=register`切换注册视图，匿名账户首页移除侧栏并使用现有开发占位图建立桌面主视觉。没有新增字段、外部登录、订单迁移或数据库写入；目标环境代码与设置尚未同步，D79保持未完成。
+- 真实隔离Woo站四宽与错误态复测修正了Storefront浮动导致的卡片塌缩；手机重置页的Storefront侧栏也加入去侧栏候选。Staging既有TEST账户的一次找回邮件已由用户确认实收且链接进入新密码表单，未保存新密码；新账户注册邮件与Guest归户仍待单独验收。
+
 ### D81/D82账户资料与默认地址（2026-10-07，隔离Local技术验收）
 
 - ADR-045确定第一版Customer登录邮箱不开放My Account自助修改；姓名/显示名沿用Woo原生资料表单，当前密码保护的改密增加至少12字符规则，Billing email仍为独立联系地址。
