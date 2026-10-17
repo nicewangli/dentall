@@ -3,7 +3,7 @@
 项目: DentAll WooCommerce
 日期: 2026-10-17
 工作日: Day76
-状态: 源码及三文件发布候选已推送；Staging备份结果待确认
+状态: 发布前备份已确认；两阶段发布及独立运维入口待核验
 验收层级: 本地技术通过，Staging现场预检中
 ---
 
@@ -38,6 +38,12 @@
 - 4.1.2仍有现场限制：创建类目录不同但本模块未引用；原生pay-now权限为`view_order`而4.1.3为`pay_for_order`，因此按原生规则，已登录Customer持正确key支付尚未归户Guest单会被4.1.2拒绝，不能笼统说所有Guest不能付。匿名Guest及验证归户后的本人单仍须现场补验。4.1.2部分失败分支立即置`failed`，本生命周期已允许该状态，但重试／库存／邮件必须实测。包头Woo tested up to10.9，不据静态调用链宣称Woo11完整兼容。详情见私人`paypal-412-compatibility-review.md`。
 - Cloudways已核应用`dentall-staging`／ID6604195及对应HTTPS地址，进入Backup and Restore并仅提交一次`Take Backup Now`点击请求，随后工具超时；点击是否实际生效、备份是否完成均未知，Cloudways及Staging标签后续读取也超时。尚未读到备份完成、还原点或新时间，因此只记“结果未知”，没有重复提交备份、Restore或Pull。已请用户保持本任务在前台并提供备份状态／时间。
 - 截至02:03 UTC远端`deploy/staging`仍为`c1de7f1`；没有推进部署分支、Cloudways Pull、Sandbox授权、配置保存、新建现场订单、付款、退款或发信。服务器三文件物理基线、当前支付／订单快照、独立恢复／错误日志入口及同点备份仍须确认后才发布。
+- **后续备份核验已通过：** 用户提供截图，主Agent随后也从Cloudways应用6604195读回：Latest Restore Point与Last Backup Date均为`2026-10-17 02:01:16 UTC`（北京时间10:01:16），Restore按钮可用；本应用备份覆盖files＋database。前条“结果未知”为超时阶段历史，已被本条证据更新，没有再次备份或执行Restore。
+- 已读Cloudways部署目标：`git@github.com:nicewangli/dentall.git`、`deploy/staging`、`public_html/`；最新既有Pull日志为`2026-10-09 01:23:24 UTC success`。尚未进行本轮Pull。
+- 发布手册要求新增require按兼容顺序落地，因此将原三文件候选拆成A／B两次Pull：A仅新增尚未加载的PayPal适配文件，入口及生命周期保持旧版；确认新文件落盘后，B才更新入口及生命周期。B最终完整tree须与已审`dc20dc9`完全相同，不改原候选历史、不增加业务范围。安全专项复核同意该顺序；回退先恢复入口及生命周期，确认不再加载后才隔离新增文件。现场清单须按Git blob／LF核哈希，不能直接使用Windows CRLF物理哈希；B后还须用实际请求证明新守卫运行，不能只读版本号。
+- 读取Cloudways快捷菜单时浏览器再次连续超时；未因此推进部署分支。已请用户保持本任务在前台并打开已登录的Master SSH Terminal，用于核验物理文件、当前应用及独立运维能力；不使用曾泄露的旧SSH私钥，也不要求开启应用用户SSH。备份已通过，当前缺口不再表述为“备份未知”。
+- 两阶段候选已完成并推送`origin/codex/day76-staging-sequential-20261017`：A=`c45cb5176cf9f6f517c26ac8f053057c7987d4e9`（相对c1仅1A），B=`379f8f44898bcac18b68873849ddde8105861481`（相对A仅2M）；B完整tree=`d3deaee6c6771d36129cce8bbf8a0b1d626a8070`，与dc20精确相同。主Agent重新核父链、差异集合、主题不变、PHP3/3、生命周期123/123及PayPal44/44；未写deploy/staging或执行Pull。原单提交候选保留用于内容对照，不直接整包Pull。
+- 最终三文件的Git LF清单共40,851字节：入口1,279字节／SHA-256 `766317ac39a3b44a89cfda393a6cb9ae66bb14a01f0d12a2d03c60a6ffcad68d`；生命周期34,550字节／`568b3f89fbd0cbbe79568e48b0b04434b7c8af47ec1e0ae7529aa8ca0dbcff59`；PayPal适配5,022字节／`d4987690a8a096b3239f31683dbdfe1d05176422ebf5567b4e09d3f1235e8333`。旧41,761字节清单是Windows CRLF工作副本，不可直接核Linux部署；完整Git blob、前后基线及两阶段清单在私人`sequential-git-blob-manifest.json`。
 
 ## 修复结果与职责
 
@@ -136,7 +142,7 @@ stop.ps1
 | D77支付邮件 | 付款、取消、退款的适用邮件 | BossMail真实受控收件，订单/金额/状态正确；不复用D80证据替代 |
 | 终态 | 核对TEST清单、库存/券/队列、邮件与日志 | 保留必要脱敏证据、按对象清理；恢复限定配置，不影响内容编辑 |
 
-窗口已分配，但上述交易矩阵尚未执行；当前停在备份结果与浏览器可读性核验。普通Guest链不等待全部账户/Contact/SEO；注册、验证归户、替换报价由账户线在联合窗口衔接。
+窗口已分配，但上述交易矩阵尚未执行；备份已确认，当前停在浏览器可读性、独立运维入口及现场文件／配置基线核验。普通Guest链不等待全部账户/Contact/SEO；注册、验证归户、替换报价由账户线在联合窗口衔接。
 
 ## 影响、减法审查与交付层次
 

@@ -10,6 +10,8 @@
 - 用户已明确将共享Staging独占窗口给B，其他现场任务暂停，并确认Staging与Cloudways已登录。浏览器核活动Core0.6.0、Woo11.0.0、WP7.1.3、PayPal4.1.2，插件通知提示尚需连接，付款设置中的实际模式／商户仍待读取。官方4.1.2三Hook／关键调用链静态补核可适配，真实插件类离线检查46/46通过（WP／Woo夹具、无DB／HTTP），未擅自升级；Guest权限、失败重试／库存／邮件及Woo11现场兼容仍待验。Cloudways目标应用6604195核对通过，仅提交一次发布前files＋database备份点击请求后浏览器连续超时，点击执行及备份结果均未知，未重复点击、Restore或Pull；已请用户提供备份状态／时间。
 - 当前尚未部署、连接Sandbox、保存支付配置、建立现场TEST、发信或付款／退款。服务器文件基线、备份／恢复／错误日志入口、HPOS与支付／订单快照确认后才能发布；Guest有效order-pay四端、缓存、真实验签／Webhook／退款／邮件仍待。Vault/卡/Authorize Only等未验路径不在候选通过范围。D74、D76和D78/M6继续按验收层次保持未整体Done。
 - 另有真实WP7.1／Woo11原生能力Filter的无DB内存矩阵6组18/18：匿名可付Guest单、本人可付已归属单；登录Customer付尚未归户Guest单时`view_order=false`、`pay_for_order=true`，会受PayPal4.1.2原生创建门槛限制。此项与46项离线实体检查、167项原生HPOS及现场交易分列；未因此改产品或升级插件。
+- **后续现场证据更新：** 用户截图及主Agent浏览器均确认应用6604195的Latest Restore Point／Last Backup Date为`2026-10-17 02:01:16 UTC`，Restore可用，备份门槛已通过；未再次备份或Restore。Git部署目标为既定repo／`deploy/staging`／`public_html/`，最新既有成功Pull为10月9日01:23:24 UTC。本轮尚未推进deploy/staging或Pull；为遵循新增require安全顺序，正在准备A仅新增未加载模块、B更新两个既有文件且最终tree=dc20的两阶段提交。快捷菜单读取再次连续超时，已请用户保持当前任务前台并准备Master SSH Terminal；当前待现场物理基线、配置与独立恢复／日志入口，不再将备份记为未知。
+- 两阶段候选已提交／推送`codex/day76-staging-sequential-20261017`：A=`c45cb51`仅预置新模块，B=`379f8f4`更新入口与生命周期，B完整tree与dc20相同，主题不变。主Agent复核PHP3/3、合同123/123及44/44；Linux核验采用Git LF清单40,851字节，而非Windows CRLF物理清单。部署分支仍为c1，现场动作等待已登录Master SSH与浏览器可读；不使用曾泄露旧私钥。
 
 ## D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08）
 
