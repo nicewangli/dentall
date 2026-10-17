@@ -20,6 +20,7 @@
 - 通用Page与编辑基线：[[Day85-通用内容页模板与编辑回归]]
 - 当日WordPress实战学习笔记：[[WordPress实战笔记/Day88-Page内容与URL边界]]
 - 合成内容与首页卡片抽样：[[Day90-内容样本与集成抽样]]
+- D工作包目标窗口：[[Day89-D工作包目标发布与验收卡]]
 
 ## 结论与三个验收结果
 
@@ -82,6 +83,12 @@
 
 - 程序生成的长页起始raw正文SHA-256为`ffcb735cd2d898b7c3519018b87c1862d2606ab95331bc4cd3075ded8f3e6211`。通过`resetBlocks → editPost({content: raw}) → savePost`尝试在Gutenberg恢复后，raw为`93d8f6caa5c8c53281752db894cb8fcdf57085ef8c5d3a7e7e52da1743b28d9a`；这证明本轮编辑器路径未精确恢复原文字节，可能涉及区块序列化规范化，但没有raw差异分析，不能断言具体变化机制。
 - 使用测试夹具的原文和WordPress `wp_update_post(..., wp_slash(original))`在隔离副本恢复，独立只读复核确认最终raw哈希回到起点，Page仍为Published、Full width，公开页无临时标记。随后整个TEST Page已删除。这个观察是夹具序列化/恢复边界，当前没有证据显示正式编辑内容丢失，也不把WordPress API恢复冒充为Gutenberg按钮恢复。
+
+## 2026-10-17可见Preview与原生修订补证
+
+D工作包在当前树独立Local创建一个原生区块Full width TEST Page：真实点击View → Preview in new tab、真实POST autosave、匿名页隔离、可见Save与Revisions → Restore均通过。正文raw SHA精确回到原生基线`89b1b8a63ba31ae3e6d5a896f0745dd1175c2f8acaa212833c1d9b9d6ab7e1f1`，作者、Slug、状态和模板不变；对象及修订、专用用户和凭据已清理。代表样本的可见入口与原生恢复缺证P3关闭；旧程序HTML经resetBlocks规范化的观察继续保留为机制边界，不新增备份/恢复功能。
+
+同轮发现长Full width Page两列表格首列逐字竖排，临时CSS证明与D90 Post复用`table-layout: fixed`即可解决。root只给既有规则添加`.page-template-template-fullwidth:not(.woocommerce-page)`作用域，Theme升0.49.1；无新函数、规则块或DOM，不影响Woo表格。真实资源的四页四宽16次回归及390/1440目检通过，首列恢复横排。正式Solutions文案、父子URL/导航仍由WM发布阶段决定，技术骨架不等待正式条目。
 
 ## 变更、减法审查与风险
 

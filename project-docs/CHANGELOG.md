@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+### D87～D90技术收尾（2026-10-17，独立Local）
+
+- D工作包在`97a9065`上补两处Contact P2：Core共用商品helper拒绝带密码商品；导入状态从不能阻止直接提交的`draft`改为Fluent Forms原生`unpublished`，通知继续关闭。Core本包候选0.9.2，最终与A/B合成版本由统一集成方确定。
+- 长Full width Page复现D90 Post同类表格首列逐字竖排；在既有`table-layout: fixed`规则增加排除WooCommerce的Page作用域，主题候选0.49.1。未增函数、规则块、字段、模板或依赖；不触碰账户/交易及作者其他出口。
+- 补可见编辑器Preview/自动保存/修订恢复、四端内容与Contact定向证据，形成[[笔记/Day89-D工作包目标发布与验收卡]]。全部本轮写入限本工作树独立副本；main、deploy/staging、共享站点及真实邮件未操作。
+
 ### D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08，仅Git）
 
 - 以已含D83/D84的主线为底，合入D89/D90及其D87/D88前置、D103/D104、D91～D94阶段审计和D107准备。整合后的主题候选为0.49.0、Core候选为0.9.1；后者包含Contact上下文、文章SEO兼容与Users REST定向守卫。风险号统一为RSK-057作者身份、058 Contact、059 Sitemap/索引、060 Woo/Breeze目标更新。

@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.9.1
+Stable tag: 0.9.2
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,10 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.9.2 =
+* Contact商品上下文拒绝带密码的展示型商品，避免绕过原生商品保护而展示名称或进入条目/通知。
+* 配套Contact导入配置改用Fluent Forms原生unpublished状态，保持匿名提交关闭与通知禁用。
 
 = 0.9.1 =
 * 限制访客及客户读取原生Users REST中的后台作者资料，保留本人资料与内容编辑权限；oEmbed与RSS仍待后续治理。

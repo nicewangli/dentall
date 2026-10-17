@@ -25,6 +25,7 @@ tags:
 - 每日索引：[[README|DentAll每日笔记索引]]
 - 当前状态：[[../PROJECT_STATE|项目当前状态]]
 - 合成站点单篇与长表格回归：[[Day90-内容样本与集成抽样]]
+- D工作包目标窗口：[[Day89-D工作包目标发布与验收卡]]
 
 ## 授权、范围与责任
 
@@ -70,6 +71,12 @@ WordPress和Storefront继续负责原生Post查询、`single.php`模板、唯一
 - 原生编辑器回归：隔离Website Manager #3进入Gutenberg，给B加`[TEST SAVE]`临时标题并用`core/editor`原生保存，前台读到新标题且编辑器无脏状态；同一路径恢复原题，标记消失。两篇后台作者ID持续为2/3，B的Slug和发布状态未变；仅有WordPress编辑元数据及Yoast分析元数据变化，D87未新建自定义字段。预览和自动保存未覆盖，独立REST `context=edit`请求因无编辑器nonce返回401，不计为编辑失败。
 - 特色图可逆回归：A短时指定现有带Alt的TEST媒体#45，390/1440px分别选择合适响应式源并显示350×350/736×736，尺寸属性、Alt、加载与无横向溢出通过；A已恢复无特色图，B始终无图。正文图另经四端滚动加载验证。
 - 清理与隔离：两篇TEST Post已从隔离库删除，一次性登录凭据文件已清空；`17871/17872`服务、进程与监听均为0。自动审批两次拒绝递归`Remove-Item`删除`.codex-tmp/d87-local/public`与`mysql-data`，仅返回`blocked by policy`，未给更具体原因；两份临时副本仍在Git忽略目录，截图与脚本留供复核。目标绝对路径已确认属于本工作树隔离目录，未尝试绕过拒绝。共享Local的`10011`端口在测试期间由另一PID启动，本任务未连接或写入，不能据此声称共享Local全局不变量已复核。
+
+## 2026-10-17预览与修订补证
+
+在`97a9065`后续D候选的独立Local，以专用Website Manager和新TEST Post验证真实点击Preview新标签、POST autosave、匿名页不见未保存标记、可见Save及Revisions → Restore This Revision。原生区块正文SHA-256精确回到`89b1b8a63ba31ae3e6d5a896f0745dd1175c2f8acaa212833c1d9b9d6ab7e1f1`，作者、Slug、标题和publish状态不变；TEST Post及修订、用户和秘密文件均删除。此前未覆盖的Preview/autosave在本代表样本范围补齐，不将程序HTML重新串行化当字节备份。
+
+旧样本211/212的后台作者仍2/3，可见HTML/作者Meta为DentAll Editorial Team，Yoast Article作者为Organization、Person节点0。两Post及两Full width Page的最终四宽16次回归通过；详细脱敏证据在本树`.codex-tmp/d-workpack-20261017/evidence/content/`。Feed/oEmbed等作者出口由A唯一处理，合成与目标复验交统一集成方；本轮未写这些出口或非Local。
 
 ## 风险、页面影响与后续
 

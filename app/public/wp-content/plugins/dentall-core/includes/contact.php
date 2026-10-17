@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * 只接受已公开且明确标记为展示型的WooCommerce商品。
+ * 带密码商品始终拒绝，不随访客解锁Cookie改变可缓存的联系上下文。
  *
  * @param mixed $input 来自URL或表单的商品ID。
  * @return array{id:int,name:string,url:string}|false
@@ -28,6 +29,7 @@ function dentall_core_get_contact_product( $input ) {
 	if (
 		! $product instanceof WC_Product
 		|| 'publish' !== $product->get_status()
+		|| '' !== $product->get_post_password( 'edit' )
 		|| ! $product->is_visible()
 		|| 'display_only' !== $product->get_meta( 'dentall_sales_mode', true )
 	) {

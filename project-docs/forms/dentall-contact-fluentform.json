@@ -1,7 +1,7 @@
 [
   {
     "title": "DentAll Contact",
-    "status": "draft",
+    "status": "unpublished",
     "has_payment": 0,
     "type": "form",
     "form_fields": {
@@ -133,7 +133,7 @@
       },
       {
         "meta_key": "notifications",
-        "value": "{\"name\":\"DentAll Contact notification\",\"sendTo\":{\"type\":\"email\",\"email\":\"\"},\"fromName\":\"\",\"fromEmail\":\"\",\"replyTo\":\"{inputs.email}\",\"subject\":\"DentAll Contact\",\"message\":\"<p><strong>Name:</strong> {inputs.name}</p><p><strong>Email:</strong> {inputs.email}</p><p><strong>Message:</strong><br>{inputs.message}</p>\",\"conditionals\":{\"status\":false},\"enabled\":false}"
+        "value": "{\"name\":\"DentAll Contact notification\",\"sendTo\":{\"type\":\"email\",\"email\":\"materials@chinaadsdentallab.com\"},\"fromName\":\"\",\"fromEmail\":\"\",\"replyTo\":\"{inputs.email}\",\"subject\":\"DentAll Contact\",\"message\":\"<p><strong>Name:</strong> {inputs.name}</p><p><strong>Email:</strong> {inputs.email}</p><p><strong>Message:</strong><br>{inputs.message}</p>\",\"conditionals\":{\"status\":false},\"enabled\":false}"
       },
       {
         "meta_key": "template_name",
