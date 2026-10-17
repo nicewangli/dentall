@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -13,7 +13,9 @@ DentAll 商城跨主题的最小业务能力。
 
 == Changelog ==
 
-= 0.9.2 =
+= 0.9.3 =
+* 合成A/B/D各自的0.9.2候选；统一版本用于离线集成，尚未代表目标环境发布。
+* 报价保持on-hold在途状态，排除原生库存内部标记造成的错误签名失效，并在PayPal创建、处理及Capture前复核报价。
 * Contact商品上下文拒绝带密码的展示型商品，避免绕过原生商品保护而展示名称或进入条目/通知。
 * 配套Contact导入配置改用Fluent Forms原生unpublished状态，保持匿名提交关闭与通知禁用。
 * Post的oEmbed与Feed自动署名及作者链接统一为编辑团队和现有Blog，保留后台作者归属与非Post边界。
