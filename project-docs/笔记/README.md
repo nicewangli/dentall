@@ -134,6 +134,7 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day73 | [[Day73-报价字段与客户身份合同]] | 已完成授权范围的Local技术验收：商品自动带入、完整Billing/Shipping、Guest付款页及已有Customer归属边界；PHP 59/59、邮件JavaScript 46/46、真实Woo及展示Filter负向场景40/40、权限和四端浏览器通过。D76/D78真实支付、D79注册和非Local另验 |
 | Day74 | [[Day74-订单摘要与四端结账]] | 已完成Local技术验收：虚拟Checkout与实体`order-pay`复用Woo金额事实，加入服务端绝对截止、Importer of Record和税费分层说明；D73 59/59、D75 95/95、邮件46/46、浏览器150/150、三路终审P0～P3=0。首轮42px按钮P2已最小修复并四端≥44px，环境恢复；RSK-055英语展示、正式税务、网关、SMTP和非Local另验 |
 | Day75 | [[Day75-人工物流与报价72小时生命周期]] | 已完成授权范围的Local技术验收：正数Shipping、首次成功发信起算72小时、重发不续期、内容变化旧单失效、实时付款守卫和Action Scheduler真实执行；生命周期83/83、动态40/40、权限15/15、浏览后4/4及普通停用3/3通过。并发首次发信P3、静默更新和第三方私有对象meta P2已登记，真实网关/Cron留D76/D78 |
+| Day76 | [[Day76-PayPal沙盒与报价支付收口]] | 2026-10-17本地候选：修复on-hold提前关闭、库存签名与PayPal扣款前旁路，纯合同123/44、原生HPOS167项通过；共享Staging连接、真实Sandbox/回调/退款/邮件及D74四端待串行窗口 |
 | Day77 | [[Day77-FluentSMTP事务邮件Local验证]] | 隔离Local成功/失败/日志链已验证；Staging采用FluentSMTP＋BossMail SMTP并由受控QQ邮箱实际收件。Elastic Email未启用、DNS未修改；Header认证、业务触发、日志保留和退信仍待 |
 | Day79 | [[Day79-登录注册与订单归属]] | 已完成独立Local身份与归属范围；业务确认不存在共享账单邮箱、代理或代采购。已签发Guest报价在验证归户后按D75签名取消旧单并由Website Manager建立替换报价；D80已完成Local找回候选，支付沙盒和非Local缓存仍待 |
 | Day80 | [[Day80-密码重置流程]] | Local与Staging邮件链路验收完成：My Account统一入口、通用反馈、60秒HMAC身份冷却、服务端至少12字符；28/28、16/16及五状态四宽135/135通过。537ba29已移除未经证明安全的共享代理REMOTE_ADDR限频；a07af22部署后受控邮件与有效重置表单通过，未在Staging保存新密码 |

@@ -151,6 +151,7 @@ class WC_Email {
 class WC_Meta_Data_Stub implements JsonSerializable {
 	public function __construct( public array $data ) {}
 	public function jsonSerialize(): mixed { return $this->data; }
+	public function get_data() { return $this->data; }
 }
 
 class WC_Order_Item_Stub {
@@ -242,6 +243,7 @@ class WC_Order {
 			? $this->view_order_key_override
 			: $this->order_key;
 	}
+	public function key_is_valid( $key ) { return hash_equals( $this->order_key, $key ); }
 	public function __call( $name, $arguments ) {
 		if ( preg_match( '/^get_(billing|shipping)_(.+)$/', $name, $matches ) ) {
 			$context = $arguments[0] ?? 'view';
@@ -875,7 +877,7 @@ $test_wc_get_orders_results = array( 180, 181, 182, 183 );
 dentall_core_deactivate_shipping_quote_lifecycle();
 $checks['deactivation_queries_issued_payable_orders_via_wc_api'] = array(
 	'type'       => 'shop_order',
-	'status'     => array( 'pending', 'failed' ),
+	'status'     => array( 'pending', 'failed', 'on-hold' ),
 	'limit'      => -1,
 	'return'     => 'ids',
 	'orderby'    => 'ID',
@@ -937,7 +939,7 @@ try {
 
 $deactivation_readback_failure = dentall_test_make_order( 186 );
 dentall_test_stamp_quote( $deactivation_readback_failure, time() - 60, time() + 3600, 'deactivation-readback-failure-token' );
-$test_order_read_sequences[186] = array( $deactivation_readback_failure, false );
+$test_order_read_sequences[186] = array( $deactivation_readback_failure, $deactivation_readback_failure, false );
 $test_wc_get_orders_results = array( 186 );
 $unscheduled_group_count = count( $test_unscheduled_groups );
 $wp_die_count = count( $test_wp_die_calls );
@@ -1007,6 +1009,122 @@ dentall_test_stamp_quote( $expired_summary_order, time() - DENTALL_SHIPPING_QUOT
 ob_start();
 dentall_core_render_shipping_quote_payment_terms( $expired_summary_order );
 $checks['d74_expired_quote_outputs_no_summary'] = '' === ob_get_clean();
+
+/* D76：付款中的on-hold不是终态，客户不能重付，但有效回调仍可完成。 */
+$held_quote = dentall_test_make_order( 200 );
+dentall_test_stamp_quote( $held_quote, time() - 60, time() + 3600, 'held-token' );
+$held_quote->status = 'on-hold';
+$held_quote->items['line_item'][101]->data['meta_data'][] = new WC_Meta_Data_Stub(
+	array( 'id' => 602, 'key' => '_reduced_stock', 'value' => 2 )
+);
+$test_orders[200] = $held_quote;
+$unscheduled_before_hold = count( $test_unscheduled_actions );
+dentall_core_unschedule_settled_shipping_quote( 200, 'pending', 'on-hold', $held_quote );
+$checks['d76_stock_runtime_meta_does_not_change_signature'] = hash_equals(
+	$held_quote->get_meta( DENTALL_SHIPPING_QUOTE_SIGNATURE_META ), dentall_core_get_shipping_quote_signature( $held_quote )
+);
+$checks['d76_on_hold_keeps_quote_open'] = 0 === (int) $held_quote->get_meta( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META );
+$checks['d76_on_hold_keeps_expiry_task'] = $unscheduled_before_hold === count( $test_unscheduled_actions );
+$completion_statuses = array( 'pending', 'failed', 'on-hold', 'cancelled' );
+$checks['d76_valid_on_hold_accepts_completion'] = $completion_statuses
+	=== dentall_core_guard_shipping_quote_payment_complete( $completion_statuses, $held_quote );
+$checks['d76_on_hold_cannot_start_another_payment'] = 'status' === dentall_core_get_shipping_quote_block_reason( $held_quote );
+$GLOBALS['wp']->query_vars = array( 'order-pay' => 200 );
+$_GET = array( 'key' => $held_quote->get_order_key() );
+dentall_core_guard_shipping_quote_order_pay_request();
+$checks['d76_on_hold_classic_revisit_does_not_cancel'] = 'on-hold' === $held_quote->status;
+$checks['d76_on_hold_classic_needs_payment_is_false'] = array()
+	=== dentall_core_guard_shipping_quote_payment_statuses( $payment_statuses, $held_quote );
+$held_rest_result = dentall_core_guard_shipping_quote_store_api_payment(
+	null, new WP_REST_Request( '/wc/store/v1/checkout/200', 'POST' ), '', array()
+);
+$checks['d76_on_hold_rest_repayment_is_rejected_without_cancel'] = $held_rest_result instanceof WP_Error
+	&& 'on-hold' === $held_quote->status;
+
+foreach ( array( 'expired', 'changed', 'closed', 'not_issued', 'shipping', 'details', 'cancelled' ) as $held_failure ) {
+	$held_invalid = dentall_test_make_order( 201 );
+	dentall_test_stamp_quote( $held_invalid, time() - 60, time() + 3600, 'invalid-held-token' );
+	$held_invalid->status = 'on-hold';
+	switch ( $held_failure ) {
+		case 'expired':
+			$held_invalid->meta[ DENTALL_SHIPPING_QUOTE_ISSUED_AT_META ] = time() - 7200;
+			$held_invalid->meta[ DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META ] = time() - 1;
+			break;
+		case 'changed':
+			$held_invalid->totals['total'] = '999.00';
+			break;
+		case 'closed':
+			$held_invalid->meta[ DENTALL_SHIPPING_QUOTE_CLOSED_AT_META ] = time();
+			break;
+		case 'not_issued':
+			$held_invalid->meta = array();
+			break;
+		case 'shipping':
+			$held_invalid->has_quoted_shipping = false;
+			break;
+		case 'details':
+			$held_invalid->has_required_quote_details = false;
+			break;
+		case 'cancelled':
+			$held_invalid->status = 'cancelled';
+			break;
+	}
+	$checks[ 'd76_on_hold_completion_rejects_' . $held_failure ] = array()
+		=== dentall_core_guard_shipping_quote_payment_complete( $completion_statuses, $held_invalid );
+}
+
+$held_changed = dentall_test_make_order( 202 );
+dentall_test_stamp_quote( $held_changed, time() - 60, time() + 3600, 'held-changed-token' );
+$held_changed->status = 'on-hold';
+$held_changed->totals['total'] = '999.00';
+dentall_core_invalidate_changed_shipping_quote( 202, $held_changed );
+$checks['d76_on_hold_saved_change_cancels'] = 'cancelled' === $held_changed->status;
+$held_changed->totals['total'] = '132.00';
+$checks['d76_restoring_changed_amount_cannot_revive_cancelled_quote'] = array()
+	=== dentall_core_guard_shipping_quote_payment_complete( $completion_statuses, $held_changed );
+
+$held_expired = dentall_test_make_order( 203 );
+dentall_test_stamp_quote( $held_expired, time() - 7200, time() - 1, 'held-expired-token' );
+$held_expired->status = 'on-hold';
+$test_orders[203] = $held_expired;
+dentall_core_expire_shipping_quote( 203, 'wrong-token' );
+$checks['d76_on_hold_wrong_expiry_token_does_not_cancel'] = 'on-hold' === $held_expired->status;
+dentall_core_expire_shipping_quote( 203, 'held-expired-token' );
+dentall_core_expire_shipping_quote( 203, 'held-expired-token' );
+$checks['d76_on_hold_expiry_cancels_once'] = 'cancelled' === $held_expired->status
+	&& 1 === count( $held_expired->status_updates );
+
+$held_deactivation = dentall_test_make_order( 204 );
+dentall_test_stamp_quote( $held_deactivation, time() - 60, time() + 3600, 'held-deactivation-token' );
+$held_deactivation->status = 'on-hold';
+$test_orders[204] = $held_deactivation;
+$test_wc_get_orders_results = array( 204 );
+$unscheduled_group_count = count( $test_unscheduled_groups );
+$checks['d76_deactivation_refuses_inflight_on_hold_quote'] = false;
+try {
+	dentall_core_deactivate_shipping_quote_lifecycle();
+} catch ( RuntimeException $error ) {
+	$checks['d76_deactivation_refuses_inflight_on_hold_quote'] = 'TEST wp_die.' === $error->getMessage()
+		&& 'on-hold' === $held_deactivation->status
+		&& $unscheduled_group_count === count( $test_unscheduled_groups );
+}
+
+$deactivation_pending = dentall_test_make_order( 205 );
+dentall_test_stamp_quote( $deactivation_pending, time() - 60, time() + 3600, 'deactivation-preflight-token' );
+$test_orders[205] = $deactivation_pending;
+$test_wc_get_orders_results = array( 205, 204 );
+try {
+	dentall_core_deactivate_shipping_quote_lifecycle();
+} catch ( RuntimeException $error ) {
+	$checks['d76_deactivation_preflight_keeps_other_quotes_unchanged'] = 'pending' === $deactivation_pending->status;
+}
+$deactivation_now_paid = clone $deactivation_pending;
+$deactivation_now_paid->status = 'processing';
+$test_order_read_sequences[205] = array( $deactivation_pending, $deactivation_now_paid );
+$test_wc_get_orders_results = array( 205 );
+dentall_core_deactivate_shipping_quote_lifecycle();
+$checks['d76_deactivation_reloads_before_cancelling'] = 'processing' === $deactivation_now_paid->status
+	&& array() === $deactivation_pending->status_updates;
 
 $failed_checks = array();
 
