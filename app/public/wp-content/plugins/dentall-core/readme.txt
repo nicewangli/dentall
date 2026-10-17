@@ -16,6 +16,7 @@ DentAll 商城跨主题的最小业务能力。
 = 0.9.2 =
 * Contact商品上下文拒绝带密码的展示型商品，避免绕过原生商品保护而展示名称或进入条目/通知。
 * 配套Contact导入配置改用Fluent Forms原生unpublished状态，保持匿名提交关闭与通知禁用。
+* Post的oEmbed与Feed自动署名及作者链接统一为编辑团队和现有Blog，保留后台作者归属与非Post边界。
 
 = 0.9.1 =
 * 限制访客及客户读取原生Users REST中的后台作者资料，保留本人资料与内容编辑权限；oEmbed与RSS仍待后续治理。

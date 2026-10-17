@@ -16,11 +16,29 @@
 - 用户已确认Contact收件为`materials@chinaadsdentallab.com`，由Website Manager主办、每天查收一次并全权处理留言。日常回复、条目处理、留存/删除安排及正式英文隐私提示、政策链接由网站管理人员负责；这些运营输入不作为当前开发前置，不要求开发者代填或参与日常处理。
 - 开发复用现有Contact原生Page正文作为隐私段落和链接的可编辑入口；Fluent Forms原生Managers支持对实际独立账号开放View Forms、View Entries、Manage Entries并限定Contact Form，不新增字段、角色、后台模块或运行代码。导入包写入已确认的公司收件地址，继续保持草稿和通知关闭；公开使用前由网站管理人员补齐文案与留存安排，在部署阶段完成目标权限、邮件、缓存和Canonical验收。
 - 后续分支`codex/contact-release-preflight`基于远端集成`e078fc5`，不重复合入已包含的`b1154a8`。D89隔离开发证据继续有效；D90正式3篇Post＋1个Page及授权素材由Website Manager完成，M7仍按真实内容与目标环境证据验收。本次不扩大功能范围，实际工时未记录。
+## A工作包安全续作（2026-10-17）
+
+- 复用干净工作树`codex/day103-day104-security-followup@416681f`，远端只读重核`main=e7caa3a`、`deploy/staging=c1de7f1`、整合候选`e078fc5`；没有从主目录旧main覆盖文件或重复合入`9211ad3`。总协调用户批准A/B/D后下发A；本任务随后明确确认作者链接使用现有Blog `/blog/`。
+- Core候选0.9.2在既有SEO模块增加4个回调/5个Filter，收口Post oEmbed JSON/XML、RSS2/Atom/RDF作者、Atom URI、Yoast Feed自动作者链接和作者Feed标题。后台作者/数字ID、Page/Product、评论及既有self路由保持；原REST与Customer Cookie＋Nonce证据复用。运行相关3文件新增68/删除2/净增66行（含版本与readme），新增文件0；未改账户、报价、Contact或主题代码。
+- 新TEST采用官方逐文件校验的WP7.1.3、Woo11.0、PHP8.2.29、Core0.9.2及Yoast28.2。原生42/42、Yoast全文43/43、摘要43/43和独立36HTTP/59断言通过；3名TEST作者数据/meta与5项内容作者关系摘要前后相同。代表作者归档/Feed关闭后301、Post HTML团队署名200通过；运行代码与安全Review无P0～P3，文档P3历史口径已修正。细节、日志边界及私有证据见[[笔记/Day103-权限与账户暴露审计]]。RSK-057/P2仍欠目标部署、缓存和真实客户端。
+- RSK-061/P1负责人已确认当前为开发人员；未来老板/WM参与管理不等于已授予主机权限。旧钥仍否获授权、全部作用域及备用通道未知；同笔记已备精确换钥、旧钥负向、日志和回退步骤，待协调方分配所有者在场的SSH窗口。没有换钥或关闭P1。
+- 用户随后授权“开始下一步吧”，已只读定位WinSCP所指PPK候选的公开指纹`SHA256:98/Knm6inAhUkXmA9RxieOYYQ9Ny2i9QujNaLe2PWmg`，与另一份现有`.pub`不同；只解析Public段，未解密私钥、改写密钥文件或发起SSH认证。它与D91实际用钥/Cloudways当前授权的对应仍待现场核。Cloudways页先安全验证、后连接未成功，面板打开请求为`queued`；下一步需用户切回本任务完成右侧验证/登录/MFA并停在Servers列表，才能核服务器授权及备用通道，尚未进入撤旧步骤。
+- D104当前官方目标Woo11.2.1/Breeze2.6.2，WP7.1.3；旧11.2.0/2.6.1隔离结果继续保留。已补本地依赖差异、经典Checkout/查询参数缓存用例、按风险确定暂停范围、新同点快照与配对恢复材料，见[[笔记/Day104-插件主题更新与安全配置审计]]。D105/D106已接受阶段不重开；目标活动版本、HPOS/迁移队列和真实缓存未取新现场证据，RSK-060/P2开放。
+- 本轮HTTP PID27856/MySQL父PID31660已核身份后停止，20530/20531监听0；私有证据保存于本树`.codex-tmp/public-author-evidence-20261017/`。新TEST目录`.codex-tmp/public-author-20261017/`经绝对路径/无重解析点核对后，递归删除被自动审批以`blocked by policy`拒绝，TEST凭据/库/副本保留且未绕过。旧两目录`C:/Users/Administrator/.codex/worktrees/172d/dentall/.codex-tmp/d103-security-172d-20261008`及本树`.codex-tmp/cookie-nonce-e078fc5-20261008`原样保留。
+- 本地作者出口技术验收已通过；Git交付仅本任务候选分支，main统一合并和Staging部署/更新/换钥窗口由协调方安排。共享Local/Staging/Production、真实邮件/支付、DNS及交易数据均未由本轮写入。唯一下一步是分配SSH处置窗口，先核旧钥映射及独立备用通道；功能部署与插件更新另排窗口，不以其尚未分配阻塞其他隔离工作。
+
+## D103/D104整合分支后续安全收尾（2026-10-08）
+
+- 本轮从远端`origin/codex/day83-day104-integration@e078fc5`建立独立后续分支；该提交已包含旧`9211ad3`，没有重复合入。本轮不改第一方运行代码或共享Local/Staging/Production；整合分支的Core为0.9.1。
+- 全新TEST WordPress 7.1/WooCommerce 11.0.0中，Customer经真实`wp-login.php`获得登录Cookie、经核心`admin-ajax.php?action=rest-nonce`获得Nonce。混合大小写`GET /wp/v2/UsErS/Me`为200/本人ID 2，无Nonce对照401；混合大小写本人及数字项改邮箱POST、本人改密PATCH、小写改邮箱对照均由DentAll守卫返回403。登录后、写请求前后的`WP_User->data`与用户元数据SHA-256分别严格相等；独立HTTP复核未见P0/P1/P2。首次登录前后的用户元数据会因会话令牌变化，不能充当写请求前后快照。详见[[笔记/Day103-权限与账户暴露审计]]。
+- 同一TEST站匿名oEmbed、RSS2、Atom、RDF和作者Feed仍输出TEST后台作者名；oEmbed另给作者URL。未装Yoast的TEST作者归档为200，历史Staging记录为301，目标环境必须现场复核。TEST无Breeze/Varnish；D91只证明旧公开HTML可留在Varnish，不能推断Users REST/oEmbed/Feed缓存状态。其他公开出口的代码治理需先提交新功能确认单，RSK-057/P2仍开放。
+- 截至本日官方可核目标为WooCommerce 11.2.0、Breeze 2.6.1；D105/D106在另一工作树已获用户接受的2026-10-06 18:00:13 UTC历史备份恢复验证，只证明该旧恢复点，不能替代本次更新前同点快照。D104目标窗口清单已纳入对应笔记；Staging实际版本、活动插件、缓存及迁移队列仍待现场读取，未执行升级，RSK-060/P2开放。D91旧SSH私钥解锁口令曾本地回显且旧公钥授权/撤销状态未证，新增RSK-061/P1交Cloudways权限所有者处理；无证据表明私钥本体外泄或未授权登录。
+- 本轮TEST专用PHP/MySQL进程均已停止，20430/20431监听0。只读核对本轮目录位于当前工作区、无重解析点后，递归删除仍被自动审批以`blocked by policy`拒绝；Git忽略的TEST站、数据库、脚本与凭据残留，不能将服务停止等同于文件清理。先前D103/D104忽略目录也曾被同一理由拒绝，本轮未触碰旧目录；两处均待获准路径清理。
 
 ## D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08）
 
 - 已推送远端的整合分支`codex/day83-day104-integration`合成了`origin/main@e7caa3a`（D83/D84已在主线）、D89/D90源`b1154a8`（包含等效D87/D88前置提交）、D103/D104源`9211ad3`、D91～D94源`1f54e63`及D107准备`5fd2ec3`；远端`main`保持`e7caa3a`。独立D87/D88源提交未重复摘取。当前Git候选为主题0.49.0、Core 0.9.1；Core补丁号用于承接D103的REST守卫。RSK-057为作者身份、058为Contact、059为Sitemap/索引、060为Woo/Breeze目标更新，四项均未关闭。下方各Day段落保留源任务当时的版本与基线，不代表整合后的现行版本。
-- 本次只合并Git源码和证据，未安装Contact表单插件、导入表单、更新Woo/Breeze、改共享Local/Staging/Production配置、商品/订单/URL/SEO/缓存策略、支付或物流。D91源任务已在Staging执行的Yoast三键、CAD/CAM term与精确缓存修正属于先前独立授权及证据，不是本次合并操作。已改PHP文件语法、Contact JSON解析、`git diff --check`和六组纯合同（PHP65/101/16/28/28、Node46）通过；独立代码、安全与测试复核完成。安全复核发现D81客户REST写守卫的大小写路由旁路，已在原正则补`/i`；既有纯合同增加两条负例，修改前失败、修改后28/28通过，真实WordPress Cookie＋Nonce写前后验证仍待。源任务的隔离验证不能替代本候选的整站浏览器、交易、HPOS、目标缓存或发布验收；正式内容、Contact收件及隐私、D93抓取策略、D103残余作者出口和D104目标升级仍开放。D91旧私钥口令曾在本地终端回显，换新与撤旧仍待安全处理。
+- 本次只合并Git源码和证据，未安装Contact表单插件、导入表单、更新Woo/Breeze、改共享Local/Staging/Production配置、商品/订单/URL/SEO/缓存策略、支付或物流。D91源任务已在Staging执行的Yoast三键、CAD/CAM term与精确缓存修正属于先前独立授权及证据，不是本次合并操作。已改PHP文件语法、Contact JSON解析、`git diff --check`和六组纯合同（PHP65/101/16/28/28、Node46）通过；独立代码、安全与测试复核完成。安全复核发现D81客户REST写守卫的大小写路由旁路，已在原正则补`/i`；既有纯合同增加两条负例，修改前失败、修改后28/28通过。该整合提交当时的真实WordPress Cookie＋Nonce写前后验证仍待，后续已在本文件上节所记新建TEST站完成。源任务的隔离验证不能替代本候选的整站浏览器、交易、HPOS、目标缓存或发布验收；正式内容、Contact收件及隐私、D93抓取策略、D103残余作者出口和D104目标升级仍开放。D91旧私钥口令曾在本地终端回显，换新与撤旧仍待安全处理。
 
 ## D107系统回归准备（2026-10-08）
 

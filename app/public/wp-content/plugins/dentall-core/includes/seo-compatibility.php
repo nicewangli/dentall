@@ -222,3 +222,66 @@ function dentall_core_article_slack_author( $data, $presentation ) {
 	return $data;
 }
 add_filter( 'wpseo_enhanced_slack_data', 'dentall_core_article_slack_author', 10, 2 );
+
+/**
+ * 原生oEmbed的JSON/XML共享此数据，公开Post沿用团队署名及现有Blog。
+ *
+ * @param array<string, mixed> $data oEmbed响应数据。
+ * @param WP_Post             $post 目标内容。
+ * @return array<string, mixed>
+ */
+function dentall_core_oembed_editorial_author( $data, $post ) {
+	if ( 'post' === $post->post_type ) {
+		$data['author_name'] = __( 'DentAll Editorial Team', 'dentall-core' );
+		$data['author_url']  = get_post_type_archive_link( 'post' );
+	}
+
+	return $data;
+}
+add_filter( 'oembed_response_data', 'dentall_core_oembed_editorial_author', 10, 2 );
+
+/**
+ * 仅替换文章Feed的自动署名，评论作者与非Feed资料保持各自语义。
+ *
+ * @param string $author 原作者显示名。
+ * @return string
+ */
+function dentall_core_post_feed_author( $author ) {
+	return is_feed() && ! is_comment_feed() && 'post' === get_post_type()
+		? esc_html__( 'DentAll Editorial Team', 'dentall-core' )
+		: $author;
+}
+add_filter( 'the_author', 'dentall_core_post_feed_author' );
+
+/**
+ * 同时覆盖Atom个人网址与Yoast Feed自动作者链接，不改实际用户资料。
+ *
+ * @param string $url 原作者链接。
+ * @return string
+ */
+function dentall_core_post_feed_author_url( $url ) {
+	return is_feed() && ! is_comment_feed() && 'post' === get_post_type()
+		? esc_url( get_post_type_archive_link( 'post' ) )
+		: $url;
+}
+add_filter( 'get_the_author_user_url', 'dentall_core_post_feed_author_url' );
+add_filter( 'author_link', 'dentall_core_post_feed_author_url' );
+
+/**
+ * 作者Feed标题绕过the_author；空Feed也不能回显后台姓名。
+ *
+ * @param string $title 原Feed标题。
+ * @return string
+ */
+function dentall_core_author_feed_title( $title ) {
+	$post_types = get_query_var( 'post_type' );
+	if (
+		is_feed() && is_author() && ! is_comment_feed()
+		&& ( ! $post_types || 'any' === $post_types || in_array( 'post', (array) $post_types, true ) )
+	) {
+		$title = esc_html( sprintf( '%s - %s', __( 'DentAll Editorial Team', 'dentall-core' ), get_bloginfo( 'name' ) ) );
+	}
+
+	return $title;
+}
+add_filter( 'get_wp_title_rss', 'dentall_core_author_feed_title' );
