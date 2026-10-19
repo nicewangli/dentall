@@ -120,7 +120,7 @@ tags:
 | Day73 | [[Day73-WooCommerce报价字段与客户身份边界]] | [[../Day73-报价字段与客户身份合同]] | 初识，Local技术验收完成 | — | Cart自动商品事实、邮件地址合同、Woo原生Billing/Shipping、Guest付款与Customer显式关联分层；批次合同65/65，Staging订单#1579已通过不完整资料SMTP前阻断及美国地址正向签发 |
 | Day74 | [[Day74-WooCommerce订单摘要与服务端截止时间]] | [[../Day74-订单摘要与四端结账]] | 初识，Local技术验收完成 | — | 虚拟Checkout与实体`order-pay`共享Woo金额事实；有效报价显示服务端绝对截止和站点时区，Importer of Record与卖方代收税分层。D73 59/59、D75 95/95、邮件46/46、浏览器150/150及三路终审通过；42px按钮P2已修复并四端≥44px，RSK-055英语展示留后续 |
 | Day75 | [[Day75-WooCommerce报价过期与订单生命周期]] | [[../Day75-人工物流与报价72小时生命周期]] | 初识，Local技术验收完成 | — | 首次成功发送付款邮件起算、重发不续期、异步调度与实时守卫共用到期事实；批次合同89/89，Staging订单#1579已签发并仅保留1项72小时到期Action；目标主机实际到期与D76/D78真实网关仍待 |
-| Day76 | [[Day76-支付中间态与扣款前守卫]] | [[../Day76-PayPal沙盒与报价支付收口]] | 初识，待费曼自测 | 2026-10-17 | on-hold与客户新付款分层、精确库存meta签名、外部Capture前守卫、fresh HPOS与原生网关哨兵；纯合同123/44及原生167项，真实Sandbox另验 |
+| Day76 | [[Day76-支付中间态与扣款前守卫]] | [[../Day76-PayPal沙盒与报价支付收口]] | 初识，待费曼自测 | — | 2026-10-19补Core0.6.1两阶段发布、CWD／wp-salt排错及1950普通钱包Sandbox付款→全退→客户邮件主流程；临时预览已关闭。库存N/A，取消／失败／Webhook／完整联合矩阵待验；证据更新不代替本人复习 |
 | Day77 | [[Day77-WordPress事务邮件链与可观察性]] | [[../Day77-FluentSMTP事务邮件Local验证]] | 初识，待费曼自测 | 2026-09-22 | Woo邮件、`wp_mail()`、FluentSMTP、BossMail、真实收件与日志分层；Local隔离链、Staging外部测试收件及TEST Customer Invoice SMTP接受已通过，Header认证与业务邮件最终呈现仍待 |
 | Day79 | [[Day79-WooCommerce账户身份与订单归属]] | [[../Day79-登录注册与订单归属]] | 初识，待费曼自测 | 2026-09-22 | Guest、Customer、Billing email与订单归属；邮箱验证归户、登录错误、安全边界及与D75已签发报价的替换单合同 |
 | Day80 | [[Day80-WooCommerce密码重置与防枚举]] | [[../Day80-密码重置流程]] | 初识，待费曼自测 | 2026-09-22 | 统一公开响应、HMAC冷却、原生重置密钥、12字符服务端底线，以及代理、缓存、SMTP与并发边界 |

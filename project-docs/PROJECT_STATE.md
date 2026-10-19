@@ -2,6 +2,9 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+> [!important] 2026-10-19 D76最新结论
+> Core 0.6.1三文件补丁已部署；TEST1950的一次Sandbox钱包付款、全额退款、客户邮件闭环通过，临时私密预览已关闭。以下10月17日预检描述是历史；本轮完整取消／失败／Webhook／联合矩阵仍未整体通过，当前详见后续“现场收付主流程与收尾”。
+
 ## B工作包D76源码收口与Staging独占窗口预检（2026-10-17）
 
 - 本任务在干净dd59工作树从`e078fc5`建立`codex/day76-payment-state-fix`，Core补丁候选0.9.2。修复on-hold提前关闭、原生库存meta误判报价变更；新增独立PayPal公开Hook适配，创建/处理/Capture前复核，已付款重复处理不降级。有在途on-hold则阻止Core停用，取消前重读订单。旧已关闭报价不自动恢复。
@@ -12,6 +15,16 @@
 - 另有真实WP7.1／Woo11原生能力Filter的无DB内存矩阵6组18/18：匿名可付Guest单、本人可付已归属单；登录Customer付尚未归户Guest单时`view_order=false`、`pay_for_order=true`，会受PayPal4.1.2原生创建门槛限制。此项与46项离线实体检查、167项原生HPOS及现场交易分列；未因此改产品或升级插件。
 - **后续现场证据更新：** 用户截图及主Agent浏览器均确认应用6604195的Latest Restore Point／Last Backup Date为`2026-10-17 02:01:16 UTC`，Restore可用，备份门槛已通过；未再次备份或Restore。Git部署目标为既定repo／`deploy/staging`／`public_html/`，最新既有成功Pull为10月9日01:23:24 UTC。本轮尚未推进deploy/staging或Pull；为遵循新增require安全顺序，正在准备A仅新增未加载模块、B更新两个既有文件且最终tree=dc20的两阶段提交。快捷菜单读取再次连续超时，已请用户保持当前任务前台并准备Master SSH Terminal；当前待现场物理基线、配置与独立恢复／日志入口，不再将备份记为未知。
 - 两阶段候选已提交／推送`codex/day76-staging-sequential-20261017`：A=`c45cb51`仅预置新模块，B=`379f8f4`更新入口与生命周期，B完整tree与dc20相同，主题不变。主Agent复核PHP3/3、合同123/123及44/44；Linux核验采用Git LF清单40,851字节，而非Windows CRLF物理清单。部署分支仍为c1，现场动作等待已登录Master SSH与浏览器可读；不使用曾泄露旧私钥。
+
+### 2026-10-19现场收付主流程与收尾
+
+- **结论与版本：** Staging应用6604195的Core已由0.6.0更新为0.6.1。本轮普通PayPal钱包立即Capture的Guest付款、Woo已付记账、全额退款及客户邮件主流程通过；临时私密预览已关闭并保存，访客截图恢复Coming Soon。D76取消／失败、Webhook及联合矩阵仍未整体完成，不标M6或Production上线就绪。详细证据见[[笔记/Day76-PayPal沙盒与报价支付收口]]，前述10月17日未部署等描述保留为历史。
+- **最小发布：** 用户授权核对仓库与Cloudways后直接推进既审修复；浏览器控制多次超时，采用“主Agent操作Git＋用户原生后台／SSH截图”协作。新备份出现`Backup completed`，新恢复点精确UTC未读回；仅确认任务成功，不杜撰时间。两个旧文件哈希匹配后，正常快进`c1de7f1 → A c45cb51 → B 379f8f4`；Cloudways两次Pull日志分别为`2026-10-19 02:15:58/02:19:47 UTC success`，A依赖核验通过才推进B。最终三文件Git LF指纹及0.6.1全部匹配，主题不变；无force-push、主线合并、数据库恢复或第三方升级。
+- **运行与样本：** 在应用WordPress目录正常加载WP-CLI，四个报价／PayPal守卫均已注册，未结算状态为`pending/failed/on-hold`。从家目录仅用`--path`曾触发相对`wp-salt.php`加载失败；显式`cd`后成功，未改配置、权限或盐密钥。TEST订单1950为Guest，变体1883×1，商品USD0.12＋人工运费12.00＝12.12；首次付款邀请实收，原截止`2026-10-22 01:35:37 UTC`不变。付款前`block_reason`为空、未付款／无交易号／未扣库。
+- **收付对账：** 用户确认钱包位于Sandbox后单次提交；PayPal Capture尾号`02205U`于`2026-10-19 10:34:10 GMT+8`显示Completed／USD12.12／custom1950，Woo为Processing且有已付时间和同一交易，客户Processing邮件实收。经Woo原生`Refund via PayPal`单次全退12.12，生成Woo退款1952、净付款0.00；随后Woo为Refunded、PayPal原交易为Refunded、客户全额退款邮件实收。1952不是PayPal退款ID；独立退款ID／单笔Refund Completed未摘录，不补写。完整测试交易号仅保存在忽略证据，不记录邮箱、IP、key或完整付款链接。
+- **恢复与保留：** 用户保存Coming Soon、仅商店页面开启、私密链接分享关闭；响应原无痕复验要求提供访客Coming Soon截图。截图无地址栏，未独立逐条区分Shop和order-pay，也不等于缓存隔离全验。保留Sandbox连接、TEST订单／退款／私人DO NOT FULFILL备注；没有Live、Production、DNS、真实发货或数据删除。本轮交易动作已结束，不代替统一调度擅自恢复其他任务的现场写入。
+- **边界与接续：** 1883实际未管理库存，扣减／回库均N/A，不改商品强测。主Agent在D76/D78联合窗口继续补取消／失败／重试、真实Webhook投递与验签／重放、受控到期与变更／归属、管理库存／券、部分退款及四端／跨会话缓存；国家组合尚未独立核验，不把TEST地址当商户国籍证明。D74英语隐私提示（沿用RSK-055）及订单页博客侧栏留主Agent在联合验收前收口；原SKU与颜色文字仅作Website Manager内容核对线索。本轮无新增业务范围，实际工时未记录，不以计划周期代填。
+- **独立复核与收尾：** Code Review复核发布父链、范围及主题不变；安全和测试按普通钱包范围复核，未把未验项写为通过。项目／学习笔记及索引同步更新，原用户`AGENTS.md`和CODEX规则修改保留、不纳入本次文档收尾；不改D根旧工作树或其他任务状态。D76完整成功／取消／失败计划仍未全覆盖，后续证据按总计划分层验收。
 
 ## D83/84、D89～D94、D103/104源码与证据整合候选（2026-10-08）
 

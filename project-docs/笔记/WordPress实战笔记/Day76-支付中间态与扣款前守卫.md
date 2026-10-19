@@ -1,12 +1,13 @@
 ---
 类型: WordPress实战学习笔记
 项目: DentAll WooCommerce
-日期: 2026-10-17
+日期: 2026-10-19
+开始日期: 2026-10-17
 工作日: Day76
 主题: 支付中间态与扣款前守卫
-状态: 隔离代码候选，真实Sandbox待验
+状态: Local技术与Staging单样本收付主流程已验证，完整矩阵待验
 掌握度: 初识，待用户费曼自测
-验证环境: WordPress7.1、WooCommerce11.0.0、PHP8.2.29，原生HPOS隔离站
+验证环境: Local原生HPOS（WP7.1/Woo11/PHP8.2.29）；Staging WP7.1.3/Woo11/PayPal4.1.2/Core0.6.1
 ---
 
 # Day76 WordPress实战：支付中间态与扣款前守卫
@@ -21,7 +22,7 @@
 
 1. 区分客户可以发起付款、网关仍在处理、付款完成与永久关闭。
 2. 沿真实Hook解释库存元数据为何使报价签名变化。
-3. 用原生订单、外呼哨兵和fresh读取验证付款边界，而非只读函数返回值。
+3. 区分磁盘、WP进程注册、Woo订单、网关账务和客户收件，按层验证收付结果而非只读函数返回值。
 
 ## 真实项目场景与整体模型
 
@@ -90,6 +91,57 @@ Woo的`wc_maybe_reduce_stock_levels()`会在on-hold触发，给商品行写`_red
 
 新适配不建端点、不改订单、不发HTTP；无权请求只给通用错误，不按可枚举ID取消订单。即便有nonce仍要核权限。签发/取消/库存保持Woo API，HPOS原生隔离验证与真实Sandbox分层记录。没有改变URL、SEO、前端或缓存策略。
 
+### 2026-10-19：从源码正确走到现场收付
+
+这次像核对“图纸、装配、通电、收银账与回单”：分别对应Git文件、服务器SHA-256、WordPress正常进程的Hook注册、Woo／PayPal金额与状态、客户实际收到的邮件。这些不是同一份证据，不能互相替代。
+
+| 观察层 | 本次实际证据 | 不能推出什么 |
+|---|---|---|
+| Git与磁盘 | A预置依赖后B更新入口，三文件LF指纹匹配、Core0.6.1 | 仅版本号或Pull success不能证明文件无漂移、进程已装载 |
+| WordPress进程 | 正常WP-CLI中4个has_action／has_filter为预期优先级、未结算常量含on-hold | 注册不等于每个拒付反例都执行，也不是Web进程或缓存全验 |
+| Woo订单 | 1950付款前pending、签名判定无阻断；后有已付时间／交易号、Processing，再全额Refunded | Processing不是发货完成；本地状态不能替代远端资金事实 |
+| PayPal账务 | Sandbox同一原交易Completed、USD12.12、custom1950，退款后原交易Refunded | Woo退款1952不是PayPal退款ID；单独Refund ID／Completed未摘录 |
+| 客户收件 | 付款邀请、Processing及全额退款邮件实际到达，订单和金额一致 | sent日志不能证明另一个管理员邮箱已投递；邮件也不是Webhook验签证据 |
+| 环境恢复 | 临时分享关闭并保存，访客恢复Coming Soon | 截图无地址栏，不能外推两条URL逐项复验或完整缓存隔离 |
+
+付款前白名单读取实际使用Woo原生API，以下是已执行PHP的节选，不是需上传的新脚本：
+
+```php
+$o = wc_get_order(1950);
+$p = wc_get_product(1883);
+$s = wc_get_product($p->get_stock_managed_by_id());
+// 读取订单原始状态、报价判定和真实库存所有者，不保存或调用付款。
+$status = $o->get_status("edit");
+$reason = dentall_core_get_shipping_quote_block_reason($o);
+```
+
+上面最后两行以变量承接结果属于便于阅读的等价摘写；现场原命令将相同getter直接放入白名单JSON。正常WordPress引导仍可能执行已有插件初始化／缓存行为，不能把“这段表达式没有save”说成整个进程绝对零写或零外呼。
+
+1883的有效managing_stock为false、stock owner为1883、数量null；因此本轮扣库／回库N/A，不以退款后订单stock_reduced标志推断真实库存变化。管理库存的原生隔离矩阵继续单独保留，不能与此样本合并成现场库存通过。
+
+### 本次真实排错：--path不是工作目录
+
+从家目录运行wp --path=站点目录 eval时，Runner评估wp-config配置，在相对require(wp-salt.php)处失败，白名单订单读取尚未执行。--path定位安装根，并不把进程CWD替换成那个目录；PHP相对include／require还受工作目录影响。显式cd后重跑成功，没有修改wp-config、重新生成盐、更新插件或重部署。[WP-CLI Runner源码](https://github.com/wp-cli/wp-cli/blob/main/php/WP_CLI/Runner.php)、[PHP include／require规则](https://www.php.net/manual/en/function.include.php)。
+
+本次先执行的无WordPress引导检查为：
+
+```sh
+cd -- /home/master/applications/deufrhswrj/public_html &&
+pwd -P &&
+test -f wp-salt.php &&
+test -r wp-salt.php
+```
+
+在同一个主shell继续原命令；不要把cd放在已退出的子shell，再以为后续CWD仍改变。只检查盐文件存在／可读，不cat文件或贴到聊天。若路径／可读检查不通过，先停，不用chmod或修改配置碰运气。该路径是本次已核实应用，不是其他站点的通用路径。
+
+### 回跳、退款与收尾的判断
+
+Order received回跳后的Guest账单邮箱核验只负责订单详情访问；QQ账单邮箱与Sandbox Personal登录账户是两种身份，不能互换。页面Thank you、订单已付、PayPal Completed及客户邮件需逐层核对。
+
+这次从Woo原生Refund via PayPal退款商品0.12＋运费12.00，Woo退款记录1952、净付款0.00；PayPal原交易及Woo均Refunded，客户全额退款邮件送达。手工改Refunded或manual refund不会等价证明网关退款。真正发生超时／报错时，先对账远端，不能立即再点一次。[Woo退款机制](https://woocommerce.com/document/woocommerce-refunds/)。
+
+本轮没有独立Webhook投递／验签／重放、取消／失败／受控到期／部分退款／四端／跨会话缓存证据。关闭临时私密预览后保留Coming Soon和既有索引边界；保留TEST账务，不把收尾误当删除订单或正式开店。
+
 ## 动手练习、排错顺序与回退
 
 1. 只读追踪：从Woo `class-wc-order.php::payment_complete()`找到有效状态Filter，解释为什么返回true不能证明付款。
@@ -112,7 +164,7 @@ Woo的`wc_maybe_reduce_stock_levels()`会在on-hold触发，给商品行写`_red
 6. 重复已付款处理若抛异常，网关失败处理可能造成什么后果？
 7. 换网关或平台时，哪些原则保留、哪些Hook和状态要重新验证？
 
-用户尚未自测，不填写虚构分数。复习建议日期：2026-10-18、10-20、10-24、10-31，按实际需要安排，不创建提醒。
+用户尚未自测，不填写虚构分数或提升掌握度。2026-10-19是现场证据更新，不冒充本人复习记录；间隔复习可从本人实际开始复习日安排D+1／3／7／14，不创建提醒。
 
 ## 后续如何向AI高效提问与迁移
 
@@ -120,8 +172,16 @@ Woo的`wc_maybe_reduce_stock_levels()`会在on-hold触发，给商品行写`_red
 
 换主题时支付业务仍留插件；换Woo版本、网关或Shopify时，重新核对付款状态、库存时机、外部扣款点、验签与错误处理。Shopify具体实现本轮未验证，不作一一映射。
 
+## 收尾总结
+
+- 本轮可复演：依赖先到、入口后切；文件指纹→正常WP注册→站内／远端账务→客户收件→临时权限撤销。
+- 容易混淆：Capture ID／Woo退款ID／PayPal退款ID，状态Registered／交易Completed／Webhooks验签，以及不管理库存与库存数0。
+- 后续练习：只在另行授权的隔离样本执行取消／失败／重试和管理库存，不修改已退款1950复活付款；系统证据整理接[[Day107-回归证据分层与WooCommerce状态真相]]。
+
 ## 可复用核心思想
 
 - 跨平台：在不可逆副作用前复核，在通知重放时不重复副作用；代码返回值、站内记账和远端资金是不同事实。
 - WooCommerce：业务签名不能误纳正常运行元数据；所有状态守卫要覆盖原生库存、优惠券与错误处理的连锁影响。
 - 平台迁移：迁移因果和验证原则，重新选择公开扩展点；第三方源码与目标活动配置必须分别取证。
+- 跨平台：临时权限必须显式撤销，账务要跨系统对账；本地退款ID、网关退款ID和邮件回单各有证据边界。
+- WordPress：命令的安装路径与进程CWD分工不同；先定位失败发生在配置加载、插件装载还是业务执行，再修最小调用上下文。
