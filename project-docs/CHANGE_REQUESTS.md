@@ -357,3 +357,30 @@
 - 实施方案：WordPress只保留FluentSMTP一个邮件处理器；Staging使用公司BossMail专用SMTP主机、465端口和SSL。Cloudways Elastic Email未启用，不建立第二连接或fallback，不修改DNS。
 - 凭据与数据：邮箱密码只进入企业密码管理器和目标环境FluentSMTP配置，不进入Git、Markdown、截图或测试结果。邮件日志含客户邮箱、订单正文和付款链接，按最小期限保存并在验收后清理TEST记录。
 - 验收标准：1）受控外部邮箱实际收件；2）Woo客户/管理员、找回密码和询盘邮件按对应Day验证To/From/Reply-To/Return-Path与失败日志；3）原始Header核对SPF、DKIM、DMARC，Cron和日志保留期可观察且可回滚。
+
+### CR-016：D95完整电商事件来源的隔离兼容试验
+
+- 类型：既定GA4/GTM测量目标的实施路线复核；当前仅申请隔离试验，不批准目标站插件安装或外部资产连接。
+- 提出人：D95只读预检；提出日期：2026-10-19；优先级：P1；状态：第一阶段隔离试验已执行；GTM4WP单独承担购买事件的候选路线未通过，目标站安装与外部连接未授权。
+- 业务问题：ADR-011要求第一版完整商品至购买漏斗、购买只按成功订单计入且不得重复。当前项目没有版本化`dataLayer`实现；[Site Kit 1.189.0 WooCommerce源码](https://github.com/google/site-kit-wp/blob/1.189.0/includes/Core/Conversion_Tracking/Conversion_Event_Providers/WooCommerce.php)仅产生`add_to_cart`与`purchase`，其中感谢页事件的未付款/晚到付款边界需实测，不能直接视为完整事件方案。
+- 使用角色、频率和数据：Administrator管理WordPress插件与公司Google连接；Website Manager只读看板；访客在商品、Cart、Checkout和PayPal路径触发事件。数据来自WooCommerce商品、Cart和订单CRUD；正式流量与订单量尚未知，仅用隔离TEST对象先验证机制。公司GA4、GTM、Search Console资产目前均尚无，至少两名公司管理员由业务方建立；不收取密码、验证码或密钥。
+- 第一阶段必须做：仅在Git忽略且回环绑定的隔离WordPress副本安装并评估GTM4WP候选版本；关其GTM容器注入，仅观察`dataLayer`，关闭客户/订单个人信息输出；用TEST Simple/Variable/Cart/Checkout/PayPal成功、失败、取消、待付款、感谢页刷新和晚到状态核事件名、金额、币种、商品、交易ID与重复行为。保存设置/数据快照，完成后关闭服务并恢复。是否进入Site Kit连接、GTM配置、CMP安装、共享Staging或Production，须根据试验结果另行确认。
+- 第一阶段明确不做：不把TEST事件发往公司正式GA4，不安装到共享Local/Staging/Production，不调整Yoast、URL、Sitemap、缓存、真实支付、物流或订单数据；当前尚未上线的Contact与公开下载仅保留条件事件契约，不伪造正向数据。
+- 候选方案：WordPress/Woo原生与单独Site Kit无法满足全部事件；既有项目没有可复用漏斗层。优先以GTM4WP仅输出事件数据作隔离试验，其[作者文档](https://gtm4wp.com/setup-gtm4wp-features/container-settings-reference)说明关闭容器注入仍输出`dataLayer`，但安装前后必须检验兼容性、PII和事件正确性。若失败，再提出最小自定义`dataLayer`范围；Woo官方Analytics扩展自带`gtag`且目标Woo版本兼容性待核，不直接并装。完整插件路线暂估2～4开发日，自定义路线约3～5开发日；本次第一阶段试验约0.5～1日，均为条件估算，资产创建、隐私/法律文本及未来欧洲销售另计。
+- 影响与回滚：隔离插件会在隔离数据库写选项并在TEST前台生成事件脚本，可能增加请求时PHP、HTML和前端脚本；不允许发送PII或访问真实外部服务。目标站如以后采用该路线，必须保证Site Kit放置唯一GA4基础标签及GTM容器、关闭Site Kit Woo转化跟踪、GTM只映射缺口事件，并测量页面脚本、查询/Cron/远程请求、缓存及停用残留。第一阶段回滚只恢复隔离快照、删除隔离插件并停端口；不会影响目标站。不会有URL、Title、Canonical、robots或Sitemap改动；正式安装后的性能和SEO影响不可预先声称为零。
+- 最多3项试验验收：1）项目要求的已存在电商页面事件具备可复核的`dataLayer`载荷且无个人信息；2）未付/失败/取消和感谢页刷新不产生假阳性或重复`purchase`，已付款的金额、币种、商品与订单相符；3）隔离数据、配置、服务与外部请求在前后可核对恢复。纯浏览器方案对“付款后再也不回站”的转化可能漏记；是否要求覆盖该路径决定后续服务端测量是否另开范围。
+- 排期与衔接：用户于2026-10-19明确批准仅第一阶段隔离试验，并选择首版先保证不误记、不重复，不把付款后完全不返站的100%捕获列为本轮硬验收；该漏记边界应在未来报表与验收中写明。试验通过后才提交Site Kit/GTM/GA4/Consent的目标环境实施确认；D96联合审计在D91～D95实际落地后执行。
+- 2026-10-19隔离结果：WordPress 7.1、WooCommerce 11.0.0、PHP 8.2.29副本中，GTM4WP 2.0.6仅在回环地址试验。Shop `view_item_list`、Simple `view_item`与`add_to_cart`、Cart `view_cart`已观察；`select_item`未观察，Variable父页未输出`view_item`，Checkout受本项目人工运费报价门槛跳回Cart，因此结账后三项未验。即使将购买状态限制为Processing/Completed，两个仅用Woo CRUD手工设为该状态、无PayPal捕获和交易号的TEST订单仍各输出一次`purchase`；原Pending手工改Processing也输出一次。刷新未重复，但这不能弥补未付款误记。插件源码自身亦说明购买在订单进入所选状态时发出，并不等待付款实收；无可靠的独立purchase关闭开关。故该插件**不得仅靠配置进入正式购买测量**，下一路线须另行确认，不在本CR中擅写过滤器或改第三方核心。
+- 恢复与证据：完整隔离数据库快照已由执行者恢复，Coming Soon复原、插件运行目录移出、临时mu文件移除；试验前后核心选项导出SHA256相同，本轮复核16575/16576无监听且Git无试验文件。TEST订单/订单跟踪meta/插件选项归零由执行者现场查询报告；未保留恢复后的独立数据库导出供第二人复算。浏览器阻断了非回环请求；未监测PHP服务端全部出站。证据位于本机Git忽略目录`.codex-tmp/day92-94-runtime/evidence/d95-gtm4wp/`，其中数据库快照与订单密钥不得推送。未做真实PayPal、GTM Preview、GA4 DebugView、目标缓存和定量性能验收。
+
+### CR-017：D95第一版电商事件来源的隔离实现候选
+
+- 类型与状态：CR-016未通过后提出的新增独立插件、事件契约和订单捕获证明行为；**仅为功能确认单，尚未获实施授权，也未创建代码**。提出日期：2026-10-19；优先级：P1。
+- 业务问题：仅靠Site Kit 1.189.0缺少完整WooCommerce漏斗，GTM4WP 2.0.6的购买状态判定会对未收款订单误报。首版需让真实商品至结账行为可测，并保证`purchase`以PayPal已完成捕获为门槛、同一订单不重复计入；用户接受付款后完全不返站时纯浏览器方案可能漏记。
+- 使用角色、频率与数据：Administrator负责版本部署和日后GTM配置，Website Manager只读分析；访客的商品、Cart、Checkout和PayPal返回路径发生时生成事件。商品、购物车及订单以WooCommerce公开API/CRUD为来源，PayPal捕获以当前PayPal Payments 4.1.3的完成捕获Hook或其已验证Webhook结果为来源。正式流量/订单量未知，先用隔离TEST对象覆盖Simple、Variable、Blocks与失败边界；不发送姓名、邮箱、地址、电话、订单key、客户ID或支付凭据。
+- 本次请求实施的最小范围：仅在隔离Local研发独立、可停用、版本化的`dentall-measurement`插件，输出无个人信息的`dataLayer`，不自行加载GTM/GA4。以Woo页面Hook和公开Cart/Checkout Blocks数据源覆盖已存在的`view_item_list`、`select_item`、`view_item`、`add_to_cart`、`view_cart`、`begin_checkout`、`add_shipping_info`、`add_payment_info`、`purchase`及站内搜索；只有实际发生的动作才发对应事件。`purchase`须核订单key和已完成PayPal捕获证据、金额与币种，不能只看Processing/Completed或付款按钮；拟仅由完成捕获Hook通过Woo订单CRUD写`_dentall_measurement_paypal_capture`，保存`capture_id`、十进制字符串`amount`、`currency`三项最小证明，不设置“GA4已收件”标记、不把捕获号发往GA4。Webhook返回路径先核当前网关版本的已有捕获标记/交易号，缺乏充分证据时不发事件，真实行为留待Sandbox验收。金额按[GA4电商规范](https://developers.google.com/analytics/devguides/collection/ga4/ecommerce)记录商品折后行金额合计，税与运费分别列出，与Woo订单总额分项核对，不直接把含税运费总额当`value`。
+- 本次明确不做：不安装到共享Local/Staging/Production，不连接或创建Google资产，不接真实PayPal、不改支付流程、订单状态、价格库存、运费、URL、Yoast、Sitemap、robots、缓存策略或正式内容；不启用Site Kit、GTM、GA4、CMP或发往外网。Contact尚未正式启用、公开下载没有合格入口，只保留条件事件契约和负例，不伪造正向事件；不做付款后不返站的服务端补传，也不纳入BACS、退款或未来营销平台。
+- 方案比较与边界：原生Woo/Site Kit事件不全且其感谢页购买边界未通过隔离验收；GTM4WP状态配置误记购买，缺可靠的仅关闭`purchase`开关；直接用GTM点击触发器无法证明收款。最小自定义需监听Woo经典与Blocks真实动作及PayPal完成捕获，属可独立启停、未来可能替换的测量能力，故候选为独立插件而非塞入`dentall-core`或主题。预计入口、Woo事件、购买门禁与原生JS约4～5文件、300～500行量级；这是复杂度警戒值，编码后必须做减法审查，不为凑事件名增加假动作或抽象层。
+- 数据、权限、安全、性能、SEO与缓存：前台只读商品/Cart/订单的必要字段，订单访问须按Woo授权的order key核验，后台设置若无必要不创建；保存捕获证明前必须核capture状态为COMPLETED、网关上下文匹配订单、捕获额/币种与Woo订单总额一致，任一证据缺失均不写证明或发`purchase`。捕获Hook和Webhook兼容读取仅按当前4.1.3源码建立隔离合同，目标启用还须通过真实Sandbox路径；不能用模拟结果代替。order meta按HPOS兼容Woo CRUD、最小字段和不含个人信息原则处理，并记录备份/清理办法。不得对每页运行远程PHP调用、Cron或自动加载大选项；JS按商品/Cart/Checkout/感谢页条件加载并实际测量体积、请求与查询变化。感谢页/Cart/Checkout保持私有不缓存，不能把订单或同意状态写进公开缓存HTML。插件不改Title、Meta、Canonical、Schema、robots、Sitemap或Slug；正式上线前仍须检查与Site Kit、GTM及缓存输出是否重复。
+- 隔离验收最多3项：①代表性商品/Cart/Checkout的真实动作事件名称、商品、币种和金额可复核，无PII或双来源；②未捕获、失败、取消、仅手工改状态/仅授权的订单绝不出现`purchase`，模拟完成捕获路径按订单正确输出，由本站客户端/页面逻辑验证同浏览器刷新抑制；跨浏览器的GA4去重仅列后续外部联验项，未连接GA4时不承诺零重复；③隔离副本停用/恢复后事件脚本、专用订单meta和服务无残留。报价门槛若使Checkout回Cart，须另备合法TEST路径，`begin_checkout`、`add_shipping_info`、`add_payment_info`只有正向路径实际跑通才通过；不能把契约存在、未跑的结账/真实PayPal/GA4正向验收算作D95完成。
+- 排期、外部接入与回滚：隔离实现和定向测试条件估算3～5个开发日；公司GA4/GTM/Search Console资产、CMP与地区同意方案、GTM唯一基础标签、Staging独占窗口、真实PayPal Sandbox及Tag Assistant/DebugView联验另估1～2日，CMP选型/隐私文本和业务账号准备另计。目标环境实施前须再确认标签归属：候选为Site Kit连接资产并放置GTM容器、关闭其Analytics代码和Woo转化跟踪，由GTM持有唯一Google tag及事件标签；Consent由一个兼容CMP在标签触发前控制，不能把旧ADR-011放置方案当作已验事实。本次回滚限隔离副本：停插件、清专用TEST meta并按配对快照恢复；不会改变共享站点。D95/D96计划节点须随实际开发和外部资产准备顺延，不把条件估算当完成承诺。

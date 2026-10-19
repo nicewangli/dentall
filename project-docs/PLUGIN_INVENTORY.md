@@ -18,6 +18,7 @@
 | ACF Pro | 字段候选 | 保留ADR-010的条件技术方向，只有原生字段不足且获批时考虑 | D62未发现独立Pro包或内置Pro代码；公司许可、激活及非Local安装状态未核验 | 未安装，不能沿用免费版版本号充当Pro实物证据 | 公司账户、持有人、有效期、站点额度与续费责任待核对 | 未来按字段与数据量评估 | JSON/PHP只版本化定义；值和媒体另备份；停用、导出迁移与回滚须在采用前验收 |
 | Yoast SEO Free | SEO | SEO标题、Meta描述、Canonical、XML Sitemap、基础Schema和编辑辅助 | Local与Staging均已安装并激活；Local完成启停回退，Staging由用户手动激活后完成五页Title与`noindex`矩阵 | Local/Staging 28.2 | GPL/免费 | 中 | 导出设置后替换；禁止与其他SEO插件重复输出元数据和Schema；Staging无Canonical受全站`noindex`影响，Production另验 |
 | Site Kit by Google | 分析/站长工具 | 接入Search Console、GA4和PageSpeed Insights，并在后台展示数据 | 已选型；当前受保护Staging不连接正式Google服务，Production上线准备阶段再配置 | 待安装时记录 | GPL/免费；Google资产归公司账户 | 中 | 可停用并改为手工部署Google Tag；停用前确认GA4标签不会重复或丢失 |
+| GTM4WP | 分析候选，未采用 | 候选WooCommerce `dataLayer`事件来源 | 2026-10-19仅在Git忽略的回环隔离副本试验2.0.6，试验后恢复并移出运行目录；无PayPal捕获/交易号的TEST订单进入Processing或Completed仍输出`purchase`，不满足首版不误记要求。目标环境未安装，购买事件路线不采用该候选配置 | 隔离试验2.0.6；目标环境无 | GPL/免费；第三方维护 | 隔离副本曾写选项和订单跟踪meta，已按快照恢复；如将来重评需单独核对PII、脚本、事件和持久数据 | 不进入当前部署；若另行采用浏览事件也须解决独立关闭购买、唯一标签和停用残留，不能靠状态配置声明已付款 |
 | WPML Multilingual CMS | 多语言 | 未来翻译商品、页面、字符串和WooCommerce前台内容 | 未来方案已选型；第一版仍为英语/美元，暂不安装 | 启用时记录 | 商业许可证/公司账户 | 高 | 启用前完成URL、字段翻译模式、库存同步和SEO回归；移除需评估翻译数据与URL影响 |
 | ACF Multilingual | 多语言字段 | 配置ACF字段的翻译、复制和同步模式 | 随WPML启用，不单独提前安装 | 启用时记录 | 随WPML方案/公司账户 | 高 | 启用前逐字段定义Translate/Copy/Copy once；移除前保留翻译字段数据 |
 | WPML SEO | 多语言SEO | 协调Yoast元数据、Sitemap和多语言SEO输出 | 随WPML启用，不单独提前安装 | 启用时记录 | WPML免费兼容扩展/公司账户 | 高 | 停用前检查hreflang、Sitemap、Canonical和各语言元数据 |
@@ -37,6 +38,7 @@
 - `Site Kit by Google`负责连接Search Console、GA4和PageSpeed Insights。GA4标签只能由一个来源部署，启用前必须排查主题、Google Tag Manager和其他插件中的重复标签。
 - 已冻结的标签架构为：Site Kit部署唯一GA4 Google tag并放置GTM容器；GTM不重复部署GA4基础标签，只管理后续广告标签和Site Kit未覆盖的项目自定义事件。
 - WooCommerce标准电商事件优先采用Site Kit原生插件转化跟踪；联系表单、资料下载和实际启用的条件功能通过项目`dataLayer`事件与GTM补充，避免再安装职责重叠的GA4电商跟踪插件。询价事件仅在CR-004进入实施时增加。
+- D95实施前复核：Site Kit现有WooCommerce转化事件仅覆盖`add_to_cart`与`purchase`；GTM4WP隔离试验未通过购买准确性验收。上述冻结目标中的“唯一基础标签”和“完整电商事件来源”尚未在目标站验证，必须先完成新的实施路线确认，不按旧文字直接部署。
 - 受Cloudways Password Protection保护且设置`noindex`的Staging不连接正式Search Console和GA4，不产生正式业务统计；Production上线准备阶段再由公司Google账户完成连接。
 - 面向EEA、瑞士或英国用户时启用Site Kit Consent Mode，并配套WP Consent API与经确认的CMP；销售地区和隐私要求未确认前不提前安装CMP。
 - 当前没有独立SEO岗位。Website Manager使用Yoast处理内容级Title、Meta Description和页面内容优化；开发者负责插件配置、权限、高影响索引/Canonical变更、Sitemap、Schema和前端技术验证。

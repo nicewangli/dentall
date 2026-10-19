@@ -2,6 +2,14 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## E工作包D91～D96离线续作（2026-10-19）
+
+- 本轮在独立`codex/day91-day96-seo-measurement`分支复用A/B/D离线整合候选`1d13946`，不触碰其他工作树。共享Staging由C任务使用，本轮没有写Staging/Production、切换全站索引、安装插件、连接Google资产或清缓存；D91～D96均未整体标Done。
+- D91既有三项Yoast模板及CAD/CAM term 32定向修正保留原验收结论。D92/D94新增整合候选的隔离复验：主题32文件、Core14文件与候选SHA一致；首页、文章、Simple、Variable、Shop、有效价格筛选和404共7类GET，HTTP禁止索引头7/7、Schema解析错误0、HTML PHP警告0。文章可见团队署名、meta author和Article作者一致；TEST Simple现价USD24.99、Variable范围USD39.99～49.99与结构化数据一致。隔离Coming Soon已恢复、临时端口已关闭；证据在本机Git忽略目录`.codex-tmp/day92-94-runtime/evidence/integrated-20261019/`。这不是当前Staging或Production公开内容验收，也没有覆盖D93地图、正式素材或D91描述。
+- D93用户决定第一版商品标签仅作为站内入口：`product_tag`归档目标为`noindex, follow`且移出XML Sitemap，词项与现有URL保留；策略已记入[[URL_SEO_MAP]]及[[笔记/Day93-Sitemap与抓取边界审计]]，网站设置尚未修改。10月8日品牌地图3条、标签地图248条和TEST Page为历史快照；10月19日共享Staging内容正在变化，瞬时读数不能充当稳定验收。品牌入图、TEST Page、双层`X-Robots-Tag`及标签设置待独占窗口核因和最小修正；Staging维持全站禁止索引。
+- D95公司目前尚无GA4、GTM和Search Console资产。可由用户个人Google账号先创建独立的DentAll公司资产，再在GA4账号级和GTM账号级加入至少两名公司控制的管理员，核实容器发布权限后移除个人账号；不能长期放在个人既有Analytics账号下。未收取密码或验证码。用户确认第一版仅主动面向美国、加拿大、澳大利亚；欧洲经济区、英国、瑞士访客的Google同意要求仍须按访客所在地评估。当前Local未见Site Kit或项目`dataLayer`事件实现，Site Kit原生WooCommerce事件不足以覆盖完整漏斗。用户按[[CHANGE_REQUESTS]]的CR-016授权隔离试验GTM4WP，并选择首版先保证购买不误记、不重复，接受纯浏览器方案对完全不返站付款可能漏记。隔离试验发现GTM4WP 2.0.6仅凭Processing/Completed状态就对无PayPal捕获及交易号的TEST订单输出`purchase`；其候选配置未通过购买准确性验收，部分商品/购物车事件可见，结账/真实支付/GA4仍未验。试验后隔离配置和端口已恢复；目标环境插件/Consent方案、外部资产连接与新的事件实现尚未授权。D95不标Done，D96联合审计须在前述范围分别落地后执行。
+- D95隔离自定义事件来源候选已形成[[CHANGE_REQUESTS]]的CR-017，拟采用可独立停用的`dentall-measurement`，以Woo公开API/Blocks和PayPal完成捕获证据生成无PII事件；条件估算本机3～5开发日，外部资产/Consent/Sandbox联验另计，尚未获实施授权。捕获证据、同浏览器刷新和GA4跨浏览器去重分层验收，不把模拟订单或事件契约视为D95完成。项目过程与学习收尾见[[笔记/Day95-转化事件隔离试验与付款真值边界]]及其双向学习链接。
+
 ## A/B/D离线集成候选（2026-10-17）
 
 - 用户在D对话明确授权下发总协调并推进离线集成。独立分支`codex/abd-offline-integration-20261017`从`e078fc5`完整合入D`51270e9`、A`ec0342e`、B`73f5fca`、D84`394634c`与D79`1b02567`；运行候选`1f8355d`统一主题`0.49.2`、Core`0.9.3`，账户/文章/Contact/PayPal加载均保留。详情及验收入口：[[笔记/2026-10-17-ABD离线集成与候选验收]]。

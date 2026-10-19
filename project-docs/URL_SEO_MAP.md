@@ -48,6 +48,7 @@
 | 商品分类 | `/product-category/{slug}/` | 满足内容门槛后是 | 自身 | D48 Local确认：全局Title为`%%term_title%% %%page%% %%sep%% %%sitename%%`、Social Title为`%%term_title%%`，不含`Archives`；Woo只在归档第一页输出term描述。正式名称/Slug、非空商品集合、独立说明与不重复搜索意图确认后才进入Production导航/索引验收，TEST与空分类不视为正式内容资产 |
 | 商品详情 | `/product/{slug}/` | 是 | 自身 | Product Schema；分配品牌时由WooCommerce原生输出Brand，未分配时不伪造 |
 | 品牌归档 | `/brand/{slug}/` | 否（第一版） | 无 | D52复用WooCommerce原生`product_brand`与默认base；Yoast设为`noindex, follow`，Local实测无Canonical且不进入XML Sitemap。未来开放索引属于新决策，需正式内容、规模、内链和URL迁移验收 |
+| 商品标签归档 | 沿用现有URL（base待同环境读回） | 否（第一版） | 无/按Yoast输出复核 | 2026-10-19用户确认标签仅作站内组织与关联入口，统一`noindex, follow`并从XML Sitemap排除；保留词项和现有URL，不批量删除或改Slug。此为目标策略，Staging当前配置、页面Head和地图尚待受控核实与实施 |
 | 商品搜索 | `/?s={term}&post_type=product`；分页沿WordPress当前搜索URL；排序追加`orderby` | 否 | 无 | D47 Local冻结并实测：商品搜索为`noindex, follow`，不自造Canonical或`rel`且不进Sitemap；排序/分页保留`s`、`post_type=product`和适用的`orderby`，Page 1直达根搜索URL。空值、Unicode纯空白、非标量，或WordPress加斜杠前后任一超过1600字节的关键词302到动态Shop URL；精确1600字节仍按有效请求处理；唯一命中保留Woo原生302到商品详情。搜索与Shop不是等价内容，不把搜索Canonical到Shop；非Local缓存、URL长度上限和抓取仍待部署前复核 |
 | 排序参数 | 商店/商品分类URL加`orderby` | 不作为独立索引目标 | 基础归档 | Robots保持`index, follow`，Canonical合并到基础归档，Sitemap不收录参数URL。D45验证原生6选项与非法值回退；D54再次验证`price-desc`的结果顺序、分页链接及SEO输出。非Local缓存/抓取策略仍待上线前复核 |
 | 商品归档分页 | `/shop/page/{n}/`、`/product-category/{slug}/page/{n}/` | 有效分页可索引 | Page 1为归档根URL；Page 2+为无参数同页 | D46 Local已验证Page 2为200、自身Canonical与正确`rel=prev/next`；排序参数随分页链接保留但Canonical剥离参数；分页内部Page 1链接直达根URL，手工`/page/1/`为301；越界页真实404、`noindex`且无Canonical。非Local缓存、抓取与大数据量仍待上线前复核 |

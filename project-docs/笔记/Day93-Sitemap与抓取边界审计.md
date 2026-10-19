@@ -4,7 +4,7 @@
 日期: "2026-10-08"
 工作日: Day93
 主题: Sitemap与抓取边界审计
-状态: 只读阶段审计；D93未完成
+状态: 只读阶段审计；2026-10-19已确认商品标签策略，D93未完成
 tags:
   - DentAll
   - Day93
@@ -15,7 +15,7 @@ tags:
 
 ## 结论
 
-本轮只读盘点确认：Cloudways Staging应用`6604195`仍为`blog_public=0`、WooCommerce Coming Soon开启，但匿名请求可得到200响应。新鲜请求的Yoast Sitemap Index列出7个子地图，其中品牌地图有3条URL、商品标签地图有248条URL，Page地图仍列有TEST页面。品牌地图的实际输出与第一版品牌归档`noindex, follow`、不进入Sitemap的既定合同不符。Yoast 28.2本机源码核对表明，全站`blog_public=0`不会单独从taxonomy Sitemap排除品牌；Staging的具体taxonomy/term设置、过滤器及XML缓存状态尚未读回，不能断言某个设置值错误。商品标签的正式索引策略正等待用户决定。D93尚未完成，也不代表Production抓取配置通过。
+2026-10-08只读盘点确认：Cloudways Staging应用`6604195`当时`blog_public=0`、WooCommerce Coming Soon开启，但匿名请求可得到200响应。新鲜请求的Yoast Sitemap Index列出7个子地图，其中品牌地图有3条URL、商品标签地图有248条URL，Page地图仍列有TEST页面。品牌地图的实际输出与第一版品牌归档`noindex, follow`、不进入Sitemap的既定合同不符。Yoast 28.2本机源码核对表明，全站`blog_public=0`不会单独从taxonomy Sitemap排除品牌；Staging的具体taxonomy/term设置、过滤器及XML缓存状态尚未读回，不能断言某个设置值错误。商品标签策略已在2026-10-19获用户确认，见下方后续记录；配置尚未实施。D93尚未完成，也不代表Production抓取配置通过。
 
 ## 相关笔记
 
@@ -52,15 +52,23 @@ tags:
 
 核对使用匿名HTTPS只读请求；对Sitemap和robots使用新查询参数取得未命中旧页面缓存的响应，再记录状态、响应头与XML内容。商品标签分布来自只读REST分页结果。没有执行保存、清缓存、爬虫提交或批量改词项。既有Local数据库中Yoast `noindex-tax-product_brand=true`且品牌词项为0；这是Local事实，不能直接推定Staging的选项值，亦不能单凭Staging品牌地图推定其开关为`false`。本机Yoast 28.2源码`inc/sitemaps/class-taxonomy-sitemap-provider.php:64-73,240-259,312-336`显示，公开taxonomy是否入图取决于taxonomy级`noindex-tax-*`选项、排除Filter以及term级`wpseo_noindex`/Canonical；该provider直接读取选项，不使用`yoast_indexable`作为入图条件。`src/integrations/front-end/indexing-controls.php:50-54`的`blog_public`影响前台robots，未在上述Sitemap provider中作为排除条件。源码只能缩小候选原因，不能代替Staging设置读回。
 
+## 2026-10-19后续决定与定位
+
+- 用户确认：第一版商品标签只作站内组织与关联入口，所有`product_tag`归档采用`noindex, follow`并从XML Sitemap排除；保留现有词项与URL，不批量删除或改Slug。该决定更新[[../URL_SEO_MAP|URL与SEO映射]]，目前仅记录目标策略，尚未保存Yoast设置、清缓存或改Staging/Production。
+- 10月8日的248条地图URL与294个词项是当日快照。10月19日共享Staging有另一任务活动时，匿名只读请求瞬时见地图298条、REST总数330；这只提示内容在变，不能当稳定验收基线。待共享窗口结束再读回标准URL、taxonomy选项与term覆盖。
+- Yoast 28.2源码`inc/sitemaps/class-sitemaps.php:655-668`与`src/integrations/front-end/indexing-controls.php:74-102`分别给Sitemap XML和`robots.txt`添加`X-Robots-Tag: noindex, follow`。两类响应另有`noindex,nofollow`，静态CSS也带后者；第二层具体来自Web服务器、缓存还是托管配置尚未证实，不能仅凭页面Yoast选项定位。
+- 品牌3条入图及公开TEST Page仍需在同一稳定窗口只读核taxonomy/term与单页noindex覆盖、排除Filter、XML缓存，再按最小范围修正。Staging继续全站禁索引，本轮不解除可见性或抓取边界。
+- Yoast 28.2离线源码核对：后台“Yoast SEO → Settings → Categories & tags → Product tags”的搜索结果开关关闭后，`wpseo_titles['noindex-tax-product_tag']`应为布尔`true`；taxonomy Sitemap provider在该值严格为`true`时排除整张标签子图，无需额外Filter或逐词项改URL。归档robots仍允许词项级`wpseo_noindex='index'`覆盖，故保存前须只读统计这种显式覆盖，并对确有例外的词项单独核实。Staging的`blog_public=0`会遮住taxonomy专属robots差异；必须用选项、词项设置、XML与隔离可索引分支共同验证。品牌使用同一机制。相关源码：`inc/options/class-wpseo-option-titles.php:347-352`、`inc/sitemaps/class-taxonomy-sitemap-provider.php:312-336`、`src/presentations/indexable-term-archive-presentation.php:136-163`；[Yoast官方noindex说明](https://yoast.com/help/how-do-i-noindex-urls/)。此项仅为实施路径，尚未保存后台设置。
+
 ## 差异、风险与待办
 
 - **品牌归档：** ADR-033与[[../URL_SEO_MAP|URL与SEO映射]]确定第一版`noindex, follow`且不入Sitemap；Staging当前地图列3条。先只读核对Staging品牌taxonomy选项、term级覆盖与排除Filter，再比对新鲜和标准地图响应及缓存；确认原因后再按最小范围提出修正与恢复步骤。
-- **商品标签：** 248条地图URL中，大量词项只有一个关联商品；数量本身不证明页面应统一`noindex`，但提示薄弱或重复归档风险。先由业务方确认标签的用途、正式词表和目标索引策略，再逐类决定是否保留、合并或排除；不擅自删除词项或批量改URL。
+- **商品标签：** 10月8日地图有248条URL，当时大量词项只关联一个商品；数量本身不能替代业务判断。10月19日用户已确认第一版统一不索引并移出Sitemap；待稳定窗口核现值、按taxonomy最小范围实施与复验，不擅自删除词项或批量改URL。
 - **TEST页面：** Page地图仍有样本内容。正式上线前由内容负责人明确保留、撤稿或替换，并核对Sitemap、内链、状态码及缓存；当前不把TEST页面视为正式内容验收。
 - **双响应头：** 静态CSS也有固定`noindex,nofollow`，说明仅查看WordPress/Yoast选项不足以解释HTTP终态。须区分WordPress/插件、Web服务器和缓存层的贡献；在来源确认前，不把该头当作可依赖的临时开放安全闸门。
 - **环境边界：** 本轮不临时开放公开Staging索引。当前匿名200、地图含TEST与待审归档，短暂切换`blog_public=1`可能暴露测试URL，也可能让缓存保留旧robots/Canonical响应。Production式索引/Canonical验收优先在环回绑定且有访问控制的隔离副本中进行；现有Staging继续`blog_public=0`。
 
-本轮仅增加记录，站点配置、数据、URL、索引、SEO输出、缓存、支付、物流和部署均未改变，因此无需站点回滚。未来若经确认修改品牌/标签Sitemap或robots，应先保存目标设置与term覆盖，只改批准的字段，分别核对原点与缓存响应，并按目标URL或子地图验证恢复；不得用全站清缓存或整项选项覆盖代替差异核对。D93完成仍需明确商品标签策略、关闭品牌输出差异、解释双响应头并在受控环境跑代表抓取矩阵。D91～D94各自定向验收后，再按共用URL样本做联合回归。
+本轮仅增加记录，站点配置、数据、URL、索引、SEO输出、缓存、支付、物流和部署均未改变，因此无需站点回滚。未来实施品牌/标签Sitemap或robots修正时，应先保存目标设置与term覆盖，只改批准的字段，分别核对原点与缓存响应，并按目标URL或子地图验证恢复；不得用全站清缓存或整项选项覆盖代替差异核对。D93完成仍需落地并验收已确认的商品标签策略、关闭品牌输出差异、解释双响应头并在受控环境跑代表抓取矩阵。D91～D94各自定向验收后，再按共用URL样本做联合回归。
 
 ## 可复用核心思想
 

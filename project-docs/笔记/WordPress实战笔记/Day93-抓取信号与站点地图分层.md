@@ -4,7 +4,7 @@
 日期: "2026-10-08"
 工作日: Day93
 主题: 抓取信号与站点地图分层
-状态: 已记录只读阶段证据；待D93策略与来源收口
+状态: 已记录只读阶段证据；10月19日补核标签策略与Yoast源码，目标配置和来源仍待收口
 掌握度: 初识
 验证环境: Cloudways Staging只读；D92当前分支隔离副本为机制对照
 tags:
@@ -39,7 +39,7 @@ Staging仍禁止索引，但匿名请求能读到Sitemap Index及其品牌、商
 ### 学习范围
 
 - 本篇掌握：URL发现、抓取访问、索引指令、内容可见性和缓存响应的分层检查。
-- 本篇不展开：未知响应头的具体配置归属、商品标签最终SEO策略、Production搜索引擎收录结果。
+- 本篇不展开：未知响应头的具体配置归属、商品标签策略在Staging的实际写入、Production搜索引擎收录结果。
 - 实际入口：Staging的`/robots.txt`、`/sitemap_index.xml`、`/product_brand-sitemap.xml`、`/product_tag-sitemap.xml`及一条静态CSS；只读WordPress REST词项分页。
 - 本轮只读，没有保存设置、改变`blog_public`、关闭Coming Soon、清缓存或提交Sitemap。
 
@@ -124,12 +124,14 @@ flowchart TD
 
 本机Yoast SEO 28.2源码只读核对提供了更窄的Sitemap判断：`inc/sitemaps/class-taxonomy-sitemap-provider.php:64-73,312-336`选择公开taxonomy并排除全局`noindex-tax-{taxonomy}`严格为`true`的类型；`:240-259`检查term级`wpseo_noindex`与指向别处的Canonical。`inc/options/class-wpseo-taxonomy-meta.php:390-418,535-566`读取term元数据；此provider不以`yoast_indexable`为入图条件。`src/integrations/front-end/indexing-controls.php:50-54`的`blog_public=0`作用于前台robots，没有直接排除taxonomy Sitemap。`inc/sitemaps/class-sitemaps-cache.php:81-89`显示Yoast XML transient默认关闭但可被Filter启用，公网Varnish缓存又是独立层。以上是本机同版本源码机制，Staging具体选项、Filter及缓存仍未读回。
 
+2026-10-19补核：用户决定商品标签仅作站内入口，第一版统一不索引。Yoast原生Product tags搜索结果开关将`noindex-tax-product_tag`设为布尔`true`时，taxonomy Sitemap provider会排除整张子图；无需额外写Filter或逐词项改URL。但`indexable-term-archive-presentation.php:136-163`允许词项级显式`wpseo_noindex='index'`覆盖归档robots，而Sitemap依然排除该taxonomy。于是“子图消失”与“每条归档都不可索引”是两项独立验收；Staging还需只读统计词项覆盖，并在保持`blog_public=0`的条件下核选项、XML与隔离可索引分支。参考[Yoast noindex说明](https://yoast.com/help/how-do-i-noindex-urls/)。这段是源码推论，尚无Staging设置和HTTP实施结果。
+
 ### 从入口开始追踪
 
 1. 先确认目标环境`blog_public=0`、Coming Soon开启，并用匿名请求核对页面实际可达性；本轮未重新读取Cloudways Password Protection设置。
 2. 对`robots.txt`、Sitemap Index和目标子图发新鲜只读请求，记录状态、`X-Cache`/`Age`、全部`X-Robots-Tag`和XML URL数；不把地图数量当成索引数量。
 3. 请求静态CSS作对照：若同样有`noindex,nofollow`，只能将“存在独立于Yoast页面动态输出的规则”列为强提示，再查Web服务器、应用和缓存各层来源。
-4. 用只读REST分页统计商品标签：294个，其中46个为空、199个关联1商品、49个关联至少2商品；分类策略仍由业务用途和内容质量决定。
+4. 用只读REST分页统计商品标签：2026-10-08为294个，其中46个为空、199个关联1商品、49个关联至少2商品；该历史统计用于提示治理规模，索引策略后于10月19日由用户按业务用途决定。
 
 ### 最小运行证据与局限
 

@@ -156,6 +156,7 @@ D80实施记录：[[Day80-密码重置流程]]；对应学习：[[WordPress实�
 | Day92（进行中） | [[Day92-URL与Canonical受控验证]] | 当前分支代码＋独立旧Local库的11类URL及最少TEST夹具抽样：有效Shop Page 2为200、自身Canonical和上一页链接，越界Page 3为404；夹具与设置已恢复，目标环境分页/缓存仍待。学习见[[WordPress实战笔记/Day92-索引环境与Canonical分层验证]] |
 | Day93（进行中） | [[Day93-Sitemap与抓取边界审计]] | Staging只读核对Sitemap 7子图、品牌3、商品标签248、TEST Page和双响应头；品牌入图原因、商品标签策略与响应头来源未决。学习见[[WordPress实战笔记/Day93-抓取信号与站点地图分层]] |
 | Day94（进行中） | [[Day94-商品与组织Schema阶段验证]] | 隔离TEST商品的Product/Offer/面包屑与可见价格抽样通过，浏览器选中变体的动态价与库存也和数据一致；目标环境、正式Logo和图片及在线验证器待验。学习见[[WordPress实战笔记/Day94-商品Schema与可见内容一致性]] |
+| Day95（进行中） | [[Day95-转化事件隔离试验与付款真值边界]] | CR-016回环隔离试验观察部分Shop/Simple/Cart事件；GTM4WP 2.0.6对无PayPal捕获却手工进入Processing/Completed的TEST订单误发`purchase`，故不采用其单独承担正式购买事件。GA4/GTM/Search Console未连接，Checkout、真实PayPal和Consent未验；学习见[[WordPress实战笔记/Day95-购买事件状态与支付证据边界]] |
 | Day103（并行） | [[Day103-权限与账户暴露审计]] | 核心Users REST定向读守卫在独立TEST站通过访客/角色/前序响应矩阵；oEmbed与RSS仍暴露TEST作者显示名，RSK-057 P2及目标环境验收开放。学习见[[WordPress实战笔记/Day103-REST权限与作者资料边界]] |
 | Day104（并行） | [[Day104-插件主题更新与安全配置审计]] | 官方WooCommerce/Breeze隔离升级、Woo数据库与任务队列、定向回归及同点文件/数据库恢复通过；Staging未升级，真实缓存与结账仍待验。学习见[[WordPress实战笔记/Day104-插件更新与数据库迁移回滚]] |
 | Day107 | [[Day107-系统回归准备与执行包]] | 14组系统覆盖、最小TEST样本、隔离恢复及证据模板已建立；当时基线五组纯合同通过，PayPal与目标环境回归未执行；学习见[[WordPress实战笔记/Day107-回归证据分层与WooCommerce状态真相]] |

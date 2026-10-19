@@ -106,6 +106,9 @@
 - 隐私：根据销售国家和访客地区确认适用规则；面向EEA、瑞士或英国时启用Consent Mode，并配置WP Consent API和兼容CMP。CMP选型另行记录。
 - 排期：埋点数据契约随商品、购物车、结账、支付和已确认表单功能同步实现；条件功能只在实际实施时增加契约。D95集中连接与端到端验收，D96纳入SEO与测量联合审计；不得把全部埋点开发压缩到D95一天。
 - 影响：分析基础由Should提升为Must；需要增加事件契约、隐私配置、测试流量隔离和回归证据，但不改变Yoast负责SEO元数据与索引输出的职责。
+- 2026-10-19实施前复核：[Site Kit 1.189.0官方WooCommerce事件源码](https://github.com/google/site-kit-wp/blob/1.189.0/includes/Core/Conversion_Tracking/Conversion_Event_Providers/WooCommerce.php)仅覆盖`add_to_cart`与`purchase`，不足以单独实现上述完整漏斗；感谢页购买事件对未付/异步付款及重复计数的终态须在隔离订单中实测。原决策的公司资产、唯一基础标签和事件准确性目标保持；事件来源的补齐路线仍是候选，安装额外插件或写`dataLayer`代码前须单独确认范围。用户确认第一版仅主动面向美国、加拿大、澳大利亚；欧洲经济区、英国及瑞士访客的Google同意处理仍按访客所在地评估，不能仅凭是否主动销售当地决定。参见[[PROJECT_STATE]]的E工作包记录。
+- 2026-10-19隔离试验纠偏：GTM4WP 2.0.6即使限定Processing/Completed，仍对无PayPal捕获或交易号但手工进入该状态的TEST订单输出`purchase`；现有插件配置无法独立关闭该事件而保留其他电商事件。因此该插件单独承担购买事件的路线未通过“不误记”验收。未测试真实PayPal、GA4接收或共享环境；下一事件来源与付款证据门槛须另行确认，不能把订单状态直接当成实收证明。参见[[CHANGE_REQUESTS]]的CR-016。
+- 2026-10-19标签归属复核：原决策保留为历史已接受方案，但尚未在目标环境证明“Site Kit基础标签＋GTM事件标签”只产生一个发送源。[Google GTM事件设置](https://support.google.com/tagmanager/answer/13034206)以前置Google tag为基础；[Site Kit允许关闭其Analytics代码放置而保留连接报表](https://sitekit.withgoogle.com/documentation/using-site-kit/manage-site-kit-placed-code/)。候选调整是Site Kit负责连接GA4/GTM/Search Console及放置GTM容器，GTM容器负责唯一Google tag和事件标签，Site Kit自身Analytics代码与插件转化跟踪关闭。采用前须经正式范围确认，并用Tag Assistant/DebugView核对单次发送及同意状态；这条候选说明不代表配置已改变。
 
 ## ADR-012：采用统一Website Manager承接内容业务所有权（权限边界部分被ADR-015替代）
 
