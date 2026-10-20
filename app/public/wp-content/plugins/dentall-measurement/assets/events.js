@@ -11,6 +11,10 @@
 	const ecommerceKeys = [ 'currency', 'value', 'tax', 'shipping', 'transaction_id', 'shipping_tier', 'payment_type', 'item_list_id' ];
 	window.dataLayer = window.dataLayer || [];
 
+	function hasConsent() {
+		return window.dentallMeasurementConsent && window.dentallMeasurementConsent.hasConsent();
+	}
+
 	function pick( source, keys ) {
 		const result = {};
 		keys.forEach( function ( key ) {
@@ -22,10 +26,10 @@
 	}
 
 	function emit( payload ) {
-		if ( ! payload || ! allowed.has( payload.event ) || ( payload.id && seen.has( payload.id ) ) ) {
+		if ( ! hasConsent() || ! payload || ! allowed.has( payload.event ) || ( payload.id && seen.has( payload.id ) ) ) {
 			return;
 		}
-		const event = { event: payload.event };
+		const event = { event: payload.event, dentall_consent_revision: window.dentallMeasurementConsent.revision };
 		if ( payload.ecommerce ) {
 			event.ecommerce = pick( payload.ecommerce, ecommerceKeys );
 			event.ecommerce.items = ( payload.ecommerce.items || [] ).map( function ( item ) {
@@ -134,7 +138,7 @@
 				// 等其它网关监听器处理完取消提交；仅记录提交，不代表收款成功。
 				window.queueMicrotask( function () {
 					const method = payForm.querySelector( 'input[name="payment_method"]:checked' );
-					if ( submitted || submit.defaultPrevented || ! method || method.disabled || ! method.value ) {
+					if ( ! hasConsent() || submitted || submit.defaultPrevented || ! method || method.disabled || ! method.value ) {
 						return;
 					}
 					submitted = true;
@@ -164,7 +168,7 @@
 	let lastShipping = '';
 	let paymentRecorded = false;
 	document.body.addEventListener( 'wc-blocks_added_to_cart', function ( event ) {
-		if ( initialized && event.detail && event.detail.preserveCartData === true ) {
+		if ( hasConsent() && initialized && event.detail && event.detail.preserveCartData === true ) {
 			addConfirmed = true;
 			observeCart();
 		}
@@ -211,10 +215,19 @@
 	}
 
 	function observeCart() {
+		if ( ! hasConsent() ) {
+			// 未同意期间不积压分析状态；重新同意后只观察当前状态，不回放旧加购或提交。
+			pendingAdds.clear();
+			addConfirmed = false;
+			shippingPending = false;
+			initialized = false;
+			return;
+		}
 		const cart = cartStore.getCartData();
 		const extension = cart.extensions && cart.extensions[ 'dentall-measurement' ];
 		const events = extension && Array.isArray( extension.events ) ? extension.events : [];
 		const address = addressSignature( cart );
+		const busy = cartStore.isCartDataStale() || cartStore.isCustomerDataUpdating() || cartStore.isShippingRateBeingSelected() || cartStore.hasPendingItemsOperations();
 		if ( ! initialized ) {
 			// Woo 会恢复 localStorage 购物车；首次初始化及此前的旧加购不能重播。
 			events.forEach( function ( event ) {
@@ -222,11 +235,12 @@
 					seen.add( event.id );
 				}
 			} );
-			if ( ! cartStore.hasFinishedResolution( 'getCartData', [] ) || cartStore.isCartDataStale() ) {
+			if ( ! cartStore.hasFinishedResolution( 'getCartData', [] ) || busy ) {
 				return;
 			}
 			initialized = true;
 			lastAddress = address;
+			paymentRecorded = Boolean( checkoutStore && checkoutStore.isProcessing() );
 		} else {
 			events.forEach( function ( event ) {
 				if ( event.id && ! seen.has( event.id ) ) {
@@ -242,7 +256,7 @@
 		if ( cartStore.isShippingRateBeingSelected() || ( cartStore.isCustomerDataUpdating() && address !== lastAddress ) ) {
 			shippingPending = true;
 		}
-		if ( cartStore.isCartDataStale() || cartStore.isCustomerDataUpdating() || cartStore.isShippingRateBeingSelected() || cartStore.hasPendingItemsOperations() ) {
+		if ( busy ) {
 			return;
 		}
 		const ecommerce = cartSnapshot( cart );
@@ -287,6 +301,7 @@
 			}
 		}
 	}
+	document.addEventListener( 'dentall_measurement_consent', observeCart );
 	data.subscribe( observeCart );
 	observeCart();
 }() );

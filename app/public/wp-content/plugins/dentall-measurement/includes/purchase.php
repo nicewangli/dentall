@@ -80,7 +80,7 @@ function dentall_measurement_order_pay( $order ) {
 add_action( 'before_woocommerce_pay_form', 'dentall_measurement_order_pay' );
 
 function dentall_measurement_purchase( $order_id ) {
-	if ( ! dentall_measurement_is_public_request() || ! is_order_received_page() ) {
+	if ( ! dentall_measurement_has_consent() || ! dentall_measurement_is_public_request() || ! is_order_received_page() ) {
 		return;
 	}
 	$order = wc_get_order( absint( $order_id ) );

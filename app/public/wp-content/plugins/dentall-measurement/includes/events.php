@@ -64,7 +64,7 @@ function dentall_measurement_cart_add_event( $line, $quantity ) {
 }
 
 function dentall_measurement_capture_cart_add( $key, $product_id, $quantity ) {
-	if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || current_user_can( 'manage_woocommerce' ) || current_user_can( 'manage_options' ) || ! WC()->cart ) {
+	if ( ! dentall_measurement_has_consent() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || current_user_can( 'manage_woocommerce' ) || current_user_can( 'manage_options' ) || ! WC()->cart ) {
 		return;
 	}
 	$line = WC()->cart->get_cart_item( $key );
@@ -95,7 +95,7 @@ add_filter( 'woocommerce_add_to_cart_fragments', 'dentall_measurement_cart_fragm
 
 function dentall_measurement_before_store_add( $data, $request ) {
 	// 公共Filter位于Store API授权及Cart加载之后；只观察本次请求，不改入参。
-	if ( '/wc/store/v1/cart/add-item' === $request->get_route() && ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'manage_options' ) ) {
+	if ( dentall_measurement_has_consent() && '/wc/store/v1/cart/add-item' === $request->get_route() && ! current_user_can( 'manage_woocommerce' ) && ! current_user_can( 'manage_options' ) ) {
 		$quantities = array();
 		foreach ( WC()->cart->get_cart() as $key => $line ) {
 			$quantities[ $key ] = (float) $line['quantity'];
@@ -133,11 +133,15 @@ function dentall_measurement_assets() {
 	if ( ! dentall_measurement_is_public_request() || ! ( is_front_page() || is_shop() || is_product_taxonomy() || is_product() || is_search() || is_cart() || is_checkout() ) ) {
 		return;
 	}
-	$dependencies = array( 'jquery' );
+	$dependencies = array( 'jquery', 'dentall-measurement-consent' );
 	if ( ( is_cart() && has_block( 'woocommerce/cart' ) ) || ( is_checkout() && ! is_wc_endpoint_url() && has_block( 'woocommerce/checkout' ) ) ) {
-		$dependencies = array( 'jquery', 'wp-data', 'wc-blocks-data-store' );
+		$dependencies = array( 'jquery', 'wp-data', 'wc-blocks-data-store', 'dentall-measurement-consent' );
 	}
-	wp_enqueue_script( 'dentall-measurement', plugins_url( 'assets/events.js', DENTALL_MEASUREMENT_FILE ), $dependencies, DENTALL_MEASUREMENT_VERSION, true );
+	if ( function_exists( 'cmplz_has_consent' ) ) {
+		// CMP 自身使用 defer；事件脚本同样延后并排在它后面，避免把返回访客的有效事件提前丢弃。
+		$dependencies[] = 'cmplz-cookiebanner';
+	}
+	wp_enqueue_script( 'dentall-measurement', plugins_url( 'assets/events.js', DENTALL_MEASUREMENT_FILE ), $dependencies, DENTALL_MEASUREMENT_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 }
 add_action( 'wp_enqueue_scripts', 'dentall_measurement_assets', 60 );
 
@@ -155,7 +159,9 @@ function dentall_measurement_page_data() {
 	}
 	$events = $GLOBALS['dentall_measurement_events'] ?? array();
 	if ( WC()->session ) {
-		$events = array_merge( $events, (array) WC()->session->get( 'dentall_measurement_add', array() ) );
+		if ( dentall_measurement_has_consent() ) {
+			$events = array_merge( $events, (array) WC()->session->get( 'dentall_measurement_add', array() ) );
+		}
 		WC()->session->__unset( 'dentall_measurement_add' );
 	}
 	$data = array( 'page' => $page, 'currency' => get_woocommerce_currency(), 'events' => $events, 'blocks' => false );

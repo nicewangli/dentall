@@ -1,0 +1,580 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2026-10-20 07:30:34",
+  "containerVersion": {
+    "path": "accounts/6383579174/containers/267682953/versions/0",
+    "accountId": "6383579174",
+    "containerId": "267682953",
+    "containerVersionId": "0",
+    "container": {
+      "path": "accounts/6383579174/containers/267682953",
+      "accountId": "6383579174",
+      "containerId": "267682953",
+      "name": "DentAll Web",
+      "publicId": "GTM-WM2DF8CN",
+      "usageContext": [
+        "WEB"
+      ],
+      "fingerprint": "1792476206917",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6383579174/containers/267682953/workspaces?apiLink=container",
+      "features": {
+        "supportUserPermissions": true,
+        "supportEnvironments": true,
+        "supportWorkspaces": true,
+        "supportGtagConfigs": false,
+        "supportBuiltInVariables": true,
+        "supportClients": false,
+        "supportFolders": true,
+        "supportTags": true,
+        "supportTemplates": true,
+        "supportTriggers": true,
+        "supportVariables": true,
+        "supportVersions": true,
+        "supportZones": true,
+        "supportTransformations": false
+      },
+      "tagIds": [
+        "GTM-WM2DF8CN"
+      ]
+    },
+    "tag": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "tagId": "3",
+        "name": "DentAll Test - Google Analytics",
+        "type": "dest_ga",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "destinationId",
+            "value": "G-B8228WMX3C"
+          },
+          {
+            "type": "LIST",
+            "key": "configSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_location"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "http://127.0.0.1:16575{{Page Path}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_title"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "DentAll Local Test"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "page_referrer"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "debug_mode"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "true"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "firingTriggerId": [
+          "100"
+        ],
+        "tagFiringOption": "ONCE_PER_LOAD",
+        "monitoringMetadata": {
+          "type": "MAP"
+        },
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
+        },
+        "notes": "CR-018：仅回环隔离 Local 与 Test；同意后每页最多初始化一次，URL 不包含查询或片段，标题与来源使用测试常量。",
+        "fingerprint": "1792480839304"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "tagId": "7",
+        "name": "DentAll Test - Ecommerce Events",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "sendEcommerceData",
+            "value": "true"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "getEcommerceDataFrom",
+            "value": "dataLayer"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "{{Event}}"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "G-B8228WMX3C"
+          }
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "monitoringMetadata": {
+          "type": "MAP"
+        },
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
+        },
+        "firingTriggerId": [
+          "101"
+        ],
+        "setupTag": [
+          {
+            "tagName": "DentAll Test - Google Analytics",
+            "stopOnSetupFailure": true
+          }
+        ],
+        "notes": "仅白名单电商事件及回环主机；先完成同一 Test 基础标签，继承其最小页面参数；不接收用户身份字段。",
+        "fingerprint": "1792483595397"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "tagId": "104",
+        "name": "DentAll Test - Consent defaults",
+        "type": "cvt_267682953_6",
+        "parameter": [],
+        "firingTriggerId": [
+          "102"
+        ],
+        "tagFiringOption": "ONCE_PER_LOAD",
+        "consentSettings": {
+          "consentStatus": "NOT_NEEDED"
+        }
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "tagId": "105",
+        "name": "DentAll Test - Consent update",
+        "type": "cvt_267682953_6",
+        "parameter": [],
+        "firingTriggerId": [
+          "103"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NOT_NEEDED"
+        }
+      }
+    ],
+    "builtInVariable": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "type": "PAGE_URL",
+        "name": "Page URL"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "type": "PAGE_HOSTNAME",
+        "name": "Page Hostname"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "type": "PAGE_PATH",
+        "name": "Page Path"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "type": "REFERRER",
+        "name": "Referrer"
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "type": "EVENT",
+        "name": "Event"
+      }
+    ],
+    "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6383579174/containers/267682953/versions/0?apiLink=version",
+    "customTemplate": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "templateId": "6",
+        "name": "DentAll Basic Consent",
+        "templateData": "___INFO___\n\n{\n  \"type\": \"TAG\",\n  \"id\": \"cvt_temp_public_id\",\n  \"version\": 1,\n  \"securityGroups\": [],\n  \"displayName\": \"DentAll Basic Consent\",\n  \"brand\": {\n    \"id\": \"brand_dummy\",\n    \"displayName\": \"\"\n  },\n  \"description\": \"\",\n  \"containerContexts\": [\n    \"WEB\"\n  ]\n}\n\n\n___TEMPLATE_PARAMETERS___\n\n[]\r\n\r\n___SANDBOXED_JS_FOR_WEB_TEMPLATE___\r\n\r\nconst read = require('copyFromDataLayer');\nconst defaults = require('setDefaultConsentState');\nconst update = require('updateConsentState');\nconst set = require('setInWindow');\nconst live = require('callInWindow');\nconst push = require('createQueue')('dataLayer');\nconst changing = read('event') === 'dentall_consent_update';\nconst revision = read('dentall_consent_revision');\nconst allowed = changing && read('dentall_analytics_consent') === 'granted'\n  && typeof revision === 'number' && revision > 0\n  && live('dentallMeasurementConsent.hasConsent', revision) === true;\n// 撤回先停止当前 Google 测量，再更新同意状态。\nset('ga-disable-G-B8228WMX3C', !allowed, true);\nconst state = {analytics_storage: allowed ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'};\nif (changing) {\n  update(state);\n  if (allowed) push({event: 'dentall_analytics_ready', dentall_consent_revision: revision});\n} else {\n  defaults(state);\n}\r\ndata.gtmOnSuccess();\r\n\r\n___WEB_PERMISSIONS___\r\n\r\n[\r\n  {\r\n    \"instance\": {\r\n      \"key\": {\r\n        \"versionId\": \"1\",\r\n        \"publicId\": \"access_globals\"\r\n      },\r\n      \"param\": [\r\n        {\r\n          \"key\": \"keys\",\r\n          \"value\": {\r\n            \"listItem\": [\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"dataLayer\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"key\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"execute\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              },\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"ga-disable-G-B8228WMX3C\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"key\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"execute\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              },\r\n              {\r\n                \"type\": 3,\r\n                \"mapKey\": [\r\n                  {\r\n                    \"type\": 1,\r\n                    \"string\": \"key\"\r\n                  },\r\n                  {\r\n                    \"type\": 1,\r\n                    \"string\": \"read\"\r\n                  },\r\n                  {\r\n                    \"type\": 1,\r\n                    \"string\": \"write\"\r\n                  },\r\n                  {\r\n                    \"type\": 1,\r\n                    \"string\": \"execute\"\r\n                  }\r\n                ],\r\n                \"mapValue\": [\r\n                  {\r\n                    \"type\": 1,\r\n                    \"string\": \"dentallMeasurementConsent.hasConsent\"\r\n                  },\r\n                  {\r\n                    \"type\": 8,\r\n                    \"boolean\": false\r\n                  },\r\n                  {\r\n                    \"type\": 8,\r\n                    \"boolean\": false\r\n                  },\r\n                  {\r\n                    \"type\": 8,\r\n                    \"boolean\": true\r\n                  }\r\n                ]\r\n              }\r\n            ],\r\n            \"type\": 2\r\n          }\r\n        }\r\n      ]\r\n    },\r\n    \"clientAnnotations\": {\r\n      \"isEditedByUser\": true\r\n    },\r\n    \"isRequired\": true\r\n  },\r\n  {\r\n    \"instance\": {\r\n      \"key\": {\r\n        \"versionId\": \"1\",\r\n        \"publicId\": \"read_data_layer\"\r\n      },\r\n      \"param\": [\r\n        {\r\n          \"key\": \"allowedKeys\",\r\n          \"value\": {\r\n            \"string\": \"specific\",\r\n            \"type\": 1\r\n          }\r\n        },\r\n        {\r\n          \"key\": \"keyPatterns\",\r\n          \"value\": {\r\n            \"listItem\": [\r\n              {\r\n                \"string\": \"event\",\r\n                \"type\": 1\r\n              },\r\n              {\r\n                \"string\": \"dentall_analytics_consent\",\r\n                \"type\": 1\r\n              },\r\n              {\r\n                \"type\": 1,\r\n                \"string\": \"dentall_consent_revision\"\r\n              }\r\n            ],\r\n            \"type\": 2\r\n          }\r\n        }\r\n      ]\r\n    },\r\n    \"clientAnnotations\": {\r\n      \"isEditedByUser\": true\r\n    },\r\n    \"isRequired\": true\r\n  },\r\n  {\r\n    \"instance\": {\r\n      \"key\": {\r\n        \"versionId\": \"1\",\r\n        \"publicId\": \"access_consent\"\r\n      },\r\n      \"param\": [\r\n        {\r\n          \"key\": \"consentTypes\",\r\n          \"value\": {\r\n            \"listItem\": [\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"analytics_storage\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"consentType\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              },\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"ad_storage\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"consentType\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              },\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"ad_user_data\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"consentType\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              },\r\n              {\r\n                \"mapValue\": [\r\n                  {\r\n                    \"string\": \"ad_personalization\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"boolean\": false,\r\n                    \"type\": 8\r\n                  },\r\n                  {\r\n                    \"boolean\": true,\r\n                    \"type\": 8\r\n                  }\r\n                ],\r\n                \"mapKey\": [\r\n                  {\r\n                    \"string\": \"consentType\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"read\",\r\n                    \"type\": 1\r\n                  },\r\n                  {\r\n                    \"string\": \"write\",\r\n                    \"type\": 1\r\n                  }\r\n                ],\r\n                \"type\": 3\r\n              }\r\n            ],\r\n            \"type\": 2\r\n          }\r\n        }\r\n      ]\r\n    },\r\n    \"clientAnnotations\": {\r\n      \"isEditedByUser\": true\r\n    },\r\n    \"isRequired\": true\r\n  }\r\n]\r\n\r\n___TESTS___\r\n\r\nscenarios: []\r\n\r\n___NOTES___\r\n\r\n仅供 CR-018 隔离 Local 与 DentAll Test 的未发布 GTM 草稿；不得发布或用于共享环境。\r\n",
+        "fingerprint": "1792479592625"
+      }
+    ],
+    "gtagConfig": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "gtagConfigId": "4",
+        "type": "ogt_auto_events",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "enableOutboundClick",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableScroll",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableDownload",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableHistoryEvents",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableForm",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "enableVideo",
+            "value": "false"
+          }
+        ]
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "gtagConfigId": "5",
+        "type": "ogt_1p_data_v2",
+        "parameter": [
+          {
+            "type": "BOOLEAN",
+            "key": "isAutoEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "isManualEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoPhoneEnabled",
+            "value": "false"
+          },
+          {
+            "type": "LIST",
+            "key": "autoCollectExclusionSelectors",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "exclusionSelector"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "isEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoAddressEnabled",
+            "value": "false"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "autoEmailEnabled",
+            "value": "false"
+          }
+        ]
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "triggerId": "100",
+        "name": "Local - DentAll analytics ready",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "dentall_analytics_ready"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(127\\.0\\.0\\.1|localhost)$"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{DentAll Live Consent}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "triggerId": "101",
+        "name": "Local - DentAll ecommerce whitelist",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(view_item_list|select_item|view_item|add_to_cart|view_cart|begin_checkout|add_shipping_info|add_payment_info|purchase|view_search_results)$"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(127\\.0\\.0\\.1|localhost)$"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{DentAll Live Consent}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "triggerId": "102",
+        "name": "Local - Consent initialization",
+        "type": "CONSENT_INIT",
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(127\\.0\\.0\\.1|localhost)$"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "triggerId": "103",
+        "name": "Local - DentAll consent update",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "dentall_consent_update"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Page Hostname}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "^(127\\.0\\.0\\.1|localhost)$"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "variableId": "106",
+        "name": "DentAll Consent Revision",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "2"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "dentall_consent_revision"
+          }
+        ]
+      },
+      {
+        "accountId": "6383579174",
+        "containerId": "267682953",
+        "variableId": "107",
+        "name": "DentAll Live Consent",
+        "type": "jsm",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "javascript",
+            "value": "function(){try{var revision={{DentAll Consent Revision}};return typeof revision===\"number\" && revision>0 && window.dentallMeasurementConsent.hasConsent(revision)===true;}catch(e){return false;}}"
+          }
+        ]
+      }
+    ]
+  }
+}
