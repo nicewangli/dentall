@@ -2,9 +2,10 @@
 类型: WordPress实战学习笔记
 项目: DentAll WooCommerce
 日期: 2026-10-19
+复核日期: 2026-10-20
 工作日: Day95
 主题: 购买事件状态与支付证据边界
-状态: 隔离试验已复盘；D95整体未完成
+状态: 候选试验及获批Local实现已复盘；D95整体未完成
 掌握度: 初识，待费曼自测
 验证环境: WordPress 7.1、WooCommerce 11.0.0、PHP 8.2.29的回环隔离副本
 tags:
@@ -30,10 +31,10 @@ tags:
 
 ## 真实项目场景与范围
 
-ADR-011要求D95补齐GA4完整电商漏斗，`purchase`必须代表成功订单、金额和交易ID正确，不能重复。现有项目运行代码没有已实现的完整`dataLayer`事件源；Site Kit 1.189.0的Woo事件源只覆盖`add_to_cart`和`purchase`。用户于是批准CR-016：只在隔离副本试GTM4WP 2.0.6，不接Google资产或共享站点。试验发现状态型购买误报，因此本篇学习重点是**付款真值与测量事件的边界**，不把未批准的新代码当成现状。
+ADR-011要求D95补齐GA4完整电商漏斗，`purchase`必须代表成功订单、金额和交易ID正确，不能重复。本轮开始时项目没有完整`dataLayer`事件源；Site Kit 1.189.0的Woo事件源只覆盖`add_to_cart`和`purchase`。用户于是批准CR-016：只在隔离副本试GTM4WP 2.0.6，不接Google资产或共享站点。试验发现状态型购买误报，随后用户批准CR-017仅Local实现独立插件。因此本篇学习重点是**付款真值与测量事件的边界**，并区分旧候选反例、新实现和真实网关联验。
 
 - 项目入口：`app/public/wp-content/plugins/dentall-core/includes/shipping-quote-paypal.php`的PayPal捕获前守卫；插件候选源码[ProductData.php](https://github.com/duracelltomi/gtm4wp/blob/2.0.6/src/Modules/WooCommerce/ProductData.php#L795-L899)与[AdminSchema.php](https://github.com/duracelltomi/gtm4wp/blob/2.0.6/src/Modules/WooCommerce/AdminSchema.php#L343-L350)。
-- 本篇不展开：实现新事件插件、真实收款、服务器端补漏、CMP选型、Google资产连接、Staging/Production部署。
+- 用户随后明确批准CR-017仅隔离Local实现；本篇补充真实新插件的捕获门禁，仍不展开真实收款、服务器端补漏、CMP选型、Google资产连接和Staging/Production部署。
 
 ## 先建立整体模型
 
@@ -83,7 +84,34 @@ add_action( 'woocommerce_paypal_payments_before_capture_order', 'dentall_core_gu
 
 候选插件的[真实源码](https://github.com/duracelltomi/gtm4wp/blob/2.0.6/src/Modules/WooCommerce/ProductData.php#L824-L840)在`is_order_status_trackable()`里读取允许状态并与`$order->get_status()`比较；[作者设置说明](https://github.com/duracelltomi/gtm4wp/blob/2.0.6/src/Modules/WooCommerce/AdminSchema.php#L343-L350)明确事件可能在付款实收前发生。这个判断来自第三方隔离候选，**没有被复制进DentAll运行代码**。空状态列表在该源码中有回退逻辑，不能擅自当作“关闭购买”的安全配置。
 
-## 隔离运行证据与验证界限
+### CR-017获批后的真实实现
+
+新增`app/public/wp-content/plugins/dentall-measurement/includes/purchase.php`独立负责订单测量。PayPal Payments 4.1.3的`woocommerce_paypal_payments_order_captured`位于完成捕获分支；新插件仍再次核COMPLETED、`final_capture()`、订单`custom_id`、网关、全额与币种。它只通过Woo CRUD保存三项证明；这不是“GA4已收到”的标记。
+
+```php
+add_action( 'woocommerce_paypal_payments_order_captured', 'dentall_measurement_record_capture', 20, 2 );
+add_action( 'woocommerce_thankyou', 'dentall_measurement_purchase' );
+```
+
+两个Hook处于不同请求：捕获成功时留下最小证明；买家看收据时另核key、归属、交易号与证明，再读取订单商品净额生成事件。退款/取消、人工改状态、仅授权、错金额/币种或缺证明不能用“已到感谢页”补齐。Webhook专属Hook在供应商更新订单之前，未携带可核全额的Capture实体，本阶段不会靠标记和交易号推断已收款。
+
+```mermaid
+flowchart LR
+    A[PayPal完成捕获实体] --> B{订单与金额全部匹配}
+    B -->|匹配| C[Woo CRUD三字段证明]
+    C --> D{收据key与买家授权}
+    D -->|通过| E[订单净商品额与税运费分项]
+    E --> F[本机dataLayer事件]
+    F --> G[未来GTM与GA4联验]
+```
+
+实体商品的报价付款页是另一条真实路径：`before_woocommerce_pay_form`已经过Woo的订单权限以及平台当时要求的Guest邮箱验证，才可提供无个人信息的订单快照。Woo原生新建订单验证宽限期由平台处理，不能在测试中假设任何Guest订单都立即出现邮箱表单。进入付款表单不等于购买成功；不存在新的配送信息提交时，不生成配送事件。浏览器`sessionStorage`只抑制当前标签页刷新，跨会话去重和分析存储同意仍须后续Google/CMP验证。
+
+Blocks也有同类状态陷阱：本轮真实空必填表单没有发Checkout POST，却短暂进入`processing`。因此代码不再从状态上升沿直接推导付款信息已可提交，而是同时核公开的字段校验、购物车错误、运费、支付ready和订单需要付款；当前processing内只记录一次。它仍只是客户端就绪事实，不能代替服务端接受订单或网关捕获。状态名必须结合生命周期和真实负例解释。
+
+2026-10-20最终定向浏览器8项通过：空六必填时0付款信息事件、0Checkout请求；修正后原生COD结账HTTP200、1次付款信息事件且感谢页0purchase。原生Store专项9项通过，覆盖已有商品再次加购、失败/数量编辑和缓存重载。捕获22项合同、购买访问58项沿用阶段内既有证据；真实PayPal与GA4仍未验证。完整恢复前后数据库导出哈希一致，验证命令、资源配对和剩余边界见双向链接的项目Day笔记。
+
+## CR-016隔离反例与验证界限
 
 | 路径 | 观察 | 可得结论 |
 |---|---|---|
@@ -146,7 +174,7 @@ add_action( 'woocommerce_paypal_payments_before_capture_order', 'dentall_core_gu
 
 ### WordPress/WooCommerce当前实现
 
-在本次WooCommerce 11.0.0隔离副本，GTM4WP 2.0.6的购买资格使用订单状态，手工转Processing/Completed产生误报。DentAll现有PayPal Hook只挡不合规的捕获**请求**，并非确认成功的购买事件。未来事件源须经独立授权与真实网关负路径验证。
+在本次WooCommerce 11.0.0隔离副本，GTM4WP 2.0.6的购买资格使用订单状态，手工转Processing/Completed产生误报。DentAll Core的既有PayPal Hook只挡不合规的捕获**请求**；新测量插件在另一个完成捕获Hook保存最小证明。两者职责不同，Local模拟合同仍须由后续真实网关负路径验证。
 
 ### Shopify或其他平台的对应机制
 

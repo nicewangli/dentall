@@ -33,6 +33,8 @@ app/public/wp-content/themes/*
 app/public/wp-content/plugins/*
 !app/public/wp-content/plugins/dentall-core/
 !app/public/wp-content/plugins/dentall-core/**
+!app/public/wp-content/plugins/dentall-measurement/
+!app/public/wp-content/plugins/dentall-measurement/**
 !app/public/wp-content/mu-plugins/
 app/public/wp-content/mu-plugins/*
 !app/public/wp-content/mu-plugins/dentall-loader.php
