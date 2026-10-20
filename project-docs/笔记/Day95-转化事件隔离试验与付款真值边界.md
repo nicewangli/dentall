@@ -116,6 +116,23 @@ CR-016的最高验收层级是**隔离候选路线验证**；后续获批CR-017�
 
 安全摘要：`results/finish-source-hashes.json`、`finish-payment-fixed.json`、`final-store-actions.json`、`finish-visual.json`、`finish-metrics-comparison.json`、`finish-restore-summary.json`及`finish-ports.json`。正式目标接入仍须完成Google资产权限、唯一标签、CMP/地区同意、URL与referrer清理、真实Sandbox/Webhook和GA4端到端联验。
 
+## Google资产准备（2026-10-20）
+
+用户要求在Chrome打开GA4/GTM并代办创建，只在缺真实资料时接手；用户提供公司员工为101～500人（包含工人），将其他报表设置委托处理，且在GA4条款页明确授权接受服务与数据处理条款。公司地区沿用已确认的中国；中国报表时区、USD、健康行业以及销售/潜在客户目标已填。可选额外数据共享关闭。个人Google登录只是当前访问入口，公司命名的独立账号不与既有货运业务混用；公司管理员移交仍未完成。
+
+| 资产 | 页面回读结果 | 当前状态 |
+|---|---|---|
+| GA4账号 | DentAll，`412639445` | 已创建 |
+| 正式媒体资源 | DentAll Production，`559747628` | 已创建，尚无Web数据流 |
+| 测试媒体资源 | DentAll Test，`559786936` | 已创建，尚无Web数据流 |
+| GTM网站容器 | DentAll账号 / DentAll Web，`GTM-WM2DF8CN` | 已创建，代码列表为空，未配置/发布标签 |
+
+用户说明拟用域名当前有其他网站使用，尚未提供域名；因此两项Web数据流跳过，尚无`G-`衡量ID。GA4账号/媒体资源和GTM容器创建本身不修改DNS、既有网站代码或数据；后续可先提供最终域名作为数据流信息，实际采集仍由网站安装与标签发布决定。本轮没有测试任何已有域名或修改既有货运资产。
+
+GA4在授权后首次尝试操作条款checkbox时发现页面已进入“数据收集”，故没有重复接受或重复创建；随后首页及通用选择器明确显示新账号、Production与Test及各自ID。GTM创建按钮后没有出现新协议弹窗，直接显示安装提示与容器ID；后续代码页明确显示“您还没有任何代码”。不把发起按钮操作当作完成证据。
+
+本机截图保存在Git忽略目录`.codex-tmp/day95-google-assets/`：`ga4-assets-created.png`显示同一DentAll账号下两个媒体资源，`gtm-empty-container.png`显示容器ID及空代码列表；创建前GA4协议截图另保留。Chrome两页已作为本轮交付保留。后续需要最终域名/数据流、公司管理员权限交接、单一Google tag、同意管理及真实PayPal/GA4联验；资产准备不改变D95整体未Done的状态。
+
 ## 可复用核心思想
 
 ### 跨平台不变量

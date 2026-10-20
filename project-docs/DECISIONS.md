@@ -111,6 +111,7 @@
 - 2026-10-19标签归属复核：原决策保留为历史已接受方案，但尚未在目标环境证明“Site Kit基础标签＋GTM事件标签”只产生一个发送源。[Google GTM事件设置](https://support.google.com/tagmanager/answer/13034206)以前置Google tag为基础；[Site Kit允许关闭其Analytics代码放置而保留连接报表](https://sitekit.withgoogle.com/documentation/using-site-kit/manage-site-kit-placed-code/)。候选调整是Site Kit负责连接GA4/GTM/Search Console及放置GTM容器，GTM容器负责唯一Google tag和事件标签，Site Kit自身Analytics代码与插件转化跟踪关闭。采用前须经正式范围确认，并用Tag Assistant/DebugView核对单次发送及同意状态；这条候选说明不代表配置已改变。
 - 2026-10-19 Local实施授权：用户明确批准CR-017仅Local执行，并由用户并行创建GA4/GTM资产。独立`dentall-measurement`负责当前商品、Cart/Blocks及授权报价付款页的白名单事件；捕获证明与浏览器去重职责分开。该能力有独立启停、外部平台和同意生命周期，故不放进Core或主题。授权不包含目标站安装、Google代码接入、CMP或真实PayPal；不把本机模拟捕获/同标签页去重当作真实收款或跨会话验收。
 - 资产创建建议：GA4在同一DentAll账号下分别建Production和Test媒体资源，各用独立Web数据流；正式ID/公司权限尚待回读。这是严格隔离测试报表的候选安排，[Google账号结构说明](https://support.google.com/analytics/answer/9679158?hl=zh-Hans)表明同一媒体资源会汇总数据流。仅另建同一正式媒体资源内的数据流或打开DebugView，不能单独证明测试流量不会进入正式汇总。GTM先建Web容器，目标映射与发布另按后续接入验证。
+- 2026-10-20资产准备落地：用户授权Chrome代办并确认接受GA4条款后，独立DentAll GA4账号及Production/Test两媒体资源、独立DentAll GTM Web空容器已创建并从页面回读ID，见[[笔记/Day95-转化事件隔离试验与付款真值边界]]。正式域名待确认，两项Web数据流尚未建，无网站代码安装、GTM标签配置或发布。本次仅落实资产结构；单一Google tag归属、CMP及目标环境连接继续作为后续候选，不因资产存在而自动实施。
 
 ## ADR-012：采用统一Website Manager承接内容业务所有权（权限边界部分被ADR-015替代）
 
