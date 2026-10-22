@@ -1409,10 +1409,10 @@
       "id": "FG-P2-01",
       "priority": "P2",
       "owner": "F→G",
-      "status": "待限定配置候选确认与复测",
+      "status": "单页临时排除及恢复已授权，等待Cloudways原生登录",
       "fact": "同一预览Cookie在Shop有效，canonical PDP却为ComingSoon/HIT/Age3073；先前保护页Age2550，兼容失败已复现。",
       "attributionLimit": "未定位Breeze/Varnish或组合的具体责任；不能归因Woo Cookie/OCP，也不重开历史规范Shop已接受修复。",
-      "next": "只读核对Breeze与Cloudways有效规则；提出仅代表PDP临时精确排除及必要清理、恢复、复测范围。未获确认不保存缓存设置。"
+      "next": "登录后先读回两层原值，再仅代表PDP临时精确排除及必要清理；完整矩阵、关闭、恢复和恢复后8条检查。范围已确认，不重复询问。"
     },
     "revocation": {
       "observed": "off 8/8为200/ComingSoon/noindex；A原Cookie、全新无Cookie、旧私密参数均未观察到真实Shop/PDP暴露。",
@@ -1428,5 +1428,69 @@
       }
     },
     "independentReview": "安全、测试与Code Review专项已在网络前复核helper；实际13条结果由缓存与资源两个专项只读复核，无额外网络。"
+  },
+  "pdpTemporaryExclusionFollowup": {
+    "date": "2026-10-22",
+    "authorization": "用户明确同意此单页临时排除、必要清理和恢复验证；不再待范围确认",
+    "status": "等待Cloudways原生登录，尚未修改配置",
+    "cloudwaysObserved": {
+      "requested": "https://platform.cloudways.com/",
+      "redirected": "https://unified.cloudways.com/login",
+      "authenticated": false,
+      "applicationTarget": 6604195
+    },
+    "breezeOriginal": {
+      "areas": [
+        {
+          "id": "exclude-urls",
+          "name": "exclude-urls",
+          "value": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+        },
+        {
+          "id": "cache-query-str",
+          "name": "cache-query-str",
+          "value": ""
+        }
+      ],
+      "switches": [
+        {
+          "checked": false,
+          "id": "breeze-wpjs-emoji",
+          "name": "breeze-wpjs-emoji"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-googlefonts-locally",
+          "name": "breeze-store-googlefonts-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-googleanalytics-locally",
+          "name": "breeze-store-googleanalytics-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-facebookpixel-locally",
+          "name": "breeze-store-facebookpixel-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-gravatars-locally",
+          "name": "breeze-store-gravatars-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-enable-api",
+          "name": "breeze-enable-api"
+        }
+      ]
+    },
+    "objectCacheReadOnly": "原生Dashboard/Tools仍Connected/Valid；未Flush/Scan/Reset/Download Report，未取得有效预取组",
+    "websiteSettingsSaved": 0,
+    "manualPurge": 0,
+    "newProductTestGets": 0,
+    "previewReopened": false,
+    "helper": "原helper仅3处增加restored phase，复用off8条，syntax/独立Code Review通过，尚未网络执行",
+    "privateInputFilesCreated": 0
   }
 }
