@@ -1,0 +1,707 @@
+{
+  "date": "2026-10-22",
+  "status": "阶段基线；D97与D102未完成",
+  "isolatedSourceSha": "1d13946d648832ac22a9bfe676e22acecac82f10",
+  "targetSourceSha": "未核实；仅以下7个CSS与Logo逐字节匹配296d04852cf709038fc0889ef271a255baf8c4d6，不推断PHP或全树一致",
+  "runtime": {
+    "wordpress": "7.1.3",
+    "woocommerce": "11.0.0",
+    "woocommerceDb": "11.0.0",
+    "php": "8.2.35",
+    "mysql": "8.4.11",
+    "storefront": "4.6.2",
+    "dentallTheme": "0.48.0",
+    "dentallCore": "0.6.1",
+    "paypal": "4.1.2",
+    "yoast": "28.2",
+    "breeze": "2.5.12",
+    "objectCachePro": "1.25.5",
+    "hpos": true,
+    "hposCompatibilitySync": false,
+    "environmentConstant": "production",
+    "wordpressMemoryLimitReported": "40 MB"
+  },
+  "observedUi": {
+    "cacheSystem": true,
+    "mobileCache": false,
+    "gzip": true,
+    "browserCache": true,
+    "purgeMinutes": 1440,
+    "breezeLazyLoad": false,
+    "loggedInRoleCache": "全部关闭",
+    "htmlCssJsMinify": false,
+    "combineCssJs": false,
+    "delayInlineJs": false,
+    "delayAllJs": false,
+    "neverCacheUrls": [
+      "/shop/（完整同源URL）"
+    ],
+    "cacheQueryStrings": [],
+    "breezeCdn": false,
+    "breezeCdnCname": "空",
+    "varnishAutoPurge": true,
+    "cloudwaysVarnishRules": "未现场重读",
+    "objectCacheStatus": "Connected / Drop-in Valid",
+    "objectCacheEffectivePrefetchGroups": "未现场重读；10月7历史不作为本日有效值",
+    "measurementPlugins": "本日普通插件列表未见；匿名HTML未见GTM/Measurement/Complianz/WP Consent API，不推断其他注入方式"
+  },
+  "conditions": {
+    "client": "Windows curl 8.9.1，--compressed，未限速，顺序执行",
+    "cookies": "每次独立进程；无Cookie请求头，不读写Cookie jar",
+    "serverCache": "未清缓存；首个观测不是受控冷缓存",
+    "redirectTiming": "有重定向时curl TTFB只作该工具观测值，time_total覆盖完整跳转与正文；不作Checkout渲染时间",
+    "browser": "已登录管理员，同一首页顺序resize，DPR1；现有购物车未修改",
+    "browserMetrics": "只读浏览器作用域不可用Performance；LCP/INP/CLS/FCP/导航时序未取得",
+    "networkImpact": "16次记录样本＋2次首页准备读取＋17次静态资源读取；浏览器导航/自然子资源另计"
+  },
+  "httpSamples": [
+    {
+      "label": "home-1",
+      "at": "2026-10-22T01:16:47.520Z",
+      "path": "/",
+      "http": 200,
+      "ttfbSeconds": 1.238249,
+      "totalSeconds": 1.273086,
+      "compressedBodyBytes": 17945,
+      "redirects": 0,
+      "finalPath": "/",
+      "comingSoon": false,
+      "cssRefs": 12,
+      "jsRefs": 13,
+      "imgRefs": 11,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": null,
+          "xCache": "HIT",
+          "age": "74",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "home-2",
+      "at": "2026-10-22T01:16:48.764Z",
+      "path": "/",
+      "http": 200,
+      "ttfbSeconds": 1.141291,
+      "totalSeconds": 1.175899,
+      "compressedBodyBytes": 17945,
+      "redirects": 0,
+      "finalPath": "/",
+      "comingSoon": false,
+      "cssRefs": 12,
+      "jsRefs": 13,
+      "imgRefs": 11,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": null,
+          "xCache": "HIT",
+          "age": "75",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "home-3",
+      "at": "2026-10-22T01:16:49.952Z",
+      "path": "/",
+      "http": 200,
+      "ttfbSeconds": 1.162585,
+      "totalSeconds": 1.163693,
+      "compressedBodyBytes": 17945,
+      "redirects": 0,
+      "finalPath": "/",
+      "comingSoon": false,
+      "cssRefs": 12,
+      "jsRefs": 13,
+      "imgRefs": 11,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": null,
+          "xCache": "HIT",
+          "age": "76",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "shop-1",
+      "at": "2026-10-22T01:16:53.332Z",
+      "path": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 3.13127,
+      "totalSeconds": 3.357932,
+      "compressedBodyBytes": 15426,
+      "redirects": 0,
+      "finalPath": "/shop/",
+      "comingSoon": true,
+      "cssRefs": 11,
+      "jsRefs": 14,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "shop-2",
+      "at": "2026-10-22T01:16:54.975Z",
+      "path": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 1.361509,
+      "totalSeconds": 1.589898,
+      "compressedBodyBytes": 15295,
+      "redirects": 0,
+      "finalPath": "/shop/",
+      "comingSoon": true,
+      "cssRefs": 11,
+      "jsRefs": 14,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "shop-3",
+      "at": "2026-10-22T01:16:57.637Z",
+      "path": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.18274,
+      "totalSeconds": 2.638686,
+      "compressedBodyBytes": 15441,
+      "redirects": 0,
+      "finalPath": "/shop/",
+      "comingSoon": true,
+      "cssRefs": 11,
+      "jsRefs": 14,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "product-1",
+      "at": "2026-10-22T01:16:59.314Z",
+      "path": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.31877,
+      "totalSeconds": 1.655543,
+      "compressedBodyBytes": 17721,
+      "redirects": 0,
+      "finalPath": "/product/dental-tooth-display-box/",
+      "comingSoon": true,
+      "cssRefs": 14,
+      "jsRefs": 24,
+      "imgRefs": 3,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": "MISS",
+          "age": "0",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "product-2",
+      "at": "2026-10-22T01:17:00.543Z",
+      "path": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.168436,
+      "totalSeconds": 1.171027,
+      "compressedBodyBytes": 17721,
+      "redirects": 0,
+      "finalPath": "/product/dental-tooth-display-box/",
+      "comingSoon": true,
+      "cssRefs": 14,
+      "jsRefs": 24,
+      "imgRefs": 3,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": "HIT",
+          "age": "1",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "product-3",
+      "at": "2026-10-22T01:17:01.727Z",
+      "path": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.159082,
+      "totalSeconds": 1.160156,
+      "compressedBodyBytes": 17721,
+      "redirects": 0,
+      "finalPath": "/product/dental-tooth-display-box/",
+      "comingSoon": true,
+      "cssRefs": 14,
+      "jsRefs": 24,
+      "imgRefs": 3,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": "HIT",
+          "age": "2",
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "checkout-empty-1",
+      "at": "2026-10-22T01:17:04.778Z",
+      "path": "/checkout/",
+      "http": 200,
+      "ttfbSeconds": 2.806726,
+      "totalSeconds": 3.028494,
+      "compressedBodyBytes": 44031,
+      "redirects": 1,
+      "finalPath": "/cart/",
+      "comingSoon": true,
+      "cssRefs": 15,
+      "jsRefs": 62,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 302 Found",
+          "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": null,
+          "xRobotsTag": "noindex, nofollow"
+        },
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "checkout-empty-2",
+      "at": "2026-10-22T01:17:07.130Z",
+      "path": "/checkout/",
+      "http": 200,
+      "ttfbSeconds": 1.839068,
+      "totalSeconds": 2.329777,
+      "compressedBodyBytes": 43888,
+      "redirects": 1,
+      "finalPath": "/cart/",
+      "comingSoon": true,
+      "cssRefs": 15,
+      "jsRefs": 62,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 302 Found",
+          "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": null,
+          "xRobotsTag": "noindex, nofollow"
+        },
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "checkout-empty-3",
+      "at": "2026-10-22T01:17:09.439Z",
+      "path": "/checkout/",
+      "http": 200,
+      "ttfbSeconds": 1.83136,
+      "totalSeconds": 2.286564,
+      "compressedBodyBytes": 43743,
+      "redirects": 1,
+      "finalPath": "/cart/",
+      "comingSoon": true,
+      "cssRefs": 15,
+      "jsRefs": 62,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 302 Found",
+          "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": null,
+          "xRobotsTag": "noindex, nofollow"
+        },
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "account-1",
+      "at": "2026-10-22T01:17:10.927Z",
+      "path": "/my-account/",
+      "http": 200,
+      "ttfbSeconds": 1.242005,
+      "totalSeconds": 1.465105,
+      "compressedBodyBytes": 15726,
+      "redirects": 0,
+      "finalPath": "/my-account/",
+      "comingSoon": false,
+      "cssRefs": 11,
+      "jsRefs": 15,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "account-2",
+      "at": "2026-10-22T01:17:12.486Z",
+      "path": "/my-account/",
+      "http": 200,
+      "ttfbSeconds": 1.304468,
+      "totalSeconds": 1.535499,
+      "compressedBodyBytes": 15581,
+      "redirects": 0,
+      "finalPath": "/my-account/",
+      "comingSoon": false,
+      "cssRefs": 11,
+      "jsRefs": 15,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "cart-empty-1",
+      "at": "2026-10-22T01:17:14.559Z",
+      "path": "/cart/",
+      "http": 200,
+      "ttfbSeconds": 1.349062,
+      "totalSeconds": 2.053854,
+      "compressedBodyBytes": 43743,
+      "redirects": 0,
+      "finalPath": "/cart/",
+      "comingSoon": true,
+      "cssRefs": 15,
+      "jsRefs": 62,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "label": "cart-empty-2",
+      "at": "2026-10-22T01:17:16.496Z",
+      "path": "/cart/",
+      "http": 200,
+      "ttfbSeconds": 1.603864,
+      "totalSeconds": 1.837277,
+      "compressedBodyBytes": 44178,
+      "redirects": 0,
+      "finalPath": "/cart/",
+      "comingSoon": true,
+      "cssRefs": 15,
+      "jsRefs": 62,
+      "imgRefs": 2,
+      "headers": [
+        {
+          "status": "HTTP/1.1 200 OK",
+          "cacheControl": "max-age=60",
+          "xCache": null,
+          "age": null,
+          "contentEncoding": "gzip",
+          "xRobotsTag": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "assetSamples": [
+    {
+      "path": "/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css",
+      "http": 200,
+      "decodedBytes": 14015,
+      "transferredBytes": 2939,
+      "sha256": "7185a3b34994588c017191cfb740e497fb5f3b887321573d2c1ec01896368528",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css",
+      "http": 200,
+      "decodedBytes": 42947,
+      "transferredBytes": 4318,
+      "sha256": "f3b05ddb5043387535cae8adae8f3421ae9ad890a75cc799ed761e0dcb267c0d",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/storefront/style.css",
+      "http": 200,
+      "decodedBytes": 40381,
+      "transferredBytes": 9762,
+      "sha256": "53b17b8ba69c0f5958a568987db048cf8f851ca09fd024a295aa76663a4a7d8e",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/storefront/assets/css/base/icons.css",
+      "http": 200,
+      "decodedBytes": 80235,
+      "transferredBytes": 17431,
+      "sha256": "4a27a726c4e834a9f54b8837d06e1350369a32d3b70377c0a6070f49b1d0420d",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css",
+      "http": 200,
+      "decodedBytes": 58777,
+      "transferredBytes": 10666,
+      "sha256": "48827c07a481323b1893d6a558aec9eaa56df970c7fdab622f52a3e748c1bff8",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/dentall/style.css",
+      "http": 200,
+      "decodedBytes": 26345,
+      "transferredBytes": 7386,
+      "sha256": "b624b85a3e5bde7f6217bbfb7c17ee5b19eea6d77bd5569add39926b3fa4d606",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/site-shell.css",
+      "http": 200,
+      "decodedBytes": 26349,
+      "transferredBytes": 5591,
+      "sha256": "d3eb5c0a6f33b5ad44aa7b56955083ae430a966c8d9beee9c999245bb1887e1f",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/homepage.css",
+      "http": 200,
+      "decodedBytes": 13309,
+      "transferredBytes": 3437,
+      "sha256": "1186da1cf637c3551767fa2b52624b35b21bb7ae202714c78da7138ed7863d53",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css",
+      "http": 200,
+      "decodedBytes": 2513,
+      "transferredBytes": 803,
+      "sha256": "47038d4c6b20e2715b2ee92caddd1cc2334a0a6c23c3c73ddfa42ac7f76a6d23",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-includes/blocks/heading/style.min.css",
+      "http": 200,
+      "decodedBytes": 1165,
+      "transferredBytes": 212,
+      "sha256": "187c2a0a016f532b73a680d2ec1095537ee7c6a545833c6c244571fdf3c9f7c9",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-includes/blocks/paragraph/style.min.css",
+      "http": 200,
+      "decodedBytes": 655,
+      "transferredBytes": 348,
+      "sha256": "622f970d122913e7a6707d8be35940b9417f061eb64b21c3bf1b01b76bfccd62",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": null
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/catalog.css",
+      "http": 200,
+      "decodedBytes": 15913,
+      "transferredBytes": 3327,
+      "sha256": "82c00a14924d872adbe5cc89c68991616f2461b141937320587c56d9540e7866",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/product-detail.css",
+      "http": 200,
+      "decodedBytes": 10412,
+      "transferredBytes": 2785,
+      "sha256": "5263affb9e4ad28fc052c252cf77961cabfedee73f2e9e3f0ba682b3c7c43a75",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/cart.css",
+      "http": 200,
+      "decodedBytes": 4249,
+      "transferredBytes": 1358,
+      "sha256": "940a1a4f632876722c18d764e85b35777ee3b2102c590691405762bf1244163b",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/css/account-auth.css",
+      "http": 200,
+      "decodedBytes": 4819,
+      "transferredBytes": 1326,
+      "sha256": "de5db9689e01cb25a16efd8ab3e5e8b71d5b0d595a4e96024f727dfb591a2a6a",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": "gzip",
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+      "http": 200,
+      "decodedBytes": 144221,
+      "transferredBytes": 144221,
+      "sha256": "403bbab5454f36cf760b13c91d5f627095e67f1eb127a80d9c0278a3dd9643a0",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": null,
+      "matches296d048": true
+    },
+    {
+      "path": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp",
+      "http": 200,
+      "decodedBytes": 6656,
+      "transferredBytes": 6656,
+      "sha256": "4d4aa2bcd4cb33786651fc359c587275ccb7acf4b98156b6d2b53e06ef4cf73b",
+      "cacheControl": "public, max-age=31536000",
+      "encoding": null,
+      "matches296d048": null
+    }
+  ],
+  "homepageWidths": [
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 1,
+      "overflow": false,
+      "logoRenderedWidth": 136,
+      "logoNaturalWidth": 1024,
+      "representativeCategoryWidth": 66.953125,
+      "representativeCategoryCurrentSrc": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp"
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "dpr": 1,
+      "overflow": false,
+      "logoRenderedWidth": 136,
+      "logoNaturalWidth": 1024,
+      "representativeCategoryWidth": 85.25,
+      "representativeCategoryCurrentSrc": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp"
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "dpr": 1,
+      "overflow": false,
+      "logoRenderedWidth": 136,
+      "logoNaturalWidth": 1024,
+      "representativeCategoryWidth": 62.28125,
+      "representativeCategoryCurrentSrc": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp"
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "dpr": 1,
+      "overflow": false,
+      "logoRenderedWidth": 220,
+      "logoNaturalWidth": 1024,
+      "representativeCategoryWidth": 86.46875,
+      "representativeCategoryCurrentSrc": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp"
+    }
+  ],
+  "evidenceDirectory": ".codex-tmp/fg-20261022/",
+  "pending": [
+    "真实匿名Shop/PDP/非空Checkout浏览器基线",
+    "精确PHP/部署全树SHA",
+    "OCP有效预取组与跨请求订单一致性",
+    "Cloudways Varnish有效排除及外部CDN",
+    "登录与新匿名/独立客户A/B/独立Cart隔离",
+    "更新撤稿与版本资源失效",
+    "E/H最终版本变化后的定向复测"
+  ]
+}
