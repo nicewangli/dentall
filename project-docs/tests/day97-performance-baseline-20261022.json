@@ -733,12 +733,700 @@
   },
   "evidenceDirectory": ".codex-tmp/fg-20261022/",
   "pending": [
-    "真实匿名Shop/PDP/非空Checkout浏览器基线",
+    "真实Shop仅HTTP单样本；真实PDP/非空Checkout与浏览器指标、启用态B隔离未验，PDP预览P2待修复",
     "精确PHP/部署全树SHA",
     "OCP有效预取组与跨请求订单一致性",
     "Cloudways Varnish有效排除及外部CDN",
     "登录与新匿名/独立客户A/B/独立Cart隔离",
     "更新撤稿与版本资源失效",
     "E/H最终版本变化后的定向复测"
-  ]
+  ],
+  "privatePreviewTrial": {
+    "date": "2026-10-22",
+    "authorization": "用户批准临时Woo原生私密预览；最新回复“现在由 F→G 独占”。仅Shop/PDP读取；不加购、下单或发信。",
+    "settings": {
+      "before": {
+        "comingSoon": true,
+        "storePagesOnly": true,
+        "privatePreview": false,
+        "live": false
+      },
+      "enabledSaved": {
+        "comingSoon": true,
+        "storePagesOnly": true,
+        "privatePreview": true,
+        "live": false
+      },
+      "closedSaved": {
+        "comingSoon": true,
+        "storePagesOnly": true,
+        "privatePreview": false,
+        "live": false,
+        "saveButtonDisabled": true,
+        "savedNotice": true
+      },
+      "saves": 2,
+      "cacheConfigurationChanged": false,
+      "manualPurge": false
+    },
+    "method": "curl -q --config -，固定同源Shop/PDP，GET，无跳转跟随/TLS绕过/随机参数/请求端no-cache；参数经stdin。A保存并重放同一原生woo-share Cookie值，每次独立curl；B不发送Cookie。",
+    "actualGetCount": 13,
+    "plannedGetCount": 19,
+    "skipped": "on在第3条canonical PDP判定失败，立即停止；启用态B隔离2条和A重复4条均未执行。",
+    "phases": [
+      {
+        "phase": "before",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "B-warm-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": false,
+            "cookieMatchesShare": null,
+            "http": 200,
+            "ttfbSeconds": 1.307288,
+            "totalSeconds": 1.522189,
+            "compressedBodyBytes": 15440,
+            "at": "2026-10-22T01:59:28.243Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-warm-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": false,
+            "cookieMatchesShare": null,
+            "http": 200,
+            "ttfbSeconds": 1.494862,
+            "totalSeconds": 2.379346,
+            "compressedBodyBytes": 17721,
+            "at": "2026-10-22T01:59:30.648Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "2550",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      },
+      {
+        "phase": "on",
+        "success": false,
+        "error": "页面类型/状态不符：A-canonical-1；保持或立即关闭预览，停止扩展测量",
+        "records": [
+          {
+            "label": "A-enter",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.453332,
+            "totalSeconds": 1.677684,
+            "compressedBodyBytes": 20180,
+            "at": "2026-10-22T02:08:09.331Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-canonical-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.392328,
+            "totalSeconds": 1.618623,
+            "compressedBodyBytes": 20033,
+            "at": "2026-10-22T02:08:10.983Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-canonical-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.256636,
+            "totalSeconds": 1.26587,
+            "compressedBodyBytes": 17721,
+            "at": "2026-10-22T02:08:12.271Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "3073",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      },
+      {
+        "phase": "off",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "A-retained-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.765429,
+            "totalSeconds": 1.76621,
+            "compressedBodyBytes": 15425,
+            "at": "2026-10-22T02:10:00.746Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-retained-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 3.0982,
+            "totalSeconds": 3.099767,
+            "compressedBodyBytes": 17721,
+            "at": "2026-10-22T02:10:03.874Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "3183",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-new-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.62765,
+            "totalSeconds": 1.86238,
+            "compressedBodyBytes": 15443,
+            "at": "2026-10-22T02:10:05.757Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-new-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.208061,
+            "totalSeconds": 1.209416,
+            "compressedBodyBytes": 17721,
+            "at": "2026-10-22T02:10:06.987Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "3187",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "A-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.819794,
+            "totalSeconds": 1.820992,
+            "compressedBodyBytes": 15248,
+            "at": "2026-10-22T02:10:08.829Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.889282,
+            "totalSeconds": 1.890128,
+            "compressedBodyBytes": 17794,
+            "at": "2026-10-22T02:10:10.748Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "0",
+              "x-cache": "MISS",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.701941,
+            "totalSeconds": 1.702665,
+            "compressedBodyBytes": 15249,
+            "at": "2026-10-22T02:10:12.474Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 2.221033,
+            "totalSeconds": 2.222761,
+            "compressedBodyBytes": 17794,
+            "at": "2026-10-22T02:10:14.721Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "3",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      }
+    ],
+    "realCanonicalShop": {
+      "label": "A-canonical-0",
+      "ttfbSeconds": 1.392328,
+      "totalSeconds": 1.618623,
+      "gzipHtmlBytes": 20033,
+      "productTitleCount": 12,
+      "styles": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C300%2C300italic%2C400italic%2C600%2C700%2C900&subset=latin%2Clatin-ext&ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/style.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/catalog.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/breeze/assets/js/js-front-end/breeze-prefetch-links.min.js?ver=2.5.12",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/js/catalog-filters.js?ver=0.48.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "images": [
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "eager",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcset": ""
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "high",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-324x324.png",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-324x324.png 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-300x300.png 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-1024x1024.png 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-150x150.png 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-768x768.png 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-1536x1536.png 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-416x416.png 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-100x100.png 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box.png 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcset": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--324x324.webp 324w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--300x300.webp 300w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--1024x1024.webp 1024w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--150x150.webp 150w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--768x768.webp 768w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--1536x1536.webp 1536w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--416x416.webp 416w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--100x100.webp 100w, https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1-.webp 1600w"
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcset": ""
+        }
+      ],
+      "counts": {
+        "cssReferences": 10,
+        "sameOriginCssReferences": 9,
+        "jsReferences": 14,
+        "imageTags": 14,
+        "uniqueImageSrc": 13,
+        "lazyImages": 10,
+        "highPriorityImages": 1,
+        "productImagesWithSrcset": 12
+      },
+      "hasGtm": false,
+      "hasMeasurement": false,
+      "hasCmp": false,
+      "limit": "单次规范URL真实HTML与入口一次，非浏览器瀑布、CWV、四宽或统计稳定性能；不与ComingSoon资源或候选源码混比。"
+    },
+    "finding": {
+      "id": "FG-P2-01",
+      "priority": "P2",
+      "owner": "F→G",
+      "status": "待限定配置候选确认与复测",
+      "fact": "同一预览Cookie在Shop有效，canonical PDP却为ComingSoon/HIT/Age3073；先前保护页Age2550，兼容失败已复现。",
+      "attributionLimit": "未定位Breeze/Varnish或组合的具体责任；不能归因Woo Cookie/OCP，也不重开历史规范Shop已接受修复。",
+      "next": "只读核对Breeze与Cloudways有效规则；提出仅代表PDP临时精确排除及必要清理、恢复、复测范围。未获确认不保存缓存设置。"
+    },
+    "revocation": {
+      "observed": "off 8/8为200/ComingSoon/noindex；A原Cookie、全新无Cookie、旧私密参数均未观察到真实Shop/PDP暴露。",
+      "limits": "canonical PDP仍HIT保护页；旧参数PDP首次MISS/Age0后HIT/Age3是补充负向证据。不能证明每个请求到PHP、Cookie已删除、Key轮换或永久失效，也未覆盖其他路径。",
+      "screenshot": ".codex-tmp/fg-preview-20261022/closed-ui.png",
+      "screenshotSha256": "9a7d3a666b9fa755f0705386f8ae69ee2fb4c864f3059790086e36d0d03dc681",
+      "uiSnapshot": ".codex-tmp/fg-preview-20261022/closed-ui.txt",
+      "privateTemporaryCleanup": {
+        "removedFiles": 15,
+        "items": "原生私密URL文件、原A Cookie文件、13份原始HTML",
+        "remaining": "受限脱敏before/on/off完整JSON；公开摘要、关闭UI截图和快照",
+        "publicEvidenceSecretMatchesBeforeRemoval": 0
+      }
+    },
+    "independentReview": "安全、测试与Code Review专项已在网络前复核helper；实际13条结果由缓存与资源两个专项只读复核，无额外网络。"
+  }
 }
