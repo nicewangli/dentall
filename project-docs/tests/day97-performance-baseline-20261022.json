@@ -694,6 +694,43 @@
       "representativeCategoryCurrentSrc": "/wp-content/uploads/2026/09/fg7409-crown-restoration-bur-kit-324x324.webp"
     }
   ],
+  "offlineLogoTrial": {
+    "scope": "离线无损IDAT重压缩候选；未改运行源文件，未重采样，不变更颜色／alpha／尺寸／附属块",
+    "width": 1024,
+    "height": 240,
+    "originalBytes": 144221,
+    "candidateBytes": 144947,
+    "savedBytes": -726,
+    "savedPercent": -0.5,
+    "scanlineBytesEqual": true,
+    "otherChunksPreserved": true,
+    "originalSha256": "403bbab5454f36cf760b13c91d5f627095e67f1eb127a80d9c0278a3dd9643a0",
+    "candidateSha256": "ba62930ebb4f002c7cb55f6717e14caf49ef3444e388669bfe6c42681db9153a",
+    "strategy": 1,
+    "trials": [
+      {
+        "strategy": 1,
+        "idatBytes": 144890
+      },
+      {
+        "strategy": 0,
+        "idatBytes": 147337
+      },
+      {
+        "strategy": 3,
+        "idatBytes": 147698
+      },
+      {
+        "strategy": 4,
+        "idatBytes": 176734
+      },
+      {
+        "strategy": 2,
+        "idatBytes": 210350
+      }
+    ],
+    "implementation": "Node内置zlib；无新增依赖"
+  },
   "evidenceDirectory": ".codex-tmp/fg-20261022/",
   "pending": [
     "真实匿名Shop/PDP/非空Checkout浏览器基线",

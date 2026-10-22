@@ -6,7 +6,7 @@
 
 - 独立`codex/fg-performance-cache-20261021`从共同候选`1d13946`开展只读审计；根工作区与其他任务修改原样保留，未合并main/deploy/staging、未部署。最新总协调交接覆盖下方历史快照：A/B/C按其阶段接受，A旧钥沿用且已登记风险；E测量与Consent最终验收仍在原任务，不能用旧段落恢复已结束的现场窗口或重开整包。
 - 用户已明确同意Staging只读测量。现场为WP7.1.3/Woo11.0.0/PHP8.2.35/Storefront4.6.2/主题0.48.0/Core0.6.1/PayPal4.1.2/Yoast28.2/Breeze2.5.12/OCP1.25.5；候选源码仍主题0.49.2/Core0.9.3，不能混写。7个现场子主题CSS＋Logo逐字节匹配发布来源`296d048`，未核服务器PHP／完整部署SHA。OCP Connected/Valid；Breeze CDN关闭但其他层CDN未核，未新增缓存层。
-- 已保留16次新无Cookie页面样本和17项同源资源：首页连续HIT，gzip HTML17,945字节、TTFB中位1.163秒；Shop/PDP/Cart为Coming Soon，空Checkout302到受保护Cart，真实商城性能未验。新匿名账户入口两次private/no-cache，完整客户／Cart／订单缓存隔离未验。首页四宽DPR1均无横向溢出；1024px Logo144,221字节、实际136～220 CSS px，分类图sizes偏大列为D98候选。没有性能前后改善或CWV结论。
+- 已保留16次新无Cookie页面样本和17项同源资源：首页连续HIT，gzip HTML17,945字节、TTFB中位1.163秒；Shop/PDP/Cart为Coming Soon，空Checkout302到受保护Cart，真实商城性能未验。新匿名账户入口两次private/no-cache，完整客户／Cart／订单缓存隔离未验。首页四宽DPR1均无横向溢出；1024px Logo144,221字节、实际136～220 CSS px，分类图sizes偏大列为D98候选。后续已做5种离线无损重压缩，最佳仍增大726字节，明确不采用、不改源资产；继续收敛匹配显示尺寸的图源。没有性能前后改善或CWV结论。
 - 源码资源和缓存边界由两个专项Agent只读复核。继续复用D107 RG-11及关联组，不新建框架；有效order-pay GET可能取消失效报价并发信，另排交易窗口，不在纯只读矩阵访问旧有效key。当前用户原购物车未改、无设置保存／Purge／升级／订单／邮件，临时前台页关闭、视口恢复，窗口已释放。详细证据、候选及未验项：[[笔记/Day97-性能基线与资源缓存审计]]、`tests/day97-performance-baseline-20261022.json`。
 - **D97进行中，D98～D102/M8均未Done。** 用户后续明确同意下一独占窗口临时启用Woo私密预览，仅测真实匿名Shop／商品详情，结束立即关闭并验证撤销，保持Coming Soon/noindex且不加购／下单／发信；范围不再重复确认，窗口待总协调安排，尚未保存设置。Logo／分类图最小方案及E/H最终资源版本另行收敛后定向复测。实际工时未记录，本轮无新增商业能力、运行代码或插件。
 
