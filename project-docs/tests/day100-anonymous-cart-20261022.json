@@ -11,7 +11,7 @@
     "temporaryAdminTabClosed": true,
     "userOriginalTabPreserved": true,
     "previewOff": true,
-    "privateCleanup": "40文件自动审批拒绝删除，等待用户手动清理；尚未完成"
+    "privateCleanup": "用户手动移除，07:05:11 UTC只读核验private目录不存在；未追加目标请求"
   },
   "scope": {
     "sessions": "两个全新匿名Cookie jar A/B；N仅无预览保护检查，不使用管理员Cookie",
@@ -38,13 +38,15 @@
     "offProtection": true,
     "offProtectionRequests": 5,
     "privateValuesFoundInSafeFiles": 0,
-    "privateFiles": 40
+    "privateFilesBeforeCleanup": 40,
+    "privateDirectoryExists": false,
+    "remainingPrivateFiles": 0
   },
   "acceptance": {
     "isolation": "通过：A/B不同商品、数量和金额；A移除后B仍保持2件",
     "pageHeaders": "通过本轮HTTP范围：Cart响应private/no-cache，Store API no-store，所有请求noindex；不代替所有缓存层证明",
     "checkout": "两次仅GET，非空实体Cart均302回Cart，未跟随；未验证虚拟商品Checkout正文",
-    "cleanup": "两Cart为空、预览关闭及off5保护通过；40本地私密文件删除被自动审批拒绝，待用户手动清理"
+    "cleanup": "通过：两Cart为空、预览关闭及off5保护；用户手动移除40私密文件所在目录，主Agent只读核验目录不存在"
   },
   "requests": [
     {
@@ -763,10 +765,14 @@
   "evidenceRoot": ".codex-tmp/fg-cart-20261022",
   "screenshot": "preview-off.png",
   "privateCleanup": {
-    "status": "等待用户手动清理",
-    "files": 40,
-    "automaticApproval": "拒绝删除，仅返回blocked by policy，无更具体理由；没有绕过或重试等效删除",
-    "userAskedToDelete": "仅本轮private目录"
+    "status": "完成",
+    "method": "用户手动移除；主Agent只读核验",
+    "verifiedAt": "2026-10-22T07:05:11Z",
+    "privateDirectoryExists": false,
+    "knownFilesBeforeCleanup": 40,
+    "remainingPrivateFiles": 0,
+    "automaticApproval": "此前删除被拒，未绕过；由用户手动完成",
+    "memoryBindings": "已重置本轮CUA会话绑定，不主张安全擦除或服务端凭据永久撤销"
   },
   "limits": [
     "HTML包含隐藏空态模板，emptyTextMarker不能独立判断Cart为空；使用Store API结果",
@@ -783,5 +789,5 @@
     "lines": 0
   },
   "localRequestHelperLines": 70,
-  "independentReview": "缓存专项离线复核通过；无新增P0/P1。确认32=26GET+6CartPOST、A/B指纹与交错隔离、最终为空、off5保护；本地40文件未删，不能标整轮收尾完成。"
+  "independentReview": "缓存专项离线复核通过；无新增P0/P1。确认32=26GET+6CartPOST、A/B指纹与交错隔离、最终为空、off5保护。复核时40文件清理待办已由用户手动移除，主Agent于07:05:11 UTC核验目录不存在。"
 }
