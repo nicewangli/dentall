@@ -1,0 +1,954 @@
+{
+  "date": "2026-10-22",
+  "timezone": "Asia/Shanghai",
+  "authorization": "用户明确现在由F→G独占，只读核对；不保存、不清缓存、不TEST、不加购、不访问有效order-pay",
+  "window_end_at_utc": "2026-10-22T06:32:08Z",
+  "window_released": true,
+  "site": "https://wordpress-1658436-6604195.cloudwaysapps.com",
+  "cloudways_app": 6604195,
+  "configuration_mutations": 0,
+  "purges": 0,
+  "new_test_entities": 0,
+  "cart_mutations": 0,
+  "orders_accessed_with_valid_key": 0,
+  "emails_triggered_by_test_actions": 0,
+  "deployments": 0,
+  "runtime_code_changes": 0,
+  "ui_reads": {
+    "breeze_basic": {
+      "cacheTtl": "1440",
+      "switches": [
+        {
+          "checked": true,
+          "id": "cache-system",
+          "name": "cache-system"
+        },
+        {
+          "checked": false,
+          "id": "breeze-mobile-separate",
+          "name": "breeze-mobile-separate"
+        },
+        {
+          "checked": true,
+          "id": "gzip-compression",
+          "name": "gzip-compression"
+        },
+        {
+          "checked": true,
+          "id": "browser-cache",
+          "name": "browser-cache"
+        },
+        {
+          "checked": false,
+          "id": "bz-lazy-load",
+          "name": "bz-lazy-load"
+        },
+        {
+          "checked": false,
+          "id": "bz-lazy-load-iframe",
+          "name": "bz-lazy-load-iframe"
+        },
+        {
+          "checked": false,
+          "id": "bz-lazy-load-videos",
+          "name": "bz-lazy-load-videos"
+        },
+        {
+          "checked": false,
+          "id": "bz-lazy-load-nat",
+          "name": "bz-lazy-load-nat"
+        },
+        {
+          "checked": false,
+          "id": "safe-cross-origin",
+          "name": "safe-cross-origin"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-administrator",
+          "name": "breeze-admin-cache[administrator]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-editor",
+          "name": "breeze-admin-cache[editor]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-author",
+          "name": "breeze-admin-cache[author]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-contributor",
+          "name": "breeze-admin-cache[contributor]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-subscriber",
+          "name": "breeze-admin-cache[subscriber]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-customer",
+          "name": "breeze-admin-cache[customer]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-shop_manager",
+          "name": "breeze-admin-cache[shop_manager]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-dentall_content_editor",
+          "name": "breeze-admin-cache[dentall_content_editor]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-dentall_website_manager",
+          "name": "breeze-admin-cache[dentall_website_manager]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-wpseo_manager",
+          "name": "breeze-admin-cache[wpseo_manager]"
+        },
+        {
+          "checked": false,
+          "id": "breeze-admin-cache-wpseo_editor",
+          "name": "breeze-admin-cache[wpseo_editor]"
+        }
+      ]
+    },
+    "breeze_advanced": {
+      "areas": [
+        {
+          "id": "exclude-urls",
+          "value": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+        },
+        {
+          "id": "cache-query-str",
+          "value": ""
+        }
+      ],
+      "switches": [
+        {
+          "checked": false,
+          "id": "breeze-wpjs-emoji",
+          "name": "breeze-wpjs-emoji"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-googlefonts-locally",
+          "name": "breeze-store-googlefonts-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-googleanalytics-locally",
+          "name": "breeze-store-googleanalytics-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-facebookpixel-locally",
+          "name": "breeze-store-facebookpixel-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-store-gravatars-locally",
+          "name": "breeze-store-gravatars-locally"
+        },
+        {
+          "checked": false,
+          "id": "breeze-enable-api",
+          "name": "breeze-enable-api"
+        }
+      ],
+      "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-admin/options-general.php?page=breeze"
+    },
+    "breeze_file": {
+      "areas": [
+        {
+          "id": "exclude-css",
+          "name": "exclude-css",
+          "value": ""
+        },
+        {
+          "id": "exclude-js",
+          "name": "exclude-js",
+          "value": ""
+        },
+        {
+          "id": "delay-js-scripts",
+          "name": "delay-js-scripts",
+          "value": "gtag\ndocument.write\nhtml5.js\nshow_ads.js\ngoogle_ad\nblogcatalog.com/w\ntweetmeme.com/i\nmybloglog.com/\nhistats.com/js\nads.smowtion.com/ad.js\nstatcounter.com/counter/counter.js\nwidgets.amung.us\nws.amazon.com/widgets\nmedia.fastclick.net\n/ads/\ncomment-form-quicktags/quicktags.php\nedToolbar\nintensedebate.com\nscripts.chitika.net/\n_gaq.push\njotform.com/\nadmin-bar.min.js\nGoogleAnalyticsObject\nplupload.full.min.js\nsyntaxhighlighter\nadsbygoogle\ngist.github.com\n_stq\nnonce\npost_id\ndata-noptimize\ngoogletagmanager"
+        },
+        {
+          "id": "no-delay-js-scripts",
+          "name": "no-delay-js-scripts",
+          "value": ""
+        }
+      ],
+      "checks": [
+        {
+          "checked": false,
+          "id": "minification-html",
+          "name": "minification-html"
+        },
+        {
+          "checked": false,
+          "id": "minification-css",
+          "name": "minification-css"
+        },
+        {
+          "checked": false,
+          "id": "font-display",
+          "name": "font-display"
+        },
+        {
+          "checked": false,
+          "id": "include-inline-css",
+          "name": "include-inline-css"
+        },
+        {
+          "checked": false,
+          "id": "group-css",
+          "name": "group-css"
+        },
+        {
+          "checked": false,
+          "id": "minification-js",
+          "name": "minification-js"
+        },
+        {
+          "checked": false,
+          "id": "include-inline-js",
+          "name": "include-inline-js"
+        },
+        {
+          "checked": false,
+          "id": "group-js",
+          "name": "group-js"
+        },
+        {
+          "checked": false,
+          "id": "enable-js-delay",
+          "name": "enable-js-delay"
+        },
+        {
+          "checked": false,
+          "id": "breeze-delay-all-js",
+          "name": "breeze-delay-all-js"
+        }
+      ],
+      "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-admin/options-general.php?page=breeze"
+    },
+    "breeze_varnish": {
+      "checks": [
+        {
+          "checked": true,
+          "id": "auto-purge-varnish",
+          "name": "auto-purge-varnish"
+        }
+      ],
+      "safeFields": [
+        {
+          "checked": true,
+          "id": "auto-purge-varnish",
+          "value": "1"
+        },
+        {
+          "checked": false,
+          "id": "varnish-server-ip",
+          "value": "127.0.0.1"
+        }
+      ],
+      "text": [
+        "\n\t\t\t\tBy default Varnish is enabled on all WordPress websites hosted on Cloudways.\t\t\t",
+        "\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t",
+        "\n\t\t\t\t\t\tKeep this option enabled to automatically purge Varnish cache on actions like publishing new blog posts, pages and comments.\t\t\t\t\t",
+        " \n\t\t\t\t\tKeep this default if you are a Cloudways customer. Otherwise ask your hosting provider on what to set here.\t\t\t\t\t\t ",
+        "\n\t\t\t\t\t\tUse this option to instantly Purge Varnish Cache on entire website.\t\t\t\t\t"
+      ]
+    },
+    "breeze_cdn_enabled": false,
+    "breeze_cdn_limit": "只保存开关与fieldIds，未采CNAME值；不能推断其他平台/CDN层不存在",
+    "cloudways_general": {
+      "app": "dentall-staging",
+      "nav": [
+        {
+          "role": null,
+          "tag": "P",
+          "text": "General"
+        },
+        {
+          "role": null,
+          "tag": "P",
+          "text": "PHP Settings"
+        },
+        {
+          "role": null,
+          "tag": "P",
+          "text": "Varnish"
+        },
+        {
+          "role": null,
+          "tag": "P",
+          "text": "Varnish"
+        }
+      ],
+      "switches": [
+        {
+          "checked": true,
+          "name": "varnish"
+        },
+        {
+          "checked": true,
+          "name": "enforce_https"
+        },
+        {
+          "checked": false,
+          "name": "ssh_access"
+        },
+        {
+          "checked": false,
+          "name": "geo_ip_setting"
+        },
+        {
+          "checked": false,
+          "name": "cors_header"
+        },
+        {
+          "checked": false,
+          "name": "device_detection_setting"
+        },
+        {
+          "checked": false,
+          "name": "query_string_setting"
+        },
+        {
+          "checked": true,
+          "name": "app_access"
+        }
+      ],
+      "url": "https://unified.cloudways.com/apps/6604195/setting"
+    },
+    "cloudways_custom_varnish": {
+      "checkboxes": [],
+      "headings": [
+        "dentall-nyc-premium-4gb",
+        "dentall-staging",
+        "Application Settings"
+      ],
+      "rows": [],
+      "safeText": [
+        "1",
+        "0",
+        "Quick Actions",
+        "Access Details",
+        "Staging Management",
+        "Monitoring",
+        "Application Security",
+        "Domain Management",
+        "Site Manager",
+        "New",
+        "Cron Job Management",
+        "SSL Certificate",
+        "Backup and Restore",
+        "Deployment via GIT",
+        "Application Settings",
+        "Web Rules",
+        "Cloudflare",
+        "Free Trial",
+        "Migration Tools",
+        "Configure several application specific settings for your app.",
+        "General",
+        "PHP Settings",
+        "Varnish",
+        "WordPress",
+        "WebStack",
+        "URL",
+        "exclude",
+        "\\/shop/"
+      ],
+      "tables": [
+        "Type\tMethod\tValue\tAction\n\n\nURL\n\n\t\n\nexclude\n\n\t\n\n\\/shop/\n\n\t\nedit\ndelete_outline"
+      ],
+      "url": "https://unified.cloudways.com/apps/6604195/setting?tab=Varnish"
+    },
+    "cloudways_rule_limit": "此表仅自定义规则，非所有平台系统内置绕过",
+    "ocp_safe_config": [
+      {
+        "key": "Status",
+        "value": "Connected"
+      },
+      {
+        "key": "Drop-in",
+        "value": "Valid"
+      },
+      {
+        "key": "Client",
+        "value": "RedisCachePro\\Clients\\PhpRedis"
+      },
+      {
+        "key": "PHP",
+        "value": "8.2.35 (Outdated)"
+      },
+      {
+        "key": "Drop-in",
+        "value": "1.25.5"
+      },
+      {
+        "key": "async_flush",
+        "value": "true"
+      },
+      {
+        "key": "network_flush",
+        "value": "all"
+      },
+      {
+        "key": "serializer",
+        "value": "igbinary"
+      },
+      {
+        "key": "compression",
+        "value": "zstd"
+      },
+      {
+        "key": "global_groups",
+        "value": "null"
+      },
+      {
+        "key": "non_persistent_groups",
+        "value": "null"
+      },
+      {
+        "key": "non_prefetchable_groups",
+        "value": "null"
+      },
+      {
+        "key": "prefetch",
+        "value": "true"
+      },
+      {
+        "key": "split_alloptions",
+        "value": "true"
+      },
+      {
+        "key": "debug",
+        "value": "false"
+      },
+      {
+        "key": "split_alloptions",
+        "value": "true,"
+      },
+      {
+        "key": "async_flush",
+        "value": "true,"
+      },
+      {
+        "key": "client",
+        "value": "\"phpredis\","
+      },
+      {
+        "key": "compression",
+        "value": "\"zstd\","
+      },
+      {
+        "key": "serializer",
+        "value": "\"igbinary\","
+      },
+      {
+        "key": "prefetch",
+        "value": "true,"
+      },
+      {
+        "key": "debug",
+        "value": "false,"
+      }
+    ],
+    "ocp_effective_groups": {
+      "Global": [
+        "Global: [",
+        "    \"analytics\",",
+        "    \"objectcache\",",
+        "    \"blog-details\",",
+        "    \"blog-id-cache\",",
+        "    \"blog-lookup\",",
+        "    \"blog_meta\",",
+        "    \"global-posts\",",
+        "    \"image_editor\",",
+        "    \"networks\",",
+        "    \"network-queries\",",
+        "    \"sites\",",
+        "    \"site-details\",",
+        "    \"site-options\",",
+        "    \"site-queries\",",
+        "    \"site-transient\",",
+        "    \"theme_files\",",
+        "    \"translation_files\",",
+        "    \"rss\",",
+        "    \"users\",",
+        "    \"user-queries\",",
+        "    \"user_meta\",",
+        "    \"useremail\",",
+        "    \"userlogins\",",
+        "    \"userslugs\"",
+        "]"
+      ],
+      "Non-persistent": [
+        "Non-persistent: [",
+        "    \"counts\",",
+        "    \"plugins\",",
+        "    \"theme_json\",",
+        "    \"product_objects\",",
+        "    \"themes\"",
+        "]"
+      ],
+      "Non-prefetchable": [
+        "Non-prefetchable: [",
+        "    \"analytics\",",
+        "    \"objectcache\",",
+        "    \"userlogins\",",
+        "    \"wc_cache_*\",",
+        "    \"wc_session_id\"",
+        "]"
+      ]
+    },
+    "woo_pages": {
+      "pages": [
+        {
+          "id": "8",
+          "label": "\n\t\t\t\t\t\t\t\t\t\tCart（ID：8）\t\t\t\t\t\t\t\t\t\t",
+          "name": "woocommerce_cart_page_id"
+        },
+        {
+          "id": "9",
+          "label": "\n\t\t\t\t\t\t\t\t\t\tCheckout（ID：9）\t\t\t\t\t\t\t\t\t\t",
+          "name": "woocommerce_checkout_page_id"
+        },
+        {
+          "id": "10",
+          "label": "\n\t\t\t\t\t\t\t\t\t\tMy account（ID：10）\t\t\t\t\t\t\t\t\t\t",
+          "name": "woocommerce_myaccount_page_id"
+        },
+        {
+          "id": "",
+          "label": "",
+          "name": "woocommerce_terms_page_id"
+        }
+      ]
+    },
+    "woo_features": {
+      "features": [
+        {
+          "checked": false,
+          "disabled": true,
+          "id": "",
+          "name": "woocommerce_custom_orders_table_enabled",
+          "value": "no"
+        },
+        {
+          "checked": true,
+          "disabled": true,
+          "id": "",
+          "name": "woocommerce_custom_orders_table_enabled",
+          "value": "yes"
+        },
+        {
+          "checked": false,
+          "disabled": false,
+          "id": "woocommerce_custom_orders_table_data_sync_enabled",
+          "label": "启用兼容模式（在高性能订单存储和 WordPress 文章存储之间同步订单）。",
+          "name": "woocommerce_custom_orders_table_data_sync_enabled",
+          "value": "1"
+        },
+        {
+          "checked": true,
+          "disabled": false,
+          "id": "woocommerce_feature_order_attribution_enabled",
+          "label": "启用此功能，追踪并记录促成站点上订单的渠道和活动",
+          "name": "woocommerce_feature_order_attribution_enabled",
+          "value": "1"
+        },
+        {
+          "checked": false,
+          "disabled": false,
+          "id": "woocommerce_hpos_datastore_caching_enabled",
+          "label": "在数据存储中启用订单数据缓存。 此功能仅适用于高性能订单存储，建议用于使用对象缓存的商店。",
+          "name": "woocommerce_hpos_datastore_caching_enabled",
+          "value": "1"
+        },
+        {
+          "checked": false,
+          "disabled": false,
+          "id": "woocommerce_hpos_fts_index_enabled",
+          "label": "为订单创建并使用全文搜索索引。 此功能仅适用于高性能订单存储。",
+          "name": "woocommerce_hpos_fts_index_enabled",
+          "value": "1"
+        },
+        {
+          "checked": false,
+          "disabled": false,
+          "id": "woocommerce_feature_rest_api_caching_enabled",
+          "label": "通过 RestApiCache 特性为 REST API 响应启用后台缓存和缓存控制头。 配置",
+          "name": "woocommerce_feature_rest_api_caching_enabled",
+          "value": "1"
+        }
+      ],
+      "relevantText": [
+        "订单数据存储 \n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t WordPress 文章存储（旧）\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t 高性能订单存储（推荐）",
+        "启用兼容模式（在高性能订单存储和 WordPress 文章存储之间同步订单）。\t\t\t\t\t\t\t 仅可在文章与订单表格同步时切换订单数据存储。 目前有订单尚未同步。立即同步订单",
+        "HPOS 数据缓存\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tHPOS 数据缓存\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t 在数据存储中启用订单数据缓存。 此功能仅适用于高性能订单存储，建议用于使用对象缓存的商店。",
+        "HPOS 全文搜索索引\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tHPOS 全文搜索索引\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t 为订单创建并使用全文搜索索引。 此功能仅适用于高性能订单存储。",
+        "REST API 缓存\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tREST API 缓存\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t 通过 RestApiCache 特性为 REST API 响应启用后台缓存和缓存控制头。 配置"
+      ],
+      "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-admin/admin.php?page=wc-settings&tab=advanced&section=features"
+    },
+    "active_plugins": [
+      {
+        "active": true,
+        "file": "breeze/breeze.php",
+        "name": "Breeze",
+        "version": "2.5.12"
+      },
+      {
+        "active": true,
+        "file": "dentall-core/dentall-core.php",
+        "name": "DentAll Core",
+        "version": "0.6.1"
+      },
+      {
+        "active": true,
+        "file": "filebird/filebird.php",
+        "name": "FileBird Lite",
+        "version": "6.5.8"
+      },
+      {
+        "active": true,
+        "file": "fluent-smtp/fluent-smtp.php",
+        "name": "FluentSMTP",
+        "version": "2.4.0"
+      },
+      {
+        "active": true,
+        "file": "object-cache-pro/object-cache-pro.php",
+        "name": "Object Cache Pro",
+        "version": "1.25.5"
+      },
+      {
+        "active": true,
+        "file": "woocommerce/woocommerce.php",
+        "name": "WooCommerce",
+        "version": "11.0.0"
+      },
+      {
+        "active": true,
+        "file": "woocommerce-paypal-payments/woocommerce-paypal-payments.php",
+        "name": "WooCommerce PayPal Payments",
+        "version": "4.1.2"
+      },
+      {
+        "active": true,
+        "file": "wordpress-seo/wp-seo.php",
+        "name": "Yoast SEO",
+        "version": "28.2"
+      }
+    ],
+    "protection": {
+      "controls": [
+        {
+          "checked": true,
+          "id": "inspector-radio-control-0-0",
+          "name": "inspector-radio-control-0"
+        },
+        {
+          "checked": true,
+          "id": "inspector-toggle-control-0",
+          "name": ""
+        },
+        {
+          "checked": false,
+          "id": "inspector-toggle-control-1",
+          "name": ""
+        },
+        {
+          "checked": false,
+          "id": "inspector-radio-control-1-0",
+          "name": "inspector-radio-control-1"
+        },
+        {
+          "checked": true,
+          "id": "inspector-toggle-control-2",
+          "name": ""
+        }
+      ],
+      "saveButtons": [
+        {
+          "disabled": true,
+          "text": "保存更改"
+        }
+      ],
+      "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-admin/admin.php?page=wc-settings&tab=site-visibility",
+      "footer_text": "\n\t\t11.0.0 版本\t"
+    },
+    "protection_semantics": "主Agent结合入口完整语义与终态只读控件确认ComingSoon选中、store-only选中、private preview未选、Live未选、Save disabled；opaque id JSON不单独作为语义证明"
+  },
+  "anonymous_http": {
+    "method": "curl固定URL GET，TLS验证正常；无Cookie/无jar/无重定向跟随，响应Cookie只保留名称，正文只保留分类/H1",
+    "header_gets": 8,
+    "body_classification_gets": 3,
+    "total_gets": 11,
+    "headers": [
+      {
+        "route": "/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:13.7694772Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Content-Encoding: gzip",
+          "Age: 0",
+          "X-Cache: MISS",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|1.490881|18092"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/",
+        "sample": 2,
+        "at_utc": "2026-10-22T06:22:15.8948724Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Content-Encoding: gzip",
+          "Age: 2",
+          "X-Cache: HIT",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|1.228313|18092"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/shop/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:18.4820541Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Cache-Control: max-age=60",
+          "Content-Encoding: gzip",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|2.563756|15445"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/product/dental-tooth-display-box/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:19.6722463Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Cache-Control: max-age=60",
+          "Content-Encoding: gzip",
+          "Age: 12462",
+          "X-Cache: HIT",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|1.167546|17701"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/cart/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:22.7556295Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Cache-Control: max-age=60",
+          "Content-Encoding: gzip",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|2.106248|43887"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/checkout/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:24.7179279Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 302 Found",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Cache-Control: no-cache, must-revalidate, max-age=0, private",
+          "Location: https://wordpress-1658436-6604195.cloudwaysapps.com/cart/",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:302|1.940927|0"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/my-account/",
+        "sample": 1,
+        "at_utc": "2026-10-22T06:22:26.5711375Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Cache-Control: no-cache, must-revalidate, max-age=0, private",
+          "Content-Encoding: gzip",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|1.823097|15724"
+        ],
+        "response_cookie_names": []
+      },
+      {
+        "route": "/my-account/",
+        "sample": 2,
+        "at_utc": "2026-10-22T06:22:28.2771302Z",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "redirects_followed": false,
+        "headers": [
+          "HTTP/1.1 200 OK",
+          "Server: nginx",
+          "Content-Type: text/html; charset=UTF-8",
+          "Vary: Accept-Encoding",
+          "Cache-Control: no-cache, must-revalidate, max-age=0, private",
+          "Content-Encoding: gzip",
+          "X-Robots-Tag: noindex, nofollow",
+          "FG_METRIC:200|1.684538|15583"
+        ],
+        "response_cookie_names": []
+      }
+    ],
+    "bodies": [
+      {
+        "route": "/shop/",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "at_utc": "2026-10-22T06:26:50.3863405Z",
+        "coming_soon_wrapper": true,
+        "h1": [
+          "Great things are on the horizon"
+        ],
+        "http": "200",
+        "ttfb": "3.493486",
+        "gzip_body_bytes": "15297",
+        "raw_body_retained": false
+      },
+      {
+        "route": "/product/dental-tooth-display-box/",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "at_utc": "2026-10-22T06:26:52.363633Z",
+        "coming_soon_wrapper": true,
+        "h1": [
+          "Great things are on the horizon"
+        ],
+        "http": "200",
+        "ttfb": "1.942555",
+        "gzip_body_bytes": "17701",
+        "raw_body_retained": false
+      },
+      {
+        "route": "/cart/",
+        "exit_code": 0,
+        "cookie_sent": false,
+        "at_utc": "2026-10-22T06:26:55.9536365Z",
+        "coming_soon_wrapper": true,
+        "h1": [
+          "Great things are on the horizon"
+        ],
+        "http": "200",
+        "ttfb": "3.091306",
+        "gzip_body_bytes": "44174",
+        "raw_body_retained": false
+      }
+    ],
+    "summary": "Home MISS→HIT；Account2次private/no-cache；空Checkout302→Cart且未跟随；Shop/PDP/Cart真实wrapper为ComingSoon。11GET均非购物或有效报价测试",
+    "ttfb_limit": "单次/两次阶段条件，未控冷暖和最终版本，不作前后提速或CWV结论"
+  },
+  "source_analysis": {
+    "breeze_package": "本机既有2.5.12 ZIP及解包；agent核4文件相同，未与服务器PHP/生成配置比对",
+    "breeze_files": [
+      {
+        "file": "inc/cache/ecommerce-cache.php",
+        "sha256": "045eb340d4bf86608232de66e559f2a314a919f509a17dab39b4adb032ae5d85"
+      },
+      {
+        "file": "inc/cache/config-cache.php",
+        "sha256": "ad805e42a9a9f165b1c6987ca7820a156ad03cfeed8263dcb99023aa57074a08"
+      },
+      {
+        "file": "inc/cache/execute-cache.php",
+        "sha256": "aab3c4cab11259ef0a137cbe6a96c77f42dbafb92ca9e25ce7deeabe384a1c73"
+      },
+      {
+        "file": "inc/class-breeze-query-strings-rules.php",
+        "sha256": "8c22d16e7770bde09283ca23d42ef7e00b57b242d3671071ca81b6445389de3e"
+      }
+    ],
+    "woo_auto_exclude": "原生Cart/Checkout/Account已发布页permalink加入自动exclude_url，再合并手工规则；手工Shop不等于最终仅Shop",
+    "query_rules": "设置空不等于无默认规则；UTM等忽略/部分参数原生allow，目标生效文件/filter仍未核",
+    "cookie_limit": "缓存包未检出Woo三Cookie及woo-share显式绕过，不证明平台无系统规则，也不证明已有命中安全",
+    "order_cache": "Woo11源码默认分支：HPOS on/datastore caching off→OrderCache group orders；wc_cache_是key前缀，目标OCP matcher和跨请求仍未核",
+    "official_docs": [
+      "https://objectcache.pro/docs/configuration-options/#non-prefetchable-groups",
+      "https://objectcache.pro/docs/changelog"
+    ],
+    "version_note": "官方现列1.25.7对split_alloptions的修复供H核适用性；不认定1.25.5现场触发、不自行升级"
+  },
+  "closed_investigation_items": [
+    "当前OCP有效prefetch与组表未知",
+    "当前HPOS datastore caching开关/默认订单group未知",
+    "本次Breeze/Varnish自定义规则与开关未读回"
+  ],
+  "still_open": [
+    "D100非空Cart/CustomerA-B/有效报价/更新失效实际目标安全",
+    "OCP订单预取兼容P2与跨请求一致性",
+    "FG-P2-01永久预览/缓存兼容",
+    "所有平台/DNS层CDN实际范围",
+    "D102最终代码/插件/测量组合及CWV"
+  ],
+  "independent_review": "cache_v2核16JSON、11GET、源码分支与官方组名通配语义；不将只读配置当交易安全",
+  "browser_cleanup": "本轮WordPress与Cloudways临时标签均关闭，原用户tab1保留；未改视口",
+  "evidence_root": ".codex-tmp/fg-d100-readonly-20261022/",
+  "handling_limit": "只对白名单字段持久化；未导出认证值或完整OCP诊断到文件，不在交付文档复述认证值。",
+  "day100_status": "只读范围完成，整体未Done",
+  "day101_status": "配置调查完成，整体未Done",
+  "day102_status": "最终组合待验"
+}
