@@ -1,0 +1,1197 @@
+{
+  "date": "2026-10-22",
+  "source_commit": "1d937865444f6f7022edf2e8e6d4257f75fa144e",
+  "theme": "0.49.3",
+  "core": "0.9.3",
+  "method": "离线复算D98既有9页patched HTML；未发送新HTTP请求或新浏览器采样",
+  "rendered_context": "D98独立新库WP7.1/Woo11/Storefront4.6.2/PHP8.2.29，只有Woo；不含Core/E/PayPal/Breeze/OCP运行组合",
+  "scope_limit": "HTML src/stylesheet静态引用及所在区段；body不等于精确footer位置，defer=false不等于head阻塞；非浏览器真实请求/字节/CWV/页面覆盖率",
+  "runtime_code_changes": 0,
+  "pages": [
+    {
+      "page": "home",
+      "html_sha256": "885f29e8ac5e4b32f8b51ef1cee648ead77e00315924346d61494cbafe84f730",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/homepage.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 9,
+      "script_src_count": 12,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "shop",
+      "html_sha256": "1335aae7952d8770ed7d1e97756254cc656b578abd0b98f5043d930ade3aaa5d",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/catalog.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/dentall/assets/js/catalog-filters.js?ver=0.49.3",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 9,
+      "script_src_count": 13,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "simple",
+      "html_sha256": "874da9da7cc9be781907d716c4f5ef6becf3597239ac8af220674c5ad70c7356",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/css/photoswipe/photoswipe.min.css?ver=11.0.0",
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/css/photoswipe/default-skin/default-skin.min.css?ver=11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/product-detail.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/zoom/jquery.zoom.min.js?ver=1.7.21-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/flexslider/jquery.flexslider.min.js?ver=2.7.2-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe.min.js?ver=4.1.1-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe-ui-default.min.js?ver=4.1.1-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/single-product.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/sticky-add-to-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 11,
+      "script_src_count": 18,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "variable",
+      "html_sha256": "9d49aafe8215df3666189d29855a41ec2816bd42deeca073212a274dff1f3453",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/css/photoswipe/photoswipe.min.css?ver=11.0.0",
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/css/photoswipe/default-skin/default-skin.min.css?ver=11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/product-detail.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/zoom/jquery.zoom.min.js?ver=1.7.21-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/flexslider/jquery.flexslider.min.js?ver=2.7.2-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe.min.js?ver=4.1.1-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe-ui-default.min.js?ver=4.1.1-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/single-product.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/underscore.min.js?ver=1.13.8",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/wp-util.min.js?ver=7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart-variation.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/dentall/assets/js/product-variation.js?ver=0.49.3",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/sticky-add-to-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 11,
+      "script_src_count": 22,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "blog",
+      "html_sha256": "4573f98302e79d7e289fe24e23ca4a195bbe94e724e1ff350dc0f069e9a0d47e",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/blog.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 9,
+      "script_src_count": 12,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "post",
+      "html_sha256": "0c1ba80c98db1f918a2d475a9feba7848abe3343691e077ba5e3fcdcc28aae96",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/comment-reply.min.js?ver=7.1",
+          "location": "body",
+          "defer": false,
+          "async": true
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 8,
+      "script_src_count": 13,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "page",
+      "html_sha256": "9417b659fcfa416814c4ce7b1dbc8d9a0016ca7fe625ffa3c2ebe95f3623877e",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 8,
+      "script_src_count": 12,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "category",
+      "html_sha256": "e78125428d8af2606711dd74c2cd32d3999022ba117e16d8f0be0f94e81e1835",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/catalog.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/dentall/assets/js/catalog-filters.js?ver=0.49.3",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 9,
+      "script_src_count": 13,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    },
+    {
+      "page": "search",
+      "html_sha256": "4d98ef7237073346b4399515a598d7d9e8671d6b6f1791e32c731c66a4727a7a",
+      "styles": [
+        "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/style.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/dentall/assets/css/catalog.css?ver=0.49.3",
+        "http://127.0.0.1:19798/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "location": "head",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "location": "head",
+          "defer": true,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        },
+        {
+          "src": "http://127.0.0.1:19798/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "location": "body",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "css_count": 9,
+      "script_src_count": 12,
+      "duplicate_css": [],
+      "duplicate_script_src": []
+    }
+  ],
+  "source_files": [
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/dentall-core.php",
+      "sha256": "7b58966a8939ddd3011967aa5be969e021a149f9ef1abb2e0a248fb1060364b6"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/admin-access.php",
+      "sha256": "b41fcae673bed06ed8a360886af9005e4e2e8db7965639b72d8cbf0f41b01891"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/contact.php",
+      "sha256": "fc7daf6f397e0fcd3478c9a7c48776b9ac4675ce7d90700f736e828c0a6c3a5b"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/customer-account.php",
+      "sha256": "307a48eca4cd19636361501e9381a9b66aad33f94a2f2f114dbfa6485ccbe9a2"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/homepage-settings.php",
+      "sha256": "141354f6ce1863a11f02102c72b8f9a1fc04c1b67eeccf28d45935e6573280a5"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/media-policy.php",
+      "sha256": "7aabbe57cfa76fa88952e39223006a1da738762aed66a5fb303dd590bf8ee841"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/product-governance.php",
+      "sha256": "790390f8452af84eb3fca4179ccd9c56d0c001d649848cab5b50a9ef2afb41fa"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/rest-user-access.php",
+      "sha256": "aeb53648f63ea307ae7a3c48abde0e0dac3fd42e0e6355e5e5a3ce417c4d4eb5"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/roles.php",
+      "sha256": "b756205de0f605ebe3aeaf991353a90aaec8ea48e15496d11c1c3451256064ed"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/seo-compatibility.php",
+      "sha256": "747451147ce768288a07379c47efe072aa343a16175b6a52f2b7992e0b2f2c34"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/shipping-quote-lifecycle.php",
+      "sha256": "63f8a7408148dfc250293bcc9b896339503c645fac77da96425d63ba402e1729"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/shipping-quote-paypal.php",
+      "sha256": "a0adcf7db04e1d146766002b52b43a511ae633a909cbb00fa1ac234e57d28955"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/includes/shipping-quote.php",
+      "sha256": "521506c083b07f9766caa7b141e20ade004fc1e45fb811f22dc6ae36fe203cea"
+    },
+    {
+      "path": "app/public/wp-content/plugins/dentall-core/readme.txt",
+      "sha256": "98b16265614d57af5db28b5259d15b064bfa8cf81febceb944cef82a2d0778db"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/account-auth.css",
+      "sha256": "9c2eacbe4796097ecbe550f3fc7253c10429fc284c1792255afbe1f12de650c7"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/blog.css",
+      "sha256": "6e9e55932e18711a3559f6eeef04a60c4d6ec13720bea0ffde2d3917f81b05e7"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/cart.css",
+      "sha256": "e86ba14ecc42776a106250a3a332e32dcacb697d53e9d2e85b59a65fa8aa58cb"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/catalog.css",
+      "sha256": "649995c688ad00c608a0f603080ef0f3ff08b941161e4ffe4d2d890dab0cb374"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/checkout.css",
+      "sha256": "b41417b8ea058cbdbcdd3ffb391da571dddb63e7ceada4656f5c21c14c3a7343"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/contact.css",
+      "sha256": "916bd2b367e5a86b1b88ea6349bd42012923d639da8fb8f13d8106bde1ebb0fe"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/customer-account.css",
+      "sha256": "5bd204e7a8be3b3ee77eb71f05bc7eae644e92f0d2dab9e04f48ed869cebbfd9"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/homepage.css",
+      "sha256": "1045cb071ada6893a555146a5ff0d8a73fd649a7889e160ecadf4f17dd6fe7e1"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/product-detail.css",
+      "sha256": "e8f28c47cdc4912ed287ad5bb17461308133f23c00fa8a397a1b329c80d14ae3"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/css/site-shell.css",
+      "sha256": "018183373ad7411fed54864162838d009a2be4c14fb12bfa255945fd9ad97312"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/account-hero-placeholder.webp",
+      "sha256": "b24d5e348ab31ae673192ee25e2a662870cbcc65c24120aa6c80839c523b3f7f"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/footer-icons.svg",
+      "sha256": "e212a5778d09fdd14ace9a9d75e1416690363ea0e14d4f6cb1d3877ef5b6e054"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/icon-cart.svg",
+      "sha256": "eaa4025c88e8127f6b4a1e479a4004155159a983be7a029870750f68ea20db18"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/icon-user.svg",
+      "sha256": "d39e441cd9321d4d92504a356d03c6a09aadd4a81b6e8b26c0d1fb7ed0612688"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+      "sha256": "403bbab5454f36cf760b13c91d5f627095e67f1eb127a80d9c0278a3dd9643a0"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/images/trust-icons.svg",
+      "sha256": "a3266fea05e036913c9f5912f87442218efdd16d5f9b57602283f9f3323ad7e6"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/js/account-email.js",
+      "sha256": "3dd33c05472d32279a98a042180a04fae62c36033f70aae836c9e4fd45b51bd7"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/js/cart-header-sync.js",
+      "sha256": "eab704fcc572180bfed24add20c9e18dc6d093591287d0a0344d75a0ced57db3"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/js/catalog-filters.js",
+      "sha256": "512d5cd74fb4e4eacdd7290e2299fd60df32e6300941c684f8527177d74d772d"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/js/product-variation.js",
+      "sha256": "8fe8b9bad4146ece1ea6a605f3b08c9462dec29efe2d4136300ce17a19d05b43"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/assets/js/shipping-quote.js",
+      "sha256": "e9b8d3988d5eb8e5a5e91a1ebc2b7a089ed58e0fac53f81b378039c479672ab1"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/functions.php",
+      "sha256": "6da4a7c6cdd3feff84a7f48eead84dd5601781050ae2044f9e770f5a78547c96"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/account-auth.php",
+      "sha256": "17126a3c64674b59e710efb15e8679e275c0b086725b25f168a8170435e0e245"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/article.php",
+      "sha256": "51b283f9db75121ae3b194793a4ad917f686fe6cf424d4e49ad0b908b72f1654"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/blog.php",
+      "sha256": "4cbd021cbac290fdcd50ac2561055b49e7d349eea613f1f55f31a6da4434fac6"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/catalog-filters.php",
+      "sha256": "88287c1cd527f2071788c39f3b9d9b44cf8750b19e910fca7a348ae30b584cf9"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/contact.php",
+      "sha256": "91a909f53474717b2e3cb204b23ce9e5a7bf4c8a784a46bca1fa7a4dc18214e3"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/homepage.php",
+      "sha256": "90317dcd1a483082d453cf67737f0dcda0b9805fbafa8e7c79a06212f94071fd"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/setup.php",
+      "sha256": "999b46c2e2fff4b6229dae0a28cc624945d56f96f378e3429a073c3801973b63"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/site-footer.php",
+      "sha256": "f549256584f8d235599318884f6e58d7e8eb9890fa608de9d2a38ded987b2b8e"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/inc/storefront-hooks.php",
+      "sha256": "1109bb0ff0a41db180c401434a5ecf4cebe9b09cb5ea8e6abed993e319fb51e6"
+    },
+    {
+      "path": "app/public/wp-content/themes/dentall/style.css",
+      "sha256": "8a7b5a99cd9d141f01db7c5fed29f6922ac0ec1fbc9df9cd6a76c247d7ea04c2"
+    }
+  ],
+  "e_readonly_candidate": {
+    "origin": "de9a；ca1e73b加尚未提交的consent.js/php修改，不代提交或合并",
+    "version": "0.2.0",
+    "files": [
+      {
+        "path": "dentall-measurement.php",
+        "sha256": "50313d8d760457d2c7259bb92f625550ca1d375d4847e18e66de2a7145b6c5ed"
+      },
+      {
+        "path": "assets\\consent.js",
+        "sha256": "a7d995109c524e6129941822c167a23d198b0b7e269a3b2f68359c3c66c2ff50"
+      },
+      {
+        "path": "assets\\events.js",
+        "sha256": "50eca149119ec7d9d5b6f8423fd5b571de777740e4b62736da65a7b4db3d5ad5"
+      },
+      {
+        "path": "includes\\consent.php",
+        "sha256": "7d42e967c3d1856b7ce4e1ddb1626928d35fde5a8ed4efcf1ee4cce96ccf0034"
+      },
+      {
+        "path": "includes\\events.php",
+        "sha256": "13bf6a349fe00022e08f6e01ab286b8fac6835933c8798add586974c958124fb"
+      },
+      {
+        "path": "includes\\purchase.php",
+        "sha256": "768685de6b4e32bfdd059ece70d20e63c0fa358e2efb4b0353fa0a5370db8749"
+      }
+    ],
+    "header_consent": "同步头部小监听保留；E未验收/未部署的最终组合另测",
+    "footer_events": "defer、jquery/dentall-measurement-consent，Blocks按需wp-data/wc-blocks-data-store，CMP存在时加cmplz-cookiebanner依赖"
+  },
+  "decision": "本轮0运行改动；保留已证明的交易/图库/筛选/测量依赖，不自动合并或全站延迟。Brands499B候选缺收益证据且需新增priority>99回调，暂不采用。",
+  "reused_evidence": [
+    "day97-performance-baseline-20261022.json",
+    "day98-layout-image-20261022.json"
+  ],
+  "target_staging_requests": 0,
+  "target_config_changes": 0,
+  "final_not_done": [
+    "D99最终匿名/客户目标组合",
+    "D100两会话/客户/交易缓存",
+    "D101当前OCP有效组和订单一致性",
+    "D102统一版本CWV/非空Checkout/性能对比"
+  ],
+  "independent_review": "resources_v2独立抽核Home9/12与Variable11/22、标签次序/区段/defer/async、HTML SHA及46源文件SHA一致；CMP句柄文字已修正为cmplz-cookiebanner。零网络、零实现写入。"
+}
