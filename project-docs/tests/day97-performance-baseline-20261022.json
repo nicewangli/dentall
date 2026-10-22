@@ -733,7 +733,7 @@
   },
   "evidenceDirectory": ".codex-tmp/fg-20261022/",
   "pending": [
-    "真实Shop仅HTTP单样本；真实PDP/非空Checkout与浏览器指标、启用态B隔离未验，PDP预览P2待修复",
+    "真实Home/Shop/PDP的HTTP阶段样本已取；浏览器真实四宽/CWV、非空Checkout及正式缓存策略仍待，PDP兼容仅临时规避",
     "精确PHP/部署全树SHA",
     "OCP有效预取组与跨请求订单一致性",
     "Cloudways Varnish有效排除及外部CDN",
@@ -1409,10 +1409,10 @@
       "id": "FG-P2-01",
       "priority": "P2",
       "owner": "F→G",
-      "status": "单页临时排除及恢复已授权，等待Cloudways原生登录",
+      "status": "首次复现P2；后续27条临时规避验证通过，已恢复原规则，永久处理未实施",
       "fact": "同一预览Cookie在Shop有效，canonical PDP却为ComingSoon/HIT/Age3073；先前保护页Age2550，兼容失败已复现。",
       "attributionLimit": "未定位Breeze/Varnish或组合的具体责任；不能归因Woo Cookie/OCP，也不重开历史规范Shop已接受修复。",
-      "next": "登录后先读回两层原值，再仅代表PDP临时精确排除及必要清理；完整矩阵、关闭、恢复和恢复后8条检查。范围已确认，不重复询问。"
+      "next": "受控预览操作可复用已验证的单页临时排除与恢复；正式缓存策略及真实交易隔离仍另验。"
     },
     "revocation": {
       "observed": "off 8/8为200/ComingSoon/noindex；A原Cookie、全新无Cookie、旧私密参数均未观察到真实Shop/PDP暴露。",
@@ -1431,66 +1431,1910 @@
   },
   "pdpTemporaryExclusionFollowup": {
     "date": "2026-10-22",
-    "authorization": "用户明确同意此单页临时排除、必要清理和恢复验证；不再待范围确认",
-    "status": "等待Cloudways原生登录，尚未修改配置",
-    "cloudwaysObserved": {
-      "requested": "https://platform.cloudways.com/",
-      "redirected": "https://unified.cloudways.com/login",
-      "authenticated": false,
-      "applicationTarget": 6604195
+    "authorization": "用户明确同意此单页临时排除、必要清理和恢复验证；已回复Cloudways登录完成。",
+    "status": "受控测量及恢复27/27通过；临时规避验证，永久处理未实施",
+    "target": {
+      "application": "dentall-staging",
+      "applicationId": 6604195,
+      "varnishEnabled": true,
+      "ignoreQueryString": false
     },
-    "breezeOriginal": {
-      "areas": [
+    "configuration": {
+      "breeze": {
+        "original": {
+          "exclude": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+          "queryStrings": "",
+          "switches": [
+            {
+              "id": "breeze-wpjs-emoji",
+              "checked": false
+            },
+            {
+              "id": "breeze-store-googlefonts-locally",
+              "checked": false
+            },
+            {
+              "id": "breeze-store-googleanalytics-locally",
+              "checked": false
+            },
+            {
+              "id": "breeze-store-facebookpixel-locally",
+              "checked": false
+            },
+            {
+              "id": "breeze-store-gravatars-locally",
+              "checked": false
+            },
+            {
+              "id": "breeze-enable-api",
+              "checked": false
+            }
+          ]
+        },
+        "added": {
+          "exclude": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/\nhttps://wordpress-1658436-6604195.cloudwaysapps.com/product/dental-tooth-display-box/",
+          "notices": [],
+          "queryStrings": "",
+          "switches": [
+            {
+              "checked": false,
+              "id": "breeze-wpjs-emoji"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-googlefonts-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-googleanalytics-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-facebookpixel-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-gravatars-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-enable-api"
+            }
+          ]
+        },
+        "restored": {
+          "exclude": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+          "queryStrings": "",
+          "switches": [
+            {
+              "checked": false,
+              "id": "breeze-wpjs-emoji"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-googlefonts-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-googleanalytics-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-facebookpixel-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-store-gravatars-locally"
+            },
+            {
+              "checked": false,
+              "id": "breeze-enable-api"
+            }
+          ]
+        },
+        "equalAfterRestoration": true
+      },
+      "varnish": {
+        "original": [
+          "- row \"URL exclude \\\\/shop/ edit delete_outline\":"
+        ],
+        "added": [
+          "- row \"URL exclude \\\\/shop/ edit delete_outline\":",
+          "- row \"URL exclude \\\\/product/dental-tooth-display-box/ edit delete_outline\":"
+        ],
+        "restored": [
+          "- row \"URL exclude \\\\/shop/ edit delete_outline\":"
+        ]
+      },
+      "preview": {
+        "comingSoon": true,
+        "storePagesOnly": true,
+        "privatePreviewFinal": false,
+        "live": false,
+        "saves": 2
+      },
+      "breezeSaves": 2,
+      "varnishAdditions": 1,
+      "varnishRemovals": 1,
+      "manualPurge": 0,
+      "cacheSideEffect": "Breeze 2.5.12高级设置保存按已核源码触发应用HTML/资源、Varnish及对象缓存清理；未手动Purge不等于未清缓存；未单独监测每个内部清理执行。"
+    },
+    "method": "沿用已审helper，固定同源GET，curl -q --config -，TLS验证，无跟随跳转、随机参数或请求端no-cache；A保存并重放同一原生Cookie，B不发Cookie。restored为两层原值恢复后再执行同一off8条。",
+    "actualGetCount": 27,
+    "phases": [
+      {
+        "phase": "before",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "B-warm-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": false,
+            "cookieMatchesShare": null,
+            "http": 200,
+            "ttfbSeconds": 1.625755,
+            "totalSeconds": 1.626998,
+            "compressedBodyBytes": 15448,
+            "at": "2026-10-22T02:46:11.178Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-warm-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": false,
+            "cookieMatchesShare": null,
+            "http": 200,
+            "ttfbSeconds": 1.563526,
+            "totalSeconds": 1.790432,
+            "compressedBodyBytes": 17630,
+            "at": "2026-10-22T02:46:12.998Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      },
+      {
+        "phase": "on",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "A-enter",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.668516,
+            "totalSeconds": 1.905763,
+            "compressedBodyBytes": 20189,
+            "at": "2026-10-22T02:49:05.483Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-canonical-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 3.200158,
+            "totalSeconds": 3.201009,
+            "compressedBodyBytes": 20010,
+            "at": "2026-10-22T02:49:08.709Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-canonical-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.480681,
+            "totalSeconds": 1.705402,
+            "compressedBodyBytes": 24016,
+            "at": "2026-10-22T02:49:10.433Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": false,
+              "cssRefs": 13,
+              "jsRefs": 24,
+              "imgRefs": 6
+            }
+          },
+          {
+            "label": "B-isolation-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.454068,
+            "totalSeconds": 1.454778,
+            "compressedBodyBytes": 15298,
+            "at": "2026-10-22T02:49:11.907Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-isolation-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 2.021264,
+            "totalSeconds": 2.246206,
+            "compressedBodyBytes": 17772,
+            "at": "2026-10-22T02:49:14.172Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "A-repeat-2-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.571077,
+            "totalSeconds": 1.788162,
+            "compressedBodyBytes": 20014,
+            "at": "2026-10-22T02:49:15.981Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-repeat-2-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.534145,
+            "totalSeconds": 1.534982,
+            "compressedBodyBytes": 23848,
+            "at": "2026-10-22T02:49:17.535Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": false,
+              "cssRefs": 13,
+              "jsRefs": 24,
+              "imgRefs": 6
+            }
+          },
+          {
+            "label": "A-repeat-3-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.311172,
+            "totalSeconds": 1.536704,
+            "compressedBodyBytes": 20165,
+            "at": "2026-10-22T02:49:19.093Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 12,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": false,
+              "cssRefs": 10,
+              "jsRefs": 14,
+              "imgRefs": 14
+            }
+          },
+          {
+            "label": "A-repeat-3-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.239552,
+            "totalSeconds": 1.6868,
+            "compressedBodyBytes": 23861,
+            "at": "2026-10-22T02:49:20.798Z",
+            "headers": {
+              "cache-control": "no-cache",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": false,
+            "actualPage": true,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": false,
+              "cssRefs": 13,
+              "jsRefs": 24,
+              "imgRefs": 6
+            }
+          }
+        ]
+      },
+      {
+        "phase": "off",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "A-retained-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.545392,
+            "totalSeconds": 1.546096,
+            "compressedBodyBytes": 15444,
+            "at": "2026-10-22T02:50:42.118Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-retained-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.612901,
+            "totalSeconds": 1.613758,
+            "compressedBodyBytes": 17604,
+            "at": "2026-10-22T02:50:43.754Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-new-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.376465,
+            "totalSeconds": 1.612454,
+            "compressedBodyBytes": 15318,
+            "at": "2026-10-22T02:50:45.393Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-new-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.272464,
+            "totalSeconds": 1.503103,
+            "compressedBodyBytes": 17771,
+            "at": "2026-10-22T02:50:46.925Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "A-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.463933,
+            "totalSeconds": 1.465779,
+            "compressedBodyBytes": 15270,
+            "at": "2026-10-22T02:50:48.413Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.718874,
+            "totalSeconds": 1.719705,
+            "compressedBodyBytes": 17608,
+            "at": "2026-10-22T02:50:50.154Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.485196,
+            "totalSeconds": 1.486299,
+            "compressedBodyBytes": 15411,
+            "at": "2026-10-22T02:50:51.664Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.485765,
+            "totalSeconds": 1.487535,
+            "compressedBodyBytes": 17604,
+            "at": "2026-10-22T02:50:53.172Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      },
+      {
+        "phase": "restored",
+        "success": true,
+        "error": null,
+        "records": [
+          {
+            "label": "A-retained-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.699559,
+            "totalSeconds": 1.700891,
+            "compressedBodyBytes": 15286,
+            "at": "2026-10-22T02:54:34.761Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-retained-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.635765,
+            "totalSeconds": 1.636639,
+            "compressedBodyBytes": 17701,
+            "at": "2026-10-22T02:54:36.420Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "0",
+              "x-cache": "MISS",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-new-0",
+            "path": "/shop/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.516892,
+            "totalSeconds": 1.517564,
+            "compressedBodyBytes": 15296,
+            "at": "2026-10-22T02:54:37.955Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-new-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": false,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.263045,
+            "totalSeconds": 2.0984,
+            "compressedBodyBytes": 17701,
+            "at": "2026-10-22T02:54:40.072Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "2",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "A-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.80908,
+            "totalSeconds": 2.038279,
+            "compressedBodyBytes": 15390,
+            "at": "2026-10-22T02:54:42.136Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "A-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": true,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.487484,
+            "totalSeconds": 1.488262,
+            "compressedBodyBytes": 17626,
+            "at": "2026-10-22T02:54:43.646Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "0",
+              "x-cache": "MISS",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          },
+          {
+            "label": "B-old-link-0",
+            "path": "/shop/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.558553,
+            "totalSeconds": 1.780479,
+            "compressedBodyBytes": 15406,
+            "at": "2026-10-22T02:54:45.447Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Shop - DentAll",
+              "comingSoon": true,
+              "cssRefs": 11,
+              "jsRefs": 14,
+              "imgRefs": 2
+            }
+          },
+          {
+            "label": "B-old-link-1",
+            "path": "/product/dental-tooth-display-box/",
+            "shareParameterUsed": true,
+            "cookieUsed": false,
+            "savedACookiePresent": true,
+            "cookieMatchesShare": true,
+            "http": 200,
+            "ttfbSeconds": 1.171122,
+            "totalSeconds": 1.171889,
+            "compressedBodyBytes": 17626,
+            "at": "2026-10-22T02:54:46.645Z",
+            "headers": {
+              "cache-control": "max-age=60",
+              "content-encoding": "gzip",
+              "age": "2",
+              "x-cache": "HIT",
+              "x-robots-tag": "noindex, nofollow"
+            },
+            "protectedPage": true,
+            "actualPage": false,
+            "productTitleCount": 0,
+            "page": {
+              "title": "Dental Tooth Display Box",
+              "comingSoon": true,
+              "cssRefs": 14,
+              "jsRefs": 24,
+              "imgRefs": 3
+            }
+          }
+        ]
+      }
+    ],
+    "canonicalShop": {
+      "route": "/shop/",
+      "samples": 3,
+      "ttfbMedianSeconds": 1.571077,
+      "ttfbRangeSeconds": [
+        1.311172,
+        3.200158
+      ],
+      "gzipHtmlRangeBytes": [
+        20010,
+        20165
+      ],
+      "title": "Shop - DentAll",
+      "styles": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C300%2C300italic%2C400italic%2C600%2C700%2C900&subset=latin%2Clatin-ext&ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/style.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/catalog.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
         {
-          "id": "exclude-urls",
-          "name": "exclude-urls",
-          "value": "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/breeze/assets/js/js-front-end/breeze-prefetch-links.min.js?ver=2.5.12",
+          "defer": false,
+          "async": false
         },
         {
-          "id": "cache-query-str",
-          "name": "cache-query-str",
-          "value": ""
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/js/catalog-filters.js?ver=0.48.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
         }
       ],
-      "switches": [
+      "images": [
         {
-          "checked": false,
-          "id": "breeze-wpjs-emoji",
-          "name": "breeze-wpjs-emoji"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "eager",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcsetWidths": []
         },
         {
-          "checked": false,
-          "id": "breeze-store-googlefonts-locally",
-          "name": "breeze-store-googlefonts-locally"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "high",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
         },
         {
-          "checked": false,
-          "id": "breeze-store-googleanalytics-locally",
-          "name": "breeze-store-googleanalytics-locally"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/apple-shaped-denture-box-324x324.png",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
         },
         {
-          "checked": false,
-          "id": "breeze-store-facebookpixel-locally",
-          "name": "breeze-store-facebookpixel-locally"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/bk21-articulating-film-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
         },
         {
-          "checked": false,
-          "id": "breeze-store-gravatars-locally",
-          "name": "breeze-store-gravatars-locally"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/aidite-aizir-zirconia-20mm-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
         },
         {
-          "checked": false,
-          "id": "breeze-enable-api",
-          "name": "breeze-enable-api"
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cd212-4-ceramic-grinder-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/cosmetic-splint-retainer-vacuum-forming-sheet-2-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/small-center-opening-denture-box-with-mirror-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/8-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/5-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-brush-dual-Head-cleaning-brush-1-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-logo-denture-storage-box-1-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/custom-zirconia-milling-burs-1--324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "auto, (max-width: 324px) 100vw, 324px",
+          "srcsetWidths": [
+            324,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            416,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcsetWidths": []
+        }
+      ],
+      "counts": {
+        "cssReferences": 10,
+        "sameOriginCssReferences": 9,
+        "jsReferences": 14,
+        "imageTags": 14,
+        "uniqueImageSrc": 13,
+        "lazyImages": 10,
+        "highPriorityImages": 1,
+        "productImagesWithSrcset": 12
+      },
+      "hasGtm": false,
+      "hasMeasurement": false,
+      "hasCmp": false,
+      "limit": "HTML引用与声明，非浏览器实发请求、总传输、currentSrc或CWV；运行主题0.48.0，不是候选0.49.2。"
+    },
+    "canonicalPdp": {
+      "route": "/product/dental-tooth-display-box/",
+      "samples": 3,
+      "ttfbMedianSeconds": 1.480681,
+      "ttfbRangeSeconds": [
+        1.239552,
+        1.534145
+      ],
+      "gzipHtmlRangeBytes": [
+        23848,
+        24016
+      ],
+      "title": "Dental Tooth Display Box",
+      "styles": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/gutenberg-blocks.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/css/photoswipe/photoswipe.min.css?ver=11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/css/photoswipe/default-skin/default-skin.min.css?ver=11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/css/brands.css?ver=11.0.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/style.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/base/icons.css?ver=4.6.2",
+        "https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C300%2C300italic%2C400italic%2C600%2C700%2C900&subset=latin%2Clatin-ext&ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/woocommerce.css?ver=4.6.2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/style.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/site-shell.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/css/product-detail.css?ver=0.48.0",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/css/woocommerce/extensions/brands.css?ver=4.6.2"
+      ],
+      "scripts": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/breeze/assets/js/js-front-end/breeze-prefetch-links.min.js?ver=2.5.12",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/zoom/jquery.zoom.min.js?ver=1.7.21-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/flexslider/jquery.flexslider.min.js?ver=2.7.2-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe.min.js?ver=4.1.1-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe-ui-default.min.js?ver=4.1.1-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/single-product.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=11.0.0",
+          "defer": true,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/underscore.min.js?ver=1.13.8",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/wp-util.min.js?ver=7.1.3",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/navigation.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-includes/js/comment-reply.min.js?ver=7.1.3",
+          "defer": false,
+          "async": true
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/header-cart.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart-variation.min.js?ver=11.0.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/js/product-variation.js?ver=0.48.0",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/woocommerce/extensions/brands.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/js/sticky-add-to-cart.min.js?ver=4.6.2",
+          "defer": false,
+          "async": false
+        }
+      ],
+      "images": [
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "eager",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcsetWidths": []
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "width": "416",
+          "height": "416",
+          "loading": "",
+          "fetchpriority": "high",
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "srcsetWidths": [
+            416,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            324,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-design-details-416x416.webp",
+          "width": "416",
+          "height": "416",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "srcsetWidths": [
+            416,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            324,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-12-color-options-416x416.webp",
+          "width": "416",
+          "height": "416",
+          "loading": "",
+          "fetchpriority": "",
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "srcsetWidths": [
+            416,
+            300,
+            1024,
+            150,
+            768,
+            1536,
+            324,
+            100,
+            1600
+          ]
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/dentall/assets/images/logo-placeholder-v2.png",
+          "width": "1024",
+          "height": "240",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcsetWidths": []
+        },
+        {
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-324x324.webp",
+          "width": "324",
+          "height": "324",
+          "loading": "lazy",
+          "fetchpriority": "",
+          "sizes": "",
+          "srcsetWidths": []
+        }
+      ],
+      "counts": {
+        "cssReferences": 13,
+        "sameOriginCssReferences": 12,
+        "jsReferences": 24,
+        "imageTags": 6,
+        "uniqueImageSrc": 5,
+        "lazyImages": 2,
+        "highPriorityImages": 1,
+        "productImagesWithSrcset": 3
+      },
+      "hasGtm": false,
+      "hasMeasurement": false,
+      "hasCmp": false,
+      "limit": "HTML引用与声明，非浏览器实发请求、总传输、currentSrc或CWV；运行主题0.48.0，不是候选0.49.2。"
+    },
+    "interpretation": {
+      "passed": "代表Shop/PDP的规范URL三次实际正文、启用态无Cookie隔离、关闭及恢复后的原A/新B/旧参数保护均通过。",
+      "finding": "FG-P2-01：临时规避已验证，恢复原规则后永久处理仍未实施；不能据此永久关闭兼容P2。",
+      "attribution": "两层同时临时排除且保存自动清理，不能分离Breeze/Varnish/规则/清理的单独贡献。",
+      "revocationLimit": "恢复后PDP原A canonical先MISS/Age0、新B HIT/Age2；旧参数同序列。未观察PHP内部凭据分支，不证明Cookie删除、Key轮换、永久失效、其他路径或交易隔离。",
+      "performanceLimit": "临时单页排除下的未命中HTML基线，不是正式缓存态优化后性能；浏览器/CWV及独立TEST非空Checkout仍待。"
+    },
+    "evidence": {
+      "directory": ".codex-tmp/fg-pdp-exclusion-20261022/",
+      "screenshots": [
+        {
+          "file": "closed-ui.png",
+          "sha256": "a1f420b13e8327688743b3efe99e6b47f7c86937de7a5605cec7d1fb65fe946b"
+        },
+        {
+          "file": "varnish-restored.png",
+          "sha256": "99fc6520357e60f6fa868284177129cad89e43e6772a1f0a6d3c481756f8cd32"
+        }
+      ],
+      "independentReview": "缓存/安全与资源/测试两个Agent只读复核27/27、配置原恢复一致及统计；截图由root目视核对；无额外网络。",
+      "privateTemporaryCleanup": {
+        "removedFiles": 29,
+        "items": "私密URL、原A Cookie与27份原始HTML",
+        "secretMatchesBeforeRemoval": 0,
+        "remaining": [
+          "before-full.json",
+          "off-full.json",
+          "on-full.json",
+          "restored-full.json"
+        ]
+      }
+    }
+  },
+  "renderedBrowserSupplement": {
+    "context": "管理员同一会话逐宽重新导航，未清浏览器缓存；无购买控件操作；不作匿名/CWV/冷访问",
+    "rows": [
+      {
+        "label": "shop-390",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 390
+        },
+        "clientWidth": 375,
+        "scrollWidth": 375,
+        "horizontalOverflow": false,
+        "productCards": 12,
+        "productDetail": false,
+        "brandsIndex": 0,
+        "mainImageCount": 12,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 125.5,
+          "loading": "auto",
+          "naturalHeight": 324,
+          "naturalWidth": 324,
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": 125.5
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "shop-768",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 768
+        },
+        "clientWidth": 753,
+        "scrollWidth": 753,
+        "horizontalOverflow": false,
+        "productCards": 12,
+        "productDetail": false,
+        "brandsIndex": 0,
+        "mainImageCount": 12,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 298.5,
+          "loading": "auto",
+          "naturalHeight": 324,
+          "naturalWidth": 324,
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": 298.5
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "shop-1024",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 1024
+        },
+        "clientWidth": 1009,
+        "scrollWidth": 1009,
+        "horizontalOverflow": false,
+        "productCards": 12,
+        "productDetail": false,
+        "brandsIndex": 0,
+        "mainImageCount": 12,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 265,
+          "loading": "auto",
+          "naturalHeight": 324,
+          "naturalWidth": 324,
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": 265
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "shop-1440",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 1440
+        },
+        "clientWidth": 1425,
+        "scrollWidth": 1425,
+        "horizontalOverflow": false,
+        "productCards": 12,
+        "productDetail": false,
+        "brandsIndex": 0,
+        "mainImageCount": 12,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 194,
+          "loading": "auto",
+          "naturalHeight": 324,
+          "naturalWidth": 324,
+          "sizes": "(max-width: 324px) 100vw, 324px",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/09/orthodontic-aligner-chewies-removal-tool-kit-2-324x324.webp",
+          "width": 194
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "pdp-390",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 390
+        },
+        "clientWidth": 375,
+        "scrollWidth": 375,
+        "horizontalOverflow": false,
+        "productCards": 0,
+        "productDetail": true,
+        "brandsIndex": 0,
+        "mainImageCount": 8,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 333,
+          "loading": "auto",
+          "naturalHeight": 350,
+          "naturalWidth": 350,
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "width": 333
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "pdp-768",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 768
+        },
+        "clientWidth": 753,
+        "scrollWidth": 753,
+        "horizontalOverflow": false,
+        "productCards": 0,
+        "productDetail": true,
+        "brandsIndex": 0,
+        "mainImageCount": 8,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 207.6875,
+          "loading": "auto",
+          "naturalHeight": 704,
+          "naturalWidth": 704,
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "width": 207.6875
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "pdp-1024",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 1024
+        },
+        "clientWidth": 1009,
+        "scrollWidth": 1009,
+        "horizontalOverflow": false,
+        "productCards": 0,
+        "productDetail": true,
+        "brandsIndex": 0,
+        "mainImageCount": 8,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 285.59375,
+          "loading": "auto",
+          "naturalHeight": 960,
+          "naturalWidth": 960,
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "width": 285.59375
+        },
+        "performanceAvailable": false
+      },
+      {
+        "label": "pdp-1440",
+        "viewport": {
+          "dpr": 1,
+          "height": 900,
+          "width": 1440
+        },
+        "clientWidth": 1425,
+        "scrollWidth": 1425,
+        "horizontalOverflow": false,
+        "productCards": 0,
+        "productDetail": true,
+        "brandsIndex": 0,
+        "mainImageCount": 8,
+        "mainImagesComplete": true,
+        "representativeImage": {
+          "complete": true,
+          "currentSrc": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options.webp",
+          "fetchpriority": "high",
+          "hasSrcset": true,
+          "height": 380.25,
+          "loading": "auto",
+          "naturalHeight": 709,
+          "naturalWidth": 709,
+          "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+          "src": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options-416x416.webp",
+          "width": 380.25
+        },
+        "performanceAvailable": false
+      }
+    ],
+    "raw": "browser-widths.json",
+    "rawSha256": "8783877d647b992cc29058312ec79b80128fe6647da1b2c6633e6f54c6cb250c",
+    "fontFileBodies": {
+      "sameOrigin": [
+        {
+          "name": "fa-solid-900.woff2",
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/themes/storefront/assets/fonts/fa-solid-900.woff2",
+          "bytes": 79444,
+          "sha256": "7f4d3fd0a705dbf8403298aad91d5de6972e6b5d536068eba8b24954a5a0a8c7"
+        }
+      ],
+      "google": {
+        "context": "实际已观测5个跨源字体的独立curl读取，不是浏览器字体时序；无Cookie/TLS验证/无跳转/无随机参数",
+        "results": [
+          {
+            "name": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
+            "url": "https://fonts.gstatic.com/s/sourcesanspro/v24/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
+            "http": 200,
+            "bodyBytes": 14692,
+            "downloadedBytes": 14692,
+            "ttfbSeconds": 0.202333,
+            "totalSeconds": 0.20316,
+            "sha256": "a327a082ad3f8b9d4691d019a8a825df5951f9e0b6fa3e416e711dbe7574dfd4"
+          },
+          {
+            "name": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
+            "url": "https://fonts.gstatic.com/s/sourcesanspro/v24/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
+            "http": 200,
+            "bodyBytes": 14812,
+            "downloadedBytes": 14812,
+            "ttfbSeconds": 0.098854,
+            "totalSeconds": 0.099819,
+            "sha256": "fb7b366bd65fb747ebc7d6e2af9d8a25b056c27c4551db320fe68799ca43dc91"
+          },
+          {
+            "name": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlBduz8A.woff2",
+            "url": "https://fonts.gstatic.com/s/sourcesanspro/v24/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlBduz8A.woff2",
+            "http": 200,
+            "bodyBytes": 6976,
+            "downloadedBytes": 6976,
+            "ttfbSeconds": 0.096713,
+            "totalSeconds": 0.09724,
+            "sha256": "50ce7ec7593d7f83ac371f58b851ab6addb5d46aad7a19c09d4368f61c9dc1b5"
+          },
+          {
+            "name": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
+            "url": "https://fonts.gstatic.com/s/sourcesanspro/v24/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
+            "http": 200,
+            "bodyBytes": 14772,
+            "downloadedBytes": 14772,
+            "ttfbSeconds": 0.096215,
+            "totalSeconds": 0.097095,
+            "sha256": "a2fe82406659ad9ab5fc997e99f26dc63614f3f6fc474a1a8a2483e5248b8800"
+          },
+          {
+            "name": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
+            "url": "https://fonts.gstatic.com/s/sourcesanspro/v24/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
+            "http": 200,
+            "bodyBytes": 14628,
+            "downloadedBytes": 14628,
+            "ttfbSeconds": 0.092806,
+            "totalSeconds": 0.09358,
+            "sha256": "45c6a51457cd1a536fcbf11d51ecdc225daf9635073cf6bc95381f57e87f6f46"
+          }
+        ]
+      },
+      "bundleCrossOriginFailed": 5,
+      "limit": "6个已观测字体的文件体积，不是匿名请求总量或浏览器时间"
+    },
+    "zoom": {
+      "context": "已观测Woo Zoom原图导出文件大小，非浏览器传输耗时",
+      "summary": {
+        "downloadedCount": 1,
+        "elapsedMs": 21.80019999947399,
+        "failedCount": 0,
+        "requestedCount": 1
+      },
+      "assets": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-content/uploads/2026/10/dental-tooth-display-box-size-options.webp",
+          "bodyBytes": 57062,
+          "sha256": "22b3bcece31472c25388c62b8f27e3ada2ac7a3e96ccdf34b410cdde73967681"
         }
       ]
     },
-    "objectCacheReadOnly": "原生Dashboard/Tools仍Connected/Valid；未Flush/Scan/Reset/Download Report，未取得有效预取组",
-    "websiteSettingsSaved": 0,
-    "manualPurge": 0,
-    "newProductTestGets": 0,
-    "previewReopened": false,
-    "helper": "原helper仅3处增加restored phase，复用off8条，syntax/独立Code Review通过，尚未网络执行",
-    "privateInputFilesCreated": 0
+    "extraAcquisition": "字体5个独立curl；bundle共7项尝试；管理员浏览器8次测量导航与自然子资源另计，不含27次矩阵",
+    "finding": {
+      "id": "FG-P2-02",
+      "owner": "F→G",
+      "status": "候选0.49.3在隔离环境修复并验证通过；未部署Staging，目标仍待复验；证据day98-layout-image-20261022.json",
+      "fact": "PDP缺fullwidth且原生博客侧栏实际输出，CSS断点规则未命中，sizes与实图不符；不能用修小sizes掩盖错误布局"
+    },
+    "cleanup": "专用前台tab已关闭，viewport已reset"
   }
 }

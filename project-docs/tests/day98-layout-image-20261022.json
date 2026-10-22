@@ -1,0 +1,645 @@
+{
+  "date": "2026-10-22",
+  "scope": "两项已授权最小展示修复，独立工作树与隔离Local；未部署Staging",
+  "result": "隔离验证通过；不代表D97～D102或M8完成",
+  "baseline_theme": "0.49.2",
+  "patched_theme": "0.49.3",
+  "runtime": {
+    "wordpress": "7.1",
+    "woocommerce": "11.0.0",
+    "storefront": "4.6.2",
+    "php": "8.2.29",
+    "mysql": "8.4.0",
+    "http_host": "127.0.0.1:19798",
+    "db_port": 19799,
+    "fresh_database": true,
+    "real_credentials_copied": false,
+    "mail_blocked": true,
+    "outbound_wp_http_blocked": true,
+    "cron_async_blocked": true,
+    "noindex": true,
+    "target_staging_diff": "WP7.1.3/PHP8.2.35与附加插件/缓存未在此隔离组合覆盖"
+  },
+  "code_change": {
+    "files": 3,
+    "new_runtime_files": 0,
+    "new_callbacks": 2,
+    "added_lines": 31,
+    "deleted_lines": 1,
+    "net_lines": 30,
+    "css_rule_blocks_added": 0,
+    "assets_added": 0,
+    "plugins_added": 0,
+    "source_target_hashes": [
+      {
+        "file": "inc\\storefront-hooks.php",
+        "source_sha256": "1109BB0FF0A41DB180C401434A5ECF4CEBE9B09CB5EA8E6ABED993E319FB51E6",
+        "target_sha256": "1109BB0FF0A41DB180C401434A5ECF4CEBE9B09CB5EA8E6ABED993E319FB51E6",
+        "same": true
+      },
+      {
+        "file": "inc\\homepage.php",
+        "source_sha256": "90317DCD1A483082D453CF67737F0DCDA0B9805FBAFA8E7C79A06212F94071FD",
+        "target_sha256": "90317DCD1A483082D453CF67737F0DCDA0B9805FBAFA8E7C79A06212F94071FD",
+        "same": true
+      },
+      {
+        "file": "style.css",
+        "source_sha256": "8A7B5A99CD9D141F01DB7C5FED29F6922AC0EC1FBC9DF9CD6A76C247D7EA04C2",
+        "target_sha256": "8A7B5A99CD9D141F01DB7C5FED29F6922AC0EC1FBC9DF9CD6A76C247D7EA04C2",
+        "same": true
+      }
+    ]
+  },
+  "native_http": {
+    "rows": [
+      {
+        "page": "home",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": false,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "shop",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": false,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "simple",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "false",
+        "secondary_before": true,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "variable",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "false",
+        "secondary_before": true,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "blog",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": false,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "post",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": true,
+        "secondary_after": true,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "page",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": true,
+        "secondary_after": true,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "category",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": false,
+        "secondary_after": false,
+        "css_count_unchanged": true
+      },
+      {
+        "page": "search",
+        "before_http": 200,
+        "after_http": 200,
+        "sidebar_before": "true",
+        "sidebar_after": "true",
+        "secondary_before": true,
+        "secondary_after": true,
+        "css_count_unchanged": true
+      }
+    ],
+    "all_nine_noindex": true,
+    "sidebar_config_hash_unchanged": true,
+    "sidebar_sha256": "14e42eb1278bf8a544b8d854ee9c9240f6802d45831f3e7ff5b57fbfc9c08aec",
+    "fixture_manifest_unchanged": true,
+    "orders_before": 0,
+    "orders_after": 0
+  },
+  "browser": {
+    "dpr": 1,
+    "rows": [
+      {
+        "page": "home",
+        "width": 390,
+        "client_width": 375,
+        "scroll_width": 375,
+        "secondary": false,
+        "fullwidth": false,
+        "gallery_width": null,
+        "summary_width": null,
+        "main_image_width": [],
+        "category_image_count": 9,
+        "category_sizes": [
+          "",
+          "6rem"
+        ],
+        "category_width": [
+          66.953125
+        ]
+      },
+      {
+        "page": "simple",
+        "width": 390,
+        "client_width": 375,
+        "scroll_width": 375,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 335,
+        "summary_width": 335,
+        "main_image_width": [
+          333
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "variable",
+        "width": 390,
+        "client_width": 375,
+        "scroll_width": 375,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 335,
+        "summary_width": 335,
+        "main_image_width": [
+          333
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "home",
+        "width": 768,
+        "client_width": 753,
+        "scroll_width": 753,
+        "secondary": false,
+        "fullwidth": false,
+        "gallery_width": null,
+        "summary_width": null,
+        "main_image_width": [],
+        "category_image_count": 9,
+        "category_sizes": [
+          "",
+          "6rem"
+        ],
+        "category_width": [
+          85.25
+        ]
+      },
+      {
+        "page": "simple",
+        "width": 768,
+        "client_width": 753,
+        "scroll_width": 753,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 689,
+        "summary_width": 689,
+        "main_image_width": [
+          687
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "variable",
+        "width": 768,
+        "client_width": 753,
+        "scroll_width": 753,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 689,
+        "summary_width": 689,
+        "main_image_width": [
+          687
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "home",
+        "width": 1024,
+        "client_width": 1009,
+        "scroll_width": 1009,
+        "secondary": false,
+        "fullwidth": false,
+        "gallery_width": null,
+        "summary_width": null,
+        "main_image_width": [],
+        "category_image_count": 9,
+        "category_sizes": [
+          "",
+          "6rem"
+        ],
+        "category_width": [
+          62.28125
+        ]
+      },
+      {
+        "page": "simple",
+        "width": 1024,
+        "client_width": 1009,
+        "scroll_width": 1009,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 945,
+        "summary_width": 945,
+        "main_image_width": [
+          943
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "variable",
+        "width": 1024,
+        "client_width": 1009,
+        "scroll_width": 1009,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 945,
+        "summary_width": 945,
+        "main_image_width": [
+          943
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "home",
+        "width": 1440,
+        "client_width": 1425,
+        "scroll_width": 1425,
+        "secondary": false,
+        "fullwidth": false,
+        "gallery_width": null,
+        "summary_width": null,
+        "main_image_width": [],
+        "category_image_count": 9,
+        "category_sizes": [
+          "",
+          "6rem"
+        ],
+        "category_width": [
+          86.46875
+        ]
+      },
+      {
+        "page": "simple",
+        "width": 1440,
+        "client_width": 1425,
+        "scroll_width": 1425,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 709.90625,
+        "summary_width": 491.46875,
+        "main_image_width": [
+          707.90625
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      },
+      {
+        "page": "variable",
+        "width": 1440,
+        "client_width": 1425,
+        "scroll_width": 1425,
+        "secondary": false,
+        "fullwidth": true,
+        "gallery_width": 709.90625,
+        "summary_width": 491.46875,
+        "main_image_width": [
+          707.90625
+        ],
+        "category_image_count": 0,
+        "category_sizes": [],
+        "category_width": []
+      }
+    ],
+    "variant_selection_reset_rows": [
+      {
+        "width": 390,
+        "selected": "Small",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 333,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 390,
+        "selected": "Large",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 333,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 390,
+        "selected": "",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 333,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": true
+      },
+      {
+        "width": 768,
+        "selected": "Small",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 687,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 768,
+        "selected": "Large",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 687,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 768,
+        "selected": "",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 687,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": true
+      },
+      {
+        "width": 1024,
+        "selected": "Small",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 943,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 1024,
+        "selected": "Large",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 943,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 1024,
+        "selected": "",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 943,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": true
+      },
+      {
+        "width": 1440,
+        "selected": "Small",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 707.90625,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 1440,
+        "selected": "Large",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 707.90625,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": false
+      },
+      {
+        "width": 1440,
+        "selected": "",
+        "sizes": "(min-width: 82.5rem) 44.37rem, (min-width: 75rem) calc(56.521739vw - 2.26087rem), (min-width: 48rem) calc(100vw - 4rem), calc(100vw - 2.5rem)",
+        "image_width": 707.90625,
+        "overflow": false,
+        "secondary": false,
+        "variation_id_cleared": true
+      }
+    ],
+    "variant_submit_tested": false,
+    "abnormal_pdp": [
+      {
+        "width": 390,
+        "client_width": 375,
+        "scroll_width": 375,
+        "fullwidth": true,
+        "secondary": false,
+        "long_title": "TEST FG D98 Extra Long Dental Laboratory Replacement Components and Accessories for Responsive Product Detail Layout Validation Without An Image and With Out of Stock Availability",
+        "placeholder_loaded": true,
+        "placeholder_width": 333,
+        "stock": "Out of stock",
+        "product_cart_button_count": 0
+      },
+      {
+        "width": 768,
+        "client_width": 753,
+        "scroll_width": 753,
+        "fullwidth": true,
+        "secondary": false,
+        "long_title": "TEST FG D98 Extra Long Dental Laboratory Replacement Components and Accessories for Responsive Product Detail Layout Validation Without An Image and With Out of Stock Availability",
+        "placeholder_loaded": true,
+        "placeholder_width": 687,
+        "stock": "Out of stock",
+        "product_cart_button_count": 0
+      },
+      {
+        "width": 1024,
+        "client_width": 1009,
+        "scroll_width": 1009,
+        "fullwidth": true,
+        "secondary": false,
+        "long_title": "TEST FG D98 Extra Long Dental Laboratory Replacement Components and Accessories for Responsive Product Detail Layout Validation Without An Image and With Out of Stock Availability",
+        "placeholder_loaded": true,
+        "placeholder_width": 943,
+        "stock": "Out of stock",
+        "product_cart_button_count": 0
+      },
+      {
+        "width": 1440,
+        "client_width": 1425,
+        "scroll_width": 1425,
+        "fullwidth": true,
+        "secondary": false,
+        "long_title": "TEST FG D98 Extra Long Dental Laboratory Replacement Components and Accessories for Responsive Product Detail Layout Validation Without An Image and With Out of Stock Availability",
+        "placeholder_loaded": true,
+        "placeholder_width": 707.90625,
+        "stock": "Out of stock",
+        "product_cart_button_count": 0
+      }
+    ],
+    "initial_simple_768_blank": "原截图保留；定向复查galleryOpacity从0.00300182过渡到1，原生0.25s淡入；稳定截图主图可见，无源码修复",
+    "stable_simple_768": {
+      "galleryOpacity": "1",
+      "galleryStyle": "opacity: 1; transition: opacity 0.25s ease-in-out;",
+      "image": {
+        "complete": true,
+        "naturalWidth": 704,
+        "width": 687
+      },
+      "secondary": false,
+      "viewport": 768
+    },
+    "console_warn_error_observed": 0
+  },
+  "native_template_exception": {
+    "success": true,
+    "checks": {
+      "native_template_exception_caught": true,
+      "native_template_throw_count": 1,
+      "filter_callbacks_unchanged": true,
+      "loop_unchanged": true,
+      "loop_before": {
+        "name": "TEST FG D98 prior loop",
+        "columns": 7
+      },
+      "loop_after": {
+        "name": "TEST FG D98 prior loop",
+        "columns": 7
+      },
+      "outside_sizes_before": "(max-width: 324px) 100vw, 324px",
+      "outside_sizes_after": "(max-width: 324px) 100vw, 324px",
+      "outside_sizes_unchanged": true,
+      "temporary_test_hook_removed": true
+    }
+  },
+  "performance_claim": {
+    "download_savings_measured": false,
+    "cwv_measured": false,
+    "cache_reused": true,
+    "shared_image_url": "Hero及8分类共享324px源图，不能按8次独立下载或currentSrc推算总节省",
+    "sizes_result": "首页8有图分类输出6rem并保留srcset；第9缺图回退保持",
+    "layout_result": "Simple768主图207.6875→687px；四宽原生全宽生效"
+  },
+  "review": {
+    "independent_code": "finish_path：P0～P3未发现",
+    "independent_resource": "resources_v2：尺寸/布局与稳定截图通过，未宣称下载改善",
+    "independent_native_tests": "cache_v2：9页与异常清理通过"
+  },
+  "evidence_root": ".codex-tmp/fg-d98-20261022/evidence/",
+  "not_tested": [
+    "Staging部署及目标插件/缓存组合",
+    "匿名CWV与冷缓存总下载比较",
+    "加购/下单/邮件/支付/订单缓存"
+  ],
+  "cleanup": {
+    "at_utc": "2026-10-22T05:53:37.3428377Z",
+    "state_sample_37_deleted": true,
+    "original_product_cleanup_hash_unchanged": true,
+    "orders_before_shutdown": 0,
+    "test_hook_residual_before_shutdown": 0,
+    "stopped_php_pid": 26744,
+    "stopped_mysql_pid": 28660,
+    "own_processes_after": 0,
+    "listeners_19798_19799": 0,
+    "deleted": [
+      {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\fg-performance-cache\\dentall\\.codex-tmp\\fg-d98-20261022\\site",
+        "files": 9438,
+        "exists_after": false
+      },
+      {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\fg-performance-cache\\dentall\\.codex-tmp\\fg-d98-20261022\\mysql-data",
+        "files": 218,
+        "exists_after": false
+      },
+      {
+        "path": "C:\\Users\\Administrator\\.codex\\worktrees\\fg-performance-cache\\dentall\\.codex-tmp\\fg-d98-20261022\\private",
+        "files": 2,
+        "exists_after": false
+      }
+    ],
+    "retained": [
+      "evidence/",
+      "logs/",
+      "setup.ps1",
+      "guard.php",
+      "router.php",
+      "fixture.php",
+      "install.php",
+      "capture.cjs",
+      "audit-state.php",
+      "finally-check.php",
+      "state-fixture.php",
+      "cleanup-state.php",
+      "cleanup-runtime.ps1",
+      "normalize-fixture.php",
+      "finalize-images.php",
+      "inspect-originals.php",
+      "my.ini",
+      "php.ini",
+      "runtime-state.json"
+    ],
+    "shared_site_or_database_modified": false
+  },
+  "state_fixture_cleanup": {
+    "state_sample_deleted": true,
+    "state_sample_id": 37,
+    "manifest_matches_frozen_baseline": true,
+    "original_product_ids": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "original_product_contract_matches": true,
+    "original_products_cleanup_before_after_same": true,
+    "original_products_cleanup_sha256": "19f2bef169a7e386cbb2c4977853b1c77054722c2b262aa16d18c3666e4a845f",
+    "sidebar_option_hash_matches_baseline": true,
+    "test_hook_residual": 0,
+    "orders": 0
+  },
+  "execution_history": "隔离初始化早期ABSPATH/翻译notice，以及清理工具首次image_id字符串/整数严格预检停止的历史保留。修正仅隔离工具；0.49.3前端验证阶段新增PHP日志0，不宣称全日志零错。"
+}

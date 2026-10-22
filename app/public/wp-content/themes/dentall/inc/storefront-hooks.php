@@ -342,6 +342,28 @@ function dentall_configure_storefront_product_detail() {
 add_action( 'after_setup_theme', 'dentall_configure_storefront_product_detail', 40 );
 
 /**
+ * 详情不使用博客侧栏；让父主题同时决定全宽class和侧栏输出，不改Widget配置。
+ *
+ * @param bool   $active 侧栏原活跃状态。
+ * @param string $index  侧栏ID。
+ * @return bool
+ */
+function dentall_product_sidebar_is_active( $active, $index ) {
+	if (
+		'sidebar-1' === $index
+		&& ! is_admin()
+		&& did_action( 'wp' )
+		&& function_exists( 'is_product' )
+		&& is_product()
+	) {
+		return false;
+	}
+
+	return $active;
+}
+add_filter( 'is_active_sidebar', 'dentall_product_sidebar_is_active', 10, 2 );
+
+/**
  * 在Simple与Variable商品详情使用与输入框可访问名称一致的简短数量标签。
  *
  * 只调整当前主商品的原生label文案；数量、库存与加购规则仍由WooCommerce负责。
