@@ -175,6 +175,12 @@ function dentall_homepage_categories() {
 
 	wc_set_loop_prop( 'columns', min( 9, count( $categories ) ) );
 
+	// 只在分类图渲染期间使用组件的6rem上限，不影响同页商品或方案图。
+	$category_image_sizes = static function () {
+		return '6rem';
+	};
+	add_filter( 'wp_calculate_image_sizes', $category_image_sizes, 10, 0 );
+
 	try {
 		?>
 		<section class="dentall-home-categories" aria-labelledby="dentall-home-categories-title">
@@ -198,6 +204,8 @@ function dentall_homepage_categories() {
 		</section>
 		<?php
 	} finally {
+		remove_filter( 'wp_calculate_image_sizes', $category_image_sizes, 10 );
+
 		if ( $had_woocommerce_loop ) {
 			$GLOBALS['woocommerce_loop'] = $previous_woocommerce_loop;
 		} else {

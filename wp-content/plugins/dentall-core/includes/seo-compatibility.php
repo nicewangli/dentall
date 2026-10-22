@@ -106,3 +106,182 @@ function dentall_core_noindex_catalog_filter_pages( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'dentall_core_noindex_catalog_filter_pages', PHP_INT_MAX );
+
+/**
+ * 依据Yoast目标文章判断，兼容页面请求与按文章ID生成的REST预览。
+ *
+ * @param object $context Yoast目标页面上下文。
+ * @return bool
+ */
+function dentall_core_is_public_post_seo_context( $context ) {
+	return isset( $context->indexable->object_type, $context->indexable->object_sub_type )
+		&& 'post' === $context->indexable->object_type
+		&& 'post' === $context->indexable->object_sub_type;
+}
+
+/**
+ * 单篇文章的公开署名是编辑团队，后台作者账号只承担内容归属。
+ *
+ * 使用独立Organization身份，保留Yoast原有Article日期、图片和publisher事实。
+ *
+ * @param array<string, mixed> $data Yoast Article节点。
+ * @param object               $context Yoast当前页面上下文。
+ * @return array<string, mixed>
+ */
+function dentall_core_article_editorial_author( $data, $context ) {
+	if ( ! dentall_core_is_public_post_seo_context( $context ) ) {
+		return $data;
+	}
+
+	$site_url      = isset( $context->site_url ) ? $context->site_url : home_url( '/' );
+	$data['author'] = array(
+		'@type' => 'Organization',
+		'@id'   => trailingslashit( $site_url ) . '#editorial-team',
+		'name'  => __( 'DentAll Editorial Team', 'dentall-core' ),
+	);
+
+	return $data;
+}
+add_filter( 'wpseo_schema_article', 'dentall_core_article_editorial_author', 10, 2 );
+
+/**
+ * Article不再引用后台账号时，移除Yoast独立生成的该账号Person节点。
+ *
+ * @param array<string, mixed> $data    Yoast Author节点。
+ * @param object               $context Yoast目标页面上下文。
+ * @return array<string, mixed>|false
+ */
+function dentall_core_hide_article_person_author( $data, $context ) {
+	return dentall_core_is_public_post_seo_context( $context ) ? false : $data;
+}
+add_filter( 'wpseo_schema_author', 'dentall_core_hide_article_person_author', 10, 2 );
+
+/**
+ * 若Yoast在WebPage上引用后台作者，移除已不再存在的Person引用。
+ *
+ * @param array<string, mixed> $data    Yoast WebPage节点。
+ * @param object               $context Yoast目标页面上下文。
+ * @return array<string, mixed>
+ */
+function dentall_core_remove_article_webpage_author( $data, $context ) {
+	if ( dentall_core_is_public_post_seo_context( $context ) ) {
+		unset( $data['author'] );
+	}
+
+	return $data;
+}
+add_filter( 'wpseo_schema_webpage', 'dentall_core_remove_article_webpage_author', 10, 2 );
+
+/**
+ * Yoast社交卡片中的个人账号属于后台身份，不用于公开编辑团队署名。
+ *
+ * @param object $presentation Yoast页面展示对象。
+ * @param object $context      Yoast目标页面上下文。
+ * @return object
+ */
+function dentall_core_article_social_presentation( $presentation, $context ) {
+	if ( dentall_core_is_public_post_seo_context( $context ) ) {
+		$site_twitter                            = ltrim( trim( (string) $presentation->twitter_site ), '@' );
+		$presentation->open_graph_article_author = '';
+		$presentation->twitter_creator           = 'person' !== $context->site_represents && '' !== $site_twitter
+			? '@' . $site_twitter
+			: '';
+	}
+
+	return $presentation;
+}
+add_filter( 'wpseo_frontend_presentation', 'dentall_core_article_social_presentation', 10, 2 );
+
+/**
+ * HTML作者元标签与可见署名保持一致。
+ *
+ * @param string $author       Yoast原作者名。
+ * @param object $presentation Yoast页面展示对象。
+ * @return string
+ */
+function dentall_core_article_meta_author( $author, $presentation ) {
+	return dentall_core_is_public_post_seo_context( $presentation->context )
+		? __( 'DentAll Editorial Team', 'dentall-core' )
+		: $author;
+}
+add_filter( 'wpseo_meta_author', 'dentall_core_article_meta_author', 10, 2 );
+
+/**
+ * Slack预览的Written by字段不应重新显示后台账号。
+ *
+ * @param array<string, string> $data         Yoast分享附加字段。
+ * @param object                $presentation Yoast页面展示对象。
+ * @return array<string, string>
+ */
+function dentall_core_article_slack_author( $data, $presentation ) {
+	$label = __( 'Written by', 'wordpress-seo' );
+	if ( dentall_core_is_public_post_seo_context( $presentation->context ) && isset( $data[ $label ] ) ) {
+		$data[ $label ] = __( 'DentAll Editorial Team', 'dentall-core' );
+	}
+
+	return $data;
+}
+add_filter( 'wpseo_enhanced_slack_data', 'dentall_core_article_slack_author', 10, 2 );
+
+/**
+ * 原生oEmbed的JSON/XML共享此数据，公开Post沿用团队署名及现有Blog。
+ *
+ * @param array<string, mixed> $data oEmbed响应数据。
+ * @param WP_Post             $post 目标内容。
+ * @return array<string, mixed>
+ */
+function dentall_core_oembed_editorial_author( $data, $post ) {
+	if ( 'post' === $post->post_type ) {
+		$data['author_name'] = __( 'DentAll Editorial Team', 'dentall-core' );
+		$data['author_url']  = get_post_type_archive_link( 'post' );
+	}
+
+	return $data;
+}
+add_filter( 'oembed_response_data', 'dentall_core_oembed_editorial_author', 10, 2 );
+
+/**
+ * 仅替换文章Feed的自动署名，评论作者与非Feed资料保持各自语义。
+ *
+ * @param string $author 原作者显示名。
+ * @return string
+ */
+function dentall_core_post_feed_author( $author ) {
+	return is_feed() && ! is_comment_feed() && 'post' === get_post_type()
+		? esc_html__( 'DentAll Editorial Team', 'dentall-core' )
+		: $author;
+}
+add_filter( 'the_author', 'dentall_core_post_feed_author' );
+
+/**
+ * 同时覆盖Atom个人网址与Yoast Feed自动作者链接，不改实际用户资料。
+ *
+ * @param string $url 原作者链接。
+ * @return string
+ */
+function dentall_core_post_feed_author_url( $url ) {
+	return is_feed() && ! is_comment_feed() && 'post' === get_post_type()
+		? esc_url( get_post_type_archive_link( 'post' ) )
+		: $url;
+}
+add_filter( 'get_the_author_user_url', 'dentall_core_post_feed_author_url' );
+add_filter( 'author_link', 'dentall_core_post_feed_author_url' );
+
+/**
+ * 作者Feed标题绕过the_author；空Feed也不能回显后台姓名。
+ *
+ * @param string $title 原Feed标题。
+ * @return string
+ */
+function dentall_core_author_feed_title( $title ) {
+	$post_types = get_query_var( 'post_type' );
+	if (
+		is_feed() && is_author() && ! is_comment_feed()
+		&& ( ! $post_types || 'any' === $post_types || in_array( 'post', (array) $post_types, true ) )
+	) {
+		$title = esc_html( sprintf( '%s - %s', __( 'DentAll Editorial Team', 'dentall-core' ), get_bloginfo( 'name' ) ) );
+	}
+
+	return $title;
+}
+add_filter( 'get_wp_title_rss', 'dentall_core_author_feed_title' );

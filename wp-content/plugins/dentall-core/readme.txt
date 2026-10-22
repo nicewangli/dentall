@@ -2,7 +2,7 @@
 Contributors: dentall
 Requires at least: 7.0
 Requires PHP: 8.2
-Stable tag: 0.6.0
+Stable tag: 0.9.3
 License: GPL-2.0-or-later
 
 DentAll 商城跨主题的最小业务能力。
@@ -12,6 +12,25 @@ DentAll 商城跨主题的最小业务能力。
 当前版本提供内容试录员与Website Manager角色，以及业务内容、商城运营、媒体、系统权限和网站级SEO兼容边界。
 
 == Changelog ==
+
+= 0.9.3 =
+* 合成A/B/D各自的0.9.2候选；统一版本用于离线集成，尚未代表目标环境发布。
+* 报价保持on-hold在途状态，排除原生库存内部标记造成的错误签名失效，并在PayPal创建、处理及Capture前复核报价。
+* Contact商品上下文拒绝带密码的展示型商品，避免绕过原生商品保护而展示名称或进入条目/通知。
+* 配套Contact导入配置改用Fluent Forms原生unpublished状态，保持匿名提交关闭与通知禁用。
+* Post的oEmbed与Feed自动署名及作者链接统一为编辑团队和现有Blog，保留后台作者归属与非Post边界。
+
+= 0.9.1 =
+* 限制访客及客户读取原生Users REST中的后台作者资料，保留本人资料与内容编辑权限；oEmbed与RSS仍待后续治理。
+
+= 0.9.0 =
+* Contact表单提交前重新校验展示型商品，并在通知邮件中附上服务端商品上下文；Contact条目关闭IP与国家记录。
+
+= 0.8.0 =
+* 单篇文章公开署名统一为DentAll Editorial Team，Yoast Schema、元标签和社交预览不再暴露后台作者账号。
+
+= 0.7.0 =
+* 客户登录邮箱在账户页保持只读，资料保存与核心用户REST写入按已确认策略校验；默认账单和配送地址在WooCommerce原生保存前复核国家规则。
 
 = 0.6.0 =
 * 在已授权的人工报价付款页显示服务端绝对截止时间、客户进口商责任及费用边界。
