@@ -1,0 +1,787 @@
+{
+  "date": "2026-10-22",
+  "timezone": "Asia/Shanghai",
+  "authorization": "用户批准两匿名Cart范围后说staging已经可以使用，本轮独占执行",
+  "window": {
+    "date": "2026-10-22",
+    "windowAuthorization": "用户：staging已经可以使用；承接已批准匿名Cart范围",
+    "windowReleased": true,
+    "releasedAt": "2026-10-22T07:01:28.797Z",
+    "lastTargetHttp": "2026-10-22T06:59:18.875Z",
+    "temporaryAdminTabClosed": true,
+    "userOriginalTabPreserved": true,
+    "previewOff": true,
+    "privateCleanup": "40文件自动审批拒绝删除，等待用户手动清理；尚未完成"
+  },
+  "scope": {
+    "sessions": "两个全新匿名Cookie jar A/B；N仅无预览保护检查，不使用管理员Cookie",
+    "previewSaves": 2,
+    "manualPurges": 0,
+    "cacheExclusionChanges": 0,
+    "runtimeCodeChanges": 0,
+    "newProductsOrAccounts": 0,
+    "orderOrPaymentActions": 0,
+    "checkoutWriteRequests": 0,
+    "mailActions": 0,
+    "orderCountBeforeAfter": "未盘点，不声称整站订单/draft零增量",
+    "serverSessionCleanup": "仅Cart条目清空；未删除服务端session，按Woo原生过期"
+  },
+  "checks": {
+    "requests": 32,
+    "allAnonymous": true,
+    "postCount": 6,
+    "postsOnlyCart": true,
+    "checkoutWriteRequests": 0,
+    "allNoindex": true,
+    "finalCartAEmpty": true,
+    "finalCartBEmpty": true,
+    "offProtection": true,
+    "offProtectionRequests": 5,
+    "privateValuesFoundInSafeFiles": 0,
+    "privateFiles": 40
+  },
+  "acceptance": {
+    "isolation": "通过：A/B不同商品、数量和金额；A移除后B仍保持2件",
+    "pageHeaders": "通过本轮HTTP范围：Cart响应private/no-cache，Store API no-store，所有请求noindex；不代替所有缓存层证明",
+    "checkout": "两次仅GET，非空实体Cart均302回Cart，未跟随；未验证虚拟商品Checkout正文",
+    "cleanup": "两Cart为空、预览关闭及off5保护通过；40本地私密文件删除被自动审批拒绝，待用户手动清理"
+  },
+  "requests": [
+    {
+      "label": "01-N-cart-page",
+      "at": "2026-10-22T06:52:10.824Z",
+      "session": "N",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "02-A-enter",
+      "at": "2026-10-22T06:55:08.733Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/shop/",
+      "previewParameterUsed": true,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "03-A-cart-page",
+      "at": "2026-10-22T06:55:11.785Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "04-A-cart",
+      "at": "2026-10-22T06:55:21.003Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "05-B-enter",
+      "at": "2026-10-22T06:55:24.330Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/shop/",
+      "previewParameterUsed": true,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "06-B-cart-page",
+      "at": "2026-10-22T06:55:29.379Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "07-B-cart",
+      "at": "2026-10-22T06:55:30.798Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "08-A-add",
+      "at": "2026-10-22T06:55:49.870Z",
+      "session": "A",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/add-item",
+      "previewParameterUsed": false,
+      "http": 201,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 1,
+      "items": [
+        {
+          "id": 934,
+          "quantity": 1,
+          "lineTotal": "30"
+        }
+      ],
+      "totalPrice": "30",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "09-B-cart",
+      "at": "2026-10-22T06:55:54.190Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "10-B-add",
+      "at": "2026-10-22T06:56:01.750Z",
+      "session": "B",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/add-item",
+      "previewParameterUsed": false,
+      "http": 201,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 1,
+      "items": [
+        {
+          "id": 1639,
+          "quantity": 1,
+          "lineTotal": "2899"
+        }
+      ],
+      "totalPrice": "2899",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "11-A-cart",
+      "at": "2026-10-22T06:56:04.447Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 1,
+      "items": [
+        {
+          "id": 934,
+          "quantity": 1,
+          "lineTotal": "30"
+        }
+      ],
+      "totalPrice": "30",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "12-B-quantity",
+      "at": "2026-10-22T06:56:06.957Z",
+      "session": "B",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/update-item",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 2,
+      "items": [
+        {
+          "id": 1639,
+          "quantity": 2,
+          "lineTotal": "5798"
+        }
+      ],
+      "totalPrice": "5798",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "13-A-quantity",
+      "at": "2026-10-22T06:56:24.675Z",
+      "session": "A",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/update-item",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 3,
+      "items": [
+        {
+          "id": 934,
+          "quantity": 3,
+          "lineTotal": "90"
+        }
+      ],
+      "totalPrice": "90",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "14-B-cart",
+      "at": "2026-10-22T06:56:26.327Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 2,
+      "items": [
+        {
+          "id": 1639,
+          "quantity": 2,
+          "lineTotal": "5798"
+        }
+      ],
+      "totalPrice": "5798",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "15-A-cart-page",
+      "at": "2026-10-22T06:56:32.092Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "16-B-cart-page",
+      "at": "2026-10-22T06:56:36.560Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "17-A-checkout-page",
+      "at": "2026-10-22T06:56:37.931Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/checkout/",
+      "previewParameterUsed": false,
+      "http": 302,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "location": "https://wordpress-1658436-6604195.cloudwaysapps.com/cart/",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "18-B-checkout-page",
+      "at": "2026-10-22T06:56:40.320Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/checkout/",
+      "previewParameterUsed": false,
+      "http": 302,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "location": "https://wordpress-1658436-6604195.cloudwaysapps.com/cart/",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "19-N-cart-page",
+      "at": "2026-10-22T06:56:52.883Z",
+      "session": "N",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "20-A-remove",
+      "at": "2026-10-22T06:56:56.157Z",
+      "session": "A",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/remove-item",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "21-B-cart",
+      "at": "2026-10-22T06:56:57.565Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 2,
+      "items": [
+        {
+          "id": 1639,
+          "quantity": 2,
+          "lineTotal": "5798"
+        }
+      ],
+      "totalPrice": "5798",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "22-A-cart",
+      "at": "2026-10-22T06:56:59.273Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "23-B-remove",
+      "at": "2026-10-22T06:57:07.653Z",
+      "session": "B",
+      "method": "POST",
+      "route": "/wp-json/wc/store/v1/cart/remove-item",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "24-A-cart",
+      "at": "2026-10-22T06:57:10.513Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "25-B-cart",
+      "at": "2026-10-22T06:57:13.090Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/wp-json/wc/store/v1/cart",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "application/json; charset=UTF-8",
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store"
+      },
+      "itemCount": 0,
+      "items": [],
+      "totalPrice": "0",
+      "currency": "USD",
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "26-A-cart-page",
+      "at": "2026-10-22T06:57:18.719Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "27-B-cart-page",
+      "at": "2026-10-22T06:57:21.757Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-cache, must-revalidate, max-age=0, private",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": false,
+      "emptyTextMarker": true
+    },
+    {
+      "label": "28-A-cart-page",
+      "at": "2026-10-22T06:59:04.646Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "29-B-cart-page",
+      "at": "2026-10-22T06:59:08.508Z",
+      "session": "B",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "faf2a9101b100d235bf6d8e5a6b77682f5b79687ea27fd1ef3bf023eba60d8c9",
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "30-N-cart-page",
+      "at": "2026-10-22T06:59:12.755Z",
+      "session": "N",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": false,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "31-A-old-link",
+      "at": "2026-10-22T06:59:16.815Z",
+      "session": "A",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": true,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": "b752c06357b26d9d6f209b5f71a7b742c0456d291141556d749a16869d04ad74",
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    },
+    {
+      "label": "32-N-old-link",
+      "at": "2026-10-22T06:59:18.875Z",
+      "session": "N",
+      "method": "GET",
+      "route": "/cart/",
+      "previewParameterUsed": true,
+      "http": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "max-age=60",
+        "x-robots-tag": "noindex, nofollow"
+      },
+      "sessionFingerprint": null,
+      "anonymous": true,
+      "comingSoon": true,
+      "emptyTextMarker": false
+    }
+  ],
+  "headerHtml": [
+    {
+      "label": "03-A-cart-page",
+      "session": "A",
+      "headerCartText": "Cart 0 View your shopping cart, 0 items in cart"
+    },
+    {
+      "label": "06-B-cart-page",
+      "session": "B",
+      "headerCartText": "Cart 0 View your shopping cart, 0 items in cart"
+    },
+    {
+      "label": "15-A-cart-page",
+      "session": "A",
+      "headerCartText": "Cart 3 View your shopping cart, 3 items in cart"
+    },
+    {
+      "label": "16-B-cart-page",
+      "session": "B",
+      "headerCartText": "Cart 2 View your shopping cart, 2 items in cart"
+    },
+    {
+      "label": "26-A-cart-page",
+      "session": "A",
+      "headerCartText": "Cart 0 View your shopping cart, 0 items in cart"
+    },
+    {
+      "label": "27-B-cart-page",
+      "session": "B",
+      "headerCartText": "Cart 0 View your shopping cart, 0 items in cart"
+    }
+  ],
+  "evidenceRoot": ".codex-tmp/fg-cart-20261022",
+  "screenshot": "preview-off.png",
+  "privateCleanup": {
+    "status": "等待用户手动清理",
+    "files": 40,
+    "automaticApproval": "拒绝删除，仅返回blocked by policy，无更具体理由；没有绕过或重试等效删除",
+    "userAskedToDelete": "仅本轮private目录"
+  },
+  "limits": [
+    "HTML包含隐藏空态模板，emptyTextMarker不能独立判断Cart为空；使用Store API结果",
+    "Header为服务端HTML输出；未在匿名浏览器加载Blocks/JS或四宽、键盘、Mini Cart交互",
+    "未修改或复核管理员已有6件Cart，测试不使用其Cookie",
+    "未验证客户登录/有效报价/订单跨请求、内容失效、最终候选部署或CWV",
+    "未证明预览key轮换或未来重开时旧Cookie/链接永久撤销",
+    "不冻结商品业务事实、税费/运费报价或正式价格"
+  ],
+  "runtimeNetChange": {
+    "files": 0,
+    "functions": 0,
+    "rules": 0,
+    "lines": 0
+  },
+  "localRequestHelperLines": 70,
+  "independentReview": "缓存专项离线复核通过；无新增P0/P1。确认32=26GET+6CartPOST、A/B指纹与交错隔离、最终为空、off5保护；本地40文件未删，不能标整轮收尾完成。"
+}
