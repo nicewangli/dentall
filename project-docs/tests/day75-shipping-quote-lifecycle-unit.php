@@ -182,10 +182,21 @@ class WC_Order {
 	public int $save_count = 0;
 	public int $save_meta_count = 0;
 	public bool $status_update_result = true;
+	public float $refunded_total = 0.0;
 
-	public function __construct( private int $id ) {
-		$this->order_key = 'wc_order_' . $id;
+	private int $id;
+	public function __construct( $order ) {
+		$this->id = $order instanceof self ? $order->get_id() : (int) $order;
+		$this->order_key = 'wc_order_' . $this->id;
+		/* 模拟Woo构造器以订单对象重新CRUD读取；原生HPOS另行验证。 */
+		if ( $order instanceof self ) {
+			global $test_orders;
+			foreach ( get_object_vars( $test_orders[ $this->id ] ?? $order ) as $key => $value ) {
+				$this->$key = $value;
+			}
+		}
 	}
+	public function get_total_refunded() { return $this->refunded_total; }
 
 	public function get_id() { return $this->id; }
 	public function get_customer_id( $context = 'view' ) {
@@ -692,6 +703,17 @@ $valid_payment_order = dentall_test_make_order( 150 );
 dentall_test_stamp_quote( $valid_payment_order, time() - 60, time() + 3600, 'valid-payment-token' );
 $checks['payment_complete_keeps_statuses_for_valid_quote'] = $payment_statuses
 	=== dentall_core_guard_shipping_quote_payment_complete( $payment_statuses, $valid_payment_order );
+$fresh_cancelled_payment = clone $valid_payment_order;
+$fresh_cancelled_payment->status = 'cancelled';
+$test_orders[150] = $fresh_cancelled_payment;
+$checks['payment_complete_reloads_cancelled_order_instead_of_cached_candidate'] = array()
+	=== dentall_core_guard_shipping_quote_payment_complete( $payment_statuses, $valid_payment_order );
+$fresh_refunded_payment = clone $valid_payment_order;
+$fresh_refunded_payment->refunded_total = 1.0;
+$test_orders[150] = $fresh_refunded_payment;
+$checks['payment_complete_rejects_fresh_partial_refund_before_paid_status'] = array()
+	=== dentall_core_guard_shipping_quote_payment_complete( $payment_statuses, $valid_payment_order );
+unset( $test_orders[150] );
 $expired_payment_order = dentall_test_make_order( 151 );
 dentall_test_stamp_quote(
 	$expired_payment_order,

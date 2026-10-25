@@ -776,7 +776,15 @@ function dentall_core_guard_shipping_quote_payment_complete( $statuses, $order )
 		return $statuses;
 	}
 
-	return '' === dentall_core_get_shipping_quote_block_reason( $order, null, true ) ? $statuses : array();
+	/* 避免Factory请求缓存沿用旧对象；目标datastore caching关闭时重新走CRUD读取。 */
+	try {
+		$fresh_order = new WC_Order( $order );
+		return (float) $fresh_order->get_total_refunded() <= 0
+			&& '' === dentall_core_get_shipping_quote_block_reason( $fresh_order, null, true )
+			&& '' === dentall_core_get_shipping_quote_block_reason( $order, null, true ) ? $statuses : array();
+	} catch ( Exception $exception ) {
+		return array();
+	}
 }
 add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', 'dentall_core_guard_shipping_quote_payment_complete', PHP_INT_MAX, 2 );
 
