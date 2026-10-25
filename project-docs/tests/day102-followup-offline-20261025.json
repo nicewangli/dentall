@@ -228,5 +228,27 @@
     "scope_limit": "本组阶段验收不能代替页面与WM可用、交易闭环、正式上线、观察交接四项总交付；Production/DNS/Live真实资金仍未授权。"
   },
   "coordinator_latest_rule": "D:/LocalWP/dentall/project-docs/笔记/2026-10-25-并行收尾任务与开发责任边界.md",
-  "updated_at_utc": "2026-10-25T05:55:14.111257+00:00"
+  "read_sampler_preflight": {
+    "script_local_only": ".codex-tmp/fg-final-followup-20261025/read-probe.cjs",
+    "sha256": "1bc0886dd6244b4663d163404f8d268246fa58ce3f227c0fb0a13881ebc9b076",
+    "lines": 102,
+    "syntax_check": "node --check passed",
+    "guard_cases_passed": 38,
+    "html_fixture_cases_passed": 12,
+    "independent_review": "SHA匹配、node --check及8个纯解析反例／正例通过；原解析P2关闭，网络0、执行闸门未开；无剩余阻塞，现场限界保留",
+    "network_calls": 0,
+    "private_files_written": 0,
+    "production_runtime_files_changed": 0,
+    "scope": "仅固定应用6604195、GET、规范URL；N无Cookie jar、拒绝WordPress认证Cookie；默认执行闸门关闭，不访问order-pay或任意URL",
+    "initial_review_issue": "属性名／属性值和正文混淆的3个假阳性，已以有限分词及真实属性读取修正并覆盖反例",
+    "html_classification": "candidate-manual-review-required",
+    "limits": [
+      "50个离线样例不证明目标ACL、TLS、实际Cookie发送、请求失败落盘或真实缓存行为",
+      "有限HTML分词不计算CSS可见性、不实现完整实体与浏览器纠错；现场须人工核原始主标题／正文及状态头",
+      "GET Checkout可能触发原生会话／draft副作用，不把HTTP GET等同零业务写入；沿用新批次manifest及订单前后计数",
+      "临时工具未进入发布分支或服务器，不构成新生产能力；只有实际窗口移交及目标确认后才可启用"
+    ],
+    "window_dependency": "当前E仍在部署，B已获批修付款P1，H／获批UI亦需完成；最终构成稳定后按交接窗口执行3项定向收尾"
+  },
+  "updated_at_utc": "2026-10-25T06:14:06Z"
 }
