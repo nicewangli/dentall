@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "read_at_utc": "2026-10-25T05:52:57.058356+00:00",
+  "stage": "F→G离线接续，非现场最终验收",
+  "authorization": "2026-10-25总协调转述用户“同时开始”及四项最终交付的收口要求；沿用具体F→G授权；现场队列E→B→H→已批准UI目标修复（如有）→F→G",
+  "scope": {
+    "staging_requests": 0,
+    "shared_database_operations": 0,
+    "browser_page_reads": 0,
+    "implementation_files_changed": 0,
+    "site_configuration_changes": 0,
+    "old_test_cleanup_repeated": false,
+    "isolated_site_recreated": false,
+    "content_release_review_required_for_technical_start": false
+  },
+  "reuse_receipt": {
+    "read_at": "2026-10-25T05:49:03.931171+00:00",
+    "mode": "离线核收既有安全归档与Git对象；无共享现场请求",
+    "source": "project-docs/tests/day102-staging-final-20261025.json",
+    "source_sha256": "0d0b3679d49b632004cf963eb388f1204de75f192e927561410dc088502e3e92",
+    "checks": {
+      "deployment_commit": true,
+      "account_records_34": true,
+      "all_phase_ok": true,
+      "http_amounts_unmeasured": true,
+      "cleanup_137": true,
+      "business_matches": true,
+      "46_files": true,
+      "files_match_final": true,
+      "smtp_restored": true,
+      "old_server_private_absent": true,
+      "all46_git_blobs_match_archived_target": true
+    },
+    "passed": true,
+    "current_staging_inferred": false
+  },
+  "contracts": [
+    {
+      "script": "project-docs/tests/day72-shipping-quote-php-unit.php",
+      "sha256": "a36828d0cb8ffa4bca181723b7d3d260da134e3ffd44773af34ed56188fce605",
+      "command": "php.exe -n project-docs/tests/day72-shipping-quote-php-unit.php",
+      "runtime": "PHP 8.2.29",
+      "result": {
+        "status": "pass",
+        "assertions": 65
+      },
+      "stderr": [],
+      "stderr_interpretation": "空",
+      "scope": "纯PHP内存合同；不启动WordPress、DB、HTTP或邮件"
+    },
+    {
+      "script": "project-docs/tests/day75-shipping-quote-lifecycle-unit.php",
+      "sha256": "fe74a59524b9d492f3ccf6cd17ec7a8fe1e3be6deeba25a79b73f06cdd2f63c4",
+      "command": "php.exe -n project-docs/tests/day75-shipping-quote-lifecycle-unit.php",
+      "runtime": "PHP 8.2.29",
+      "result": {
+        "status": "pass",
+        "assertions": 123
+      },
+      "stderr": [
+        "DentAll Core safe deactivation failed: TEST order query failure.",
+        "DentAll Core safe deactivation failed: An active payment quote could not be cancelled.",
+        "DentAll Core safe deactivation failed: A payable order returned by WooCommerce could not be loaded.",
+        "DentAll Core safe deactivation failed: A cancelled payment quote could not be read back from WooCommerce.",
+        "DentAll Core safe deactivation failed: A payment quote is on hold. Reconcile its gateway payment before deactivating DentAll Core.",
+        "DentAll Core safe deactivation failed: A payment quote is on hold. Reconcile its gateway payment before deactivating DentAll Core."
+      ],
+      "stderr_interpretation": "D75安全停用故障注入的预期日志；不是共享站日志",
+      "scope": "纯PHP内存合同；不启动WordPress、DB、HTTP或邮件"
+    }
+  ],
+  "contracts_total_nonoverlap": 188,
+  "e_local_snapshot": {
+    "tree": "C:\\Users\\Administrator\\.codex\\worktrees\\de9a\\dentall",
+    "version": "0.3.1",
+    "stable_during_read": true,
+    "deployment_inferred": false,
+    "mutable": true,
+    "files": [
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/dentall-measurement.php",
+        "sha256": "ec556b4d0237e1adb78557a7e975739181b50990391eeaf93a59c25d48bbe7d4",
+        "mtime_utc": "2026-10-25T05:48:57.954936+00:00"
+      },
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/assets/consent.js",
+        "sha256": "5db3554c6ea8d791e38d8b7131f921a39c7e0e7e8ae4b8a3e7a8c40a00c6cde1",
+        "mtime_utc": "2026-10-25T05:48:57.953649+00:00"
+      },
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/assets/events.js",
+        "sha256": "d963617792c0dc69b2687eb8fe0deb60657f2001a65463b7dce25f5152245cc9",
+        "mtime_utc": "2026-10-22T08:43:35.753235+00:00"
+      },
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/includes/consent.php",
+        "sha256": "d6a3a6a8d2ecd4451c06c8623405b60aaae444b0d611abd44c190142bab2477a",
+        "mtime_utc": "2026-10-25T05:48:57.952292+00:00"
+      },
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/includes/events.php",
+        "sha256": "84ab8beb1b011a46989ba74c360c23a43a2ade782bf0c8d9d9abe7b8de803a9c",
+        "mtime_utc": "2026-10-22T08:43:35.750235+00:00"
+      },
+      {
+        "file": "app/public/wp-content/plugins/dentall-measurement/includes/purchase.php",
+        "sha256": "768685de6b4e32bfdd059ece70d20e63c0fa358e2efb4b0353fa0a5370db8749",
+        "mtime_utc": "2026-10-20T06:40:47.102393+00:00"
+      }
+    ],
+    "theme_core_baseline_files": 46,
+    "same_after_lf_normalization": 43,
+    "different_paths": [
+      "wp-content/themes/dentall/inc/homepage.php",
+      "wp-content/themes/dentall/inc/storefront-hooks.php",
+      "wp-content/themes/dentall/style.css"
+    ],
+    "decision": "E本地主题/Core不能整目录覆盖374b76a；最终插件/设置以E交接核定"
+  },
+  "minimum_next_scope": {
+    "fixture": "只新建必要的唯一marker TEST商品用于真实HTML状态验证；若B有效非空付款页证据已满足当前检查点，不为凑例子另建普通虚拟Checkout整套夹具。确有普通Checkout缺证时才将这一虚拟Simple TEST商品兼作全新匿名Cart最小样本。",
+    "checkout": "保留实体人工报价/order-pay主流程，不恢复公共实体Checkout，不修改业务订单。B有效同构成证据直接复用；涉及有效TEST order-pay的新GET只在对应受控交易窗口和TEST身份、报价状态、邮件隔离/副作用边界已具备时补测，不访问历史业务付款key，不付款。虚拟非空Cart仅验证既有Woo普通Checkout能力，不新增业务路线、不POST Checkout。",
+    "get_side_effect": "新会话先确认store_api_draft_order和order_awaiting_payment无既有订单；Block渲染可内部GET checkout，仍核订单/checkout-draft/session前后",
+    "html": "新marker TEST商品，同canonical路径V0→V1→draft；只用真实主标题/说明/状态验证新旧内容，不能只比body hash。每阶段记录Cookie身份、Cache-Control/Age/X-Cache/noindex；更新间不手动Purge、不加query旁路，不修改业务商品。真实HTML撤销与共享HIT分别结论；预览若再命中Coming Soon仅该分支记缺证/复现P2，继续其他项，不默认加排除或关保护。发布时新匿名应受Coming Soon保护；draft时store-only原生404且不泄漏商品内容。",
+    "measurement": "E/B/H及实际获批UI资源变更稳定并明确移交后测最终组合。首页/真实Shop/PDP/适用付款页至少3个顺序样本，记录压缩字节、TTFB、响应头、正文类型、资源版号与同意/缓存/视口条件；未观察到MISS不称cold，不人为清Redis/改排除。旧/新条件不等则只并列不计算提升百分比。无LCP/CLS/INP不声称CWV通过；不以理想分数拖延，实测阻塞才提数据与最小必修项。",
+    "mail": "若现场本轮需写TEST，按原有授权记录邮件隔离原值、精确恢复；不继承10/22总数为新窗口基线",
+    "priority": "实体人工报价/order-pay是实际业务关键付款路径；优先核收B相同有效构成的非空正文、金额/权限及私有缓存证据，只因H/UI相关变化或明确缺口补最小定向验证。",
+    "reuse_existing_helpers": [
+      {
+        "file": ".codex-tmp/fg-cart-20261022/request.cjs",
+        "sha256": "92a207fea5af865b6c03745eb98c9c4d31030c8ab7bcb5d96b6bbd81b8f8439e",
+        "scope": "仅已审固定Cart/Checkout请求模式可复用；下一次放全新批次目录与private子目录，不能追加旧results或重建旧Cookie；当前未执行。"
+      }
+    ]
+  },
+  "known_limits": [
+    "没有现存F→G隔离站或DB；旧D98站与B旧库已按原证据删除；不为本项重建整套环境",
+    "本轮65+123合同不证明真实Woo Checkout HTML、Varnish失效、浏览器渲染或CWV",
+    "0.3.1仅为E本地瞬时源码，不是已部署、已冻结或撤回闭环通过",
+    "D98/D99、34账户和137恢复终审保留，不因新组合重跑全部旧项",
+    "实体商品首发审核、正式内容制作/录入/审核已从开发依赖移除，展示/权限/缓存技术验证保留",
+    "公共Coming Soon保护使真实商城内容的共享HIT可能无法取证；只关已证明的受保护预览路径，其余按实际留项，不关闭保护或用query旁路冒充规范URL"
+  ],
+  "e_increment_impact": [
+    {
+      "area": "公开前台资源",
+      "source": [
+        "dentall-measurement/includes/consent.php:34",
+        "dentall-measurement/includes/events.php:132"
+      ],
+      "change": "consent页头覆盖非管理员公开前台；events页尾只指定商城/搜索/实际Contact；CMP/API/FF视最终启用状态加载",
+      "next": "核最终各页条件资源、顺序/重复/成功字节与版号；旧12CSS/13JS不当最终数"
+    },
+    {
+      "area": "暖HTML与Cookie撤回",
+      "source": [
+        "dentall-measurement/includes/consent.php:38",
+        "dentall-measurement/assets/consent.js:23"
+      ],
+      "change": "E本地0.3.1将完整Cookie名称白名单注入HTML，并在浏览器根Path删除同主机名单内Cookie；服务端init/send_headers路径仍存在",
+      "next": "继承E允许/拒绝/服务单独拒绝/撤回闭环；FG核最终暖HTML名单+JS版号/字节，旧缓存HTML不冒充新版"
+    },
+    {
+      "area": "Cart与分析队列",
+      "source": [
+        "dentall-measurement/includes/events.php:66",
+        "dentall-measurement/includes/events.php:96",
+        "dentall-measurement/includes/consent.php:57"
+      ],
+      "change": "成功Store add-item201 extensions、经典AJAX fragment、跨页WC session分析队列；无同意清队列",
+      "next": "复用E事件单次/拒绝/撤回结果，FG只核实际受影响Cart/Checkout请求private/no-store与会话保护，不重跑32请求整包"
+    },
+    {
+      "area": "账户与订单",
+      "source": [
+        "dentall-measurement/includes/events.php:140",
+        "dentall-measurement/includes/purchase.php:16"
+      ],
+      "change": "账户不加载events页尾，但仍受CMP/API/consent影响；PayPal捕获Hook才写测量meta",
+      "next": "34账户业务证据保留；继承B/H同构成私有头/权限结果，差额相关才抽核，不重建旧8/9或重跑交易整包"
+    },
+    {
+      "area": "Contact/Fluent Forms",
+      "source": [
+        "FF6.2.16 Component.php:602,643,667",
+        "FF6.2.16 TokenBasedSpamProtection.php:19,43,145",
+        "dentall-measurement/assets/events.js:73"
+      ],
+      "change": "条件样式/提交JS、缓存页nonce与交互签发token；条目/通知/日志可能写入",
+      "next": "成功/失败/过期/拒绝/撤回证据由E闭环；FG只核最终暖Contact资源/响应保护，不提交表单或发信"
+    },
+    {
+      "area": "SEO与后台额外负担",
+      "source": [
+        "E staging-minimal-20261025/seo-minimal-candidate.php:61,79",
+        "E staging-minimal-20261025/部署与回滚.md:40,51,67"
+      ],
+      "change": "7个Yoast键与Shop title是候选而非本轮已执行；CMP/FF有表、选项、transient、Cron与日志，Measurement有WC队列/捕获meta",
+      "next": "以E最终实际设置/启用/恢复及autoload差额交接为准；只补实际Search/brand/tag/shop/地图输出差额，不从旧业务计数推零开销"
+    }
+  ],
+  "completion_conditions": {
+    "accepted_reused": [
+      "D98/D99当前已验范围",
+      "34账户记录和137恢复终审",
+      "本次65+123纯合同及旧归档/46Gitblob离线核收"
+    ],
+    "remaining_required": [
+      {
+        "result": "适用非空业务付款页面缓存安全",
+        "environment": "最终受保护Staging；B为实体报价/order-pay主证据",
+        "minimum_evidence": "合法TEST状态真实正文/金额/权限、private/no-cache或no-store、共享层不串会话；同构成复用、相关变化才补测"
+      },
+      {
+        "result": "TEST商品真实HTML更新与撤稿撤销",
+        "environment": "已移交FG的受保护Staging",
+        "minimum_evidence": "同规范URL V0/V1/撤稿主内容与状态/缓存头、匿名隔离；无共享HIT则不得声称该层通过，P2不自动豁免"
+      },
+      {
+        "result": "最终组合可重复性能基线与精确恢复",
+        "environment": "E/B/H及获批UI变更稳定后的Staging",
+        "minimum_evidence": "最终manifest/配置、核心页面≥3顺序样本、压缩字节/TTFB/缓存/同意/资源差额；前后条件和未测CWV列明；本批对象/会话/preview/SMTP/私密数据精确收尾"
+      }
+    ],
+    "user_actions_now": [],
+    "user_action_if_needed": "轮到现场若既有登录过期，仅请用户在原生窗口手动登录；不再次确认已批测试范围，不索要正式商品/内容审核。",
+    "overall_project_done": false,
+    "scope_limit": "本组阶段验收不能代替页面与WM可用、交易闭环、正式上线、观察交接四项总交付；Production/DNS/Live真实资金仍未授权。"
+  },
+  "coordinator_latest_rule": "D:/LocalWP/dentall/project-docs/笔记/2026-10-25-并行收尾任务与开发责任边界.md",
+  "updated_at_utc": "2026-10-25T05:55:14.111257+00:00"
+}
