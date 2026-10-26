@@ -70,6 +70,14 @@ body.woocommerce-cart .site-main .entry-title {
 	color: var(--dentall-color-text);
 }
 
+/* 对齐WooCommerce隐藏sticky容器的断点，保留正常流高度，避免观察区域塌陷后入口持续消失。 */
+@media (min-width: 783px) {
+
+	body.woocommerce-cart .wc-block-cart__submit-container--sticky {
+		display: block;
+	}
+}
+
 @media (min-width: 75rem) {
 
 	.wp-block-woocommerce-cart .wc-block-cart__main {
