@@ -21,9 +21,9 @@ function dentall_setup_site_footer() {
 add_action( 'after_setup_theme', 'dentall_setup_site_footer', 30 );
 
 /**
- * 输出Newsletter展示态。
+ * 输出Newsletter原生订阅表单。
  *
- * 真实订阅服务尚未接入，因此不输出form、name或提交端点，避免静默收集邮箱数据。
+ * 字段文案、隐私链接与双重确认由Newsletter配置管理；主题仅负责布局。
  *
  * @return void
  */
@@ -44,12 +44,19 @@ function dentall_render_newsletter() {
 				</div>
 			</div>
 
-			<div class="dentall-newsletter__preview" aria-describedby="dentall-newsletter-status">
-				<label class="screen-reader-text" for="dentall-newsletter-email"><?php esc_html_e( 'Email address', 'dentall' ); ?></label>
-				<input id="dentall-newsletter-email" type="email" placeholder="<?php echo esc_attr__( 'Enter your email', 'dentall' ); ?>" autocomplete="email" disabled>
-				<button type="button" disabled><?php esc_html_e( 'Subscribe', 'dentall' ); ?></button>
-				<span id="dentall-newsletter-status" class="screen-reader-text"><?php esc_html_e( 'Newsletter subscription is coming soon.', 'dentall' ); ?></span>
-			</div>
+			<?php if ( shortcode_exists( 'newsletter_form' ) && shortcode_exists( 'newsletter_field' ) ) : ?>
+				<?php
+				// 使用插件受控表单保留原生提交、必填校验与订阅处理，不自行读写订阅者。
+				echo do_shortcode(
+					sprintf(
+						'[newsletter_form class="dentall-newsletter__form"][newsletter_field name="email"][newsletter_field name="privacy"]<button type="submit">%s</button>[/newsletter_form]',
+						esc_html__( 'Subscribe', 'dentall' )
+					)
+				);
+				?>
+			<?php else : ?>
+				<p class="dentall-newsletter__status"><?php esc_html_e( 'Newsletter subscriptions are temporarily unavailable.', 'dentall' ); ?></p>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php

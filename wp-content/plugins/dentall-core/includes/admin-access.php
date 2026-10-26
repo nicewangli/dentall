@@ -20,6 +20,10 @@ function dentall_core_remove_restricted_admin_menus() {
 	if ( current_user_can( 'dentall_content_editor' ) || current_user_can( DENTALL_WEBSITE_MANAGER_MARKER ) ) {
 		remove_menu_page( 'tools.php' );
 	}
+
+	if ( current_user_can( DENTALL_WEBSITE_MANAGER_MARKER ) && ! current_user_can( 'activate_plugins' ) ) {
+		remove_submenu_page( 'newsletter_main_index', 'newsletter_main_extensions' );
+	}
 }
 add_action( 'admin_menu', 'dentall_core_remove_restricted_admin_menus', PHP_INT_MAX );
 
@@ -30,6 +34,14 @@ add_action( 'admin_menu', 'dentall_core_remove_restricted_admin_menus', PHP_INT_
  * @return bool
  */
 function dentall_core_is_restricted_admin_page( $page ) {
+	// Newsletter 运营角色不应通过扩展管理页激活插件。
+	if ( 'admin.php' === $page && current_user_can( DENTALL_WEBSITE_MANAGER_MARKER ) && ! current_user_can( 'activate_plugins' ) ) {
+		$plugin_page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		if ( 'newsletter_main_extensions' === $plugin_page ) {
+			return true;
+		}
+	}
+
 	if ( 'tools.php' === $page ) {
 		return current_user_can( 'dentall_content_editor' )
 			|| current_user_can( DENTALL_WEBSITE_MANAGER_MARKER );
