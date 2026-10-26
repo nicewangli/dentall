@@ -876,9 +876,17 @@ function dentall_catalog_filter_redirect_invalid_query_args() {
 	}
 }
 
-/** Shop、商品分类与品牌归档不输出Storefront全站Sidebar Widget区域。 */
+/** Shop、商品分类、品牌归档与商品搜索不输出Storefront全站Sidebar Widget区域。 */
 function dentall_catalog_filter_disable_storefront_sidebar() {
-	if ( dentall_is_catalog_filter_archive() || is_tax( 'product_brand' ) ) {
+	if (
+		dentall_is_catalog_filter_archive()
+		|| is_tax( 'product_brand' )
+		|| (
+			is_search()
+			&& is_post_type_archive( 'product' )
+			&& 'product' === get_query_var( 'post_type' )
+		)
+	) {
 		remove_action( 'storefront_sidebar', 'storefront_get_sidebar', 10 );
 	}
 }
