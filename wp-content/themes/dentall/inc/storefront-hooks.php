@@ -342,7 +342,7 @@ function dentall_configure_storefront_product_detail() {
 add_action( 'after_setup_theme', 'dentall_configure_storefront_product_detail', 40 );
 
 /**
- * 详情不使用博客侧栏；让父主题同时决定全宽class和侧栏输出，不改Widget配置。
+ * 商品详情、订单付款与回执不使用博客侧栏；由父主题同时决定全宽class和侧栏输出。
  *
  * @param bool   $active 侧栏原活跃状态。
  * @param string $index  侧栏ID。
@@ -353,8 +353,11 @@ function dentall_product_sidebar_is_active( $active, $index ) {
 		'sidebar-1' === $index
 		&& ! is_admin()
 		&& did_action( 'wp' )
-		&& function_exists( 'is_product' )
-		&& is_product()
+		&& (
+			( function_exists( 'is_product' ) && is_product() )
+			|| ( function_exists( 'is_checkout_pay_page' ) && is_checkout_pay_page() )
+			|| ( function_exists( 'is_order_received_page' ) && is_order_received_page() )
+		)
 	) {
 		return false;
 	}
