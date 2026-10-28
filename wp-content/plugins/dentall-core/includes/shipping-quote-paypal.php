@@ -276,3 +276,115 @@ function dentall_core_reconcile_failed_paypal_quote( $response, $request, $route
 	}
 }
 add_filter( 'rest_dispatch_request', 'dentall_core_reconcile_failed_paypal_quote', 20, 4 );
+
+/** 临时追加候选；默认 WCID=0 不启用。现场填入唯一新 TEST 单及短 UTC 窗口，验收后整块移除。 */
+defined( 'ABSPATH' ) || exit;
+const DENTALL_P1_CLOSEOUT = array(
+	'order_id' => 1997,
+	'home' => 'https://wordpress-1658436-6604195.cloudwaysapps.com',
+	'starts' => 1793173407,
+	'ends' => 1793177007,
+	'total' => '2.80',
+);
+
+/** 复制到其他环境时完全不干预，不能把相同数字订单ID当作实验目标。 */
+function dentall_p1_closeout_environment() {
+	if ( DENTALL_P1_CLOSEOUT['order_id'] < 1 || DENTALL_P1_CLOSEOUT['home'] !== home_url() ) { return false; }
+	try { return \WooCommerce\PayPalCommerce\PPCP::container()->get( 'settings.environment' )->is_sandbox(); }
+	catch ( Throwable $error ) { return false; }
+}
+
+/** 仅此 TEST 单；失败关闭，不改变状态、签名、期限、库存或券。 */
+function dentall_p1_closeout_order() {
+	$c = DENTALL_P1_CLOSEOUT;
+	$o = new WC_Order( $c['order_id'] );
+	if ( ! dentall_p1_closeout_environment()
+		|| time() < $c['starts'] || time() >= $c['ends'] || $c['ends'] - $c['starts'] > 3600
+		|| 'admin' !== $o->get_created_via() || 0 !== $o->get_customer_id()
+		|| 'ppcp-gateway' !== $o->get_payment_method() || 'CAPTURE' !== $o->get_meta( '_ppcp_paypal_intent', true )
+		|| ! $o->has_status( array( 'pending', 'failed' ) ) || $o->is_paid() || $o->get_date_paid()
+		|| '' !== $o->get_transaction_id() || 0 !== count( $o->get_refunds() )
+		|| 'USD' !== $o->get_currency() || ! preg_match( '/^[0-9]+\.[0-9]{2}$/D', $c['total'] )
+		|| ! preg_match( '/^[0-9]+(?:\.[0-9]{1,2})?$/D', (string) $o->get_total( 'edit' ) )
+		|| (float) $c['total'] <= 0 || (float) $c['total'] > 2.80 || $c['total'] !== wc_format_decimal( $o->get_total( 'edit' ), 2 )
+		|| ! dentall_core_is_shipping_quote_candidate( $o ) || '' !== dentall_core_get_shipping_quote_block_reason( $o )
+		|| ! preg_match( '/^[A-Z0-9]+$/D', (string) $o->get_meta( '_ppcp_paypal_order_id', true ) )
+		|| ! count( $o->get_items() ) ) {
+		throw new \WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException( 'TEST P1: scope closed; do not retry payment.' );
+	}
+	foreach ( $o->get_items() as $item ) {
+		if ( 0 !== strpos( $item->get_name(), 'TEST ' ) ) {
+			throw new \WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException( 'TEST P1: non-TEST item.' );
+		}
+	}
+	return $o;
+}
+
+/** CLI 许可仅在本次进程中存在；命名锁不是跨进程计数器。 */
+function dentall_p1_closeout_cli_allowed( $o ) {
+	global $wpdb;
+	$x = $GLOBALS['dentall_p1_closeout_cli'] ?? array();
+	return 'cli' === PHP_SAPI && 'capture' === ( $x['mode'] ?? '' )
+		&& $o->get_id() === ( $x['order_id'] ?? 0 )
+		&& $o->get_meta( '_ppcp_paypal_order_id', true ) === ( $x['paypal_id'] ?? '' )
+		&& 'failed' === $o->get_status() && (int) $o->get_meta( '_ppcp_processing', true ) < time()
+		&& ! empty( $x['lock'] )
+		&& '1' === (string) $wpdb->get_var( $wpdb->prepare( 'SELECT IS_USED_LOCK(%s)=CONNECTION_ID()', $x['lock'] ) );
+}
+
+/* Approved 仍经过原生验签，但不进入 OrderProcessor；其他订单保持原行为。 */
+add_filter( 'woocommerce_paypal_payments_before_order_process', static function ( $process, $gateway, $order ) {
+	if ( ! dentall_p1_closeout_environment() || ! $order instanceof WC_Order || DENTALL_P1_CLOSEOUT['order_id'] !== $order->get_id() ) { return $process; }
+	$fresh = new WC_Order( $order->get_id() );
+	return null === $gateway || ! $fresh->has_status( 'pending' ) || time() < DENTALL_P1_CLOSEOUT['starts'] || time() >= DENTALL_P1_CLOSEOUT['ends'] ? false : $process;
+}, PHP_INT_MAX - 1, 3 ); // 在永久守卫前返回false；不能以异常触发网关失败处理。
+
+/* 保留项目原有 before_capture 守卫；failed 的浏览器回跳不能再次扣款。 */
+add_action( 'woocommerce_paypal_payments_before_capture_order', static function ( $paypal_order ) {
+	if ( ! dentall_p1_closeout_environment() ) { return; }
+	$units = $paypal_order->purchase_units();
+	foreach ( $units as $unit ) {
+		if ( (string) DENTALL_P1_CLOSEOUT['order_id'] !== $unit->custom_id() || 0 === DENTALL_P1_CLOSEOUT['order_id'] ) { continue; }
+		$o = dentall_p1_closeout_order();
+		if ( 1 !== count( $units ) || $paypal_order->id() !== $o->get_meta( '_ppcp_paypal_order_id', true )
+			|| 'CAPTURE' !== $paypal_order->intent() || 'APPROVED' !== $paypal_order->status()->name()
+			|| ( 'failed' === $o->get_status() ? ! dentall_p1_closeout_cli_allowed( $o ) : 'cli' === PHP_SAPI ) ) {
+			throw new \WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException( 'TEST P1: capture not permitted; do not retry.' );
+		}
+	}
+}, PHP_INT_MAX );
+
+/** 官方 Mock 仅原生 pending 浏览器请求；真实 Capture 仅人工明确批准的 CLI。 */
+function dentall_p1_closeout_request_args( $args, $url ) {
+	static $sent = false; // 仅本请求防重；跨请求次数由单次操作规程约束，不伪称持久计数。
+	if ( ! dentall_p1_closeout_environment() ) { return $args; }
+	$o = new WC_Order( DENTALL_P1_CLOSEOUT['order_id'] );
+	$id = (string) $o->get_meta( '_ppcp_paypal_order_id', true );
+	if ( '' === $id || ! str_ends_with( $url, '/v2/checkout/orders/' . $id . '/capture' ) ) { return $args; }
+	$o = dentall_p1_closeout_order();
+	if ( $sent || 'POST' !== ( $args['method'] ?? '' ) || 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $id . '/capture' !== $url
+		|| ( 'failed' === $o->get_status() ? ! dentall_p1_closeout_cli_allowed( $o ) : 'cli' === PHP_SAPI ) ) {
+		throw new \WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException( 'TEST P1: request refused; do not retry.' );
+	}
+	foreach ( array_keys( $args['headers'] ?? array() ) as $key ) {
+		if ( in_array( strtolower( $key ), array( 'paypal-mock-response', 'paypal-request-id' ), true ) ) { unset( $args['headers'][ $key ] ); }
+	}
+	$phase = 'pending' === $o->get_status() ? 'mock' : 'capture';
+	if ( 'mock' === $phase ) { $args['headers']['PayPal-Mock-Response'] = '{"mock_application_codes":"INSTRUMENT_DECLINED"}'; }
+	$args['headers']['PayPal-Request-Id'] = substr( hash( 'sha256', DENTALL_P1_CLOSEOUT['home'] . ':' . $o->get_id() . ':' . $id . ':' . $phase ), 0, 32 );
+	$sent = true;
+	return $args;
+}
+add_filter( 'ppcp_request_args', 'dentall_p1_closeout_request_args', PHP_INT_MAX, 2 );
+
+/* 禁止 RequestTrait 对该 Capture 的认证失败自动再发；先核对，不自动重试。 */
+add_filter( 'ppcp_retry_request_args', static function ( $args, $url ) {
+	if ( dentall_p1_closeout_environment() ) {
+		$o = new WC_Order( DENTALL_P1_CLOSEOUT['order_id'] );
+		$id = (string) $o->get_meta( '_ppcp_paypal_order_id', true );
+		if ( '' !== $id && str_ends_with( $url, '/v2/checkout/orders/' . $id . '/capture' ) ) {
+			throw new \WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException( 'TEST P1: automatic capture retry disabled.' );
+		}
+	}
+	return $args;
+}, PHP_INT_MAX, 2 );
