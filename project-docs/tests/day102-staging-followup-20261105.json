@@ -1,0 +1,1815 @@
+{
+  "schema_version": 1,
+  "compiled_at_utc": "2026-11-05T09:22:15.383635+00:00",
+  "status": "P1_OPEN；恢复样本已记录，D100/D102/M8 不标 Done",
+  "scope": "仅汇总本轮已保存的脱敏 HTTP 元数据与离线付款/资源审查；本汇总过程零现场请求、零浏览器、零数据库操作。",
+  "environment": {
+    "application_id": 6604195,
+    "environment": "受保护 Staging",
+    "versions_from_parent": {
+      "wordpress": "7.1.4",
+      "woocommerce": "11.0.0",
+      "theme": "0.49.7",
+      "core": "0.9.5",
+      "php": "8.2.35"
+    },
+    "html_versions_observed": {
+      "dentall": [
+        "0.49.7"
+      ],
+      "measurement": [
+        "0.3.1"
+      ],
+      "generators": [
+        "WordPress 7.1.4",
+        "WooCommerce 11.0.0"
+      ],
+      "yoast": [
+        "28.2"
+      ]
+    },
+    "core_version_proven_by_html": false,
+    "actual_first_party_manifest": {
+      "source": "actual-source.safe.json",
+      "utc": "2026-11-05T09:11:53+00:00",
+      "file_count": 52,
+      "files": {
+        "plugins/dentall-core/dentall-core.php": {
+          "bytes": 1384,
+          "sha256": "4b180b284aa79d0ebf0dbc119a654992d5f3a71c29ef9e0bfef4c4da63246cd5"
+        },
+        "plugins/dentall-core/includes/admin-access.php": {
+          "bytes": 2213,
+          "sha256": "f6de44b54b72aade1cc89ff3e7c0b95aa6a24c12e35bee1bfecf1087120df767"
+        },
+        "plugins/dentall-core/includes/contact.php": {
+          "bytes": 6434,
+          "sha256": "2145a195c555a4b3681c1e93acabad341a67aa3de532a707907325e92d7763cf"
+        },
+        "plugins/dentall-core/includes/customer-account.php": {
+          "bytes": 16909,
+          "sha256": "a083851f2b30d4ed3cfc5339d461051dacfa6dfc59e8d49ed76804372a251d5b"
+        },
+        "plugins/dentall-core/includes/homepage-settings.php": {
+          "bytes": 9964,
+          "sha256": "4ac0e873244b0514b0767aac44e70f25e6ef728c967aad6f3d1fb99aa678eddf"
+        },
+        "plugins/dentall-core/includes/media-policy.php": {
+          "bytes": 2994,
+          "sha256": "271bc08089adbb7a2764402860e51becf7e9016631eea4a9181cc6d39f81d4a1"
+        },
+        "plugins/dentall-core/includes/product-governance.php": {
+          "bytes": 6183,
+          "sha256": "d5f619e383be502b72851bd221b56d5a63a467869c8b5643cd5f894f605f2790"
+        },
+        "plugins/dentall-core/includes/rest-user-access.php": {
+          "bytes": 1751,
+          "sha256": "780bf87753a4613f784a6e3509b36a4a76920e7d1292b24c2d9bc775189c0b1e"
+        },
+        "plugins/dentall-core/includes/roles.php": {
+          "bytes": 7174,
+          "sha256": "4e76522e6cbe44d4bec1cced799188c34613644fd02a2f42978947ba2cb3ebe5"
+        },
+        "plugins/dentall-core/includes/seo-compatibility.php": {
+          "bytes": 10033,
+          "sha256": "c689f97fba8bb7332906cd038ec25893ae39aa7d0ed28edb851cbfc67e017a71"
+        },
+        "plugins/dentall-core/includes/shipping-quote-lifecycle.php": {
+          "bytes": 34901,
+          "sha256": "6af8612d227b2fb6a7613266e5a4c0b6e0be76018aa212373a0179856aa5f216"
+        },
+        "plugins/dentall-core/includes/shipping-quote-paypal.php": {
+          "bytes": 16427,
+          "sha256": "34264c1d013f213fa7f25492fe8f7de008fafa5198f403c12335c73b615caa2f"
+        },
+        "plugins/dentall-core/includes/shipping-quote.php": {
+          "bytes": 21776,
+          "sha256": "bc37252765720cbaf3c89c0bf0bd20b8bed597d6d5be0dc1722e99cbf288da96"
+        },
+        "plugins/dentall-core/readme.txt": {
+          "bytes": 4441,
+          "sha256": "030cb6c1329c29722169f7b413af7b73ca5658b8849f26fec3445c05eee708bb"
+        },
+        "plugins/dentall-measurement/assets/consent.js": {
+          "bytes": 2732,
+          "sha256": "5db3554c6ea8d791e38d8b7131f921a39c7e0e7e8ae4b8a3e7a8c40a00c6cde1"
+        },
+        "plugins/dentall-measurement/assets/events.js": {
+          "bytes": 12756,
+          "sha256": "d963617792c0dc69b2687eb8fe0deb60657f2001a65463b7dce25f5152245cc9"
+        },
+        "plugins/dentall-measurement/dentall-measurement.php": {
+          "bytes": 1063,
+          "sha256": "ec556b4d0237e1adb78557a7e975739181b50990391eeaf93a59c25d48bbe7d4"
+        },
+        "plugins/dentall-measurement/includes/consent.php": {
+          "bytes": 3980,
+          "sha256": "d6a3a6a8d2ecd4451c06c8623405b60aaae444b0d611abd44c190142bab2477a"
+        },
+        "plugins/dentall-measurement/includes/events.php": {
+          "bytes": 9708,
+          "sha256": "84ab8beb1b011a46989ba74c360c23a43a2ade782bf0c8d9d9abe7b8de803a9c"
+        },
+        "plugins/dentall-measurement/includes/purchase.php": {
+          "bytes": 4596,
+          "sha256": "768685de6b4e32bfdd059ece70d20e63c0fa358e2efb4b0353fa0a5370db8749"
+        },
+        "themes/dentall/assets/css/account-auth.css": {
+          "bytes": 4819,
+          "sha256": "de5db9689e01cb25a16efd8ab3e5e8b71d5b0d595a4e96024f727dfb591a2a6a"
+        },
+        "themes/dentall/assets/css/blog.css": {
+          "bytes": 4459,
+          "sha256": "49f14a7d8f4700aa59305ca3bbf545e2f1b5002746d0d99ae15ec015c41fd1a4"
+        },
+        "themes/dentall/assets/css/cart.css": {
+          "bytes": 4494,
+          "sha256": "32ec7857e02a775e24a2bc2f608c9d1fad24edac7943eabe17fe52b83e2e46da"
+        },
+        "themes/dentall/assets/css/catalog.css": {
+          "bytes": 15913,
+          "sha256": "82c00a14924d872adbe5cc89c68991616f2461b141937320587c56d9540e7866"
+        },
+        "themes/dentall/assets/css/checkout.css": {
+          "bytes": 3392,
+          "sha256": "4b40ac002ca4417bc78393122f8ee9145bf9576b2f1d290d3c53b523c924f08a"
+        },
+        "themes/dentall/assets/css/contact.css": {
+          "bytes": 885,
+          "sha256": "16425f0f7b5ec9c72e023b0105325291bc46dbaf1f2eb634b0f1ed1be1e82544"
+        },
+        "themes/dentall/assets/css/customer-account.css": {
+          "bytes": 5301,
+          "sha256": "c228513834b3b5cbe46942a0d832e24bbc9e8a7e4883982ff2f11b6f3b17ed89"
+        },
+        "themes/dentall/assets/css/homepage.css": {
+          "bytes": 13309,
+          "sha256": "1186da1cf637c3551767fa2b52624b35b21bb7ae202714c78da7138ed7863d53"
+        },
+        "themes/dentall/assets/css/product-detail.css": {
+          "bytes": 10412,
+          "sha256": "5263affb9e4ad28fc052c252cf77961cabfedee73f2e9e3f0ba682b3c7c43a75"
+        },
+        "themes/dentall/assets/css/site-shell.css": {
+          "bytes": 27076,
+          "sha256": "38b16ba82dcc208c28e48b5045bbfb48f90b1d81f1e5dcb37dbb9f7342a8d8d9"
+        },
+        "themes/dentall/assets/images/account-hero-placeholder.webp": {
+          "bytes": 34244,
+          "sha256": "b24d5e348ab31ae673192ee25e2a662870cbcc65c24120aa6c80839c523b3f7f"
+        },
+        "themes/dentall/assets/images/footer-icons.svg": {
+          "bytes": 1551,
+          "sha256": "891142bba7211e7b18146d9a15b1c05f2aa79cae266a78146b13533a3c74629e"
+        },
+        "themes/dentall/assets/images/icon-cart.svg": {
+          "bytes": 320,
+          "sha256": "4f99621eeeac31a47830169f73b39ed0713d8928d80c338cac4e904450ce6b68"
+        },
+        "themes/dentall/assets/images/icon-user.svg": {
+          "bytes": 253,
+          "sha256": "4a9b7f225c6b469270b20bc962e1d3b4fdd5257a9f3a88c70d7c75bd38fbb252"
+        },
+        "themes/dentall/assets/images/logo-placeholder-v2.png": {
+          "bytes": 144221,
+          "sha256": "403bbab5454f36cf760b13c91d5f627095e67f1eb127a80d9c0278a3dd9643a0"
+        },
+        "themes/dentall/assets/images/trust-icons.svg": {
+          "bytes": 1334,
+          "sha256": "645e4d8ce873b3d4f9ce87f9c4cdcb81e69c2742f7de3503bb722cd4a6acc9a7"
+        },
+        "themes/dentall/assets/js/account-email.js": {
+          "bytes": 399,
+          "sha256": "1c90d3e7a4aa8a57c717d6ad6076bb8c0e79c4beb38b2dacd3b20f853ab819de"
+        },
+        "themes/dentall/assets/js/cart-header-sync.js": {
+          "bytes": 4452,
+          "sha256": "269ad1e247b6c4bd3a05f001d9757bc90442dbfb043588c86e989a42002c166b"
+        },
+        "themes/dentall/assets/js/catalog-filters.js": {
+          "bytes": 4077,
+          "sha256": "2ecee3ced2db6be61234acf7619d5c0a3ab5fe1905dae1380621532d4fc5261e"
+        },
+        "themes/dentall/assets/js/product-variation.js": {
+          "bytes": 6358,
+          "sha256": "b1619c901769bde23e3cefc617bd4b80cc75c790d0d86f2a2a40a0baa0ea3a03"
+        },
+        "themes/dentall/assets/js/shipping-quote.js": {
+          "bytes": 7348,
+          "sha256": "35299866d0a4114d37df9eccbcfed51825fcf693f95ba8a33f9342e5618b174c"
+        },
+        "themes/dentall/functions.php": {
+          "bytes": 447,
+          "sha256": "1d96624394352512985791011eaa7cb5431a13f2bd491b65e665da2e351c84ba"
+        },
+        "themes/dentall/inc/account-auth.php": {
+          "bytes": 4178,
+          "sha256": "1906ad87947be24f096c15471c212353202d6f64189f6e6131c0e811ab45d990"
+        },
+        "themes/dentall/inc/article.php": {
+          "bytes": 1422,
+          "sha256": "8a19463b67b3831d1a15f864f66caa715509c40625882208142d39dbf9c67e8f"
+        },
+        "themes/dentall/inc/blog.php": {
+          "bytes": 5961,
+          "sha256": "8d189511e6a098e8b343ac5f7755f496d04763d37cf3e8b53e2a73bb0b89df4c"
+        },
+        "themes/dentall/inc/catalog-filters.php": {
+          "bytes": 33527,
+          "sha256": "d1d22b35c1d30f762e77cf529ee2daa3367bbb0798a88bf9723f0fa2e8b49e3e"
+        },
+        "themes/dentall/inc/contact.php": {
+          "bytes": 2339,
+          "sha256": "ac2800566791e7480a218acccf4df7ff6adc07ef18854c25ae1fe03d76b772bd"
+        },
+        "themes/dentall/inc/homepage.php": {
+          "bytes": 21137,
+          "sha256": "5d0e457e33f6d32e7fc638bb55085fcc6d5340d48fc519d59e66616d05a7699f"
+        },
+        "themes/dentall/inc/setup.php": {
+          "bytes": 9713,
+          "sha256": "d27c3011617357a4f7a2327271dd4bf52738495c8aa97696855d6fc0461810f3"
+        },
+        "themes/dentall/inc/site-footer.php": {
+          "bytes": 4855,
+          "sha256": "9e880838a612195dcc58520740dea6945f93c0eca5ce623524389c55e033d605"
+        },
+        "themes/dentall/inc/storefront-hooks.php": {
+          "bytes": 21237,
+          "sha256": "960da39f384a9fc8e6552ef0b22b97de0a8294df8e970d109f06f2b58fa8c421"
+        },
+        "themes/dentall/style.css": {
+          "bytes": 26884,
+          "sha256": "9a11e758d11ef33ddd2d761e0b966d4315dfb8a3d7cebff7705cd74525b599e0"
+        }
+      },
+      "boundary": "实际目标文件 as-of 指纹；本汇总未另行与 Git 或未来部署进行等同判定。",
+      "independent_comparison": {
+        "source_kind": "独立 final_review 结论，由主 Agent 提供；本汇总不新增现场读取。",
+        "theme_core_files": 46,
+        "git_commit": "f0fd13cc4d37391c2257c4d855b527220ebce12f",
+        "bytes_and_sha256_all_match": true,
+        "measurement_files": 6,
+        "measurement_source": "E de9a 当前源码 as-of",
+        "measurement_bytes_and_sha256_all_match": true,
+        "measurement_uncommitted_files": 5,
+        "measurement_frozen_commit": false
+      }
+    },
+    "fresh_cache_readback": {
+      "source_kind": "主 Agent fresh 进程只读结果通知。",
+      "hpos_enabled": true,
+      "non_prefetchable_group_count": 5,
+      "orders_excluded": false,
+      "breeze_explicit_exclusions": [
+        "/shop/"
+      ],
+      "cache_policy_modified": false,
+      "root_cause": "未定位；不从字符串匹配为空推断缺规则或缺Hook。",
+      "ocp_native_getter": {
+        "class": "RedisCachePro\\ObjectCaches\\PhpRedisObjectCache",
+        "non_prefetchable": [
+          "analytics",
+          "objectcache",
+          "userlogins",
+          "wc_cache_*",
+          "wc_session_id"
+        ],
+        "orders_excluded": false,
+        "hpos": true
+      },
+      "breeze_native_explicit_exclusions": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+      ],
+      "supporting_safe_sources": [
+        "ocp-effective.safe.json",
+        "cache-source.safe.json"
+      ]
+    }
+  },
+  "decision": {
+    "payment_body": "真实适用实体人工报价 order-pay 的 A 会话三次 GET 均有非空订单正文、USD 2.25 总额及 private/no-cache；无提交、支付或真实发信。",
+    "negative_payment": "B 错 key 无订单正文/金额；N 无 key 为 Coming Soon。携带有效 key 的 N 样本含凭据上下文，不能冒充无凭据跨会话泄露证据。",
+    "P1": {
+      "status": "open",
+      "findings": [
+        "08:39:24 无 Cookie jar 的 N 对 TEST canonical URL 返回 V1 正文。",
+        "08:46 撤回保护检查中 A/N TEST 仍返回 V1；N 业务 PDP 仍返回真实商品正文，均为 HTTP 200。"
+      ],
+      "invalidation_acceptance": "FAIL / 未闭环；未取得同一 canonical URL 上可验收的真实 V0→V1→draft 自动 HTML 失效链。",
+      "boundary": "HTTP safe 文件中的 ok 仅表示采样成功；Coming Soon/V0/V1 布尔为人工复核候选，不能独立宣称 HTML 语义验收。"
+    },
+    "recovery": "父 Agent 于 08:54:02 UTC 原生清本应用 Breeze HTML，并对两个明确 PDP 执行无 query Varnish URLPURGE；08:54 后 TEST 为404且无 V0/V1，业务 PDP/Shop/Cart 恢复 Coming Soon/noindex。此为恢复验证，不是自动失效测试 PASS。"
+  },
+  "request_accounting": {
+    "generic_get_samples": 32,
+    "order_pay_get_samples": 6,
+    "bootstrap_attempts": 3,
+    "total_http_attempts": 41,
+    "http_status_captured": 40,
+    "bootstrap_metric_loss_attempts": 1,
+    "generic_sampler_method": "GET",
+    "generic_sampler_redirects_followed": false,
+    "cookie_context": "N 不传 Cookie jar；A/B 使用本批独立 jar。jar 使用不等于证明初始空 Cart/零 draft。",
+    "sample_files_contain_only_safe_metadata": true
+  },
+  "http_samples": [
+    {
+      "source": "1793866088503-0b4324ce.safe.json",
+      "at": "2026-11-05T08:08:14.698Z",
+      "session": "A",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 5.903951,
+      "encodedBodyBytes": 20379,
+      "decodedBodyBytes": 85002,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "8e3bb84f40aeeda633e153950b4995cb7cecd14178c9ab1dfd333df5b28ed9d9",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866094785-676e1adf.safe.json",
+      "at": "2026-11-05T08:08:16.799Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.97423,
+      "encodedBodyBytes": 20379,
+      "decodedBodyBytes": 85002,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 2,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "8e3bb84f40aeeda633e153950b4995cb7cecd14178c9ab1dfd333df5b28ed9d9",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793866657977-3fdc2365.safe.json",
+      "at": "2026-11-05T08:17:43.375Z",
+      "session": "N",
+      "route": "/",
+      "http": 200,
+      "ttfbSeconds": 5.113977,
+      "encodedBodyBytes": 18958,
+      "decodedBodyBytes": 100965,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "ee1050cff9036cd7842b8b2d75fd21614a804a7f029beefe45a27855f52186b6",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793866663466-2d4c1018.safe.json",
+      "at": "2026-11-05T08:17:44.704Z",
+      "session": "N",
+      "route": "/",
+      "http": 200,
+      "ttfbSeconds": 1.196558,
+      "encodedBodyBytes": 18958,
+      "decodedBodyBytes": 100965,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 3,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "ee1050cff9036cd7842b8b2d75fd21614a804a7f029beefe45a27855f52186b6",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793866664775-3dc84725.safe.json",
+      "at": "2026-11-05T08:17:47.186Z",
+      "session": "N",
+      "route": "/",
+      "http": 200,
+      "ttfbSeconds": 2.360467,
+      "encodedBodyBytes": 18958,
+      "decodedBodyBytes": 100965,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 5,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "ee1050cff9036cd7842b8b2d75fd21614a804a7f029beefe45a27855f52186b6",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793866667287-1d13d35c.safe.json",
+      "at": "2026-11-05T08:17:49.651Z",
+      "session": "A",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.325641,
+      "encodedBodyBytes": 24035,
+      "decodedBodyBytes": 125487,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "07f81c84673dd2bffd7e57ffa7e70d8008692620e127697a1cc410649ff5d80c",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866669761-da83cbd4.safe.json",
+      "at": "2026-11-05T08:17:53.512Z",
+      "session": "A",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 3.473338,
+      "encodedBodyBytes": 24000,
+      "decodedBodyBytes": 125487,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "7672596adf23f53c9c19b1cadc81dbf802962349ce6d0f18c9125e20ae2c0008",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866673582-54124369.safe.json",
+      "at": "2026-11-05T08:17:56.342Z",
+      "session": "A",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.649842,
+      "encodedBodyBytes": 24004,
+      "decodedBodyBytes": 125487,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "c7af859b33426e44ce8d0c4145010495ce608fa57884cea32205ba22f958694a",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866676419-4beb52ce.safe.json",
+      "at": "2026-11-05T08:18:00.368Z",
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 3.90449,
+      "encodedBodyBytes": 25078,
+      "decodedBodyBytes": 109738,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "35ae47da21e8370c8a0c748bad04be4084148308fb236614eeb8fa20df02eee6",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866680435-57f98bc8.safe.json",
+      "at": "2026-11-05T08:18:02.034Z",
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.551866,
+      "encodedBodyBytes": 21952,
+      "decodedBodyBytes": 109002,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "77b4f54634a180b958044809b2c45f2e7c3d20832b3b220fc8b352eced0f89b3",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866682107-e17fbe70.safe.json",
+      "at": "2026-11-05T08:18:03.660Z",
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.208737,
+      "encodedBodyBytes": 21952,
+      "decodedBodyBytes": 109002,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "77b4f54634a180b958044809b2c45f2e7c3d20832b3b220fc8b352eced0f89b3",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866973765-2f421180.safe.json",
+      "at": "2026-11-05T08:22:55.320Z",
+      "session": "A",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.477642,
+      "encodedBodyBytes": 18117,
+      "decodedBodyBytes": 84644,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "bfdbc16c4f24c0805d894c19aa25bcbe2d0c679abf4d53b5d175018c44ed84a8",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793866975425-6ff44c3b.safe.json",
+      "at": "2026-11-05T08:22:56.873Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.246826,
+      "encodedBodyBytes": 20379,
+      "decodedBodyBytes": 85002,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 883,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "8e3bb84f40aeeda633e153950b4995cb7cecd14178c9ab1dfd333df5b28ed9d9",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793867956490-46787075.safe.json",
+      "at": "2026-11-05T08:39:22.600Z",
+      "session": "A",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 6.028568,
+      "encodedBodyBytes": 21159,
+      "decodedBodyBytes": 86489,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "bodySha256": "b0c5c927c8fd7680b6e72dbb98b748c69a71b75f46aad994991df5dc0e5819ec",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793867962699-f132b997.safe.json",
+      "at": "2026-11-05T08:39:24.231Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.49235,
+      "encodedBodyBytes": 18606,
+      "decodedBodyBytes": 85751,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "bodySha256": "3b3cb44a77fa5a94b820e4aa17ab879c1624118d4fed39736c756677a9993145",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868379310-fd3bf3ba.safe.json",
+      "at": "2026-11-05T08:46:22.359Z",
+      "session": "A",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.965873,
+      "encodedBodyBytes": 18606,
+      "decodedBodyBytes": 85751,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "bodySha256": "3b3cb44a77fa5a94b820e4aa17ab879c1624118d4fed39736c756677a9993145",
+      "cookieJarUsed": true
+    },
+    {
+      "source": "1793868382429-d02a6e13.safe.json",
+      "at": "2026-11-05T08:46:23.762Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 200,
+      "ttfbSeconds": 1.292845,
+      "encodedBodyBytes": 18606,
+      "decodedBodyBytes": 85751,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "bodySha256": "3b3cb44a77fa5a94b820e4aa17ab879c1624118d4fed39736c756677a9993145",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868383831-9da69531.safe.json",
+      "at": "2026-11-05T08:46:26.167Z",
+      "session": "N",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.069751,
+      "encodedBodyBytes": 19156,
+      "decodedBodyBytes": 79149,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "0943ba0d6dea3b5603b97460387adc50bba79202637842790fd39ca7a4730a78",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868386231-dc066597.safe.json",
+      "at": "2026-11-05T08:46:28.245Z",
+      "session": "N",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.942313,
+      "encodedBodyBytes": 21952,
+      "decodedBodyBytes": 109002,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "77b4f54634a180b958044809b2c45f2e7c3d20832b3b220fc8b352eced0f89b3",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868388318-760cb6d1.safe.json",
+      "at": "2026-11-05T08:46:31.456Z",
+      "session": "N",
+      "route": "/cart/",
+      "http": 200,
+      "ttfbSeconds": 3.040344,
+      "encodedBodyBytes": 47830,
+      "decodedBodyBytes": 162762,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "a3f5ac82ee6a65ac015970a43ca14d9f769c456ccf51a792700212229147a8fe",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868391525-def7ab46.safe.json",
+      "at": "2026-11-05T08:46:34.951Z",
+      "session": "N",
+      "route": "/my-account/",
+      "http": 200,
+      "ttfbSeconds": 3.093589,
+      "encodedBodyBytes": 19208,
+      "decodedBodyBytes": 78141,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "07f80668e10a1bdec1b7cf48b214161f41741647267aa8238492e7293a63d1c3",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868395027-a5f51384.safe.json",
+      "at": "2026-11-05T08:46:37.358Z",
+      "session": "N",
+      "route": "/",
+      "http": 200,
+      "ttfbSeconds": 2.006777,
+      "encodedBodyBytes": 21609,
+      "decodedBodyBytes": 101356,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "aeeeca0492b2c52ff255a90bc5f3ac28eeae028bcc78ec2eb5b0372ba9185183",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868850987-e51b5ac7.safe.json",
+      "at": "2026-11-05T08:54:13.461Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 404,
+      "ttfbSeconds": 2.433053,
+      "encodedBodyBytes": 22043,
+      "decodedBodyBytes": 105893,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "147af3ce86db418f32e7aae61e168022d217f900e584d3e11f2fab7d62cf98cc",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868853542-c8b8b0dc.safe.json",
+      "at": "2026-11-05T08:54:18.678Z",
+      "session": "N",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 4.079888,
+      "encodedBodyBytes": 21501,
+      "decodedBodyBytes": 89694,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "7f881dee0e44fa6179b606187dc3340d08ce896ad418695a1582b6d6990d45c0",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868858757-9904a904.safe.json",
+      "at": "2026-11-05T08:54:21.059Z",
+      "session": "N",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.263445,
+      "encodedBodyBytes": 18991,
+      "decodedBodyBytes": 78769,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "9179c476dba0115f74adcd4ef5265b871d13ff1bc55913f90b6b2427299070d6",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793868861131-a170eca2.safe.json",
+      "at": "2026-11-05T08:54:23.508Z",
+      "session": "N",
+      "route": "/cart/",
+      "http": 200,
+      "ttfbSeconds": 2.097241,
+      "encodedBodyBytes": 47974,
+      "decodedBodyBytes": 163137,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "226fa45abf5d3ff02e95da2cb24122440064d9658d1d841de28af7bb0a8bb99e",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869353934-eae44859.safe.json",
+      "at": "2026-11-05T09:02:36.851Z",
+      "session": "N",
+      "route": "/product/test-fg-e298d902867547dc8a0b5844/",
+      "http": 404,
+      "ttfbSeconds": 2.215084,
+      "encodedBodyBytes": 21992,
+      "decodedBodyBytes": 105732,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "bcbf2f759c9d224a5199e0242931016227bc2820da35c2c1e33cd7dcd2e3d7f7",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869356927-f21937a5.safe.json",
+      "at": "2026-11-05T09:02:38.441Z",
+      "session": "N",
+      "route": "/product/dental-tooth-display-box/",
+      "http": 200,
+      "ttfbSeconds": 1.251198,
+      "encodedBodyBytes": 21501,
+      "decodedBodyBytes": 89694,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 500,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "7f881dee0e44fa6179b606187dc3340d08ce896ad418695a1582b6d6990d45c0",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869358511-85f84abf.safe.json",
+      "at": "2026-11-05T09:02:41.184Z",
+      "session": "N",
+      "route": "/shop/",
+      "http": 200,
+      "ttfbSeconds": 2.582167,
+      "encodedBodyBytes": 19137,
+      "decodedBodyBytes": 79150,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "a69eb4eccafb3f724a804b283184a34d07534c0920186adc4dbe705bf6587a3a",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869361281-09b784bd.safe.json",
+      "at": "2026-11-05T09:02:44.302Z",
+      "session": "N",
+      "route": "/cart/",
+      "http": 200,
+      "ttfbSeconds": 2.271021,
+      "encodedBodyBytes": 47831,
+      "decodedBodyBytes": 162761,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "1599bf8bd1adc0dd5fb6b138d1a50457d66e9e0cd64944155636ff3a600e4d40",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869364375-629fb0db.safe.json",
+      "at": "2026-11-05T09:02:47.283Z",
+      "session": "N",
+      "route": "/my-account/",
+      "http": 200,
+      "ttfbSeconds": 2.871938,
+      "encodedBodyBytes": 19209,
+      "decodedBodyBytes": 78141,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "xCache": null,
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "374f503833d56b64d4c5c472a294bd89d10456fd1485915bf84b570682441e0d",
+      "cookieJarUsed": false
+    },
+    {
+      "source": "1793869367426-0775e3cd.safe.json",
+      "at": "2026-11-05T09:02:50.332Z",
+      "session": "N",
+      "route": "/",
+      "http": 200,
+      "ttfbSeconds": 2.629323,
+      "encodedBodyBytes": 21609,
+      "decodedBodyBytes": 101356,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 971,
+      "xCache": "HIT",
+      "noindexHeader": true,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "bodySha256": "aeeeca0492b2c52ff255a90bc5f3ac28eeae028bcc78ec2eb5b0372ba9185183",
+      "cookieJarUsed": false
+    }
+  ],
+  "order_pay_samples": [
+    {
+      "at_utc": "2026-11-05T08:15:00.4329300Z",
+      "label": "A-valid-1",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": true,
+      "http": 200,
+      "ttfb_seconds": 3.606626,
+      "encoded_bytes": 83183,
+      "decoded_bytes": 324294,
+      "cache_control": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "f860a1fc22ae3efef773b725cd6aac78b7a6af92a0eccfb4c39c6c9136afc5cd"
+    },
+    {
+      "at_utc": "2026-11-05T08:15:08.7702610Z",
+      "label": "B-invalid-key",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": true,
+      "http": 200,
+      "ttfb_seconds": 6.952246,
+      "encoded_bytes": 81588,
+      "decoded_bytes": 319675,
+      "cache_control": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "3d0bb9e47e3c0fd3e3f30505618e26082a0449d9952ffbb6386c0eb0d933fc6e"
+    },
+    {
+      "at_utc": "2026-11-05T08:15:14.2388724Z",
+      "label": "N-valid-key-no-preview",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": false,
+      "http": 200,
+      "ttfb_seconds": 2.708669,
+      "encoded_bytes": 43795,
+      "decoded_bytes": 146785,
+      "cache_control": "max-age=60",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "84a9476bb1e355024b4eba80a154323a0a3467e4e3423c25eb06f54eb68d2698"
+    },
+    {
+      "at_utc": "2026-11-05T08:15:19.7379156Z",
+      "label": "A-valid-2",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": true,
+      "http": 200,
+      "ttfb_seconds": 3.613416,
+      "encoded_bytes": 83447,
+      "decoded_bytes": 324298,
+      "cache_control": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "ef9dc44677cadbd94d9cd09c9e1757e3c74de8a12bb6d15df837e16543f573ea"
+    },
+    {
+      "at_utc": "2026-11-05T08:15:26.8207281Z",
+      "label": "N-without-key",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": false,
+      "http": 200,
+      "ttfb_seconds": 3.238095,
+      "encoded_bytes": 43575,
+      "decoded_bytes": 146279,
+      "cache_control": "max-age=60",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "b215fe87c0cf017a8c36af8c190cfc439aa706a564ac9dfdc0b5d542894dcf47"
+    },
+    {
+      "at_utc": "2026-11-05T08:15:30.3547046Z",
+      "label": "A-valid-3",
+      "order_id": 2061,
+      "route": "/checkout/order-pay/2061/",
+      "cookie_jar_used": true,
+      "http": 200,
+      "ttfb_seconds": 2.387212,
+      "encoded_bytes": 83454,
+      "decoded_bytes": 324299,
+      "cache_control": "no-cache, must-revalidate, max-age=0, private",
+      "age": null,
+      "x_cache": null,
+      "noindex_header": true,
+      "body_sha256": "9a73a1179b61c9aebaf3a5c2dad3de4788235321506caca547357edc32143d9a"
+    }
+  ],
+  "preview_bootstrap_attempts": [
+    {
+      "source": "bootstrap-attempt1.safe.json",
+      "at": "2026-11-05T08:04:56.4586379Z",
+      "route": "/shop/",
+      "attempts": 1,
+      "curlExit": 0,
+      "http": null,
+      "ttfbSeconds": null,
+      "encodedBodyBytes": null,
+      "outcome": "请求已尝试，但命令编码问题使指标丢失；不冒充成功或零请求。"
+    },
+    {
+      "source": "bootstrap.safe.json",
+      "at": "2026-11-05T08:06:08.5005695Z",
+      "route": "/shop/",
+      "attempts": 1,
+      "curlExit": 0,
+      "http": 200,
+      "ttfbSeconds": 2.098365,
+      "encodedBodyBytes": 24107,
+      "outcome": "A 原生私密预览入口建立；不含入口 query 或 Cookie 值。"
+    },
+    {
+      "source": "bootstrap-b.safe.json",
+      "at": null,
+      "route": "/shop/",
+      "attempts": 1,
+      "http": 200,
+      "ttfbSeconds": 4.186787,
+      "encodedBodyBytes": 24034,
+      "outcome": "B 独立入口建立；源记录无时间戳，不补造。"
+    }
+  ],
+  "saved_response_reviews": {
+    "payment": {
+      "samples": 6,
+      "http_200": 6,
+      "header_and_meta_noindex": 6,
+      "valid_A": {
+        "samples": 3,
+        "order_review_form": 3,
+        "paypal_radio_and_place_order": 3,
+        "test_line_item": 3,
+        "total_usd": "2.25",
+        "subtotal_usd": "1.25",
+        "shipping_usd": "1.00",
+        "email_verification_form": 0,
+        "coming_soon": 0,
+        "cache_control": "no-cache, must-revalidate, max-age=0, private",
+        "age_or_x_cache_present": 0
+      },
+      "B_invalid_key": {
+        "samples": 1,
+        "cannot_be_paid_message": true,
+        "test_line_item": false,
+        "order_review_form": false,
+        "order_amount_present": false,
+        "actual_valid_order_key_present": false,
+        "cache_control": "no-cache, must-revalidate, max-age=0, private"
+      },
+      "N_without_key": {
+        "samples": 1,
+        "coming_soon": true,
+        "test_line_item": false,
+        "order_review_form": false,
+        "order_amount_present": false,
+        "actual_valid_order_key_present": false,
+        "cache_control": "max-age=60"
+      },
+      "N_valid_key_no_preview": {
+        "samples": 1,
+        "coming_soon": true,
+        "order_review_form": false,
+        "visible_order_amount": false,
+        "ppcp_pay_now_total_present": true,
+        "ppcp_actual_valid_request_key_present": true,
+        "classification": "credential-bearing sample; not evidence of cross-session cache disclosure",
+        "cache_control": "max-age=60"
+      },
+      "fixture_email_literal_present_in_any_response": false,
+      "note": "route-derived order_id in PayPal JS is present in negative samples; numeric 2.25 in CSS excluded from order-amount detection; no payment submitted"
+    },
+    "initial_test_pdp": {
+      "samples": 2,
+      "same_body_sha256": true,
+      "A_x_cache": "MISS",
+      "A_age": 0,
+      "N_x_cache": "HIT",
+      "N_age": 2,
+      "coming_soon_main_content": true,
+      "main_V0": false,
+      "main_V1": false,
+      "breadcrumb_and_sticky_V0_present": true,
+      "sticky_price_usd": "1.25",
+      "conclusion": "Coming Soon response caching only; no product content invalidation acceptance"
+    },
+    "preview_cookie_matches_target": true,
+    "resources": {
+      "reviewed_saved_html_count": 15,
+      "groups": {
+        "home": {
+          "decoded_bytes": [
+            100965,
+            100965,
+            100965
+          ],
+          "css": 14,
+          "js": 18,
+          "refs_identical_within_group": true,
+          "body_equal_within_group": true,
+          "samples": 3
+        },
+        "shop": {
+          "decoded_bytes": [
+            125487,
+            125487,
+            125487
+          ],
+          "css": 12,
+          "js": 19,
+          "refs_identical_within_group": true,
+          "body_equal_within_group": false,
+          "samples": 3
+        },
+        "pdp": {
+          "decoded_bytes": [
+            109738,
+            109002,
+            109002
+          ],
+          "css": 15,
+          "js": 29,
+          "refs_identical_within_group": true,
+          "body_equal_within_group": false,
+          "samples": 3
+        },
+        "pay_with_preview": {
+          "decoded_bytes": [
+            324294,
+            324298,
+            324299,
+            319675
+          ],
+          "css": 19,
+          "js": 90,
+          "refs_identical_within_group": true,
+          "body_equal_within_group": false,
+          "samples": 4
+        },
+        "pay_without_preview": {
+          "decoded_bytes": [
+            146785,
+            146279
+          ],
+          "css": 18,
+          "js": 25,
+          "refs_identical_within_group": true,
+          "body_equal_within_group": false,
+          "samples": 2
+        }
+      },
+      "duplicate_resource_paths": 0,
+      "duplicate_resource_ids": 0,
+      "version_sets_identical": true,
+      "html_version_evidence": {
+        "dentall": [
+          "0.49.7"
+        ],
+        "measurement": [
+          "0.3.1"
+        ],
+        "generators": [
+          "WordPress 7.1.4",
+          "WooCommerce 11.0.0"
+        ],
+        "yoast": [
+          "28.2"
+        ]
+      },
+      "consent_ref_lists_identical": true,
+      "consent_refs": [
+        {
+          "id": "cmplz-general-css",
+          "version": [
+            "1792896528"
+          ]
+        },
+        {
+          "id": "cmplz-banner-1-optin-css",
+          "version": [
+            "1792897703"
+          ]
+        },
+        {
+          "id": "dentall-measurement-consent-js",
+          "version": [
+            "0.3.1"
+          ]
+        },
+        {
+          "id": "wp-consent-api-js",
+          "version": [
+            "2.1.0"
+          ]
+        },
+        {
+          "id": "wp-consent-api-integration-js",
+          "version": [
+            "11.0.0"
+          ]
+        },
+        {
+          "id": "cmplz-cookiebanner-js",
+          "version": [
+            "1792896528"
+          ]
+        },
+        {
+          "id": "dentall-measurement-js",
+          "version": [
+            "0.3.1"
+          ]
+        }
+      ],
+      "complianz_safe_config_identical": true,
+      "complianz_safe_config": {
+        "version": "7.5.6",
+        "consenttype": "optin",
+        "region": "eu",
+        "disable_cookiebanner": "",
+        "forceEnableStats": "",
+        "categories": {
+          "statistics": "statistics",
+          "marketing": "marketing"
+        }
+      },
+      "static_gtm_or_gtag_src_count": 0,
+      "external_stylesheet_hosts": [
+        "fonts.googleapis.com"
+      ],
+      "public_home_shop_pdp_h1": {
+        "one_h1_each": true,
+        "all_inside_main": true,
+        "titles_match_page_roles": true
+      },
+      "pdp_first_body_extra_bytes": 736,
+      "pdp_extra_only_object_cache_pro_comment": true,
+      "limits": [
+        "资源数为已保存 HTML 声明数量，未执行真实浏览器资源请求。",
+        "版本 query 与声明一致不能证明静态文件字节等于最终部署文件；未发现旧暖 HTML 版本信号也不是全面缓存验收。",
+        "无静态 GTM/gtag src 不证明交互后不动态加载；CMP/FF 事件分支继承 E，本轮未重新提交表单。",
+        "首份 PDP 额外736B是 Object Cache Pro 统计尾注；不能据此推断性能提升或退化。"
+      ]
+    },
+    "post_containment": {
+      "review": "independent offline HTMLParser and raw headers; no site/browser/DB calls",
+      "scope": "four fresh anonymous responses after 08:54 UTC",
+      "rows": [
+        {
+          "source": "1793868850987-e51b5ac7.safe.json",
+          "route_kind": "TEST",
+          "at_utc": "2026-11-05T08:54:13.461Z",
+          "http": 404,
+          "status_matches_safe": true,
+          "body_bytes_match": true,
+          "sha256_matches": true,
+          "noindex_header": true,
+          "noindex_meta": true,
+          "coming_soon_block": false,
+          "coming_soon_visible_heading": false,
+          "error404_body_class": true,
+          "test_V0_visible": false,
+          "test_V1_visible": false,
+          "test_marker_anywhere": false,
+          "order_review_form": false,
+          "cache_control": null,
+          "age": "0",
+          "x_cache": "MISS"
+        },
+        {
+          "source": "1793868853542-c8b8b0dc.safe.json",
+          "route_kind": "/product/dental-tooth-display-box/",
+          "at_utc": "2026-11-05T08:54:18.678Z",
+          "http": 200,
+          "status_matches_safe": true,
+          "body_bytes_match": true,
+          "sha256_matches": true,
+          "noindex_header": true,
+          "noindex_meta": true,
+          "coming_soon_block": true,
+          "coming_soon_visible_heading": true,
+          "error404_body_class": false,
+          "test_V0_visible": false,
+          "test_V1_visible": false,
+          "test_marker_anywhere": false,
+          "order_review_form": false,
+          "cache_control": "max-age=60",
+          "age": "0",
+          "x_cache": "MISS"
+        },
+        {
+          "source": "1793868858757-9904a904.safe.json",
+          "route_kind": "/shop/",
+          "at_utc": "2026-11-05T08:54:21.059Z",
+          "http": 200,
+          "status_matches_safe": true,
+          "body_bytes_match": true,
+          "sha256_matches": true,
+          "noindex_header": true,
+          "noindex_meta": true,
+          "coming_soon_block": true,
+          "coming_soon_visible_heading": true,
+          "error404_body_class": false,
+          "test_V0_visible": false,
+          "test_V1_visible": false,
+          "test_marker_anywhere": false,
+          "order_review_form": false,
+          "cache_control": "max-age=60",
+          "age": null,
+          "x_cache": null
+        },
+        {
+          "source": "1793868861131-a170eca2.safe.json",
+          "route_kind": "/cart/",
+          "at_utc": "2026-11-05T08:54:23.508Z",
+          "http": 200,
+          "status_matches_safe": true,
+          "body_bytes_match": true,
+          "sha256_matches": true,
+          "noindex_header": true,
+          "noindex_meta": true,
+          "coming_soon_block": true,
+          "coming_soon_visible_heading": true,
+          "error404_body_class": false,
+          "test_V0_visible": false,
+          "test_V1_visible": false,
+          "test_marker_anywhere": false,
+          "order_review_form": false,
+          "cache_control": "max-age=60",
+          "age": null,
+          "x_cache": null
+        }
+      ],
+      "conclusion": "TEST route is 404 with no TEST marker anywhere; existing PDP/Shop/Cart render Coming Soon blocks; does not establish V0-to-V1 automatic invalidation or close PDP cache P2"
+    }
+  },
+  "sequential_measurements": {
+    "groups": {
+      "home": {
+        "samples": 3,
+        "ttfb_seconds": [
+          5.113977,
+          1.196558,
+          2.360467
+        ],
+        "median_ttfb_seconds": 2.360467,
+        "encoded_bytes": [
+          18958,
+          18958,
+          18958
+        ]
+      },
+      "shop": {
+        "samples": 3,
+        "ttfb_seconds": [
+          2.325641,
+          3.473338,
+          2.649842
+        ],
+        "median_ttfb_seconds": 2.649842,
+        "encoded_bytes": [
+          24035,
+          24000,
+          24004
+        ]
+      },
+      "business_pdp": {
+        "samples": 3,
+        "ttfb_seconds": [
+          3.90449,
+          1.551866,
+          1.208737
+        ],
+        "median_ttfb_seconds": 1.551866,
+        "encoded_bytes": [
+          25078,
+          21952,
+          21952
+        ]
+      },
+      "applicable_order_pay": {
+        "samples": 3,
+        "ttfb_seconds": [
+          3.606626,
+          3.613416,
+          2.387212
+        ],
+        "median_ttfb_seconds": 3.606626,
+        "encoded_bytes": [
+          83183,
+          83447,
+          83454
+        ]
+      }
+    },
+    "conditions": "同一时段每组3次顺序 HTTP 样本；具体压缩字节、TTFB、Cache-Control、Age、X-Cache、版本与正文 hash 见样本/资源审查。",
+    "consent_state": "仅保存 HTML 的默认 optin 配置/脚本声明；未执行或验证同意、拒绝、撤回交互。",
+    "cold_sample_proven": false,
+    "improvement_percent_computed": false,
+    "core_web_vitals_measured": false,
+    "limits": "首个 MISS 不称真实 cold；不同正文/会话/配置之间不计算提升百分比，无 LCP/CLS/INP 不写 CWV。"
+  },
+  "recovery_and_cleanup": {
+    "source_kind": "final-state.safe.json 与最后6份 HTTP safe 文件；日志为新进程逐ID原生读回，session为同次CLI删除后原生读回。",
+    "recovery_at_utc": "2026-11-05T08:54:02Z",
+    "recovery_actions": [
+      "Breeze 原生 breeze_cache_flush(false,false,true)，先守实际目录 realpath。",
+      "Breeze_PurgeVarnish 对 TEST PDP 与代表业务 PDP 执行无 query URLPURGE。"
+    ],
+    "redis_or_cache_policy_changed": false,
+    "test_objects": {
+      "order_id": 2061,
+      "product_id": 2060,
+      "order_absent": true,
+      "product_absent": true,
+      "exact_order_expiry_actions_deleted": 1,
+      "private_journal_stage": "objects_cleaned"
+    },
+    "protected_existing_ids_untouched": [
+      8,
+      9,
+      1965,
+      1975,
+      1996,
+      1997,
+      2058
+    ],
+    "pending_finalization": [],
+    "window_released": true,
+    "final_state": {
+      "utc": "2026-11-05T09:02:13+00:00",
+      "smtp_simulation": "no",
+      "smtp_raw_settings_hash_matches_original": true,
+      "provider_class": "FluentMail\\App\\Services\\Mailer\\Providers\\Smtp\\Handler",
+      "simulate_constant": false,
+      "private_link": "no",
+      "coming_soon": "yes",
+      "store_only": "yes",
+      "blog_public": 0,
+      "users": 8,
+      "products": {
+        "publish": 85,
+        "draft": 3,
+        "trash": 1,
+        "auto-draft": 1
+      },
+      "orders": 14,
+      "checkout_drafts": 0,
+      "own_product_absent": true,
+      "own_order_absent": true,
+      "old_product_1975_stock": 5,
+      "old_coupon_1996_usage": 1
+    },
+    "exact_generated_mail_logs": {
+      "source_kind": "父 Agent 现场独立新进程读回；非本汇总执行。",
+      "ids": [
+        64,
+        63
+      ],
+      "deleted_once": true,
+      "repeated_delete_performed": false,
+      "initial_tool_error": "mail_delete_result：原生删除未返回行数，已删后被工具误判失败。",
+      "native_query_each_id_first_null": true,
+      "search_2061_total": 0,
+      "journal_mail_cleanup": "done",
+      "boundary": "删除返回值不是最终事实；未再次 delete，以新进程原生读回证明精确对象已不存在。"
+    },
+    "guest_sessions": {
+      "source_kind": "主 Agent 同一次 CLI 命令 native delete_session 后 get_session(id,false)===false；不是独立新进程。",
+      "exact_batch_sessions_deleted": 2,
+      "native_get_session_returns_false_for_both": true,
+      "verification_same_cli_process": true,
+      "independent_fresh_process_verified": false
+    },
+    "final_anonymous_check": {
+      "first_at_utc": "2026-11-05T09:02:36.851Z",
+      "last_at_utc": "2026-11-05T09:02:50.332Z",
+      "get_count": 6,
+      "all_header_and_meta_noindex": true,
+      "test_http": 404,
+      "test_V0_or_V1_present": false,
+      "business_pdp_shop_cart": "200，Coming Soon",
+      "account": "200，private/no-cache",
+      "home": "200，HIT",
+      "scope": "只证明列出的最终样本恢复保护，不是全路径或自动失效通过。"
+    },
+    "server_private_cleanup": {
+      "utc": "2026-11-05T09:13:35+00:00",
+      "server_batch_private_absent": true,
+      "source_backup_preserved": true
+    },
+    "local_private_cleanup": {
+      "status": "completed_user_deleted_and_readonly_verified",
+      "receipt": {
+        "utc": "2026-11-05T09:17:03.7104305Z",
+        "local_batch_private_absent": true,
+        "deleted_by_user": true,
+        "read_only_verified": true,
+        "automatic_delete_executed": false,
+        "automatic_review_rejection": "blocked by policy"
+      },
+      "automatic_approval_reason": "blocked by policy",
+      "automatic_delete_executed": false,
+      "absence_verified": true,
+      "source_kind": "用户回复“删除了”；主 Agent 09:17:03.7104305Z 只读 Test-Path 核验不存在。自动删除未执行且未绕过。"
+    },
+    "window_released_at_utc": "2026-11-05T09:20:15Z",
+    "window_released_at_asia_shanghai": "2026-11-05T17:20:15+08:00",
+    "site_operations_after_release": 0,
+    "independent_final_review": {
+      "status": "passed_for_documented_scope",
+      "source_kind": "主 Agent 收到的独立 final_review 结论。",
+      "existing_json_and_markdown_passed": true,
+      "final_six_raw_bodies_and_headers_checked": true,
+      "scope": "核对脱敏记录、文件指纹及保护恢复终态；不关闭 HTML 自动失效 P1，也不新增 CWV 结论。"
+    }
+  },
+  "remaining_acceptance": [
+    "P1 根因与最小修复须另行审查，不能用清缓存自动豁免。",
+    "稳定的最终有效组合上重测真实 HTML 更新/撤销及匿名隔离；按受影响范围补付款/资源/断点差额。",
+    "必要现场测量与集中清理完成后，再据证据更新 D100/D102/M8 状态。"
+  ],
+  "evidence_inputs": [
+    {
+      "file": "1793866088503-0b4324ce.safe.json",
+      "sha256": "a6af8025d8e3e0346d3cb169be3961d1b8c4b8a42864e23b68901367f91eeb7c"
+    },
+    {
+      "file": "1793866094785-676e1adf.safe.json",
+      "sha256": "675961474bff636a822580515468d8a4ca5f8894a0dfa668ae696325a676afa3"
+    },
+    {
+      "file": "1793866657977-3fdc2365.safe.json",
+      "sha256": "149d72c81bdbd13e68f5088ca97287f783d671158c07625f55312bd7cdcb27b0"
+    },
+    {
+      "file": "1793866663466-2d4c1018.safe.json",
+      "sha256": "a06c8100f3f13b9f53070b70c53dc9a3300b38210d383add66b0a9dc8a1cf0d6"
+    },
+    {
+      "file": "1793866664775-3dc84725.safe.json",
+      "sha256": "0eeb7490646748ac0431e74e46622c822d52558c8a0259666b0cc7d0963336ef"
+    },
+    {
+      "file": "1793866667287-1d13d35c.safe.json",
+      "sha256": "ce87a0f834f5eb7b9a1ca622280fe5f43706b4cb7eab3096c89a0fe8d9ca2514"
+    },
+    {
+      "file": "1793866669761-da83cbd4.safe.json",
+      "sha256": "8c8ee26737972ea13aa864b8be6915739586fc3eedc43f85cda8dd1be6fba76d"
+    },
+    {
+      "file": "1793866673582-54124369.safe.json",
+      "sha256": "d177b07da17441792c0e5955ea0762af6ad4bd59296ea97b67b7cd515d208950"
+    },
+    {
+      "file": "1793866676419-4beb52ce.safe.json",
+      "sha256": "448f404b80ec4da795afec98f988a6b957a5edf8fd1f7da455f7ba1a12d4bd23"
+    },
+    {
+      "file": "1793866680435-57f98bc8.safe.json",
+      "sha256": "65755adf06453fcfed957c34d4e650c18868d5d13e532ca10b0101618fb1727b"
+    },
+    {
+      "file": "1793866682107-e17fbe70.safe.json",
+      "sha256": "17ce1ae6124adb9795d4b971968549d78c3286ecd9b5e1bd35b7fe390beba344"
+    },
+    {
+      "file": "1793866973765-2f421180.safe.json",
+      "sha256": "49e2cece928c86d97b61143ec15c99e314db0f3f1caed2bc129452bd83ed19da"
+    },
+    {
+      "file": "1793866975425-6ff44c3b.safe.json",
+      "sha256": "512b290ae22ed1b2470088815025cbc748b574528fcd3e567d7ea901b63c8cfd"
+    },
+    {
+      "file": "1793867956490-46787075.safe.json",
+      "sha256": "8ed653ee9ef3ab8026e2d3309c9eee3ba22534faafe33ef5466e259a0d71595a"
+    },
+    {
+      "file": "1793867962699-f132b997.safe.json",
+      "sha256": "827f68f8324c37cc4c222ef54d548565069dd3b2fde357a3b90507ef4f8cc970"
+    },
+    {
+      "file": "1793868379310-fd3bf3ba.safe.json",
+      "sha256": "799a7407b8e7941c2a4a781e0e5ef3b0a7310218a5aca6a00a87026f25501cc5"
+    },
+    {
+      "file": "1793868382429-d02a6e13.safe.json",
+      "sha256": "25512312621d0664a4929e61d5b5e86d7be886b43b0c15b378f74b26c89f3311"
+    },
+    {
+      "file": "1793868383831-9da69531.safe.json",
+      "sha256": "5fb1bd9e2f336300bbba89530704cbd0ff9dd14fbcaceffa291334f3da18a78b"
+    },
+    {
+      "file": "1793868386231-dc066597.safe.json",
+      "sha256": "e20b77b2d44987e728afa66b2c338eaaebe6763c4f264afbfbe3f3ff35d89d6d"
+    },
+    {
+      "file": "1793868388318-760cb6d1.safe.json",
+      "sha256": "c2bf6a655c52effda86f91b0887b0049e2362f55786e4ad78bab5b5dcebb25ba"
+    },
+    {
+      "file": "1793868391525-def7ab46.safe.json",
+      "sha256": "1a9cd10b71a4fdf6005d7cd8664d4a9b4bd033d12fc1a87e8549fb7fc2454313"
+    },
+    {
+      "file": "1793868395027-a5f51384.safe.json",
+      "sha256": "ff4b8fa0af6ff51b21585b3905c90e128f70a93b95e339b10e0f6005ee9290aa"
+    },
+    {
+      "file": "1793868850987-e51b5ac7.safe.json",
+      "sha256": "8f5cd8f5559fde711c7669829022a44cf2a924292f93362e0938a277e4d12b7e"
+    },
+    {
+      "file": "1793868853542-c8b8b0dc.safe.json",
+      "sha256": "ed5f76d022620e12627207e686c12020a1b96819f10e1a0a0e5dc45190b47b87"
+    },
+    {
+      "file": "1793868858757-9904a904.safe.json",
+      "sha256": "38dd90eabbe10161a7b8da27e5d58124520600c31d6604ffe2b1e45fa1dd06e5"
+    },
+    {
+      "file": "1793868861131-a170eca2.safe.json",
+      "sha256": "9360decdd6ee73d8cbb77c71c18cde4d0c9917781d76882838f74ab346359326"
+    },
+    {
+      "file": "pay-samples.safe.json",
+      "sha256": "6ebed4147a7ad0d6949ca7a8c481aaa06685e1c62ba4e26ce5b28ca7fd0efb91"
+    },
+    {
+      "file": "bootstrap-attempt1.safe.json",
+      "sha256": "72e05c25f71fa8af1bbc22fe267b90273868f88080514c7bb88a890735b36326"
+    },
+    {
+      "file": "bootstrap.safe.json",
+      "sha256": "dde9dcd1111e182fa196c30dbf01f2c6367ab4a4c473723a34c3427f7c990bf3"
+    },
+    {
+      "file": "bootstrap-b.safe.json",
+      "sha256": "2e77f0303f5647842a71ccd91781feb59d23a64aad43adc966f1c98ec45d0178"
+    },
+    {
+      "file": "offline-cache-review.safe.json",
+      "sha256": "a54f6219d337115ce5efa8b10215330901a8d9eb8b566d5050d9a230ad52f994"
+    },
+    {
+      "file": "offline-resource-audit.safe.json",
+      "sha256": "b7f613dd890f793770c1818356f18c0c784c92590638546bea3c62d5781b20c6"
+    },
+    {
+      "file": "preview-cookie-match.safe.json",
+      "sha256": "2232f45c1a9506564eb29a4a87409022db0c84ecad70af7a424428670008d55d"
+    },
+    {
+      "file": "1793869353934-eae44859.safe.json",
+      "sha256": "82eab0e513cd1bdd9b84cd5fdd4e1916108066f3e61bd4bf0b2d9faa93241b30"
+    },
+    {
+      "file": "1793869356927-f21937a5.safe.json",
+      "sha256": "dfc9493fb6f953b454db4d27ec9a407dff4c9447268aab939e9b026d1b48bf0f"
+    },
+    {
+      "file": "1793869358511-85f84abf.safe.json",
+      "sha256": "dcf5197351d4166ebb1aeaf7590977595f375125c21555b5b7a656f966015957"
+    },
+    {
+      "file": "1793869361281-09b784bd.safe.json",
+      "sha256": "1c29943a6b42d8d614a0852cd0dbd9a0d27506c0de730d39fb987f22bfdcb712"
+    },
+    {
+      "file": "1793869364375-629fb0db.safe.json",
+      "sha256": "2502246c1f32fd7c823a2c93b38b61f1a67f2216d432aa0fe157246cd1f3ec86"
+    },
+    {
+      "file": "1793869367426-0775e3cd.safe.json",
+      "sha256": "28068297e079b8581b45e7fbc1bd0dfeb2210c3028a588cba18117b6e52a31ef"
+    },
+    {
+      "file": "final-state.safe.json",
+      "sha256": "7c32ec4789f989bcd8ed599301945f39242d97e020bfbb95676ace4c20723f3e"
+    },
+    {
+      "file": "offline-post-containment-review.safe.json",
+      "sha256": "75457cfde805051caf524166843da0651d01c35607926f17b8ce4b20c9549fd4"
+    },
+    {
+      "file": "server-private-cleanup.safe.json",
+      "sha256": "055cc367e1b6d7018a26f5986fcc599e38db2aaa618e6efe08ef9ab4a4e69abb"
+    },
+    {
+      "file": "actual-source.safe.json",
+      "sha256": "fed6118ee42210a4e03c2a50dbe2c0b588c0b9b331bfe5935fb88f681d80ba10"
+    },
+    {
+      "file": "local-private-cleanup.safe.json",
+      "sha256": "d374df326a2f56e966c115dce6d4a3e1802e4a5659c511e7a42644f837024895"
+    },
+    {
+      "file": "ocp-effective.safe.json",
+      "sha256": "660df1ab1739fd8fd40aff055388570820203922e71466362fb7fc0cc6a1bd03"
+    },
+    {
+      "file": "cache-source.safe.json",
+      "sha256": "a848df0496ce085e2df82f2dd075cb57db28fdc469865114aa8bc2e523e26722"
+    }
+  ],
+  "redaction": "不含原始 Cookie、Nonce、订单 key、预览链接/query、邮箱正文、SMTP 凭据/完整配置/备份字段或本机/服务器私密目录；只保留恢复 flag/哈希相等布尔/provider 类，以及公开 TEST path、对象 ID 和正文 SHA。",
+  "screenshots": [
+    {
+      "file": "day102-restoration-20261105.png",
+      "sha256": "ff5f453aca81fb91f78da6b31de8f0112532d19c2ec924725c7326122118c162",
+      "purpose": "父 Agent 保存的后台保护恢复截图；本汇总仅确认文件存在与指纹。"
+    }
+  ]
+}

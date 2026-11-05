@@ -2,6 +2,13 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## F→G实测接续与P1保护恢复（2026-11-05）
+
+- 本轮受保护Staging为WP7.1.4／Woo11.0.0／DentAll0.49.7／Core0.9.5，HTML测量资源为0.3.1；09:11:53 UTC实际52文件已归档，独立复核主题／Core46份与B部署`f0fd13c`逐字节及SHA一致；Measurement6份匹配E当前源码，其中5份未提交，仅as-of不冻结。运行代码净改动0。实体TEST报价的适用order-pay三次GET均有真实非空正文、USD 2.25及private/no-cache，错误key无订单正文；未提交付款或真实发信。
+- **P1仍open，D102／M8未Done。** 无Cookie jar的TEST请求取得V1，撤回检查仍有TEST V1及业务PDP正文；08:54原生清Breeze HTML与两个精确PDP的Varnish后恢复，不能计为自动失效PASS。09:02最后6GET均noindex，TEST404、业务PDP／Shop／Cart为Coming Soon、Account私有；没有CWV或性能提升百分比结论。
+- 本批商品2060／订单2061及精确AS动作1条已清；两条新匿名session在同次CLI原生删除后`get_session(id,false)===false`；两条自生模拟日志由新进程逐ID原生查询null且search total0。SMTP恢复原no、完整设置raw hash相同、fresh provider为Smtp；用户8／商品85发布3草稿1回收站1自动草稿／订单14／checkout-draft0，旧1975库存5、1996券usage1。09:13:35 UTC服务器本批私密目录不存在、源码备份保留。本地自动删除曾被`blocked by policy`拒绝且未执行；用户删除后09:17:03.7104305 UTC只读核验不存在。独立终审通过，09:20:15 UTC（北京时间17:20:15）已释放窗口，之后无现场操作。
+- 脱敏证据：`tests/day102-staging-followup-20261105.json`（41次HTTP尝试，含指标丢失1次）及`tests/day102-restoration-20261105.png`；付款／资源及末6份恢复原文已独立复核。fresh OCP仍5个非预取组、orders_excluded=false、HPOS=true；Breeze显式排除仅Shop，策略未改，P1根因未定位。详见[[笔记/Day102-候选部署与商城隔离收尾]]、[[笔记/WordPress实战笔记/Day102-候选发布与跨请求隔离验证]]；下方10月记录保留为历史。
+
 ## F→G离线接续与有限收尾（2026-10-25）
 
 - 已复用D98／D99、34条账户隔离及137项恢复终审；本轮D72 65／65＋D75 123／123纯合同通过，旧归档11项核收及46个Git blob一致。共享现场请求、数据库操作、实现改动均0，未重建已删除隔离站；证据为`tests/day102-followup-offline-20261025.json`。
