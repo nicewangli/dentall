@@ -157,6 +157,7 @@ function dentall_core_get_matching_paypal_quote_capture( $order, $paypal_order, 
 
 /**
  * 修复4.1.2完成通知跳过合法failed报价的恢复缺口，不重新Capture。
+ * 无Capture交易号的订单完成通知先到时暂缓处理，不能抢先将报价记付。
  *
  * WP在permission_callback成功后才运行此Filter；仅接受原生验签控制器。
  * 请求级MySQL命名锁不写订单内部表，也不声称锁住其他后台操作。
@@ -182,6 +183,29 @@ function dentall_core_reconcile_failed_paypal_quote( $response, $request, $route
 		return $response;
 	}
 	$resource = $data['resource'] ?? null;
+	$error = new WP_Error( 'dentall_paypal_quote_reconciliation', __( 'This payment requires reconciliation. Do not pay again. Contact us for assistance.', 'dentall-core' ), array( 'status' => 409 ) );
+	if ( 'CHECKOUT.ORDER.COMPLETED' === ( $data['event_type'] ?? null ) && is_array( $resource ) ) {
+		/* 沿用原生custom_id优先级及Woo订单解析，防止多Purchase Unit漏过报价。 */
+		$custom_ids = ! empty( $resource['custom_id'] ) ? array( $resource['custom_id'] ) : array_column( (array) ( $resource['purchase_units'] ?? array() ), 'custom_id' );
+		$custom_ids = array_filter( $custom_ids, static fn( string $id ) => ! empty( $id ) && false === strpos( $id, \WooCommerce\PayPalCommerce\Webhooks\CustomIds::CUSTOMER_ID_PREFIX ) );
+		$order_ids = $custom_ids ? wc_get_orders( array( 'post__in' => $custom_ids, 'limit' => count( $custom_ids ), 'return' => 'ids' ) ) : array();
+		foreach ( $order_ids as $id ) {
+			$order = new WC_Order( $id );
+			if ( ! dentall_core_is_shipping_quote_candidate( $order ) || $order->is_paid() || $order->has_status( 'refunded' ) ) {
+				continue;
+			}
+			if ( \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_datastore_cache_enabled()
+				|| 'ppcp-gateway' !== $order->get_payment_method( 'edit' )
+				|| 'CAPTURE' !== $order->get_meta( '_ppcp_paypal_intent', true, 'edit' )
+				|| ( $resource['id'] ?? null ) !== $order->get_meta( '_ppcp_paypal_order_id', true, 'edit' )
+				|| '' !== dentall_core_get_shipping_quote_block_reason( $order, null, true ) ) {
+				return $error;
+			}
+			/* 此分支不写订单，不需要争抢付款锁；真实Capture仍走下方锁及金额绑定。 */
+			return new WP_Error( 'dentall_paypal_quote_capture_pending', __( 'Awaiting a verified capture notification. Do not pay again.', 'dentall-core' ), array( 'status' => 503 ) );
+		}
+		return $response;
+	}
 	$order_id = is_array( $resource ) ? ( $resource['custom_id'] ?? null ) : null;
 	if ( 'PAYMENT.CAPTURE.COMPLETED' !== ( $data['event_type'] ?? null ) || ! is_string( $order_id )
 		|| 1 !== preg_match( '/^[1-9][0-9]*$/D', $order_id ) ) {
@@ -192,7 +216,6 @@ function dentall_core_reconcile_failed_paypal_quote( $response, $request, $route
 		return $response;
 	}
 
-	$error = new WP_Error( 'dentall_paypal_quote_reconciliation', __( 'This payment requires reconciliation. Do not pay again. Contact us for assistance.', 'dentall-core' ), array( 'status' => 409 ) );
 	global $wpdb;
 	$lock = 'dentall_capture_' . substr( hash( 'sha256', DB_NAME . ':' . $wpdb->prefix . ':' . $order_id ), 0, 40 );
 	if ( '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK(%s, 0)', $lock ) ) ) {
