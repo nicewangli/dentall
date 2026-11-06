@@ -2,6 +2,14 @@
 
 > 本文件是新对话和每日工作的当前事实入口。每天收工更新；历史细节进入每日Obsidian笔记和版本记录。
 
+## F→G限定缓存、性能基线与恢复收尾完成（2026-11-06）
+
+- 本轮仍限受保护Staging `6604195`，复用11/05付款及52文件as-of指纹，不重跑订单／权限旧套件。已用保留PHP文件的TEST单URL Varnish清理定位Breeze共享HTML提前读取：A为MISS＋`CLOUDWAYS-CACHE-DE`，84,939字节正文SHA精确等于Coming Soon缓存。原生后台转draft后，当前permalink变query，清理URL遗漏旧canonical且旧文件SHA／mtime不变；11/05真实正文越界的历史P1证据保留。
+- 本应用原生Varnish新增`woo-share` Cookie排除且保留Shop；Breeze仅追加本Staging `/product/(.*)`完整URL排除，既有API重建配置，不新增运行代码，不主动Redis／全站Purge。正式前只初始化TEST两URL的PHP目录及精确Varnish，首页文件快照不变；正式V0 N→A→N→A、V1 A／N、draft A／N404及预览关闭后旧A／N业务PDP Coming Soon，共10 GET＋正向对照1 GET已独立原文复核，各阶段无手动Purge。本应用限定HTML保护P1与自动撤稿通过；N外围meta可含TEST名称，不宣称整页零商品信息。此为联合配置有效，不代表Breeze通用公开撤稿缺陷已修。
+- 用户特定授权的公开首页6次独立无登录Chrome实测完成：390的LCP 17.844／4.744／2.640秒，1440为2.896／2.896／2.808秒；CLS分别约0.000591／0.010658～0.010776。首样本MISS保留，其余HIT；无节流、DPR1、浏览器HTTP cache禁用、服务端未清。6次资源失败0，无Woo session；不称CWV通过或性能提升，不以长期RUM为本轮实施前置。性能P2由F→G在下一正式发布／性能调优窗口按waterfall定位延迟与波动，不猜资源原因、不升级为安全P1。
+- 08:23:39 UTC新进程核TEST2062不存在，SMTP原no／完整raw hash匹配／fresh Smtp；用户8、商品85／3／1／1、订单14／checkout-draft0，旧库存／券usage不变。preview=no、Coming Soon／store-only=yes、blog_public=0；首次删除工具失败后以fresh终态确认，仅补journal、不重删或清Redis。TEST匿名404；首页一次失败及唯一成功重试保留。08:26:20 UTC服务器本批私密目录不存在、源码备份保留。
+- 独立原文／实验室终审通过；08:30:11.4488211 UTC（北京时间16:30:11）释放窗口，关闭9个本轮临时标签、保留用户终端，之后无现场操作。本地私密目录自动删除被`blocked by policy`拒绝且未执行，用户手动删除后08:30:32.2583731 UTC只读核验不存在，未绕过。**本组限定缓存保护P1、自动撤稿、性能基线及恢复清理已收口；M8整体、Production公开商品通用失效及CWV不由本组单独Done，性能P2保留。** 没有新增订单、客户或付款；正式归档`tests/day102-cache-followup-20261106.json`含54份safe输入，9项收口检查均true，采样25尝试（23成功／2失败）＋bootstrap1＋实验室导航6；规则与恢复截图已归档。详情及可迁移机制见[[笔记/Day102-候选部署与商城隔离收尾]]、[[笔记/WordPress实战笔记/Day102-候选发布与跨请求隔离验证]]；下方均保留为历史时点。
+
 ## F→G实测接续与P1保护恢复（2026-11-05）
 
 - 本轮受保护Staging为WP7.1.4／Woo11.0.0／DentAll0.49.7／Core0.9.5，HTML测量资源为0.3.1；09:11:53 UTC实际52文件已归档，独立复核主题／Core46份与B部署`f0fd13c`逐字节及SHA一致；Measurement6份匹配E当前源码，其中5份未提交，仅as-of不冻结。运行代码净改动0。实体TEST报价的适用order-pay三次GET均有真实非空正文、USD 2.25及private/no-cache，错误key无订单正文；未提交付款或真实发信。

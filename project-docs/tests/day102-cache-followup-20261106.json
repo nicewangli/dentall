@@ -1,0 +1,2701 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "application_id": 6604195,
+  "scope_result": "F→G本轮限定缓存修正、自动撤稿、首页实验室基线及恢复清理已收口；不等于Production上线或M8全范围验收",
+  "authorization": [
+    "总协调11/06独占Staging移交及既有规则遗漏最小修正",
+    "用户明确允许现有Playwright仅测公开Staging首页"
+  ],
+  "checks": {
+    "formal_ten_responses": true,
+    "six_measured_closed_browsers": true,
+    "smtp_original_and_real_provider": true,
+    "test_product_absent": true,
+    "business_baseline": true,
+    "protection_and_rules": true,
+    "private_directories_removed": true,
+    "independent_review": true,
+    "exclusive_window_released": true
+  },
+  "tracked_request_counts": {
+    "sampler_attempts": 25,
+    "sampler_successful_responses": 23,
+    "sampler_failures": 2,
+    "preview_bootstrap_get": 1,
+    "lab_home_navigations": 6,
+    "native_config_home_head_possible": 1,
+    "note": "不包含wp-admin/Cloudways导航、浏览器子资源、后台原生自动purge；两次curl失败均保留，不猜失败原因"
+  },
+  "formal_acceptance": [
+    {
+      "file": "1793951552084-28ddbdc2.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:52:37.013Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 4.862656,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85535,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "4ca6ea3db7bdea62f8663818ca6634ff65eb1e74690c29d7d667e251c0818890"
+    },
+    {
+      "file": "1793951557093-9377e4f1.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:52:40.608Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.207175,
+      "encodedBodyBytes": 20929,
+      "decodedBodyBytes": 85955,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": true,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "54e4cb41f78850a53b90216bf3ae85453e068bd8d65a4fa1a3bbe917455bbbaf"
+    },
+    {
+      "file": "1793951560676-2ea92d52.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:52:43.488Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 2.73863,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85535,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 6,
+      "xCache": "HIT",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "4ca6ea3db7bdea62f8663818ca6634ff65eb1e74690c29d7d667e251c0818890"
+    },
+    {
+      "file": "1793951563563-1ec72926.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:52:46.008Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.368319,
+      "encodedBodyBytes": 21075,
+      "decodedBodyBytes": 86334,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": true,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "dc26ccb34bcd250906b99b65d9e5d569db0fb30b33ca77f3a36c06b4ff9ec41f"
+    },
+    {
+      "file": "1793951739675-70502db0.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:55:43.382Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 3.439299,
+      "encodedBodyBytes": 21085,
+      "decodedBodyBytes": 86335,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "d9832545538cc5cb06fdf7e32f0183b927340d7cd8b58114c8d8e8a1c725ecf1"
+    },
+    {
+      "file": "1793951743453-0d84bf30.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:55:53.403Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 9.879388,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85533,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "b1bdd06f63ed195c0af21c5bd6ebe265bcadae508cb3e467f3247ab8c4e7514a"
+    },
+    {
+      "file": "1793951955238-7648afc5.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:59:20.097Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 404,
+      "ttfbSeconds": 4.569345,
+      "encodedBodyBytes": 21902,
+      "decodedBodyBytes": 105506,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache, must-revalidate, max-age=0, no-store, private",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "d676e3d22108d35247b1c9291247fd1ff7d841113d0824c0b05df3b8279ccf8b"
+    },
+    {
+      "file": "1793951960165-6ed4e0ba.safe.json",
+      "ok": true,
+      "at": "2026-11-06T07:59:22.855Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 404,
+      "ttfbSeconds": 2.648468,
+      "encodedBodyBytes": 21894,
+      "decodedBodyBytes": 105503,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "baed60579598e43596945bbe7d6b2131e4b636a120cdbc6dc9f7997761b2d56b"
+    },
+    {
+      "file": "1793952395774-87a1bd67.safe.json",
+      "ok": true,
+      "at": "2026-11-06T08:06:40.464Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 4.607423,
+      "encodedBodyBytes": 21262,
+      "decodedBodyBytes": 89209,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "c026d2eb26357619f6d43aa82f693ad105e17e6b6e220d0498b628a40f896a68"
+    },
+    {
+      "file": "1793952400537-e401faa4.safe.json",
+      "ok": true,
+      "at": "2026-11-06T08:06:51.085Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/dental-tooth-display-box/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 10.47866,
+      "encodedBodyBytes": 21403,
+      "decodedBodyBytes": 89588,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "5784dbd57117f4085f157505a41217088dd69757846d462d54d9267773b73f60"
+    }
+  ],
+  "runtime_delta": {
+    "files": 0,
+    "functions": 0,
+    "lines": 0,
+    "plugins_added": 0,
+    "cache_configuration_rules_added": 2,
+    "production_changed": false,
+    "manual_purge_between_acceptance_phases": false,
+    "redis_flush_called": false
+  },
+  "remaining_limits": [
+    "修正规则仅受保护Staging PDP与woo-share，不是Breeze通用公开商品撤稿代码修复；Production发布须按其实际组合同步审查对应规则",
+    "首页六次为本机无节流实验室基线；390 LCP中位4.744秒、1440为2.896秒，性能P2由F→G于下一正式发布或调优窗口继续定位",
+    "无受控前后改善、Lighthouse分数、TBT、INP、真实用户CWV或正式支付/邮件投递结论；复用此前已验交易范围，不重建订单"
+  ],
+  "prior_evidence": {
+    "file": "day102-staging-followup-20261105.json",
+    "sha256": "411a9e2be6bc50b515bb53d8f6edcd2773c808b03dc40624054442a4fba20928",
+    "note": "52文件指纹及已验付款范围为11/05 as-of，本轮未重部署或假称重扫"
+  },
+  "safe_input_manifest": [
+    {
+      "file": "1793948899775-49887c57.safe.json",
+      "bytes": 786,
+      "sha256": "a4439b36908a3218ec4d91f845ba24c9a7a74c39eefd1541ce88f4a6058efbcd"
+    },
+    {
+      "file": "1793948903498-25a077bd.safe.json",
+      "bytes": 783,
+      "sha256": "a13d96f9ff3b022c5bb11a79f758675eedce48ea3b1f4a8c038dcd53d539ed65"
+    },
+    {
+      "file": "1793948908919-6057e5fe.safe.json",
+      "bytes": 785,
+      "sha256": "c956954ea5e1c7eb5ff32e13b4d7e3025d400d2e7eac8631481b0b782068a9b0"
+    },
+    {
+      "file": "1793949086415-007aa0f0.safe.json",
+      "bytes": 124,
+      "sha256": "782aaf0817dc5662d4a1ba8231c261b58cc85404c66d5db913aed8d5f44eeb09"
+    },
+    {
+      "file": "1793949148770-f447a0c8.safe.json",
+      "bytes": 784,
+      "sha256": "8d76ef09c5dd3666cedefa4ff6a8db09a13c8b289a1fed82486f3d034b715dff"
+    },
+    {
+      "file": "1793949152668-f47df79d.safe.json",
+      "bytes": 785,
+      "sha256": "92b713b852f07f67377c67b8be6eb5248c1536869dba520bf48594a5a43c0284"
+    },
+    {
+      "file": "1793949476233-68af4ce8.safe.json",
+      "bytes": 730,
+      "sha256": "bb3de176ed4bb01fb27edd26cdce449050cac808bf16e09999e4b4b53b7dbe65"
+    },
+    {
+      "file": "1793949480244-ab26c4e4.safe.json",
+      "bytes": 731,
+      "sha256": "9db0094a3569120420549900a2be2a7d0ea3a6a5b85ba35a916537796475d418"
+    },
+    {
+      "file": "1793949824618-6ad419ad.safe.json",
+      "bytes": 770,
+      "sha256": "32cbc54c6f5bce0c79d9ac37f765c818aadf8df7c57fa3792df031c11ede489a"
+    },
+    {
+      "file": "1793950449044-0d33672e.safe.json",
+      "bytes": 770,
+      "sha256": "e724fbd8b4ac3b4bf20d088b08b787df1351962e879ab7709c0d34570751568d"
+    },
+    {
+      "file": "1793950453841-dd87e549.safe.json",
+      "bytes": 770,
+      "sha256": "ebf669d59d185eafe00c3941f96e2491c3e33b894c7340c33e8ce378ce2cf6d3"
+    },
+    {
+      "file": "1793951552084-28ddbdc2.safe.json",
+      "bytes": 765,
+      "sha256": "1c18930d876c9318de5880604a9b4cabc61bba8365fa34cf2b4b499214b69657"
+    },
+    {
+      "file": "1793951557093-9377e4f1.safe.json",
+      "bytes": 764,
+      "sha256": "080b83b6a9720fbea651447afdf50961e97a025c86766844e2e45b2c8a62d497"
+    },
+    {
+      "file": "1793951560676-2ea92d52.safe.json",
+      "bytes": 763,
+      "sha256": "720e24f45385cbf8587e19bdfb1ddde1b744f420e0d7cef8383c42958c2231dd"
+    },
+    {
+      "file": "1793951563563-1ec72926.safe.json",
+      "bytes": 764,
+      "sha256": "f8c52ca393d1037e17c795b07932830901175671d6d990b9ab1251d7677e4dae"
+    },
+    {
+      "file": "1793951739675-70502db0.safe.json",
+      "bytes": 764,
+      "sha256": "7595ed3f8feb5ab6655a8ce222453040eb84ea007b9002b68134b1e4fe543cdb"
+    },
+    {
+      "file": "1793951743453-0d84bf30.safe.json",
+      "bytes": 765,
+      "sha256": "44cb833cf6a4bc93eba92a0748a88cb491b7893b750ed412688084f15f51ee5d"
+    },
+    {
+      "file": "1793951955238-7648afc5.safe.json",
+      "bytes": 813,
+      "sha256": "d682de96f2178b915fc65e22e822e55c8a03bc64e0011c35af91f47f59c555d0"
+    },
+    {
+      "file": "1793951960165-6ed4e0ba.safe.json",
+      "bytes": 758,
+      "sha256": "9b5eca831d3a55c84b8b94712c28cb247dd882cfb84d101f97dc4c78c7beb0ff"
+    },
+    {
+      "file": "1793951995071-6e392bc7.safe.json",
+      "bytes": 758,
+      "sha256": "1d67f9d3cf12d63ac3cfb8bc632f73fdce4db388ceb61d6cd4a54895aad0c56f"
+    },
+    {
+      "file": "1793952395774-87a1bd67.safe.json",
+      "bytes": 757,
+      "sha256": "a8e72613e06b863d1a1372c4fc736fbf4932b931112c7bbcce8edadaeec1baca"
+    },
+    {
+      "file": "1793952400537-e401faa4.safe.json",
+      "bytes": 757,
+      "sha256": "b30735446398e57efff9c7eed3cc7d28be2c7f93513c026b9821659406c9373d"
+    },
+    {
+      "file": "1793953466046-d645ed94.safe.json",
+      "bytes": 83,
+      "sha256": "376053ba9766a501b9ca193b04644a44e6d9ef80da3ef953168c63f768813fd3"
+    },
+    {
+      "file": "1793953481180-c49df8e9.safe.json",
+      "bytes": 759,
+      "sha256": "91392533d1939a3a1f50ba615eb4036a298adefb070cfc73a15b1cff99e73815"
+    },
+    {
+      "file": "1793953503962-43e5cd46.safe.json",
+      "bytes": 740,
+      "sha256": "7a345f15c96f7e60d66cf5eb0868cbdad35c93bf7ed4f1f902ba7ba5e549bfae"
+    },
+    {
+      "file": "accept-v0-ui.safe.json",
+      "bytes": 114,
+      "sha256": "17654fe66202ff8f81d56d182e885069c65d67e7f58a516e993251fb8d6a9609"
+    },
+    {
+      "file": "accept-v1-ui.safe.json",
+      "bytes": 114,
+      "sha256": "89b951d228631297fc945b893c03d6cf67a06f233e4f1cb3eca91c9d295d0868"
+    },
+    {
+      "file": "bootstrap.safe.json",
+      "bytes": 332,
+      "sha256": "bf88db7a60a6fd01d6c9761c1c21061091a2e175cda68e19c6ccfc1d3c1b0052"
+    },
+    {
+      "file": "breeze-rule-applied.safe.json",
+      "bytes": 453,
+      "sha256": "97a16e18de84e869f5c0ddaeed17603e673efc9e6f1975461777911c7f06d5ee"
+    },
+    {
+      "file": "cache-after-acceptance.safe.json",
+      "bytes": 4820,
+      "sha256": "cb1daf2d77cb86d02e844935bd4c775ffd13a6d1b95370afdb2957a9f086ef08"
+    },
+    {
+      "file": "cache-draft.safe.json",
+      "bytes": 5512,
+      "sha256": "6d6408e8aff01ea3c647e477b5d13ae339550fd9e359a3c88feaedecb245f92a"
+    },
+    {
+      "file": "cache-initialized.safe.json",
+      "bytes": 1433,
+      "sha256": "e9e3151abec560c9fcd5c4736f11e41e0d16cd8b5d320ed1864b2dd3a9a7b971"
+    },
+    {
+      "file": "cache-response-prefix.safe.json",
+      "bytes": 468,
+      "sha256": "c8812dd105f0b8df22899c8a52fa403bfeaab00fe2a258e137e47a8d23dcbdfa"
+    },
+    {
+      "file": "cache-v1.safe.json",
+      "bytes": 5561,
+      "sha256": "c39779eb9efad5aa297b18416c1ba46cf537d5647c927fbeb61899fd4ba8263a"
+    },
+    {
+      "file": "cleanup-first-attempt.safe.json",
+      "bytes": 432,
+      "sha256": "878c2483e14b94336eb11a2b432e2e06a1928b46407fa9787ec8687869a67d6d"
+    },
+    {
+      "file": "cleanup-partial-fresh.safe.json",
+      "bytes": 696,
+      "sha256": "559135cc595bfb72f983881a65e307be0eac402131de931eb5745d8a131a7680"
+    },
+    {
+      "file": "final-restoration.safe.json",
+      "bytes": 681,
+      "sha256": "475680ab2b288dad94f2821013a90024092dbb292e1d93a0aa54bbf31855a3b5"
+    },
+    {
+      "file": "helper-hashes.safe.json",
+      "bytes": 302,
+      "sha256": "e57687b720412032c1c9971b961512cc7fbc586961b08842efea6cc8e2df61e8"
+    },
+    {
+      "file": "independent-review.safe.json",
+      "bytes": 12409,
+      "sha256": "75d827dd8d53b18d988e50c70b3d4082e01e6bd886109211decec275681baaf2"
+    },
+    {
+      "file": "init.safe.json",
+      "bytes": 859,
+      "sha256": "e19765cc40690a192382e1a012fdaa87b6364d17127aeedc127a38f1a1c9e957"
+    },
+    {
+      "file": "journal-confirm.safe.json",
+      "bytes": 149,
+      "sha256": "72191a3647f68ae5e768671408310e9a6e9e20d7fe4e5131fda4540286c72658"
+    },
+    {
+      "file": "lab-home-2026-11-06T08-06-59-311Z.safe.json",
+      "bytes": 8211,
+      "sha256": "28c77730bc0bccf104429fe4026e485b275dfe7c3f8411848f852749884cb46c"
+    },
+    {
+      "file": "lab-permission.safe.json",
+      "bytes": 517,
+      "sha256": "421ea5cf67f3f9d9be345695dd3ef1345f7a558c1f647cbcdcf94e4987ce1cf4"
+    },
+    {
+      "file": "local-private-cleanup.safe.json",
+      "bytes": 295,
+      "sha256": "f18172fe8354faa07a7d812bc65f60de24f022688e5f3c8cd051bb48fc758ef2"
+    },
+    {
+      "file": "native-v1-save.safe.json",
+      "bytes": 184,
+      "sha256": "dd334a205a0d54268b0c3c4ed84b106d79b2d00fb3aaab78233ac26e79554be8"
+    },
+    {
+      "file": "preflight.safe.json",
+      "bytes": 2404,
+      "sha256": "470f7330fb829d5bed44ee895e73e1d2783f9e1bcc80d87453259006f3852963"
+    },
+    {
+      "file": "preview-off-ui.safe.json",
+      "bytes": 182,
+      "sha256": "0119916a58bcfbf9de3347d16a15b1c29b07a3fd4572650b5dfd99e0592a8b03"
+    },
+    {
+      "file": "product-created.safe.json",
+      "bytes": 107,
+      "sha256": "0079764669b222860ae4c5cd8d14069b602c24ff39f8da83bfcfccf42098c90e"
+    },
+    {
+      "file": "server-private-cleanup.safe.json",
+      "bytes": 93,
+      "sha256": "77f7a306e5ecf2d38f680eef79984909da1093a184b4aeb44768fce3792964e5"
+    },
+    {
+      "file": "smtp-restored.safe.json",
+      "bytes": 261,
+      "sha256": "6a869cd4e6a8da66e8b1c22bade63b5fd4b59dda503c20b184368faf9c262800"
+    },
+    {
+      "file": "varnish-after.safe.json",
+      "bytes": 325,
+      "sha256": "bc7b2c6ee51c040e42e0b3225a5cefd0ad345759f8c1c41c948c45cf847025d4"
+    },
+    {
+      "file": "varnish-before.safe.json",
+      "bytes": 219,
+      "sha256": "e1b9f4a8f3602a6faf6454b8c18cba57d1c478fe2432b023e476d868a519b911"
+    },
+    {
+      "file": "varnish-only-diagnostic.safe.json",
+      "bytes": 328,
+      "sha256": "398949c1ff9b88d5cb440fedb704c3dfc3c37881256032f458a2ab0473381ea1"
+    },
+    {
+      "file": "window-release.safe.json",
+      "bytes": 417,
+      "sha256": "e8124088bc97128c2d77b3a177007841e832de4f81c5703eeb89c10d3807deca"
+    }
+  ],
+  "evidence": {
+    "1793948899775-49887c57.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:08:23.414Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 3.134811,
+      "encodedBodyBytes": 20601,
+      "decodedBodyBytes": 85444,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "85b3c6ee2b8d7399740b7f6e77963a75af08476860789a43e5a5bb442d5a4700"
+    },
+    "1793948903498-25a077bd.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:08:28.834Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 5.05731,
+      "encodedBodyBytes": 20601,
+      "decodedBodyBytes": 85444,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 4,
+      "xCache": "HIT",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "85b3c6ee2b8d7399740b7f6e77963a75af08476860789a43e5a5bb442d5a4700"
+    },
+    "1793948908919-6057e5fe.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:08:30.928Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 1.965403,
+      "encodedBodyBytes": 20601,
+      "decodedBodyBytes": 85444,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 6,
+      "xCache": "HIT",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "85b3c6ee2b8d7399740b7f6e77963a75af08476860789a43e5a5bb442d5a4700"
+    },
+    "1793949086415-007aa0f0.safe.json": {
+      "ok": false,
+      "requestAttempts": 1,
+      "error": "curl-failed",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/"
+    },
+    "1793949148770-f447a0c8.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:12:32.593Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 3.73977,
+      "encodedBodyBytes": 20638,
+      "decodedBodyBytes": 85678,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "276fe38899b95633148889ea6637d6b68d46a490288ce16de3db2cfa64f3863a"
+    },
+    "1793949152668-f47df79d.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:12:38.756Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 3.324946,
+      "encodedBodyBytes": 20638,
+      "decodedBodyBytes": 85678,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 3,
+      "xCache": "HIT",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "276fe38899b95633148889ea6637d6b68d46a490288ce16de3db2cfa64f3863a"
+    },
+    "1793949476233-68af4ce8.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:18:00.173Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/shop/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.530541,
+      "encodedBodyBytes": 24176,
+      "decodedBodyBytes": 125879,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "d193a8a5151c0a0cacf1f4180ece3aae02c627957d6589ce1f4dbc1708b02b22"
+    },
+    "1793949480244-ab26c4e4.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:18:11.348Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/shop/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 10.887839,
+      "encodedBodyBytes": 19013,
+      "decodedBodyBytes": 78771,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "7df0cf61738e0497e8cd52670fc387ba8c7a975d2f0d272984aa93a6ae77da2f"
+    },
+    "1793949824618-6ad419ad.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:23:47.926Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 3.260219,
+      "encodedBodyBytes": 18219,
+      "decodedBodyBytes": 84939,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": "CLOUDWAYS-CACHE-DE",
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1"
+    },
+    "1793950449044-0d33672e.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:34:13.770Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 3.791448,
+      "encodedBodyBytes": 18219,
+      "decodedBodyBytes": 84939,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": "CLOUDWAYS-CACHE-DE",
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1"
+    },
+    "1793950453841-dd87e549.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:34:17.254Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 3.366809,
+      "encodedBodyBytes": 18219,
+      "decodedBodyBytes": 84939,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 3,
+      "xCache": "HIT",
+      "cacheProvider": "CLOUDWAYS-CACHE-DE",
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1"
+    },
+    "1793951552084-28ddbdc2.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:52:37.013Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 4.862656,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85535,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "4ca6ea3db7bdea62f8663818ca6634ff65eb1e74690c29d7d667e251c0818890"
+    },
+    "1793951557093-9377e4f1.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:52:40.608Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.207175,
+      "encodedBodyBytes": 20929,
+      "decodedBodyBytes": 85955,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": true,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "54e4cb41f78850a53b90216bf3ae85453e068bd8d65a4fa1a3bbe917455bbbaf"
+    },
+    "1793951560676-2ea92d52.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:52:43.488Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 2.73863,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85535,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 6,
+      "xCache": "HIT",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "4ca6ea3db7bdea62f8663818ca6634ff65eb1e74690c29d7d667e251c0818890"
+    },
+    "1793951563563-1ec72926.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:52:46.008Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.368319,
+      "encodedBodyBytes": 21075,
+      "decodedBodyBytes": 86334,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": true,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "dc26ccb34bcd250906b99b65d9e5d569db0fb30b33ca77f3a36c06b4ff9ec41f"
+    },
+    "1793951739675-70502db0.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:55:43.382Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 3.439299,
+      "encodedBodyBytes": 21085,
+      "decodedBodyBytes": 86335,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": true,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "d9832545538cc5cb06fdf7e32f0183b927340d7cd8b58114c8d8e8a1c725ecf1"
+    },
+    "1793951743453-0d84bf30.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:55:53.403Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 9.879388,
+      "encodedBodyBytes": 20525,
+      "decodedBodyBytes": 85533,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "b1bdd06f63ed195c0af21c5bd6ebe265bcadae508cb3e467f3247ab8c4e7514a"
+    },
+    "1793951955238-7648afc5.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:59:20.097Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 404,
+      "ttfbSeconds": 4.569345,
+      "encodedBodyBytes": 21902,
+      "decodedBodyBytes": 105506,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache, must-revalidate, max-age=0, no-store, private",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "d676e3d22108d35247b1c9291247fd1ff7d841113d0824c0b05df3b8279ccf8b"
+    },
+    "1793951960165-6ed4e0ba.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:59:22.855Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 404,
+      "ttfbSeconds": 2.648468,
+      "encodedBodyBytes": 21894,
+      "decodedBodyBytes": 105503,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "baed60579598e43596945bbe7d6b2131e4b636a120cdbc6dc9f7997761b2d56b"
+    },
+    "1793951995071-6e392bc7.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T07:59:57.640Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 2.486933,
+      "encodedBodyBytes": 24861,
+      "decodedBodyBytes": 109265,
+      "contentEncoding": "gzip",
+      "cacheControl": "no-cache",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "de697dca4879f1e6371da5ce837adcdc14bcb9a0cc72479afe4f0096e452ef74"
+    },
+    "1793952395774-87a1bd67.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T08:06:40.464Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/product/dental-tooth-display-box/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": true,
+      "http": 200,
+      "ttfbSeconds": 4.607423,
+      "encodedBodyBytes": 21262,
+      "decodedBodyBytes": 89209,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": null,
+      "xCache": null,
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "c026d2eb26357619f6d43aa82f693ad105e17e6b6e220d0498b628a40f896a68"
+    },
+    "1793952400537-e401faa4.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T08:06:51.085Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/dental-tooth-display-box/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 10.47866,
+      "encodedBodyBytes": 21403,
+      "decodedBodyBytes": 89588,
+      "contentEncoding": "gzip",
+      "cacheControl": "max-age=60",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": true,
+      "noindexMeta": true,
+      "comingSoon": true,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "5784dbd57117f4085f157505a41217088dd69757846d462d54d9267773b73f60"
+    },
+    "1793953466046-d645ed94.safe.json": {
+      "ok": false,
+      "requestAttempts": 1,
+      "error": "curl-failed",
+      "route": "/"
+    },
+    "1793953481180-c49df8e9.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T08:24:54.159Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 404,
+      "ttfbSeconds": 12.407231,
+      "encodedBodyBytes": 21855,
+      "decodedBodyBytes": 105370,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 0,
+      "xCache": "MISS",
+      "cacheProvider": null,
+      "breezeWrite": null,
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "2f143263ffedc0be6fc88b31a1916e73b2326e035fe4e3b3f6ed62f05f158cde"
+    },
+    "1793953503962-43e5cd46.safe.json": {
+      "ok": true,
+      "at": "2026-11-06T08:25:08.757Z",
+      "requestAttempts": 1,
+      "session": "N",
+      "route": "/",
+      "method": "GET",
+      "redirectsFollowed": false,
+      "cookieJarUsed": false,
+      "http": 200,
+      "ttfbSeconds": 4.594338,
+      "encodedBodyBytes": 21564,
+      "decodedBodyBytes": 101345,
+      "contentEncoding": "gzip",
+      "cacheControl": "",
+      "age": 1086,
+      "xCache": "HIT",
+      "cacheProvider": "CLOUDWAYS-CACHE-DC",
+      "breezeWrite": "SUCCESS",
+      "noindexHeader": true,
+      "comingMeta": false,
+      "comingBlock": false,
+      "noindexMeta": true,
+      "comingSoon": false,
+      "testV0": false,
+      "testV1": false,
+      "htmlClassification": "candidate-manual-review-required",
+      "bodySha256": "5ec567a26616e5adecae5f4b805b091afa757c4382337679174cca743c8a89df"
+    },
+    "accept-v0-ui.safe.json": {
+      "at": "2026-11-06T07:54:02.825Z",
+      "native_fresh_read": true,
+      "status_published": true,
+      "name_v0": true
+    },
+    "accept-v1-ui.safe.json": {
+      "at": "2026-11-06T07:56:34.805Z",
+      "native_fresh_read": true,
+      "status_published": true,
+      "name_v1": true
+    },
+    "bootstrap.safe.json": {
+      "utc": "2026-11-06T07:08:11.9363350Z",
+      "requestAttempts": 1,
+      "session": "A",
+      "route": "/shop/",
+      "preview_query_bootstrap": true,
+      "http": 200,
+      "ttfbSeconds": 7.359555,
+      "encodedBodyBytes": 24032,
+      "cookie_names": [
+        "woo-share"
+      ],
+      "wordpress_auth_cookie": false,
+      "woo_session_cookie": false
+    },
+    "breeze-rule-applied.safe.json": {
+      "utc": "2026-11-06T07:48:04.199Z",
+      "stage": "breeze_rule_applied",
+      "rule": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/(.*)",
+      "generated_rule": true,
+      "other_advanced_sha256": "4d6c8bbbc535e394ea42dcaf01adfe9428e40d77a01122ed57b0dbbfbacd0a14",
+      "config_sha256": "dbaa12f451c9dc744100ade059fcc84e50a1b477af0072541dc51708c5936f91",
+      "native_head_requests_possible": 1,
+      "purge_called": false,
+      "redis_flush_called": false
+    },
+    "cache-after-acceptance.safe.json": {
+      "utc": "2026-11-06T08:12:36+00:00",
+      "product_status": "draft",
+      "product_name": "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V1",
+      "native_permalink": "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062",
+      "native_collect_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/wp/v2/users/1/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rdf/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rss/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/atom/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/comments/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/2/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/3/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/4/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/5/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/6/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/7/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/8/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/9/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=9",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=9"
+      ],
+      "preview": "no",
+      "share_key_sha256": "53c178558d8d566e5cadf2f8f8e0f42abc4e1b866d66fa5c8e5d4facac4d8cb4",
+      "generated_exclude_urls": [
+        "/cart/*",
+        "/checkout/*",
+        "/my-account/*",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product/(.*)"
+      ],
+      "configured_exclude_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product/(.*)"
+      ],
+      "cache_files": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        }
+      ]
+    },
+    "cache-draft.safe.json": {
+      "utc": "2026-11-06T07:33:33+00:00",
+      "product_status": "draft",
+      "product_name": "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V1",
+      "native_permalink": "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062",
+      "native_collect_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/wp/v2/users/1/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rdf/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rss/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/atom/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/comments/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/?post_type=product&p=2062/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/2/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/3/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/4/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/5/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/6/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/7/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/8/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/9/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=9",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=9"
+      ],
+      "preview": "yes",
+      "share_key_sha256": "53c178558d8d566e5cadf2f8f8e0f42abc4e1b866d66fa5c8e5d4facac4d8cb4",
+      "generated_exclude_urls": [
+        "/cart/*",
+        "/checkout/*",
+        "/my-account/*",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+      ],
+      "configured_exclude_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+      ],
+      "cache_files": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": true,
+          "files": [
+            {
+              "name": "1ffcf0a7964b9258a8ae998f069965916f078d47d5a792bd42b4065dff651aad.html",
+              "mtime": 1793949154,
+              "file_sha256": "8e17acd7715870b429c13b80c3d9262f0a29c9004de5be596bdc6e9c4bb96917",
+              "body_sha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1",
+              "body_bytes": 84939,
+              "coming_soon": true,
+              "main_v0": false,
+              "main_v1": false
+            },
+            {
+              "name": "index.html",
+              "mtime": 1793949154,
+              "file_sha256": "7458461484cf322d73e524aed6a8ecbec3d35724b661c0d2eb98496ab27bee73",
+              "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "body_bytes": 0,
+              "coming_soon": false,
+              "main_v0": false,
+              "main_v1": false
+            }
+          ]
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        }
+      ]
+    },
+    "cache-initialized.safe.json": {
+      "utc": "2026-11-06T07:51:33.139Z",
+      "stage": "cache_initialized",
+      "initialization": {
+        "kind": "initialization_not_acceptance",
+        "records": {
+          "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/": {
+            "before": {
+              "exists": true,
+              "files": {
+                "1ffcf0a7964b9258a8ae998f069965916f078d47d5a792bd42b4065dff651aad.html": {
+                  "sha256": "8e17acd7715870b429c13b80c3d9262f0a29c9004de5be596bdc6e9c4bb96917",
+                  "mtime": 1793949154,
+                  "bytes": 85226
+                },
+                "index.html": {
+                  "sha256": "7458461484cf322d73e524aed6a8ecbec3d35724b661c0d2eb98496ab27bee73",
+                  "mtime": 1793949154,
+                  "bytes": 87
+                }
+              }
+            },
+            "after": {
+              "exists": false,
+              "files": []
+            }
+          },
+          "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563": {
+            "before": {
+              "exists": false,
+              "files": []
+            },
+            "after": {
+              "exists": false,
+              "files": []
+            }
+          }
+        },
+        "homepage_before": {
+          "exists": false,
+          "files": []
+        },
+        "urlpurge_dispatched": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+        "homepage_unchanged": true,
+        "redis_flush_called": false
+      }
+    },
+    "cache-response-prefix.safe.json": {
+      "cache_body_sha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1",
+      "comparisons": [
+        {
+          "sample": "1793949148770-f447a0c8.safe.json",
+          "session": "A",
+          "cache_body_is_exact_response_prefix": true,
+          "extra_tail_bytes": 739
+        },
+        {
+          "sample": "1793949152668-f47df79d.safe.json",
+          "session": "N",
+          "cache_body_is_exact_response_prefix": true,
+          "extra_tail_bytes": 739
+        }
+      ]
+    },
+    "cache-v1.safe.json": {
+      "utc": "2026-11-06T07:20:43+00:00",
+      "product_status": "publish",
+      "product_name": "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V1",
+      "native_permalink": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+      "native_collect_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/author/dan/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/wp/v2/users/1/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rdf/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/rss/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/feed/atom/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/comments/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/feed/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/wp-json/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/blog/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/product-category/uncategorized/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=1",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/2/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=2",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/3/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=3",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/4/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=4",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/5/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=5",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/6/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=6",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/7/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=7",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/8/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=8",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/page/9/",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop?page=9",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/?page=9"
+      ],
+      "preview": "yes",
+      "share_key_sha256": "53c178558d8d566e5cadf2f8f8e0f42abc4e1b866d66fa5c8e5d4facac4d8cb4",
+      "generated_exclude_urls": [
+        "/cart/*",
+        "/checkout/*",
+        "/my-account/*",
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+      ],
+      "configured_exclude_urls": [
+        "https://wordpress-1658436-6604195.cloudwaysapps.com/shop/"
+      ],
+      "cache_files": [
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": true,
+          "files": [
+            {
+              "name": "1ffcf0a7964b9258a8ae998f069965916f078d47d5a792bd42b4065dff651aad.html",
+              "mtime": 1793949154,
+              "file_sha256": "8e17acd7715870b429c13b80c3d9262f0a29c9004de5be596bdc6e9c4bb96917",
+              "body_sha256": "788147a24f2c776beeee5e8ede0b1384660cff7e0617b0ea268fbf0836ec18e1",
+              "body_bytes": 84939,
+              "coming_soon": true,
+              "main_v0": false,
+              "main_v1": false
+            },
+            {
+              "name": "index.html",
+              "mtime": 1793949154,
+              "file_sha256": "7458461484cf322d73e524aed6a8ecbec3d35724b661c0d2eb98496ab27bee73",
+              "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "body_bytes": 0,
+              "coming_soon": false,
+              "main_v0": false,
+              "main_v1": false
+            }
+          ]
+        },
+        {
+          "url": "https://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563/",
+          "directory_exists": false,
+          "files": []
+        },
+        {
+          "url": "http://wordpress-1658436-6604195.cloudwaysapps.com/product/test-fg-22b3370125e5ea9941b1b563",
+          "directory_exists": false,
+          "files": []
+        }
+      ]
+    },
+    "cleanup-first-attempt.safe.json": {
+      "captured_utc": "2026-11-06T08:16:59.3950206Z",
+      "error": "after_counts_changed",
+      "mutation_stage": "objects_cleaning",
+      "native_delete_dispatched": true,
+      "logger_cli_pagination_warning": true,
+      "delete_replayed": false,
+      "recovery": "fresh-process independently confirms product absent and business baseline exact; journal-only confirmation then SMTP restore",
+      "new_business_mutation_for_recovery": false
+    },
+    "cleanup-partial-fresh.safe.json": {
+      "utc": "2026-11-06T08:18:31+00:00",
+      "stage": "objects_cleaning",
+      "smtp_flag": "yes",
+      "provider": "FluentMail\\App\\Services\\Mailer\\Providers\\Simulator\\Handler",
+      "smtp_raw_sha256": "d0abfae53c51dabd95815d569db4406f835612acfb90d1915f93275b2f559eeb",
+      "smtp_original_match": false,
+      "product_absent": true,
+      "users": 8,
+      "products": {
+        "publish": 85,
+        "draft": 3,
+        "trash": 1,
+        "auto-draft": 1
+      },
+      "orders": 14,
+      "checkout_drafts": 0,
+      "b_stock_1975": 5,
+      "b_coupon_1996": 1,
+      "preview": "no",
+      "coming_soon": "yes",
+      "store_only": "yes",
+      "blog_public": "0",
+      "breeze_rule_configured": true,
+      "breeze_rule_generated": true,
+      "marker_log_candidates": 0
+    },
+    "final-restoration.safe.json": {
+      "utc": "2026-11-06T08:23:39+00:00",
+      "stage": "restored",
+      "smtp_flag": "no",
+      "provider": "FluentMail\\App\\Services\\Mailer\\Providers\\Smtp\\Handler",
+      "smtp_raw_sha256": "8a691f9a95b683088a29fcfa8d5b1fbe7eebd29292cf8fb9131e504701c64ff0",
+      "smtp_original_match": true,
+      "product_absent": true,
+      "users": 8,
+      "products": {
+        "publish": 85,
+        "draft": 3,
+        "trash": 1,
+        "auto-draft": 1
+      },
+      "orders": 14,
+      "checkout_drafts": 0,
+      "b_stock_1975": 5,
+      "b_coupon_1996": 1,
+      "preview": "no",
+      "coming_soon": "yes",
+      "store_only": "yes",
+      "blog_public": "0",
+      "breeze_rule_configured": true,
+      "breeze_rule_generated": true,
+      "marker_log_candidates": 0
+    },
+    "helper-hashes.safe.json": {
+      "inc/breeze-configuration.php": "e59efea13733a2918ccf72bc9fa9da611cfb059a86f1b4185e949d8421d270a2",
+      "inc/helpers.php": "ec95cd63a87eb9e1a157e820b0edefb5533ce154df2777079e25b1b9f68838fe",
+      "inc/class-breeze-options-reader.php": "0571aad11b92a841acb9411d72003503d128aefe2a4bd20a706f060aee8b2d76"
+    },
+    "independent-review.safe.json": {
+      "reviewedUtc": "2026-11-06T08:28:10.901085+00:00",
+      "method": "独立离线HTMLParser读取正式原文、逐份SHA对照、原始Cookie仅比较名称；读取6份lab safe及fresh restore，不请求站点",
+      "httpCount": 11,
+      "http": [
+        {
+          "sample": "1793951552084-28ddbdc2.safe.json",
+          "at": "2026-11-06T07:52:37.013Z",
+          "session": "N",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 0,
+          "comingComponent": true,
+          "h1h2": [
+            "Great things are on the horizon",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "max-age=60",
+          "age": 0,
+          "xCache": "MISS"
+        },
+        {
+          "sample": "1793951557093-9377e4f1.safe.json",
+          "at": "2026-11-06T07:52:40.608Z",
+          "session": "A",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V0",
+            "Description",
+            "Reviews",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": true,
+          "mainV1": false,
+          "mainMarker": true,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "no-cache",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793951560676-2ea92d52.safe.json",
+          "at": "2026-11-06T07:52:43.488Z",
+          "session": "N",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 0,
+          "comingComponent": true,
+          "h1h2": [
+            "Great things are on the horizon",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "max-age=60",
+          "age": 6,
+          "xCache": "HIT"
+        },
+        {
+          "sample": "1793951563563-1ec72926.safe.json",
+          "at": "2026-11-06T07:52:46.008Z",
+          "session": "A",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V0",
+            "Description",
+            "Reviews",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": true,
+          "mainV1": false,
+          "mainMarker": true,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "no-cache",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793951739675-70502db0.safe.json",
+          "at": "2026-11-06T07:55:43.382Z",
+          "session": "A",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "TEST-FG-FOLLOWUP-22b3370125e5ea9941b1b563 V1",
+            "Description",
+            "Reviews",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": false,
+          "mainV1": true,
+          "mainMarker": true,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "no-cache",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793951743453-0d84bf30.safe.json",
+          "at": "2026-11-06T07:55:53.403Z",
+          "session": "N",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 0,
+          "comingComponent": true,
+          "h1h2": [
+            "Great things are on the horizon",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": true,
+          "noindex": true,
+          "cacheControl": "max-age=60",
+          "age": 0,
+          "xCache": "MISS"
+        },
+        {
+          "sample": "1793951955238-7648afc5.safe.json",
+          "at": "2026-11-06T07:59:20.097Z",
+          "session": "A",
+          "http": 404,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "Oops! That page can’t be found.",
+            "New In Store",
+            "Dental Instrument Multi-Enzyme Cleaning Solution",
+            "Dental Rubber Mixing Bowl"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": false,
+          "noindex": true,
+          "cacheControl": "no-cache, must-revalidate, max-age=0, no-store, private",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793951960165-6ed4e0ba.safe.json",
+          "at": "2026-11-06T07:59:22.855Z",
+          "session": "N",
+          "http": 404,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "Oops! That page can’t be found.",
+            "New In Store",
+            "Dental Instrument Multi-Enzyme Cleaning Solution",
+            "Dental Rubber Mixing Bowl"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": false,
+          "noindex": true,
+          "cacheControl": "",
+          "age": 0,
+          "xCache": "MISS"
+        },
+        {
+          "sample": "1793951995071-6e392bc7.safe.json",
+          "at": "2026-11-06T07:59:57.640Z",
+          "session": "A",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 1,
+          "comingComponent": false,
+          "h1h2": [
+            "Dental Tooth Display Box",
+            "Description",
+            "Additional information",
+            "Reviews"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": false,
+          "noindex": true,
+          "cacheControl": "no-cache",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793952395774-87a1bd67.safe.json",
+          "at": "2026-11-06T08:06:40.464Z",
+          "session": "A",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 0,
+          "comingComponent": true,
+          "h1h2": [
+            "Great things are on the horizon",
+            "Get the latest deals & product updates"
+          ],
+          "mainV0": false,
+          "mainV1": false,
+          "mainMarker": false,
+          "wholeHtmlMarker": false,
+          "noindex": true,
+          "cacheControl": "max-age=60",
+          "age": null,
+          "xCache": null
+        },
+        {
+          "sample": "1793952400537-e401faa4.safe.json",
+          "at": "2026-11-06T08:06:51.085Z",
+          "session": "N",
+          "http": 200,
+          "shaVerified": true,
+          "mainCount": 0,
+          "comingComponent": true,
+          "noindex": true,
+          "wholeHtmlMarker": false,
+          "cacheControl": "max-age=60",
+          "age": 0,
+          "xCache": "MISS"
+        }
+      ],
+      "previewCookieNames": [
+        "woo-share"
+      ],
+      "previewJarOnlyWooShare": true,
+      "labSource": "lab-home-2026-11-06T08-06-59-311Z.safe.json",
+      "labSourceSha256": "28c77730bc0bccf104429fe4026e485b275dfe7c3f8411848f852749884cb46c",
+      "labAllMeasuredClosed": true,
+      "labCookieRaw": [
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-1440-1.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        },
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-1440-2.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        },
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-1440-3.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        },
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-390-1.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        },
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-390-2.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        },
+        {
+          "file": "lab-2026-11-06T08-06-59-311Z-390-3.cookies.json",
+          "names": [
+            "cmplz_policy_id"
+          ],
+          "wooOrAuth": false
+        }
+      ],
+      "lab": [
+        {
+          "width": 390,
+          "samples": 3,
+          "metrics": {
+            "lcpMs": {
+              "raw": [
+                17844,
+                4744,
+                2640
+              ],
+              "median": 4744,
+              "range": [
+                2640,
+                17844
+              ]
+            },
+            "fcpMs": {
+              "raw": [
+                17832,
+                4744,
+                2640
+              ],
+              "median": 4744,
+              "range": [
+                2640,
+                17832
+              ]
+            },
+            "cls": {
+              "raw": [
+                0.0005909149164842406,
+                0.0005909149164842406,
+                0.0005909149164842406
+              ],
+              "median": 0.0005909149164842406,
+              "range": [
+                0.0005909149164842406,
+                0.0005909149164842406
+              ]
+            },
+            "navigationTtfbMs": {
+              "raw": [
+                2450.7000000029802,
+                1510.199999999255,
+                1241.3999999985099
+              ],
+              "median": 1510.199999999255,
+              "range": [
+                1241.3999999985099,
+                2450.7000000029802
+              ]
+            }
+          }
+        },
+        {
+          "width": 1440,
+          "samples": 3,
+          "metrics": {
+            "lcpMs": {
+              "raw": [
+                2896,
+                2896,
+                2808
+              ],
+              "median": 2896,
+              "range": [
+                2808,
+                2896
+              ]
+            },
+            "fcpMs": {
+              "raw": [
+                2896,
+                2896,
+                2808
+              ],
+              "median": 2896,
+              "range": [
+                2808,
+                2896
+              ]
+            },
+            "cls": {
+              "raw": [
+                0.010658350597324031,
+                0.010658350597324031,
+                0.010776481571903935
+              ],
+              "median": 0.010658350597324031,
+              "range": [
+                0.010658350597324031,
+                0.010776481571903935
+              ]
+            },
+            "navigationTtfbMs": {
+              "raw": [
+                2002.5999999977648,
+                1260.9000000022352,
+                2211.800000000745
+              ],
+              "median": 2002.5999999977648,
+              "range": [
+                1260.9000000022352,
+                2211.800000000745
+              ]
+            }
+          }
+        }
+      ],
+      "labLimits": {
+        "headless": true,
+        "freshBrowserPerSample": true,
+        "deviceScaleFactor": 1,
+        "locale": "en-US",
+        "timezoneId": "UTC",
+        "reducedMotion": "no-preference",
+        "networkCpuThrottling": "none",
+        "observation": "load后固定5000ms",
+        "consent": "全新上下文默认态，不点击",
+        "browserHttpCache": "全新临时profile；Playwright导航路由使HTTP cache禁用",
+        "serverCache": "不清理；冷暖及命中不可控",
+        "limits": "两种视口的本机有限实验室值；无实体手机、Lighthouse分数、TBT、INP或真实用户CWV结论"
+      },
+      "anomalies": [
+        "390首样本LCP 17844ms、FCP17832ms保留；只观测MISS→HIT，不能推断服务器cold或归因网络/字体",
+        "无TBT、INP、Lighthouse分数或真实用户CWV通过结论"
+      ],
+      "restorationSafe": {
+        "utc": "2026-11-06T08:23:39+00:00",
+        "stage": "restored",
+        "smtp_flag": "no",
+        "provider": "FluentMail\\App\\Services\\Mailer\\Providers\\Smtp\\Handler",
+        "smtp_raw_sha256": "8a691f9a95b683088a29fcfa8d5b1fbe7eebd29292cf8fb9131e504701c64ff0",
+        "smtp_original_match": true,
+        "product_absent": true,
+        "users": 8,
+        "products": {
+          "publish": 85,
+          "draft": 3,
+          "trash": 1,
+          "auto-draft": 1
+        },
+        "orders": 14,
+        "checkout_drafts": 0,
+        "b_stock_1975": 5,
+        "b_coupon_1996": 1,
+        "preview": "no",
+        "coming_soon": "yes",
+        "store_only": "yes",
+        "blog_public": "0",
+        "breeze_rule_configured": true,
+        "breeze_rule_generated": true,
+        "marker_log_candidates": 0
+      },
+      "cacheAfterAcceptanceSafeSha256": "cb1daf2d77cb86d02e844935bd4c775ffd13a6d1b95370afdb2957a9f086ef08",
+      "limits": [
+        "未独立操作网站或核服务器实时状态；恢复以root新进程safe为证",
+        "N保护页HTML仍含TEST marker的外围元数据，未将整页零商品信息作为通过结论",
+        "联合配置修正有效不能拆称每一层单独修复已证"
+      ],
+      "formalSequence": "V0 N-A-N-A(4) + V1 A-N(2) + draft A-N(2) + business preview-on A(1) + preview-off A-N(2) = 11份"
+    },
+    "init.safe.json": {
+      "baseline": {
+        "utc": "2026-11-06T06:56:39+00:00",
+        "smtp_flag": "no",
+        "smtp_flag_existed": true,
+        "users": 8,
+        "products": {
+          "publish": "85",
+          "future": 0,
+          "draft": "3",
+          "pending": 0,
+          "private": 0,
+          "trash": "1",
+          "auto-draft": "1",
+          "inherit": 0,
+          "request-pending": 0,
+          "request-confirmed": 0,
+          "request-failed": 0,
+          "request-completed": 0,
+          "wc-pending": 0,
+          "wc-processing": 0,
+          "wc-on-hold": 0,
+          "wc-completed": 0,
+          "wc-cancelled": 0,
+          "wc-refunded": 0,
+          "wc-failed": 0,
+          "wc-checkout-draft": 0
+        },
+        "orders": 14,
+        "b_stock_1975": 5,
+        "b_coupon_1996": 1
+      },
+      "smtp_backup_sha256": "8a691f9a95b683088a29fcfa8d5b1fbe7eebd29292cf8fb9131e504701c64ff0",
+      "simulation_stored": "yes",
+      "private_directory_mode": "0700"
+    },
+    "journal-confirm.safe.json": {
+      "utc": "2026-11-06T08:20:57.924Z",
+      "stage": "objects_cleaned",
+      "product_absent": true,
+      "baseline_match": true,
+      "delete_replayed": false
+    },
+    "lab-home-2026-11-06T08-06-59-311Z.safe.json": {
+      "applicationId": 6604195,
+      "target": "https://wordpress-1658436-6604195.cloudwaysapps.com/",
+      "startedUtc": "2026-11-06T08:06:59.311Z",
+      "playwrightVersion": "1.62.1",
+      "conditions": {
+        "headless": true,
+        "freshBrowserPerSample": true,
+        "deviceScaleFactor": 1,
+        "locale": "en-US",
+        "timezoneId": "UTC",
+        "reducedMotion": "no-preference",
+        "networkCpuThrottling": "none",
+        "observation": "load后固定5000ms",
+        "consent": "全新上下文默认态，不点击",
+        "browserHttpCache": "全新临时profile；Playwright导航路由使HTTP cache禁用",
+        "serverCache": "不清理；冷暖及命中不可控",
+        "limits": "两种视口的本机有限实验室值；无实体手机、Lighthouse分数、TBT、INP或真实用户CWV结论"
+      },
+      "samples": [
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "run": 1,
+          "startedUtc": "2026-11-06T08:06:59.311Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 17844,
+            "cls": 0.0005909149164842406,
+            "fcpMs": 17832,
+            "navigationTtfbMs": 2450.7000000029802,
+            "requestToFirstByteMs": 1668.9000000022352,
+            "loadEndMs": 19311.10000000149,
+            "observationEndMs": 24333.5,
+            "resourceCount": 51,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "0",
+            "xCache": "MISS",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:07:24.263Z"
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "run": 2,
+          "startedUtc": "2026-11-06T08:07:24.263Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 4744,
+            "cls": 0.0005909149164842406,
+            "fcpMs": 4744,
+            "navigationTtfbMs": 1510.199999999255,
+            "requestToFirstByteMs": 711,
+            "loadEndMs": 6420.099999997765,
+            "observationEndMs": 11431.099999997765,
+            "resourceCount": 51,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "23",
+            "xCache": "HIT",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:07:36.276Z"
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "run": 3,
+          "startedUtc": "2026-11-06T08:07:36.277Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 2640,
+            "cls": 0.0005909149164842406,
+            "fcpMs": 2640,
+            "navigationTtfbMs": 1241.3999999985099,
+            "requestToFirstByteMs": 462.80000000074506,
+            "loadEndMs": 5936.300000000745,
+            "observationEndMs": 10944.89999999851,
+            "resourceCount": 51,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "35",
+            "xCache": "HIT",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:07:47.845Z"
+        },
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "run": 1,
+          "startedUtc": "2026-11-06T08:07:47.845Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 2896,
+            "cls": 0.010658350597324031,
+            "fcpMs": 2896,
+            "navigationTtfbMs": 2002.5999999977648,
+            "requestToFirstByteMs": 491.8999999985099,
+            "loadEndMs": 6130.89999999851,
+            "observationEndMs": 11149.099999997765,
+            "resourceCount": 52,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "47",
+            "xCache": "HIT",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:07:59.547Z"
+        },
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "run": 2,
+          "startedUtc": "2026-11-06T08:07:59.547Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 2896,
+            "cls": 0.010658350597324031,
+            "fcpMs": 2896,
+            "navigationTtfbMs": 1260.9000000022352,
+            "requestToFirstByteMs": 471.70000000298023,
+            "loadEndMs": 6232.800000000745,
+            "observationEndMs": 11239.300000000745,
+            "resourceCount": 52,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "59",
+            "xCache": "HIT",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:08:11.441Z"
+        },
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "run": 3,
+          "startedUtc": "2026-11-06T08:08:11.442Z",
+          "failedRequests": [],
+          "failedRequestCount": 0,
+          "blockedMainNavigation": false,
+          "cookieNames": [
+            "cmplz_policy_id"
+          ],
+          "wooSessionPresent": false,
+          "rawCookiesSaved": true,
+          "browserClosed": true,
+          "chromeVersion": "156.0.8078.48",
+          "metrics": {
+            "lcpSupported": true,
+            "clsSupported": true,
+            "lcpMs": 2808,
+            "cls": 0.010776481571903935,
+            "fcpMs": 2808,
+            "navigationTtfbMs": 2211.800000000745,
+            "requestToFirstByteMs": 472.3999999985099,
+            "loadEndMs": 6305.60000000149,
+            "observationEndMs": 11311,
+            "resourceCount": 52,
+            "visibilityState": "visible",
+            "consentBannerVisible": true
+          },
+          "http": {
+            "status": 200,
+            "contentType": "text/html; charset=UTF-8",
+            "cacheControl": "",
+            "age": "71",
+            "xCache": "HIT",
+            "xRobotsTag": "noindex, nofollow"
+          },
+          "status": "measured",
+          "unexpectedAuthCookie": false,
+          "finishedUtc": "2026-11-06T08:08:23.395Z"
+        }
+      ],
+      "finishedUtc": "2026-11-06T08:08:23.395Z",
+      "status": "measured"
+    },
+    "lab-permission.safe.json": {
+      "application_id": 6604195,
+      "date": "2026-11-06",
+      "source": "主Agent转达用户明确答复",
+      "user_reply": "允许使用现有 Playwright 做本地测量",
+      "scope": "仅现有Chrome/Playwright对公开Staging首页进行两种视口各3次独立匿名实验室测量；不安装依赖，不复用用户profile，不点击业务流程或Consent，不清服务器缓存",
+      "execution_gate": "FG_LAB_EXECUTE=6604195；准备阶段仅syntax/dry-run，须等待主Agent GO",
+      "production_allowed": false
+    },
+    "local-private-cleanup.safe.json": {
+      "utc": "2026-11-06T08:30:32.2583731Z",
+      "absent": true,
+      "method": "user manual deletion then read-only Test-Path",
+      "automatic_delete_rejected": "blocked by policy",
+      "bypass_attempted": false,
+      "scope": "only this batch private directory",
+      "server_already_removed": true
+    },
+    "native-v1-save.safe.json": {
+      "at": "2026-11-06T07:11:19.478Z",
+      "method": "native wp-admin product Update",
+      "product_id": 2062,
+      "updatedNotice": true,
+      "v1Present": true,
+      "canonicalSlugPresent": true
+    },
+    "preflight.safe.json": {
+      "utc": "2026-11-06T06:48:56+00:00",
+      "home": "https://wordpress-1658436-6604195.cloudwaysapps.com",
+      "preview": "no",
+      "coming_soon": "yes",
+      "store_only": "yes",
+      "blog_public": "0",
+      "cache_active": "1",
+      "cache_sources": {
+        "inc/cache/execute-cache.php": {
+          "sha256": "aab3c4cab11259ef0a137cbe6a96c77f42dbafb92ca9e25ce7deeabe384a1c73",
+          "bytes": 63399
+        },
+        "inc/cache/purge-cache.php": {
+          "sha256": "43f44f27e3f224122d0182499093aea7d9e882ff85f885f47095e10c922df62b",
+          "bytes": 32259
+        },
+        "inc/cache/purge-varnish.php": {
+          "sha256": "ec33acbec1a8f4500445661769c43ff1c9b6c881f2f589a6e52514d5284e138b",
+          "bytes": 17700
+        },
+        "inc/cache/config-cache.php": {
+          "sha256": "ad805e42a9a9f165b1c6987ca7820a156ad03cfeed8263dcb99023aa57074a08",
+          "bytes": 25565
+        },
+        "inc/breeze-admin.php": {
+          "sha256": "d8c435a9cc34f7cfdcef779746eb03ea2b8ed3132959669bfaca1222ce27542d",
+          "bytes": 48578
+        }
+      },
+      "dropin_hash": "17f98cde8e78c1e418bf4066a7f7c34135b67dcde942ba4ed6364b5968ef8828",
+      "dropin_source": "<?php \n\rdefined( 'ABSPATH' ) || exit;\n\rdefine( 'BREEZE_ADVANCED_CACHE', true );\n\rif ( is_admin() ) { return; }\n\rif ( ! @file_exists( '/home/1658436.cloudwaysapps.com/deufrhswrj/public_html/wp-content/plugins/breeze/breeze.php' ) ) { return; }\n$config['config_path'] = '/home/1658436.cloudwaysapps.com/deufrhswrj/public_html/wp-content/breeze-config/breeze-config.php';\nif ( empty( $config ) || ! isset( $config['config_path'] ) || ! @file_exists( $config['config_path'] ) ) { return; }\n$breeze_temp_config = include $config['config_path'];\nif ( isset( $config['blog_id'] ) ) { $breeze_temp_config['blog_id'] = $config['blog_id']; }\n$GLOBALS['breeze_config'] = $breeze_temp_config; unset( $breeze_temp_config );\nif ( empty( $GLOBALS['breeze_config'] ) || empty( $GLOBALS['breeze_config']['cache_options']['breeze-active'] ) ) { return; }\nif ( @file_exists( '/home/1658436.cloudwaysapps.com/deufrhswrj/public_html/wp-content/plugins/breeze/inc/cache/execute-cache.php' ) ) {\n\tinclude_once '/home/1658436.cloudwaysapps.com/deufrhswrj/public_html/wp-content/plugins/breeze/inc/cache/execute-cache.php';\n\tif ( class_exists( '\\Breeze\\Cache\\Execute_Cache' ) ) {\n\t\t\\Breeze\\Cache\\Execute_Cache::bootstrap();\n\t\t}\n}\n",
+      "config_files": [
+        "breeze-config.php",
+        "breeze-protected-urls.php"
+      ]
+    },
+    "preview-off-ui.safe.json": {
+      "utc": "2026-11-06T08:10:11.199Z",
+      "native_fresh_read": true,
+      "coming_soon_checked": true,
+      "store_only_checked": true,
+      "preview_checked": false,
+      "live_checked": false
+    },
+    "product-created.safe.json": {
+      "stage": "product_created",
+      "product_id": 2062,
+      "stock": 5,
+      "price": "1.25",
+      "physical": true
+    },
+    "server-private-cleanup.safe.json": {
+      "utc": "2026-11-06T08:26:20+00:00",
+      "absent": true,
+      "source_backup_preserved": true
+    },
+    "smtp-restored.safe.json": {
+      "utc": "2026-11-06T08:22:17.818Z",
+      "stage": "restored",
+      "smtp_flag": "no",
+      "raw_sha256": "8a691f9a95b683088a29fcfa8d5b1fbe7eebd29292cf8fb9131e504701c64ff0",
+      "unrelated_settings_match": true,
+      "product_absent": true,
+      "cache_rules_changed": false
+    },
+    "varnish-after.safe.json": {
+      "utc": "2026-11-06T07:46:04.195Z",
+      "application_id": 6604195,
+      "rules": [
+        {
+          "type": "URL",
+          "method": "exclude",
+          "value": "\\/shop/"
+        },
+        {
+          "type": "Cookie",
+          "method": "exclude",
+          "value": "woo-share"
+        }
+      ],
+      "source": "native Cloudways application UI saved/readback"
+    },
+    "varnish-before.safe.json": {
+      "utc": "2026-11-06T07:38:19.554Z",
+      "application_id": 6604195,
+      "rules": [
+        {
+          "type": "URL",
+          "method": "exclude",
+          "value": "\\/shop/"
+        }
+      ],
+      "source": "native Cloudways application UI"
+    },
+    "varnish-only-diagnostic.safe.json": {
+      "utc": "2026-11-06T07:23:36+00:00",
+      "method": "URLPURGE",
+      "exact_test_path": "/product/test-fg-22b3370125e5ea9941b1b563/",
+      "diagnosis_only": true,
+      "request_error": false,
+      "php_file_unchanged": true,
+      "php_file_sha256": "8e17acd7715870b429c13b80c3d9262f0a29c9004de5be596bdc6e9c4bb96917",
+      "redis_flushed": false
+    },
+    "window-release.safe.json": {
+      "utc": "2026-11-06T08:30:11.4488211Z",
+      "beijing": "2026-11-06 16:30:11 CST",
+      "application_id": 6604195,
+      "released": true,
+      "last_server_mutation_utc": "2026-11-06T08:26:20+00:00",
+      "temporary_tabs_closed": 9,
+      "user_terminal_and_console_preserved": true,
+      "remaining": "local private directory manual removal and offline documentation only",
+      "no_further_site_actions_after_release": true
+    }
+  }
+}
