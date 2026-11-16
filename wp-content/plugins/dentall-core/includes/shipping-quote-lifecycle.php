@@ -595,7 +595,9 @@ function dentall_core_render_admin_shipping_quote_status( $order ) {
 	$issued_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
 	$reason    = dentall_core_get_shipping_quote_block_reason( $order );
 	echo '<p class="form-field form-field-wide"><strong>' . esc_html__( 'Shipping quote:', 'dentall-core' ) . '</strong><br>';
-	if ( ! $issued_at && dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) && ! $order->get_meta( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META, true, 'edit' ) ) {
+	if ( dentall_core_shipping_quote_order_has_status( $order, array( 'processing', 'completed' ) ) ) {
+		echo esc_html__( 'Payment received. This quote is closed and the payment link can no longer be used.', 'dentall-core' );
+	} elseif ( ! $issued_at && dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) && ! $order->get_meta( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META, true, 'edit' ) ) {
 		echo esc_html__( 'Awaiting quote. Confirm product prices, Shipping, Tax, Fees and both addresses, then choose “Confirm quote and activate payment link” under Order actions. Saving alone does not activate payment.', 'dentall-core' );
 	} elseif ( '' === $reason ) {
 		echo esc_html( sprintf( __( 'Payment deadline: %s', 'dentall-core' ), dentall_core_format_shipping_quote_expiry( $order->get_meta( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, true, 'edit' ) ) ) );
