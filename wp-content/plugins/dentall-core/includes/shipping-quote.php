@@ -6,7 +6,26 @@
 defined( 'ABSPATH' ) || exit;
 
 const DENTALL_SHIPPING_QUOTE_EMAIL_OPTION = 'dentall_shipping_quote_email';
+const DENTALL_SHIPPING_REQUEST_FORM_OPTION = 'dentall_shipping_request_form_id';
 const DENTALL_SHIPPING_QUOTE_ALLOWED_COUNTRIES = array( 'US', 'CA', 'AU' );
+
+/** 0表示入口关闭；与Contact表单必须保持独立，避免串用上下文规则。 */
+function dentall_core_get_shipping_request_form_id() {
+	$form_id = absint( get_option( DENTALL_SHIPPING_REQUEST_FORM_OPTION, 0 ) );
+	if ( ! $form_id || $form_id === absint( get_option( 'dentall_contact_form_id', 0 ) ) || ! class_exists( '\FluentForm\App\Models\Form' ) ) {
+		return 0;
+	}
+
+	static $ready = array();
+	if ( ! array_key_exists( $form_id, $ready ) ) {
+		$form = \FluentForm\App\Models\Form::find( $form_id );
+		$fields = $form ? \FluentForm\App\Modules\Form\FormFieldsParser::getInputs( $form ) : array();
+		$ready[ $form_id ] = $form && 'published' === $form->status && 'form' === $form->type && empty( $form->has_payment )
+			&& 'input_hidden' === ( $fields['dentall_request_token']['element'] ?? '' )
+			&& 'input_hidden' === ( $fields['dentall_cart_snapshot']['element'] ?? '' );
+	}
+	return $ready[ $form_id ] ? $form_id : 0;
+}
 
 /**
  * 取得已验证的报价收件邮箱。
@@ -55,7 +74,7 @@ function dentall_core_get_shipping_quote_settings( $settings, $section ) {
 	return array(
 		array(
 			'title' => __( 'Manual shipping quote', 'dentall-core' ),
-			'desc'  => __( 'Customers request shipping by email. Staff confirm Shipping, Tax and Fee on a pending WooCommerce order before sending its payment link.', 'dentall-core' ),
+			'desc'  => __( 'Customers submit a shipping request. Staff confirm Shipping, Tax and Fee on a pending WooCommerce order before sending its payment link.', 'dentall-core' ),
 			'id'    => 'dentall_shipping_quote_options',
 			'type'  => 'title',
 		),
@@ -67,6 +86,14 @@ function dentall_core_get_shipping_quote_settings( $settings, $section ) {
 			'css'      => 'min-width: 22rem;',
 			'default'  => '',
 			'desc_tip' => false,
+		),
+		array(
+			'title'    => __( 'Shipping request form ID', 'dentall-core' ),
+			'desc'     => __( 'Use the imported shipping request Fluent Forms ID, separate from Contact. Set to 0 to disable the online request form.', 'dentall-core' ),
+			'id'       => DENTALL_SHIPPING_REQUEST_FORM_OPTION,
+			'type'     => 'number',
+			'default'  => 0,
+			'custom_attributes' => array( 'min' => 0, 'step' => 1 ),
 		),
 		array(
 			'id'   => 'dentall_shipping_quote_options',
@@ -139,6 +166,12 @@ function dentall_core_cart_requires_shipping_quote( $cart = null ) {
 
 	return false;
 }
+
+/** 人工报价购物车不计算自动运费；商品自身配送事实和订单付款守卫保持独立。 */
+function dentall_core_disable_automatic_quote_cart_shipping( $needs_shipping ) {
+	return dentall_core_cart_requires_shipping_quote() ? false : $needs_shipping;
+}
+add_filter( 'woocommerce_cart_needs_shipping', 'dentall_core_disable_automatic_quote_cart_shipping' );
 
 /**
  * 声明Cart Store API中的人工报价状态字段。

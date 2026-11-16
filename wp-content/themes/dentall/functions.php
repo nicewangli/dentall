@@ -11,3 +11,4 @@ require_once __DIR__ . '/inc/catalog-filters.php';
 require_once __DIR__ . '/inc/site-footer.php';
 require_once __DIR__ . '/inc/homepage.php';
 require_once __DIR__ . '/inc/contact.php';
+require_once __DIR__ . '/inc/shipping-request.php';

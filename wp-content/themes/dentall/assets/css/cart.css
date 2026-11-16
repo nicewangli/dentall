@@ -1,3 +1,37 @@
+/* 申请表沿用Cart页面资源和单列语义结构，大屏只扩展可读宽度。 */
+.dentall-shipping-request {
+	max-inline-size: 48rem;
+	margin-inline: auto;
+	overflow-wrap: anywhere;
+}
+
+.dentall-shipping-request__summary {
+	margin-block: var(--dentall-space-24);
+	padding: var(--dentall-space-16);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-color-surface-sky);
+}
+
+.dentall-shipping-request__summary p {
+	margin-block-end: 0;
+}
+
+.dentall-shipping-request .ff-el-form-control,
+.dentall-shipping-request .ff-btn-submit {
+	min-block-size: 2.75rem;
+	max-inline-size: 100%;
+}
+
+.dentall-shipping-request .fluentform :is(input, select, textarea, button, a):focus-visible {
+	outline: 2px solid var(--dentall-focus-ring-color);
+	outline-offset: 2px;
+}
+
+.dentall-shipping-request__contact {
+	margin-block-start: var(--dentall-space-24);
+}
+
 /*
  * D67-D68购物车骨架：保留WooCommerce Cart Block的DOM、Flex布局、Store API和状态逻辑。
  * 基础层只补可读性、触控目标与异常状态；既有PC断点继续负责商品行和金额摘要视觉层级。

@@ -167,10 +167,7 @@ function dentall_enqueue_cart_assets() {
 		'dentall-shipping-quote',
 		'dentallShippingQuote',
 		array(
-			'recipient' => function_exists( 'dentall_core_get_shipping_quote_email' )
-				? dentall_core_get_shipping_quote_email()
-				: '',
-			'cartUrl'   => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' ),
+			'requestUrl' => add_query_arg( 'shipping-request', '1', wc_get_cart_url() ),
 		)
 	);
 }
