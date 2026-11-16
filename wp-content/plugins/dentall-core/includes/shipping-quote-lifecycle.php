@@ -31,7 +31,7 @@ function dentall_core_shipping_quote_order_has_status( $order, $statuses ) {
 /**
  * 判断订单是否属于本项目的后台人工报价流程。
  *
- * 已签发订单始终由本模块管理；未签发订单仅接管Woo后台创建的实体商品订单，
+ * 已签发订单始终由本模块管理；未签发订单仅接管后台或站内申请创建的实体商品订单，
  * 避免把其他来源的普通订单误纳入报价生命周期。
  *
  * @param WC_Order|null $order 订单。
@@ -46,9 +46,44 @@ function dentall_core_is_shipping_quote_candidate( $order ) {
 		return true;
 	}
 
-	return dentall_core_order_contains_shipping_products( $order )
-		&& is_callable( array( $order, 'get_created_via' ) )
-		&& 'admin' === $order->get_created_via( 'edit' );
+	$source = $order->get_created_via( 'edit' );
+	return 'dentall-shipping-request' === $source
+		|| ( 'admin' === $source && dentall_core_order_contains_shipping_products( $order ) );
+}
+
+/**
+ * 未预留库存的报价必须在激活及付款时复核商品；共享库存的变体合并数量。
+ * 已由网关扣减库存的on-hold订单不能再次扣除自身数量。
+ */
+function dentall_core_shipping_quote_has_available_products( $order ) {
+	$quantities = array();
+	$products   = array();
+	$stock_reduced = $order->get_data_store()->get_stock_reduced( $order->get_id() );
+	foreach ( $order->get_items( 'line_item' ) as $item ) {
+		$product = $item->get_product();
+		$parent = $product instanceof WC_Product && $product->is_type( 'variation' ) ? wc_get_product( $product->get_parent_id() ) : $product;
+		$quantity = $item->get_quantity();
+		if ( ! $product instanceof WC_Product || ! $parent instanceof WC_Product
+			|| 'publish' !== $product->get_status() || 'publish' !== $parent->get_status() || '' !== $parent->get_post_password( 'edit' )
+			|| ! $product->is_purchasable() || $quantity <= 0 || ( ! $stock_reduced && ! $product->is_in_stock() ) ) {
+			return false;
+		}
+		$stock_id = $product->get_stock_managed_by_id();
+		$quantities[ $stock_id ] = ( $quantities[ $stock_id ] ?? 0 ) + $quantity;
+		$products[ $stock_id ] = $product;
+	}
+	if ( empty( $products ) ) {
+		return false;
+	}
+	if ( $stock_reduced ) {
+		return true;
+	}
+	foreach ( $products as $product ) {
+		if ( ! $product->has_enough_stock( $quantities[ $product->get_stock_managed_by_id() ] + wc_get_held_stock_quantity( $product, $order->get_id() ) ) ) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**
@@ -219,12 +254,24 @@ function dentall_core_get_shipping_quote_block_reason( $order, $now = null, $all
 		return 'status';
 	}
 
+	if ( 'dentall-shipping-request' === $order->get_created_via( 'edit' ) && 'created' !== $order->get_meta( '_dentall_shipping_request_state', true, 'edit' ) ) {
+		return 'details';
+	}
+
 	if ( ! dentall_core_order_has_quoted_shipping( $order ) ) {
 		return 'shipping';
 	}
 
 	if ( ! dentall_core_order_has_required_quote_details( $order ) ) {
 		return 'details';
+	}
+
+	if ( (float) $order->get_total( 'edit' ) <= 0 || (float) $order->get_total_refunded() > 0 || $order->get_date_paid( 'edit' ) ) {
+		return 'amount';
+	}
+
+	if ( ! dentall_core_shipping_quote_has_available_products( $order ) ) {
+		return 'stock';
 	}
 
 	$issued_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
@@ -263,6 +310,8 @@ function dentall_core_get_shipping_quote_block_message( $reason ) {
 		'not_issued' => __( 'This payment link has not been activated. Contact us before payment.', 'dentall-core' ),
 		'shipping'   => __( 'This quote does not include a valid positive shipping charge. Contact us before payment.', 'dentall-core' ),
 		'details'    => __( 'This quote does not include complete billing and shipping details. Contact us before payment.', 'dentall-core' ),
+		'amount'     => __( 'This quote does not have a valid payable total. Contact us before payment.', 'dentall-core' ),
+		'stock'      => __( 'A quoted product is no longer available in the requested quantity. Contact us for a new quote.', 'dentall-core' ),
 		'status'     => __( 'This quote can no longer be paid. Contact us for assistance.', 'dentall-core' ),
 	);
 
@@ -289,8 +338,8 @@ function dentall_core_cancel_shipping_quote( $order, $reason ) {
 	$notes = array(
 		'closed'            => __( 'This issued quote was already closed and cannot be reopened. Create and confirm a new order before sending another payment request.', 'dentall-core' ),
 		'expired'           => __( 'The 72-hour quote validity period ended. This order was cancelled; create and confirm a new order before sending another payment request.', 'dentall-core' ),
-		'changed'           => __( 'The issued quote changed after its payment email was sent. This order was cancelled; create and confirm a new order before sending another payment request.', 'dentall-core' ),
-		'not_issued'        => __( 'Payment was attempted before this quote was activated by a successful payment email. This order was cancelled; create and confirm a new order.', 'dentall-core' ),
+		'changed'           => __( 'The issued quote changed after activation. This order was cancelled; create and confirm a new order before sending another payment request.', 'dentall-core' ),
+		'not_issued'        => __( 'Payment was attempted before this quote was activated. This order was cancelled; create and confirm a new order.', 'dentall-core' ),
 		'shipping'          => __( 'Payment was attempted without a valid positive Shipping line. This order was cancelled; create and confirm a new order.', 'dentall-core' ),
 		'details'           => __( 'Payment was attempted without complete billing and shipping details. This order was cancelled; create and confirm a new order.', 'dentall-core' ),
 		'activation_failed' => __( 'This payment request could not be activated safely, so the order was cancelled. Investigate the order data and create a replacement quote.', 'dentall-core' ),
@@ -323,7 +372,11 @@ function dentall_core_add_shipping_quote_email_terms( $order, $sent_to_admin, $p
 		return;
 	}
 
-	$message = __( 'This quote is valid for 72 hours from the first successful sending of this payment request. Sending it again does not extend the deadline.', 'dentall-core' );
+	$message = sprintf(
+		/* translators: %s: the saved quote deadline and timezone. */
+		__( 'Payment deadline: %s. This quote is valid for 72 hours from activation. Sending it again does not extend the deadline.', 'dentall-core' ),
+		dentall_core_format_shipping_quote_expiry( $order->get_meta( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, true, 'edit' ) )
+	);
 	$duties  = __( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees and carrier brokerage charges are not included in the DentAll order total and are payable by the customer directly to customs or the carrier. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall-core' );
 
 	if ( $plain_text ) {
@@ -396,7 +449,7 @@ function dentall_core_render_shipping_quote_payment_terms( $order ) {
 	$heading_id = 'dentall-quote-terms-' . $order->get_id();
 	$datetime   = gmdate( 'Y-m-d\TH:i:s\Z', $expires_at );
 	$deadline   = dentall_core_format_shipping_quote_expiry( $expires_at );
-	$terms      = __( 'This deadline is based on the first successfully sent payment email. Sending the payment request again does not extend it.', 'dentall-core' );
+	$terms      = __( 'This deadline was fixed when the quote was activated. Sending the payment request again does not extend it.', 'dentall-core' );
 	$charges    = __( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees and carrier brokerage charges are not included in this order total and are payable by the customer directly to customs or the carrier. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall-core' );
 
 	echo '<section class="dentall-quote-terms" aria-labelledby="' . esc_attr( $heading_id ) . '">';
@@ -412,8 +465,7 @@ add_action( 'before_woocommerce_pay_form', 'dentall_core_render_shipping_quote_p
  * 阻止向资料不完整或已失效的待付款报价发送Customer Invoice。
  *
  * Customer Invoice是人工邮件，会绕过WooCommerce常规enabled开关，因此通过
- * 收件人Filter使发送安全失败。未签发订单只有在正数Shipping和地址合同完整时
- * 才保留收件人；这样客户不会先收到一个随后必然被拒绝的付款链接。
+ * 收件人Filter使发送安全失败。必须先显式激活，邮件不再承担签发和计时职责。
  *
  * @param string        $recipient 收件人。
  * @param WC_Order|null $order     邮件订单。
@@ -424,23 +476,20 @@ function dentall_core_guard_shipping_quote_invoice_recipient( $recipient, $order
 	if (
 		! $order instanceof WC_Order
 		|| ! dentall_core_is_shipping_quote_candidate( $order )
-		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
+		|| ( ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
+			&& ( 'dentall-shipping-request' !== $order->get_created_via( 'edit' ) || 0 < (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' ) ) )
 	) {
 		return $recipient;
 	}
 
 	$issued_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
-	$reason    = 0 < $issued_at
-		? dentall_core_get_shipping_quote_block_reason( $order )
-		: ( dentall_core_order_has_quoted_shipping( $order )
-			? ( dentall_core_order_has_required_quote_details( $order ) ? '' : 'details' )
-			: 'shipping' );
+	$reason    = dentall_core_get_shipping_quote_block_reason( $order );
 
 	if ( '' !== $reason && '' !== $recipient && function_exists( 'is_admin' ) && is_admin() && class_exists( 'WC_Admin_Meta_Boxes' ) ) {
 		WC_Admin_Meta_Boxes::add_error(
 			0 < $issued_at
 				? __( 'Payment email not sent: this issued quote is no longer valid. Create and confirm a replacement order before sending another payment email.', 'dentall-core' )
-				: __( 'Payment email not sent: add a positive Shipping line and complete the approved billing and shipping details first.', 'dentall-core' )
+				: __( 'Payment email not sent: confirm all charges and addresses, then use the order action to activate the payment link first.', 'dentall-core' )
 		);
 	}
 
@@ -449,82 +498,114 @@ function dentall_core_guard_shipping_quote_invoice_recipient( $recipient, $order
 add_filter( 'woocommerce_email_recipient_customer_invoice', 'dentall_core_guard_shipping_quote_invoice_recipient', PHP_INT_MAX, 3 );
 
 /**
- * 首次成功发送付款申请邮件后签发报价；后续重发不改变时间。
- *
- * @param bool     $success 发送结果。
- * @param string   $email_id 邮件ID。
- * @param WC_Email $email WooCommerce邮件对象。
- * @return void
+ * 复用原生订单操作，不增加页面或独立写入入口。
  */
-function dentall_core_issue_shipping_quote_after_email( $success, $email_id, $email ) {
-	$order = $email instanceof WC_Email ? $email->object : null;
-
+function dentall_core_add_shipping_quote_order_action( $actions, $order ) {
 	if (
-		! $success
-		|| 'customer_invoice' !== $email_id
-		|| ! $order instanceof WC_Order
-		|| ! dentall_core_is_shipping_quote_candidate( $order )
-		|| ! dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
-		|| 0 < (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' )
+		dentall_core_is_shipping_quote_candidate( $order )
+		&& current_user_can( 'edit_shop_order', $order->get_id() )
+		&& dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) )
 	) {
-		return;
+		if ( '' !== dentall_core_get_shipping_quote_block_reason( $order ) ) {
+			unset( $actions['send_order_details'] );
+		}
+		if ( ! $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' ) && ! $order->get_meta( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META, true, 'edit' ) ) {
+			$actions['dentall_activate_shipping_quote'] = __( 'Confirm quote and activate payment link (72 hours)', 'dentall-core' );
+		}
 	}
-
-	if ( ! dentall_core_order_has_quoted_shipping( $order ) || ! dentall_core_order_has_required_quote_details( $order ) ) {
-		$order->add_order_note(
-			__( 'This payment request was not activated because the quote data was incomplete when the email result returned. Complete the order and send a new payment email.', 'dentall-core' )
-		);
-		return;
-	}
-
-	$issued_at = time();
-	$expires_at = $issued_at + DENTALL_SHIPPING_QUOTE_LIFETIME;
-	$token = wp_generate_uuid4();
-	$signature = dentall_core_get_shipping_quote_signature( $order );
-
-	if ( '' === $signature ) {
-		$order->add_order_note(
-			__( 'The quote signature could not be encoded, so this payment request was not activated. This order is being cancelled; investigate the order data and create a replacement quote.', 'dentall-core' )
-		);
-		dentall_core_cancel_shipping_quote( $order, 'activation_failed' );
-		return;
-	}
-
-	$order->update_meta_data( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, $issued_at );
-	$order->update_meta_data( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, $expires_at );
-	$order->update_meta_data( DENTALL_SHIPPING_QUOTE_SIGNATURE_META, $signature );
-	$order->update_meta_data( DENTALL_SHIPPING_QUOTE_TOKEN_META, $token );
-	$order->delete_meta_data( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META );
-	$order->delete_meta_data( DENTALL_SHIPPING_QUOTE_CLOSED_REASON_META );
-	$order->save();
-
-	$action_id = function_exists( 'as_schedule_single_action' )
-		? as_schedule_single_action(
-			$expires_at,
-			DENTALL_SHIPPING_QUOTE_EXPIRY_HOOK,
-			array( 'order_id' => $order->get_id(), 'token' => $token ),
-			DENTALL_SHIPPING_QUOTE_ACTION_GROUP,
-			true
-		)
-		: 0;
-
-	$order->add_order_note(
-		sprintf(
-			/* translators: 1: UTC expiry time, 2: duration in hours. */
-			__( 'Payment quote issued. It expires at %1$s UTC (%2$d hours after this first successful email); resending does not extend it.', 'dentall-core' ),
-			gmdate( 'Y-m-d H:i:s', $expires_at ),
-			(int) ( DENTALL_SHIPPING_QUOTE_LIFETIME / HOUR_IN_SECONDS )
-		)
-	);
-
-	if ( ! $action_id ) {
-		$order->add_order_note(
-			__( 'The quote expiry task could not be scheduled. The real-time payment guard still enforces the saved expiry; investigate Scheduled Actions.', 'dentall-core' )
-		);
-	}
-
+	return $actions;
 }
-add_action( 'woocommerce_email_sent', 'dentall_core_issue_shipping_quote_after_email', 20, 3 );
+add_filter( 'woocommerce_order_actions', 'dentall_core_add_shipping_quote_order_action', 20, 2 );
+
+/**
+ * 管理员显式确认后一次性签发；锁内重新读订单，防止并发操作重置截止时间。
+ * Woo原生保存链已校验nonce；回调仍复核nonce与订单权限，不信任直接触发Hook。
+ */
+function dentall_core_activate_shipping_quote( $order ) {
+	$nonce = $_POST['_wpnonce'] ?? $_POST['woocommerce_meta_nonce'] ?? '';
+	if ( ! $order instanceof WC_Order || ! current_user_can( 'edit_shop_order', $order->get_id() ) || ! is_string( $nonce )
+		|| ( ! wp_verify_nonce( wp_unslash( $nonce ), 'update-order_' . $order->get_id() ) && ! wp_verify_nonce( wp_unslash( $nonce ), 'woocommerce_save_data' ) ) ) {
+		return;
+	}
+
+	global $wpdb;
+	$lock = 'dentall_activate_' . substr( hash( 'sha256', DB_NAME . ':' . $wpdb->prefix . ':' . $order->get_id() ), 0, 40 );
+	if ( '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK(%s, 0)', $lock ) ) ) {
+		WC_Admin_Meta_Boxes::add_error( __( 'This quote is being updated. Reload the order before trying again.', 'dentall-core' ) );
+		return;
+	}
+
+	try {
+		/* 和既有网关恢复一致，必须能够读取锁内最新订单事实。 */
+		if ( \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_datastore_cache_enabled() ) {
+			throw new RuntimeException( 'Fresh quote reads require order datastore caching to be disabled.' );
+		}
+		$order = new WC_Order( $order->get_id() );
+		if ( ! dentall_core_is_shipping_quote_candidate( $order ) ) {
+			return;
+		}
+		if ( 0 < (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' ) ) {
+			WC_Admin_Meta_Boxes::add_error( __( 'This quote was already activated. Its saved deadline cannot be extended; use a new order if a replacement quote is needed.', 'dentall-core' ) );
+			return;
+		}
+		$reason = dentall_core_get_shipping_quote_block_reason( $order );
+		if ( 'not_issued' !== $reason ) {
+			WC_Admin_Meta_Boxes::add_error( dentall_core_get_shipping_quote_block_message( $reason ) );
+			return;
+		}
+		$issued_at  = time();
+		$expires_at = $issued_at + DENTALL_SHIPPING_QUOTE_LIFETIME;
+		$token      = wp_generate_uuid4();
+		$signature  = dentall_core_get_shipping_quote_signature( $order );
+		if ( '' === $signature || '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT IS_USED_LOCK(%s) = CONNECTION_ID()', $lock ) ) ) {
+			throw new RuntimeException( 'Quote activation lost its data contract or lock.' );
+		}
+		$order->update_meta_data( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, $issued_at );
+		$order->update_meta_data( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, $expires_at );
+		$order->update_meta_data( DENTALL_SHIPPING_QUOTE_SIGNATURE_META, $signature );
+		$order->update_meta_data( DENTALL_SHIPPING_QUOTE_TOKEN_META, $token );
+		$order->save();
+		$action_id = function_exists( 'as_schedule_single_action' )
+			? as_schedule_single_action( $expires_at, DENTALL_SHIPPING_QUOTE_EXPIRY_HOOK, array( 'order_id' => $order->get_id(), 'token' => $token ), DENTALL_SHIPPING_QUOTE_ACTION_GROUP, true )
+			: 0;
+		$order->add_order_note(
+			sprintf(
+				/* translators: 1: UTC expiry time, 2: duration in hours. */
+				__( 'Payment quote activated. It expires at %1$s UTC (%2$d hours after activation); sending or copying the link does not extend it.', 'dentall-core' ),
+				gmdate( 'Y-m-d H:i:s', $expires_at ),
+				(int) ( DENTALL_SHIPPING_QUOTE_LIFETIME / HOUR_IN_SECONDS )
+			)
+		);
+		if ( ! $action_id ) {
+			$order->add_order_note( __( 'The quote expiry task could not be scheduled. The real-time payment guard still enforces the saved expiry; investigate Scheduled Actions.', 'dentall-core' ) );
+		}
+	} catch ( Throwable $error ) {
+		WC_Admin_Meta_Boxes::add_error( __( 'The payment link could not be activated safely. Reload the order and check its quote status before trying again.', 'dentall-core' ) );
+	} finally {
+		$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $lock ) );
+	}
+}
+add_action( 'woocommerce_order_action_dentall_activate_shipping_quote', 'dentall_core_activate_shipping_quote' );
+
+/** 在原生订单资料区解释当前报价状态；链接仍使用Woo原生订单密钥URL。 */
+function dentall_core_render_admin_shipping_quote_status( $order ) {
+	if ( ! dentall_core_is_shipping_quote_candidate( $order ) || ! current_user_can( 'edit_shop_order', $order->get_id() ) ) {
+		return;
+	}
+	$issued_at = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' );
+	$reason    = dentall_core_get_shipping_quote_block_reason( $order );
+	echo '<p class="form-field form-field-wide"><strong>' . esc_html__( 'Shipping quote:', 'dentall-core' ) . '</strong><br>';
+	if ( ! $issued_at && dentall_core_shipping_quote_order_has_status( $order, array( 'pending', 'failed' ) ) && ! $order->get_meta( DENTALL_SHIPPING_QUOTE_CLOSED_AT_META, true, 'edit' ) ) {
+		echo esc_html__( 'Awaiting quote. Confirm product prices, Shipping, Tax, Fees and both addresses, then choose “Confirm quote and activate payment link” under Order actions. Saving alone does not activate payment.', 'dentall-core' );
+	} elseif ( '' === $reason ) {
+		echo esc_html( sprintf( __( 'Payment deadline: %s', 'dentall-core' ), dentall_core_format_shipping_quote_expiry( $order->get_meta( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, true, 'edit' ) ) ) );
+		echo '<br>' . esc_html__( 'Copy the Customer payment page link above for WhatsApp, or use Send order details to customer. Sending again does not extend the deadline.', 'dentall-core' );
+	} else {
+		echo esc_html( dentall_core_get_shipping_quote_block_message( $reason ) );
+	}
+	echo '</p>';
+}
+add_action( 'woocommerce_admin_order_data_after_order_details', 'dentall_core_render_admin_shipping_quote_status' );
 
 /**
  * 验证经典order-pay请求中的订单密钥，避免按可枚举ID变更订单。
@@ -580,10 +661,7 @@ function dentall_core_guard_shipping_quote_order_pay_request() {
 add_action( 'wp', 'dentall_core_guard_shipping_quote_order_pay_request', 19 );
 
 /**
- * 在当前经典付款请求中移除被报价规则阻断的订单状态。
- *
- * 首次付款邮件在签发Hook之前也会调用needs_payment()生成付款链接，因此
- * 不能全局阻断未签发订单。这里仅接管已经通过订单密钥校验的order-pay请求。
+ * 全局移除不可付款报价的状态，原生后台付款链接和My Account Pay随之隐藏。
  * 使用最高优先级，避免WooCommerce Blocks在999优先级重新加入订单状态。
  *
  * @param array<string> $statuses WooCommerce默认可付款状态。
@@ -591,15 +669,7 @@ add_action( 'wp', 'dentall_core_guard_shipping_quote_order_pay_request', 19 );
  * @return array<string>
  */
 function dentall_core_guard_shipping_quote_payment_statuses( $statuses, $order ) {
-	global $wp;
-
-	$order_pay_id = isset( $wp->query_vars['order-pay'] ) ? absint( $wp->query_vars['order-pay'] ) : 0;
-
-	if (
-		! dentall_core_is_shipping_quote_candidate( $order )
-		|| $order_pay_id !== $order->get_id()
-		|| ! dentall_core_request_has_valid_quote_order_key( $order )
-	) {
+	if ( ! dentall_core_is_shipping_quote_candidate( $order ) ) {
 		return $statuses;
 	}
 
@@ -732,6 +802,10 @@ add_action( 'woocommerce_update_order', 'dentall_core_invalidate_changed_shippin
  * @return void
  */
 function dentall_core_unschedule_settled_shipping_quote( $order_id, $old_status, $new_status, $order ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	/* Woo原生终态释放已覆盖成功/取消/on-hold；failed也结束本次付款占用。 */
+	if ( 'failed' === $new_status && dentall_core_is_shipping_quote_candidate( $order ) ) {
+		wc_release_stock_for_order( $order );
+	}
 	if ( ! $order instanceof WC_Order || in_array( $new_status, DENTALL_SHIPPING_QUOTE_UNSETTLED_STATUSES, true ) ) {
 		return;
 	}

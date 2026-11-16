@@ -480,6 +480,19 @@ function dentall_core_get_quote_required_address_fields( $address_type, $country
 	if ( is_object( $countries ) && is_callable( array( $countries, 'get_address_fields' ) ) ) {
 		$prefix          = $address_type . '_';
 		$address_fields  = $countries->get_address_fields( $country, $prefix );
+		if ( 'billing' === $address_type && $countries instanceof WC_Countries && ! isset( $countries->get_allowed_countries()[ $country ] ) ) {
+			// Woo会按销售/配送国家裁剪locale；海外账单仅在独立对象本次读取中补入。
+			$include_country = static function ( $allowed ) use ( $country ) {
+				$allowed[ $country ] = $country;
+				return $allowed;
+			};
+			add_filter( 'woocommerce_countries_allowed_countries', $include_country, PHP_INT_MAX );
+			try {
+				$address_fields = ( new WC_Countries() )->get_address_fields( $country, $prefix );
+			} finally {
+				remove_filter( 'woocommerce_countries_allowed_countries', $include_country, PHP_INT_MAX );
+			}
+		}
 		$required_fields = array();
 
 		foreach ( $candidate_fields as $field ) {

@@ -3,7 +3,7 @@
  * 人工报价与WooCommerce PayPal Payments原生入口的适配。
  *
  * 网关可能在payment_complete之前已扣款，必须在创建及外部收款前复核。
- * 创建与Capture前只校验；已验签完成通知的failed恢复会只读查PayPal，
+ * 创建前复核，Capture前复核并原子预留库存；已验签完成通知的failed恢复只读查PayPal，
  * 再交Woo原生API记账，不重新扣款。
  */
 
@@ -66,8 +66,63 @@ function dentall_core_guard_paypal_quote_creation( $data ) {
 	}
 
 	dentall_core_assert_paypal_shipping_quote( $order );
+	dentall_core_reserve_paypal_quote_stock( $order, true );
 }
 add_action( 'woocommerce_paypal_payments_create_order_request_started', 'dentall_core_guard_paypal_quote_creation', 20 );
+
+/**
+ * 仅在真正Capture前复用Woo原子库存预留，创建PayPal订单时只准备重试状态。
+ * failed不会被原生预留查询计入，所以只有客户已授权的重试可先恢复pending。
+ */
+function dentall_core_reserve_paypal_quote_stock( $order, $customer_retry = false ) {
+	if ( ! dentall_core_is_shipping_quote_candidate( $order ) ) {
+		return;
+	}
+	$order = new WC_Order( $order->get_id() );
+	dentall_core_assert_paypal_shipping_quote( $order, true );
+	if ( $order->get_data_store()->get_stock_reduced( $order->get_id() ) ) {
+		return;
+	}
+	$exception_class = class_exists( 'WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException' )
+		? 'WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException' : RuntimeException::class;
+	if ( $customer_retry && (int) $order->get_meta( '_ppcp_processing', true, 'edit' ) >= time() ) {
+		throw new $exception_class( __( 'This payment is being processed. Do not pay again; reload the order to check its status.', 'dentall-core' ) );
+	}
+	if ( ! $customer_retry && (int) $order->get_meta( '_ppcp_processing', true, 'edit' ) < time() ) {
+		throw new $exception_class( __( 'This payment must be processed through the approved PayPal payment flow.', 'dentall-core' ) );
+	}
+	$remaining = (int) $order->get_meta( DENTALL_SHIPPING_QUOTE_EXPIRES_AT_META, true, 'edit' ) - time();
+	if ( $remaining <= 0 || ! dentall_core_shipping_quote_order_has_status( $order, $customer_retry ? array( 'pending', 'failed' ) : 'pending' ) ) {
+		throw new $exception_class( __( 'This payment cannot safely start or resume. Contact us for a new quote, or retry from its current payment link.', 'dentall-core' ) );
+	}
+	if ( dentall_core_shipping_quote_order_has_status( $order, 'failed' ) ) {
+		if ( ! $order->update_status( 'pending', __( 'The customer retried payment for the unchanged, valid quote. Stock will be checked and temporarily held before capture.', 'dentall-core' ) ) ) {
+			throw new $exception_class( __( 'This payment is being processed. Do not pay again; reload the order to check its status.', 'dentall-core' ) );
+		}
+	}
+	if ( $customer_retry ) {
+		// 创建请求不能释放正在收款的hold；Capture由网关原生处理锁串行保护。
+		return;
+	}
+	$hold_minutes = static function ( $minutes, $held_order ) use ( $order, $remaining ) {
+		// 原生库存只接受分钟；向上取整不改变报价到秒的付款截止时间。
+		return $held_order->get_id() === $order->get_id()
+			? min( 60, (int) $minutes > 0 ? (int) $minutes : 10, (int) ceil( $remaining / MINUTE_IN_SECONDS ) ) : $minutes;
+	};
+	add_filter( 'woocommerce_order_hold_stock_minutes', $hold_minutes, PHP_INT_MAX, 2 );
+	try {
+		try {
+			wc_reserve_stock_for_order( $order );
+		} catch ( \Automattic\WooCommerce\Checkout\Helpers\ReserveStockException $error ) {
+			// Woo同秒重复预留可因affected_rows=0而释放旧hold；仅重试一次原子预留。
+			wc_reserve_stock_for_order( $order );
+		}
+	} catch ( Throwable $error ) {
+		throw new $exception_class( dentall_core_get_shipping_quote_block_message( 'stock' ) );
+	} finally {
+		remove_filter( 'woocommerce_order_hold_stock_minutes', $hold_minutes, PHP_INT_MAX );
+	}
+}
 
 /**
  * 网关返回与已验签Webhook都会在处理订单前调用此Filter。
@@ -110,6 +165,13 @@ function dentall_core_guard_paypal_quote_capture( $paypal_order ) {
 		$order    = is_string( $order_id ) && 1 === preg_match( '/^[1-9][0-9]*$/D', $order_id )
 			? wc_get_order( (int) $order_id ) : false;
 		dentall_core_assert_paypal_shipping_quote( $order, true );
+		if ( dentall_core_is_shipping_quote_candidate( $order ) && ( 'CAPTURE' !== $paypal_order->intent() || 'APPROVED' !== $paypal_order->status()->name() ) ) {
+			// CREATED直捕绕过原生OrderProcessor锁；第一版仅接收已批准的钱包Capture。
+			$exception_class = class_exists( 'WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException' )
+				? 'WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException' : RuntimeException::class;
+			throw new $exception_class( __( 'Approve this PayPal payment before it can be captured.', 'dentall-core' ) );
+		}
+		dentall_core_reserve_paypal_quote_stock( $order );
 	}
 }
 add_action( 'woocommerce_paypal_payments_before_capture_order', 'dentall_core_guard_paypal_quote_capture' );

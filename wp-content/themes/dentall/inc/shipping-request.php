@@ -54,7 +54,7 @@ function dentall_render_shipping_request( $content ) {
 	} else {
 		// 摘要稍后会经过WordPress短代码过滤，方括号必须继续保持纯文本。
 		$summary = str_replace( array( '[', ']' ), array( '&#91;', '&#93;' ), esc_html( $snapshot['text'] ) );
-		$output .= '<p>' . esc_html__( 'Submit your contact and delivery details. Our team will confirm shipping and all order charges before sending a payment link. The 72-hour payment period starts when we first successfully send that quotation email.', 'dentall' ) . '</p>'
+		$output .= '<p>' . esc_html__( 'Submit your contact and address details to prepare an order for a manual quote. Our team will confirm all charges and send your payment link by email or WhatsApp. The 72-hour payment period starts when we confirm the quote and activate its link. No payment is taken and no stock is reserved when you submit.', 'dentall' ) . '</p>'
 			. '<noscript><p>' . esc_html__( 'Please enable JavaScript to submit this form, or use the contact email below.', 'dentall' ) . '</p></noscript>'
 			. '<aside class="dentall-shipping-request__summary" aria-labelledby="dentall-shipping-request-summary-title">'
 			. '<h3 id="dentall-shipping-request-summary-title">' . esc_html__( 'Your cart for this request', 'dentall' ) . '</h3>'
