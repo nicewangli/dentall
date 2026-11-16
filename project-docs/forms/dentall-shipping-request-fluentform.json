@@ -1,0 +1,1025 @@
+[
+  {
+    "title": "DentAll shipping request",
+    "status": "published",
+    "has_payment": "0",
+    "type": "form",
+    "form_fields": {
+      "fields": [
+        {
+          "index": 0,
+          "element": "input_text",
+          "attributes": {
+            "name": "first_name",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "given-name"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "First name",
+            "admin_field_label": "First name",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "First name is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "First name",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_first_name"
+        },
+        {
+          "index": 1,
+          "element": "input_text",
+          "attributes": {
+            "name": "last_name",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "family-name"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Last name",
+            "admin_field_label": "Last name",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Last name is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Last name",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_last_name"
+        },
+        {
+          "index": 2,
+          "element": "input_email",
+          "attributes": {
+            "name": "email",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "email",
+            "maxlength": 254,
+            "autocomplete": "email"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Email",
+            "admin_field_label": "Email",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Email is required."
+              },
+              "email": {
+                "value": true,
+                "message": "Enter a valid email address."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Email",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_email"
+        },
+        {
+          "index": 3,
+          "element": "input_text",
+          "attributes": {
+            "name": "whatsapp",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "tel",
+            "maxlength": 40,
+            "autocomplete": "tel",
+            "inputmode": "tel",
+            "pattern": "\\+[1-9][0-9\\s.\\(\\)\\-]{6,38}"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "WhatsApp number",
+            "admin_field_label": "WhatsApp number",
+            "label_placement": "",
+            "help_message": "Include + and the country code, for example +1 212 555 0123. We collect this contact number for manual communication; we do not verify account ownership or send automatic WhatsApp messages.",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "WhatsApp number is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "WhatsApp number",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_whatsapp"
+        },
+        {
+          "index": 4,
+          "element": "input_text",
+          "attributes": {
+            "name": "company",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "organization"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Company (optional)",
+            "admin_field_label": "Company (optional)",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Company (optional)",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_company"
+        },
+        {
+          "index": 5,
+          "element": "select",
+          "attributes": {
+            "name": "country",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "autocomplete": "country"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Shipping country",
+            "admin_field_label": "Shipping country",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Shipping country is required."
+              }
+            },
+            "placeholder": "Select a country",
+            "advanced_options": [
+              {
+                "label": "United States",
+                "value": "US",
+                "calc_value": ""
+              },
+              {
+                "label": "Canada",
+                "value": "CA",
+                "calc_value": ""
+              },
+              {
+                "label": "Australia",
+                "value": "AU",
+                "calc_value": ""
+              }
+            ],
+            "enable_select_2": "no",
+            "randomize_options": "no",
+            "values_visible": true
+          },
+          "editor_options": {
+            "title": "Shipping country",
+            "template": "select"
+          },
+          "uniqElKey": "dentall_shipping_country"
+        },
+        {
+          "index": 6,
+          "element": "input_text",
+          "attributes": {
+            "name": "state",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "address-level1"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "State / province",
+            "admin_field_label": "State / province",
+            "label_placement": "",
+            "help_message": "Use the full state or province name, or its code (for example CA, ON or NSW).",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "State / province is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "State / province",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_state"
+        },
+        {
+          "index": 7,
+          "element": "input_text",
+          "attributes": {
+            "name": "city",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "address-level2"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "City",
+            "admin_field_label": "City",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "City is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "City",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_city"
+        },
+        {
+          "index": 8,
+          "element": "input_text",
+          "attributes": {
+            "name": "postcode",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 20,
+            "autocomplete": "postal-code"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Postal / ZIP code",
+            "admin_field_label": "Postal / ZIP code",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Postal / ZIP code is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Postal / ZIP code",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_postcode"
+        },
+        {
+          "index": 9,
+          "element": "input_text",
+          "attributes": {
+            "name": "address_1",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "address-line1"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Street address",
+            "admin_field_label": "Street address",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Street address is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Street address",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_address_1"
+        },
+        {
+          "index": 10,
+          "element": "input_text",
+          "attributes": {
+            "name": "address_2",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "address-line2"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Apartment / suite (optional)",
+            "admin_field_label": "Apartment / suite (optional)",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Apartment / suite (optional)",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_address_2"
+        },
+        {
+          "element": "input_radio",
+          "attributes": {
+            "type": "radio",
+            "name": "billing_same_address",
+            "value": "yes"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Is your billing address the same as your shipping address?",
+            "admin_field_label": "Billing address same as shipping",
+            "label_placement": "",
+            "display_type": "",
+            "help_message": "Choose No if the name or address on your invoice is different.",
+            "advanced_options": [
+              {
+                "label": "Yes, use my shipping name and address for billing",
+                "value": "yes",
+                "calc_value": "",
+                "image": ""
+              },
+              {
+                "label": "No, I will enter a different billing address",
+                "value": "no",
+                "calc_value": "",
+                "image": ""
+              }
+            ],
+            "calc_value_status": false,
+            "enable_image_input": false,
+            "values_visible": false,
+            "randomize_options": "no",
+            "enable_other_option": "no",
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Choose whether your billing address is the same as your shipping address."
+              }
+            },
+            "conditional_logics": [],
+            "layout_class": ""
+          },
+          "editor_options": {
+            "title": "Billing address choice",
+            "element": "input-radio",
+            "template": "inputCheckable"
+          },
+          "uniqElKey": "dentall_shipping_billing_same_address",
+          "index": 11
+        },
+        {
+          "index": 12,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_first_name",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "billing given-name"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing first name",
+            "admin_field_label": "Billing first name",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Billing first name is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing first name",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_first_name"
+        },
+        {
+          "index": 13,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_last_name",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "billing family-name"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing last name",
+            "admin_field_label": "Billing last name",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Billing last name is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing last name",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_last_name"
+        },
+        {
+          "index": 14,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_company",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "billing organization"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing company (optional)",
+            "admin_field_label": "Billing company (optional)",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "Billing company is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing company (optional)",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_company"
+        },
+        {
+          "index": 15,
+          "element": "select_country",
+          "attributes": {
+            "name": "billing_country",
+            "value": "",
+            "class": "",
+            "placeholder": "Select your billing country",
+            "autocomplete": "billing country"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing country",
+            "admin_field_label": "Billing country",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Billing country is required."
+              }
+            },
+            "placeholder": "Select a country",
+            "enable_select_2": "no",
+            "randomize_options": "no",
+            "values_visible": true,
+            "country_list": {
+              "active_list": "all",
+              "visible_list": [],
+              "hidden_list": []
+            }
+          },
+          "editor_options": {
+            "title": "Billing country",
+            "template": "selectCountry",
+            "element": "country-list"
+          },
+          "uniqElKey": "dentall_shipping_billing_country"
+        },
+        {
+          "index": 16,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_state",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "billing address-level1"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing state / province",
+            "admin_field_label": "Billing state / province",
+            "label_placement": "",
+            "help_message": "Required when applicable to your billing country.",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "Billing state / province is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing state / province",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_state"
+        },
+        {
+          "index": 17,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_city",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 100,
+            "autocomplete": "billing address-level2"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing city",
+            "admin_field_label": "Billing city",
+            "label_placement": "",
+            "help_message": "Required when applicable to your billing country.",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "Billing city is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing city",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_city"
+        },
+        {
+          "index": 18,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_postcode",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 20,
+            "autocomplete": "billing postal-code"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing postal / ZIP code",
+            "admin_field_label": "Billing postal / ZIP code",
+            "label_placement": "",
+            "help_message": "Required when applicable to your billing country.",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "Billing postal / ZIP code is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing postal / ZIP code",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_postcode"
+        },
+        {
+          "index": 19,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_address_1",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "billing address-line1"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing street address",
+            "admin_field_label": "Billing street address",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Billing street address is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing street address",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_address_1"
+        },
+        {
+          "index": 20,
+          "element": "input_text",
+          "attributes": {
+            "name": "billing_address_2",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "text",
+            "maxlength": 200,
+            "autocomplete": "billing address-line2"
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Billing apartment / suite (optional)",
+            "admin_field_label": "Billing apartment / suite (optional)",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": {
+              "status": true,
+              "type": "all",
+              "conditions": [
+                {
+                  "field": "billing_same_address",
+                  "operator": "=",
+                  "value": "no"
+                }
+              ]
+            },
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "Billing apartment / suite is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Billing apartment / suite (optional)",
+            "template": "inputText"
+          },
+          "uniqElKey": "dentall_shipping_billing_address_2"
+        },
+        {
+          "index": 21,
+          "element": "textarea",
+          "attributes": {
+            "name": "message",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "rows": 4,
+            "cols": 2,
+            "maxlength": 3000
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Additional details (optional)",
+            "admin_field_label": "Additional details (optional)",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Additional details (optional)",
+            "template": "inputTextarea"
+          },
+          "uniqElKey": "dentall_shipping_message"
+        },
+        {
+          "element": "input_checkbox",
+          "attributes": {
+            "type": "checkbox",
+            "name": "privacy_consent",
+            "value": []
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Privacy acknowledgement",
+            "admin_field_label": "Privacy acknowledgement (shipping_request_v2)",
+            "label_placement": "",
+            "display_type": "",
+            "help_message": "Please read the Privacy Policy linked above. This acknowledgement is required for this request and is not marketing consent.",
+            "advanced_options": [
+              {
+                "label": "I agree that DentAll may store my contact details, billing and shipping addresses, and cart snapshot to prepare an order for a manual quote and contact me about it.",
+                "value": "shipping_request_v2",
+                "calc_value": "",
+                "image": ""
+              }
+            ],
+            "values_visible": true,
+            "enable_image_input": false,
+            "randomize_options": "no",
+            "enable_other_option": "no",
+            "validation_rules": {
+              "required": {
+                "value": true,
+                "message": "Please confirm how we may use your details for this shipping request."
+              }
+            },
+            "conditional_logics": []
+          },
+          "editor_options": {
+            "title": "Checkbox",
+            "icon_class": "ff-edit-checkbox-1",
+            "template": "inputCheckable"
+          },
+          "uniqElKey": "dentall_shipping_privacy_consent",
+          "index": 22
+        },
+        {
+          "index": 23,
+          "element": "input_hidden",
+          "attributes": {
+            "name": "dentall_cart_snapshot",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "hidden",
+            "maxlength": 20000
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Server cart snapshot",
+            "admin_field_label": "Server cart snapshot",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Server cart snapshot",
+            "template": "inputHidden"
+          },
+          "uniqElKey": "dentall_shipping_dentall_cart_snapshot"
+        },
+        {
+          "index": 24,
+          "element": "input_hidden",
+          "attributes": {
+            "name": "dentall_request_token",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "hidden",
+            "maxlength": 100
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Request token",
+            "admin_field_label": "Request token",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Request token",
+            "template": "inputHidden"
+          },
+          "uniqElKey": "dentall_shipping_dentall_request_token"
+        },
+        {
+          "index": 25,
+          "element": "input_hidden",
+          "attributes": {
+            "name": "dentall_order_reference",
+            "value": "",
+            "class": "",
+            "placeholder": "",
+            "type": "hidden",
+            "maxlength": 500
+          },
+          "settings": {
+            "container_class": "",
+            "label": "Order reference",
+            "admin_field_label": "Order reference",
+            "label_placement": "",
+            "help_message": "",
+            "conditional_logics": [],
+            "validation_rules": {
+              "required": {
+                "value": false,
+                "message": "This field is required."
+              }
+            }
+          },
+          "editor_options": {
+            "title": "Order reference",
+            "template": "inputHidden"
+          },
+          "uniqElKey": "dentall_shipping_dentall_order_reference"
+        }
+      ],
+      "submitButton": {
+        "element": "button",
+        "attributes": {
+          "type": "submit",
+          "class": ""
+        },
+        "settings": {
+          "align": "left",
+          "button_style": "default",
+          "container_class": "",
+          "help_message": "",
+          "button_size": "md",
+          "button_ui": {
+            "type": "default",
+            "text": "Send shipping request",
+            "img_url": ""
+          }
+        },
+        "editor_options": {
+          "title": "Submit Button"
+        },
+        "uniqElKey": "dentall_shipping_submit"
+      }
+    },
+    "metas": [
+      {
+        "meta_key": "formSettings",
+        "value": "{\"confirmation\":{\"redirectTo\":\"samePage\",\"messageToShow\":\"<p>Your request has been saved. Our team will review the order details and all charges before sending your payment link. No payment has been taken and no stock is reserved.</p>\",\"customPage\":null,\"samePageFormBehavior\":\"hide_form\",\"customUrl\":null},\"restrictions\":{\"limitNumberOfEntries\":{\"enabled\":false},\"scheduleForm\":{\"enabled\":false},\"requireLogin\":{\"enabled\":false},\"denyEmptySubmission\":{\"enabled\":true,\"message\":\"Complete the required fields before submitting.\"}},\"layout\":{\"labelPlacement\":\"top\",\"helpMessagePlacement\":\"with_label\",\"errorMessagePlacement\":\"stackToBottom\",\"cssClassName\":\"dentall-shipping-request-form\",\"asteriskPlacement\":\"asterisk-right\"},\"delete_entry_on_submission\":\"no\"}"
+      },
+      {
+        "meta_key": "notifications",
+        "value": "{\"name\":\"Company shipping request notification\",\"enabled\":false,\"sendTo\":{\"type\":\"email\",\"email\":\"materials@chinaadsdentallab.com\",\"field\":\"email\",\"routing\":[]},\"subject\":\"DentAll shipping request #{submission.id}\",\"message\":\"<h2>New shipping request</h2><p>Saved request #{submission.id}. Review the order and confirm all charges before activating its payment link. No stock is reserved and no payment has been taken.</p><p><strong>Order:</strong> {inputs.dentall_order_reference}</p><p><strong>First name:</strong> {inputs.first_name}</p><p><strong>Last name:</strong> {inputs.last_name}</p><p><strong>Email:</strong> {inputs.email}</p><p><strong>WhatsApp:</strong> {inputs.whatsapp}</p><p><strong>Company:</strong> {inputs.company}</p><p><strong>Shipping country:</strong> {inputs.country}</p><p><strong>State / province:</strong> {inputs.state}</p><p><strong>City:</strong> {inputs.city}</p><p><strong>Postal / ZIP code:</strong> {inputs.postcode}</p><p><strong>Street address:</strong> {inputs.address_1}</p><p><strong>Apartment / suite:</strong> {inputs.address_2}</p><p><strong>Additional details:</strong> {inputs.message}</p><h3>Billing details</h3><p><strong>Same as shipping:</strong> {inputs.billing_same_address}</p><p><strong>Billing first name:</strong> {inputs.billing_first_name}</p><p><strong>Billing last name:</strong> {inputs.billing_last_name}</p><p><strong>Billing company (optional):</strong> {inputs.billing_company}</p><p><strong>Billing country:</strong> {inputs.billing_country}</p><p><strong>Billing state / province:</strong> {inputs.billing_state}</p><p><strong>Billing city:</strong> {inputs.billing_city}</p><p><strong>Billing postal / ZIP code:</strong> {inputs.billing_postcode}</p><p><strong>Billing street address:</strong> {inputs.billing_address_1}</p><p><strong>Billing apartment / suite (optional):</strong> {inputs.billing_address_2}</p><h3>Server cart snapshot</h3><pre>{inputs.dentall_cart_snapshot}</pre><p><strong>Privacy acknowledgement (shipping_request_v2):</strong> {inputs.privacy_consent}</p>\",\"fromName\":\"DentAll\",\"fromEmail\":\"materials@chinaadsdentallab.com\",\"replyTo\":\"{inputs.email}\",\"bcc\":\"\",\"cc\":\"\",\"asPlainText\":\"no\",\"attachments\":[],\"conditionals\":{\"status\":false,\"type\":\"all\",\"conditions\":[]}}"
+      }
+    ]
+  }
+]
