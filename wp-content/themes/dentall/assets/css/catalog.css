@@ -4,6 +4,45 @@
  * 普通内容搜索与商品搜索筛选继续隔离在各自职责边界内。
  */
 
+/* 品牌目录与商品归档共用按页加载的目录样式；名称始终可见，Logo可选。 */
+.site-content .dentall-brand-directory {
+	width: 100%;
+	margin-inline: 0;
+}
+
+.dentall-brand-directory__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	gap: var(--dentall-space-24);
+	margin: 0 0 var(--dentall-space-32);
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-brand-directory__list a {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--dentall-space-16);
+	height: 100%;
+	min-height: 8rem;
+	padding: var(--dentall-space-24);
+	border: 1px solid var(--dentall-color-border-subtle);
+	border-radius: var(--dentall-radius-lg);
+	background: var(--dentall-color-surface-sky);
+	font-weight: var(--dentall-font-weight-semibold);
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+.dentall-brand-directory__list img {
+	width: 100%;
+	max-width: 12rem;
+	height: 6rem;
+	object-fit: contain;
+}
+
 body.woocommerce .woocommerce-products-header {
 	box-sizing: border-box;
 	display: grid;

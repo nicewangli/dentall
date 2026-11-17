@@ -66,6 +66,25 @@ function dentall_mark_primary_menu_categories_item( $items, $args ) {
 add_filter( 'wp_nav_menu_objects', 'dentall_mark_primary_menu_categories_item', 20, 2 );
 
 /**
+ * 分类链接与展开按钮分离；脚本就绪前隐藏按钮，保留原生链接降级路径。
+ */
+function dentall_primary_category_toggle( $output, $item, $depth, $args ) {
+	if (
+		'primary' !== ( $args->theme_location ?? '' ) || 0 !== $depth
+		|| ! in_array( 'dentall-menu-categories', (array) $item->classes, true )
+		|| ! in_array( 'menu-item-has-children', (array) $item->classes, true )
+	) {
+		return $output;
+	}
+
+	return $output . sprintf(
+		'<button class="dentall-category-toggle" type="button" aria-expanded="false" aria-controls="dentall-product-categories" aria-label="%s" hidden></button>',
+		esc_attr__( 'Toggle product categories', 'dentall' )
+	);
+}
+add_filter( 'walker_nav_menu_start_el', 'dentall_primary_category_toggle', 10, 4 );
+
+/**
  * 输出与人工运费报价流程一致的全站公告栏。
  *
  * @return void
@@ -136,7 +155,7 @@ function dentall_get_brand_logo_image( $loading = 'eager', $extra_class = '' ) {
 }
 
 /**
- * 输出全站Header品牌Logo。
+ * 输出全站Header品牌Logo与同公司ADS Dental Lab跨站入口。
  *
  * @return void
  */
@@ -153,6 +172,11 @@ function dentall_site_branding() {
 			<?php echo dentall_get_brand_logo_image(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</a>
 	</div>
+	<a class="dentall-header-lab" href="https://www.beautismilelab.com/" target="_blank" rel="noopener">
+		<?php esc_html_e( 'ADS Dental Lab', 'dentall' ); ?>
+		<span aria-hidden="true">↗</span>
+		<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'dentall' ); ?></span>
+	</a>
 	<?php
 }
 

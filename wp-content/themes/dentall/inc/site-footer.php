@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function dentall_setup_site_footer() {
 	register_nav_menu( 'footer', __( 'Footer navigation', 'dentall' ) );
+	register_nav_menu( 'footer_social', __( 'Footer social links', 'dentall' ) );
 
 	remove_action( 'storefront_footer', 'storefront_footer_widgets', 10 );
 	add_action( 'storefront_before_footer', 'dentall_render_newsletter', 10 );
@@ -19,6 +20,17 @@ function dentall_setup_site_footer() {
 	add_filter( 'storefront_credit_link', '__return_false' );
 }
 add_action( 'after_setup_theme', 'dentall_setup_site_footer', 30 );
+
+/**
+ * 页脚空URL分组只作为标签，避免把栏目标题伪装成跳到页顶的链接。
+ */
+function dentall_footer_group_label( $output, $item, $depth, $args ) {
+	if ( 'footer' === ( $args->theme_location ?? '' ) && 0 === $depth && '#' === $item->url ) {
+		return '<span class="dentall-footer-menu__label">' . esc_html( $item->title ) . '</span>';
+	}
+	return $output;
+}
+add_filter( 'walker_nav_menu_start_el', 'dentall_footer_group_label', 10, 4 );
 
 /**
  * 输出Newsletter原生订阅表单。
@@ -63,17 +75,25 @@ function dentall_render_newsletter() {
 }
 
 /**
- * 输出Footer品牌、展示态社交图标与单一两级菜单。
+ * 输出Footer品牌、原生菜单维护的社媒链接与两级菜单。
  *
- * 菜单未绑定时不回退为全部Page；社交账号尚未确认，因此图标不输出链接。
- * 支付方式尚未验收，本函数不输出支付品牌徽标。
+ * 菜单未绑定时不回退为全部Page；社媒只展示已绑定的真实账号，不输出占位链接。
  *
  * @return void
  */
 function dentall_render_site_footer() {
 	$site_name    = get_bloginfo( 'name' );
 	$sprite_url   = get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg';
-	$social_icons = array( 'facebook', 'instagram', 'linkedin', 'youtube' );
+	$social_icons = array(
+		'facebook.com'  => 'facebook',
+		'instagram.com' => 'instagram',
+		'linkedin.com'  => 'linkedin',
+		'youtube.com'   => 'youtube',
+	);
+	$locations    = get_nav_menu_locations();
+	$social_links = empty( $locations['footer_social'] )
+		? array()
+		: wp_get_nav_menu_items( $locations['footer_social'] );
 	/* translators: %s: Site name. */
 	$home_label = sprintf( __( '%s home', 'dentall' ), $site_name );
 	?>
@@ -101,17 +121,27 @@ function dentall_render_site_footer() {
 			<a class="dentall-footer__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $home_label ); ?>">
 				<?php echo dentall_get_brand_logo_image( 'lazy', 'dentall-footer__logo-image' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
-			<ul class="dentall-footer-social" aria-hidden="true">
-				<?php foreach ( $social_icons as $icon ) : ?>
+			<?php if ( $social_links ) : ?>
+			<ul class="dentall-footer-social" aria-label="<?php esc_attr_e( 'Company social media', 'dentall' ); ?>">
+				<?php foreach ( $social_links as $link ) : ?>
+					<?php
+					$host = preg_replace( '/^www\./', '', strtolower( (string) wp_parse_url( $link->url, PHP_URL_HOST ) ) );
+					if ( ! isset( $social_icons[ $host ] ) || 'https' !== wp_parse_url( $link->url, PHP_URL_SCHEME ) ) {
+						continue;
+					}
+					$icon = $social_icons[ $host ];
+					?>
 					<li>
-						<span class="dentall-footer-social__icon">
+						<a class="dentall-footer-social__icon" href="<?php echo esc_url( $link->url ); ?>" target="_blank" rel="noopener">
 							<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 								<use href="<?php echo esc_url( $sprite_url . '#icon-' . $icon ); ?>"></use>
 							</svg>
-						</span>
+							<span class="screen-reader-text"><?php echo esc_html( $link->title ); ?> <?php esc_html_e( '(opens in a new tab)', 'dentall' ); ?></span>
+						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 		</div>
 	</div>
 	<?php

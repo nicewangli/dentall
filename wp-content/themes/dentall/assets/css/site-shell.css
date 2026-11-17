@@ -62,7 +62,8 @@
 	display: grid;
 	grid-template-areas:
 		"navigation brand actions"
-		"search search search";
+		"search search search"
+		"lab lab lab";
 	grid-template-columns: minmax(5.5rem, 1fr) minmax(0, 8.5rem) minmax(5.5rem, 1fr);
 	column-gap: 0;
 	row-gap: var(--dentall-space-12);
@@ -188,6 +189,29 @@
 	content: "";
 	transform: rotate(45deg);
 	transform-origin: left center;
+}
+
+.site-header .dentall-header-lab {
+	grid-area: lab;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--dentall-space-8);
+	min-height: 2.75rem;
+	padding: var(--dentall-space-8) var(--dentall-space-16);
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-color-partner);
+	color: var(--dentall-white);
+	font-size: var(--dentall-font-size-sm);
+	font-weight: var(--dentall-font-weight-bold);
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+.site-header .dentall-header-lab:is(:hover, :active) {
+	background: var(--dentall-red-700);
+	color: var(--dentall-white);
+	text-decoration: underline;
 }
 
 .dentall-header-account {
@@ -392,8 +416,8 @@
 	inset: 100% 0 auto;
 	box-sizing: border-box;
 	display: block;
-	max-height: calc(100vh - 11rem);
-	max-height: calc(100dvh - 11rem);
+	max-height: calc(100vh - 15rem);
+	max-height: calc(100dvh - 15rem);
 	overflow-y: auto;
 	overscroll-behavior: contain;
 	padding: var(--dentall-space-8) var(--dentall-gutter-mobile) var(--dentall-space-16);
@@ -435,6 +459,7 @@
 }
 
 .storefront-primary-navigation .main-navigation ul.menu > li {
+	position: relative;
 	display: block;
 	margin: 0;
 	border-block-end: 1px solid var(--dentall-color-border-subtle);
@@ -445,6 +470,7 @@
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
+	width: auto;
 	min-height: 2.75rem;
 	padding: var(--dentall-space-12);
 	color: var(--dentall-color-text);
@@ -460,6 +486,7 @@
 .storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu {
 	position: static;
 	display: block;
+	float: none;
 	width: auto;
 	margin: 0 0 var(--dentall-space-8) var(--dentall-space-16);
 	padding-inline-start: var(--dentall-space-8);
@@ -470,15 +497,59 @@
 	pointer-events: none;
 }
 
+.dentall-category-toggle {
+	display: none;
+}
+
 @media (max-width: 74.999rem) {
 	.storefront-primary-navigation .main-navigation.toggled ul.menu > li > .sub-menu {
 		visibility: visible;
 		pointer-events: auto;
 	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > .has-category-toggle > a {
+		padding-inline-end: 3.5rem;
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > .has-category-toggle > a::after {
+		content: none;
+	}
+
+	.main-navigation .dentall-category-toggle:not([hidden]) {
+		position: absolute;
+		inset: 0 0 auto auto;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		border: 0;
+		border-radius: var(--dentall-radius-sm);
+		background: var(--dentall-color-surface-blue);
+		color: var(--dentall-color-action);
+	}
+
+	.dentall-category-toggle::before {
+		width: 0.5rem;
+		height: 0.5rem;
+		border: solid currentColor;
+		border-width: 0 2px 2px 0;
+		content: "";
+		transform: rotate(45deg);
+	}
+
+	.dentall-category-toggle[aria-expanded="true"]::before {
+		transform: rotate(225deg);
+	}
+
+	.storefront-primary-navigation .main-navigation ul.menu > li > .dentall-category-toggle:not([hidden])[aria-expanded="false"] + .sub-menu {
+		display: none;
+	}
 }
 
 .storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li {
 	display: block;
+	width: auto;
 }
 
 .storefront-primary-navigation .main-navigation ul.menu a:hover,
@@ -651,7 +722,8 @@ a.skip-link[href="#site-navigation"] {
 	margin: 0;
 }
 
-.site-footer .dentall-footer-nav .dentall-footer-menu > li > a {
+.site-footer .dentall-footer-nav .dentall-footer-menu > li > a,
+.dentall-footer-menu__label {
 	display: block;
 	margin-block-end: var(--dentall-space-12);
 	color: var(--dentall-white);
@@ -723,14 +795,18 @@ a.skip-link[href="#site-navigation"] {
 	margin: 0;
 }
 
-.dentall-footer-social__icon {
+.site-footer .dentall-footer-social a.dentall-footer-social__icon {
 	display: grid;
 	place-items: center;
-	inline-size: 2.5rem;
-	block-size: 2.5rem;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
 	border-radius: 50%;
 	background: rgb(255 255 255 / 10%);
 	color: var(--dentall-white);
+}
+
+.site-footer .dentall-footer-social a.dentall-footer-social__icon:hover {
+	background: rgb(255 255 255 / 22%);
 }
 
 .dentall-footer-social__icon svg {
@@ -764,7 +840,7 @@ a.skip-link[href="#site-navigation"] {
 	.site-header > .col-full {
 		grid-template-areas:
 			"brand account cart"
-			"search search search";
+			"search search lab";
 		grid-template-columns: minmax(0, 1fr) auto auto;
 		column-gap: var(--dentall-space-12);
 	}
@@ -842,12 +918,17 @@ a.skip-link[href="#site-navigation"] {
 }
 
 @media (min-width: 48rem) and (max-width: 74.999rem) {
+	.storefront-primary-navigation .primary-navigation {
+		max-height: calc(100vh - 12rem);
+		max-height: calc(100dvh - 12rem);
+	}
+
 	.site-header > .col-full {
 		grid-template-areas:
 			"navigation brand actions"
-			"search search search";
+			"search search lab";
 		grid-template-columns: minmax(0, 1fr) minmax(0, 13.75rem) minmax(0, 1fr);
-		column-gap: 0;
+		column-gap: var(--dentall-space-12);
 	}
 
 	.dentall-header-account {
@@ -944,9 +1025,9 @@ a.skip-link[href="#site-navigation"] {
 
 	.site-header > .col-full {
 		grid-template-areas:
-			"brand search account cart"
-			"navigation navigation navigation navigation";
-		grid-template-columns: minmax(13.75rem, 0.8fr) minmax(24rem, 2.8fr) max-content max-content;
+			"brand search lab account cart"
+			"navigation navigation navigation navigation navigation";
+		grid-template-columns: minmax(13.75rem, 0.8fr) minmax(16rem, 2.8fr) max-content max-content max-content;
 		column-gap: var(--dentall-space-24);
 		row-gap: 0;
 		padding-block: var(--dentall-space-24) 0;
@@ -1082,6 +1163,8 @@ a.skip-link[href="#site-navigation"] {
 	.storefront-primary-navigation .main-navigation ul.menu > li.dentall-menu-categories > .sub-menu {
 		right: auto;
 		left: 0;
+		max-height: min(65vh, 32rem);
+		overflow-y: auto;
 	}
 
 	.storefront-primary-navigation .main-navigation ul.menu > li:hover > .sub-menu,
@@ -1098,7 +1181,6 @@ a.skip-link[href="#site-navigation"] {
 	}
 
 	.storefront-primary-navigation .main-navigation ul.menu > li > .sub-menu > li > a {
-		width: auto;
 		min-height: 2.75rem;
 		padding: var(--dentall-space-12);
 		border-radius: var(--dentall-radius-sm);

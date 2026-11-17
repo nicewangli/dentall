@@ -35,6 +35,15 @@ function dentall_enqueue_site_shell_assets() {
 	);
 
 	wp_dequeue_script( 'storefront-handheld-footer-bar' );
+	if ( has_nav_menu( 'primary' ) ) {
+		wp_enqueue_script(
+			'dentall-navigation',
+			get_stylesheet_directory_uri() . '/assets/js/navigation.js',
+			array( 'storefront-navigation' ),
+			$theme->get( 'Version' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'dentall_enqueue_site_shell_assets', 40 );
 
@@ -59,7 +68,7 @@ function dentall_enqueue_catalog_assets() {
 		&& is_post_type_archive( 'product' )
 		&& 'product' === get_query_var( 'post_type' );
 
-	if ( ! $is_catalog_archive && ! $is_product_search ) {
+	if ( ! $is_catalog_archive && ! $is_product_search && ! is_page_template( 'template-brands.php' ) ) {
 		return;
 	}
 

@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.51.0
+Version: 0.52.0
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -47,6 +47,8 @@ Text Domain: dentall
 	--dentall-color-brand-secondary: var(--dentall-navy-900);
 	--dentall-color-action: var(--dentall-blue-600);
 	--dentall-color-action-hover: var(--dentall-blue-700);
+	/* ADS Dental Lab官网使用的品牌红，仅用于跨站入口。 */
+	--dentall-color-partner: #d02132;
 	--dentall-color-focus-on-light: var(--dentall-blue-700);
 	--dentall-color-focus-on-dark: var(--dentall-white);
 	--dentall-color-text: var(--dentall-ink-900);
