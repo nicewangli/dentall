@@ -4,6 +4,7 @@
  */
 
 .dentall-announcement {
+	--dentall-focus-ring-color: var(--dentall-color-focus-on-dark);
 	background: var(--dentall-color-brand);
 	color: var(--dentall-white);
 }
@@ -49,6 +50,20 @@
 .dentall-announcement__utilities li + li {
 	padding-inline-start: var(--dentall-space-12);
 	border-inline-start: 1px solid currentColor;
+}
+
+/* 链接利用公告栏留白提供44px点击区，焦点向内绘制以避开视口顶部。 */
+.dentall-announcement__utility--help a {
+	display: flex;
+	align-items: center;
+	min-block-size: 2.75rem;
+	margin-block: calc(-1 * var(--dentall-space-8));
+	color: inherit;
+	text-decoration: underline;
+}
+
+.dentall-announcement__utility--help a:focus-visible {
+	outline-offset: -3px;
 }
 
 /* Header和Primary导航在所有宽度复用同一套语义化DOM。 */
@@ -794,7 +809,9 @@ a.skip-link[href="#site-navigation"] {
 
 /* 使用最低必要权重覆盖Storefront的页脚链接色，焦点沿用全站深色背景Token。 */
 .site-footer .dentall-footer-contact a:any-link {
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: var(--dentall-space-8);
 	min-block-size: 2.75rem;
 	padding-block: var(--dentall-space-12);
 	color: var(--dentall-white);
@@ -802,6 +819,12 @@ a.skip-link[href="#site-navigation"] {
 	line-height: 1.4;
 	text-decoration: underline;
 	overflow-wrap: anywhere;
+}
+
+.dentall-footer-contact__icon {
+	flex: none;
+	inline-size: 1.125rem;
+	block-size: 1.125rem;
 }
 
 .dentall-footer-social {

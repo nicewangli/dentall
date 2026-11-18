@@ -34,6 +34,34 @@ function dentall_footer_group_label( $output, $item, $depth, $args ) {
 add_filter( 'walker_nav_menu_start_el', 'dentall_footer_group_label', 10, 4 );
 
 /**
+ * 联系方式图标放进原生链接内；地址仍由菜单维护，隐藏标签保留读屏语义。
+ */
+function dentall_footer_contact_icon( $title, $item, $args ) {
+	if ( 'footer_contact' !== ( $args->theme_location ?? '' ) ) {
+		return $title;
+	}
+	$url = wp_parse_url( $item->url );
+	if ( 'mailto' === strtolower( $url['scheme'] ?? '' ) ) {
+		$icon  = 'mail';
+		$label = __( 'Email:', 'dentall' );
+	} elseif ( 'https' === strtolower( $url['scheme'] ?? '' ) && 'wa.me' === strtolower( $url['host'] ?? '' ) ) {
+		$icon  = 'whatsapp';
+		$label = __( 'WhatsApp:', 'dentall' );
+	} else {
+		return $title;
+	}
+	$sprite_url = add_query_arg( 'ver', wp_get_theme()->get( 'Version' ), get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg' );
+	return sprintf(
+		'<svg class="dentall-footer-contact__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="%1$s"></use></svg>' .
+		'<span><span class="screen-reader-text">%2$s </span>%3$s</span>',
+		esc_url( $sprite_url . '#icon-' . $icon ),
+		esc_html( $label ),
+		esc_html( $title )
+	);
+}
+add_filter( 'nav_menu_item_title', 'dentall_footer_contact_icon', 10, 3 );
+
+/**
  * 输出Newsletter原生订阅表单。
  *
  * 字段文案、隐私链接与双重确认由Newsletter配置管理；主题仅负责布局。
@@ -41,7 +69,7 @@ add_filter( 'walker_nav_menu_start_el', 'dentall_footer_group_label', 10, 4 );
  * @return void
  */
 function dentall_render_newsletter() {
-	$sprite_url = get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg';
+	$sprite_url = add_query_arg( 'ver', wp_get_theme()->get( 'Version' ), get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg' );
 	?>
 	<section class="dentall-newsletter" aria-labelledby="dentall-newsletter-title">
 		<div class="col-full dentall-newsletter__inner">
@@ -84,7 +112,7 @@ function dentall_render_newsletter() {
  */
 function dentall_render_site_footer() {
 	$site_name    = get_bloginfo( 'name' );
-	$sprite_url   = get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg';
+	$sprite_url   = add_query_arg( 'ver', wp_get_theme()->get( 'Version' ), get_stylesheet_directory_uri() . '/assets/images/footer-icons.svg' );
 	$social_icons = array(
 		'facebook.com'  => 'facebook',
 		'instagram.com' => 'instagram',

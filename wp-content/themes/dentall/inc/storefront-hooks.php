@@ -109,7 +109,9 @@ function dentall_announcement_bar() {
 					</li>
 				<?php endif; ?>
 				<li class="dentall-announcement__utility--language"><?php esc_html_e( 'English', 'dentall' ); ?></li>
-				<li class="dentall-announcement__utility--help"><?php esc_html_e( 'Help Center', 'dentall' ); ?></li>
+				<li class="dentall-announcement__utility--help">
+					<a href="<?php echo esc_url( home_url( '/help-center/' ) ); ?>"><?php esc_html_e( 'Help Center', 'dentall' ); ?></a>
+				</li>
 			</ul>
 		</div>
 	</aside>
