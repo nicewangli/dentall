@@ -16,6 +16,14 @@ function dentall_theme_setup() {
 add_action( 'after_setup_theme', 'dentall_theme_setup', 20 );
 
 /**
+ * 保留父主题字体与字符集，让正文在字体下载期间先用系统字体显示。
+ */
+function dentall_font_stylesheet_display( $src, $handle ) {
+	return 'storefront-fonts' === $handle ? add_query_arg( 'display', 'swap', $src ) : $src;
+}
+add_filter( 'style_loader_src', 'dentall_font_stylesheet_display', 10, 2 );
+
+/**
  * 加载全站壳层资源。
  *
  * Header、导航和Footer具有相同的全站加载生命周期，统一放入site-shell.css；
@@ -35,13 +43,40 @@ function dentall_enqueue_site_shell_assets() {
 	);
 
 	wp_dequeue_script( 'storefront-handheld-footer-bar' );
+
+	// 字体地址随父主题安装路径变化，用受控接口覆盖原有两种图标字体声明。
+	$font_base = esc_url( get_template_directory_uri() . '/assets/fonts/' );
+	wp_add_inline_style(
+		'storefront-icons',
+		"
+		@font-face {
+			font-family: 'Font Awesome 5 Brands';
+			font-style: normal;
+			font-weight: 400;
+			font-display: swap;
+			src: url('{$font_base}fa-brands-400.woff2') format('woff2');
+		}
+		@font-face {
+			font-family: 'Font Awesome 5 Free';
+			font-style: normal;
+			font-weight: 900;
+			font-display: swap;
+			src: url('{$font_base}fa-solid-900.woff2') format('woff2');
+		}"
+	);
+
+	// 只延后独立展示脚本；依赖顺序仍交给WordPress，不改交易或同意机制。
+	foreach ( array( 'storefront-navigation', 'storefront-header-cart', 'breeze-prefetch' ) as $handle ) {
+		wp_script_add_data( $handle, 'strategy', 'defer' );
+	}
+
 	if ( has_nav_menu( 'primary' ) ) {
 		wp_enqueue_script(
 			'dentall-navigation',
 			get_stylesheet_directory_uri() . '/assets/js/navigation.js',
 			array( 'storefront-navigation' ),
 			$theme->get( 'Version' ),
-			true
+			array( 'in_footer' => true, 'strategy' => 'defer' )
 		);
 	}
 }
@@ -87,7 +122,7 @@ function dentall_enqueue_catalog_assets() {
 			get_stylesheet_directory_uri() . '/assets/js/catalog-filters.js',
 			array(),
 			$theme->get( 'Version' ),
-			true
+			array( 'in_footer' => true, 'strategy' => 'defer' )
 		);
 	}
 }

@@ -45,6 +45,8 @@ function dentall_enqueue_homepage_assets() {
 
 	// 父主题脚本只服务其已移除的背景图 Hero，继续加载会增加无效监听与行内尺寸计算。
 	wp_dequeue_script( 'storefront-homepage' );
+	// 此模板的Hero和商品区由子主题绘制，不使用父主题.hentry区块规则。
+	wp_dequeue_style( 'storefront-gutenberg-blocks' );
 
 	wp_enqueue_style(
 		'dentall-homepage',

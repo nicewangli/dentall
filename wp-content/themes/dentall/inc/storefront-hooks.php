@@ -148,9 +148,9 @@ function dentall_get_brand_logo_image( $loading = 'eager', $extra_class = '' ) {
 	}
 
 	return sprintf(
-		'<img class="%1$s" src="%2$s" width="1024" height="240" alt="%3$s" loading="%4$s" decoding="async">',
+		'<img class="%1$s" src="%2$s" width="512" height="120" alt="%3$s" loading="%4$s" decoding="async">',
 		esc_attr( $classes ),
-		esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-placeholder-v2.png' ),
+		esc_url( get_stylesheet_directory_uri() . '/assets/images/logo-placeholder-v2.webp' ),
 		esc_attr( get_bloginfo( 'name' ) ),
 		esc_attr( $loading )
 	);
