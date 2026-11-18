@@ -10,7 +10,7 @@ function dentall_is_catalog_filter_archive() {
 		&& ( is_shop() || is_product_category() );
 }
 
-/** 返回第一版允许展示的商品属性。 */
+/** 保留既有筛选URL与已选条件使用的商品属性白名单。 */
 function dentall_catalog_filter_attributes() {
 	return array(
 		'size'  => __( 'Size', 'dentall' ),
@@ -481,49 +481,6 @@ function dentall_catalog_filter_price() {
 	<?php
 }
 
-/** 将WooCommerce属性Widget的入口收敛到D49白名单URL。 */
-function dentall_catalog_filter_widget_base_url( $url = '' ) {
-	return dentall_catalog_filter_url( dentall_catalog_filter_base_url(), dentall_catalog_filter_current_query_args() );
-}
-
-/** 单个属性最后一项被移除时，同步移除失去主参数的query_type。 */
-function dentall_catalog_filter_layered_nav_url( $url, $term, $taxonomy ) {
-	$query = wp_parse_url( $url, PHP_URL_QUERY );
-	$args  = array();
-	$slug  = wc_attribute_taxonomy_slug( $taxonomy );
-
-	if ( is_string( $query ) ) {
-		wp_parse_str( $query, $args );
-	}
-
-	return empty( $args[ 'filter_' . $slug ] ) ? remove_query_arg( 'query_type_' . $slug, $url ) : $url;
-}
-
-/** 为属性补充数量与机器可读状态；可见勾选由CSS伪元素表达。 */
-function dentall_catalog_filter_layered_nav_term_html( $html, $term, $link, $count ) {
-	if ( ! $link ) {
-		return $html;
-	}
-
-	$chosen   = WC_Query::get_layered_nav_chosen_attributes();
-	$selected = $link && isset( $chosen[ $term->taxonomy ]['terms'] )
-		&& in_array( $term->slug, $chosen[ $term->taxonomy ]['terms'], true );
-	$label    = '';
-
-	if ( $selected ) {
-		/* translators: %s: selected product attribute term name. */
-		$label = sprintf( __( '%s selected; activate to remove.', 'dentall' ), $term->name );
-	}
-
-	return sprintf(
-		'<a rel="nofollow" href="%1$s"%2$s>%3$s</a> <span class="count">(%4$d)</span>',
-		esc_url( $link ),
-		$selected ? ' aria-current="true" aria-label="' . esc_attr( $label ) . '"' : '',
-		esc_html( $term->name ),
-		absint( $count )
-	);
-}
-
 /**
  * WooCommerce 的分面数量查询不会完整继承主商品查询的价格与Lookup属性条件，需补齐“其他条件”。
  *
@@ -616,49 +573,6 @@ function dentall_catalog_filter_count_query_constraints( $query ) {
 	}
 
 	return $query;
-}
-
-/** 输出Size和Shade的WooCommerce原生链接式属性筛选。 */
-function dentall_catalog_filter_attributes_output() {
-	if ( ! class_exists( 'WC_Widget_Layered_Nav' ) ) {
-		return;
-	}
-
-	$original_get = $_GET; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	$_GET         = dentall_catalog_filter_current_query_args(); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-	add_filter( 'woocommerce_widget_get_current_page_url', 'dentall_catalog_filter_widget_base_url', 20 );
-	add_filter( 'woocommerce_layered_nav_link', 'dentall_catalog_filter_layered_nav_url', 20, 3 );
-	add_filter( 'woocommerce_layered_nav_term_html', 'dentall_catalog_filter_layered_nav_term_html', 20, 4 );
-	add_filter( 'woocommerce_get_filtered_term_product_counts_query', 'dentall_catalog_filter_count_query_constraints', 20 );
-
-	try {
-		foreach ( dentall_catalog_filter_attributes() as $attribute => $label ) {
-			$GLOBALS['dentall_catalog_filter_count_taxonomy'] = wc_attribute_taxonomy_name( $attribute );
-			the_widget(
-				'WC_Widget_Layered_Nav',
-				array(
-					'attribute'    => $attribute,
-					'display_type' => 'list',
-					'query_type'   => 'or',
-					'title'        => $label,
-				),
-				array(
-					'before_widget' => '<section class="dentall-catalog-filter %s">',
-					'after_widget'  => '</section>',
-					'before_title'  => '<h2 class="dentall-catalog-filter__title">',
-					'after_title'   => '</h2>',
-				)
-			);
-		}
-	} finally {
-		remove_filter( 'woocommerce_widget_get_current_page_url', 'dentall_catalog_filter_widget_base_url', 20 );
-		remove_filter( 'woocommerce_layered_nav_link', 'dentall_catalog_filter_layered_nav_url', 20 );
-		remove_filter( 'woocommerce_layered_nav_term_html', 'dentall_catalog_filter_layered_nav_term_html', 20 );
-		remove_filter( 'woocommerce_get_filtered_term_product_counts_query', 'dentall_catalog_filter_count_query_constraints', 20 );
-		unset( $GLOBALS['dentall_catalog_filter_count_taxonomy'] );
-		$_GET = $original_get; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	}
 }
 
 /** 将WooCommerce品牌Widget链接收敛为D52白名单，并移除其内部辅助参数。 */
@@ -825,7 +739,6 @@ function dentall_catalog_filters_open() {
 			<?php dentall_catalog_filter_categories(); ?>
 			<?php dentall_catalog_filter_brand_output(); ?>
 			<?php dentall_catalog_filter_price(); ?>
-			<?php dentall_catalog_filter_attributes_output(); ?>
 		</aside>
 		<dialog id="dentall-catalog-filter-dialog" class="dentall-catalog-filter-dialog" aria-labelledby="dentall-catalog-filter-dialog-title"></dialog>
 		<div class="dentall-catalog-results">
