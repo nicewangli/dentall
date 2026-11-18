@@ -706,7 +706,8 @@ a.skip-link[href="#site-navigation"] {
 }
 
 .dentall-footer-menu,
-.dentall-footer-menu .sub-menu {
+.dentall-footer-menu .sub-menu,
+.dentall-footer-contact {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -718,7 +719,8 @@ a.skip-link[href="#site-navigation"] {
 }
 
 .dentall-footer-menu > li,
-.dentall-footer-menu .sub-menu > li {
+.dentall-footer-menu .sub-menu > li,
+.dentall-footer-contact > li {
 	margin: 0;
 }
 
@@ -767,6 +769,7 @@ a.skip-link[href="#site-navigation"] {
 	display: grid;
 	align-content: start;
 	gap: var(--dentall-space-24);
+	min-width: 0;
 }
 
 .site-footer .dentall-footer__logo {
@@ -780,6 +783,25 @@ a.skip-link[href="#site-navigation"] {
 	width: 100%;
 	height: auto;
 	filter: brightness(0) invert(1);
+}
+
+.dentall-footer-contact {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 0 var(--dentall-space-24);
+}
+
+/* 使用最低必要权重覆盖Storefront的页脚链接色，焦点沿用全站深色背景Token。 */
+.site-footer .dentall-footer-contact a:any-link {
+	display: block;
+	min-block-size: 2.75rem;
+	padding-block: var(--dentall-space-12);
+	color: var(--dentall-white);
+	font-size: var(--dentall-font-size-sm);
+	line-height: 1.4;
+	text-decoration: underline;
+	overflow-wrap: anywhere;
 }
 
 .dentall-footer-social {
@@ -915,6 +937,11 @@ a.skip-link[href="#site-navigation"] {
 		justify-self: center;
 	}
 
+	.dentall-footer-contact {
+		flex-direction: row;
+		justify-content: center;
+	}
+
 }
 
 @media (min-width: 48rem) and (max-width: 74.999rem) {
@@ -989,6 +1016,10 @@ a.skip-link[href="#site-navigation"] {
 	.dentall-footer__logo,
 	.dentall-footer-social {
 		justify-self: start;
+	}
+
+	.dentall-footer-contact {
+		flex-direction: column;
 	}
 
 	.site-footer .site-info {

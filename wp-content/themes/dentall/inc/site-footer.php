@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function dentall_setup_site_footer() {
 	register_nav_menu( 'footer', __( 'Footer navigation', 'dentall' ) );
+	register_nav_menu( 'footer_contact', __( 'Footer contact links', 'dentall' ) );
 	register_nav_menu( 'footer_social', __( 'Footer social links', 'dentall' ) );
 
 	remove_action( 'storefront_footer', 'storefront_footer_widgets', 10 );
@@ -75,7 +76,7 @@ function dentall_render_newsletter() {
 }
 
 /**
- * 输出Footer品牌、原生菜单维护的社媒链接与两级菜单。
+ * 输出Footer品牌、原生菜单维护的联系方式、社媒链接与两级菜单。
  *
  * 菜单未绑定时不回退为全部Page；社媒只展示已绑定的真实账号，不输出占位链接。
  *
@@ -121,6 +122,20 @@ function dentall_render_site_footer() {
 			<a class="dentall-footer__logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $home_label ); ?>">
 				<?php echo dentall_get_brand_logo_image( 'lazy', 'dentall-footer__logo-image' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
+			<?php
+			wp_nav_menu(
+				array(
+					'theme_location'       => 'footer_contact',
+					'container'            => 'nav',
+					'container_class'      => 'dentall-footer-contact-nav',
+					'container_aria_label' => __( 'Contact information', 'dentall' ),
+					'menu_class'           => 'dentall-footer-contact',
+					'menu_id'              => 'dentall-footer-contact',
+					'depth'                => 1,
+					'fallback_cb'          => false,
+				)
+			);
+			?>
 			<?php if ( $social_links ) : ?>
 			<ul class="dentall-footer-social" aria-label="<?php esc_attr_e( 'Company social media', 'dentall' ); ?>">
 				<?php foreach ( $social_links as $link ) : ?>
