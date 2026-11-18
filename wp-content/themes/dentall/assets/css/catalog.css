@@ -75,6 +75,15 @@ body.search.post-type-archive-product .woocommerce-breadcrumb {
 	overflow-wrap: anywhere;
 }
 
+/* Shop仅在正文包含Banner时放宽，其他描述内容继续保持阅读行长。 */
+.woocommerce-products-header .page-description:has(> .dentall-page-banner) {
+	max-width: none;
+}
+
+.woocommerce-products-header .page-description:has(> .dentall-page-banner) > :not(.dentall-page-banner) {
+	max-width: 44rem;
+}
+
 .woocommerce-products-header :where(.term-description, .page-description) > :last-child {
 	margin-bottom: 0;
 }
