@@ -400,7 +400,7 @@ function dentall_homepage_solutions() {
 }
 
 /**
- * 返回首页累计销量最高的五个可见商品。
+ * 返回首页销量优先的可购买商品，不足四个时用真实商品补位。
  *
  * 排序复用WooCommerce的销量查询，不接受当前URL中的排序参数。查询结果不做长期缓存，
  * 避免订单更新销量后仍命中只按商品文章失效的旧查询结果。
@@ -460,48 +460,61 @@ function dentall_get_homepage_best_sellers() {
 	$catalog_query         = WC()->query;
 	$popularity_callback   = array( $catalog_query, 'order_by_popularity_post_clauses' );
 	$had_popularity_filter = 10 === has_filter( 'posts_clauses', $popularity_callback );
-	$ordering_args         = $catalog_query->get_catalog_ordering_args( 'popularity', 'DESC' );
-	$query_args['orderby'] = $ordering_args['orderby'];
-	$query_args['order']   = $ordering_args['order'];
+	$query_args['paged']   = 1;
+	$products             = array();
 
-	if ( ! empty( $ordering_args['meta_key'] ) ) {
-		$query_args['meta_key'] = $ordering_args['meta_key']; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-	}
+	// 每批只查五个候选；资格筛选后仍不足四个才继续，零销量商品自然排在真实畅销商品之后。
+	do {
+		try {
+			$ordering_args         = $catalog_query->get_catalog_ordering_args( 'popularity', 'DESC' );
+			$query_args['orderby'] = $ordering_args['orderby'];
+			$query_args['order']   = $ordering_args['order'];
 
-	$product_ids = array();
+			if ( ! empty( $ordering_args['meta_key'] ) ) {
+				$query_args['meta_key'] = $ordering_args['meta_key']; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			}
 
-	try {
-		$product_query = new WP_Query( $query_args );
-		$product_ids   = $product_query->posts;
-	} finally {
-		if ( ! $had_popularity_filter ) {
-			remove_filter( 'posts_clauses', $popularity_callback, 10 );
-		}
-	}
-
-	$products = array();
-
-	foreach ( $product_ids as $product_id ) {
-		$product = wc_get_product( $product_id );
-
-		if (
-			! $product instanceof WC_Product
-			|| $product->get_total_sales() < 1
-			|| ! $product->is_visible()
-		) {
-			continue;
+			$product_query = new WP_Query( $query_args );
+			$product_ids   = $product_query->posts;
+		} finally {
+			if ( ! $had_popularity_filter ) {
+				remove_filter( 'posts_clauses', $popularity_callback, 10 );
+			}
 		}
 
-		$products[] = $product;
-	}
+		foreach ( $product_ids as $product_id ) {
+			if ( isset( $products[ $product_id ] ) ) {
+				continue;
+			}
 
-	return $products;
+			$product = wc_get_product( $product_id );
+
+			if (
+				! $product instanceof WC_Product
+				|| ! $product->is_visible()
+				|| ! $product->is_purchasable()
+				|| ! $product->is_in_stock()
+			) {
+				continue;
+			}
+
+			$products[ $product_id ] = $product;
+		}
+
+		++$query_args['paged'];
+	} while ( count( $products ) < 4 && count( $product_ids ) === $query_args['posts_per_page'] );
+
+	$products = array_values( $products );
+	// 五个都有真实销量时保留原展示数量；后备商品只补到四个，不伪造畅销或库存数据。
+	$limit = isset( $products[4] ) && $products[4]->get_total_sales() > 0 ? 5 : 4;
+
+	return array_slice( $products, 0, $limit );
 }
 
 /**
  * 在方案区之后输出累计销量商品。
  *
- * 没有真实销量时整段保持空输出；商品卡继续由WooCommerce原生循环模板负责。
+ * 没有可购买商品时保持空输出；包含后备商品时明确标题，商品卡继续复用原生循环模板。
  *
  * @return void
  */
@@ -518,6 +531,15 @@ function dentall_homepage_best_sellers() {
 
 	if ( ! $products ) {
 		return;
+	}
+
+	$title = __( 'Best Sellers', 'dentall' );
+
+	foreach ( $products as $product ) {
+		if ( $product->get_total_sales() < 1 ) {
+			$title = __( 'Best Sellers & More', 'dentall' );
+			break;
+		}
 	}
 
 	$shop_url = '';
@@ -542,7 +564,7 @@ function dentall_homepage_best_sellers() {
 		<section class="dentall-home-best-sellers dentall-section" aria-labelledby="dentall-home-best-sellers-title">
 			<div class="dentall-home-best-sellers__inner col-full">
 				<header class="dentall-home-best-sellers__header">
-					<h2 id="dentall-home-best-sellers-title" class="dentall-home-best-sellers__title"><?php esc_html_e( 'Best Sellers', 'dentall' ); ?></h2>
+					<h2 id="dentall-home-best-sellers-title" class="dentall-home-best-sellers__title"><?php echo esc_html( $title ); ?></h2>
 					<?php if ( is_string( $shop_url ) && '' !== $shop_url ) : ?>
 						<a class="dentall-home-best-sellers__all" href="<?php echo esc_url( $shop_url ); ?>">
 							<?php esc_html_e( 'View all products', 'dentall' ); ?>
