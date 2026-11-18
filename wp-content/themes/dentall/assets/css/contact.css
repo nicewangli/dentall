@@ -1,6 +1,19 @@
-/* Contact保留原生Page与Fluent Forms结构，只限定正文宽度和商品提示。 */
-.dentall-contact .entry-content {
-	max-width: 48rem;
+/* 原生Group承载表单与联系方式；两组内容从1024px起并排。 */
+.dentall-contact-layout {
+	display: grid;
+	gap: var(--dentall-space-40);
+	overflow-wrap: anywhere;
+}
+
+.dentall-contact-layout > .wp-block-group {
+	min-width: 0;
+	margin-block: 0;
+}
+
+@media (min-width: 64rem) {
+	.dentall-contact-layout {
+		grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+	}
 }
 
 .dentall-contact-context {
