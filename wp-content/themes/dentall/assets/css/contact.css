@@ -1,17 +1,17 @@
-/* 原生Group承载表单与联系方式；两组内容从1024px起并排。 */
-.dentall-contact-layout {
+/* Storefront中的原生Group将内容放入inner-container；从1024px起并排。 */
+.dentall-contact-layout > .wp-block-group__inner-container {
 	display: grid;
 	gap: var(--dentall-space-40);
 	overflow-wrap: anywhere;
 }
 
-.dentall-contact-layout > .wp-block-group {
+.dentall-contact-layout > .wp-block-group__inner-container > .wp-block-group {
 	min-width: 0;
 	margin-block: 0;
 }
 
 @media (min-width: 64rem) {
-	.dentall-contact-layout {
+	.dentall-contact-layout > .wp-block-group__inner-container {
 		grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
 	}
 }
