@@ -4,7 +4,7 @@ Theme URI: https://github.com/nicewangli/dentall
 Author: DentAll
 Description: DentAll商城的Storefront子主题。
 Template: storefront
-Version: 0.53.0
+Version: 0.53.1
 Requires at least: 6.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -475,7 +475,7 @@ a:where(:active) {
 }
 
 /* Banner之外的正文仍限制行长，Contact的表单与联系资料继续使用双栏。 */
-.page:not(.dentall-contact) .entry-content:has(> .dentall-page-banner) > :not(.dentall-page-banner) {
+body.page:not(.dentall-contact) .entry-content:has(> .dentall-page-banner) > :not(.dentall-page-banner) {
 	max-width: 46rem;
 	margin-inline: auto;
 }
