@@ -756,7 +756,7 @@ a.skip-link[href="#site-navigation"] {
 }
 
 .site-footer .dentall-footer-menu .sub-menu a,
-.site-footer .site-info a {
+.site-footer .site-info a:any-link {
 	color: rgb(255 255 255 / 78%);
 	font-size: var(--dentall-font-size-sm);
 	line-height: 1.4;
