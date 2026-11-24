@@ -16,7 +16,7 @@
 	padding: 0;
 	border: 0;
 	border-radius: 50%;
-	background: var(--dentall-gray-100);
+	background: var(--dentall-white);
 	color: var(--dentall-color-text);
 	box-shadow: var(--dentall-shadow-card);
 }
@@ -26,8 +26,8 @@
 }
 
 .dentall-back-to-top:is(:hover, :focus-visible) {
-	background: var(--dentall-color-surface-blue);
-	color: var(--dentall-color-action);
+	background: var(--dentall-gray-100);
+	color: var(--dentall-color-text);
 }
 
 .dentall-back-to-top:focus-visible {
