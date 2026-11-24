@@ -1,0 +1,118 @@
+/* 单份联系DOM；窄屏折叠、宽屏利用内容容器外侧留白。 */
+.dentall-floating-contact {
+	--dentall-contact-size: 3rem;
+	position: fixed;
+	z-index: 10;
+	inset-inline-end: max(1rem, env(safe-area-inset-right));
+	inset-block-end: calc(1rem + env(safe-area-inset-bottom));
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: var(--dentall-space-8);
+	max-inline-size: calc(100vw - 2rem);
+}
+
+.dentall-floating-contact[hidden],
+.dentall-floating-contact [hidden] {
+	display: none;
+}
+
+.dentall-floating-contact__toggle,
+.dentall-floating-contact__links a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--dentall-space-8);
+	min-block-size: var(--dentall-contact-size);
+	min-inline-size: var(--dentall-contact-size);
+	padding: var(--dentall-space-8) var(--dentall-space-16);
+	border: 0;
+	border-radius: var(--dentall-radius-md);
+	background: var(--dentall-blue-700);
+	color: var(--dentall-white);
+	box-shadow: var(--dentall-shadow-card);
+	text-decoration: none;
+}
+
+.dentall-floating-contact :is(a, button):hover {
+	background: var(--dentall-blue-600);
+	color: var(--dentall-white);
+}
+
+.dentall-floating-contact :is(a, button):focus-visible {
+	outline: 3px solid var(--dentall-color-focus-on-dark);
+	outline-offset: -5px;
+}
+
+.dentall-floating-contact__links {
+	order: -1;
+	display: grid;
+	gap: var(--dentall-space-8);
+	max-inline-size: min(20rem, calc(100vw - 2rem));
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dentall-floating-contact__links svg {
+	flex: 0 0 1.5rem;
+	inline-size: 1.5rem;
+	block-size: 1.5rem;
+	fill: currentColor;
+}
+
+.dentall-floating-contact__label {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+	text-align: start;
+}
+
+.dentall-floating-contact__label span {
+	display: block;
+	font-size: var(--dentall-font-size-sm);
+}
+
+/* 不跨越原生dialog顶层；Cookie/图库/主菜单打开时也退出点击和键盘路径。 */
+body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(.cmplz-hidden), .pswp--open) .dentall-floating-contact {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+@media (max-width: 74.999rem) {
+	body:has(#site-navigation.toggled) .dentall-floating-contact {
+		visibility: hidden;
+		pointer-events: none;
+	}
+}
+
+@media (max-width: 89.999rem) {
+	body:has(input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus) .dentall-floating-contact {
+		visibility: hidden;
+		pointer-events: none;
+	}
+}
+
+@media (min-width: 90rem) {
+	.dentall-floating-contact {
+		inset-block-end: 50%;
+		transform: translateY(50%);
+	}
+	.dentall-floating-contact__links a {
+		position: relative;
+		padding: var(--dentall-space-8);
+	}
+	.dentall-floating-contact__label {
+		position: absolute;
+		inset-inline-end: calc(100% + var(--dentall-space-8));
+		inline-size: max-content;
+		max-inline-size: 20rem;
+		padding: var(--dentall-space-8) var(--dentall-space-16);
+		border-radius: var(--dentall-radius-md);
+		background: var(--dentall-blue-700);
+		opacity: 0;
+		pointer-events: none;
+	}
+	.dentall-floating-contact__links a:is(:hover, :focus-visible) .dentall-floating-contact__label {
+		opacity: 1;
+	}
+}
