@@ -126,6 +126,12 @@ function dentall_render_site_footer() {
 	/* translators: %s: Site name. */
 	$home_label = sprintf( __( '%s home', 'dentall' ), $site_name );
 	?>
+	<?php if ( ! function_exists( 'is_cart' ) || ( ! is_cart() && ! is_checkout() ) ) : ?>
+	<button class="dentall-back-to-top" type="button" hidden>
+		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+		<span class="screen-reader-text"><?php esc_html_e( 'Back to top', 'dentall' ); ?></span>
+	</button>
+	<?php endif; ?>
 	<div class="dentall-footer__main">
 		<div class="dentall-footer__navigation">
 			<?php if ( has_nav_menu( 'footer' ) ) : ?>

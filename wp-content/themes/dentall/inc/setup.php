@@ -44,6 +44,14 @@ function dentall_enqueue_site_shell_assets() {
 
 	wp_dequeue_script( 'storefront-handheld-footer-bar' );
 
+	wp_enqueue_script(
+		'dentall-site-shell',
+		get_stylesheet_directory_uri() . '/assets/js/site-shell.js',
+		array(),
+		$theme->get( 'Version' ),
+		array( 'in_footer' => true, 'strategy' => 'defer' )
+	);
+
 	// 字体地址随父主题安装路径变化，用受控接口覆盖原有两种图标字体声明。
 	$font_base = esc_url( get_template_directory_uri() . '/assets/fonts/' );
 	wp_add_inline_style(

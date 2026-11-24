@@ -3,6 +3,50 @@
  * Design Token与全局控件基线来自style.css；本文件只保存壳层组件及其响应式变化。
  */
 
+/* 默认隐藏，脚本就绪且页面已滚动后才提供回顶操作。 */
+.dentall-back-to-top {
+	position: fixed;
+	z-index: 10;
+	inset-inline-end: max(var(--dentall-space-16), env(safe-area-inset-right));
+	inset-block-end: max(var(--dentall-space-24), env(safe-area-inset-bottom));
+	display: none;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--dentall-gray-100);
+	color: var(--dentall-color-text);
+	box-shadow: var(--dentall-shadow-card);
+}
+
+.dentall-back-to-top:not([hidden]) {
+	display: grid;
+}
+
+.dentall-back-to-top:is(:hover, :focus-visible) {
+	background: var(--dentall-color-surface-blue);
+	color: var(--dentall-color-action);
+}
+
+.dentall-back-to-top:focus-visible {
+	outline: 3px solid var(--dentall-color-focus-on-light);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px var(--dentall-white), var(--dentall-shadow-card);
+}
+
+.dentall-back-to-top svg {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+}
+
+/* 弹层和输入优先；隐藏同时退出点击与键盘路径。 */
+body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(.cmplz-hidden), .pswp--open, input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus) .dentall-back-to-top {
+	visibility: hidden;
+	pointer-events: none;
+}
+
 .dentall-announcement {
 	--dentall-focus-ring-color: var(--dentall-color-focus-on-dark);
 	background: var(--dentall-color-brand);
@@ -517,6 +561,11 @@
 }
 
 @media (max-width: 74.999rem) {
+	body:has(#site-navigation.toggled) .dentall-back-to-top {
+		visibility: hidden;
+		pointer-events: none;
+	}
+
 	.storefront-primary-navigation .main-navigation.toggled ul.menu > li > .sub-menu {
 		visibility: visible;
 		pointer-events: auto;
@@ -1020,6 +1069,17 @@ a.skip-link[href="#site-navigation"] {
 }
 
 @media (min-width: 75rem) {
+	/* clip保留横向裁切但不建立滚动容器，否则父主题overflow会令吸顶失效。 */
+	body,
+	.site {
+		overflow-x: clip;
+		overflow-y: visible;
+	}
+
+	html {
+		scroll-padding-top: calc(var(--dentall-header-height, 10rem) + var(--wp-admin--admin-bar--height, 0px) + var(--dentall-space-16));
+	}
+
 	.dentall-newsletter__inner {
 		grid-template-columns: minmax(0, 0.9fr) minmax(32rem, 1.1fr);
 		gap: var(--dentall-space-48);
@@ -1074,7 +1134,11 @@ a.skip-link[href="#site-navigation"] {
 	}
 
 	.site-header {
+		position: sticky;
+		top: var(--wp-admin--admin-bar--height, 0px);
+		z-index: 20;
 		border-bottom: 0;
+		box-shadow: var(--dentall-shadow-card);
 	}
 
 	.site-header > .col-full {
