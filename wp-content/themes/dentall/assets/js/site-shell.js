@@ -3,6 +3,7 @@
 	'use strict';
 
 	const header = document.querySelector('.site-header');
+	const purchaseBar = document.querySelector('.storefront-sticky-add-to-cart');
 	const button = document.querySelector('.dentall-back-to-top');
 	const homeLink = header?.querySelector('.site-branding a');
 
@@ -10,8 +11,11 @@
 	if (header) {
 		const measureHeader = () => {
 			document.documentElement.style.setProperty('--dentall-header-height', `${header.offsetHeight}px`);
+			if (purchaseBar) document.documentElement.style.setProperty('--dentall-purchase-bar-height', `${purchaseBar.offsetHeight}px`);
 		};
-		new ResizeObserver(measureHeader).observe(header);
+		const observer = new ResizeObserver(measureHeader);
+		observer.observe(header);
+		if (purchaseBar) observer.observe(purchaseBar);
 		measureHeader();
 	}
 

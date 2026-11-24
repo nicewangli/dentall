@@ -1080,6 +1080,16 @@ a.skip-link[href="#site-navigation"] {
 		scroll-padding-top: calc(var(--dentall-header-height, 10rem) + var(--wp-admin--admin-bar--height, 0px) + var(--dentall-space-16));
 	}
 
+	/* 保留原生购买栏，进入时从页头下方露出，不覆盖导航或锚点。 */
+	.site .storefront-sticky-add-to-cart {
+		top: calc(var(--dentall-header-height, 10rem) + var(--wp-admin--admin-bar--height, 0px));
+		z-index: 19;
+	}
+
+	html:has(.storefront-sticky-add-to-cart--slideInDown) {
+		scroll-padding-top: calc(var(--dentall-header-height, 10rem) + var(--dentall-purchase-bar-height, 6rem) + var(--wp-admin--admin-bar--height, 0px) + var(--dentall-space-16));
+	}
+
 	.dentall-newsletter__inner {
 		grid-template-columns: minmax(0, 0.9fr) minmax(32rem, 1.1fr);
 		gap: var(--dentall-space-48);
