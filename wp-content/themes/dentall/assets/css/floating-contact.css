@@ -86,8 +86,8 @@
 	pointer-events: auto;
 }
 
-/* 不跨越原生dialog顶层；Cookie/图库打开时退出点击和键盘路径。 */
-body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(.cmplz-hidden), .pswp--open) .dentall-floating-contact {
+/* 不跨越原生dialog顶层；Cookie、图库和购物车展开时退出点击和键盘路径。 */
+body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(.cmplz-hidden), .pswp--open, .site-header-cart:is(:hover, :focus-within, .focus)) .dentall-floating-contact {
 	visibility: hidden;
 	pointer-events: none;
 }
