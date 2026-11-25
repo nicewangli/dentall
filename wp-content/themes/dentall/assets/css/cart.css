@@ -18,16 +18,22 @@
 }
 
 .dentall-shipping-request__items {
+	inline-size: 100%;
 	margin: 0 0 var(--dentall-space-16);
-	list-style: none;
+	table-layout: fixed;
+	border-collapse: collapse;
+	background: var(--dentall-white);
 }
 
-.dentall-shipping-request__items li {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: var(--dentall-space-16);
-	padding-block: var(--dentall-space-16);
-	border-bottom: 1px solid var(--dentall-color-border-subtle);
+.dentall-shipping-request__items :is(th, td) {
+	padding: var(--dentall-space-12);
+	border: 1px solid var(--dentall-color-border-subtle);
+	vertical-align: top;
+}
+
+.dentall-shipping-request__items thead th {
+	background: var(--dentall-color-heading);
+	color: var(--dentall-white);
 }
 
 .dentall-shipping-request__items small {
@@ -37,6 +43,8 @@
 }
 
 .dentall-shipping-request__quantity {
+	inline-size: 4.5rem;
+	text-align: center;
 	white-space: nowrap;
 	font-weight: var(--dentall-font-weight-semibold);
 }

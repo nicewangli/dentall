@@ -53,19 +53,21 @@ function dentall_render_shipping_request( $content ) {
 		$output .= '<p role="status">' . esc_html( $message ) . '</p>';
 	} else {
 		// 前台使用同一份已验证结构，不解析或改变后台快照、令牌和报价流程。
-		$summary = '<ul class="dentall-shipping-request__items">';
+		$summary = '<table class="dentall-shipping-request__items has-background" aria-labelledby="dentall-shipping-request-summary-title"><thead><tr>'
+			. '<th scope="col">' . esc_html__( 'Product', 'dentall' ) . '</th>'
+			. '<th scope="col" class="dentall-shipping-request__quantity">' . esc_html__( 'Qty', 'dentall' ) . '</th></tr></thead><tbody>';
 		foreach ( $snapshot['items'] as $item ) {
-			$summary .= '<li><div><strong>' . esc_html( $item['name'] ) . '</strong>';
+			$summary .= '<tr><td><strong>' . esc_html( $item['name'] ) . '</strong>';
 			if ( $item['variation'] ) {
 				$summary .= '<small>' . nl2br( esc_html( $item['variation'] ) ) . '</small>';
 			}
 			if ( '' !== $item['sku'] ) {
 				$summary .= '<small>' . esc_html( sprintf( __( 'SKU: %s', 'dentall' ), $item['sku'] ) ) . '</small>';
 			}
-			$summary .= '</div><span class="dentall-shipping-request__quantity">'
-				. esc_html( sprintf( __( 'Qty: %s', 'dentall' ), $item['quantity'] ) ) . '</span></li>';
+			$summary .= '</td><td class="dentall-shipping-request__quantity">'
+				. esc_html( $item['quantity'] ) . '</td></tr>';
 		}
-		$summary .= '</ul><dl class="dentall-shipping-request__totals">'
+		$summary .= '</tbody></table><dl class="dentall-shipping-request__totals">'
 			. '<dt>' . esc_html__( 'Currency', 'dentall' ) . '</dt><dd>' . esc_html( $snapshot['currency'] ) . '</dd>'
 			. '<dt>' . esc_html__( 'Reference subtotal before discounts', 'dentall' ) . '</dt><dd>' . wp_kses_post( WC()->cart->get_cart_subtotal() ) . '</dd>'
 			. '<dt>' . esc_html__( 'Coupon codes', 'dentall' ) . '</dt><dd>' . esc_html( implode( ', ', $snapshot['coupons'] ) ?: __( 'None', 'dentall' ) ) . '</dd>'
