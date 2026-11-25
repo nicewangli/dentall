@@ -268,7 +268,17 @@ function dentall_header_cart() {
 			<?php dentall_cart_link(); ?>
 		</li>
 		<li>
-			<?php the_widget( 'WC_Widget_Cart', 'title=' ); ?>
+			<?php
+			// 只恢复申请视图的当前页头实例，不改变普通Cart和Checkout的默认行为。
+			$show_header_cart = static function () {
+				return false;
+			};
+			if ( is_cart() && '1' === ( $_GET['shipping-request'] ?? '' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- 仅展示。
+				add_filter( 'woocommerce_widget_cart_is_hidden', $show_header_cart, 100 );
+			}
+			the_widget( 'WC_Widget_Cart', 'title=' );
+			remove_filter( 'woocommerce_widget_cart_is_hidden', $show_header_cart, 100 );
+			?>
 		</li>
 	</ul>
 	<?php

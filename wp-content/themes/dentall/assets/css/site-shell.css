@@ -374,10 +374,11 @@ body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(
 .site-header .site-header-cart .dentall-cart-count {
 	position: absolute;
 	inset-block-start: -0.125rem;
-	inset-inline-start: 50%;
+	inset-inline-end: 0.125rem;
 	display: grid;
 	place-items: center;
 	box-sizing: border-box;
+	inline-size: max-content;
 	min-width: 1.125rem;
 	height: 1.125rem;
 	padding-inline: 0.25rem;
@@ -388,7 +389,7 @@ body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(
 	font-size: 0.625rem;
 	font-weight: var(--dentall-font-weight-bold);
 	line-height: 1;
-	transform: translateX(0.125rem);
+	white-space: nowrap;
 }
 
 /* 手机使用Storefront原生切换按钮；关闭时整个非模态面板不可见且不进入键盘顺序。 */

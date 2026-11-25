@@ -52,13 +52,32 @@ function dentall_render_shipping_request( $content ) {
 			: __( 'The request form is currently unavailable. Please contact our team using the email below.', 'dentall' );
 		$output .= '<p role="status">' . esc_html( $message ) . '</p>';
 	} else {
-		// 摘要稍后会经过WordPress短代码过滤，方括号必须继续保持纯文本。
-		$summary = str_replace( array( '[', ']' ), array( '&#91;', '&#93;' ), esc_html( $snapshot['text'] ) );
+		// 前台使用同一份已验证结构，不解析或改变后台快照、令牌和报价流程。
+		$summary = '<ul class="dentall-shipping-request__items">';
+		foreach ( $snapshot['items'] as $item ) {
+			$summary .= '<li><div><strong>' . esc_html( $item['name'] ) . '</strong>';
+			if ( $item['variation'] ) {
+				$summary .= '<small>' . nl2br( esc_html( $item['variation'] ) ) . '</small>';
+			}
+			if ( '' !== $item['sku'] ) {
+				$summary .= '<small>' . esc_html( sprintf( __( 'SKU: %s', 'dentall' ), $item['sku'] ) ) . '</small>';
+			}
+			$summary .= '</div><span class="dentall-shipping-request__quantity">'
+				. esc_html( sprintf( __( 'Qty: %s', 'dentall' ), $item['quantity'] ) ) . '</span></li>';
+		}
+		$summary .= '</ul><dl class="dentall-shipping-request__totals">'
+			. '<dt>' . esc_html__( 'Currency', 'dentall' ) . '</dt><dd>' . esc_html( $snapshot['currency'] ) . '</dd>'
+			. '<dt>' . esc_html__( 'Reference subtotal before discounts', 'dentall' ) . '</dt><dd>' . wp_kses_post( WC()->cart->get_cart_subtotal() ) . '</dd>'
+			. '<dt>' . esc_html__( 'Coupon codes', 'dentall' ) . '</dt><dd>' . esc_html( implode( ', ', $snapshot['coupons'] ) ?: __( 'None', 'dentall' ) ) . '</dd>'
+			. '<dt>' . esc_html__( 'Reference total after discounts, excluding tax', 'dentall' ) . '</dt><dd>' . wp_kses_post( wc_price( WC()->cart->get_cart_contents_total(), array( 'currency' => $snapshot['currency'] ) ) ) . '</dd></dl>'
+			. '<p>' . esc_html__( 'The pending quote uses product prices before coupons. Coupons, shipping, tax and the final total require staff confirmation. Prices and stock are not reserved.', 'dentall' ) . '</p>';
+		// 后续仍经过do_shortcode；商品名称、SKU等方括号只能作为纯文本。
+		$summary = str_replace( array( '[', ']' ), array( '&#91;', '&#93;' ), $summary );
 		$output .= '<p>' . esc_html__( 'Submit your contact and address details to prepare an order for a manual quote. Our team will confirm all charges and send your payment link by email or WhatsApp. The 72-hour payment period starts when we confirm the quote and activate its link. No payment is taken and no stock is reserved when you submit.', 'dentall' ) . '</p>'
 			. '<noscript><p>' . esc_html__( 'Please enable JavaScript to submit this form, or use the contact email below.', 'dentall' ) . '</p></noscript>'
 			. '<aside class="dentall-shipping-request__summary" aria-labelledby="dentall-shipping-request-summary-title">'
 			. '<h3 id="dentall-shipping-request-summary-title">' . esc_html__( 'Your cart for this request', 'dentall' ) . '</h3>'
-			. '<p>' . nl2br( $summary ) . '</p></aside>';
+			. $summary . '</aside>';
 		$privacy_url = get_privacy_policy_url();
 		if ( $privacy_url ) {
 			$output .= '<p><a href="' . esc_url( $privacy_url ) . '">'

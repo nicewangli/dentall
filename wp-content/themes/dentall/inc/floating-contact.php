@@ -3,7 +3,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** 同一请求仅查询一次；交易、账户和完整联系表单页不输出或加载资源。 */
+/** 同一请求仅查询一次；后台、系统登录与结账页不输出或加载资源。 */
 function dentall_get_floating_contact_links() {
 	static $links = null;
 	if ( null !== $links ) {
@@ -11,11 +11,9 @@ function dentall_get_floating_contact_links() {
 	}
 	$links = array();
 	if (
-		is_admin() || is_page( 'contact-us' )
+		is_admin()
 		|| ( function_exists( 'is_login' ) && is_login() )
-		|| ( function_exists( 'is_cart' ) && is_cart() ) // 包含既有shipping-request展示模式。
 		|| ( function_exists( 'is_checkout' ) && is_checkout() )
-		|| ( function_exists( 'is_account_page' ) && is_account_page() )
 	) {
 		return $links;
 	}
