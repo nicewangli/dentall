@@ -5,6 +5,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once __DIR__ . '/shipping-request-cart.php';
+require_once __DIR__ . '/shipping-request-receipt.php';
+
 // 固定token锁保存在DB；外部对象缓存启用时仍复用WP每日任务清理已到期DB transient。
 add_action( 'delete_expired_transients', function () {
 	if ( wp_using_ext_object_cache() ) {
@@ -202,6 +205,10 @@ function dentall_core_validate_shipping_request( $errors, $data, $form ) {
 		return $errors;
 	}
 
+	// 表单请求只消费已落库的同一购物车；shutdown 不应回写请求开始时的旧整行会话。
+	if ( function_exists( 'WC' ) && WC()->session && 'WC_Session_Handler' === get_class( WC()->session ) ) {
+		remove_action( 'shutdown', array( WC()->session, 'save_data' ), 20 );
+	}
 	$clean = array();
 	$fields = array(
 		'first_name' => array( 'label' => __( 'First name', 'dentall-core' ), 'limit' => 100 ),
@@ -276,7 +283,8 @@ function dentall_core_validate_shipping_request( $errors, $data, $form ) {
 	if ( $timestamp > time() || $timestamp < time() - 30 * MINUTE_IN_SECONDS || ! wp_verify_nonce( $parts[1] ?? '', $action ) ) {
 		$errors['dentall_request_token'][] = __( 'Your cart changed or this form expired. Reload the cart and try again.', 'dentall-core' );
 	}
-	if ( $timestamp <= (int) WC()->session->get( 'dentall_shipping_request_submitted_at', 0 ) ) {
+	$last_key = 'dentall_quote_last_' . hash( 'sha256', (string) WC()->session->get_customer_id() );
+	if ( $timestamp <= max( (int) get_transient( $last_key ), (int) WC()->session->get( 'dentall_shipping_request_submitted_at', 0 ) ) ) {
 		$errors['dentall_request_token'][] = __( 'This request has already been saved. Reload the cart only if you need to send a new request.', 'dentall-core' );
 	}
 	if ( $errors ) {
@@ -310,7 +318,7 @@ function dentall_core_validate_shipping_request( $errors, $data, $form ) {
 	// 先持久化保守状态：进程异常退出也不会留下“订单已创建”的误导记录。
 	$clean['dentall_order_status'] = 'pending';
 	$clean['dentall_order_reference'] = __( 'Order creation requires staff review. Do not create a second order before checking this entry.', 'dentall-core' );
-	$GLOBALS['dentall_shipping_request_validated'] = array( 'data' => $clean, 'timestamp' => $timestamp, 'snapshot' => $snapshot );
+	$GLOBALS['dentall_shipping_request_validated'] = array( 'data' => $clean, 'timestamp' => $timestamp, 'snapshot' => $snapshot, 'last_key' => $last_key );
 	return $errors;
 }
 add_filter( 'fluentform/validation_errors', 'dentall_core_validate_shipping_request', 20, 3 );
@@ -419,6 +427,14 @@ function dentall_core_create_shipping_request_order( $data, $entry_id, $form ) {
 		) );
 		$order->update_meta_data( '_dentall_shipping_request_state', 'created' );
 		$order->save();
+		// Woo 的 save() 可能记录异常后仍返回已有 ID；用独立订单对象核对持久状态再消费购物车。
+		$stored_order = new WC_Order( $order->get_id() );
+		$stored_order->read_meta_data( true );
+		if ( 'created' !== $stored_order->get_meta( '_dentall_shipping_request_state' )
+			|| (int) $entry_id !== (int) $stored_order->get_meta( '_dentall_shipping_request_entry_id' )
+			|| count( $snapshot['items'] ) !== count( $stored_order->get_items() ) ) {
+			throw new RuntimeException( 'order_reference' );
+		}
 		$data['dentall_order_status'] = 'created';
 		$data['dentall_order_id'] = $order->get_id();
 		$data['dentall_order_reference'] = sprintf(
@@ -439,15 +455,33 @@ function dentall_core_create_shipping_request_order( $data, $entry_id, $form ) {
 	try {
 		$entry->response = wp_json_encode( $data, JSON_UNESCAPED_UNICODE );
 		$persisted = (bool) $entry->save();
+		if ( $persisted && 'created' === $data['dentall_order_status'] ) {
+			// ORM 保存可能成功返回但未更新行；只有条目仍持久关联同一份申请才可清车和发回执。
+			$linked = \FluentForm\App\Models\Submission::where( 'form_id', $form->id )->find( $entry_id );
+			$persisted = $linked && $linked->response === $entry->response;
+		}
 		if ( ! $persisted ) {
 			throw new RuntimeException( 'entry_reference' );
 		}
 	} catch ( Throwable $error ) {
 		// 保留原子锁阻止自动重建；已保存Entry的保守状态仍提示工作人员检查。
+		$persisted = false;
 		wc_get_logger()->error( 'Shipping request entry reference could not be saved.', array( 'source' => 'dentall-shipping-request', 'entry_id' => absint( $entry_id ) ) );
 	}
 	if ( $persisted ) {
 		delete_option( $lock );
+		if ( 'created' === $data['dentall_order_status'] ) {
+			try {
+				$GLOBALS['dentall_quote_cart_cleared'][ $entry_id ] = dentall_core_clear_submitted_quote_cart( $validated['snapshot'] );
+			} catch ( Throwable $error ) {
+				// 清车回调可能在存储已更新后失败，此时不能声称已清空或已保留。
+				$GLOBALS['dentall_quote_cart_uncertain'][ $entry_id ] = true;
+				wc_get_logger()->warning( 'Quote saved; cart refresh needs review.', array( 'source' => 'dentall-shipping-request', 'entry_id' => absint( $entry_id ) ) );
+			}
+			dentall_core_send_shipping_request_receipt( absint( $entry_id ), $stored_order, $data, $validated['snapshot']['items'] );
+		}
+	} else {
+		$data['dentall_order_status'] = 'failed';
 	}
 	return $data;
 }
@@ -462,6 +496,15 @@ function dentall_core_shipping_request_confirmation( $response, $form, $confirma
 		? __( 'Your request #%d is saved as a pending quote. Our team will confirm the final costs and send a payment link. Prices and stock are not reserved.', 'dentall-core' )
 		: __( 'Your request #%d has been received and needs staff attention before a quote can be prepared. Please do not submit it again; our team will follow up.', 'dentall-core' );
 	$response['message'] = '<p>' . esc_html( sprintf( $text, $entry_id ) ) . '</p>';
+	$cleared = ! empty( $GLOBALS['dentall_quote_cart_cleared'][ $entry_id ] );
+	$response['dentall_quote_cart'] = $cleared ? 'cleared' : 'retained';
+	$response['dentall_items_heading'] = __( 'Items in your submitted request', 'dentall-core' );
+	$response['action'] = 'hide_form';
+	$cart_text = $cleared ? __( 'The submitted items have been cleared from your cart.', 'dentall-core' ) : __( 'Your current cart has been kept.', 'dentall-core' );
+	if ( ! empty( $GLOBALS['dentall_quote_cart_uncertain'][ $entry_id ] ) ) {
+		$cart_text = __( 'Check your current cart before starting another request.', 'dentall-core' );
+	}
+	$response['message'] .= '<p>' . esc_html( $cart_text ) . '</p><p><a href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">' . esc_html__( 'Continue shopping', 'dentall-core' ) . '</a></p>';
 	return $response;
 }
 add_filter( 'fluentform/submission_confirmation', 'dentall_core_shipping_request_confirmation', 10, 5 );
@@ -469,8 +512,9 @@ add_filter( 'fluentform/submission_confirmation', 'dentall_core_shipping_request
 /** Entry已保存、建单之前持久消费令牌；后续建单或通知中断也不能复用旧申请。 */
 function dentall_core_record_shipping_request_submission( $entry_id, $data, $form ) {
 	if ( $entry_id && dentall_core_is_shipping_request_form( $form->id ?? 0 ) && isset( $GLOBALS['dentall_shipping_request_validated'] ) ) {
-		WC()->session->set( 'dentall_shipping_request_submitted_at', $GLOBALS['dentall_shipping_request_validated']['timestamp'] );
-		WC()->session->save_data();
+		$validated = $GLOBALS['dentall_shipping_request_validated'];
+		// 已保存的Entry消费旧表单；独立于购物车整行，使失败或冲突时不覆盖其他标签的修改。
+		set_transient( $validated['last_key'], $validated['timestamp'], 31 * MINUTE_IN_SECONDS );
 	}
 }
 add_action( 'fluentform/before_form_actions_processing', 'dentall_core_record_shipping_request_submission', 1, 3 );
@@ -496,3 +540,10 @@ function dentall_core_disable_shipping_request_location_log( $disabled, $form_id
 }
 add_filter( 'fluentform/disable_ip_logging', 'dentall_core_disable_shipping_request_location_log', 10, 2 );
 add_filter( 'fluentform/disable_submission_country_detection', 'dentall_core_disable_shipping_request_location_log', 10, 2 );
+
+/** 表单通过 AJAX 提交，成功提示和页头购物车须在同一页更新。 */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( function_exists( 'is_cart' ) && is_cart() && '1' === ( $_GET['shipping-request'] ?? '' ) && dentall_core_get_shipping_request_form_id() ) {
+		wp_enqueue_script( 'dentall-quote-cart-confirmation', plugins_url( 'assets/js/quote-cart-confirmation.js', DENTALL_CORE_PLUGIN_FILE ), array( 'wc-cart-fragments' ), '0.12.0', true );
+	}
+} );

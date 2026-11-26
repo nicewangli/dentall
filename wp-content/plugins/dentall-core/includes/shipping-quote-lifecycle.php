@@ -379,6 +379,12 @@ function dentall_core_add_shipping_quote_email_terms( $order, $sent_to_admin, $p
 	);
 	$duties  = __( 'The customer is the importer of record. Import duties, import taxes, customs clearance fees and carrier brokerage charges are not included in the DentAll order total and are payable by the customer directly to customs or the carrier. Any sales tax, VAT, GST or HST that DentAll is required to collect will be shown separately in the order total.', 'dentall-core' );
 
+	$entry_id = absint( $order->get_meta( '_dentall_shipping_request_entry_id', true, 'edit' ) );
+	if ( $entry_id && $order->is_created_via( 'dentall-shipping-request' ) ) {
+		$reference = sprintf( __( 'Quote request #%d', 'dentall-core' ), $entry_id );
+		echo $plain_text ? "\n" . esc_html( $reference ) . "\n" : '<p><strong>' . esc_html( $reference ) . '</strong></p>';
+	}
+
 	if ( $plain_text ) {
 		echo "\n" . wp_strip_all_tags( $message ) . "\n" . wp_strip_all_tags( $duties ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return;
@@ -624,6 +630,46 @@ function dentall_core_request_has_valid_quote_order_key( $order ) {
 
 	return '' !== $key && hash_equals( $order->get_order_key( 'edit' ), $key );
 }
+
+/**
+ * 报价付款操作处理已保存的订单，不消费买家现在的购物车。
+ * 经典收据会直接调用 empty_cart(false)，不经过付款后清车过滤器。
+ * Woo 初始化时会复用已有 WC_Cart；保留原生构造、会话和收据权限检查。
+ */
+function dentall_core_prepare_quote_payment_cart() {
+	if ( ! isset( $_GET['key'] ) || ! is_string( $_GET['key'] ) || '' === $_GET['key'] || is_admin() || null !== WC()->cart ) {
+		return;
+	}
+
+	// 此时 WP 尚未解析路由。仅在 Woo 的付款/收据 URL 上预备，真正清车时再核验端点与密钥。
+	$path = trailingslashit( rawurldecode( (string) wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ) ) );
+	$vars = WC()->query->get_query_vars();
+	$matches_endpoint = false;
+	foreach ( array( 'order-pay', 'order-received' ) as $endpoint ) {
+		$slug = $vars[ $endpoint ] ?? '';
+		if ( $slug && ( isset( $_GET[ $slug ] ) || false !== strpos( $path, '/' . rawurldecode( $slug ) . '/' ) ) ) {
+			$matches_endpoint = true;
+			break;
+		}
+	}
+	if ( ! $matches_endpoint ) {
+		return;
+	}
+
+	WC()->cart = new class() extends WC_Cart {
+		public function empty_cart( $clear_persistent_cart = true ) {
+			global $wp;
+			$order_id = absint( $wp->query_vars['order-received'] ?? $wp->query_vars['order-pay'] ?? 0 );
+			$order    = $order_id && ( is_order_received_page() || is_checkout_pay_page() ) ? wc_get_order( $order_id ) : false;
+			if ( $order instanceof WC_Order && dentall_core_request_has_valid_quote_order_key( $order )
+				&& ( $order->is_created_via( 'dentall-shipping-request' ) || $order->get_meta( DENTALL_SHIPPING_QUOTE_ISSUED_AT_META, true, 'edit' ) ) ) {
+				return;
+			}
+			parent::empty_cart( $clear_persistent_cart );
+		}
+	};
+}
+add_action( 'before_woocommerce_init', 'dentall_core_prepare_quote_payment_cart' );
 
 /**
  * 在Woo表单处理前实时拦截未签发、过期或被修改的经典付款链接。
