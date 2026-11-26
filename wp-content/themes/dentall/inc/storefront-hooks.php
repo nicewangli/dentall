@@ -269,11 +269,11 @@ function dentall_header_cart() {
 		</li>
 		<li>
 			<?php
-			// 只恢复申请视图的当前页头实例，不改变普通Cart和Checkout的默认行为。
+			// 申请页和订单付款页均展示访客当前的购物车，付款表单继续使用已报价的订单。
 			$show_header_cart = static function () {
 				return false;
 			};
-			if ( is_cart() && '1' === ( $_GET['shipping-request'] ?? '' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- 仅展示。
+			if ( is_checkout_pay_page() || ( is_cart() && '1' === ( $_GET['shipping-request'] ?? '' ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- 仅展示。
 				add_filter( 'woocommerce_widget_cart_is_hidden', $show_header_cart, 100 );
 			}
 			the_widget( 'WC_Widget_Cart', 'title=' );

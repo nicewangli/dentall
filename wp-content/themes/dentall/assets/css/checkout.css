@@ -97,6 +97,13 @@ body.woocommerce-checkout .wp-block-woocommerce-checkout .wc-block-components-bu
 	min-height: 44px;
 }
 
+/* 浮窗出现后，给订单金额和付款按钮留出侧边空间；宽屏仍沿用原有容器。 */
+@media (min-width: 48rem) {
+	.woocommerce-order-pay:has(.dentall-floating-contact) .site-content > .col-full {
+		max-width: min(var(--dentall-container-max), calc(100% - 5rem));
+	}
+}
+
 @media (min-width: 75rem) {
 	.wp-block-woocommerce-checkout .wc-block-checkout__sidebar {
 		box-sizing: border-box;

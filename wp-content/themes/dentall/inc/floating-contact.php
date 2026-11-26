@@ -3,7 +3,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** 同一请求仅查询一次；后台、系统登录与结账页不输出或加载资源。 */
+/** 同一请求仅查询一次；结账流程只在已有订单的付款页显示联系入口。 */
 function dentall_get_floating_contact_links() {
 	static $links = null;
 	if ( null !== $links ) {
@@ -13,7 +13,7 @@ function dentall_get_floating_contact_links() {
 	if (
 		is_admin()
 		|| ( function_exists( 'is_login' ) && is_login() )
-		|| ( function_exists( 'is_checkout' ) && is_checkout() )
+		|| ( function_exists( 'is_checkout' ) && is_checkout() && ! is_checkout_pay_page() )
 	) {
 		return $links;
 	}
