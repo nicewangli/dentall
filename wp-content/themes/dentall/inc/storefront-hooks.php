@@ -84,12 +84,25 @@ function dentall_primary_category_toggle( $output, $item, $depth, $args ) {
 }
 add_filter( 'walker_nav_menu_start_el', 'dentall_primary_category_toggle', 10, 4 );
 
+// 首次展示和后台表单共用同一套默认文案，不在升级时写数据库。
+add_filter( 'default_option_dentall_site_announcements', static function () {
+	return array(
+		__( 'Shipping Quotes Based on Order Quantity', 'dentall' ),
+		__( 'Email Support for Shipping Confirmation', 'dentall' ),
+		__( 'Trusted by 10,000+ Dental Professionals', 'dentall' ),
+	);
+} );
+
 /**
  * 输出与人工运费报价流程一致的全站公告栏。
  *
  * @return void
  */
 function dentall_announcement_bar() {
+	$stored          = get_option( 'dentall_site_announcements' );
+	$messages        = array_filter( is_array( $stored ) ? array_slice( $stored, 0, 3 ) : array(), static function ( $text ) {
+		return is_string( $text ) && '' !== trim( $text );
+	} );
 	$currency_code   = function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : '';
 	$currency_symbol = $currency_code && function_exists( 'get_woocommerce_currency_symbol' )
 		? get_woocommerce_currency_symbol( $currency_code )
@@ -97,11 +110,13 @@ function dentall_announcement_bar() {
 	?>
 	<aside class="dentall-announcement" aria-label="<?php esc_attr_e( 'Store announcement', 'dentall' ); ?>">
 		<div class="col-full dentall-announcement__inner">
-			<ul class="dentall-announcement__messages" aria-label="<?php esc_attr_e( 'Store notices', 'dentall' ); ?>">
-				<li><?php esc_html_e( 'Shipping Quotes Based on Order Quantity', 'dentall' ); ?></li>
-				<li><?php esc_html_e( 'Email Support for Shipping Confirmation', 'dentall' ); ?></li>
-				<li><?php esc_html_e( 'Trusted by 10,000+ Dental Professionals', 'dentall' ); ?></li>
-			</ul>
+			<?php if ( $messages ) : ?>
+				<ul class="dentall-announcement__messages" aria-label="<?php esc_attr_e( 'Store notices', 'dentall' ); ?>">
+					<?php foreach ( $messages as $message ) : ?>
+						<li><?php echo esc_html( $message ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
 			<ul class="dentall-announcement__utilities" aria-label="<?php esc_attr_e( 'Store preferences and help', 'dentall' ); ?>">
 				<?php if ( $currency_code ) : ?>
 					<li class="dentall-announcement__utility--currency">

@@ -90,6 +90,12 @@ body:has(dialog[open], .cmplz-cookiebanner.cmplz-show:not(.cmplz-dismissed):not(
 	display: none;
 }
 
+@media (width < 64rem) {
+	.dentall-announcement:not(:has(.dentall-announcement__messages)) {
+		display: none;
+	}
+}
+
 .dentall-announcement__messages li + li,
 .dentall-announcement__utilities li + li {
 	padding-inline-start: var(--dentall-space-12);
@@ -1173,6 +1179,10 @@ a.skip-link[href="#site-navigation"] {
 	.dentall-announcement__messages li:not(:first-child),
 	.dentall-announcement__utilities {
 		display: flex;
+	}
+
+	.dentall-announcement__utilities {
+		margin-inline-start: auto;
 	}
 
 	.dentall-announcement__utilities > :not(.dentall-announcement__utility--currency) {
