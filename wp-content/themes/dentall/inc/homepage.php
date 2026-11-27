@@ -24,8 +24,8 @@ function dentall_configure_homepage() {
 	remove_action( 'homepage', 'storefront_woocommerce_brands_homepage_section', 80 );
 
 	add_action( 'homepage', 'dentall_homepage_hero', 10 );
-	add_action( 'homepage', 'dentall_homepage_categories', 20 );
-	add_action( 'homepage', 'dentall_homepage_solutions', 30 );
+	add_action( 'homepage', 'dentall_homepage_solutions', 20 );
+	add_action( 'homepage', 'dentall_homepage_categories', 30 );
 	add_action( 'homepage', 'dentall_homepage_best_sellers', 40 );
 	add_action( 'homepage', 'dentall_homepage_trust_metrics', 50 );
 }
@@ -149,7 +149,7 @@ function dentall_get_homepage_categories() {
 }
 
 /**
- * 在Hero之后输出首页精选商品分类区。
+ * 输出首页精选商品分类区。
  *
  * CategoryCard继续使用WooCommerce原生模板；区域没有有效分类时保持空输出，
  * 不制造无内容标题、占位卡或异步Loading状态。
@@ -293,47 +293,45 @@ function dentall_get_homepage_solutions() {
 }
 
 /**
- * 按设计稿卡片顺序返回第一版CTA文案。
+ * CTA 跟随目标页面，编辑调整菜单顺序后仍与采购对象对应。
  *
- * Page继续负责标题、摘要、图片与URL；CTA仅是当前四槽位的展示文案。
- *
- * @param int $index 从0开始的卡片位置。
+ * @param string $slug 方案页面的别名。
  * @return string
  */
-function dentall_get_homepage_solution_cta( $index ) {
+function dentall_get_homepage_solution_cta( $slug ) {
 	$labels = array(
-		__( 'Shop Now', 'dentall' ),
-		__( 'Shop Now', 'dentall' ),
-		__( 'Get Started', 'dentall' ),
-		__( 'Explore Now', 'dentall' ),
+		'dental-clinics'      => __( 'Shop for Clinics', 'dentall' ),
+		'dental-labs'         => __( 'Shop for Dental Labs', 'dentall' ),
+		'custom-restorations' => __( 'Get Started', 'dentall' ),
+		'packaging-solutions' => __( 'Explore Now', 'dentall' ),
 	);
 
-	return $labels[ $index ] ?? __( 'Learn more', 'dentall' );
+	return $labels[ $slug ] ?? __( 'Learn more', 'dentall' );
 }
 
 /**
- * 在精选分类之后输出首页方案区。
- *
- * 0个有效Page时整个区域保持空输出；总览Page尚未建立时使用已确认的空链接占位。
+ * 首页原生摘要用于介绍 DentAll，下面接采购入口。两者都空时隐藏整个区域。
  *
  * @return void
  */
 function dentall_homepage_solutions() {
+	$home_id   = get_queried_object_id();
+	$intro     = post_password_required( $home_id ) ? '' : trim( (string) get_post_field( 'post_excerpt', $home_id, 'raw' ) );
 	$solutions = dentall_get_homepage_solutions();
 
-	if ( ! $solutions ) {
+	if ( '' === $intro && ! $solutions ) {
 		return;
 	}
 	?>
 	<section class="dentall-home-solutions dentall-section" aria-labelledby="dentall-home-solutions-title">
 		<div class="dentall-home-solutions__inner col-full">
 			<div class="dentall-home-solutions__header">
-				<h2 id="dentall-home-solutions-title" class="dentall-home-solutions__title"><?php esc_html_e( 'Shop by Solution', 'dentall' ); ?></h2>
-				<a class="dentall-home-solutions__all" href="#" aria-disabled="true" tabindex="-1">
-					<?php esc_html_e( 'View all solutions', 'dentall' ); ?>
-					<span aria-hidden="true">→</span>
-				</a>
+				<h2 id="dentall-home-solutions-title" class="dentall-home-solutions__title"><?php echo '' !== $intro ? esc_html__( 'Why We Built DentAll', 'dentall' ) : esc_html__( 'Shop by Solution', 'dentall' ); ?></h2>
+				<?php if ( '' !== $intro ) : ?>
+					<p><?php echo esc_html( $intro ); ?></p>
+				<?php endif; ?>
 			</div>
+			<?php if ( $solutions ) : ?>
 			<ul class="dentall-home-solutions__grid dentall-grid">
 				<?php foreach ( $solutions as $index => $solution ) : ?>
 					<?php
@@ -380,7 +378,7 @@ function dentall_homepage_solutions() {
 									<span class="dentall-solution-card__summary"><?php echo esc_html( $summary ); ?></span>
 								<?php endif; ?>
 								<span class="dentall-solution-card__cta">
-									<?php echo esc_html( dentall_get_homepage_solution_cta( $index ) ); ?>
+									<?php echo esc_html( dentall_get_homepage_solution_cta( $solution->post_name ) ); ?>
 									<span aria-hidden="true">→</span>
 								</span>
 							</div>
@@ -396,6 +394,7 @@ function dentall_homepage_solutions() {
 					</li>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php
@@ -704,7 +703,7 @@ function dentall_homepage_hero() {
 					'loading'       => 'eager',
 					'decoding'      => 'async',
 					'fetchpriority' => 'high',
-					'sizes'         => '(min-width: 1320px) 768px, (min-width: 1200px) calc(63vw - 40px), (min-width: 768px) calc(56vw - 36px), calc(56vw - 22px)',
+					'sizes'         => '(min-width: 1320px) 612px, (min-width: 1024px) calc(50vw - 48px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 40px)',
 				)
 			);
 		}

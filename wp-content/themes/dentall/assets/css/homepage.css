@@ -23,18 +23,14 @@
 }
 
 .dentall-home-hero {
-	background: linear-gradient(
-		90deg,
-		var(--dentall-color-surface-blue),
-		var(--dentall-color-surface-sky)
-	);
+	background: #f9f5f0;
 }
 
 .dentall-home-hero__inner {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	min-block-size: 20rem;
-	min-inline-size: 0;
+	align-items: center;
+	gap: var(--dentall-space-24);
 	padding-block: var(--dentall-space-32);
 }
 
@@ -56,27 +52,26 @@
 }
 
 .page-template-template-homepage .dentall-home-hero__content {
-	z-index: 1;
-	grid-area: 1 / 1;
 	display: grid;
-	align-content: center;
-	align-self: center;
 	gap: var(--dentall-space-16);
 	inline-size: 100%;
 	min-inline-size: 0;
+	max-inline-size: 36rem;
 	margin: 0;
 	font-size: inherit;
-	max-inline-size: 36rem;
 	text-align: start;
 }
 
+.dentall-home-hero__brand {
+	color: #780d39;
+	font-size: var(--dentall-font-size-lg);
+	font-weight: var(--dentall-font-weight-bold);
+}
+
 .dentall-home-hero__content > h1 {
-	font-size: clamp(
-		var(--dentall-font-size-xl),
-		calc(1.25rem + 2vw),
-		var(--dentall-font-size-2xl)
-	);
-	line-height: var(--dentall-line-height-heading);
+	font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+	line-height: 1.06;
+	text-wrap: balance;
 	overflow-wrap: anywhere;
 }
 
@@ -88,10 +83,6 @@
 .dentall-home-hero__content > p,
 .dentall-home-hero__content > ul > li {
 	overflow-wrap: anywhere;
-}
-
-.dentall-home-hero__content > p {
-	max-inline-size: min(72%, 22rem);
 }
 
 /* 用户已确认390/768隐藏三项辅助卖点；1024起恢复，CTA与核心文案始终保留。 */
@@ -117,6 +108,10 @@
 }
 
 .dentall-home-hero__content > .wp-block-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--dentall-space-12);
 	margin: 0;
 }
 
@@ -129,36 +124,30 @@
 	white-space: normal;
 }
 
+.dentall-home-hero__content .is-style-outline .wp-block-button__link {
+	background: transparent;
+	color: var(--dentall-color-action);
+	border: 1px solid currentColor;
+}
+
+.dentall-home-hero__content .is-style-outline .wp-block-button__link:hover {
+	background: var(--dentall-color-surface);
+	color: var(--dentall-color-action-hover);
+}
+
 .dentall-home-hero__media {
-	z-index: 0;
-	grid-area: 1 / 1;
-	align-self: end;
 	aspect-ratio: 2 / 1;
-	inline-size: 56%;
-	max-inline-size: 48rem;
-	min-inline-size: 0;
+	overflow: hidden;
 	margin: 0;
-	justify-self: end;
+	border-radius: var(--dentall-radius-lg);
 }
 
 .dentall-home-hero__image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	object-fit: contain;
-	object-position: right center;
-}
-
-.page-template-template-homepage .dentall-home-hero--without-media .dentall-home-hero__content {
-	inline-size: 100%;
-}
-
-.dentall-home-hero--without-media .dentall-home-hero__content > p {
-	max-inline-size: 36rem;
-}
-
-.dentall-home-hero--without-content .dentall-home-hero__media {
-	justify-self: center;
+	object-fit: cover;
+	object-position: center 60%;
 }
 
 /*
@@ -208,11 +197,11 @@
 }
 
 .dentall-home-solutions__header {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: var(--dentall-space-16);
-	margin-block-end: var(--dentall-space-24);
+	max-inline-size: 72ch;
+}
+
+.dentall-home-solutions__header > p {
+	margin: var(--dentall-space-8) 0 0;
 }
 
 .dentall-home-solutions__title {
@@ -221,23 +210,9 @@
 	overflow-wrap: anywhere;
 }
 
-.dentall-home-solutions__all {
-	display: inline-flex;
-	flex: 0 0 auto;
-	align-items: center;
-	gap: var(--dentall-space-8);
-	font-size: var(--dentall-font-size-sm);
-	font-weight: var(--dentall-font-weight-semibold);
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.dentall-home-solutions__all[aria-disabled="true"] {
-	pointer-events: none;
-}
-
 .dentall-home-solutions__grid {
 	grid-template-columns: minmax(0, 1fr);
+	margin-block-start: var(--dentall-space-24);
 }
 
 /* 浅色表面按展示位置形成层次；菜单重排只改变内容顺序，不增加业务颜色字段。 */
@@ -385,14 +360,6 @@
 }
 
 @media (min-width: 48rem) {
-	.page-template-template-homepage .dentall-home-hero__content {
-		inline-size: 50%;
-	}
-
-	.dentall-home-hero__content > p {
-		max-inline-size: none;
-	}
-
 	.page-template-template-homepage .site-main .dentall-home-categories ul.products > li.product-category {
 		flex-basis: calc(20% - var(--dentall-space-16));
 	}
@@ -443,8 +410,23 @@
 }
 
 @media (min-width: 64rem) {
-	.page-template-template-homepage .dentall-home-hero__content {
-		inline-size: 54%;
+	.dentall-home-hero__inner {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--dentall-space-32);
+	}
+
+	.dentall-home-hero__media {
+		aspect-ratio: 1.75;
+	}
+
+	.dentall-home-hero--without-content .dentall-home-hero__media {
+		grid-column: 1 / -1;
+		justify-self: center;
+		inline-size: calc(50% - 1rem);
+	}
+
+	.dentall-home-hero--without-media .dentall-home-hero__content {
+		grid-column: 1 / -1;
 	}
 
 	.dentall-home-hero__content > ul {
@@ -513,41 +495,4 @@
 		font-size: var(--dentall-font-size-lg);
 	}
 
-	.dentall-home-hero__inner {
-		position: relative;
-		min-block-size: 22rem;
-		padding-block: 0;
-	}
-
-	.page-template-template-homepage .dentall-home-hero__content {
-		z-index: 1;
-		grid-area: 1 / 1;
-		align-self: center;
-		gap: var(--dentall-space-16);
-		padding-block: var(--dentall-space-24);
-	}
-
-	.dentall-home-hero__media {
-		position: absolute;
-		z-index: 0;
-		align-self: stretch;
-		inset-block: 0;
-		inset-inline-end: 0;
-		aspect-ratio: auto;
-		block-size: 100%;
-		inline-size: min(63%, 48rem);
-	}
-
-	.dentall-home-hero--without-content .dentall-home-hero__media {
-		inset-inline: 0;
-		margin-inline: auto;
-	}
-
-	.dentall-home-hero__content > h1 {
-		font-size: var(--dentall-font-size-display);
-	}
-
-	.dentall-home-hero__content > p {
-		font-size: var(--dentall-font-size-lg);
-	}
 }
