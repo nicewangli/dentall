@@ -118,6 +118,7 @@ function dentall_render_site_footer() {
 		'instagram.com' => 'instagram',
 		'linkedin.com'  => 'linkedin',
 		'youtube.com'   => 'youtube',
+		'tiktok.com'    => 'tiktok',
 	);
 	$locations    = get_nav_menu_locations();
 	$social_links = empty( $locations['footer_social'] )

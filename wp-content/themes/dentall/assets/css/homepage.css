@@ -63,7 +63,7 @@
 }
 
 .dentall-home-hero__brand {
-	color: #780d39;
+	color: var(--dentall-color-partner);
 	font-size: var(--dentall-font-size-lg);
 	font-weight: var(--dentall-font-weight-bold);
 }
